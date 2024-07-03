@@ -7,13 +7,17 @@
 \format{
 \subsection{\code{albufera_outflows}}{
 
-A data frame with 6140 rows and 5 columns:
+The dataframes have the following columns:
 \describe{
-\item{Date}{Date of measurement}
-\item{Level}{Lake level (in meters above sea level)}
-\item{Pujol}{Outflow at Pujol (meters cube per second)}
-\item{Perellonet}{Outflow at Perellonet (meters cube per second)}
-\item{Perello}{Outflow at Perello (meters cube per second)}
+\item{date}{Date of measurement}
+\item{level}{Lake level (in meters above sea level)}
+\item{pujol}{Outflow at Pujol (meters cube per second)}
+\item{perellonet}{Outflow at Perellonet (meters cube per second)}
+\item{perello}{Outflow at Perello (meters cube per second)}
+\item{level_is_imputed}{Whether the \code{level} value was imputed.}
+\item{pujol_is_imputed}{Whether the \code{pujol} value was imputed.}
+\item{perellonet_is_imputed}{Whether the \code{perellonet} value was imputed.}
+\item{perello_is_imputed}{Whether the \code{perello} value was imputed.}
 }
 }
 }
@@ -25,9 +29,13 @@ albufera_outflows
 }
 \description{
 Data from continuous measurements of outflow rates and lake level from
-"Confederación Hidrográfica del Júcar".
+"Confederación Hidrográfica del Júcar" (CHJ). The original data has several
+missing entries, which have been imputed in this dataset using an approach
+based on GAMs.
+
+TODO:
+\enumerate{
+\item Improve the documentation of imputation approach;
 }
-\details{
-Datos de los medidores en continuo de las salidas del lago.
 }
 \keyword{datasets}

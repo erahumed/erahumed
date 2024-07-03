@@ -1,7 +1,17 @@
 library(dplyr)
 
-################################################################################
-# _____________________________________________________________________ CHJ data
+### Meteorological data ########################################################
+
+meteo_beni_2023 <-
+  readxl::read_excel("data-raw/raw/meteo_beni_2023.xlsx",
+                     range = cellranger::cell_cols("A:I")
+  ) |>
+  rename(date = FECHA) |>
+  mutate(date = as.Date(date))
+
+
+
+### CHJ data ###################################################################
 
 CHJ <- readr::read_delim("data-raw/raw/CHJ.csv",
                          delim = ";",
@@ -16,41 +26,22 @@ chj_stations <- c("08A01" = "Level",
 albufera_outflows <- CHJ |>
   filter(INDI_CHJ %in% names(chj_stations)) |>
   transmute(
-    Date = Fecha,
+    date = Fecha,
     name = chj_stations[INDI_CHJ],
     value = ifelse(name == "Level", `Nivel (m.s.n.m)`, `Caudal (m³/s)`)
   ) |>
-  mutate(Date = as.Date(Date, format = "%d-%m-%Y")) |>
+  mutate(date = as.Date(date, format = "%d-%m-%Y")) |>
   mutate(value = as.numeric(sub(",", ".", value))) |>
   mutate(
     value = replace(value,
-                    name != "Level" & format(Date, format = "%Y") == "2017",
+                    name != "Level" & format(date, format = "%Y") == "2017",
                     NA)
   ) |>
   tidyr::pivot_wider(names_from = name, values_from = value)
 
 
 
-################################################################################
-# ____________________________________________________ Lake inflow by ditch data
-
-ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds")
-
-
-################################################################################
-# __________________________________________________________ Meteorological data
-
-meteo_beni_2023 <-
-  readxl::read_excel("data-raw/raw/meteo_beni_2023.xlsx",
-                     range = cellranger::cell_cols("A:I")
-  ) |>
-  rename(Date = FECHA) |>
-  mutate(Date = as.Date(Date))
-
-
-
-################################################################################
-# __________________________________________________________ CHJ data imputation
+### CHJ data imputation ########################################################
 
 # Principal GAMs
 gam_water_level <- readRDS("data-raw/raw/mod_water_level.rds")
@@ -66,83 +57,89 @@ gam_corr_perellonet_hi <- readRDS("data-raw/raw/mod_corr_perellonet_hi.rds")
 
 moving_average <- function(x, k) {
   stats::filter(x, rep(1 / k, k), sides = 1) |> as.numeric()
-  #zoo::rollmean(x, k = k, fill = NA, align = "right")
 }
 
-albufera_outflows_imputed <-
-  meteo_beni_2023 |>
+meteo_ext <- meteo_beni_2023 |>
   mutate(
     P_average7 = moving_average(P, 7),
     ETP_average15 = moving_average(ETP, 15),
-    year = as.numeric(format(Date, "%Y")),
-    day = as.numeric(format(Date, "%j"))
-    ) |>
-  inner_join(albufera_outflows, by = "Date")
+    year = as.numeric(format(date, "%Y")),
+    day = as.numeric(format(date, "%j"))
+  )
+
+albufera_outflows <- inner_join(albufera_outflows, meteo_ext, by = "date")
 
 gam_recalibrate <- function(predicted, gam) {
   mgcv::predict.gam(gam, newdata = data.frame(predicted))
 }
 
-albufera_outflows_imputed <- albufera_outflows_imputed |>
+albufera_outflows <- albufera_outflows |>
   mutate(
-    LevelPred = mgcv::predict.gam(gam_water_level, albufera_outflows_imputed),
-    LevelPred = ifelse(
-      LevelPred < -0.25 & year < 2010,
-      gam_recalibrate(LevelPred, gam_corr_water_level_low),
-      LevelPred),
-    obs_pred_level = is.na(Level),
-    Level = ifelse(obs_pred_level, LevelPred, Level)
+    level_pred = mgcv::predict.gam(gam_water_level, albufera_outflows),
+    level_pred = ifelse(level_pred < -0.25 & year < 2010,
+                        gam_recalibrate(level_pred, gam_corr_water_level_low),
+                        level_pred),
+    level_is_imputed = is.na(Level),
+    Level = ifelse(level_is_imputed, level_pred, Level)
   )
 
-
-albufera_outflows_imputed <- albufera_outflows_imputed |>
+albufera_outflows <- albufera_outflows |>
   mutate(
-    PujolPred = mgcv::predict.gam(gam_pujol, albufera_outflows_imputed),
-    PujolPred = ifelse(
-      PujolPred < -1.5,
-      gam_recalibrate(PujolPred, gam_corr_pujol_low),
-      PujolPred),
-    PujolPred = ifelse(
-      PujolPred > 13,
-      gam_recalibrate(PujolPred, gam_corr_pujol_hi),
-      PujolPred),
-    obs_pred_pujol = is.na(Pujol),
-    Pujol = ifelse(obs_pred_pujol, PujolPred, Pujol)
+    pujol_pred = mgcv::predict.gam(gam_pujol, albufera_outflows),
+    pujol_pred = ifelse(pujol_pred < -1.5,
+                        gam_recalibrate(pujol_pred, gam_corr_pujol_low),
+                        pujol_pred),
+    pujol_pred = ifelse(pujol_pred > 13,
+                        gam_recalibrate(pujol_pred, gam_corr_pujol_hi),
+                        pujol_pred),
+    pujol_is_imputed = is.na(Pujol),
+    Pujol = ifelse(pujol_is_imputed, pujol_pred, Pujol)
   )
 
-albufera_outflows_imputed <- albufera_outflows_imputed |>
+albufera_outflows <- albufera_outflows |>
   mutate(
-    PerellonetPred = mgcv::predict.gam(gam_perellonet, albufera_outflows_imputed),
-    PerellonetPred = ifelse(
-      PerellonetPred > 13,
-      gam_recalibrate(PerellonetPred, gam_corr_perellonet_hi),
-      PerellonetPred
-    ),
-    obs_pred_perellonet = is.na(Perellonet),
-    Perellonet = ifelse(obs_pred_perellonet, PerellonetPred, Perellonet)
+    perellonet_pred = mgcv::predict.gam(gam_perellonet, albufera_outflows),
+    perellonet_pred = ifelse(perellonet_pred > 13,
+                             gam_recalibrate(perellonet_pred, gam_corr_perellonet_hi),
+                             perellonet_pred),
+    perellonet_is_imputed = is.na(Perellonet),
+    Perellonet = ifelse(perellonet_is_imputed, perellonet_pred, Perellonet)
   )
 
-albufera_outflows_imputed <- albufera_outflows_imputed |>
+albufera_outflows <- albufera_outflows |>
   mutate(
-    PerelloPred = mgcv::predict.gam(gam_perello, albufera_outflows_imputed),
-    PerelloPred = ifelse(PerelloPred < 0, 0, PerelloPred),
-    obs_pred_perello = is.na(Perello),
-    Perello = ifelse(obs_pred_perello, PerelloPred, Perello)
+    perello_pred = mgcv::predict.gam(gam_perello, albufera_outflows),
+    perello_pred = ifelse(perello_pred < 0, 0, perello_pred),
+    perello_is_imputed = is.na(Perello),
+    Perello = ifelse(perello_is_imputed, perello_pred, Perello)
   )
 
-albufera_outflows_imputed <- albufera_outflows_imputed |>
+albufera_outflows <-albufera_outflows |>
+  rename_with(tolower) |>
   select(
-    Date,
-    Level, Pujol, Perellonet, Perello,
-    obs_pred_level, obs_pred_pujol, obs_pred_perellonet, obs_pred_perello
+    date,
+    level,
+    pujol,
+    perellonet,
+    perello,
+    level_is_imputed,
+    pujol_is_imputed,
+    perellonet_is_imputed,
+    perello_is_imputed
   )
 
 
 
-################################################################################
-# ______________________________________________________________________ Exports
+### Lake inflow by ditch data ##################################################
+
+ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds")
+
+
+
+
+
+### Exports ####################################################################
 
 usethis::use_data(albufera_outflows, overwrite = TRUE)
-usethis::use_data(albufera_outflows_imputed, overwrite = TRUE)
 usethis::use_data(ditch_inflow_pcts, overwrite = TRUE)
 usethis::use_data(meteo_beni_2023, overwrite = TRUE)
