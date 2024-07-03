@@ -17,7 +17,6 @@ BugReports: https://github.com/vgherard/erahumed/issues
 Imports: 
     dplyr,
     ggplot2,
-    lubridate,
     mgcv,
     readr,
     tidyr,
