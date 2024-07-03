@@ -132,14 +132,26 @@ albufera_outflows <-albufera_outflows |>
 
 ### Lake inflow by ditch data ##################################################
 
-ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds")
+months_es <- c(
+  "Enero", "Febrero", "Marzo",
+  "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre",
+  "Octubre", "Noviembre", "Diciembre"
+  )
 
+ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds") |>
+  rename(month = mes) |>
+  mutate(month = match(month, months_es))
 
+names(ditch_inflow_pcts) <- gsub("acq", "d", names(ditch_inflow_pcts))
+
+ditch_inflow_pcts
 
 
 
 ### Exports ####################################################################
 
+usethis::use_data(meteo_beni_2023, overwrite = TRUE)
 usethis::use_data(albufera_outflows, overwrite = TRUE)
 usethis::use_data(ditch_inflow_pcts, overwrite = TRUE)
-usethis::use_data(meteo_beni_2023, overwrite = TRUE)
+

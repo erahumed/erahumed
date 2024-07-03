@@ -45,14 +45,14 @@
 
 #' Ditch Inflow Percents
 #'
-#' Percents of total inflows separated by ditch, month by month. Based on
-#' observational data.
+#' Percents of total inflows to the Albufera Lake from individual ditches, by
+#' month. Based on observational data.
 #'
 #' @format ## `ditch_inflow_pcts`
-#' A data frame with 6140 rows and 5 columns:
+#' A dataframe with one row per month, and columns:
 #' \describe{
-#'   \item{mes}{Character. Month name (in Spanish).}
-#'   \item{acqX}{Double. Percent of total inflow contributed by ditch number X.}
+#'   \item{month}{Integer. Month number (1 = January, 2 = February, *etc.*).}
+#'   \item{dXX}{Double. Percent of total inflow contributed by ditch number XX.}
 #' }
 #' @source <https://www.mdpi.com/2306-5338/8/1/37>
 "ditch_inflow_pcts"

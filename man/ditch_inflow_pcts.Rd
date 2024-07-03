@@ -7,10 +7,10 @@
 \format{
 \subsection{\code{ditch_inflow_pcts}}{
 
-A data frame with 6140 rows and 5 columns:
+A dataframe with one row per month, and columns:
 \describe{
-\item{mes}{Character. Month name (in Spanish).}
-\item{acqX}{Double. Percent of total inflow contributed by ditch number X.}
+\item{month}{Integer. Month number (1 = January, 2 = February, \emph{etc.}).}
+\item{dXX}{Double. Percent of total inflow contributed by ditch number XX.}
 }
 }
 }
@@ -21,7 +21,7 @@ A data frame with 6140 rows and 5 columns:
 ditch_inflow_pcts
 }
 \description{
-Percents of total inflows separated by ditch, month by month. Based on
-observational data.
+Percents of total inflows to the Albufera Lake from individual ditches, by
+month. Based on observational data.
 }
 \keyword{datasets}
