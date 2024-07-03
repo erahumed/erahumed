@@ -17,3 +17,32 @@
 #' }
 #' @source <https://aps.chj.es/>
 "albufera_outflows"
+
+#' Meteo Beni 2023
+#'
+#' ???
+#'
+#'
+#' @format ## `meteo_beni_2023`
+#' A data frame with 6140 rows and 5 columns:
+#' \describe{
+#'   \item{A}{??}
+#'   \item{B}{??}
+#'   \item{C}{??}
+#' }
+#' @source ???
+"meteo_beni_2023"
+
+#' Ditch Inflow Percents
+#'
+#' Percents of total inflows separated by ditch, month by month. Based on
+#' observational data.
+#'
+#' @format ## `ditch_inflow_pcts`
+#' A data frame with 6140 rows and 5 columns:
+#' \describe{
+#'   \item{mes}{Character. Month name (in Spanish).}
+#'   \item{acqX}{Double. Percent of total inflow contributed by ditch number X.}
+#' }
+#' @source <https://www.mdpi.com/2306-5338/8/1/37>
+"ditch_inflow_pcts"

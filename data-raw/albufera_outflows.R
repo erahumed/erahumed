@@ -1,7 +1,7 @@
 ## code to prepare `albufera_outflows` dataset goes here
 
 local({
-  CHJ <- readr::read_delim("data-raw/CHJ.csv",
+  CHJ <- readr::read_delim("data-raw/raw/CHJ.csv",
                            delim = ";",
                            escape_double = FALSE,
                            trim_ws = TRUE)
