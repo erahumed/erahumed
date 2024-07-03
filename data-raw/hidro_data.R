@@ -34,7 +34,7 @@ albufera_outflows <- CHJ |>
 ################################################################################
 # ____________________________________________________ Lake inflow by ditch data
 
-ditch_inflows <- readRDS("data-raw/raw/pct_soria_obs.rds")
+ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds")
 
 
 ################################################################################
@@ -144,5 +144,5 @@ albufera_outflows_imputed <- albufera_outflows_imputed |>
 
 usethis::use_data(albufera_outflows, overwrite = TRUE)
 usethis::use_data(albufera_outflows_imputed, overwrite = TRUE)
-usethis::use_data(ditch_inflows, overwrite = TRUE)
+usethis::use_data(ditch_inflow_pcts, overwrite = TRUE)
 usethis::use_data(meteo_beni_2023, overwrite = TRUE)
