@@ -22,7 +22,7 @@ local({
     dplyr::mutate(value = as.numeric(sub(",", ".", value))) |>
     dplyr::mutate(
       value = replace(value,
-                      name != "Level" & lubridate::year(Date) == 2017,
+                      name != "Level" & format(Date, format = "%Y") == "2017",
                       NA)
       ) |>
     tidyr::pivot_wider(names_from = name, values_from = value)
