@@ -2,4 +2,5 @@
 
 export(albufera_hydro_balance)
 export(albufera_storage_curve)
+export(launch_app)
 export(petp_volume_change)
