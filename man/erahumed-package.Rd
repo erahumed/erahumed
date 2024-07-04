@@ -4,9 +4,9 @@
 \name{erahumed-package}
 \alias{erahumed}
 \alias{erahumed-package}
-\title{erahumed: What the Package Does (One Line, Title Case)}
+\title{erahumed: ERAHUMED Data Analysis and Visualization}
 \description{
-What the package does (one paragraph).
+ERAHUMED Data Analysis and Visualization.
 }
 \seealso{
 Useful links:
