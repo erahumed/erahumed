@@ -26,8 +26,6 @@ ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds") |>
 
 names(ditch_inflow_pcts) <- gsub("acq", "d", names(ditch_inflow_pcts))
 
-ditch_inflow_pcts
-
 
 
 ### CHJ data ###################################################################
@@ -147,61 +145,6 @@ albufera_outflows <- albufera_outflows |>
     perello_is_imputed
   )
 
-
-
-### Ditch absolute inflows #####################################################
-
-s_per_day <- 24 * 60 * 60
-
-# Curva de almacenamiento citada en pag. 29 de:
-## https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf
-vol0 <- 16.7459  # Lake volume at level=0 - source??
-dVdL <- 23.6577  # Lake effective surface at level=0, for volume computation - source??
-
-## Valores desde regresion de la curva de evaporacion mensual de la misma fuente
-S2 <- 43621009.524  # Surface "2"???
-mETP <- 0.9601  # Slope in volume change by evaporation linear relation
-qETP <- -0.1839  # Intercept in volume change by evaporation linear relation
-
-
-
-albufera_hbalance <- merge(albufera_outflows, meteo_beni_2023, by = "date") |>
-  arrange(date) |>
-  mutate(
-    volume = dVdL * level+ vol0,
-    volume_daily_change = (lead(volume) - volume) * 1e6 / s_per_day,
-    P_inflow = P * S2 / (1e3 * s_per_day),
-    evaporation = (mETP * ETP + qETP) * S2 / (1e3 * s_per_day),
-    total_lake_inflow = Volume_change +
-      pujol + perellonet +
-      (-P_inflow) + evaporation,
-
-    ) |>
-
-
-
-
-
-
-hidro$Perello = ifelse(hidro$Perello <0, 0, hidro$Perello)
-
-hidro$mes = lubridate::month(hidro$Date)
-
-pctSoria_obs$mes =c(1:12)
-
-hidro= merge(hidro, pctSoria_obs, by="mes")
-
-hidro = hidro %>% mutate(across(starts_with("acq"), ~.*Total_lake_inflow))
-
-hidro = tidyr::drop_na(hidro)
-
-hidro[hidro$Total_lake_inflow < 0, -(1:19)]<-0 #ojo cuando en clean y fill eliminemos los factores
-
-hidro$acq26 = hidro$acq26 + hidro$Perello
-
-hidro$Tancats_inflow = ifelse(hidro$Total_lake_inflow < 0, hidro$Total_lake_inflow /6, 0)
-
-return(hidro)
 
 
 ### Exports ####################################################################

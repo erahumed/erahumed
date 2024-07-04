@@ -1,5 +1,9 @@
+#' Albufera Hydrological Balance
+#'
+#' Documentation TBD
+#'
 #' @export
-albufera_hidro_balance <- function() {
+albufera_hydro_balance <- function() {
   s_per_day <- 24 * 60 * 60
 
   res <- merge(albufera_outflows, meteo_beni_2023, by = "date", sort = TRUE)
@@ -38,11 +42,11 @@ albufera_hidro_balance <- function() {
 
   # TODO: what is this line supposed to do?
   # Pablo: ojo cuando en clean y fill eliminemos los factores
-  res[res$total_inflow < 0, -(1:19)] <- 0
+  res[res$total_inflow < 0, colnames(res) %in% ditch] <- 0
 
   # What is the meaning of the / 6? Does this work correctly given the previous
   # Eq.?
-  res$tancats_inflow = ifelse(res$total_inflow < 0, hidro$Total_lake_inflow /6, 0)
+  res$tancats_inflow <- ifelse(res$total_inflow < 0, res$total_inflow / 6, 0)
 
   return(res)
 }
