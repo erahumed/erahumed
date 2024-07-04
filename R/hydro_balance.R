@@ -7,16 +7,43 @@ albufera_hydro_balance <- function() {
   s_per_day <- 24 * 60 * 60
 
   res <- merge(albufera_outflows, meteo_beni_2023, by = "date", sort = TRUE)
+  res$data_is_imputed <-
+    res$level_is_imputed |
+    res$pujol_is_imputed |
+    res$perellonet_is_imputed |
+    res$perello_is_imputed
 
   res$volume <- albufera_storage_curve(res$level)
+  res$volume_is_imputed <- res$level_is_imputed
+
   res$volume_change <- dplyr::lead(res$volume) - res$volume  # TODO: avoid dplyr
+  res$volume_change_is_imputed <- res$volume_is_imputed
+
   res$petp_change <- petp_volume_change(res$P, res$ETP)
+  res$petp_change_is_imputed <- FALSE
 
   res$total_outflow <- res$pujol + res$perellonet +
     ifelse(res$perello > 0, res$perello, 0)
+  res$total_outflow_is_imputed <-
+    res$pujol_is_imputed |
+    res$perellonet_is_imputed |
+    res$perello_is_imputed
 
   res$total_inflow <- res$total_outflow +
     (res$volume_change - res$petp_change) / s_per_day
+  res$total_inflow_is_imputed <- res$data_is_imputed
+
+  # Temporary model for residence time
+
+  .k <- 60
+  res$residence_time_days <-
+    stats::filter(res$volume, rep(1, .k), sides = 2) /
+    stats::filter(res$total_inflow, rep(1, .k), sides = 2) /
+    (24 * 60 * 60)
+  res$residence_time_days <- ifelse(res$residence_time_days > 0,
+                                    res$residence_time_days,
+                                    NA)
+  res$residence_time_days_is_imputed <- res$data_is_imputed
 
   # TODO: where does this data come from??
   ditch_pct <- c(0.057643743067731, 0.00883863938396492, 0.0078845588682654,
