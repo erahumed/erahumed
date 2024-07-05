@@ -1,4 +1,3 @@
-#' @export
 moving_average <- function(x, k) {
   assert_numeric_vector(x)
   assert_positive_integer(k)
