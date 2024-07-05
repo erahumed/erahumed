@@ -4,7 +4,7 @@
 \alias{residence_time}
 \title{Residence Time}
 \usage{
-residence_time(volume, total_inflow, k = 60, units = c("days", "seconds"))
+residence_time(volume, total_inflow, k = 61, units = c("days", "seconds"))
 }
 \arguments{
 \item{volume}{numeric vector. Time series of volumes in \eqn{\text{m}^3}.}

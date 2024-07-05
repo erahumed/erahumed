@@ -63,7 +63,7 @@ albufera_hydro_balance <- function() {
   res$tancats_outflow_is_imputed <- res$total_inflow_is_imputed
 
   # Temporary model for residence time
-  res$residence_time_days <- residence_time(res$volume, res$total_inflow, k = 60)
+  res$residence_time_days <- residence_time(res$volume, res$total_inflow)
   res$residence_time_days_is_imputed <- res$data_is_imputed
 
   return(res)
@@ -98,7 +98,7 @@ albufera_hydro_balance <- function() {
 #'
 #' @export
 residence_time <- function(
-    volume, total_inflow, k = 60, units = c("days", "seconds")
+    volume, total_inflow, k = 61, units = c("days", "seconds")
     )
 {
   assert_positive_vector(volume)
@@ -111,8 +111,8 @@ residence_time <- function(
                  seconds = 1
                  )
 
-  vol_smooth <- stats::filter(volume, rep(1, k), sides = 2)
-  inflow_smooth <- stats::filter(abs(total_inflow), rep(1, k), sides = 2)
+  vol_smooth <- moving_average(volume, k)
+  inflow_smooth <- moving_average(total_inflow, k)
 
   return(vol_smooth / inflow_smooth / norm)
 }
