@@ -3,9 +3,8 @@
 #' Documentation TBD
 #'
 #' @export
-albufera_hydro_balance <- function() {
-  s_per_day <- 24 * 60 * 60
-
+albufera_hydro_balance <- function()
+{
   res <- merge(albufera_outflows, meteo_beni_2023, by = "date", sort = TRUE)
   res$data_is_imputed <-
     res$level_is_imputed |
@@ -30,7 +29,7 @@ albufera_hydro_balance <- function() {
     res$perello_is_imputed
 
   res$total_inflow <- res$total_outflow +
-    (res$volume_change - res$petp_change) / s_per_day
+    (res$volume_change - res$petp_change) / s_per_day()
   res$total_inflow_is_imputed <- res$data_is_imputed
 
   # TODO: where does this data come from??
@@ -107,7 +106,7 @@ residence_time <- function(
   units <- match.arg(units)
 
   norm <- switch(units,
-                 days = 24 * 60 * 60,
+                 days = s_per_day(),
                  seconds = 1
                  )
 
