@@ -16,3 +16,7 @@ moving_average <- function(x, k) {
 
   y[(left_pad + 1):(left_pad + n)]
 }
+
+seconds_in_a_day <- function() {
+  24 * 60 * 60
+}
