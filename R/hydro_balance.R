@@ -33,18 +33,6 @@ albufera_hydro_balance <- function() {
     (res$volume_change - res$petp_change) / s_per_day
   res$total_inflow_is_imputed <- res$data_is_imputed
 
-  # Temporary model for residence time
-
-  .k <- 60
-  res$residence_time_days <-
-    stats::filter(res$volume, rep(1, .k), sides = 2) /
-    stats::filter(res$total_inflow, rep(1, .k), sides = 2) /
-    (24 * 60 * 60)
-  res$residence_time_days <- ifelse(res$residence_time_days > 0,
-                                    res$residence_time_days,
-                                    NA)
-  res$residence_time_days_is_imputed <- res$data_is_imputed
-
   # TODO: where does this data come from??
   ditch_pct <- c(0.057643743067731, 0.00883863938396492, 0.0078845588682654,
               0.00269092756575864, 0.00237140628156962, 0.00627824524730914,
@@ -67,16 +55,68 @@ albufera_hydro_balance <- function() {
   # TODO: avoid using tidyr
   res <- tidyr::drop_na(res)
 
-  # TODO: what is this line supposed to do?
-  # Pablo: ojo cuando en clean y fill eliminemos los factores
-  res[res$total_inflow < 0, colnames(res) %in% ditch] <- 0
+  # We assume that there are six big "tancats" that suck water from the lake
+  # This accounts for the negative "total inflow", which we set to zero
+  # thereafter
+  res$tancats_outflow <- ifelse(res$total_inflow < 0, -res$total_inflow / 6, 0)
+  res[res$total_inflow < 0, colnames(res) %in% c(ditch, "total_inflow")] <- 0
+  res$tancats_outflow_is_imputed <- res$total_inflow_is_imputed
 
-  # What is the meaning of the / 6? Does this work correctly given the previous
-  # Eq.?
-  res$tancats_inflow <- ifelse(res$total_inflow < 0, res$total_inflow / 6, 0)
+  # Temporary model for residence time
+  res$residence_time_days <- residence_time(res$volume, res$total_inflow, k = 60)
+  res$residence_time_days_is_imputed <- res$data_is_imputed
 
   return(res)
 }
+
+
+
+#' Residence Time
+#'
+#' @author Pablo Amador Crespo, Valerio Gherardi
+#'
+#' @description
+#' Computes residence times as
+#' \eqn{t = s_k(\text{Volume}) / s_k(\vert \text{Inflow}\vert) },
+#' where \eqn{s_k(\cdot)} denotes a moving average with a smoothing window of
+#' size \eqn{k}, centered at the current observation, and
+#' \eqn{\vert \cdot \vert} is the absolute value (to deal with cases in which
+#' the inflow becomes negative).
+#'
+#' @param volume numeric vector. Time series of volumes in \eqn{\text{m}^3}.
+#' @param total_inflow numeric vector. Time series of total inflow in
+#' \eqn{\text{m}^3 / \text{s}}.
+#' @param k positive integer. Size of the window in the moving average. The
+#' default is of the order of magnitude of actual residence time for the
+#' Albufera Lake.
+#' @param units either \code{"days"} or \code{"seconds"}. Units of measure for
+#' the returned time series.
+#'
+#' @return A numeric vector. Time series of residence times, in the units of
+#' measure specified by the \code{units} argument (assuming \code{volume} and
+#' \code{total_inflow} are provided in the correct units).
+#'
+#' @export
+residence_time <- function(
+    volume, total_inflow, k = 60, units = c("days", "seconds")
+    )
+{
+  assert_positive_vector(volume)
+  assert_positive_vector(total_inflow)
+  assert_positive_integer(k)
+  units <- match.arg(units)
+
+  norm <- switch(units,
+                 days = 24 * 60 * 60,
+                 seconds = 1
+                 )
+
+  vol_smooth <- stats::filter(volume, rep(1, k), sides = 2)
+  inflow_smooth <- stats::filter(abs(total_inflow), rep(1, k), sides = 2)
+
+  return(vol_smooth / inflow_smooth / norm)
+}
+
 
 
 #' Albufera Lake storage curve
@@ -104,9 +144,12 @@ albufera_storage_curve <- function(
     level, intercept = 16.7459 * 1e6, slope = 23.6577 * 1e6
     )
 {
+  assert_numeric_vector(level)
+  assert_positive_number(intercept)
+  assert_positive_number(slope)
+
   level * slope + intercept
 }
-
 
 
 
@@ -139,5 +182,10 @@ petp_volume_change <- function(
     P, ETP, surface_P = 114.225826072 * 1e6, surface_ETP = 79.360993685 * 1e6
     )
 {
+  assert_numeric_vector(P)
+  assert_numeric_vector(ETP)
+  assert_positive_number(surface_P)
+  assert_positive_number(surface_ETP)
+
   (P * surface_P - ETP * surface_ETP) / 1000
 }
