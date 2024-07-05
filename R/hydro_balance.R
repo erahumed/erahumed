@@ -4,8 +4,8 @@
 #'
 #' @export
 albufera_hydro_balance <- function(
-    outflows_data = erahumed::albufera_outflows,
-    meteo_data = erahumed::meteo_beni_2023
+    outflows_data = albufera_outflows,
+    meteo_data = meteo_beni_2023
     )
 {
   # TODO: Check that outflows_data and meteo_data have the correct format
