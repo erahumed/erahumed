@@ -3,9 +3,14 @@
 #' Documentation TBD
 #'
 #' @export
-albufera_hydro_balance <- function()
+albufera_hydro_balance <- function(
+    outflows_data = erahumed::albufera_outflows,
+    meteo_data = erahumed::meteo_beni_2023
+    )
 {
-  res <- merge(albufera_outflows, meteo_beni_2023, by = "date", sort = TRUE)
+  # TODO: Check that outflows_data and meteo_data have the correct format
+
+  res <- merge(outflows_data, meteo_data, by = "date", sort = TRUE)
   res$data_is_imputed <-
     res$level_is_imputed |
     res$pujol_is_imputed |
@@ -15,7 +20,7 @@ albufera_hydro_balance <- function()
   res$volume <- albufera_storage_curve(res$level)
   res$volume_is_imputed <- res$level_is_imputed
 
-  res$volume_change <- dplyr::lead(res$volume) - res$volume  # TODO: avoid dplyr
+  res$volume_change <- c(res$volume[-1], NA) - res$volume
   res$volume_change_is_imputed <- res$volume_is_imputed
 
   res$petp_change <- petp_volume_change(res$P, res$ETP)
@@ -51,8 +56,7 @@ albufera_hydro_balance <- function()
     res[, ditch[i]] <- ditch_pct[i] * res$total_inflow
   }
 
-  # TODO: avoid using tidyr
-  res <- tidyr::drop_na(res)
+  res <- na.omit(res)  # Why do we omit NAs?
 
   # We assume that there are six big "tancats" that suck water from the lake
   # This accounts for the negative "total inflow", which we set to zero

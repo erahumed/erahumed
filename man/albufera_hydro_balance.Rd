@@ -4,7 +4,10 @@
 \alias{albufera_hydro_balance}
 \title{Albufera Hydrological Balance}
 \usage{
-albufera_hydro_balance()
+albufera_hydro_balance(
+  outflows_data = albufera_outflows,
+  meteo_data = meteo_beni_2023
+)
 }
 \description{
 Documentation TBD
