@@ -15,12 +15,9 @@ Config/testthat/edition: 3
 URL: https://github.com/vgherard/erahumed
 BugReports: https://github.com/vgherard/erahumed/issues
 Imports: 
-    dplyr,
-    ggplot2,
-    mgcv,
     plotly,
     shiny,
-    tidyr
+    stats
 Depends: 
     R (>= 2.10)
 LazyData: true
