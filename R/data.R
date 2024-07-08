@@ -56,3 +56,17 @@
 #' }
 #' @source <https://www.mdpi.com/2306-5338/8/1/37>
 "ditch_inflow_pcts"
+
+#' Paddy Management Data
+#'
+#' TBD.
+#'
+#' @format ## `paddy_management`
+#' A data frame with R rows and C columns:
+#' \describe{
+#'   \item{A}{??}
+#'   \item{B}{??}
+#'   \item{C}{??}
+#' }
+#' @source ???
+"paddy_management"
