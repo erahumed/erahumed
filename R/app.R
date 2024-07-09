@@ -64,6 +64,8 @@ shiny_server <- function(input, output, session) {
     df_obs[[vname]][imp] <- NA
     df_imp[[vname]][!imp] <- NA
 
+    ## Possibly helpful
+    # https://plotly-r.com/linking-views-with-shiny.html#shiny-plotly-inputs
     plotly::plot_ly() |>
       plotly::add_trace(
         data = df_obs, x = ~date, y = ~get(vname),
@@ -107,22 +109,4 @@ var_labels <- function(invert = F){
   return(res_inv)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Refs
-# https://plotly-r.com/linking-views-with-shiny.html#shiny-plotly-inputs
 
