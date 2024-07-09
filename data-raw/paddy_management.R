@@ -1,107 +1,75 @@
 library(dplyr)
 
-# TODO:
-# 0. What data do we need at the end of the day? Is it necessary to have one row
-#    per day  since 2010?
-# 1. Review the logic corresponding to yday (are leap years treated correctly?)
-# 2. Where do the binary vectors (and the logic used to process them) come from?
-# 3. Can the overall logic be made more transparent?
-# 4. What do we need from this dataset?
+# Data from https://doi.org/10.1016/j.scitotenv.2023.163018
+# This comes from the personal account of local farmers, that told the authors
+# of the above reference during which days the irrigated and drained the paddies
+# in the April-September period.
+# The first entry of both binary vectors correspond to the sowing day (04-20).
+farmer_account <- readr::read_csv("data-raw/raw/paddy_management_farmer_account.csv")
 
-# Why?
-dates <-
-  # Really necessary?
-  tibble(date = seq.Date(from = as.Date("2010-01-01"),
-                         to  = as.Date("2020-12-31"),
-                         by = "day")
-         ) |>
-  mutate(yday = as.numeric(format(date, "%j")))
-
-# TODO: check that there are no errors related with leap years
-yday <- c(110:251) # 04-20 to 09-08 (or 04-19 to 09-07 in leap years)
-
-seeding <- numeric(length(yday))
-seeding[1] <- 1
-Tcrop <- seq_along(seeding) - 1
-
-# TODO: explain this
-irri_binary <- c(0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
-                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
-                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0)
-drain_binary <- c(0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-                  0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-irri_binary[(length(irri_binary) + 1):length(yday)] <- NA  # V: matching lengths
-drain_binary[(length(drain_binary) + 1):length(yday)] <- NA
-
-paddy_management <- tibble(irri_binary, drain_binary, seeding, Tcrop, yday) |>
-
-  right_join(dates, by = "yday") |>
-  tidyr::crossing(tibble(tancat = c("0", "1"))) |>
-  tidyr::crossing(tibble(mngmt = c("J.Sendra", "Bomba", "Clearfield"))) |>
-
-  mutate( # TODO: double check
-    across(c(irri_binary, drain_binary, seeding, Tcrop),
-           \(x) ifelse(is.na(x), 0, x))
+paddy_management <-  # Prepare result data-frame
+  tidyr::expand_grid(mm = 1:12, dd = 1:31) |>
+  filter(case_when(  # Only actual calendar days (leap years cause no trouble)
+    mm == 2               ~ dd <= 29,
+    mm %in% c(4,6,9,11)   ~ dd <= 30,
+    TRUE                  ~ TRUE
+    )) |>
+  mutate(sowing = mm == 4 & dd == 20) |>
+  left_join(  # This brings in "irrigation" and "draining" logical columns
+    farmer_account,
+    by = c("mm", "dd")
     ) |>
-
-  mutate( # TODO: Explain this logic
-    height_cm = case_when(
-      irri_binary == 1 & lag(irri_binary, default = 0) == 0 & drain_binary == 0 ~ 5,
-      irri_binary == 1 & drain_binary == 0 ~ 10,
-      irri_binary == 0 & drain_binary == 1 & lag(drain_binary) == 1 & lag(irri_binary) == 0 ~ 0,
-      irri_binary == 0 & drain_binary == 1 & lag(irri_binary) == 1 ~ 5,
-      irri_binary == 0 & drain_binary == 0 ~ 0,
-      irri_binary == 1 & drain_binary == 1 ~ 10,
-      TRUE ~ 0
-      )) |>
-
+  arrange(mm, dd) |>
   mutate(
-    # TODO: Explain this logic. In particular, is it ok that this mutate block
-    # comes after the previous one?
-    .mm = as.numeric(format(date, "%m")),
-    .dd = as.numeric(format(date, "%d")),
-    .mmdd = format(date, "%m-%d"),
-    .t = tancat == "1",
+    # Create the variable 'height_cm'. We assume that it takes two days for the
+    # paddies to empty and refill.
 
-    irri_binary = case_when(
-      !.t                                        ~ irri_binary,
-      .mmdd %in% c("11-01", "11-02")             ~ 1,
-      .mm %in% c(11, 12) | (.mm == 1 & .dd < 15) ~ 1,
-      .mmdd %in% c("01-15", "01-16")             ~ 0,
-      TRUE                                       ~ irri_binary
+    height_cm = case_when(
+      irrigation & !lag(irrigation, default = FALSE) & !draining      ~ 5,
+      irrigation & !draining                                          ~ 10,
+      !irrigation & draining & lag(draining) & !lag(irrigation)       ~ 0,
+      !irrigation & draining & lag(irrigation)                        ~ 5,
+      !irrigation & !draining                                         ~ 0,
+      irrigation & draining                                           ~ 10,
+      TRUE                                                            ~ 0
+      )) |>
+  mutate(across(c(irrigation, draining), \(x) ifelse(is.na(x), FALSE, x))) |>
+  tidyr::crossing(tibble(tancat = c(TRUE, FALSE))) |>
+  mutate(
+    # Corrections to irrigation/draining scheduling due to winter drowning
+
+    irrigation = case_when(
+      !tancat                                    ~ irrigation,
+      mm == 11 & dd %in% 1:2                     ~ TRUE,
+      mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ TRUE,
+      mm == 1 & dd %in% 15:16                    ~ FALSE,
+      TRUE                                       ~ irrigation
     ),
 
-    drain_binary = case_when(
-      !.t                                        ~ drain_binary,
-      .mmdd %in% c("11-01", "11-02")             ~ 0,
-      .mm %in% c(11, 12) | (.mm == 1 & .dd < 15) ~ 1,
-      .mmdd %in% c("01-15", "01-16")             ~ 1,
-      TRUE                                       ~ drain_binary
+    draining = case_when(
+      !tancat                                    ~ draining,
+      mm == 11 & dd %in% 1:2                     ~ FALSE,
+      mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ TRUE,
+      mm == 1 & dd %in% 15:16                    ~ TRUE,
+      TRUE                                       ~ draining
     ),
 
     height_cm = case_when(
-      !.t                                        ~ height_cm,
-      .mmdd %in% c("11-01", "01-15")             ~ 10,
-      .mm %in% c(11, 12) | (.mm == 1 & .dd < 15) ~ 20,
+      !tancat                                    ~ height_cm,
+      mm == 11 & dd == 1 | mm == 1 & dd == 15    ~ 10,
+      mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ 20,
       TRUE                                       ~ height_cm
     )
   ) |>
-
-  mutate( # TODO: Explain this logic. In particular, same as above
-    .p = mngmt == "Clearfield" & Tcrop %in% c(4, 5, 6, 7, 8),
-    irri_binary = ifelse(.p, 1, irri_binary),
-    drain_binary = ifelse(.p, 1, drain_binary),
+  tidyr::crossing(tibble(variety = c("J.Sendra", "Bomba", "Clearfield"))) |>
+  mutate(
+  # Corrections for rice variety: for 'Clearfield' there's one less emptying
+    .p = variety == "Clearfield" & mm == 4 & dd %in% 24:28,
+    irrigation = ifelse(.p, TRUE, irrigation),
+    draining = ifelse(.p, TRUE, draining),
     height_cm = ifelse(.p, 10, height_cm)
   ) |>
-
   select(-starts_with(".")) |>
-
-  arrange(date, mngmt, tancat)
+  arrange(mm, dd, tancat, variety)
 
 usethis::use_data(paddy_management, overwrite = TRUE)
