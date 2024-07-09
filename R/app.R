@@ -5,7 +5,7 @@
 #' @export
 launch_app <- function() {
   shiny::runApp(
-    list(ui = shiny_ui(), server = shiny_server),
+    list(ui = shiny_ui, server = shiny_server),
     launch.browser = TRUE
   )
 }
@@ -33,7 +33,7 @@ shiny_ui <- function() {
 
             ),
           shiny::mainPanel(
-            plotly::plotlyOutput("hydro_plot")
+            plotly::plotlyOutput("hb_plot")
           )
         )
       ),
@@ -42,19 +42,25 @@ shiny_ui <- function() {
   )
 }
 
-shiny_server <- function(input, output) {
-  output$hydro_plot <- plotly::renderPlotly({
-    df <- albufera_hydro_balance()
-    df <- df[df$date >= input$date_range[1] & df$date <= input$date_range[2], ]
+shiny_server <- function(input, output, session) {
+  hb_data_full <- albufera_hydro_balance()
 
+  hb_data <- reactive({
+    row_idx <-
+      input$date_range[1] <= hb_data_full$date &
+                             hb_data_full$date <= input$date_range[2]
+    hb_data_full[row_idx, ]
+    })
+
+  output$hb_plot <- plotly::renderPlotly({
 
     vname <- input$variable
     vlab <- var_labels()[vname]
     vimp <- paste0(vname, "_is_imputed")
 
-    imp <- df[[vimp]]
+    imp <- hb_data()[[vimp]]
 
-    df_obs <- df_imp <- df[, ]
+    df_obs <- df_imp <- hb_data()[, ]
     df_obs[[vname]][imp] <- NA
     df_imp[[vname]][!imp] <- NA
 
@@ -70,8 +76,7 @@ shiny_server <- function(input, output) {
         type = "scatter", mode = "lines",
         line = list(color = "red", width = 2, dash = "dash"),
         name = "Imputed Data"
-
-      ) |>
+        ) |>
       plotly::layout(
         title = paste("Time Series of", vlab),
         xaxis = list(title = "Date"),
