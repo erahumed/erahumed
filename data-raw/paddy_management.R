@@ -69,7 +69,7 @@ paddy_management <-  # Prepare result data-frame
     draining = ifelse(.p, TRUE, draining),
     height_cm = ifelse(.p, 10, height_cm)
   ) |>
-  select(-starts_with(".")) |>
+  select(mm, dd, tancat, variety, sowing, irrigation, draining, height_cm) |>
   arrange(mm, dd, tancat, variety)
 
 usethis::use_data(paddy_management, overwrite = TRUE)

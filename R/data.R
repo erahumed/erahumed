@@ -57,16 +57,28 @@
 #' @source <https://www.mdpi.com/2306-5338/8/1/37>
 "ditch_inflow_pcts"
 
-#' Paddy Management Data
+#' Albufera Paddy Management Data
 #'
-#' TBD.
+#' Data on management schedules of rice paddies in the Albufera National Park.
+#' Contains information on irrigation, draining and water level of paddies by
+#' day of year.
 #'
 #' @format ## `paddy_management`
-#' A data frame with R rows and C columns:
+#' The dataset has one row per day of year for all combinations of the
+#' categorical variables `tancat` and `variety`. The columns are the following:
 #' \describe{
-#'   \item{A}{??}
-#'   \item{B}{??}
-#'   \item{C}{??}
+#'   \item{mm}{numeric. Month of year (1 = January, 2 = February, *etc.*).}
+#'   \item{dd}{numeric. Day of month.}
+#'   \item{tancat}{logical. Whether the paddy is a "tancat" or not.}
+#'   \item{variety}{character. Variety of rice planted in the paddy under
+#'    consideration.}
+#'   \item{sowing}{logical. Whether `mm` and `dd` correspond to the sowing day.}
+#'   \item{irrigation}{logical. Whether the paddy is scheduled to be irrigated
+#'    on this day.}
+#'   \item{draining}{logical. Whether the paddy is scheduled to be drained on
+#'    this day.}
+#'   \item{height_cm}{numeric. Water level of the paddy.}
 #' }
-#' @source ???
+#' @source <https://doi.org/10.1016/j.scitotenv.2023.163018>
+#'
 "paddy_management"
