@@ -82,3 +82,62 @@
 #' @source <https://doi.org/10.1016/j.scitotenv.2023.163018>
 #'
 "paddy_management"
+
+#' Albufera Paddy Management Data
+#'
+#' Data on management schedules of rice paddies in the Albufera National Park.
+#' Contains information on irrigation, draining and water level of paddies by
+#' day of year.
+#'
+#' @format ## `paddy_management`
+#' The dataset has one row per day of year for all combinations of the
+#' categorical variables `tancat` and `variety`. The columns are the following:
+#' \describe{
+#'   \item{mm}{numeric. Month of year (1 = January, 2 = February, *etc.*).}
+#'   \item{dd}{numeric. Day of month.}
+#'   \item{tancat}{logical. Whether the paddy is a "tancat" or not.}
+#'   \item{variety}{character. Variety of rice planted in the paddy under
+#'    consideration.}
+#'   \item{sowing}{logical. Whether `mm` and `dd` correspond to the sowing day.}
+#'   \item{irrigation}{logical. Whether the paddy is scheduled to be irrigated
+#'    on this day.}
+#'   \item{draining}{logical. Whether the paddy is scheduled to be drained on
+#'    this day.}
+#'   \item{height_cm}{numeric. Water level of the paddy.}
+#' }
+#' @source <https://doi.org/10.1016/j.scitotenv.2023.163018>
+#'
+"paddy_management"
+
+
+#' Clusters
+#'
+#' @description
+#' Datasets containing information on various paddy clusters.
+#'
+#' @details
+#' Both datasets have the same cardinality (one row per cluster), and they
+#' are separated merely for efficiency reasons. They can be joined using the
+#' common `cluster_id` key column.
+#'
+#' @rdname clusters
+#' @format ## `clusters`
+#' A data frame with one row per cluster, and the following columns:
+#' \describe{
+#'   \item{cluster_id}{character. Unique identifier of cluster.}
+#'   \item{ditch}{character. Ditch to which the cluster pertains.}
+#'   \item{area}{numeric. Area (in squared meters) of the cluster.}
+#'   \item{tancat}{logical. Whether the cluster is a "tancat".}
+#'   \item{rice_variety}{character. Variety of rice planted in the cluster.}
+#'   \item{case}{factor. ...?}
+#' }
+"clusters"
+
+#' @rdname clusters
+#' @format ## `cluster_geometries`
+#' A data frame with one row per cluster, and the columns:
+#' \describe{
+#'   \item{cluster_id}{character. Unique identifier of cluster.}
+#'   \item{geometry}{vector of class `MULTIPOLYGON`.}
+#' }
+"cluster_geometries"
