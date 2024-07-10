@@ -4,6 +4,10 @@
 
 * Separated computation of ditch inflow percents in a new function, `compute_ditch_inflow_pct()`, that leverages on the `clusters` dataset.
 
+* Corrected calculation of total outflow. In this calculation, the Perello daily
+outflow was being set to zero in the case of negative values. This does not make
+sense with the current computational approach.
+
 # erahumed 0.0.1
 
 First release. Contains a draft of the utilities for hydrological balance data

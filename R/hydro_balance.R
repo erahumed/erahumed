@@ -27,8 +27,7 @@ albufera_hydro_balance <- function(
   res$petp_change <- petp_volume_change(res$P, res$ETP)
   res$petp_change_is_imputed <- FALSE
 
-  res$total_outflow <- res$pujol + res$perellonet +
-    ifelse(res$perello > 0, res$perello, 0)
+  res$total_outflow <- res$pujol + res$perellonet + res$perello
   res$total_outflow_is_imputed <-
     res$pujol_is_imputed |
     res$perellonet_is_imputed |
