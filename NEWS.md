@@ -2,6 +2,8 @@
 
 * Added `clusters` and `cluster_geometries` datasets, containing information at the cluster (i.e. aggregate of rice paddies) level.
 
+* Separated computation of ditch inflow percents in a new function, `compute_ditch_inflow_pct()`, that leverages on the `clusters` dataset.
+
 # erahumed 0.0.1
 
 First release. Contains a draft of the utilities for hydrological balance data

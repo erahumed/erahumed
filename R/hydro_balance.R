@@ -5,7 +5,8 @@
 #' @export
 albufera_hydro_balance <- function(
     outflows_data = albufera_outflows,
-    meteo_data = meteo_beni_2023
+    meteo_data = meteo_beni_2023,
+    clusters_data = clusters
     )
 {
   # TODO: Check that outflows_data and meteo_data have the correct format
@@ -37,23 +38,15 @@ albufera_hydro_balance <- function(
     (res$volume_change - res$petp_change) / s_per_day()
   res$total_inflow_is_imputed <- res$data_is_imputed
 
-  # TODO: where does this data come from??
-  ditch_pct <- c(0.057643743067731, 0.00883863938396492, 0.0078845588682654,
-              0.00269092756575864, 0.00237140628156962, 0.00627824524730914,
-              0.00482132954767113, 0.0120486656499934, 0.00786119582767117,
-              0.00718144428973257, 0.00733430242551832, 0.0201041621013415,
-              0.00403304986097902, 0.0105762920202592, 0.03427139459209, 0.0900729323859258,
-              0.0729408481704095, 0.197688023651317, 0.338954620928877, 0.0103468287597039,
-              0.0154755388184108, 0.00855543033410601, 0.0212517125150535,
-              0.0148638326914231, 0.0124741228873672, 0.0234367521275505)
-  ditch <- c("d1", "d10", "d11", "d12", "d13", "d14", "d15",
-          "d16", "d17", "d18", "d19", "d2", "d20", "d21",
-          "d22", "d23", "d24", "d25", "d26", "d3", "d4",
-          "d5", "d6", "d7", "d8", "d9")
+  ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_data)
 
-  # TODO: there are probably better ways of doing this
-  for (i in seq_along(ditch)) {
-    res[, ditch[i]] <- ditch_pct[i] * res$total_inflow
+  # TODO: consider doing this in a more idiomatic way, e.g. using
+  # reshape() - base equivalent of tidyr::pivot_wider()
+  for (i in 1:nrow(ditch_inflow_pct)) {
+    ditch <- ditch_inflow_pct$ditch[i]
+    inflow_pct <- ditch_inflow_pct$inflow_pct[i]
+
+    res[, ditch] <- inflow_pct * res$total_inflow
   }
 
   res <- na.omit(res)  # Why do we omit NAs?
@@ -191,4 +184,34 @@ petp_volume_change <- function(
   assert_positive_number(surface_ETP)
 
   (P * surface_P - ETP * surface_ETP) / 1000
+}
+
+
+
+#' Compute Ditch Inflow Percent
+#'
+#' @author Pablo Amador Crespo, Valerio Gherardi
+#'
+#' @description Computes the fraction of water that flows through each ditch, as
+#' the fraction of total surface covered by the clusters adjacent to said ditch.
+#'
+#' @param clusters_data A dataframe containing two columns `ditch` and `area`.
+#' Each row is assumed to represent a distinct cluster pertaining to `ditch`,
+#' and with the surface specified by `area`.
+#'
+#' @return A dataframe containing two columns, `ditch` and `inflow_pct`,
+#' specifying a ditch and the amount of inflow corresponding to it,
+#' respectively.
+#'
+#' @details
+#' TODO: other options to obtain ditch percents (e.g. empirical data by Soria et al.)?
+#'
+#' @export
+compute_ditch_inflow_pct <- function(cluster_data = clusters)
+{
+  res <- aggregate(area ~ ditch, data = clusters, FUN = sum)
+  res$area <- res$area / sum(res$area)
+  names(res)[names(res) == "area"] <- "inflow_pct"
+  res <- res[order(res$ditch), ]
+  return(res)
 }

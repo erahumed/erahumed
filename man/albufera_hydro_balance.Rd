@@ -6,7 +6,8 @@
 \usage{
 albufera_hydro_balance(
   outflows_data = albufera_outflows,
-  meteo_data = meteo_beni_2023
+  meteo_data = meteo_beni_2023,
+  clusters_data = clusters
 )
 }
 \description{
