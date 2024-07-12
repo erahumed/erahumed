@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.0.2
 
 * Added `clusters` and `cluster_geometries` datasets, containing information at 
 the cluster (i.e. aggregate of rice paddies) level.
