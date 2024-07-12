@@ -25,14 +25,12 @@ paddy_management <-  # Prepare result data-frame
     # paddies to empty and refill.
 
     height_cm = case_when(
-      irrigation & !lag(irrigation, default = FALSE) & !draining      ~ 5,
-      irrigation & !draining                                          ~ 10,
-      !irrigation & draining & lag(draining) & !lag(irrigation)       ~ 0,
-      !irrigation & draining & lag(irrigation)                        ~ 5,
-      !irrigation & !draining                                         ~ 0,
-      irrigation & draining                                           ~ 10,
-      TRUE                                                            ~ 0
-      )) |>
+      irrigation ~ ifelse(draining | lag(irrigation), 10, 5),
+      draining   ~ ifelse(lag(irrigation), 5, 0),
+      TRUE       ~ 0
+    )
+
+    ) |>
   mutate(across(c(irrigation, draining), \(x) ifelse(is.na(x), FALSE, x))) |>
   tidyr::crossing(tibble(tancat = c(TRUE, FALSE))) |>
   mutate(
