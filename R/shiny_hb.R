@@ -29,7 +29,7 @@ hbServer <- function(id)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    hb_data_full <- albufera_hydro_balance()
+    hb_data_full <- hydro_balance()
 
     hb_data <- reactive({
       row_idx <-

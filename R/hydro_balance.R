@@ -3,10 +3,10 @@
 #' Documentation TBD
 #'
 #' @export
-albufera_hydro_balance <- function(
+hydro_balance <- function(
     outflows_data = albufera_outflows,
-    meteo_data = meteo_beni_2023,
-    clusters_data = clusters
+    meteo_data = albufera_weather,
+    clusters_data = albufera_clusters
     )
 {
   # TODO: Check that outflows_data and meteo_data have the correct format
@@ -206,9 +206,9 @@ petp_volume_change <- function(
 #' TODO: other options to obtain ditch percents (e.g. empirical data by Soria et al.)?
 #'
 #' @export
-compute_ditch_inflow_pct <- function(cluster_data = clusters)
+compute_ditch_inflow_pct <- function(cluster_data)
 {
-  res <- aggregate(area ~ ditch, data = clusters, FUN = sum)
+  res <- aggregate(area ~ ditch, data = cluster_data, FUN = sum)
   res$area <- res$area / sum(res$area)
   names(res)[names(res) == "area"] <- "inflow_pct"
   res <- res[order(res$ditch), ]

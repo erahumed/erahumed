@@ -2,29 +2,12 @@ library(dplyr)
 
 ### Meteorological data ########################################################
 
-meteo_beni_2023 <-
+albufera_weather <-
   readxl::read_excel("data-raw/raw/meteo_beni_2023.xlsx",
                      range = cellranger::cell_cols("A:I")
   ) |>
   rename(date = FECHA) |>
   mutate(date = as.Date(date))
-
-
-
-### Lake inflow by ditch data ##################################################
-
-months_es <- c(
-  "Enero", "Febrero", "Marzo",
-  "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre",
-  "Octubre", "Noviembre", "Diciembre"
-)
-
-ditch_inflow_pcts <- readRDS("data-raw/raw/pct_soria_obs.rds") |>
-  rename(month = mes) |>
-  mutate(month = match(month, months_es))
-
-names(ditch_inflow_pcts) <- gsub("acq", "d", names(ditch_inflow_pcts))
 
 
 
@@ -76,7 +59,7 @@ moving_average <- function(x, k) {
   stats::filter(x, rep(1 / k, k), sides = 1) |> as.numeric()
 }
 
-meteo_ext <- meteo_beni_2023 |>
+meteo_ext <- albufera_weather |>
   mutate(
     P_average7 = moving_average(P, 7),
     ETP_average15 = moving_average(ETP, 15),
@@ -149,7 +132,5 @@ albufera_outflows <- albufera_outflows |>
 
 ### Exports ####################################################################
 
-usethis::use_data(meteo_beni_2023, overwrite = TRUE)
+usethis::use_data(albufera_weather, overwrite = TRUE)
 usethis::use_data(albufera_outflows, overwrite = TRUE)
-usethis::use_data(ditch_inflow_pcts, overwrite = TRUE)
-

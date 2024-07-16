@@ -7,7 +7,7 @@ library(dplyr)
 # The first entry of both binary vectors correspond to the sowing day (04-20).
 farmer_account <- readr::read_csv("data-raw/raw/paddy_management_farmer_account.csv")
 
-paddy_management <-  # Prepare result data-frame
+albufera_management <-  # Prepare result data-frame
   tidyr::expand_grid(mm = 1:12, dd = 1:31) |>
   filter(case_when(  # Only actual calendar days (leap years cause no trouble)
     mm == 2               ~ dd <= 29,
@@ -70,4 +70,4 @@ paddy_management <-  # Prepare result data-frame
   select(mm, dd, tancat, variety, sowing, irrigation, draining, height_cm) |>
   arrange(mm, dd, tancat, variety)
 
-usethis::use_data(paddy_management, overwrite = TRUE)
+usethis::use_data(albufera_management, overwrite = TRUE)
