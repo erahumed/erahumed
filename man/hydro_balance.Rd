@@ -5,9 +5,9 @@
 \title{Albufera Hydrological Balance}
 \usage{
 hydro_balance(
-  outflows_data = albufera_outflows,
-  meteo_data = albufera_weather,
-  clusters_data = albufera_clusters
+  outflows_df = albufera_outflows,
+  weather_df = albufera_weather,
+  clusters_df = albufera_clusters
 )
 }
 \description{

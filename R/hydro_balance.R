@@ -4,14 +4,14 @@
 #'
 #' @export
 hydro_balance <- function(
-    outflows_data = albufera_outflows,
-    meteo_data = albufera_weather,
-    clusters_data = albufera_clusters
+    outflows_df = albufera_outflows,
+    weather_df = albufera_weather,
+    clusters_df = albufera_clusters
     )
 {
-  # TODO: Check that outflows_data and meteo_data have the correct format
+  # TODO: Check that outflows_df and weather_df have the correct format
 
-  res <- merge(outflows_data, meteo_data, by = "date", sort = TRUE)
+  res <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
   res$data_is_imputed <-
     res$level_is_imputed |
     res$pujol_is_imputed |
@@ -37,7 +37,7 @@ hydro_balance <- function(
     (res$volume_change - res$petp_change) / s_per_day()
   res$total_inflow_is_imputed <- res$data_is_imputed
 
-  ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_data)
+  ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
 
   # TODO: consider doing this in a more idiomatic way, e.g. using
   # reshape() - base equivalent of tidyr::pivot_wider()
@@ -194,7 +194,7 @@ petp_volume_change <- function(
 #' @description Computes the fraction of water that flows through each ditch, as
 #' the fraction of total surface covered by the clusters adjacent to said ditch.
 #'
-#' @param clusters_data A dataframe containing two columns `ditch` and `area`.
+#' @param clusters_df A dataframe containing two columns `ditch` and `area`.
 #' Each row is assumed to represent a distinct cluster pertaining to `ditch`,
 #' and with the surface specified by `area`.
 #'

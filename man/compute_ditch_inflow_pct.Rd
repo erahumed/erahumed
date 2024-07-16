@@ -7,7 +7,7 @@
 compute_ditch_inflow_pct(cluster_data)
 }
 \arguments{
-\item{clusters_data}{A dataframe containing two columns \code{ditch} and \code{area}.
+\item{clusters_df}{A dataframe containing two columns \code{ditch} and \code{area}.
 Each row is assumed to represent a distinct cluster pertaining to \code{ditch},
 and with the surface specified by \code{area}.}
 }
