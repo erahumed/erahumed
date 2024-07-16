@@ -18,7 +18,7 @@ hydro_balance <- function(
     res$perellonet_is_imputed |
     res$perello_is_imputed
 
-  res$volume <- albufera_storage_curve(res$level)
+  res$volume <- linear_storage_curve(res$level)
   res$volume_is_imputed <- res$level_is_imputed
 
   res$volume_change <- c(res$volume[-1], NA) - res$volume
@@ -114,12 +114,12 @@ residence_time <- function(
 
 
 
-#' Albufera Lake storage curve
+#' Linear Storage Curve
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Computes the Albufera lake's volume from level using a linear storage curve,
+#' Computes the lake's volume from its level using a linear storage curve,
 #' *i.e.* \eqn{\text{Volume} = \text{slope} \times \text{Level} + \text{intercept}}.
 #'
 #' @param level numeric vector. Levels of the lake (in meters above sea level).
@@ -131,11 +131,11 @@ residence_time <- function(
 #' \eqn{\text{m}^3}).
 #'
 #' @details
-#' The default values are taken from the CHJ report
+#' The default values (for the Albufera Lake) are taken from the CHJ report
 #' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
 #'
 #' @export
-albufera_storage_curve <- function(
+linear_storage_curve <- function(
     level, intercept = 16.7459 * 1e6, slope = 23.6577 * 1e6
     )
 {
