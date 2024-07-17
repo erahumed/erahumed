@@ -68,12 +68,44 @@ albufera_hydro_balance_local <- function(
     date_max = NULL
 )
 {
-  res <- albufera_hydro_balance_global(
+  hb_global <- albufera_hydro_balance_global(
     outflows_df = outflows_df,
     weather_df = weather_df,
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
+
+  res <- hb_local_data_prep(hb_global = hb_global,
+                            management_df = management_df,
+                            clusters_df = clusters_df,
+                            date_min = date_min,
+                            date_max = date_max)
+
+  ditches <- unique(res$ditch)
+  dates <- unique(res$date)
+
+  for (ditch in ditches) {
+    dfs <- res[res$ditch == ditch, ] |>
+      {\(x) collapse::rsplit(x, x$date)}()
+    for (i in seq_along(dfs)) {
+      dfs[[i]] <- propagate_ditch(
+        dfs[[i]],
+        if(i == 1) { data.frame() } else { dfs[[i - 1]] }
+      )
+      dfs[[i]] <- compute_accum(dfs[[i]])
+    }
+    df_ditch <- do.call(rbind, dfs)
+    res[res$ditch == ditch, ] <- df_ditch
+  }
+
+  res
+}
+
+hb_local_data_prep <- function(
+    hb_global, management_df, clusters_df, date_min, date_max
+    )
+{
+  res <- hb_global
 
   if(!is.null(date_min)) {
     res <- res[res$date >= date_min, ]
@@ -85,13 +117,14 @@ albufera_hydro_balance_local <- function(
   ### Start HB for cluster part. Should break down into components.
   res$mm <- as.numeric(format(res$date, "%m"))
   res$dd <- as.numeric(format(res$date, "%d"))
+
   res <- merge(res, management_df, by = c("mm", "dd"))
   res <- res |>
     split(~ tancat + variety) |>
     lapply(\(df){
       df$lag_height_cm <- c(
         ifelse(df$tancat[1], 20, 0), df$height_cm[1:(nrow(df)-1)]
-        )
+      )
       df
     })
 
@@ -102,7 +135,7 @@ albufera_hydro_balance_local <- function(
           by.x = c("tancat", "variety"),
           by.y = c("tancat", "rice_variety"),
           all.y = TRUE
-          )
+    )
   res$height_diff_cm <- res$height_cm - res$lag_height_cm
   res$petp <- res$P - res$ETP
   res$petp_cm <- res$petp / 10
@@ -112,7 +145,7 @@ albufera_hydro_balance_local <- function(
   res$inflow <- res$irrigation *
     (res$draining * 5 +
        (1 - res$draining) * (res$height_diff_cm - pmin(res$petp_cm, 0))
-     )
+    )
   res$outflow <- pmax(res$inflow + res$petp_cm - res$height_diff_cm, 0)
   res$outflow_m3 <- (res$outflow / 100) * res$area / s_per_day()
   res$outflow_rain <- pmax(res$petp_m3_s, 0)  # This also includes ETP, is this OK?
@@ -140,22 +173,6 @@ albufera_hydro_balance_local <- function(
     ditch_inflow_pct$inflow_pct[match(res$ditch, ditch_inflow_pct$ditch)]
 
   res <- res[order(res$date, res$cluster_id), ]
-  ditches <- unique(res$ditch)
-  dates <- unique(res$date)
-
-  for (ditch in ditches) {
-    dfs <- res[res$ditch == ditch, ] |>
-      {\(x) collapse::rsplit(x, x$date)}()
-    for (i in seq_along(dfs)) {
-      dfs[[i]] <- propagate_ditch(
-        dfs[[i]],
-        if(i == 1) { data.frame() } else { dfs[[i - 1]] }
-      )
-      dfs[[i]] <- compute_accum(dfs[[i]])
-    }
-    df_ditch <- do.call(rbind, dfs)
-    res[res$ditch == ditch, ] <- df_ditch
-  }
 
   res
 }
