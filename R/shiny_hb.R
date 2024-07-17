@@ -29,7 +29,7 @@ hbServer <- function(id)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    hb_data_full <- hydro_balance()
+    hb_data_full <- albufera_hydro_balance()
 
     hb_data <- reactive({
       row_idx <-
@@ -78,10 +78,11 @@ hb_var_labels <- function(invert = F){
   res <- c(
     level = "Lake Level [m]",
     volume = "Lake Volume [m\u{00B3}]",
-    total_inflow = "Total Inflow [m\u{00B3} / s]",
+    outflow_total = "Total Outflow [m\u{00B3} / s]",
     pujol = "Pujol Outflow [m\u{00B3} / s]",
     perellonet = "Perellonet Outflow [m\u{00B3} / s]",
     perello = "Perello Outflow [m\u{00B3} / s]",
+    inflow_total = "Total Inflow [m\u{00B3} / s]",
     residence_time_days = "Residence Time [Days]"
   )
 

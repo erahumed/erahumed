@@ -1,5 +1,17 @@
 # erahumed (development version)
 
+* Big namespace refactor: all datasets get prepended with the prefix 
+`"albufera_"`. The function`storage_curve()` becomes `linear_storage_curve()`.
+
+* New function `hydro_balance_global()`, that is meant to capture the abstract
+part of the global hydrological balance calculations. The function `albufera_hydro_balance()` relies on this for part of its calculations.
+
+* The arguments of `hydro_balance()` were renamed changing the `_data` suffix
+with `_df`.
+
+*N.B.:* function names and the general API of these early versions of the 
+package are understood to be provisional.
+
 # erahumed 0.0.2
 
 * Added `clusters` and `cluster_geometries` datasets, containing information at 
