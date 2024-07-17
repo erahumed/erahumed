@@ -4,31 +4,24 @@
 \alias{linear_storage_curve}
 \title{Linear Storage Curve}
 \usage{
-linear_storage_curve(
-  level,
-  intercept = 16.7459 * 1e+06,
-  slope = 23.6577 * 1e+06
-)
+linear_storage_curve(intercept, slope)
 }
 \arguments{
-\item{level}{numeric vector. Levels of the lake (in meters above sea level).
-Accepts vectorized input.}
-
 \item{intercept}{a number. Intercept of the linear storage curve.}
 
 \item{slope}{a number. Slope of the linear storage curve}
 }
 \value{
-A numeric vector of the same length of \code{level}. Computed volumes (in
-\eqn{\text{m}^3}).
+A function with signature \verb{function(level)}, whose argument is
+assumed to be a numeric vector, that computes volumes from lake levels
+according to the prescribed linear relationship.
 }
 \description{
-Computes the lake's volume from its level using a linear storage curve,
-\emph{i.e.} \eqn{\text{Volume} = \text{slope} \times \text{Level} + \text{intercept}}.
+Creates a linear storage curve with a given slope and intercept,
+\emph{viz.} \eqn{\text{Volume} = \text{slope} \times \text{Level} + \text{intercept}}.
 }
 \details{
-The default values (for the Albufera Lake) are taken from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}
+The handling of units of measurement is left to the user.
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

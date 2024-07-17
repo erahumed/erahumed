@@ -9,8 +9,8 @@ hydro_balance_global(
   P,
   ETP,
   outflows,
-  storage_curve = erahumed::linear_storage_curve,
-  petp_curve = erahumed::petp_volume_change
+  storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
+  petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
 )
 }
 \description{

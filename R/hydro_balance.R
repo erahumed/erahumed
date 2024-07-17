@@ -2,11 +2,21 @@
 #'
 #' Documentation TBD
 #'
+#' @details
+#' The numeric inputs used from the linear storage curve and P-ETP surface were
+#' extracted from the CHJ report
+#' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
+#'
+#'
 #' @export
 albufera_hydro_balance <- function(
     outflows_df = albufera_outflows,
     weather_df = albufera_weather,
-    clusters_df = albufera_clusters
+    clusters_df = albufera_clusters,
+    storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
+                                         slope = 23.6577 * 1e6),
+    petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
+                                       surface_ETP = 79.360993685 * 1e6)
     )
 {
   # Just to select the intersection of dates
@@ -20,8 +30,8 @@ albufera_hydro_balance <- function(
     outflows = list(pujol = res$pujol,
                     perellonet = res$perellonet,
                     perello = res$perello),
-    storage_curve = erahumed::linear_storage_curve,
-    petp_curve = erahumed::petp_volume_change
+    storage_curve = storage_curve,
+    petp_surface = petp_surface
     )
   res <- cbind(res, res1)
 
@@ -52,8 +62,8 @@ hydro_balance_global <- function(
     P,
     ETP,
     outflows,
-    storage_curve = erahumed::linear_storage_curve,
-    petp_curve = erahumed::petp_volume_change
+    storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
+    petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
     )
 {
 
@@ -68,7 +78,7 @@ hydro_balance_global <- function(
     res$outflow_total <- res$outflow_total + outflows[[n]]
   }
 
-  res$petp_change <- petp_curve(P, ETP)
+  res$petp_change <- petp_surface(P, ETP)
 
   res$inflow_total <- res$outflow_total +
     (res$volume_change - res$petp_change) / s_per_day()
@@ -156,31 +166,29 @@ residence_time <- function(
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Computes the lake's volume from its level using a linear storage curve,
-#' *i.e.* \eqn{\text{Volume} = \text{slope} \times \text{Level} + \text{intercept}}.
+#' Creates a linear storage curve with a given slope and intercept,
+#' *viz.* \eqn{\text{Volume} = \text{slope} \times \text{Level} + \text{intercept}}.
 #'
-#' @param level numeric vector. Levels of the lake (in meters above sea level).
-#' Accepts vectorized input.
 #' @param intercept a number. Intercept of the linear storage curve.
 #' @param slope a number. Slope of the linear storage curve
 #'
-#' @return A numeric vector of the same length of `level`. Computed volumes (in
-#' \eqn{\text{m}^3}).
+#' @return A function with signature `function(level)`, whose argument is
+#' assumed to be a numeric vector, that computes volumes from lake levels
+#' according to the prescribed linear relationship.
 #'
 #' @details
-#' The default values (for the Albufera Lake) are taken from the CHJ report
-#' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
+#' The handling of units of measurement is left to the user.
 #'
 #' @export
-linear_storage_curve <- function(
-    level, intercept = 16.7459 * 1e6, slope = 23.6577 * 1e6
-    )
+linear_storage_curve <- function(intercept, slope)
 {
-  assert_numeric_vector(level)
   assert_positive_number(intercept)
   assert_positive_number(slope)
 
-  level * slope + intercept
+  function(level) {
+    assert_numeric_vector(level)
+    level * slope + intercept
+    }
 }
 
 
@@ -190,36 +198,32 @@ linear_storage_curve <- function(
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Computes the volume daily changes due to precipitation and evapotranspiration
+#' Creates a (homogeneous) linear fucntion that computes volume daily changes
+#' due to precipitation and evapotranspiration
 #' as \eqn{\Delta V = \Delta h_\text{P} \cdot S_\text{P} - \Delta h_\text{ETP} \cdot S_\text{ETP}}, where
 #' \eqn{\Delta h _\text{P,ETP}} are precipitation and evapotranspiration in
 #' expressed in millimiters, and \eqn{S_{\text{P,ETP}}} are effective surfaces.
 #'
-#' @param P,ETP numeric vectors of same length. Values of precipitation and
-#' evapotranspiration in \eqn{\text{mm}}.
 #' @param surface_P,surface_ETP positive numbers. The effective surfaces (
 #' expressed in \eqn{\text{m}^2}) for volume changes due to precipitation and
 #' evapotranspiration (see description).
 #'
-#' @return A dataframe containing the same columns as `input`, and an additional
-#' column (see `output_col` argument) with the computed values of volume
-#' daily changes, expressed in \eqn{\text{m} ^3 / \text{s}}.
-#'
-#' @details
-#' TODO: document the extraction of effective surface values.
-#' TODO: other options to obtain volume changes?
+#' @return A function with signature `function(P, ETP)`, whose arguments are
+#' assumed to be numeric vectors, that computes volumes changes due to
+#' precipitation and evapotranspiration, according to the prescribed linear
+#' relationship.
 #'
 #' @export
-petp_volume_change <- function(
-    P, ETP, surface_P = 114.225826072 * 1e6, surface_ETP = 79.360993685 * 1e6
-    )
+linear_petp_surface <- function(surface_P, surface_ETP)
 {
-  assert_numeric_vector(P)
-  assert_numeric_vector(ETP)
   assert_positive_number(surface_P)
   assert_positive_number(surface_ETP)
 
-  (P * surface_P - ETP * surface_ETP) / 1000
+  function(P, ETP) {
+    assert_numeric_vector(P)
+    assert_numeric_vector(ETP)
+    (P * surface_P - ETP * surface_ETP) / 1000
+  }
 }
 
 

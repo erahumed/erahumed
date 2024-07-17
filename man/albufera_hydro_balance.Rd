@@ -7,9 +7,18 @@
 albufera_hydro_balance(
   outflows_df = albufera_outflows,
   weather_df = albufera_weather,
-  clusters_df = albufera_clusters
+  clusters_df = albufera_clusters,
+  storage_curve = linear_storage_curve(intercept = 16.7459 * 1e+06, slope = 23.6577 *
+    1e+06),
+  petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e+06, surface_ETP =
+    79.360993685 * 1e+06)
 )
 }
 \description{
 Documentation TBD
+}
+\details{
+The numeric inputs used from the linear storage curve and P-ETP surface were
+extracted from the CHJ report
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}
 }
