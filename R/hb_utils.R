@@ -1,118 +1,3 @@
-#' Albufera Hydrological Balance
-#'
-#' Documentation TBD
-#'
-#' @details
-#' The numeric inputs used from the linear storage curve and P-ETP surface were
-#' extracted from the CHJ report
-#' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
-#'
-#'
-#' @export
-albufera_hydro_balance <- function(
-    outflows_df = albufera_outflows,
-    weather_df = albufera_weather,
-    clusters_df = albufera_clusters,
-    storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
-                                         slope = 23.6577 * 1e6),
-    petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
-                                       surface_ETP = 79.360993685 * 1e6)
-    )
-{
-  # Just to select the intersection of dates
-  res <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
-
-  # Bind with global hydrological balance variables
-  res1 <- hydro_balance_global(
-    level = res$level,
-    P = res$P,
-    ETP = res$ETP,
-    outflows = list(pujol = res$pujol,
-                    perellonet = res$perellonet,
-                    perello = res$perello),
-    storage_curve = storage_curve,
-    petp_surface = petp_surface
-    )
-  res <- cbind(res, res1)
-
-  res <- na.omit(res) # Necessary?
-
-  res <- compute_hb_imputed_cols(res)
-
-  # TODO: consider doing this in a more idiomatic way, e.g. using
-  # reshape() - base equivalent of tidyr::pivot_wider()
-  ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
-  for (i in 1:nrow(ditch_inflow_pct)) {
-    ditch <- ditch_inflow_pct$ditch[i]
-    inflow_pct <- ditch_inflow_pct$inflow_pct[i]
-
-    res[, ditch] <- inflow_pct * res$inflow_total
-  }
-
-  return(res)
-}
-
-#' Global Hydrological Balance
-#'
-#' Documentation TBD
-#'
-#' @export
-hydro_balance_global <- function(
-    level,
-    P,
-    ETP,
-    outflows,
-    storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
-    petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
-    )
-{
-
-  res <- data.frame(level, P, ETP)
-
-  res$volume <- storage_curve(level)
-  res$volume_change <- c(diff(res$volume), NA)
-
-  res$outflow_total <- 0
-  for (n in names(outflows)) {
-    res[[ paste0("outflow_", n) ]] <- outflows[[n]]
-    res$outflow_total <- res$outflow_total + outflows[[n]]
-  }
-
-  res$petp_change <- petp_surface(P, ETP)
-
-  res$inflow_total <- res$outflow_total +
-    (res$volume_change - res$petp_change) / s_per_day()
-  res$outflow_extra <- pmax(-res$inflow_total, 0)
-  res$inflow_total <- pmax(res$inflow_total, 0)
-
-  res$residence_time_days <- residence_time(res$volume, res$inflow_total)
-
-  return(res)
-}
-
-
-compute_hb_imputed_cols <- function(df) {
-  # Simplify this, just have a column that signals whether a given row has some imputed data
-
-  df$volume_is_imputed <- df$level_is_imputed
-  df$data_is_imputed <-
-    df$level_is_imputed |
-    df$pujol_is_imputed |
-    df$perellonet_is_imputed |
-    df$perello_is_imputed
-  df$volume_change_is_imputed <- df$volume_is_imputed
-  df$petp_change_is_imputed <- FALSE
-  df$outflow_total_is_imputed <-
-    df$pujol_is_imputed |
-    df$perellonet_is_imputed |
-    df$perello_is_imputed
-  df$inflow_total_is_imputed <- df$data_is_imputed
-  df$outflow_extra_is_imputed <- df$inflow_total_is_imputed
-  df$residence_time_days_is_imputed <- df$data_is_imputed
-  return(df)
-}
-
-
 #' Residence Time
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
@@ -141,7 +26,7 @@ compute_hb_imputed_cols <- function(df) {
 #' @export
 residence_time <- function(
     volume, inflow_total, k = 61, units = c("days", "seconds")
-    )
+)
 {
   assert_numeric_vector(volume)
   assert_numeric_vector(inflow_total)
@@ -151,7 +36,7 @@ residence_time <- function(
   norm <- switch(units,
                  days = s_per_day(),
                  seconds = 1
-                 )
+  )
 
   vol_smooth <- moving_average(volume, k)
   inflow_smooth <- moving_average(inflow_total, k)
@@ -188,7 +73,7 @@ linear_storage_curve <- function(intercept, slope)
   function(level) {
     assert_numeric_vector(level)
     level * slope + intercept
-    }
+  }
 }
 
 
