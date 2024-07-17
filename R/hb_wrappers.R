@@ -81,22 +81,32 @@ albufera_hydro_balance_local <- function(
                             date_min = date_min,
                             date_max = date_max)
 
-  ditches <- unique(res$ditch)
-  dates <- unique(res$date)
+  n_ditches <- length(unique(res$ditch))
+  n_dates <- length(unique(res$date))
 
-  for (ditch in ditches) {
-    dfs <- res[res$ditch == ditch, ] |>
-      {\(x) collapse::rsplit(x, x$date)}()
-    for (i in seq_along(dfs)) {
-      dfs[[i]] <- propagate_ditch(
-        dfs[[i]],
-        if(i == 1) { data.frame() } else { dfs[[i - 1]] }
-      )
-      dfs[[i]] <- compute_accum(dfs[[i]])
+  res <- res |>
+    collapse::rsplit(
+      by = ~ ditch + date,
+      flatten = FALSE,
+      use.names = FALSE,
+      simplify = FALSE,
+      keep.by = TRUE
+    )
+
+  # We should avoid here to rely on the fact that dates are in a certain order.
+  # Also, if the order of ditches changes, the result will as well (because the
+  # random choices of clusters is not uniquely set anymore through the seed.)
+  for (i in 1:n_ditches) {
+    for (j in 1:n_dates) {
+      lag <- if (j == 1) data.frame() else res[[i]][[j - 1]]
+      res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
+      res[[i]][[j]] <- compute_accum(res[[i]][[j]])
     }
-    df_ditch <- do.call(rbind, dfs)
-    res[res$ditch == ditch, ] <- df_ditch
   }
+
+  # Huge bottleneck
+  res <- do.call(c, res) # flatten to single list
+  res <- dplyr::bind_rows(res) # do.call(rbind, res) is super slow...
 
   res
 }
@@ -105,6 +115,9 @@ hb_local_data_prep <- function(
     hb_global, management_df, clusters_df, date_min, date_max
     )
 {
+  # We should avoid here creating too many unnecessary columns. These contribute
+  # to make the row_bind statements heavier
+
   res <- hb_global
 
   if(!is.null(date_min)) {
