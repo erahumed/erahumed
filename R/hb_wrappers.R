@@ -136,7 +136,12 @@ hb_local_data_prep <- function(
   res$mm <- as.numeric(format(res$date, "%m"))
   res$dd <- as.numeric(format(res$date, "%d"))
 
-  res <- merge(res, management_df, by = c("mm", "dd"), sort = FALSE)
+  res <- merge(res,
+               management_df,
+               by = c("mm", "dd"),
+               sort = FALSE,
+               allow.cartesian = TRUE
+               )
   res <- res |>
     split(by = c("tancat", "variety")) |>
     lapply(\(df){
