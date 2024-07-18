@@ -17,14 +17,12 @@ propagate_ditch <- function(., lag) {
     (.$irrigation & .$draining & lag$accum_rain[ord] > 0 & .$petp < 0) *
     pmin(.$lag_accum_rain_cm + .$petp_cm, 0)
 
-  .$condition <- (.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
+  .$corrected <- isTRUE(.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
 
-  idxs <- cumsum(isTRUE(.$condition)) > 0
+  idxs <- cumsum(.$corrected) > 0
   .$irrigation[idxs] <- lag$irrigation[ord][idxs]
   .$draining[idxs] <- lag$draining[ord][idxs]
   .$height_diff_cm[idxs] <- lag$height_diff_cm[ord][idxs]
-
-  .$corrected <- isTRUE(.$condition)
 
   return(.)
 }
