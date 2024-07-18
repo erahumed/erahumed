@@ -50,7 +50,7 @@ compute_accum_pt1 <- function(.) {
 }
 compute_real_outflows <- function(.) {
   ### Emptying clusters
-  n_clusters <- nrow(.)
+  n_clusters <- length(.$cluster_id)
   # Permute the rows of ., so that clusters in the same ditch
   # are emptied in a random order every day
 

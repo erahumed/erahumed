@@ -96,13 +96,13 @@ albufera_hydro_balance_local <- function(
     )
   for (i in 1:n_ditches) {
     for (j in 1:n_dates) {
-      # res[[i]][[j]] <- unclass(res[[i]][[j]])
-      lag <- if (j == 1) { res[[i]][[j]] } else { res[[i]][[j - 1]] }
+      res[[i]][[j]] <- unclass(res[[i]][[j]])
+      lag <- if (j == 1) { res[[i]][[j]] } else { unclass(res[[i]][[j - 1]]) }
 
       res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
       res[[i]][[j]] <- compute_accum(res[[i]][[j]])
 
-      # class(res[[i]][[j]]) <- class(data.frame())
+      class(res[[i]][[j]]) <- "data.frame"
     }
     # The class()-unclass() trick above can lower the execution time of
     # propagate ditch by a constant factor (roughly of order 2). This has a
