@@ -96,38 +96,23 @@ albufera_hydro_balance_local <- function(
     )
   for (i in 1:n_ditches) {
     for (j in 1:n_dates) {
-      lag <- if (j == 1) data.frame() else res[[i]][[j - 1]]
+      # res[[i]][[j]] <- unclass(res[[i]][[j]])
+      lag <- if (j == 1) { res[[i]][[j]] } else { res[[i]][[j - 1]] }
+
       res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
       res[[i]][[j]] <- compute_accum(res[[i]][[j]])
-    }
-  }
 
-  # res <- res |>
-  #   split(
-  #     by = c("ditch", "date"),
-  #     keep.by = TRUE,
-  #     flatten = FALSE,
-  #     sorted = FALSE
-  #   )
-  #
-  # # We should avoid here to rely on the fact that dates are in a certain order.
-  # # Also, if the order of ditches changes, the result will as well (because the
-  # # random choices of clusters is not uniquely set anymore through the seed.)
-  # for (i in 1:n_ditches) {
-  #   for (j in 1:n_dates) {
-  #     lag <- if (j == 1) data.table::data.table() else res[[i]][[j - 1]]
-  #     res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
-  #     res[[i]][[j]] <- compute_accum(res[[i]][[j]])
-  #   }
-  # }
+      # class(res[[i]][[j]]) <- class(data.frame())
+    }
+    # The class()-unclass() trick above can lower the execution time of
+    # propagate ditch by a constant factor (roughly of order 2). This has a
+    # price to pay in that the code becomes more prone to bugs (e.g. we don't
+    # have data-frame column automatic length checks)
+  }
 
   res <- do.call(c, res) # flatten to single list
   res <- data.table::rbindlist(res)
-  # i <- 0
-  # for (df in lst) {
-  #   res[i + (1:nrow(df)), ] <- df
-  #   i <- i + nrow(df)
-  # }
+
 
   as.data.frame(res)
 }
