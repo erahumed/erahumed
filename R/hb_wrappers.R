@@ -84,7 +84,7 @@ albufera_hydro_balance_local <- function(
   n_ditches <- length(unique(res$ditch))
   n_dates <- length(unique(res$date))
 
-  res <- res |>
+  lst <- res |>
     collapse::rsplit(
       by = ~ ditch + date,
       flatten = FALSE,
@@ -98,15 +98,19 @@ albufera_hydro_balance_local <- function(
   # random choices of clusters is not uniquely set anymore through the seed.)
   for (i in 1:n_ditches) {
     for (j in 1:n_dates) {
-      lag <- if (j == 1) data.frame() else res[[i]][[j - 1]]
-      res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
-      res[[i]][[j]] <- compute_accum(res[[i]][[j]])
+      lag <- if (j == 1) data.frame() else lst[[i]][[j - 1]]
+      lst[[i]][[j]] <- propagate_ditch(lst[[i]][[j]], lag)
+      lst[[i]][[j]] <- compute_accum(lst[[i]][[j]])
     }
   }
 
-  # Huge bottleneck
-  res <- do.call(c, res) # flatten to single list
-  res <- dplyr::bind_rows(res) # do.call(rbind, res) is super slow...
+  lst <- do.call(c, lst) # flatten to single list
+  res <- dplyr::bind_rows(lst)
+  # i <- 0
+  # for (df in lst) {
+  #   res[i + (1:nrow(df)), ] <- df
+  #   i <- i + nrow(df)
+  # }
 
   res
 }
@@ -115,10 +119,11 @@ hb_local_data_prep <- function(
     hb_global, management_df, clusters_df, date_min, date_max
     )
 {
-  # We should avoid here creating too many unnecessary columns. These contribute
-  # to make the row_bind statements heavier
-
   res <- hb_global
+
+  res <- data.table::as.data.table(res)
+  management_df <- data.table::as.data.table(management_df)
+  clusters_df <- data.table::as.data.table(clusters_df)
 
   if(!is.null(date_min)) {
     res <- res[res$date >= date_min, ]
@@ -131,9 +136,9 @@ hb_local_data_prep <- function(
   res$mm <- as.numeric(format(res$date, "%m"))
   res$dd <- as.numeric(format(res$date, "%d"))
 
-  res <- merge(res, management_df, by = c("mm", "dd"))
+  res <- merge(res, management_df, by = c("mm", "dd"), sort = FALSE)
   res <- res |>
-    split(~ tancat + variety) |>
+    split(by = c("tancat", "variety")) |>
     lapply(\(df){
       df$lag_height_cm <- c(
         ifelse(df$tancat[1], 20, 0), df$height_cm[1:(nrow(df)-1)]
@@ -141,13 +146,15 @@ hb_local_data_prep <- function(
       df
     })
 
-  res <- do.call(rbind, res)
+  res <- data.table::rbindlist(res)
 
   res <- res |>
     merge(clusters_df,
           by.x = c("tancat", "variety"),
           by.y = c("tancat", "rice_variety"),
-          all.y = TRUE
+          all.y = TRUE,
+          sort = FALSE,
+          allow.cartesian = TRUE
     )
   res$height_diff_cm <- res$height_cm - res$lag_height_cm
   res$petp <- res$P - res$ETP
@@ -185,8 +192,7 @@ hb_local_data_prep <- function(
   res$flowpoint <- res$inflow_total *
     ditch_inflow_pct$inflow_pct[match(res$ditch, ditch_inflow_pct$ditch)]
 
-  res <- res[order(res$date, res$cluster_id), ]
-
+  res <- data.table::setorder(res, date, cluster_id)
   res
 }
 
