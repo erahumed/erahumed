@@ -1,37 +1,28 @@
 propagate_ditch <- function(., lag) {
+  ord <- match(.$cluster_id, lag$cluster_id)
 
-  if(nrow(lag) == 0) {
-    lag <- .
-    .$accum_rain <- .$accum_drain <- 0
-  }
+  .$lag_accum_drain <- lag$accum_drain[ord]
+  .$lag_accum_drain <- pmax(
+    .$lag_accum_drain + (.$petp < 0 & .$lag_accum_drain > 0) * .$petp_m3_s,
+    0)
 
-  order <- match(.$cluster_id, lag$cluster_id)
-
-  .$petp_m3_s <- .$petp_m_s * .$area
-  .$.lag_accum_rain <- lag$accum_rain[order]
-  .$lag_accum_drain <- lag$accum_drain[order]
-  .$lag_accum_drain <- .$lag_accum_drain +
-    (.$petp < 0 & .$lag_accum_drain > 0) * .$petp_m3_s
-
-  .$lag_accum_drain <- pmax(.$lag_accum_drain, 0)
-
-  .$lag_accum_rain <- lag$accum_rain[order]
-  .$lag_accum_rain <- lag$accum_rain[order] +
-    (.$petp < 0 & lag$accum_rain[order] > 0 & .$lag_accum_drain <= 0) * .$petp_m3_s
+  .$lag_accum_rain <- lag$accum_rain[ord]
+  .$lag_accum_rain <- .$lag_accum_rain +
+    (.$petp < 0 & .$lag_accum_rain > 0 & .$lag_accum_drain <= 0) * .$petp_m3_s
 
   .$lag_accum_rain_cm <- .$lag_accum_rain * 100 * erahumed:::s_per_day() / .$area
   .$lag_accum_rain <- pmax(.$lag_accum_rain, 0)
 
   .$Evap_mismatch =
-    (.$irrigation & .$draining & lag$accum_rain[order] > 0 & .$petp < 0) *
+    (.$irrigation & .$draining & lag$accum_rain[ord] > 0 & .$petp < 0) *
     pmin(.$lag_accum_rain_cm + .$petp_cm, 0)
 
   .$condition = !.$corrected &
     (.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
   idxs <- cumsum(isTRUE(.$condition)) > 0
-  .$irrigation[idxs] <- lag$irrigation[order][idxs]
-  .$draining[idxs] <- lag$draining[order][idxs]
-  .$height_diff_cm[idxs] <- lag$height_diff_cm[order][idxs]
+  .$irrigation[idxs] <- lag$irrigation[ord][idxs]
+  .$draining[idxs] <- lag$draining[ord][idxs]
+  .$height_diff_cm[idxs] <- lag$height_diff_cm[ord][idxs]
 
   .$corrected <- .$corrected | isTRUE(.$condition)
 

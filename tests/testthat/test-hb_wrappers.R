@@ -12,7 +12,7 @@ test_that("hydro_balance_local_snapshot", {
     "flowpoint", "inflow", "outflow", "outflow_m3", "outflow_rain",
     "outflow_phys", "outflow_flux", "outflow_drain",
     "real_outflow_rain", "real_outflow_drain", "real_outflow_flux",
-    "corrected", "petp_m3_s", ".lag_accum_rain", "lag_accum_drain",
+    "corrected", "petp_m3_s", "lag_accum_drain",
     "lag_accum_rain", "lag_accum_rain_cm", "Evap_mismatch", "condition"
     )
 

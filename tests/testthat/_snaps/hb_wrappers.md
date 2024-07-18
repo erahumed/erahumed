@@ -199,13 +199,6 @@
     Code
       digest::digest(res[[col]])
     Output
-      [1] "c754fb8318cade04aa7a3f8b987e7f3d"
-
----
-
-    Code
-      digest::digest(res[[col]])
-    Output
       [1] "86ca3dde3c65941044e303bd014e30d3"
 
 ---
