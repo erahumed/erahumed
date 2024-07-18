@@ -13,18 +13,18 @@ propagate_ditch <- function(., lag) {
   .$lag_accum_rain_cm <- .$lag_accum_rain * 100 * erahumed:::s_per_day() / .$area
   .$lag_accum_rain <- pmax(.$lag_accum_rain, 0)
 
-  .$Evap_mismatch =
+  .$Evap_mismatch <-
     (.$irrigation & .$draining & lag$accum_rain[ord] > 0 & .$petp < 0) *
     pmin(.$lag_accum_rain_cm + .$petp_cm, 0)
 
-  .$condition = !.$corrected &
-    (.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
+  .$condition <- (.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
+
   idxs <- cumsum(isTRUE(.$condition)) > 0
   .$irrigation[idxs] <- lag$irrigation[ord][idxs]
   .$draining[idxs] <- lag$draining[ord][idxs]
   .$height_diff_cm[idxs] <- lag$height_diff_cm[ord][idxs]
 
-  .$corrected <- .$corrected | isTRUE(.$condition)
+  .$corrected <- isTRUE(.$condition)
 
   return(.)
 }
