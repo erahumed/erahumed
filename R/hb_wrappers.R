@@ -84,7 +84,9 @@ albufera_hydro_balance_local <- function(
   n_ditches <- length(unique(res$ditch))
   n_dates <- length(unique(res$date))
 
-  lst <- res |>
+  res <- as.data.frame(res)
+
+  res <- res |>
     collapse::rsplit(
       by = ~ ditch + date,
       flatten = FALSE,
@@ -92,27 +94,42 @@ albufera_hydro_balance_local <- function(
       simplify = FALSE,
       keep.by = TRUE
     )
-
-  # We should avoid here to rely on the fact that dates are in a certain order.
-  # Also, if the order of ditches changes, the result will as well (because the
-  # random choices of clusters is not uniquely set anymore through the seed.)
   for (i in 1:n_ditches) {
     for (j in 1:n_dates) {
-      lag <- if (j == 1) data.frame() else lst[[i]][[j - 1]]
-      lst[[i]][[j]] <- propagate_ditch(lst[[i]][[j]], lag)
-      lst[[i]][[j]] <- compute_accum(lst[[i]][[j]])
+      lag <- if (j == 1) data.frame() else res[[i]][[j - 1]]
+      res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
+      res[[i]][[j]] <- compute_accum(res[[i]][[j]])
     }
   }
 
-  lst <- do.call(c, lst) # flatten to single list
-  res <- dplyr::bind_rows(lst)
+  # res <- res |>
+  #   split(
+  #     by = c("ditch", "date"),
+  #     keep.by = TRUE,
+  #     flatten = FALSE,
+  #     sorted = FALSE
+  #   )
+  #
+  # # We should avoid here to rely on the fact that dates are in a certain order.
+  # # Also, if the order of ditches changes, the result will as well (because the
+  # # random choices of clusters is not uniquely set anymore through the seed.)
+  # for (i in 1:n_ditches) {
+  #   for (j in 1:n_dates) {
+  #     lag <- if (j == 1) data.table::data.table() else res[[i]][[j - 1]]
+  #     res[[i]][[j]] <- propagate_ditch(res[[i]][[j]], lag)
+  #     res[[i]][[j]] <- compute_accum(res[[i]][[j]])
+  #   }
+  # }
+
+  res <- do.call(c, res) # flatten to single list
+  res <- data.table::rbindlist(res)
   # i <- 0
   # for (df in lst) {
   #   res[i + (1:nrow(df)), ] <- df
   #   i <- i + nrow(df)
   # }
 
-  res
+  as.data.frame(res)
 }
 
 hb_local_data_prep <- function(
