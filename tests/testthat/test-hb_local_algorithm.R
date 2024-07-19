@@ -33,7 +33,7 @@ test_that("real outflows never exceed ideal ones", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("drain and flux (real) outflows are never negative", {
+test_that("drain and flux (real) outflows are always non-negative", {
   withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
   tol <- 1e-10
 
@@ -43,6 +43,20 @@ test_that("drain and flux (real) outflows are never negative", {
   res <- test |>
     dplyr::filter(real_outflow_drain < 0 | real_outflow_flux < 0)
 
+  expect_equal(nrow(res), 0)
+})
+
+test_that("rain outflow is always non-negative", {
+  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
+  tol <- 1e-10
+
+  test <- albufera_hydro_balance_local(date_min = "2010-01-01",
+                                       date_max = "2010-02-01")
+
+  res <- test |>
+    dplyr::filter(real_outflow_rain < 0)
+
+  skip("Rain outflow can actually become negative (with small values)") # TODO
   expect_equal(nrow(res), 0)
 })
 
