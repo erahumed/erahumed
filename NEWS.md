@@ -24,6 +24,10 @@ part of the global hydrological balance calculations.
 The function `albufera_hydro_balance()` relies on this for its calculations of
 global balance.
 
+### Documentation
+
+* Improved documentation of the `hydro_balance_global()` function, as well as
+other minor improvements on documentation of helpers.
 
 ### Under the hoods
 
