@@ -27,9 +27,9 @@ compute_lags <- function(., .lag) {
   return(.)
 }
 
-compute_ideal_outflows <- function(., ideal_flow_rate = 5) {
+compute_ideal_outflows <- function(., ideal_flow_rate_cm) {
   .$ideal_inflow_cm <- .$irrigation * (
-    .$draining * ideal_flow_rate +
+    .$draining * ideal_flow_rate_cm +
     (1-.$draining) * (.$height_diff_cm - .$petp_cm)
     )
   .$ideal_outflow_cm <- ifelse(.$lag_accum_drain > 0 & .$petp < 0,
@@ -89,28 +89,26 @@ compute_accum_values <- function(.) {
 
   .
 }
-compute_real_inflow <- function(.) {
-  .$real_inflow_cm <-
-    (1 - .$irrigation) * (1 - .$draining) * (
-      .$ideal_inflow_cm
-    ) +
-    .$irrigation * (1 - .$draining) * (
-      5 + (.$mm >= 11) * 5 + (.$lag_accum_rain <= 0) * (.$petp < 0) * .$petp_cm
+compute_real_inflow <- function(., ideal_flow_rate_cm) {
+  .$real_inflow_cm <- .$irrigation * (
+    (1 - .$draining) * (
+      ideal_flow_rate_cm + (.$mm >= 11) * ideal_flow_rate_cm + (.$lag_accum_rain <= 0) * (.$petp < 0) * .$petp_cm
     ) +
     .$irrigation * .$draining * (
       (.$accum_flux > 0) *(.$petp < 0) *(.$lag_accum_rain <= 0) *(-.$petp_cm) +
-        (.$accum_flux <= 0) * 5
+        (.$accum_flux <= 0) * ideal_flow_rate_cm
     )
+  )
   .$real_inflow_cm <- ifelse(.$Evap_mismatch != 0, abs(.$Evap_mismatch), .$real_inflow_cm)
 
   .
 }
 
-compute_hb_daily <- function(current, previous) {
+compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
   current |>
     compute_lags(previous) |>
-    compute_ideal_outflows() |>
+    compute_ideal_outflows(ideal_flow_rate_cm = ideal_flow_rate_cm) |>
     compute_real_outflows() |>
     compute_accum_values() |>
-    compute_real_inflow()
+    compute_real_inflow(ideal_flow_rate_cm = ideal_flow_rate_cm)
 }
