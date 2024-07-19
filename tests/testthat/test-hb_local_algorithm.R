@@ -16,6 +16,23 @@ test_that("sum of cluster outflows does never exceed total ditch outflow", {
   expect_equal(nrow(res), 0)
   })
 
+test_that("real outflows never exceed ideal ones", {
+  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
+  tol <- 1e-10
+
+  test <- albufera_hydro_balance_local(date_min = "2010-01-01",
+                                       date_max = "2010-02-01")
+
+  res <- test |>
+    dplyr::filter(
+      real_outflow_rain > ideal_outflow_rain + tol |
+      real_outflow_drain > ideal_outflow_drain + tol |
+      real_outflow_flux > ideal_outflow_flux + tol
+      )
+
+  expect_equal(nrow(res), 0)
+})
+
 test_that("drain and flux (real) outflows are never negative", {
   withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
   tol <- 1e-10
