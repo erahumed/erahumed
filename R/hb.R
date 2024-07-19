@@ -32,7 +32,9 @@ hydro_balance_global <- function(
   res$outflow_total <- res$outflow_total + res$outflow_extra
   res$inflow_total <- pmax(res$inflow_total, 0)
 
-  res$residence_time_days <- residence_time(res$volume, res$inflow_total)
+  res$residence_time_days <- residence_time(
+    res$volume, res$inflow_total, units = "days"
+    )
 
   return(res)
 }
