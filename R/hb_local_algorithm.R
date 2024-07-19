@@ -31,13 +31,13 @@ compute_ideal_outflows <- function(., ideal_flow_rate = 5) {
   .$inflow <- .$irrigation * (
     .$draining * ideal_flow_rate +
     (1-.$draining) * (.$height_diff_cm - .$petp_cm)
-  )
+    )
   .$outflow <- ifelse(.$lag_accum_drain > 0 & .$petp < 0,
                       pmax(.$inflow - .$height_diff_cm, 0),
                       pmax(.$inflow + .$petp_cm - .$height_diff_cm, 0)
-  )
+                      )
   .$outflow_m3 <- .$outflow * .$area / 100 / erahumed:::s_per_day()
-  .$outflow_rain <- (.$petp < 0) * .$petp_m3_s
+  .$outflow_rain <- (.$petp > 0) * .$petp_m3_s
   .$outflow_phys <- .$draining * (.$outflow_m3 - .$outflow_rain)
   .$outflow_flux <- .$irrigation * .$outflow_phys
   .$outflow_drain <- (1 - .$irrigation) * .$outflow_phys
