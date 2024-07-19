@@ -1,6 +1,6 @@
 hbUI <- function(id) {
-  ns <- NS(id)
-  tagList(
+  ns <- shiny::NS(id)
+  shiny::tagList(
     shiny::sidebarLayout(
       shiny::sidebarPanel(
         shiny::dateRangeInput(ns("date_range"),
@@ -26,12 +26,12 @@ hbUI <- function(id) {
 
 hbServer <- function(id)
 {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     hb_data_full <- albufera_hydro_balance_global()
 
-    hb_data <- reactive({
+    hb_data <- shiny::reactive({
       row_idx <-
         input$date_range[1] <= hb_data_full$date &
         hb_data_full$date <= input$date_range[2]

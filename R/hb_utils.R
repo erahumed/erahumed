@@ -11,7 +11,7 @@
 #' the inflow becomes negative).
 #'
 #' @param volume numeric vector. Time series of volumes in \eqn{\text{m}^3}.
-#' @param total_inflow numeric vector. Time series of total inflow in
+#' @param inflow_total numeric vector. Time series of total inflow in
 #' \eqn{\text{m}^3 / \text{s}}.
 #' @param k positive integer. Size of the window in the moving average. The
 #' default is of the order of magnitude of actual residence time for the
@@ -132,9 +132,9 @@ linear_petp_surface <- function(surface_P, surface_ETP)
 #' TODO: other options to obtain ditch percents (e.g. empirical data by Soria et al.)?
 #'
 #' @export
-compute_ditch_inflow_pct <- function(cluster_data)
+compute_ditch_inflow_pct <- function(clusters_df)
 {
-  res <- aggregate(area ~ ditch, data = cluster_data, FUN = sum)
+  res <- stats::aggregate(area ~ ditch, data = clusters_df, FUN = sum)
   res$area <- res$area / sum(res$area)
   names(res)[names(res) == "area"] <- "inflow_pct"
   res <- res[order(res$ditch), ]

@@ -9,15 +9,15 @@ residence_time(volume, inflow_total, k = 61, units = c("days", "seconds"))
 \arguments{
 \item{volume}{numeric vector. Time series of volumes in \eqn{\text{m}^3}.}
 
+\item{inflow_total}{numeric vector. Time series of total inflow in
+\eqn{\text{m}^3 / \text{s}}.}
+
 \item{k}{positive integer. Size of the window in the moving average. The
 default is of the order of magnitude of actual residence time for the
 Albufera Lake.}
 
 \item{units}{either \code{"days"} or \code{"seconds"}. Units of measure for
 the returned time series.}
-
-\item{total_inflow}{numeric vector. Time series of total inflow in
-\eqn{\text{m}^3 / \text{s}}.}
 }
 \value{
 A numeric vector. Time series of residence times, in the units of

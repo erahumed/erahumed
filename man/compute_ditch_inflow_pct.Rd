@@ -4,7 +4,7 @@
 \alias{compute_ditch_inflow_pct}
 \title{Compute Ditch Inflow Percent}
 \usage{
-compute_ditch_inflow_pct(cluster_data)
+compute_ditch_inflow_pct(clusters_df)
 }
 \arguments{
 \item{clusters_df}{A dataframe containing two columns \code{ditch} and \code{area}.

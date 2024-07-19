@@ -13,6 +13,51 @@ hydro_balance_global(
   petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
 )
 }
+\arguments{
+\item{level}{numeric vector. Time series of lake levels, in meters.}
+
+\item{P}{numeric vector. Time series of precipitation values, in millimiters.}
+
+\item{ETP}{numeric vector. Time series of evapotranspiration values, in millimiters.}
+
+\item{outflows}{a data.frame whose columns are the time series of outflows,
+expressed in cube meters per second.}
+
+\item{storage_curve}{a function that takes a numeric vector as input, and
+returns a numeric vector of the same length. Function that converts lake
+levels (passed through the \code{level} argument) into lake \emph{volumes}.}
+
+\item{petp_surface}{a function that takes two numeric vectors of common
+length as inputs, and returns a numeric vector of the same length. Function
+that converts precipitation and evapotranspiration values (passed through
+the \code{P} and \code{ETP} arguments) into an overall volume change.}
+}
+\value{
+a \code{data.frame} that contains as columns the input time series, as
+well as the following calculated columns:
+\itemize{
+\item \code{volume} Volume time series, obtained from the storage curve.
+\item \code{volume_change} Differenced time series of volume. The \eqn{n}-th is given
+by \eqn{\Delta V _n \equiv V_{n+1}-V_n}, where \eqn{V_n} is volume at time
+step \eqn{n}.
+\item \code{petp_change} Time series. The amount \eqn{\Delta V _n ^\text{P-ETP}} of
+volume change due to precipitation and evapotranspiration, obtained from the
+P-ETP surface.
+\item \code{outflow_total} Time series of total outflows, measured in cube meters per
+second. This is the sum
+\eqn{\sum _i O_i} of time series passed through the \code{outflows} argument,
+plus an extra term \eqn{\delta O} of unaccounted outflow. The correction term
+is defined by
+\eqn{\delta O = \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60} -\sum _i O_i}
+and is chosen in such a way to ensure that the total inflow is always
+non-negative.
+\item \code{outflow_extra} Time series. The unaccounted outflow term \eqn{\delta O}
+described above.
+\item \code{inflow_total} Time serie of total inflows, in cube meters per second.
+This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
+\item \code{residence_time_days}. Residence time, as modeled by \link{residence_time}.
+}
+}
 \description{
-Documentation TBD
+Global Hydrological Balance
 }
