@@ -1,7 +1,5 @@
+# TODO: fill this in.
 #' Albufera Weather
-#'
-#' ???
-#'
 #'
 #' @format ## `albufera_weather`
 #' A data frame with 6140 rows and 5 columns:
@@ -13,6 +11,8 @@
 #' @source ???
 "albufera_weather"
 
+# TODO: Improve the documentation of imputation approach;
+#
 #' Albufera Outflows Daily Data
 #'
 #' @description
@@ -21,8 +21,6 @@
 #' missing entries, which have been imputed in this dataset using an approach
 #' based on GAMs.
 #'
-#' TODO:
-#' 1. Improve the documentation of imputation approach;
 #'
 #' @name albufera_outflows
 #'
@@ -43,6 +41,9 @@
 "albufera_outflows"
 
 
+# TODO: add something about the source of this data (Megia's paper) and how
+# the ideal height_cm were obtained?
+#
 #' Albufera Management Data
 #'
 #' Data on management schedules of rice paddies in the Albufera National Park.

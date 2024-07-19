@@ -32,10 +32,5 @@ Data from continuous measurements of outflow rates and lake level from
 "Confederación Hidrográfica del Júcar" (CHJ). The original data has several
 missing entries, which have been imputed in this dataset using an approach
 based on GAMs.
-
-TODO:
-\enumerate{
-\item Improve the documentation of imputation approach;
-}
 }
 \keyword{datasets}
