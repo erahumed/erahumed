@@ -4,12 +4,12 @@
 \alias{residence_time}
 \title{Residence Time}
 \usage{
-residence_time(volume, inflow_total, k = 61, units = c("days", "seconds"))
+residence_time(volume, outflow_total, k = 61, units = c("days", "seconds"))
 }
 \arguments{
 \item{volume}{numeric vector. Time series of volumes in \eqn{\text{m}^3}.}
 
-\item{inflow_total}{numeric vector. Time series of total inflow in
+\item{outflow_total}{numeric vector. Time series of total outflow in
 \eqn{\text{m}^3 / \text{s}}.}
 
 \item{k}{positive integer. Size of the window in the moving average. The
@@ -26,7 +26,7 @@ measure specified by the \code{units} argument (assuming \code{volume} and
 }
 \description{
 Computes residence times as
-\eqn{t = s_k(\text{Volume}) / s_k(\vert \text{Inflow}\vert) },
+\eqn{t = s_k(\text{Volume}) / s_k(\vert \text{Outflow}\vert) },
 where \eqn{s_k(\cdot)} denotes a moving average with a smoothing window of
 size \eqn{k}, centered at the current observation, and
 \eqn{\vert \cdot \vert} is the absolute value (to deal with cases in which

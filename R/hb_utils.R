@@ -4,14 +4,14 @@
 #'
 #' @description
 #' Computes residence times as
-#' \eqn{t = s_k(\text{Volume}) / s_k(\vert \text{Inflow}\vert) },
+#' \eqn{t = s_k(\text{Volume}) / s_k(\vert \text{Outflow}\vert) },
 #' where \eqn{s_k(\cdot)} denotes a moving average with a smoothing window of
 #' size \eqn{k}, centered at the current observation, and
 #' \eqn{\vert \cdot \vert} is the absolute value (to deal with cases in which
 #' the inflow becomes negative).
 #'
 #' @param volume numeric vector. Time series of volumes in \eqn{\text{m}^3}.
-#' @param inflow_total numeric vector. Time series of total inflow in
+#' @param outflow_total numeric vector. Time series of total outflow in
 #' \eqn{\text{m}^3 / \text{s}}.
 #' @param k positive integer. Size of the window in the moving average. The
 #' default is of the order of magnitude of actual residence time for the
@@ -25,11 +25,11 @@
 #'
 #' @export
 residence_time <- function(
-    volume, inflow_total, k = 61, units = c("days", "seconds")
+    volume, outflow_total, k = 61, units = c("days", "seconds")
 )
 {
   assert_numeric_vector(volume)
-  assert_numeric_vector(inflow_total)
+  assert_numeric_vector(outflow_total)
   assert_positive_integer(k)
   units <- match.arg(units)
 
@@ -39,9 +39,9 @@ residence_time <- function(
   )
 
   vol_smooth <- moving_average(volume, k)
-  inflow_smooth <- moving_average(inflow_total, k)
+  outflow_smooth <- moving_average(outflow_total, k)
 
-  return(vol_smooth / inflow_smooth / norm)
+  return(vol_smooth / outflow_smooth / norm)
 }
 
 

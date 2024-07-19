@@ -24,6 +24,10 @@ part of the global hydrological balance calculations.
 The function `albufera_hydro_balance()` relies on this for its calculations of
 global balance.
 
+* Residence time is now computed in terms of the total outflow, rather than 
+inflow as before. This reflects the way we handle cases of unaccounted outflow 
+in `hydro_balance_global()` (set inflow to zero).
+
 ### Documentation
 
 * Improved documentation of the `hydro_balance_global()` function, as well as

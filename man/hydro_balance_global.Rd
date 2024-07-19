@@ -18,7 +18,8 @@ hydro_balance_global(
 
 \item{P}{numeric vector. Time series of precipitation values, in millimiters.}
 
-\item{ETP}{numeric vector. Time series of evapotranspiration values, in millimiters.}
+\item{ETP}{numeric vector. Time series of evapotranspiration values, in
+millimiters.}
 
 \item{outflows}{a data.frame whose columns are the time series of outflows,
 expressed in cube meters per second.}

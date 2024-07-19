@@ -6,7 +6,8 @@
 #'
 #' @param level numeric vector. Time series of lake levels, in meters.
 #' @param P numeric vector. Time series of precipitation values, in millimiters.
-#' @param ETP numeric vector. Time series of evapotranspiration values, in millimiters.
+#' @param ETP numeric vector. Time series of evapotranspiration values, in
+#' millimiters.
 #' @param outflows a data.frame whose columns are the time series of outflows,
 #' expressed in cube meters per second.
 #' @param storage_curve a function that takes a numeric vector as input, and
@@ -71,7 +72,7 @@ hydro_balance_global <- function(
   res$inflow_total <- pmax(res$inflow_total, 0)
 
   res$residence_time_days <- residence_time(
-    res$volume, res$inflow_total, units = "days"
+    res$volume, res$outflow_total, units = "days"
     )
 
   return(res)
