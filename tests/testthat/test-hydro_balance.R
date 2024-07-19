@@ -1,16 +1,9 @@
-test_that("petp_volume_change throws no errors on regular call", {
-  P <- c(1, 2, 3)
-  ETP <- c(0.1, 0.2, 0.3)
-
-  surface_P <- 1000
-  surface_ETP <- 987
-
-  expect_no_error(petp_volume_change(P, ETP, surface_P, surface_ETP))
+test_that("linear_petp_surface throws no errors on regular call", {
+  expect_no_error( linear_petp_surface(surface_P = 1, surface_ETP = 1) )
 })
 
-test_that("albufera_storage_curve throws no errors on regular call", {
-  level <- 1:10
-  expect_no_error(albufera_storage_curve(level))
+test_that("linear_storage_curve throws no errors on regular call", {
+  expect_no_error( linear_storage_curve(intercept = 0, slope = 1) )
 })
 
 test_that("residence_time throws no errors on regular call", {
