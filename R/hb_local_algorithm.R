@@ -28,22 +28,22 @@ compute_lags <- function(., .lag) {
 }
 
 compute_ideal_outflows <- function(., ideal_flow_rate = 5) {
-  .$inflow <- .$irrigation * (
+  .$ideal_inflow_cm <- .$irrigation * (
     .$draining * ideal_flow_rate +
     (1-.$draining) * (.$height_diff_cm - .$petp_cm)
     )
-  .$outflow <- ifelse(.$lag_accum_drain > 0 & .$petp < 0,
-                      pmax(.$inflow - .$height_diff_cm, 0),
-                      pmax(.$inflow + .$petp_cm - .$height_diff_cm, 0)
+  .$ideal_outflow_cm <- ifelse(.$lag_accum_drain > 0 & .$petp < 0,
+                      pmax(.$ideal_inflow_cm - .$height_diff_cm, 0),
+                      pmax(.$ideal_inflow_cm + .$petp_cm - .$height_diff_cm, 0)
                       )
-  .$outflow_m3 <- .$outflow * .$area / 100 / erahumed:::s_per_day()
-  .$outflow_rain <- (.$petp > 0) * .$petp_m3_s
-  .$outflow_phys <- .$draining * (.$outflow_m3 - .$outflow_rain)
-  .$outflow_flux <- .$irrigation * .$outflow_phys
-  .$outflow_drain <- (1 - .$irrigation) * .$outflow_phys
-  .$outflow_drain <-
-    .$corrected * .$lag_accum_drain + (1 - .$corrected) * .$outflow_drain
-  .$outflow_rain <- .$outflow_rain + .$lag_accum_rain
+  .$ideal_outflow_m3_s <- (.$ideal_outflow_cm / 100) * .$area  / s_per_day()
+  .$ideal_outflow_rain <- (.$petp > 0) * .$petp_m3_s
+  .$ideal_outflow_phys <- .$draining * (.$ideal_outflow_m3_s - .$ideal_outflow_rain)
+  .$ideal_outflow_flux <- .$irrigation * .$ideal_outflow_phys
+  .$ideal_outflow_drain <- (1 - .$irrigation) * .$ideal_outflow_phys
+  .$ideal_outflow_drain <-
+    .$corrected * .$lag_accum_drain + (1 - .$corrected) * .$ideal_outflow_drain
+  .$ideal_outflow_rain <- .$ideal_outflow_rain + .$lag_accum_rain
 
   .
 }
@@ -73,15 +73,15 @@ compute_real_outflows <- function(.) {
   cum_flows <- pmin(cumsum(c(0, .$outflow_flux[sorted_clusters])), capacity)
   .$real_outflow_flux[sorted_clusters] <- diff(cum_flows)
 
-  .$outflow_m3 <- .$real_outflow_rain + .$real_outflow_drain + .$real_outflow_flux
-  .$outflow <- .$outflow_m3 * erahumed:::s_per_day() * 100 / .$area
+  .$real_outflow_m3_s <- .$real_outflow_rain + .$real_outflow_drain + .$real_outflow_flux
+  .$real_outflow_cm <- .$real_outflow_m3_s * 100 * s_per_day() / .$area
 
   .
 }
 compute_accum_values <- function(.) {
-  .$accum_rain <- .$outflow_rain - .$real_outflow_rain
-  .$accum_drain <- .$outflow_drain - .$real_outflow_drain
-  .$accum_flux <- .$outflow_flux - .$real_outflow_flux
+  .$accum_rain <- .$ideal_outflow_rain - .$real_outflow_rain
+  .$accum_drain <- .$ideal_outflow_drain - .$real_outflow_drain
+  .$accum_flux <- .$ideal_outflow_flux - .$real_outflow_flux
 
   .$accum_rain <- ifelse(.$accum_rain > 1e-5, .$accum_rain, 0)           # Required???
   .$accum_drain <- ifelse(.$accum_drain > 1e-5, .$accum_drain, 0)
@@ -90,9 +90,9 @@ compute_accum_values <- function(.) {
   .
 }
 compute_real_inflow <- function(.) {
-  .$inflow <-
+  .$real_inflow_cm <-
     (1 - .$irrigation) * (1 - .$draining) * (
-      .$inflow
+      .$ideal_inflow_cm
     ) +
     .$irrigation * (1 - .$draining) * (
       5 + (.$mm >= 11) * 5 + (.$lag_accum_rain <= 0) * (.$petp < 0) * .$petp_cm
@@ -101,7 +101,7 @@ compute_real_inflow <- function(.) {
       (.$accum_flux > 0) *(.$petp < 0) *(.$lag_accum_rain <= 0) *(-.$petp_cm) +
         (.$accum_flux <= 0) * 5
     )
-  .$inflow <- ifelse(.$Evap_mismatch != 0, abs(.$Evap_mismatch), .$inflow)
+  .$real_inflow_cm <- ifelse(.$Evap_mismatch != 0, abs(.$Evap_mismatch), .$real_inflow_cm)
 
   .
 }
