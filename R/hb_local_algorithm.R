@@ -92,6 +92,7 @@ compute_accum_values <- function(.) {
 compute_real_inflow <- function(., ideal_flow_rate_cm) {
   .$real_inflow_cm <- .$irrigation * (
     (1 - .$draining) * (
+      # TODO: should this be done in the "ideal" inflow computation?
       ideal_flow_rate_cm + (.$mm >= 11) * ideal_flow_rate_cm + (.$lag_accum_rain <= 0) * (.$petp < 0) * .$petp_cm
     ) +
     .$irrigation * .$draining * (
