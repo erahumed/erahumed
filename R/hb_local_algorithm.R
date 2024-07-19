@@ -57,21 +57,22 @@ compute_real_outflows <- function(.) {
   # For testing purposes, this behavior is overridden through the environment
   # variable 'erahumed_hb_sort_clusters' which, when TRUE, sorts clusters in
   # alphabetic order.
-  .order <- Sys.getenv("erahumed_hb_sort_clusters", "FALSE") |> as.logical()
-  sorted_clusters <- if (.order) order(.$cluster_id) else sample(n_clusters)
+  .alphabetic <- Sys.getenv("erahumed_hb_sort_clusters", "FALSE") |> as.logical()
+  ord <- order(.$cluster_id)
+  ord <- ifelse(.alphabetic, ord, sample(ord))
 
   capacity <- .$flowpoint[1]
 
-  cum_flows <- pmin(cumsum(c(0, .$outflow_rain[sorted_clusters])), capacity)
-  .$real_outflow_rain[sorted_clusters] <- diff(cum_flows)
+  cum_flows <- pmin(cumsum(c(0, .$outflow_rain[ord])), capacity)
+  .$real_outflow_rain[ord] <- diff(cum_flows)
   capacity <- capacity - cum_flows[length(cum_flows)]
 
-  cum_flows <- pmin(cumsum(c(0, .$outflow_drain[sorted_clusters])), capacity)
-  .$real_outflow_drain[sorted_clusters] <- diff(cum_flows)
+  cum_flows <- pmin(cumsum(c(0, .$outflow_drain[ord])), capacity)
+  .$real_outflow_drain[ord] <- diff(cum_flows)
   capacity <- capacity - cum_flows[length(cum_flows)]
 
-  cum_flows <- pmin(cumsum(c(0, .$outflow_flux[sorted_clusters])), capacity)
-  .$real_outflow_flux[sorted_clusters] <- diff(cum_flows)
+  cum_flows <- pmin(cumsum(c(0, .$outflow_flux[ord])), capacity)
+  .$real_outflow_flux[ord] <- diff(cum_flows)
 
   .$real_outflow_m3_s <- .$real_outflow_rain + .$real_outflow_drain + .$real_outflow_flux
   .$real_outflow_cm <- .$real_outflow_m3_s * 100 * s_per_day() / .$area
