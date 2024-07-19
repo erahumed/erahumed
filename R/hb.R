@@ -1,5 +1,9 @@
 #' Global Hydrological Balance
 #'
+#' @description
+#' Computes the global hydrological balance of a water basin from the
+#' measurements of water level, outflows, and precipitation/evapotranspiration.
+#'
 #' @param level numeric vector. Time series of lake levels, in meters.
 #' @param P numeric vector. Time series of precipitation values, in millimiters.
 #' @param ETP numeric vector. Time series of evapotranspiration values, in millimiters.

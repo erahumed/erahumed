@@ -59,5 +59,6 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 }
 }
 \description{
-Global Hydrological Balance
+Computes the global hydrological balance of a water basin from the
+measurements of water level, outflows, and precipitation/evapotranspiration.
 }
