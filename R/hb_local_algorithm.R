@@ -1,4 +1,4 @@
-propagate_ditch <- function(., .lag) {
+compute_lags <- function(., .lag) {
   ord <- match(.$cluster_id, .lag$cluster_id)
 
   .$lag_accum_drain <- .lag$accum_drain[ord]
@@ -27,7 +27,7 @@ propagate_ditch <- function(., .lag) {
   return(.)
 }
 
-compute_accum_pt1 <- function(., ideal_flow_rate = 5) {
+compute_ideal_outflows <- function(., ideal_flow_rate = 5) {
   .$inflow <- .$irrigation * (
     .$draining * ideal_flow_rate +
     (1-.$draining) * (.$height_diff_cm - .$petp_cm)
@@ -104,11 +104,11 @@ compute_real_inflow <- function(.) {
   .
 }
 
-compute_accum <- function(.) {
-  . <- compute_accum_pt1(.)
-  . <- compute_real_outflows(.)
-  . <- compute_accum_values(.)
-  . <- compute_real_inflow(.)
-
-  return(.)
+compute_hb_daily <- function(current, previous) {
+  current |>
+    compute_lags(previous) |>
+    compute_ideal_outflows() |>
+    compute_real_outflows() |>
+    compute_accum_values() |>
+    compute_real_inflow()
 }
