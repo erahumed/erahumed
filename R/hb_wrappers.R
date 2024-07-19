@@ -171,6 +171,9 @@ hb_local_data_prep <- function(
     (res$draining * 5 +
        (1 - res$draining) * (res$height_diff_cm - pmin(res$petp_cm, 0))
     )
+
+  # TODO: can we avoid all these preallocations? They are totally useless from
+  # the efficiency POV
   res$outflow <- pmax(res$inflow + res$petp_cm - res$height_diff_cm, 0)
   res$outflow_m3 <- (res$outflow / 100) * res$area / s_per_day()
   res$outflow_rain <- pmax(res$petp_m3_s, 0)  # This also includes ETP, is this OK?
@@ -185,13 +188,13 @@ hb_local_data_prep <- function(
   res$real_outflow_rain <- 0
   res$real_outflow_drain <- 0
   res$real_outflow_flux <- 0
-  res$corrected <- FALSE
-  res$.lag_accum_rain <- 0
-  res$lag_accum_drain <- 0
-  res$lag_accum_rain <- 0
-  res$lag_accum_rain_cm <- 0
-  res$Evap_mismatch <- 0
-  res$condition <- FALSE
+  # res$corrected <- FALSE
+  # res$.lag_accum_rain <- 0
+  # res$lag_accum_drain <- 0
+  # res$lag_accum_rain <- 0
+  # res$lag_accum_rain_cm <- 0
+  # res$Evap_mismatch <- 0
+  #res$condition <- FALSE
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
   res$flowpoint <- res$inflow_total *
