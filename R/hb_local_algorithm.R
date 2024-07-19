@@ -49,15 +49,14 @@ compute_ideal_outflows <- function(., ideal_flow_rate_cm) {
 }
 
 compute_real_outflows <- function(.) {
-  ### Emptying clusters
-  n_clusters <- length(.$cluster_id)
-
   # Permute the rows of ., so that clusters in the same ditch
   # are emptied in a random order every day.
+  #
   # For testing purposes, this behavior is overridden through the environment
   # variable 'erahumed_hb_sort_clusters' which, when TRUE, sorts clusters in
   # alphabetic order.
-  .alphabetic <- Sys.getenv("erahumed_hb_sort_clusters", "FALSE") |> as.logical()
+  .alphabetic <- Sys.getenv("erahumed_hb_sort_clusters", "FALSE") |>
+    as.logical()
   ord <- order(.$cluster_id)
   ord <- ifelse(.alphabetic, ord, sample(ord))
 
@@ -74,7 +73,8 @@ compute_real_outflows <- function(.) {
   cum_flows <- pmin(cumsum(c(0, .$outflow_flux[ord])), capacity)
   .$real_outflow_flux[ord] <- diff(cum_flows)
 
-  .$real_outflow_m3_s <- .$real_outflow_rain + .$real_outflow_drain + .$real_outflow_flux
+  .$real_outflow_m3_s <-
+    .$real_outflow_rain + .$real_outflow_drain + .$real_outflow_flux
   .$real_outflow_cm <- .$real_outflow_m3_s * 100 * s_per_day() / .$area
 
   .
