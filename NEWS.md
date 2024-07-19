@@ -1,5 +1,7 @@
 # erahumed (development version)
 
+### User-visible changes
+
 * Big namespace refactor: all datasets get prepended with the prefix 
 `"albufera_"`. 
 
@@ -8,9 +10,14 @@ were substituted by the function *factories* `linear_storage_curve()` and
 `linear_petp_surface()`, that create functions that perform affine 
 transformations.
 
-* Function `albufera_hydro_balance()` now allows to specify storage curve and
-P-ETP surface by dedicated arguments. The defaults are set to the functions of 
-the previous points
+* Function `albufera_hydro_balance()` was renamed 
+`albufera_hydro_balance_global()`. Ditch inflows are not returned anymore. In 
+correspondence, we add a new function `albufera_hydro_balance_local()`, which
+at the current moment is still WIP and for testing purposes.
+
+* Functions `albufera_hydro_balance_*()` now allow to specify storage curve and
+P-ETP surface by dedicated arguments. The defaults are defined throughout the 
+new helpers mentioned in a previous point.
 
 * New function `hydro_balance_global()`, that is meant to capture the abstract
 part of the global hydrological balance calculations. 
@@ -18,9 +25,14 @@ The function `albufera_hydro_balance()` relies on this for its calculations of
 global balance.
 
 
+### Under the hoods
 
-*N.B.:* function names and the general API of these early versions of the 
-package are understood to be provisional.
+* Started to work consistently on the testing infrastructure.
+
+### Notes
+
+* Function names and the general API of these early versions of the package are 
+understood to be provisional.
 
 # erahumed 0.0.2
 
