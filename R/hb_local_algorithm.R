@@ -19,7 +19,7 @@ compute_lags <- function(., .lag) {
 
   .$corrected <- isTRUE(.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
 
-  idxs <- cumsum(.$corrected) > 0
+  idxs <- .$corrected
   .$irrigation[idxs] <- .lag$irrigation[ord][idxs]
   .$draining[idxs] <- .lag$draining[ord][idxs]
   .$height_diff_cm[idxs] <- .lag$height_diff_cm[ord][idxs]
