@@ -10,7 +10,7 @@ compute_lags <- function(., .lag) {
   .$lag_accum_rain <- .$lag_accum_rain +
     (.$petp < 0 & .$lag_accum_rain > 0 & .$lag_accum_drain <= 0) * .$petp_m3_s
 
-  .$lag_accum_rain_cm <- .$lag_accum_rain * 100 * erahumed:::s_per_day() / .$area
+  .$lag_accum_rain_cm <- .$lag_accum_rain * 100 * s_per_day() / .$area
   .$lag_accum_rain <- pmax(.$lag_accum_rain, 0)
 
   .$Evap_mismatch <-
