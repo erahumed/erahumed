@@ -6,6 +6,22 @@ withr::with_envvar(
 
 tol <- 1e-10
 
+
+test_that("drain and flux (real) outflows are always non-negative", {
+  res <- test_df |>
+    dplyr::filter(real_outflow_drain < 0 | real_outflow_flux < 0)
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("rain outflow is always non-negative", {
+  res <- test_df |>
+    dplyr::filter(real_outflow_rain < 0)
+
+  skip("Rain outflow can actually become negative (with small values)") # TODO
+  expect_equal(nrow(res), 0)
+})
+
 test_that("sum of cluster outflows does never exceed total ditch outflow", {
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
@@ -28,21 +44,6 @@ test_that("real outflows never exceed their ideal counterparts", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("drain and flux (real) outflows are always non-negative", {
-  res <- test_df |>
-    dplyr::filter(real_outflow_drain < 0 | real_outflow_flux < 0)
-
-  expect_equal(nrow(res), 0)
-})
-
-test_that("rain outflow is always non-negative", {
-  res <- test_df |>
-    dplyr::filter(real_outflow_rain < 0)
-
-  skip("Rain outflow can actually become negative (with small values)") # TODO
-  expect_equal(nrow(res), 0)
-})
-
 test_that("inflow is zero if not irrigating", {
   res <- test_df |>
     dplyr::filter(!irrigation,
@@ -53,7 +54,14 @@ test_that("inflow is zero if not irrigating", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("accum_drain is greater than zero only if draining", {
+test_that("If ideal_outflow_drain > 0 the cluster must be draining", {
+  res <- test_df |>
+    dplyr::filter(ideal_outflow_drain > 0, !draining)
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("If accum_drain is greater than zero the cluster must be draining", {
   res <- test_df |>
     dplyr::filter(accum_drain > 0, !draining)
 
