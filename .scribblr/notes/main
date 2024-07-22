@@ -1,0 +1,3 @@
+- Dependencias no instalada con la installazione da sorgente
+- date arguments should guess the format (e.g. YYYY-mm-Dd OR dd-MM-yyyy)
+- library(erahumed) always necessary
