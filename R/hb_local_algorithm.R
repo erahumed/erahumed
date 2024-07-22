@@ -52,15 +52,12 @@ compute_ideal_outflows <- function(., ideal_flow_rate_cm) {
     (1-.$draining) * (.$height_diff_cm - .$petp_cm)  # TODO: Is the outflow supposed to be zero here?
     )
 
-  # TODO: is the outflow here supposed to include p-etp?
-  # also, why are we conditioning on .$lag_accum_drain > 0
-  .$ideal_outflow_cm <- ifelse(.$lag_accum_drain > 0 & .$petp < 0,
-                      pmax(.$ideal_inflow_cm - .$height_diff_cm, 0),
-                      pmax(.$ideal_inflow_cm + .$petp_cm - .$height_diff_cm, 0)
-                      )
+  # TODO: Why does the rain term below depend on .$has_accum_drain??
+  .$ideal_outflow_cm <- .$ideal_inflow_cm - .$height_diff_cm + # In the absence of rain
+     (!.$has_accum_drain | .$petp > 0) * .$petp_cm
+  .$ideal_outflow_cm <- pmax(.$ideal_outflow_cm, 0)
+
   .$ideal_outflow_m3_s <- (.$ideal_outflow_cm / 100) * .$area  / s_per_day()
-  # TODO: This is an "outflow" because if it rains it is supposed to flow away
-  # through the ditch, is this understanding correct
   .$ideal_outflow_rain <- (.$petp > 0) * .$petp_m3_s
   .$ideal_outflow_phys <- .$draining * (.$ideal_outflow_m3_s - .$ideal_outflow_rain)
   .$ideal_outflow_flux <- .$irrigation * .$ideal_outflow_phys
