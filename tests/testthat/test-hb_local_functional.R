@@ -46,7 +46,7 @@ test_that("rain outflow is always non-negative", {
 test_that("inflow is zero if not irrigating", {
   res <- test_df |>
     dplyr::filter(!irrigation,
-                  abs(inflow) / mean(abs(inflow)) > tol
+                  abs(real_inflow_cm) / mean(abs(real_inflow_cm)) > tol
                   )
 
   skip("Inflow can actually be != 0 if Evap_mismatch != 0") # TODO
