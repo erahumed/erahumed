@@ -4,12 +4,9 @@ withr::with_envvar(
     date_min = "2010-01-01", date_max = "2011-12-31")
   )
 
+tol <- 1e-10
 
 test_that("sum of cluster outflows does never exceed total ditch outflow", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-
-  tol <- 1e-10
-
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
     dplyr::summarise(
@@ -21,9 +18,6 @@ test_that("sum of cluster outflows does never exceed total ditch outflow", {
   })
 
 test_that("real outflows never exceed their ideal counterparts", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-  tol <- 1e-10
-
   res <- test_df |>
     dplyr::filter(
       real_outflow_rain > ideal_outflow_rain + tol |
@@ -35,9 +29,6 @@ test_that("real outflows never exceed their ideal counterparts", {
 })
 
 test_that("drain and flux (real) outflows are always non-negative", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-  tol <- 1e-10
-
   res <- test_df |>
     dplyr::filter(real_outflow_drain < 0 | real_outflow_flux < 0)
 
@@ -45,9 +36,6 @@ test_that("drain and flux (real) outflows are always non-negative", {
 })
 
 test_that("rain outflow is always non-negative", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-  tol <- 1e-10
-
   res <- test_df |>
     dplyr::filter(real_outflow_rain < 0)
 
@@ -56,9 +44,6 @@ test_that("rain outflow is always non-negative", {
 })
 
 test_that("inflow is zero if not irrigating", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-  tol <- 1e-10
-
   res <- test_df |>
     dplyr::filter(!irrigation, abs(inflow) / mean(abs(inflow)) > tol)
 
@@ -66,9 +51,6 @@ test_that("inflow is zero if not irrigating", {
 })
 
 test_that("accum_drain is greater than zero only if draining", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-  tol <- 1e-10
-
   res <- test_df |>
     dplyr::filter(accum_drain > 0, !draining)
 
@@ -76,10 +58,6 @@ test_that("accum_drain is greater than zero only if draining", {
 })
 
 test_that("simple snapshot is constant", {
-  withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
-
-  tol <- 1e-10
-
   hash <- digest::digest(test_df)
 
   expect_snapshot(hash)
