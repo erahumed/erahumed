@@ -20,7 +20,7 @@ test_that("sum of cluster outflows does never exceed total ditch outflow", {
   expect_equal(nrow(res), 0)
   })
 
-test_that("real outflows never exceed ideal ones", {
+test_that("real outflows never exceed their ideal counterparts", {
   withr::local_envvar(erahumed_hb_sort_clusters = TRUE)
   tol <- 1e-10
 
