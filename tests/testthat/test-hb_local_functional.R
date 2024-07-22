@@ -44,7 +44,25 @@ test_that("real outflows never exceed their ideal counterparts", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("inflow is zero if not irrigating", {
+test_that("ideal inflow is never greater than ideal height difference", {
+  res <- test_df |>
+    dplyr::filter(draining,
+                  height_diff_cm - ideal_inflow_cm > mean(abs(ideal_inflow_cm)) * tol
+                  )
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("ideal inflow is zero if not irrigating", {
+  res <- test_df |>
+    dplyr::filter(!irrigation,
+                  abs(ideal_inflow_cm) / mean(abs(ideal_inflow_cm)) > tol
+    )
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("real inflow is zero if not irrigating", {
   res <- test_df |>
     dplyr::filter(!irrigation,
                   abs(real_inflow_cm) / mean(abs(real_inflow_cm)) > tol
