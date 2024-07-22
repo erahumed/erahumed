@@ -176,10 +176,6 @@ hb_local_data_prep <- function(
   # the efficiency POV
   res$outflow <- pmax(res$inflow + res$petp_cm - res$height_diff_cm, 0)
   res$outflow_m3 <- (res$outflow / 100) * res$area / s_per_day()
-  res$outflow_rain <- pmax(res$petp_m3_s, 0)  # This also includes ETP, is this OK?
-  res$outflow_phys <- res$draining * (res$outflow_m3 - res$outflow_rain)
-  res$outflow_drain <- (1 - res$irrigation) * res$outflow_phys
-  res$outflow_flux <- res$irrigation * res$outflow_phys
 
   res$accum_drain <- 0
   res$accum_rain <- 0

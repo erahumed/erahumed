@@ -33,7 +33,8 @@ compute_lags <- function(., .lag) {
   # Also, what does the (!.$draining | .$irrigation) condition mean?
   # Can we rename this variable so that it's name is a bit more expressive? E.g. shift_drain plan
 
-  .$corrected <- isTRUE(.$lag_accum_drain > 0)
+  .$corrected <- .$lag_accum_drain > 0
+
 
   # TODO: Why do we shift forward these variables?
   idxs <- .$corrected
@@ -100,15 +101,15 @@ compute_real_outflows <- function(.) {
 
   capacity <- .$flowpoint[1]
 
-  cum_flows <- pmin(cumsum(c(0, .$outflow_rain[ord])), capacity)
+  cum_flows <- pmin(cumsum(c(0, .$ideal_outflow_rain[ord])), capacity)
   .$real_outflow_rain[ord] <- diff(cum_flows)
   capacity <- capacity - cum_flows[length(cum_flows)]
 
-  cum_flows <- pmin(cumsum(c(0, .$outflow_drain[ord])), capacity)
+  cum_flows <- pmin(cumsum(c(0, .$ideal_outflow_drain[ord])), capacity)
   .$real_outflow_drain[ord] <- diff(cum_flows)
   capacity <- capacity - cum_flows[length(cum_flows)]
 
-  cum_flows <- pmin(cumsum(c(0, .$outflow_flux[ord])), capacity)
+  cum_flows <- pmin(cumsum(c(0, .$ideal_outflow_flux[ord])), capacity)
   .$real_outflow_flux[ord] <- diff(cum_flows)
 
   .$real_outflow_m3_s <-
