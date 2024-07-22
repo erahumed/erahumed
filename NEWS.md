@@ -1,5 +1,15 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Ordering of clusters sampled by the local hydrological balance simulation 
+algorithm does not depend anymore on the way these clusters are sorted in the 
+input data.
+
+* Fixed issues in the logic of local hydrological balance.
+
+* Improved testing infrastructure
+
 # erahumed 0.0.3
 
 ### User-visible changes
