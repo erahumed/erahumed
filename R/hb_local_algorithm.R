@@ -29,15 +29,11 @@ compute_lags <- function(., .lag) {
     (.$irrigation & .$draining & .lag$accum_rain[ord] > 0 & .$petp < 0) *
     pmin(.$lag_accum_rain_cm + .$petp_cm, 0) # Why are we adding again "petp"?
 
-  # TODO: Why the condition is always on lag_accum_drain?
-  # Also, what does the (!.$draining | .$irrigation) condition mean?
-  # Can we rename this variable so that it's name is a bit more expressive? E.g. shift_drain plan
-
-  .$corrected <- .$lag_accum_drain > 0
+  .$has_accum_drain <- .$lag_accum_drain > 0
 
 
   # TODO: Why do we shift forward these variables?
-  idxs <- .$corrected
+  idxs <- .$has_accum_drain
   .$irrigation[idxs] <- .lag$irrigation[ord][idxs]
   .$draining[idxs] <- .lag$draining[ord][idxs]
   # TODO: Does it really make sense to just shift the height_diff_cm?
@@ -77,7 +73,7 @@ compute_ideal_outflows <- function(., ideal_flow_rate_cm) {
   # 2. The ideal "rain" outflow is the accumulated rain from today plus that of
   # yesterday.
   .$ideal_outflow_drain <-
-    .$corrected * .$lag_accum_drain + (1 - .$corrected) * .$ideal_outflow_drain
+    .$has_accum_drain * .$lag_accum_drain + (1 - .$has_accum_drain) * .$ideal_outflow_drain
   .$ideal_outflow_rain <- .$ideal_outflow_rain + .$lag_accum_rain
 
   # TODO: Why isn't the ideal_outflow_flux updated here? It seems like in the
