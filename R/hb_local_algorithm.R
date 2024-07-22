@@ -33,7 +33,7 @@ compute_lags <- function(., .lag) {
   # Also, what does the (!.$draining | .$irrigation) condition mean?
   # Can we rename this variable so that it's name is a bit more expressive? E.g. shift_drain plan
 
-  .$corrected <- isTRUE(.$lag_accum_drain > 0 & (!.$draining | .$irrigation))
+  .$corrected <- isTRUE(.$lag_accum_drain > 0)
 
   # TODO: Why do we shift forward these variables?
   idxs <- .$corrected
