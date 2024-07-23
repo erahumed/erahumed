@@ -1,27 +1,25 @@
 hbUI <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
-    shiny::sidebarLayout(
-      shiny::sidebarPanel(
+
+    shiny::fluidRow(
+      shiny::column(4,
         shiny::dateRangeInput(ns("date_range"),
                               "Select Date Range",
                               start = min(albufera_outflows$date),
                               end = max(albufera_outflows$date),
                               min = min(albufera_outflows$date),
                               max = max(albufera_outflows$date)
-        ),
-
+                              )),
+      shiny::column(4,
         shiny::selectInput(ns("variable"), "Select Variable",
                            choices = hb_var_labels(invert = TRUE),
                            selected = hb_var_labels(invert = TRUE)[[1]]
-        ),
-
+                           ))
       ),
-      shiny::mainPanel(
-        plotly::plotlyOutput(ns("hb_plot"))
-      )
+
+    plotly::plotlyOutput(ns("hb_plot"))
     )
-  )
 }
 
 hbServer <- function(id)
