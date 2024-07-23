@@ -3,7 +3,7 @@ hbUI <- function(id) {
 
   shiny::tabsetPanel(
     shiny::tabPanel("Global Balance", hbGlobalUI(ns("hb_global"))),
-    shiny::tabPanel("Local Balance", hbLocalUI(ns("hb_local"))),
+    shiny::tabPanel("Local Balance", hbLocalUI(ns("hb_local")))
   )
 }
 
@@ -40,8 +40,7 @@ hbGlobalUI <- function(id) {
     )
 }
 
-hbGlobalServer <- function(id)
-{
+hbGlobalServer <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -90,16 +89,28 @@ hbGlobalServer <- function(id)
     })
 }
 
-hbLocalUI <- function(id) { NULL }
+hbLocalUI <- function(id) {
+  ns <- shiny::NS(id)
 
-hbLocalServer <- function(id)
-{
+  actionButton(ns("run_button"), "Run Calculation")
+
+  }
+
+hbLocalServer <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    NULL
+    ns <- session$ns
+
+    result <- reactiveVal(NULL)
+
+    shiny::observeEvent(input$run_button, {
+      cat("Pressed button!")
+      #output$df <- albufera_hydro_balance_local()
+    })
+
   })
 }
 
-hb_var_labels <- function(invert = F){
+hb_var_labels <- function(invert = F) {
   res <- c(
     level = "Lake Level [m]",
     volume = "Lake Volume [m\u{00B3}]",
