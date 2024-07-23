@@ -1,10 +1,8 @@
-withr::with_envvar(
-  c(erahumed_hb_sort_clusters = TRUE),
-  test_df <- albufera_hydro_balance_local(
-    date_min = "2010-01-01", date_max = "2011-12-31")
-  )
-
-tol <- 1e-10
+withr::with_envvar(c(erahumed_hb_sort_clusters = TRUE), {
+  test_df <- albufera_hydro_balance_local(date_min = "2010-01-01",
+                                          date_max = "2011-12-31")
+  tol <- 1e-10
+  })
 
 
 test_that("drain and flux (real) outflows are always non-negative", {
