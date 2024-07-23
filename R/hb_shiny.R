@@ -1,5 +1,23 @@
 hbUI <- function(id) {
   ns <- shiny::NS(id)
+
+  shiny::tabsetPanel(
+    shiny::tabPanel("Global Balance", hbGlobalUI(ns("hb_global"))),
+    shiny::tabPanel("Local Balance", hbLocalUI(ns("hb_local"))),
+  )
+}
+
+hbServer <- function(id) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    hbGlobalServer("hb_global")
+    hbLocalServer("hb_local")
+  })
+}
+
+hbGlobalUI <- function(id) {
+  ns <- shiny::NS(id)
   shiny::tagList(
 
     shiny::fluidRow(
@@ -22,7 +40,7 @@ hbUI <- function(id) {
     )
 }
 
-hbServer <- function(id)
+hbGlobalServer <- function(id)
 {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -70,6 +88,15 @@ hbServer <- function(id)
         )
       })
     })
+}
+
+hbLocalUI <- function(id) { NULL }
+
+hbLocalServer <- function(id)
+{
+  shiny::moduleServer(id, function(input, output, session) {
+    NULL
+  })
 }
 
 hb_var_labels <- function(invert = F){

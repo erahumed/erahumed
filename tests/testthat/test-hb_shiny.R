@@ -1,6 +1,6 @@
 library(shiny)
 
-testServer(hbServer, {
+testServer(hbGlobalServer, {
   session$setInputs(
     date_range = as.Date(c("2013-01-01", "2014-12-31")),
     variable = "level"
