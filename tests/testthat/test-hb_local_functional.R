@@ -5,18 +5,14 @@ withr::with_envvar(c(erahumed_hb_sort_clusters = TRUE), {
   })
 
 
-test_that("drain and flux (real) outflows are always non-negative", {
+test_that("outflows are always non-negative", {
   res <- test_df |>
-    dplyr::filter(real_outflow_drain < 0 | real_outflow_flux < 0)
+    dplyr::filter(
+      ideal_outflow_drain < 0 | real_outflow_drain < 0 |
+      ideal_outflow_flux < 0  | real_outflow_flux < 0  |
+      ideal_outflow_rain < 0  | real_outflow_rain < 0
+      )
 
-  expect_equal(nrow(res), 0)
-})
-
-test_that("rain outflow is always non-negative", {
-  res <- test_df |>
-    dplyr::filter(real_outflow_rain < 0)
-
-  skip("Rain outflow can actually become negative (with small values)") # TODO
   expect_equal(nrow(res), 0)
 })
 
