@@ -11,13 +11,11 @@ launch_app <- function() {
 }
 
 shiny_ui <- function() {
-  shiny::fluidPage(
-    shiny::titlePanel("ERAHUMED"),
-    shiny::tabsetPanel(
-      shiny::tabPanel("Hydrological Balance", hbUI("hb")),
-      shiny::tabPanel("Second Tab", )
+  shiny::navbarPage(
+    "ERAHUMED",
+    shiny::tabPanel("Hydrological Balance", hbUI("hb")),
+    shiny::tabPanel("Second Tab", )
     )
-  )
 }
 
 shiny_server <- function(input, output, session) {
