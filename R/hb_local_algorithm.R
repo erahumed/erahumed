@@ -13,17 +13,16 @@ compute_lags <- function(., .lag) {
   # we end up with
   # .$lag_accum_drain = 0, .$lag_accum_rain = .5.,
   # so we have subtracted 1.5 in total
-
   .$lag_accum_drain <- pmax(
     .$lag_accum_drain + (.$petp < 0 & .$lag_accum_drain > 0) * .$petp_m3_s,
     0)
-  .$lag_accum_rain <- .$lag_accum_rain +
-    (.$petp < 0 & .$lag_accum_rain > 0 & .$lag_accum_drain <= 0) * .$petp_m3_s
+  .$lag_accum_rain <- pmax(
+    .$lag_accum_rain +
+    (.$petp < 0 & .$lag_accum_rain > 0 & .$lag_accum_drain <= 0) * .$petp_m3_s,
+    0)
 
-  # TODO: Why do we do this def. before pmax()ing the variable?
+  # TODO: Originally this was done before pmax()ing the variable. CHECK!
   .$lag_accum_rain_cm <- .$lag_accum_rain * 100 * s_per_day() / .$area
-  .$lag_accum_rain <- pmax(.$lag_accum_rain, 0)
-
 
   .$Evap_mismatch <-  # TODO: What is the purpose of this variable
     (.$irrigation & .$draining & .lag$accum_rain[ord] > 0 & .$petp < 0) *
