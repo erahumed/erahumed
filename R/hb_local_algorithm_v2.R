@@ -2,11 +2,32 @@ compute_lags_order_v2 <- function(cluster_id, lag_cluster_id) {
   match(cluster_id, lag_cluster_id)
 }
 
-compute_accum_v2 <- function(petp_m3_s, lag_residual_drain, lag_residual_rain, lags_order) {
-  lag_residual_drain <- lag_residual_drain[lags_order]
-  lag_residual_rain <- lag_residual_rain[lags_order]
+# We assume that the real height will be initialized to planned_height_ms
+algo_v2 <- function(
+    planned_height_m,
+    cluster_is_in_flow,  # Could be equal to irrigation * draining
+    real_height_m_lag,
+    petp_m,
+    area_m2,
+    capacity,
+    ideal_flow_rate = 5
+    ) {
+
 
   res <- list()
+
+  # Real height at the end of day without draining / irrigating
+  real_height_m_wo <- real_height_m_lag + petp_m
+
+  ideal_inflow <- ifelse(cluster_is_in_flow,
+                         ideal_flow_rate,
+                         pmax(real_height_m_wo - planned_height_m)
+                         )
+
+  ideal_outflow <- ifelse(cluster_is_in_flow,
+                          ideal_flow_rate,
+                          pmax(planned_height_m - real_height_m_wo)
+                          )
 
   res$accum_drain <- lag_residual_drain
   res$accum_rain <- lag_residual_rain
@@ -24,6 +45,7 @@ compute_accum_v2 <- function(petp_m3_s, lag_residual_drain, lag_residual_rain, l
 
   # Subtract from residual water only if ETP prevails on P.
   # We switch the sign of petp for convenience.
+  # TODO: not equivalent to the original defs.
   petp_m3_s <- -(petp_m3_s < 0) * petp_m3_s
   petp_m3_s_drain <- pmin(petp_m3_s, lag_residual_drain)
   petp_m3_s_rain <- pmin(petp_m3_s-petp_m3_s_drain, lag_residual_rain)
@@ -35,9 +57,6 @@ compute_accum_v2 <- function(petp_m3_s, lag_residual_drain, lag_residual_rain, l
 
   return(res)
 }
-
-
-
 
 
 # {
