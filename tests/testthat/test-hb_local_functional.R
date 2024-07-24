@@ -1,6 +1,19 @@
 withr::with_envvar(c(erahumed_hb_sort_clusters = TRUE), {
-  test_df <- albufera_hydro_balance_local(date_min = "2010-01-01",
-                                          date_max = "2011-12-31")
+  date_min <- as.Date("2010-01-01")
+  date_max <- as.Date("2011-12-31")
+
+  outflows_df <- albufera_outflows
+  weather_df <- albufera_weather
+  clusters_df <- albufera_clusters
+  management_df <- albufera_management
+
+  test_df <- albufera_hydro_balance_local(outflows_df = outflows_df,
+                                          weather_df = weather_df,
+                                          clusters_df = clusters_df,
+                                          management_df = management_df,
+                                          date_min = date_min,
+                                          date_max = date_max)
+
   eps <- 1e-10
   })
 
@@ -12,7 +25,12 @@ test_that("simple snapshot is constant", {
   expect_snapshot(hash)
 })
 
+test_that("Returned dataset has the expected number of rows", {
+  n_clusters <- nrow(clusters_df)
+  n_days <- length( seq.Date(from = date_min, to = date_max, by = "day") )
 
+  expect_equal(nrow(test_df), n_clusters * n_days)
+})
 
 test_that("If draining, the ideal height difference is non-positive", {
   res <- test_df |>
