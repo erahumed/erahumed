@@ -40,6 +40,10 @@ albufera_hydro_balance_global <- function(
 
   res <- compute_hb_imputed_cols(res)
 
+  # To substitute with a proper class constructor?
+  class(res) <- c("hb_global", "data.frame")
+  attr(class(res), "package") <- "erahumed"
+
   return(res)
 }
 
@@ -112,7 +116,13 @@ albufera_hydro_balance_local <- function(
   res <- data.table::rbindlist(res)
 
 
-  as.data.frame(res)
+  res <- as.data.frame(res)
+
+  # To substitute with a proper class constructor?
+  class(res) <- c("hb_local", "data.frame")
+  attr(class(res), "package") <- "erahumed"
+
+  return(res)
 }
 
 hb_local_data_prep <- function(
