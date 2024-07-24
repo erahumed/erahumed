@@ -1,3 +1,17 @@
+# erahumed 0.0.6
+
+### Under the hoods
+
+* Fixed an important bug that was causing real outflows to be zero in most 
+cases.
+
+### Testing
+
+* Added important functional tests for real outflows. In particular, we test 
+that the sum of real outflows for clusters belonging to a given ditch is always
+equal to the minimum between the total ditch's capacity and ideal required 
+outflow.
+
 # erahumed 0.0.5
 
 * The outputs of `albufera_hydro_balance_global()` and 
