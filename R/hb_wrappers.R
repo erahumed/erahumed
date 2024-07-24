@@ -132,16 +132,6 @@ albufera_hydro_balance_local <- function(
 
 
   res <- as.data.frame(res)
-  res$real_height_cm_thresh <- cumsum_thresh(
-    x = (res$real_inflow_cm - res$real_outflow_cm + res$petp_cm)[-1],
-    init = res$height_cm[1],
-    lower_thresh = 0
-    )
-  res$real_height_cm <- cumsum_thresh(
-    x = (res$real_inflow_cm - res$real_outflow_cm + res$petp_cm)[-1],
-    init = res$height_cm[1],
-    lower_thresh = -1e9
-    )
 
   # To substitute with a proper class constructor?
   class(res) <- c("hb_local", "data.frame")
