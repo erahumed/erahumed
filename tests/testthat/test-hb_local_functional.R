@@ -25,12 +25,17 @@ test_that("simple snapshot is constant", {
   expect_snapshot(hash)
 })
 
+
+
 test_that("Returned dataset has the expected number of rows", {
   n_clusters <- nrow(clusters_df)
   n_days <- length( seq.Date(from = date_min, to = date_max, by = "day") )
 
   expect_equal(nrow(test_df), n_clusters * n_days)
 })
+
+
+
 
 test_that("If draining, the ideal height difference is non-positive", {
   res <- test_df |>
