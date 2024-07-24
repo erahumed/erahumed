@@ -131,8 +131,7 @@ test_that("sum of cluster outflows does never exceed total ditch outflow", {
   expect_equal(nrow(res), 0)
   })
 
-test_that("sum(real outflows) = min(sum(ideal outflows), total capacity)",
-{
+test_that("sum(real outflows) = min(sum(ideal outflows), total capacity)", {
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
     dplyr::summarise(
