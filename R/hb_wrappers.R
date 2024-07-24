@@ -114,22 +114,6 @@ albufera_hydro_balance_local <- function(
 
   res <- do.call(c, res) # flatten to single list
   res <- data.table::rbindlist(res)
-  # TODO: can probably find better solution
-  res <- data.table::setorder(res, cluster_id, date) |>
-    split(by = "cluster_id") |>
-    lapply(function(.) {
-      .$real_height_cm_thresh <- cumsum_thresh(
-        x = (.$real_inflow_cm - .$real_outflow_cm + .$petp_cm)[-1],
-        init = .$height_cm[1],
-        lower_thresh = 0)
-      .$real_height_cm <- cumsum_thresh(
-        x = (.$real_inflow_cm - .$real_outflow_cm + .$petp_cm)[-1],
-        init = .$height_cm[1],
-        lower_thresh = -1e9)
-      return(.)
-    }) |>
-    data.table::rbindlist()
-
 
   res <- as.data.frame(res)
 
@@ -201,6 +185,7 @@ hb_local_data_prep <- function(
   res$real_outflow_rain <- 0
   res$real_outflow_drain <- 0
   res$real_outflow_flux <- 0
+  res$real_height_cm <- res$real_height_cm_thresh <- res$height_cm
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
   res$flowpoint <- res$inflow_total *

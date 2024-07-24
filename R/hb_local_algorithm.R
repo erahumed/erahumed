@@ -28,6 +28,10 @@ compute_lags <- function(., .lag) {
     (.$irrigation & .$draining & .lag$accum_rain[ord] > 0 & .$petp < 0) *
     pmin(.$lag_accum_rain_cm + .$petp_cm, 0) # Why are we adding again "petp"?
 
+  .$lag_real_height_cm <- .lag$real_height_cm[ord]
+  .$lag_real_height_cm_thresh <- .lag$real_height_cm_thresh[ord]
+
+
   .$has_accum_drain <- .$lag_accum_drain > 0
 
 
@@ -145,11 +149,23 @@ compute_real_inflow <- function(., ideal_flow_rate_cm) {
   .
 }
 
+compute_real_height <- function(.) {
+  chng <- .$real_inflow_cm - .$real_outflow_cm + .$petp_cm
+
+  .$real_height_cm <- .$lag_real_height_cm + chng
+  .$real_height_cm_thresh <- pmax(.$lag_real_height_cm_thresh + chng, 0)
+
+
+  .
+}
+
 compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
   current |>
     compute_lags(previous) |>
     compute_ideal_outflows(ideal_flow_rate_cm = ideal_flow_rate_cm) |>
     compute_real_outflows() |>
     compute_accum_values() |>
-    compute_real_inflow(ideal_flow_rate_cm = ideal_flow_rate_cm)
+    compute_real_inflow(ideal_flow_rate_cm = ideal_flow_rate_cm) |>
+    compute_real_height()
+
 }
