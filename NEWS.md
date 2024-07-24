@@ -1,5 +1,17 @@
 # erahumed (development version)
 
+* The outputs of `albufera_hydro_balance_global()` and 
+`albufera_hydro_balance_local()` get class attributes `"hb_global"` and
+`"hb_local"`, respectively.
+
+* Added cluster level plots to the shiny UI.
+
+### Under the hoods
+
+* New plot methods for `"hb_global"` and `"hb_local"` S3 classes. Currently
+not exported to NAMESPACE.
+
+
 # erahumed 0.0.4
 
 ### Under the hoods
