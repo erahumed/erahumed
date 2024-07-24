@@ -1,3 +1,5 @@
+# TODO: should we export these S3 methods?
+
 plot.hb_global <- function(x, variable, ...) {
   var_lab <- hb_var_labels()[variable]
   is_imputed <- x[[paste0(variable, "_is_imputed")]]
