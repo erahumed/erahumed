@@ -65,6 +65,14 @@ test_that("real inflow is zero if not irrigating", {
   expect_equal(nrow(res), 0)
 })
 
+test_that("If ideal_outflow_drain > 0 the cluster must be draining", {
+  res <- test_df |>
+    dplyr::filter(ideal_outflow_drain > 0, !draining)
+
+  expect_equal(nrow(res), 0)
+})
+
+
 
 
 test_that("outflows are always non-negative", {
@@ -102,12 +110,6 @@ test_that("sum of cluster outflows does never exceed total ditch outflow", {
 
 
 
-test_that("If ideal_outflow_drain > 0 the cluster must be draining", {
-  res <- test_df |>
-    dplyr::filter(ideal_outflow_drain > 0, !draining)
-
-  expect_equal(nrow(res), 0)
-})
 
 test_that("If accum_drain is greater than zero the cluster must be draining", {
   res <- test_df |>
