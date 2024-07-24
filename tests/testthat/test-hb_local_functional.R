@@ -120,17 +120,6 @@ test_that("real outflows never exceed their ideal counterparts", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("sum of cluster outflows does never exceed total ditch outflow", {
-  res <- test_df |>
-    dplyr::group_by(date, ditch) |>
-    dplyr::summarise(
-      flowpoint = flowpoint[1], outflow = sum(real_outflow_m3_s), .groups = "drop"
-      ) |>
-    dplyr::filter(outflow > flowpoint + eps)
-
-  expect_equal(nrow(res), 0)
-  })
-
 test_that("sum(real outflows) = min(sum(ideal outflows), total capacity)", {
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
