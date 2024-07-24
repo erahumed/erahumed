@@ -114,9 +114,34 @@ albufera_hydro_balance_local <- function(
 
   res <- do.call(c, res) # flatten to single list
   res <- data.table::rbindlist(res)
+  # TODO: can probably find better solution
+  res <- data.table::setorder(res, cluster_id, date) |>
+    split(by = "cluster_id") |>
+    lapply(function(.) {
+      .$real_height_cm_thresh <- cumsum_thresh(
+        x = (.$real_inflow_cm - .$real_outflow_cm + .$petp_cm)[-1],
+        init = .$height_cm[1],
+        lower_thresh = 0)
+      .$real_height_cm <- cumsum_thresh(
+        x = (.$real_inflow_cm - .$real_outflow_cm + .$petp_cm)[-1],
+        init = .$height_cm[1],
+        lower_thresh = -1e9)
+      return(.)
+    }) |>
+    data.table::rbindlist()
 
 
   res <- as.data.frame(res)
+  res$real_height_cm_thresh <- cumsum_thresh(
+    x = (res$real_inflow_cm - res$real_outflow_cm + res$petp_cm)[-1],
+    init = res$height_cm[1],
+    lower_thresh = 0
+    )
+  res$real_height_cm <- cumsum_thresh(
+    x = (res$real_inflow_cm - res$real_outflow_cm + res$petp_cm)[-1],
+    init = res$height_cm[1],
+    lower_thresh = -1e9
+    )
 
   # To substitute with a proper class constructor?
   class(res) <- c("hb_local", "data.frame")
