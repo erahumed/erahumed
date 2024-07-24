@@ -72,6 +72,13 @@ compute_ideal_outflows <- function(., ideal_flow_rate_cm) {
     .$has_accum_drain * .$lag_accum_drain + (1 - .$has_accum_drain) * .$ideal_outflow_drain
   .$ideal_outflow_rain <- .$ideal_outflow_rain + .$lag_accum_rain
 
+  .$ideal_outflow_m3_s <-
+    .$ideal_outflow_rain + .$ideal_outflow_drain + .$ideal_outflow_flux
+  .$ideal_outflow_cm <- .$ideal_outflow_m3_s * 100 * s_per_day() / .$area
+
+  .
+
+
   # TODO: Why isn't the ideal_outflow_flux updated here? It seems like in the
   # case irrigation * draining = TRUE, the ideal outflow is independent of accum
   # values.
@@ -89,7 +96,8 @@ compute_real_outflows <- function(.) {
   .alphabetic <- Sys.getenv("erahumed_hb_sort_clusters", "FALSE") |>
     as.logical()
   ord <- order(.$cluster_id)
-  ord <- ifelse(.alphabetic, ord, sample(ord))
+  if (!.alphabetic)
+    ord <- sample(ord)
 
   capacity <- .$flowpoint[1]
 
