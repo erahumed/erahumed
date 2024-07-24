@@ -12,7 +12,28 @@ compute_lags <- function(., .lag) {
   # lag$accum_drain = .5, lag$accum_rain = 1.5, and petp = -1
   # we end up with
   # .$lag_accum_drain = 0, .$lag_accum_rain = .5.,
-  # so we have subtracted 1.5 in total
+  # so we have subtracted 1.5 in total.
+  #
+  # TODO: Apart from the above mentioned issue, which is probably a bit of a
+  # corner case, there's a bigger
+  # issue in the fact that, whenever the evaporated water exceeds the
+  # accumulated water, there seems to be nothing in the code below
+  # guaranteeing that the water evaporation is compensated by an equivalent
+  # amount of water inflow. This causes unphysical real_height_cm < 0.
+  #
+  # What is the correct logic here?
+  #   1. Enforce that no more water can evaporates from a cluster whenever its
+  #   (real) height has reached zero, or
+  #   2. Enforce that all clusters get some positive inflow to compensate the
+  #   cases in which the water levels would descend below their ideal level.
+  #   3. A combination of the two previous points.
+  #   4. Other solutions?
+  #
+  # If we choose case 2 above (or some variant of it), should we somehow
+  # restrict the possible amount of inflow in a single day - pretty much as the
+  # possible amount of outflow is constrained by the total outflow from the
+  # ditch?
+  #
   .$lag_accum_drain <- pmax(
     .$lag_accum_drain + (.$petp < 0 & .$lag_accum_drain > 0) * .$petp_m3_s,
     0)
@@ -29,6 +50,8 @@ compute_lags <- function(., .lag) {
     pmin(.$lag_accum_rain_cm + .$petp_cm, 0) # Why are we adding again "petp"?
 
   .$lag_real_height_cm <- .lag$real_height_cm[ord]
+  # TODO: If we manage to properly treat evaporation, this definition should not
+  # be required any longer, as real height should always be non-negative.
   .$lag_real_height_cm_thresh <- .lag$real_height_cm_thresh[ord]
 
 
