@@ -54,37 +54,7 @@ hbGlobalServer <- function(id) {
     })
 
     output$hb_plot <- plotly::renderPlotly({
-
-      vname <- input$variable
-      vlab <- hb_var_labels()[vname]
-      vimp <- paste0(vname, "_is_imputed")
-
-      imp <- hb_data()[[vimp]]
-
-      df_obs <- df_imp <- hb_data()[, ]
-      df_obs[[vname]][imp] <- NA
-      df_imp[[vname]][!imp] <- NA
-
-      ## Possibly helpful
-      # https://plotly-r.com/linking-views-with-shiny.html#shiny-plotly-inputs
-      plotly::plot_ly() |>
-        plotly::add_trace(
-          data = df_obs, x = ~date, y = ~get(vname),
-          type = "scatter", mode = "lines",
-          line = list(color = "blue", width = 2, dash = "solid"),
-          name = "Observed Data"
-        ) |>
-        plotly::add_trace(
-          data = df_imp, x = ~date, y = ~get(vname),
-          type = "scatter", mode = "lines",
-          line = list(color = "red", width = 2, dash = "dash"),
-          name = "Imputed Data"
-        ) |>
-        plotly::layout(
-          title = paste("Time Series of", vlab),
-          xaxis = list(title = "Date"),
-          yaxis = list(title = vlab)
-        )
+      plot(hb_data(), input$variable)
       })
     })
 }
