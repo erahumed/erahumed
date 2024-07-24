@@ -98,7 +98,7 @@ test_that("If ideal_outflow_drain > 0 the cluster must be draining", {
 
 
 
-test_that("outflows are always non-negative", {
+test_that("outflows (real and ideal) are always non-negative", {
   res <- test_df |>
     dplyr::filter(
       ideal_outflow_drain < 0 | real_outflow_drain < 0 |
