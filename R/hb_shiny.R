@@ -53,9 +53,8 @@ hbGlobalServer <- function(id) {
       hb_data_full[row_idx, ]
     })
 
-    output$hb_plot <- plotly::renderPlotly({
-      plot(hb_data(), input$variable)
-      })
+    output$hb_plot <- plotly::renderPlotly( plot(hb_data(), input$variable) )
+
     })
 }
 
