@@ -33,8 +33,8 @@ compute_lags <- function(., .lag) {
 
   # TODO: Why do we shift forward these variables?
   idxs <- .$has_accum_drain
-  .$irrigation[idxs] <- .lag$irrigation[ord][idxs]
-  .$draining[idxs] <- .lag$draining[ord][idxs]
+  .$irrigation[idxs] <- .lag$irrigation[ord][idxs]  # TODO: this is always F
+  .$draining[idxs] <- .lag$draining[ord][idxs]  # TODO: this is always T
   # TODO: Does it really make sense to just shift the height_diff_cm?
   # Example:
   # Yesterday we were supposed to drain 5 cm of water, but the ditch was able to
