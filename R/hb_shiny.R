@@ -60,20 +60,49 @@ hbGlobalServer <- function(id) {
 
 hbLocalUI <- function(id) {
   ns <- shiny::NS(id)
-
-  actionButton(ns("run_button"), "Run Calculation")
-
-  }
+  shiny::tagList(
+    shiny::fluidRow(
+      shiny::column(4,
+                    shiny::dateRangeInput(ns("date_range"),
+                                          "Select Date Range",
+                                          start = "2010-01-01",
+                                          end = "2011-12-31",
+                                          min = min(albufera_outflows$date),
+                                          max = max(albufera_outflows$date)
+                    )),
+      shiny::column(4,
+                    shiny::selectInput(ns("cluster_id"),
+                                       "Select Cluster",
+                                       choices = albufera_clusters$cluster_id,
+                                       selected = albufera_clusters$cluster_id[1]
+                                       )
+                    ),
+      shiny::column(4,
+                    shiny::checkboxInput(ns("thresh"),
+                                         "Apply Threshold",
+                                         value = F)
+                    ),
+      shiny::column(4, shiny::actionButton(ns("run_button"), "Run"))
+      ),
+    plotly::plotlyOutput(ns("plot"))
+  )
+}
 
 hbLocalServer <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    result <- reactiveVal(NULL)
+    data <- shiny::reactiveVal(NULL)
 
     shiny::observeEvent(input$run_button, {
-      cat("Pressed button!")
-      #output$df <- albufera_hydro_balance_local()
+      data(albufera_hydro_balance_local(date_min = input$date_range[1],
+                                        date_max = input$date_range[2])
+           )
+    })
+
+    output$plot <- plotly::renderPlotly({
+      shiny::req(data())
+      plot(data(), cluster_id = input$cluster_id, thresh = input$thresh)
     })
 
   })
