@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.0.5
 
 * The outputs of `albufera_hydro_balance_global()` and 
 `albufera_hydro_balance_local()` get class attributes `"hb_global"` and
