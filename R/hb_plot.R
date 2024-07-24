@@ -29,3 +29,55 @@ plot.hb_global <- function(x, variable, ...) {
       yaxis = list(title = var_lab)
     )
 }
+
+plot.hb_local <- function(x, type = c("cluster_levels", "map"), ...) {
+  type <- match.arg(type)
+
+  if (type == "map")
+    stop("'map' plot not yet implemented.")
+
+  args <- list(...)
+
+  if (type == "cluster_levels") {
+    if ( !("cluster_id" %in% names(args)) )
+      stop("Please specify cluster to plot through the 'cluster_id' argument.")
+    thresh <- ("thresh" %in% names(args)) && args$thresh
+
+    return(plot_hb_local_cluster_levels(data = x,
+                                        cluster_id = args$cluster_id,
+                                        thresh)
+           )
+  }
+}
+
+plot_hb_local_cluster_levels <- function(data, cluster_id, thresh = TRUE) {
+  data <- data[data$cluster_id == cluster_id, ]
+  data <- data[order(data$date), ]
+
+  variable <- ifelse(thresh, "real_height_cm_thresh", "real_height_cm")
+  var_lab <- ifelse(thresh, "Height [cm] (thresholded)", "Height [cm]")
+
+  plotly::plot_ly(data = data, x = ~date) |>
+    plotly::add_trace(
+      y = ~get(variable),
+      text = ~paste0("Date: ", date,
+                     "<br>", var_lab, ": ", get(variable),
+                     "<br>Irrigation: ", irrigation,
+                     "<br>Draining: ", draining),
+      hoverinfo = "text",
+      type = "scatter", mode = "lines",
+      line = list(width = 2, color = "black"),
+      name = "Simulated"
+    ) |>
+    plotly::add_trace(
+      y = ~height_cm,
+      type = "scatter", mode = "lines",
+      line = list(width = 2, color = "#0000BB", dash = "dash"),
+      name = "Ideal"
+    ) |>
+    plotly::layout(
+      title = paste("Time Series of", var_lab),
+      xaxis = list(title = "Date"),
+      yaxis = list(title = var_lab)
+    )
+}
