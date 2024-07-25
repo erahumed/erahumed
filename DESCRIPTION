@@ -20,7 +20,10 @@ BugReports: https://github.com/vgherard/erahumed/issues
 Imports: 
     collapse,
     data.table,
+    leaflet,
     plotly,
+    RColorBrewer,
+    sf,
     shiny,
     stats
 Depends: 
