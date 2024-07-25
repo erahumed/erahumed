@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Added internal utility `erahumed:::plot_albufera_clusters()` to obtain a 
+leaflet map of clusters.
+
 # erahumed 0.0.6
 
 ### Under the hoods
