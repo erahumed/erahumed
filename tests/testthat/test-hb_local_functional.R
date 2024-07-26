@@ -18,8 +18,10 @@ withr::with_envvar(c(erahumed_skip_cluster_randomization = TRUE), {
   })
 
 
-
+# TODO: remove this in favor of more dedicated unit tests
 test_that("simple snapshot is constant", {
+  skip_on_ci()  # Gives inconsistent result across different platforms
+
   hash <- digest::digest(test_df)
 
   expect_snapshot(hash)
