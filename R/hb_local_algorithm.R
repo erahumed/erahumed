@@ -355,8 +355,8 @@ compute_real_outflow_m3_s <- function(ideal_outflow_cm, area_m2, capacity_m3_s)
 {
   n <- length(ideal_outflow_cm)
 
-  skip_random <- Sys.getenv("erahumed_skip_cluster_randomization", "FALSE") |>
-    as.logical()
+  skip_random <- Sys.getenv("erahumed_skip_cluster_randomization", "FALSE")
+  skip_random <- as.logical(skip_random)
   ord <- if (skip_random) { 1:n } else { sample(n) }
 
   ideal_outflow_m3_s <- (ideal_outflow_cm / 100) * area_m2 / s_per_day()
