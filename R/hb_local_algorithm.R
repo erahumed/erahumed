@@ -255,7 +255,7 @@ compute_hb_daily_v2 <- function(
                                     area_m2 = area_m2))
 
   . <- c(., compute_real_inflow_cm(real_outflow_cm = .$real_outflow_cm,
-                                   ideal_diff_flow = .$ideal_diff_flow_cm))
+                                   ideal_diff_flow_cm = .$ideal_diff_flow_cm))
 
   . <- c(., compute_real_inflow_m3_s(real_inflow_cm = .$real_inflow_cm,
                                      area_m2 = area_m2))
