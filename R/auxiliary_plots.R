@@ -8,7 +8,9 @@ plot_albufera_clusters <- function(
   n_ditches <- length(unique(clusters_df$ditch))
   colors <- RColorBrewer::brewer.pal(n = n_ditches, name = "Set3")
   if (n_ditches > length(colors)) {
-    colors <- colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(n_ditches)
+    colors <- grDevices::colorRampPalette(
+      RColorBrewer::brewer.pal(12, "Set3")
+      )(n_ditches)
   }
 
   # Create a color factor based on the 'ditch' attribute
@@ -43,7 +45,7 @@ plot_albufera_management <- function(management_df = albufera_management) {
                                       sep = "-"))
 
   management_df |>
-    ggplot2::ggplot(aes(x = date, y = height_cm, color = tancat)) +
+    ggplot2::ggplot(ggplot2::aes(x = date, y = height_cm, color = tancat)) +
     ggplot2::geom_line() +
     ggplot2::facet_grid(variety ~ .) +
     ggplot2::scale_x_date(date_labels = "%m/%d", date_breaks = "1 month") +

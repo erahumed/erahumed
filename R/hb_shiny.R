@@ -109,10 +109,10 @@ hbLocalServer <- function(id) {
       plot_albufera_clusters()
     })
 
-    observeEvent(input$map_shape_click, {
+    shiny::observeEvent(input$map_shape_click, {
       click <- input$map_shape_click
       if (!is.null(click)) {
-        updateSelectInput(session, "cluster_id", selected = click$id)
+        shiny::updateSelectInput(session, "cluster_id", selected = click$id)
       }
     })
 

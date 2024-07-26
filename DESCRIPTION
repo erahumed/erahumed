@@ -21,6 +21,7 @@ Imports:
     collapse,
     data.table,
     ggplot2,
+    grDevices,
     leaflet,
     plotly,
     RColorBrewer,
