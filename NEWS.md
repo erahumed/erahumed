@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Re-enabled continuous integration, with some internal code improvements.
+* Sanitizing of warnings/notes from R-cmd-check.
+
 # erahumed 0.1.0
 
 ### Algorithm
