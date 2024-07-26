@@ -156,7 +156,7 @@ compute_accum_values <- function(.) {
 
   .
 }
-compute_real_inflow <- function(., ideal_flow_rate_cm) {
+compute_real_inflows <- function(., ideal_flow_rate_cm) {
   .$real_inflow_cm <- .$irrigation * (
     (1 - .$draining) * (
       # TODO: should this be done in the "ideal" inflow computation?
@@ -172,7 +172,7 @@ compute_real_inflow <- function(., ideal_flow_rate_cm) {
   .
 }
 
-compute_real_height <- function(.) {
+compute_real_heights <- function(.) {
   chng <- .$real_inflow_cm - .$real_outflow_cm + .$petp_cm
 
   .$real_height_cm <- .$lag_real_height_cm + chng
@@ -188,7 +188,128 @@ compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
     compute_ideal_outflows(ideal_flow_rate_cm = ideal_flow_rate_cm) |>
     compute_real_outflows() |>
     compute_accum_values() |>
-    compute_real_inflow(ideal_flow_rate_cm = ideal_flow_rate_cm) |>
-    compute_real_height()
+    compute_real_inflows(ideal_flow_rate_cm = ideal_flow_rate_cm) |>
+    compute_real_heights()
 
+}
+
+
+
+
+# V2 algorithm, WIP.
+
+compute_hb_daily_v2_wrap <- function(current, previous, ideal_flow_rate_cm = 5)
+{
+  res_raw <- compute_hb_daily_v2(
+    real_height_lag = previous$real_height_cm,
+    ideal_height = current$height_cm,
+    petp = current$petp_cm,
+    irrigation = current$irrigation,
+    draining = current$draining,
+    capacity = current$capacity,
+    ideal_flow_rate = ideal_flow_rate_cm
+  )
+
+  current$ideal_inflow_cm <- res_raw$ideal_inflow
+  current$ideal_outflow_cm <- res_raw$ideal_outflow
+  current$real_inflow_cm <- res_raw$real_inflow
+  current$real_outflow_cm <- res_raw$real_outflow
+  current$real_height_cm <- res_raw$real_height
+
+  return(current)
+}
+
+compute_hb_daily_v2 <- function(
+    real_height_lag,
+    ideal_height,
+    petp,
+    irrigation,
+    draining,
+    capacity,
+    ideal_flow_rate = 5
+    )
+{
+  ideal_diff_flow <- compute_ideal_diff_flow(ideal_height = ideal_height,
+                                             real_height_lag = real_height_lag,
+                                             petp = petp)
+
+  ideal_flows <- compute_ideal_flows(ideal_diff_flow = ideal_diff_flow,
+                                     irrigation = irrigation,
+                                     draining = draining,
+                                     ideal_flow_rate = ideal_flow_rate)
+
+  real_outflow <- compute_real_outflow(ideal_outflow = ideal_flows$outflow,
+                                       capacity = capacity)
+
+  real_inflow <- compute_real_inflow(real_outflow = real_outflow,
+                                     ideal_diff_flow = ideal_diff_flow)
+
+  real_height <- compute_real_height(
+    real_height_lag, petp, real_inflow, real_outflow
+    )
+
+  res <- list(
+    ideal_inflow = ideal_flows$inflow,
+    ideal_outflow = ideal_flows$outflow,
+    real_inflow = real_inflow,
+    real_outflow = real_outflow,
+    real_height = real_height
+  )
+
+  return(res)
+
+}
+
+
+compute_ideal_diff_flow <- function(ideal_height, real_height_lag, petp) {
+  ideal_height - pmax(0, real_height_lag + petp)
+}
+
+compute_ideal_flows <- function(
+    ideal_diff_flow, irrigation, draining, ideal_flow_rate
+    )
+{
+  is_flux <- irrigation * draining
+  ideal_inflow <-
+    is_flux * ideal_flow_rate +
+    (1-is_flux) * pmax(0, ideal_diff_flow)
+  ideal_outflow <-
+    is_flux * (ideal_flow_rate - ideal_diff_flow) +
+    (1-is_flux) * pmax(0, -ideal_diff_flow)
+
+  ideal_inflow <- ideal_inflow - pmin(0, ideal_outflow)
+  ideal_outflow <- pmax(0, ideal_outflow)
+
+  return( list(inflow = ideal_inflow, outflow = ideal_outflow) )
+}
+
+compute_real_outflow <- function(ideal_outflow, capacity)
+{
+  n <- length(irrigation)
+
+  skip_random <- Sys.getenv("erahumed_skip_cluster_randomization", "FALSE") |>
+    as.logical()
+  ord <- if (skip_random) { 1:n } else { sample(n) }
+
+  real_outflow <- numeric(n)
+
+  cum_outflows <- pmin(capacity, cumsum(c(0, ideal_outflow[ord])))
+  real_outflow[ord] <- diff(cum_outflows)
+  capacity <- capacity - cum_outflows[length(cum_outflows)]
+
+  real_outflow <- real_outflow + capacity / length(real_outflow)
+
+  return(real_outflow)
+}
+
+compute_real_inflow <- function(real_outflow, ideal_diff_flow)
+{
+  pmax(0, ideal_inflow + ideal_diff_flow)
+}
+
+compute_real_height <- function(
+    real_height_lag, petp, real_inflow, real_outflow
+    )
+{
+  pmax(0,  real_height_lag + petp) + real_inflow - real_outflow
 }
