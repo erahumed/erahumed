@@ -20,6 +20,7 @@ BugReports: https://github.com/vgherard/erahumed/issues
 Imports: 
     collapse,
     data.table,
+    ggplot2,
     leaflet,
     plotly,
     RColorBrewer,
