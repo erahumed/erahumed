@@ -100,9 +100,9 @@ albufera_hydro_balance_local <- function(
     )
   for (i in 1:n_ditches) {
     for (j in 1:n_dates) {
-      res[[i]][[j]] <- compute_hb_daily(
+      res[[i]][[j]] <- compute_hb_daily_v2_wrap(
         current = unclass(res[[i]][[j]]),
-        previous = if (j == 1) res[[i]][[j]] else unclass(res[[i]][[j - 1]])
+        previous = if (j > 1) unclass(res[[i]][[j - 1]]) else unclass(res[[i]][[j]])
         )
       class(res[[i]][[j]]) <- "data.frame"
     }
