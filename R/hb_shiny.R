@@ -77,11 +77,6 @@ hbLocalUI <- function(id) {
                                        selected = albufera_clusters$cluster_id[1]
                                        )
                     ),
-      shiny::column(4,
-                    shiny::checkboxInput(ns("thresh"),
-                                         "Apply Threshold",
-                                         value = F)
-                    ),
       shiny::column(4, shiny::actionButton(ns("run_button"), "Run"))
       ),
     shiny::fluidRow(
@@ -107,7 +102,7 @@ hbLocalServer <- function(id) {
       shiny::req(data())
       shiny::req(input$cluster_id)
 
-      plot(data(), cluster_id = input$cluster_id, thresh = input$thresh)
+      plot(data(), cluster_id = input$cluster_id)
     })
 
     output$map <- leaflet::renderLeaflet({

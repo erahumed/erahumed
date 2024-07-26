@@ -41,21 +41,19 @@ plot.hb_local <- function(x, type = c("cluster_levels", "map"), ...) {
   if (type == "cluster_levels") {
     if ( !("cluster_id" %in% names(args)) )
       stop("Please specify cluster to plot through the 'cluster_id' argument.")
-    thresh <- ("thresh" %in% names(args)) && args$thresh
 
     return(plot_hb_local_cluster_levels(data = x,
-                                        cluster_id = args$cluster_id,
-                                        thresh)
+                                        cluster_id = args$cluster_id)
            )
   }
 }
 
-plot_hb_local_cluster_levels <- function(data, cluster_id, thresh = TRUE) {
+plot_hb_local_cluster_levels <- function(data, cluster_id) {
   data <- data[data$cluster_id == cluster_id, ]
   data <- data[order(data$date), ]
 
-  variable <- ifelse(thresh, "real_height_cm_thresh", "real_height_cm")
-  var_lab <- ifelse(thresh, "Height [cm] (thresholded)", "Height [cm]")
+  variable <- "real_height_cm"
+  var_lab <- "Height [cm]"
 
   plotly::plot_ly(data = data, x = ~date) |>
     plotly::add_trace(
