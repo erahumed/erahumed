@@ -29,7 +29,7 @@ plot_albufera_clusters <- function(
                      "Ditch:", ditch, "<br>",
                      "Tancat:", tancat, "<br>",
                      "Variety:", rice_variety, "<br>",
-                     "Area:", area, "m²"
+                     "Area:", area, "m\u{00B2}"
       ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
       layerId = ~cluster_id  # Add layerId for easy identification
