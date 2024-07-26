@@ -1,4 +1,4 @@
-withr::with_envvar(c(erahumed_hb_sort_clusters = TRUE), {
+withr::with_envvar(c(erahumed_skip_cluster_randomization = TRUE), {
   date_min <- as.Date("2010-01-01")
   date_max <- as.Date("2011-12-31")
 
@@ -127,12 +127,10 @@ test_that("sum(real outflows) = min(sum(ideal outflows), total capacity)", {
     dplyr::summarise(
       flowpoint = flowpoint[1],
       real_outflow_m3_s = sum(real_outflow_m3_s),
-      ideal_outflow_m3_s = sum(ideal_outflow_cm / 100 * area * s_per_day()),
       .groups = "drop"
     ) |>
     dplyr::filter(
-      abs(real_outflow_m3_s - pmin(ideal_outflow_m3_s, flowpoint)) >
-        mean(abs(flowpoint)) * eps
+      abs(real_outflow_m3_s - flowpoint) > mean(abs(flowpoint)) * eps
       )
 
   expect_equal(nrow(res), 0)
