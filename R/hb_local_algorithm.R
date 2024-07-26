@@ -203,7 +203,12 @@ compute_hb_daily_v2_wrap <- function(current, previous, ideal_flow_rate_cm = 5)
 
 
   res_raw <- compute_hb_daily_v2(
-    real_height_cm_lag = previous$real_height_cm %||% current$height_cm,
+    real_height_cm_lag =
+      if (is.null(previous$real_height_cm)) {
+        current$height_cm
+      } else {
+        previous$real_height_cm
+      },
     ideal_height_cm = current$height_cm,
     petp_cm = current$petp_cm,
     irrigation = current$irrigation,
