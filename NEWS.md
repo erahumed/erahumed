@@ -1,9 +1,32 @@
 # erahumed (development version)
 
+### Algorithm
+
+* Switched to an improved version of the algorithm to compute the local balance
+at the cluster level. The exactness of total outflows is enforced, in such a way 
+that the sum of outflows of cluster that belong to a given ditch equals the 
+total inflow to the Albufera lake from said ditch. Also, the logic of the 
+algorithm was changed in such a way to enforce that no evaporation can occur 
+when the water level of a cluster is zero. **Warning.** While correctly 
+enforcing mass conservation, the present algorithm does not guarantee that the
+clusters will always be emptied for periods as long as planned, for the 
+application of pesticides - both aspects being at odds with the previous 
+version. Correctly enforcing the emptying of clusters will is the object of 
+ongoing work.
+
+### UI
+
+* The cluster to be plotted in the local balance tab of the shiny app can now be
+selected from an interactive leaflet map of the Albufera National Park.
+ 
 ### Under the hoods
 
 * Added internal utility `erahumed:::plot_albufera_clusters()` to obtain a 
 leaflet map of clusters.
+
+* Added internal utility `erahumed:::plot_albufera_management()` to obtain a 
+plot of ideal water levels vs. day of year.
+
 
 # erahumed 0.0.6
 
