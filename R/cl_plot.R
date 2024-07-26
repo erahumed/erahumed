@@ -31,6 +31,7 @@ plot_albufera_clusters <- function(
                      "Variety:", rice_variety, "<br>",
                      "Area:", area, "m²"
       ),
-      highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1)
+      highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
+      layerId = ~cluster_id  # Add layerId for easy identification
     )
 }

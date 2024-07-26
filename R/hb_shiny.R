@@ -84,7 +84,10 @@ hbLocalUI <- function(id) {
                     ),
       shiny::column(4, shiny::actionButton(ns("run_button"), "Run"))
       ),
-    plotly::plotlyOutput(ns("plot"))
+    shiny::fluidRow(
+      shiny::column(4, leaflet::leafletOutput(ns("map"))),
+      shiny::column(8, plotly::plotlyOutput(ns("plot")))
+    )
   )
 }
 
@@ -102,7 +105,20 @@ hbLocalServer <- function(id) {
 
     output$plot <- plotly::renderPlotly({
       shiny::req(data())
+      shiny::req(input$cluster_id)
+
       plot(data(), cluster_id = input$cluster_id, thresh = input$thresh)
+    })
+
+    output$map <- leaflet::renderLeaflet({
+      plot_albufera_clusters()
+    })
+
+    observeEvent(input$map_shape_click, {
+      click <- input$map_shape_click
+      if (!is.null(click)) {
+        updateSelectInput(session, "cluster_id", selected = click$id)
+      }
     })
 
   })
