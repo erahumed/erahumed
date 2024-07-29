@@ -139,31 +139,20 @@ hb_local_data_prep <- function(
   res$mm <- as.numeric(format(res$date, "%m"))
   res$dd <- as.numeric(format(res$date, "%d"))
 
-  res <- merge(res,
-               management_df,
-               by = c("mm", "dd"),
-               sort = FALSE,
-               allow.cartesian = TRUE
-               )
   res <- res |>
-    split(by = c("tancat", "variety")) |>
-    lapply(\(df){
-      df$lag_height_cm <- c(
-        ifelse(df$tancat[1], 20, 0), df$height_cm[1:(nrow(df)-1)]
-      )
-      df
-    })
-
-  res <- data.table::rbindlist(res)
-
-  res <- res |>
+    merge(management_df,
+          by = c("mm", "dd"),
+          sort = FALSE,
+          allow.cartesian = TRUE
+          ) |>
     merge(clusters_df,
           by.x = c("tancat", "variety"),
           by.y = c("tancat", "rice_variety"),
           all.y = TRUE,
           sort = FALSE,
           allow.cartesian = TRUE
-    )
+          )
+
   res$petp_cm <- (res$P - res$ETP) / 10
   res$plan_delay <- 0
 
