@@ -1,22 +1,22 @@
-test_that("moving_average_length", {
+test_that("moving_average() length is correct", {
   x <- 1:10
 
   expect_length(moving_average(x, 3), length(x))
   expect_length(moving_average(x, 5), length(x))
 })
 
-test_that("moving_average_simple_case", {
+test_that("moving_average() returns the correct result in a basic case", {
   expect_equal(moving_average(1:3, 3), (1 / 3) * c(1 + 1 + 2,
                                                    1 + 2 + 3,
                                                    2 + 3 + 3)
                )
 })
 
-test_that("moving_average_even_k_gives_warning", {
+test_that("moving_average() raises a warning when 'k' is even", {
   expect_warning(moving_average(1:5, 4))
 })
 
-test_that("moving_average_even_k_value", {
+test_that("moving_average() returns the correct result for even 'k'", {
   res <- suppressWarnings(moving_average(1:5, 4))
   expect_equal(
     res,
