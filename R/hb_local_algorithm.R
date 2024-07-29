@@ -203,35 +203,32 @@ compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
 
 compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
 {
-  n_dates <- length(df_list)
-
-  for (j in 1:n_dates) {
-    current <- unclass(df_list[[j]])
-    previous <- if (j > 1) unclass(df_list[[j - 1]]) else current
+  for (j in seq_along(df_list)) {
+    current <- df_list[[j]]
+    previous <- if (j > 1) df_list[[j - 1]] else current
+    plan_delay_lag <- previous$plan_delay
+    ideal_height_cm <- sapply(
+      seq_along(plan_delay_lag), \(c) {
+        df_list[[j - plan_delay_lag[c]]]$height_cm[c]
+        }
+      )
 
     current_hb <- compute_hb_daily_v2(
-      real_height_cm_lag =
-        if (is.null(previous$real_height_cm)) {
-          current$height_cm
-        } else {
-          previous$real_height_cm
-        },
-      zero_debt_lag = previous$zero_debt,
-      date = current$date,
-      ideal_height_cm = current$height_cm,
+      real_height_cm_lag = previous$real_height_cm,
+      ideal_height_cm = ideal_height_cm,
       petp_cm = current$petp_cm,
       irrigation = current$irrigation,
       draining = current$draining,
       area_m2 = current$area,
       capacity_m3_s = current$flowpoint[1],
+      date = current$date,
+      plan_delay_lag = plan_delay_lag,
       ideal_flow_rate_cm = ideal_flow_rate_cm
     )
 
-    current[names(current) %in% names(current_hb)] <- NULL
+    current[, colnames(current) %in% names(current_hb)] <- NULL
 
-    current <- c(current, current_hb)
-    class(current) <- "data.frame"
-    df_list[[j]] <- current
+    df_list[[j]] <- cbind(current, current_hb)
 
   }
 
@@ -240,8 +237,8 @@ compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
 
 compute_hb_daily_v2 <- function(
     real_height_cm_lag,
-    zero_debt_lag,
     date,
+    plan_delay_lag,
     ideal_height_cm,
     petp_cm,
     irrigation,
@@ -251,15 +248,6 @@ compute_hb_daily_v2 <- function(
     ideal_flow_rate_cm = 5
     )
 {
-  mm <- get_mm(date)
-  dd <- get_dd(date)
-
-  zero_debt_initial <-
-    zero_debt_lag + (ideal_height_cm == 0) *
-    (mm > 4 | (mm == 4 & dd > 20)) *
-    (mm <= 9)
-  ideal_height_cm <- ideal_height_cm * (zero_debt_initial == 0)
-
   . <- list()
 
   . <- c(., compute_ideal_diff_flow(ideal_height_cm = ideal_height_cm,
@@ -289,8 +277,16 @@ compute_hb_daily_v2 <- function(
                                    real_inflow_cm = .$real_inflow_cm,
                                    real_outflow_cm = .$real_outflow_cm))
 
-  . <- c(., compute_zero_debt(real_height_cm = .$real_height_cm,
-                              zero_debt_initial = zero_debt_initial))
+  . <- c(., compute_real_height_cm(real_height_cm_lag = real_height_cm_lag,
+                                   petp_cm = petp_cm,
+                                   real_inflow_cm = .$real_inflow_cm,
+                                   real_outflow_cm = .$real_outflow_cm))
+
+  . <- c(., compute_plan_delay(plan_delay_lag = plan_delay_lag,
+                               ideal_height_cm = ideal_height_cm,
+                               real_height_cm = .$real_height_cm,
+                               date,
+                               thresh = 2.5))
 
   return(.)
 
@@ -370,7 +366,18 @@ compute_real_height_cm <- function(
   return( list(real_height_cm = res) )
 }
 
-compute_zero_debt <- function(real_height_cm, zero_debt_initial, thresh = 2.5)
+compute_plan_delay <- function(plan_delay_lag,
+                               ideal_height_cm,
+                               real_height_cm,
+                               date,
+                               thresh = 2.5)
 {
-  list(zero_debt = pmax(zero_debt_initial - (real_height_cm < thresh), 0))
+  res <- (plan_delay_lag +
+    (ideal_height_cm == 0) * (real_height_cm > thresh)
+    )
+
+  res <- res *
+    (get_mm(date) > 4 | get_mm(date) == 4 & get_dd(date) >= 20) *
+    (get_mm(date) < 10)
+  list(plan_delay = res)
 }

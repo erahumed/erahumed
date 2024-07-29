@@ -166,7 +166,7 @@ hb_local_data_prep <- function(
     )
   res$petp_cm <- (res$P - res$ETP) / 10
   res$real_height_cm <- res$real_height_cm_thresh <- res$height_cm
-  res$zero_debt <- 0
+  res$plan_delay <- 0
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
   res$flowpoint <- res$inflow_total *
