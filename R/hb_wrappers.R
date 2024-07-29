@@ -99,7 +99,7 @@ albufera_hydro_balance_local <- function(
       keep.by = TRUE
     )
   for (i in 1:n_ditches) {
-    res[[i]] <- compute_hb_daily_v2_wrap(res[[i]])
+    res[[i]] <- simulate_lhb(res[[i]])
     # The class()-unclass() trick above can lower the execution time of
     # propagate ditch by a constant factor (roughly of order 2). This has a
     # price to pay in that the code becomes more prone to bugs (e.g. we don't

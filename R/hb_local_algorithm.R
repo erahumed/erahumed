@@ -201,7 +201,7 @@ compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
 
 
 
-compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
+simulate_lhb <- function(df_list, ideal_flow_rate_cm = 5)
 {
   for (j in seq_along(df_list)) {
     current <- unclass(df_list[[j]])
@@ -218,7 +218,7 @@ compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
     if (is.null(real_height_cm_lag))
       real_height_cm_lag <- ideal_height_cm
 
-    current_hb <- compute_hb_daily_v2(
+    current_hb <- simulate_lhb_daily_step(
       real_height_cm_lag = real_height_cm_lag,
       ideal_height_cm = ideal_height_cm,
       petp_cm = current$petp_cm,
@@ -242,7 +242,7 @@ compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
   return(df_list)
 }
 
-compute_hb_daily_v2 <- function(
+simulate_lhb_daily_step <- function(
     real_height_cm_lag,
     date,
     plan_delay_lag,
@@ -296,7 +296,9 @@ compute_hb_daily_v2 <- function(
 
 
 compute_ideal_diff_flow <- function(
-    ideal_height_cm, real_height_cm_lag, petp_cm
+    ideal_height_cm,
+    real_height_cm_lag,
+    petp_cm
     )
 {
   res <- ideal_height_cm - pmax(0, real_height_cm_lag + petp_cm)
@@ -304,7 +306,10 @@ compute_ideal_diff_flow <- function(
 }
 
 compute_ideal_flows <- function(
-    ideal_diff_flow_cm, irrigation, draining, ideal_flow_rate_cm
+    ideal_diff_flow_cm,
+    irrigation,
+    draining,
+    ideal_flow_rate_cm
     )
 {
   is_flux <- irrigation * draining
@@ -323,7 +328,11 @@ compute_ideal_flows <- function(
           )
 }
 
-compute_real_outflow_m3_s <- function(ideal_outflow_cm, area_m2, capacity_m3_s)
+compute_real_outflow_m3_s <- function(
+    ideal_outflow_cm,
+    area_m2,
+    capacity_m3_s
+    )
 {
   n <- length(ideal_outflow_cm)
 
@@ -344,23 +353,36 @@ compute_real_outflow_m3_s <- function(ideal_outflow_cm, area_m2, capacity_m3_s)
 
 }
 
-compute_real_outflow_cm <- function(real_outflow_m3_s, area_m2)
+compute_real_outflow_cm <- function(
+    real_outflow_m3_s,
+    area_m2
+    )
 {
   list( real_outflow_cm = real_outflow_m3_s * 100 * s_per_day() / area_m2 )
 }
 
 
-compute_real_inflow_cm <- function(real_outflow_cm, ideal_diff_flow_cm)
+compute_real_inflow_cm <- function(
+    real_outflow_cm,
+    ideal_diff_flow_cm
+    )
 {
   list(real_inflow_cm = pmax(0, real_outflow_cm + ideal_diff_flow_cm))
 }
 
-compute_real_inflow_m3_s <- function(real_inflow_cm, area_m2) {
+compute_real_inflow_m3_s <- function(
+    real_inflow_cm,
+    area_m2
+    )
+{
   list(real_inflow_m3_s = (real_inflow_cm / 100) * area_m2 / s_per_day())
 }
 
 compute_real_height_cm <- function(
-    real_height_cm_lag, petp_cm, real_inflow_cm, real_outflow_cm
+    real_height_cm_lag,
+    petp_cm,
+    real_inflow_cm,
+    real_outflow_cm
     )
 {
   res <- pmax(0,  real_height_cm_lag + petp_cm) +
@@ -368,11 +390,13 @@ compute_real_height_cm <- function(
   return( list(real_height_cm = res) )
 }
 
-compute_plan_delay <- function(plan_delay_lag,
-                               ideal_height_cm,
-                               real_height_cm,
-                               date,
-                               thresh = 2.5)
+compute_plan_delay <- function(
+    plan_delay_lag,
+    ideal_height_cm,
+    real_height_cm,
+    date,
+    thresh = 2.5
+    )
 {
 
 
