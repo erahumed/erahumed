@@ -17,15 +17,12 @@ moving_average <- function(x, k) {
   y[(left_pad + 1):(left_pad + n)]
 }
 
-cumsum_thresh <- function(x, init, lower_thresh = 0) {
-  res <- numeric(length(x) + 1)
-  res[1] <- max(init, lower_thresh)
+get_mm <- function(date) {
+  as.numeric(format(date, "%m"))
+}
 
-  for (i in seq_along(x)) {
-    res[i + 1] <- max(res[i] + x[i], lower_thresh)
-  }
-
-  return(res)
+get_dd <- function(date) {
+  as.numeric(format(date, "%d"))
 }
 
 s_per_day <- function() {
