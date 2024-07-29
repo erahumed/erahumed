@@ -165,7 +165,6 @@ hb_local_data_prep <- function(
           allow.cartesian = TRUE
     )
   res$petp_cm <- (res$P - res$ETP) / 10
-  res$real_height_cm <- res$real_height_cm_thresh <- res$height_cm
   res$plan_delay <- 0
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)

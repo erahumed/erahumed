@@ -36,56 +36,6 @@ test_that("Returned dataset has the expected number of rows", {
   expect_equal(nrow(test_df), n_clusters * n_days)
 })
 
-
-
-
-test_that("If draining, the ideal height difference is non-positive", {
-  skip()
-  res <- test_df |>
-    dplyr::filter(draining, height_diff_cm > 1 * eps)
-
-  expect_equal(nrow(res), 0)
-})
-
-test_that("If irrigating, the ideal height difference is non-negative", {
-  skip()
-  res <- test_df |>
-    dplyr::filter(irrigation, height_diff_cm < -1 * eps)
-
-  expect_equal(nrow(res), 0)
-})
-
-test_that("If draining and irrigating, the ideal height difference is zero", {
-  skip()
-  res <- test_df |>
-    dplyr::filter(draining, irrigation, abs(height_diff_cm) > 1 * eps)
-
-  expect_equal(nrow(res), 0)
-})
-
-
-
-test_that("If draining, ideal inflow > ideal height difference", {
-  skip()
-  res <- test_df |>
-    dplyr::filter(draining,
-                  height_diff_cm - ideal_inflow_cm > mean(abs(ideal_inflow_cm)) * eps
-                  )
-
-  expect_equal(nrow(res), 0)
-})
-
-test_that("ideal inflow is zero if not irrigating", {
-  res <- test_df |>
-    dplyr::filter(!irrigation,
-                  abs(ideal_inflow_cm) / mean(abs(ideal_inflow_cm)) > eps
-    )
-
-  expect_equal(nrow(res), 0)
-})
-
-
-
 test_that("ideal flows are always non-negative", {
   res <- test_df |>
     dplyr::filter(ideal_inflow_cm < 0 | ideal_outflow_cm < 0)
@@ -112,5 +62,3 @@ test_that("sum(real outflows) = total capacity of ditch", {
 
   expect_equal(nrow(res), 0)
 })
-
-

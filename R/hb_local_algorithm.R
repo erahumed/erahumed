@@ -204,17 +204,22 @@ compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
 compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
 {
   for (j in seq_along(df_list)) {
-    current <- df_list[[j]]
-    previous <- if (j > 1) df_list[[j - 1]] else current
+    current <- unclass(df_list[[j]])
+    previous <- if (j > 1) unclass(df_list[[j - 1]]) else current
     plan_delay_lag <- previous$plan_delay
-    ideal_height_cm <- sapply(
-      seq_along(plan_delay_lag), \(c) {
-        df_list[[j - plan_delay_lag[c]]]$height_cm[c]
-        }
-      )
+
+    ideal_height_cm <- lapply(
+      seq_along(plan_delay_lag),
+      \(c) { df_list[[j - plan_delay_lag[c]]]$height_cm[c] }
+      ) |>
+      as.numeric()
+
+    real_height_cm_lag <- previous$real_height_cm
+    if (is.null(real_height_cm_lag))
+      real_height_cm_lag <- ideal_height_cm
 
     current_hb <- compute_hb_daily_v2(
-      real_height_cm_lag = previous$real_height_cm,
+      real_height_cm_lag = real_height_cm_lag,
       ideal_height_cm = ideal_height_cm,
       petp_cm = current$petp_cm,
       irrigation = current$irrigation,
@@ -226,9 +231,11 @@ compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
       ideal_flow_rate_cm = ideal_flow_rate_cm
     )
 
-    current[, colnames(current) %in% names(current_hb)] <- NULL
+    current[names(current) %in% names(current_hb)] <- NULL
 
-    df_list[[j]] <- cbind(current, current_hb)
+
+    df_list[[j]] <- c(current, current_hb)
+    class(df_list[[j]]) <- "data.frame"
 
   }
 
@@ -271,11 +278,6 @@ compute_hb_daily_v2 <- function(
 
   . <- c(., compute_real_inflow_m3_s(real_inflow_cm = .$real_inflow_cm,
                                      area_m2 = area_m2))
-
-  . <- c(., compute_real_height_cm(real_height_cm_lag = real_height_cm_lag,
-                                   petp_cm = petp_cm,
-                                   real_inflow_cm = .$real_inflow_cm,
-                                   real_outflow_cm = .$real_outflow_cm))
 
   . <- c(., compute_real_height_cm(real_height_cm_lag = real_height_cm_lag,
                                    petp_cm = petp_cm,
@@ -372,10 +374,13 @@ compute_plan_delay <- function(plan_delay_lag,
                                date,
                                thresh = 2.5)
 {
+
+
   res <- (plan_delay_lag +
     (ideal_height_cm == 0) * (real_height_cm > thresh)
     )
 
+  date <- as.POSIXlt(date[1])
   res <- res *
     (get_mm(date) > 4 | get_mm(date) == 4 & get_dd(date) >= 20) *
     (get_mm(date) < 10)
