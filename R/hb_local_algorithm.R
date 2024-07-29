@@ -198,35 +198,50 @@ compute_hb_daily <- function(current, previous, ideal_flow_rate_cm = 5) {
 
 # V2 algorithm, WIP.
 
-compute_hb_daily_v2_wrap <- function(current, previous, ideal_flow_rate_cm = 5)
+
+
+
+compute_hb_daily_v2_wrap <- function(df_list, ideal_flow_rate_cm = 5)
 {
+  n_dates <- length(df_list)
 
+  for (j in 1:n_dates) {
+    current <- unclass(df_list[[j]])
+    previous <- if (j > 1) unclass(df_list[[j - 1]]) else current
 
-  res_raw <- compute_hb_daily_v2(
-    real_height_cm_lag =
-      if (is.null(previous$real_height_cm)) {
-        current$height_cm
-      } else {
-        previous$real_height_cm
-      },
-    ideal_height_cm = current$height_cm,
-    petp_cm = current$petp_cm,
-    irrigation = current$irrigation,
-    draining = current$draining,
-    area_m2 = current$area,
-    capacity_m3_s = current$flowpoint[1],
-    ideal_flow_rate_cm = ideal_flow_rate_cm
-  )
+    current_hb <- compute_hb_daily_v2(
+      real_height_cm_lag =
+        if (is.null(previous$real_height_cm)) {
+          current$height_cm
+        } else {
+          previous$real_height_cm
+        },
+      zero_debt_lag = previous$zero_debt,
+      date = current$date,
+      ideal_height_cm = current$height_cm,
+      petp_cm = current$petp_cm,
+      irrigation = current$irrigation,
+      draining = current$draining,
+      area_m2 = current$area,
+      capacity_m3_s = current$flowpoint[1],
+      ideal_flow_rate_cm = ideal_flow_rate_cm
+    )
 
-  current[names(current) %in% names(res_raw)] <- NULL
+    current[names(current) %in% names(current_hb)] <- NULL
 
-  current <- c(current, res_raw)
+    current <- c(current, current_hb)
+    class(current) <- "data.frame"
+    df_list[[j]] <- current
 
-  return(current)
+  }
+
+  return(df_list)
 }
 
 compute_hb_daily_v2 <- function(
     real_height_cm_lag,
+    zero_debt_lag,
+    date,
     ideal_height_cm,
     petp_cm,
     irrigation,
@@ -236,6 +251,15 @@ compute_hb_daily_v2 <- function(
     ideal_flow_rate_cm = 5
     )
 {
+  mm <- get_mm(date)
+  dd <- get_dd(date)
+
+  zero_debt_initial <-
+    zero_debt_lag + (ideal_height_cm == 0) *
+    (mm > 4 | (mm == 4 & dd > 20)) *
+    (mm <= 9)
+  ideal_height_cm <- ideal_height_cm * (zero_debt_initial == 0)
+
   . <- list()
 
   . <- c(., compute_ideal_diff_flow(ideal_height_cm = ideal_height_cm,
@@ -265,65 +289,10 @@ compute_hb_daily_v2 <- function(
                                    real_inflow_cm = .$real_inflow_cm,
                                    real_outflow_cm = .$real_outflow_cm))
 
-  return(.)
+  . <- c(., compute_zero_debt(real_height_cm = .$real_height_cm,
+                              zero_debt_initial = zero_debt_initial))
 
-  # res <- c(
-  #   ideal_flows,
-  #   real_outflow_m3_s,
-  #   real_outflow_cm,
-  #   real_inflow_cm,
-  #   real_inflow_m3_s,
-  #   real_height_cm
-  # )
-  #
-  # return(res)
-  #
-  #
-  #
-  # ideal_diff_flow <- compute_ideal_diff_flow(
-  #   ideal_height_cm = ideal_height_cm,
-  #   real_height_cm_lag = real_height_cm_lag,
-  #   petp_cm = petp_cm)
-  #
-  # ideal_flows <- compute_ideal_flows(
-  #   ideal_diff_flow_cm = ideal_diff_flow$ideal_diff_flow_cm,
-  #   irrigation = irrigation,
-  #   draining = draining,
-  #   ideal_flow_rate_cm = ideal_flow_rate_cm)
-  #
-  # real_outflow_m3_s <- compute_real_outflow_m3_s(
-  #   ideal_outflow_cm = ideal_flows$ideal_outflow_cm,
-  #   area = area,
-  #   capacity_m3_s = capacity_m3_s)
-  #
-  # real_outflow_cm <- compute_real_outflow_cm(
-  #   real_outflow_m3_s = real_outflow_m3_s$real_outflow_m3_s,
-  #   area = area)
-  #
-  # real_inflow_cm <- compute_real_inflow_cm(
-  #   real_outflow_cm = real_outflow_cm$real_outflow_cm,
-  #   ideal_diff_flow = ideal_diff_flow$ideal_diff_flow_cm)
-  #
-  # real_inflow_m3_s <- compute_real_inflow_m3_s(
-  #   real_inflow_cm = real_inflow_cm$real_inflow_cm, area = area)
-  #
-  # real_height_cm <- compute_real_height_cm(
-  #   real_height_cm_lag = real_height_cm_lag,
-  #   petp_cm = petp_cm,
-  #   real_inflow_cm = real_inflow_cm$real_inflow_cm,
-  #   real_outflow_cm = real_outflow_cm$real_outflow_cm
-  #   )
-  #
-  # res <- c(
-  #   ideal_flows,
-  #   real_outflow_m3_s,
-  #   real_outflow_cm,
-  #   real_inflow_cm,
-  #   real_inflow_m3_s,
-  #   real_height_cm
-  #   )
-  #
-  # return(res)
+  return(.)
 
 }
 
@@ -399,4 +368,9 @@ compute_real_height_cm <- function(
   res <- pmax(0,  real_height_cm_lag + petp_cm) +
     real_inflow_cm - real_outflow_cm
   return( list(real_height_cm = res) )
+}
+
+compute_zero_debt <- function(real_height_cm, zero_debt_initial, thresh = 2.5)
+{
+  list(zero_debt = pmax(zero_debt_initial - (real_height_cm < thresh), 0))
 }

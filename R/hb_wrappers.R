@@ -99,13 +99,7 @@ albufera_hydro_balance_local <- function(
       keep.by = TRUE
     )
   for (i in 1:n_ditches) {
-    for (j in 1:n_dates) {
-      res[[i]][[j]] <- compute_hb_daily_v2_wrap(
-        current = unclass(res[[i]][[j]]),
-        previous = if (j > 1) unclass(res[[i]][[j - 1]]) else unclass(res[[i]][[j]])
-        )
-      class(res[[i]][[j]]) <- "data.frame"
-    }
+    res[[i]] <- compute_hb_daily_v2_wrap(res[[i]])
     # The class()-unclass() trick above can lower the execution time of
     # propagate ditch by a constant factor (roughly of order 2). This has a
     # price to pay in that the code becomes more prone to bugs (e.g. we don't
@@ -172,6 +166,7 @@ hb_local_data_prep <- function(
     )
   res$petp_cm <- (res$P - res$ETP) / 10
   res$real_height_cm <- res$real_height_cm_thresh <- res$height_cm
+  res$zero_debt <- 0
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
   res$flowpoint <- res$inflow_total *
