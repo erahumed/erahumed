@@ -1,5 +1,4 @@
-# TODO: should we export these S3 methods?
-
+#' @export
 plot.hb_global <- function(x, variable, ...) {
   var_lab <- hb_var_labels()[variable]
   is_imputed <- x[[paste0(variable, "_is_imputed")]]
@@ -30,6 +29,7 @@ plot.hb_global <- function(x, variable, ...) {
     )
 }
 
+#' @export
 plot.hb_local <- function(x, type = c("cluster_levels", "map"), ...) {
   type <- match.arg(type)
 
