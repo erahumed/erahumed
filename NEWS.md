@@ -1,5 +1,14 @@
 # erahumed (development version)
 
+### Algorithm
+
+* The main algorithm for local balance has been modified in such a way to ensure
+that the correct number of emptying events is always produced. This is achieved
+by delaying (by one day) the ideal water level plan whenever the ideal level is
+zero and the real level is above a certain threshold (2.5 mm by default). 
+Moreover, outside of the sowing season, the water level plan is reset to
+the original one, in such a way that the Perellona does not get delayed.
+
 ### Under the hoods
 
 * Re-enabled continuous integration, with some internal code improvements.
