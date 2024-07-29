@@ -170,21 +170,7 @@ hb_local_data_prep <- function(
           sort = FALSE,
           allow.cartesian = TRUE
     )
-  res$height_diff_cm <- res$height_cm - res$lag_height_cm
-  res$petp <- res$P - res$ETP
-  res$petp_cm <- res$petp / 10
-  res$petp_m <- res$petp / 1e3
-  res$petp_m_s <- res$petp_m / s_per_day()
-  res$petp_m3_s <- res$petp_m_s * res$area
-
-  # TODO: Must be preallocated for the correct functioning of the algorithm;
-  # Can we avoid this?
-  res$accum_drain <- 0
-  res$accum_rain <- 0
-  res$accum_flux <- 0
-  res$real_outflow_rain <- 0
-  res$real_outflow_drain <- 0
-  res$real_outflow_flux <- 0
+  res$petp_cm <- (res$P - res$ETP) / 10
   res$real_height_cm <- res$real_height_cm_thresh <- res$height_cm
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
