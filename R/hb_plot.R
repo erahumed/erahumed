@@ -52,14 +52,11 @@ plot_hb_local_cluster_levels <- function(data, cluster_id) {
   data <- data[data$cluster_id == cluster_id, ]
   data <- data[order(data$date), ]
 
-  variable <- "real_height_cm"
-  var_lab <- "Height [cm]"
-
   plotly::plot_ly(data = data, x = ~date) |>
     plotly::add_trace(
-      y = ~get(variable),
+      y = ~real_height_cm,
       text = ~paste0("Date: ", date,
-                     "<br>", var_lab, ": ", get(variable),
+                     "<br>Height [cm]: ", real_height_cm,
                      "<br>Irrigation: ", irrigation,
                      "<br>Draining: ", draining),
       hoverinfo = "text",
@@ -68,14 +65,14 @@ plot_hb_local_cluster_levels <- function(data, cluster_id) {
       name = "Simulated"
     ) |>
     plotly::add_trace(
-      y = ~height_cm,
+      y = ~ideal_height_cm,
       type = "scatter", mode = "lines",
       line = list(width = 2, color = "#0000BB", dash = "dash"),
       name = "Ideal"
     ) |>
     plotly::layout(
-      title = paste("Time Series of", var_lab),
+      title = paste("Time Series of Height [cm]"),
       xaxis = list(title = "Date"),
-      yaxis = list(title = var_lab)
+      yaxis = list(title = "Height [cm]")
     )
 }
