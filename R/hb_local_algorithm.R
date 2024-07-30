@@ -6,6 +6,7 @@ simulate_lhb <- function(
     area_m2,
     capacity_m3_s,
     date,
+    cluster_id,
     ideal_flow_rate_cm = 5,
     ...
     )
@@ -19,6 +20,7 @@ simulate_lhb <- function(
     area_m2 = area_m2,
     capacity_m3_s = capacity_m3_s,
     date = date,
+    cluster_id,
     ...
   )
 
@@ -72,6 +74,7 @@ make_lhb_df_list <- function(
   area_m2,
   capacity_m3_s,
   date,
+  cluster_id,
   ...
   )
 {
@@ -85,9 +88,10 @@ make_lhb_df_list <- function(
     area_m2,
     capacity_m3_s,
     date,
+    cluster_id,
     ...
     ) |>
-  data.table::setorder(date) |>
+  data.table::setorder(date, cluster_id) |>
   collapse::rsplit(
     by = ~ date,
     flatten = FALSE,
