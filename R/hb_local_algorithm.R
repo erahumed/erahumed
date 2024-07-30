@@ -25,44 +25,44 @@ simulate_lhb <- function(
   df_list <- lapply(df_list, unclass)
 
   for (j in seq_along(df_list)) {
-    current <- df_list[[j]]
-    previous <- if (j > 1) df_list[[j - 1]] else current
-    plan_delay_lag <- previous$plan_delay
+    args <- c(extract_lhb_daily_inputs(df_list, j),
+              list(ideal_flow_rate_cm = ideal_flow_rate_cm)
+              )
+    update_j <- do.call(simulate_lhb_daily_step, args)
 
-    ideal_height_cm <- lapply(
-      seq_along(plan_delay_lag),
-      \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] }
-      ) |>
-      as.numeric()
-
-    real_height_cm_lag <- previous$real_height_cm
-    if (is.null(real_height_cm_lag))
-      real_height_cm_lag <- ideal_height_cm
-
-    current_hb <- simulate_lhb_daily_step(
-      real_height_cm_lag = real_height_cm_lag,
-      ideal_height_cm = ideal_height_cm,
-      petp_cm = current$petp_cm,
-      irrigation = current$irrigation,
-      draining = current$draining,
-      area_m2 = current$area,
-      capacity_m3_s = current$capacity_m3_s[[1]],
-      date = current$date,
-      plan_delay_lag = plan_delay_lag,
-      ideal_flow_rate_cm = ideal_flow_rate_cm
-    )
-
-    current[names(current) %in% names(current_hb)] <- NULL
-
-
-    df_list[[j]] <- c(current, current_hb)
-    class(df_list[[j]]) <- "data.frame"
-
+    df_list[[j]][names(df_list[[j]]) %in% names(update_j)] <- NULL
+    df_list[[j]] <- c(df_list[[j]], update_j)
   }
+
+  df_list <- lapply(df_list, `class<-`, "data.frame")
 
   return(df_list)
 }
 
+extract_lhb_daily_inputs <- function(df_list, j) {
+  current <- df_list[[j]]
+  previous <- if (j > 1) df_list[[j - 1]] else current
+
+  plan_delay_lag <- previous$plan_delay
+  ideal_height_cm <- vapply(
+    seq_along(plan_delay_lag),
+    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] },
+    numeric(1)
+  )
+  real_height_cm_lag <- previous$real_height_cm
+
+  list(
+    real_height_cm_lag = real_height_cm_lag,
+    ideal_height_cm = ideal_height_cm,
+    petp_cm = current$petp_cm,
+    irrigation = current$irrigation,
+    draining = current$draining,
+    area_m2 = current$area,
+    capacity_m3_s = current$capacity_m3_s[[1]],
+    date = current$date,
+    plan_delay_lag = plan_delay_lag
+  )
+}
 
 make_lhb_df_list <- function(
   ideal_height_cm,
