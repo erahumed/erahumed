@@ -370,3 +370,41 @@ test_that("compute_real_outflow_m3_s(): sum of real outflows = capacity", {
 
   expect_equal(sum(res$real_outflow_m3_s), capacity_m3_s)
 })
+
+
+
+test_that("compute_real_inflow_cm(): output is >0 if ideal diff flow is", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+  ideal_diff_flow_cm <- rnorm(n, sd = 10)
+
+
+  res <- compute_real_inflow_cm(
+    real_outflow_cm = runif(n, 0, 10) * (runif(n) > .5) ,
+    ideal_diff_flow_cm = ideal_diff_flow_cm
+  )
+
+  expect_gt(
+    min(res$real_inflow_cm[ideal_diff_flow_cm > 0]),
+    0)
+})
+
+test_that("compute_real_inflow_cm(): real-diff-flow = ideal-diff-flow cases", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+  ideal_diff_flow_cm <- rnorm(n, sd = 10)
+  real_outflow_cm <- runif(n, 0, 10) * (runif(n) > .5)
+
+  res <- compute_real_inflow_cm(
+    real_outflow_cm = real_outflow_cm,
+    ideal_diff_flow_cm = ideal_diff_flow_cm
+  )
+
+  real_diff_flow_cm <- res$real_inflow_cm - real_outflow_cm
+
+  # 'cond' captures the fact that either (i) the net flow is expected to be
+  # positive, or (ii) there's enough capacity to outflow the expected net flow.
+  cond <- real_outflow_cm > -ideal_diff_flow_cm
+
+  expect_equal(real_diff_flow_cm[cond], ideal_diff_flow_cm[cond])
+})
