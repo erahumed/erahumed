@@ -1,5 +1,11 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Important code refactors for the local balance algorithm, aiming to separate 
+the abstract logic of the algorithm from our specific conventions used to pack together data for hydrological balance - the latter conventions being relegated
+to `hb_wrappers.R` functions.
+
 # erahumed 0.1.1
 
 ### Algorithm
