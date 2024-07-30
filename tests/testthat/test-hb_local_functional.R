@@ -52,7 +52,7 @@ test_that("sum(real outflows) = total capacity of ditch", {
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
     dplyr::summarise(
-      flowpoint = flowpoint[1],
+      flowpoint = capacity_m3_s[1],
       real_outflow_m3_s = sum(real_outflow_m3_s),
       .groups = "drop"
     ) |>

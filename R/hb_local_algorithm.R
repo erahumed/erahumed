@@ -1,5 +1,28 @@
-simulate_lhb <- function(df, ideal_flow_rate_cm = 5)
+simulate_lhb <- function(
+    ideal_height_cm,
+    irrigation,
+    draining,
+    petp_cm,
+    area_m2,
+    capacity_m3_s,
+    date,
+    ideal_flow_rate_cm = 5,
+    ...
+    )
 {
+  df <- data.frame(
+    ideal_height_cm,
+    irrigation,
+    draining,
+    plan_delay = 0,
+    petp_cm,
+    real_height_cm = ideal_height_cm,
+    area_m2,
+    capacity_m3_s,
+    date,
+    ...
+  )
+
   df_list <- df |>
     collapse::rsplit(
       by = ~ date,
@@ -16,7 +39,7 @@ simulate_lhb <- function(df, ideal_flow_rate_cm = 5)
 
     ideal_height_cm <- lapply(
       seq_along(plan_delay_lag),
-      \(c) { df_list[[j - plan_delay_lag[c]]]$height_cm[c] }
+      \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] }
       ) |>
       as.numeric()
 
@@ -31,7 +54,7 @@ simulate_lhb <- function(df, ideal_flow_rate_cm = 5)
       irrigation = current$irrigation,
       draining = current$draining,
       area_m2 = current$area,
-      capacity_m3_s = current$flowpoint[1],
+      capacity_m3_s = current$capacity_m3_s[[1]],
       date = current$date,
       plan_delay_lag = plan_delay_lag,
       ideal_flow_rate_cm = ideal_flow_rate_cm

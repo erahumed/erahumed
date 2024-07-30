@@ -87,7 +87,17 @@ albufera_hydro_balance_local <- function(
       )
 
   for (i in seq_along(res)) {
-    res[[i]] <- simulate_lhb(res[[i]])
+    res[[i]] <- simulate_lhb(
+      ideal_height_cm = res[[i]]$height_cm,
+      petp_cm = res[[i]]$petp_cm,
+      irrigation = res[[i]]$irrigation,
+      draining = res[[i]]$draining,
+      area_m2 = res[[i]]$area,
+      capacity_m3_s = res[[i]]$flowpoint,
+      date = res[[i]]$date,
+      ideal_flow_rate_cm = 5,
+      ditch = res[[i]]$ditch
+    )
   }
 
   res <- do.call(c, res) # flatten to single list of data-frames
