@@ -1,5 +1,14 @@
-simulate_lhb <- function(df_list, ideal_flow_rate_cm = 5)
+simulate_lhb <- function(df, ideal_flow_rate_cm = 5)
 {
+  df_list <- df |>
+    collapse::rsplit(
+      by = ~ date,
+      flatten = FALSE,
+      use.names = FALSE,
+      simplify = FALSE,
+      keep.by = TRUE
+    )
+
   for (j in seq_along(df_list)) {
     current <- unclass(df_list[[j]])
     previous <- if (j > 1) unclass(df_list[[j - 1]]) else current

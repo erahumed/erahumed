@@ -147,7 +147,7 @@ hb_local_data_prep <- function(
 
   res <- res |>
     collapse::rsplit(
-      by = ~ ditch + date,
+      by = ~ ditch,
       flatten = FALSE,
       use.names = FALSE,
       simplify = FALSE,
