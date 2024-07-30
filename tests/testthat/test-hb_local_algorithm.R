@@ -196,15 +196,13 @@ test_that("compute_ideal_diff_flow_cm returns a (properly) named list", {
 })
 
 test_that("compute_ideal_diff_flow_cm returns the correct structure", {
+  set.seed(840)
   n <- 10
-  ideal_height_cm <- runif(n, 5, 10)
-  real_height_cm <- runif(n, 0, 10)
-  petp_cm <- rnorm(n, sd = 5)
 
   res <- compute_ideal_diff_flow_cm(
-    ideal_height_cm = ideal_height_cm,
-    real_height_cm_lag = real_height_cm,
-    petp_cm = petp_cm
+    ideal_height_cm = runif(n, 5, 10),
+    real_height_cm_lag = runif(n, 0, 10),
+    petp_cm = rnorm(n, sd = 5)
   )
 
   res <- res$ideal_diff_flow_cm
@@ -232,5 +230,89 @@ test_that("compute_ideal_diff_flow_cm gives the correct result for petp < 0", {
   ) |>
     (\(x) x$ideal_diff_flow_cm)() |>
     expect_equal(10)
+
+})
+
+
+
+test_that("compute_ideal_flows_cm returns a (properly) named list", {
+  res <- compute_ideal_flows_cm(
+    ideal_diff_flow_cm = 1,
+    irrigation = TRUE,
+    draining = TRUE,
+    ideal_flow_rate_cm = 5
+  )
+
+  expect_type(res, "list")
+  expect_setequal(names(res), c("ideal_inflow_cm", "ideal_outflow_cm"))
+})
+
+test_that("compute_ideal_flows_cm returns the correct structure", {
+  set.seed(840)
+  n <- 10
+
+  res <- compute_ideal_flows_cm(
+    ideal_diff_flow_cm = rnorm(n, sd = 10),
+    irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
+    draining = sample(c(TRUE, FALSE), n, replace = TRUE),
+    ideal_flow_rate_cm = 5
+  )
+
+  res_inflow <- res$ideal_inflow_cm
+  res_outflow <- res$ideal_outflow_cm
+
+  expect_type(res_inflow, "double")
+  expect_type(res_outflow, "double")
+  expect_length(res_inflow, n)
+  expect_length(res_outflow, n)
+})
+
+test_that("compute_ideal_flows_cm inflow - outflow = ideal diff flow", {
+  set.seed(840)
+  n <- 100
+  ideal_diff_flow_cm <- rnorm(n, sd = 10)
+
+  res <- compute_ideal_flows_cm(
+    ideal_diff_flow_cm = ideal_diff_flow_cm,
+    irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
+    draining = sample(c(TRUE, FALSE), n, replace = TRUE),
+    ideal_flow_rate_cm = 5
+  )
+
+  expect_equal(res$ideal_inflow_cm - res$ideal_outflow_cm, ideal_diff_flow_cm)
+})
+
+test_that("compute_ideal_flows_cm: inflow = max(ideal_flow_rate, ideal_diff_flow) if in flux",
+{
+  set.seed(840)
+  n <- 100
+  ideal_flow_rate_cm <- 5
+  ideal_diff_flow_cm <- rnorm(n, sd = 10)
+
+  res <- compute_ideal_flows_cm(
+    ideal_diff_flow_cm = ideal_diff_flow_cm,
+    irrigation = rep(TRUE, n),
+    draining = rep(TRUE, n),
+    ideal_flow_rate_cm = ideal_flow_rate_cm
+  )
+
+  expect_equal(res$ideal_inflow_cm,
+               pmax(ideal_flow_rate_cm, ideal_diff_flow_cm)
+               )
+})
+
+test_that("compute_ideal_flows_cm: flows are always positive", {
+  set.seed(840)
+  n <- 100
+
+  res <- compute_ideal_flows_cm(
+    ideal_diff_flow_cm = rnorm(n, sd = 10),
+    irrigation = rep(TRUE, n),
+    draining = rep(TRUE, n),
+    ideal_flow_rate_cm = 5
+  )
+
+  expect_gte(min(res$ideal_inflow_cm), 0)
+  expect_gte(min(res$ideal_outflow_cm), 0)
 
 })
