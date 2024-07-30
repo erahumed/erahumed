@@ -21,7 +21,8 @@ simulate_lhb <- function(
     capacity_m3_s,
     date,
     ...
-  )
+  ) |>
+    data.table::setorder(date)
 
   df_list <- df |>
     collapse::rsplit(
