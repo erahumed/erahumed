@@ -10,32 +10,23 @@ simulate_lhb <- function(
     ...
     )
 {
-  df <- data.frame(
-    ideal_height_cm,
-    irrigation,
-    draining,
-    plan_delay = 0,
-    petp_cm,
-    real_height_cm = ideal_height_cm,
-    area_m2,
-    capacity_m3_s,
-    date,
-    ...
-  ) |>
-    data.table::setorder(date)
 
-  df_list <- df |>
-    collapse::rsplit(
-      by = ~ date,
-      flatten = FALSE,
-      use.names = FALSE,
-      simplify = FALSE,
-      keep.by = TRUE
-    )
+  df_list <- make_lhb_df_list(
+    ideal_height_cm = ideal_height_cm,
+    irrigation = irrigation,
+    draining = draining,
+    petp_cm = petp_cm,
+    area_m2 = area_m2,
+    capacity_m3_s = capacity_m3_s,
+    date = date,
+    ...
+  )
+
+  df_list <- lapply(df_list, unclass)
 
   for (j in seq_along(df_list)) {
-    current <- unclass(df_list[[j]])
-    previous <- if (j > 1) unclass(df_list[[j - 1]]) else current
+    current <- df_list[[j]]
+    previous <- if (j > 1) df_list[[j - 1]] else current
     plan_delay_lag <- previous$plan_delay
 
     ideal_height_cm <- lapply(
@@ -71,6 +62,41 @@ simulate_lhb <- function(
 
   return(df_list)
 }
+
+
+make_lhb_df_list <- function(
+  ideal_height_cm,
+  irrigation,
+  draining,
+  petp_cm,
+  area_m2,
+  capacity_m3_s,
+  date,
+  ...
+  )
+{
+  data.frame(
+    ideal_height_cm,
+    irrigation,
+    draining,
+    plan_delay = 0,
+    petp_cm,
+    real_height_cm = ideal_height_cm,
+    area_m2,
+    capacity_m3_s,
+    date,
+    ...
+    ) |>
+  data.table::setorder(date) |>
+  collapse::rsplit(
+    by = ~ date,
+    flatten = FALSE,
+    use.names = FALSE,
+    simplify = FALSE,
+    keep.by = TRUE
+    )
+}
+
 
 simulate_lhb_daily_step <- function(
     real_height_cm_lag,
