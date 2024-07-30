@@ -218,7 +218,7 @@ compute_real_outflow_cm <- function(
     area_m2
     )
 {
-  list( real_outflow_cm = real_outflow_m3_s * 100 * s_per_day() / area_m2 )
+  list( real_outflow_cm = m3_s_to_cm_day(real_outflow_m3_s, area_m2) )
 }
 
 
@@ -235,7 +235,7 @@ compute_real_inflow_m3_s <- function(
     area_m2
     )
 {
-  list(real_inflow_m3_s = (real_inflow_cm / 100) * area_m2 / s_per_day())
+  list(real_inflow_m3_s = cm_day_to_m3_s(real_inflow_cm, area_m2))
 }
 
 compute_real_height_cm <- function(
