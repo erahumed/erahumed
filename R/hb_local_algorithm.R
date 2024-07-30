@@ -117,11 +117,11 @@ simulate_lhb_daily_step <- function(
 {
   . <- list()
 
-  . <- c(., compute_ideal_diff_flow(ideal_height_cm = ideal_height_cm,
+  . <- c(., compute_ideal_diff_flow_cm(ideal_height_cm = ideal_height_cm,
                                     real_height_cm_lag = real_height_cm_lag,
                                     petp_cm = petp_cm))
 
-  . <- c(., compute_ideal_flows(ideal_diff_flow_cm = .$ideal_diff_flow_cm,
+  . <- c(., compute_ideal_flows_cm(ideal_diff_flow_cm = .$ideal_diff_flow_cm,
                                 irrigation = irrigation,
                                 draining = draining,
                                 ideal_flow_rate_cm = ideal_flow_rate_cm))
@@ -155,7 +155,7 @@ simulate_lhb_daily_step <- function(
 }
 
 
-compute_ideal_diff_flow <- function(
+compute_ideal_diff_flow_cm <- function(
     ideal_height_cm,
     real_height_cm_lag,
     petp_cm
@@ -165,7 +165,7 @@ compute_ideal_diff_flow <- function(
   return( list(ideal_diff_flow_cm = res) )
 }
 
-compute_ideal_flows <- function(
+compute_ideal_flows_cm <- function(
     ideal_diff_flow_cm,
     irrigation,
     draining,
