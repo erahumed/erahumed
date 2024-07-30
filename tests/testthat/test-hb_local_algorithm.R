@@ -183,3 +183,54 @@ test_that("make_lhb_df_list returned dataframes are sorted by date", {
   expect_identical(unique_dates, sort(unique_dates))
 
 })
+
+
+
+test_that("compute_ideal_diff_flow_cm returns a (properly) named list", {
+  res <- compute_ideal_diff_flow_cm(
+    ideal_height_cm = 10, real_height_cm_lag = 8, petp_cm = 1
+  )
+
+  expect_type(res, "list")
+  expect_identical(names(res), "ideal_diff_flow_cm")
+})
+
+test_that("compute_ideal_diff_flow_cm returns the correct structure", {
+  n <- 10
+  ideal_height_cm <- runif(n, 5, 10)
+  real_height_cm <- runif(n, 0, 10)
+  petp_cm <- rnorm(n, sd = 5)
+
+  res <- compute_ideal_diff_flow_cm(
+    ideal_height_cm = ideal_height_cm,
+    real_height_cm_lag = real_height_cm,
+    petp_cm = petp_cm
+  )
+
+  res <- res$ideal_diff_flow_cm
+
+  expect_type(res, "double")
+  expect_length(res, n)
+})
+
+test_that("compute_ideal_diff_flow_cm gives the correct result for petp > 0", {
+  compute_ideal_diff_flow_cm(
+    ideal_height_cm = c(10, 10),
+    real_height_cm_lag = c(8, 8),
+    petp_cm = c(1, 3)
+    ) |>
+    (\(x) x$ideal_diff_flow_cm)() |>
+    expect_equal(c(1, -1))
+
+})
+
+test_that("compute_ideal_diff_flow_cm gives the correct result for petp < 0", {
+  compute_ideal_diff_flow_cm(
+    ideal_height_cm = 10,
+    real_height_cm_lag = 8,
+    petp_cm = -9
+  ) |>
+    (\(x) x$ideal_diff_flow_cm)() |>
+    expect_equal(10)
+
+})
