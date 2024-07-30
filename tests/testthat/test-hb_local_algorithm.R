@@ -1,4 +1,4 @@
-test_that("make_lhb_df_list succeds if inputs can form a data.frame", {
+test_that("make_lhb_df_list() succeds if inputs can form a data.frame", {
   expect_no_condition(
     make_lhb_df_list(
       ideal_height_cm = rep(10, 10),
@@ -16,7 +16,7 @@ test_that("make_lhb_df_list succeds if inputs can form a data.frame", {
   )
 })
 
-test_that("make_lhb_df_list throws error if inputs cannot form a data.frame", {
+test_that("make_lhb_df_list() throws if inputs cannot form a data.frame", {
   expect_error(
     make_lhb_df_list(
       ideal_height_cm = rep(10, 10),
@@ -52,7 +52,7 @@ test_that("make_lhb_df_list throws error if inputs cannot form a data.frame", {
 
 })
 
-test_that("make_lhb_df_list throws error if date or cluster_id are missing", {
+test_that("make_lhb_df_list() throws if date or cluster_id are missing", {
   expect_error(
     make_lhb_df_list(
       ideal_height_cm = rep(10, 10),
@@ -87,7 +87,7 @@ test_that("make_lhb_df_list throws error if date or cluster_id are missing", {
 
 })
 
-test_that("make_lhb_df_list returns a list of dataframes", {
+test_that("make_lhb_df_list() returns a list of dataframes", {
   res <- make_lhb_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
@@ -106,7 +106,7 @@ test_that("make_lhb_df_list returns a list of dataframes", {
   lapply(res, expect_s3_class, "data.frame")
 })
 
-test_that("make_lhb_df_list returned dataframes contain the input columns", {
+test_that("make_lhb_df_list() returned dfs contain the input columns", {
   args <- list(
     ideal_height_cm = rep(10, 10),
     irrigation = rep(TRUE, 10),
@@ -130,7 +130,7 @@ test_that("make_lhb_df_list returned dataframes contain the input columns", {
 
 })
 
-test_that("make_lhb_df_list returned dataframes are grouped by date", {
+test_that("make_lhb_df_list() returned dfs are grouped by date", {
   args <- list(
     ideal_height_cm = rep(10, 10),
     irrigation = rep(TRUE, 10),
@@ -157,7 +157,7 @@ test_that("make_lhb_df_list returned dataframes are grouped by date", {
 
 })
 
-test_that("make_lhb_df_list returned dataframes are sorted by date", {
+test_that("make_lhb_df_list() returned dfs are sorted by date", {
   args <- list(
     ideal_height_cm = rep(10, 10),
     irrigation = rep(TRUE, 10),
@@ -186,7 +186,7 @@ test_that("make_lhb_df_list returned dataframes are sorted by date", {
 
 
 
-test_that("compute_ideal_diff_flow_cm returns a (properly) named list", {
+test_that("compute_ideal_diff_flow_cm() returns a (properly) named list", {
   res <- compute_ideal_diff_flow_cm(
     ideal_height_cm = 10, real_height_cm_lag = 8, petp_cm = 1
   )
@@ -195,7 +195,7 @@ test_that("compute_ideal_diff_flow_cm returns a (properly) named list", {
   expect_identical(names(res), "ideal_diff_flow_cm")
 })
 
-test_that("compute_ideal_diff_flow_cm returns the correct structure", {
+test_that("compute_ideal_diff_flow_cm() returns the correct structure", {
   set.seed(840)
   n <- 10
 
@@ -211,7 +211,7 @@ test_that("compute_ideal_diff_flow_cm returns the correct structure", {
   expect_length(res, n)
 })
 
-test_that("compute_ideal_diff_flow_cm gives the correct result for petp > 0", {
+test_that("compute_ideal_diff_flow_cm(): correct result for petp > 0", {
   compute_ideal_diff_flow_cm(
     ideal_height_cm = c(10, 10),
     real_height_cm_lag = c(8, 8),
@@ -222,7 +222,7 @@ test_that("compute_ideal_diff_flow_cm gives the correct result for petp > 0", {
 
 })
 
-test_that("compute_ideal_diff_flow_cm gives the correct result for petp < 0", {
+test_that("compute_ideal_diff_flow_cm(): correct result for petp < 0", {
   compute_ideal_diff_flow_cm(
     ideal_height_cm = 10,
     real_height_cm_lag = 8,
@@ -235,7 +235,7 @@ test_that("compute_ideal_diff_flow_cm gives the correct result for petp < 0", {
 
 
 
-test_that("compute_ideal_flows_cm returns a (properly) named list", {
+test_that("compute_ideal_flows_cm() returns a (properly) named list", {
   res <- compute_ideal_flows_cm(
     ideal_diff_flow_cm = 1,
     irrigation = TRUE,
@@ -247,9 +247,9 @@ test_that("compute_ideal_flows_cm returns a (properly) named list", {
   expect_setequal(names(res), c("ideal_inflow_cm", "ideal_outflow_cm"))
 })
 
-test_that("compute_ideal_flows_cm returns the correct structure", {
+test_that("compute_ideal_flows_cm() returns the correct structure", {
   set.seed(840)
-  n <- 10
+  n <- rpois(1, 1e3)
 
   res <- compute_ideal_flows_cm(
     ideal_diff_flow_cm = rnorm(n, sd = 10),
@@ -267,9 +267,9 @@ test_that("compute_ideal_flows_cm returns the correct structure", {
   expect_length(res_outflow, n)
 })
 
-test_that("compute_ideal_flows_cm inflow - outflow = ideal diff flow", {
+test_that("compute_ideal_flows_cm(): inflow - outflow = ideal diff flow", {
   set.seed(840)
-  n <- 100
+  n <- rpois(1, 1e3)
   ideal_diff_flow_cm <- rnorm(n, sd = 10)
 
   res <- compute_ideal_flows_cm(
@@ -282,10 +282,9 @@ test_that("compute_ideal_flows_cm inflow - outflow = ideal diff flow", {
   expect_equal(res$ideal_inflow_cm - res$ideal_outflow_cm, ideal_diff_flow_cm)
 })
 
-test_that("compute_ideal_flows_cm: inflow = max(ideal_flow_rate, ideal_diff_flow) if in flux",
-{
+test_that("compute_ideal_flows_cm(): correct results when in flux", {
   set.seed(840)
-  n <- 100
+  n <- rpois(1, 1e3)
   ideal_flow_rate_cm <- 5
   ideal_diff_flow_cm <- rnorm(n, sd = 10)
 
@@ -301,9 +300,9 @@ test_that("compute_ideal_flows_cm: inflow = max(ideal_flow_rate, ideal_diff_flow
                )
 })
 
-test_that("compute_ideal_flows_cm: flows are always positive", {
+test_that("compute_ideal_flows_cm(): flows are always positive", {
   set.seed(840)
-  n <- 100
+  n <- rpois(1, 1e3)
 
   res <- compute_ideal_flows_cm(
     ideal_diff_flow_cm = rnorm(n, sd = 10),
@@ -315,4 +314,59 @@ test_that("compute_ideal_flows_cm: flows are always positive", {
   expect_gte(min(res$ideal_inflow_cm), 0)
   expect_gte(min(res$ideal_outflow_cm), 0)
 
+})
+
+
+
+test_that("compute_real_outflow_m3_s() returns a (properly) named list", {
+  res <- compute_real_outflow_m3_s(
+    ideal_outflow_cm = c(1, 2, 3),
+    area_m2 = c(1, 1, 2),
+    capacity_m3_s = 1
+  )
+
+  expect_type(res, "list")
+  expect_identical(names(res), "real_outflow_m3_s")
+})
+
+test_that("compute_real_outflow_m3_s() returns the correct structure", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+
+  res <- compute_real_outflow_m3_s(
+    ideal_outflow_cm = runif(n, 0, 10),
+    area_m2 = runif(n, 1e6, 1e7),
+    capacity_m3_s = 5
+  )
+
+  expect_type(res$real_outflow_m3_s, "double")
+  expect_length(res$real_outflow_m3_s, n)
+})
+
+test_that("compute_real_outflow_m3_s(): outflows are always positive", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+  capacity_m3_s <- 5
+
+  res <- compute_real_outflow_m3_s(
+    ideal_outflow_cm = runif(n, 0, 10),
+    area_m2 = runif(n, 1e6, 1e7),
+    capacity_m3_s = capacity_m3_s
+  )
+
+  expect_gte(min(res$real_outflow_m3_s), 0)
+})
+
+test_that("compute_real_outflow_m3_s(): sum of real outflows = capacity", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+  capacity_m3_s <- 5
+
+  res <- compute_real_outflow_m3_s(
+    ideal_outflow_cm = runif(n, 0, 10),
+    area_m2 = runif(n, 1e6, 1e7),
+    capacity_m3_s = capacity_m3_s
+  )
+
+  expect_equal(sum(res$real_outflow_m3_s), capacity_m3_s)
 })
