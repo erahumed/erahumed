@@ -129,3 +129,57 @@ test_that("make_lhb_df_list returned dataframes contain the input columns", {
   expect_contains(names(res[[1]]), names(args))
 
 })
+
+test_that("make_lhb_df_list returned dataframes are grouped by date", {
+  args <- list(
+    ideal_height_cm = rep(10, 10),
+    irrigation = rep(TRUE, 10),
+    draining = rep(TRUE, 10),
+    petp_cm = rnorm(10),
+    area_m2 = runif(10, 1e6, 1e7),
+    capacity_m3_s = runif(10, 1, 2),
+    date =rep(
+      seq.Date(from = as.Date("2020-01-01"),
+               to = as.Date("2020-01-05"),
+               by = "day"),
+      2),
+    cluster_id = letters[1:10],
+    extra_column_1 = 1:10,
+    extra_column_2 = sample(10),
+    extra_column_3 = rpois(10, 1)
+  )
+
+  res <- do.call(make_lhb_df_list, args)
+
+  unique_dates <- lapply(res, \(df) unique(df$date))
+
+  lapply(unique_dates, expect_length, 1)
+
+})
+
+test_that("make_lhb_df_list returned dataframes are sorted by date", {
+  args <- list(
+    ideal_height_cm = rep(10, 10),
+    irrigation = rep(TRUE, 10),
+    draining = rep(TRUE, 10),
+    petp_cm = rnorm(10),
+    area_m2 = runif(10, 1e6, 1e7),
+    capacity_m3_s = runif(10, 1, 2),
+    date =rep(
+      seq.Date(from = as.Date("2020-01-01"),
+               to = as.Date("2020-01-05"),
+               by = "day"),
+      2),
+    cluster_id = letters[1:10],
+    extra_column_1 = 1:10,
+    extra_column_2 = sample(10),
+    extra_column_3 = rpois(10, 1)
+  )
+
+  res <- do.call(make_lhb_df_list, args)
+
+  unique_dates <- sapply(res, \(df) unique(df$date))
+
+  expect_identical(unique_dates, sort(unique_dates))
+
+})
