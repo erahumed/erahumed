@@ -72,39 +72,25 @@ albufera_hydro_balance_local <- function(
     date_max = NULL
 )
 {
-  hb_global <- albufera_hydro_balance_global(
-    outflows_df = outflows_df,
-    weather_df = weather_df,
-    storage_curve = storage_curve,
-    petp_surface = petp_surface
-    )
+  res <-
+    albufera_hydro_balance_global(
+      outflows_df = outflows_df,
+      weather_df = weather_df,
+      storage_curve = storage_curve,
+      petp_surface = petp_surface
+    ) |>
+    hb_local_data_prep(
+      management_df = management_df,
+      clusters_df = clusters_df,
+      date_min = date_min,
+      date_max = date_max
+      )
 
-  res <- hb_local_data_prep(hb_global = hb_global,
-                            management_df = management_df,
-                            clusters_df = clusters_df,
-                            date_min = date_min,
-                            date_max = date_max)
-
-  n_ditches <- length(unique(res$ditch))
-  n_dates <- length(unique(res$date))
-
-  res <- as.data.frame(res)
-
-  res <- res |>
-    collapse::rsplit(
-      by = ~ ditch + date,
-      flatten = FALSE,
-      use.names = FALSE,
-      simplify = FALSE,
-      keep.by = TRUE
-    )
-  for (i in 1:n_ditches) {
+  for (i in seq_along(res)) {
     res[[i]] <- simulate_lhb(res[[i]])
-    # The class()-unclass() trick above can lower the execution time of
-    # propagate ditch by a constant factor (roughly of order 2). This has a
-    # price to pay in that the code becomes more prone to bugs (e.g. we don't
-    # have data-frame column automatic length checks)
   }
+
+
 
   res <- do.call(c, res) # flatten to single list
   res <- data.table::rbindlist(res)
@@ -161,7 +147,18 @@ hb_local_data_prep <- function(
     ditch_inflow_pct$inflow_pct[match(res$ditch, ditch_inflow_pct$ditch)]
 
   res <- data.table::setorder(res, date, cluster_id)
-  res
+
+  res <- res |>
+    collapse::rsplit(
+      by = ~ ditch + date,
+      flatten = FALSE,
+      use.names = FALSE,
+      simplify = FALSE,
+      keep.by = TRUE
+    )
+
+  return(res)
+
 }
 
 compute_hb_imputed_cols <- function(df) {
