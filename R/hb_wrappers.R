@@ -90,11 +90,8 @@ albufera_hydro_balance_local <- function(
     res[[i]] <- simulate_lhb(res[[i]])
   }
 
-
-
-  res <- do.call(c, res) # flatten to single list
+  res <- do.call(c, res) # flatten to single list of data-frames
   res <- data.table::rbindlist(res)
-
   res <- as.data.frame(res)
 
   # To substitute with a proper class constructor?
