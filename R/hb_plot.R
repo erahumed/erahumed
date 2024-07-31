@@ -46,27 +46,55 @@ plot.hb_local <- function(x, type = c("cluster_levels", "map"), ...) {
   }
 }
 
-plot_hb_local_cluster_levels <- function(data, cluster_id) {
-  data <- data[data$cluster_id == cluster_id, ]
-  data <- data[order(data$date), ]
+plot_hb_local_cluster_levels <- function(data, cluster_id)
+{
+  data_cluster <- data[data$cluster_id == cluster_id, ]
 
-  plotly::plot_ly(data = data, x = ~date) |>
+  ditch <- data_cluster$ditch[1]
+  tancat <- data_cluster$tancat[1]
+  variety <- data_cluster$variety[1]
+
+  data_ditch <- data[
+    data$ditch == ditch & data$tancat == tancat & data$variety == variety,
+    ] |>
+    stats::aggregate(real_height_cm ~ date, data = _, FUN = mean)
+
+
+  plotly::plot_ly(x = ~date) |>
     plotly::add_trace(
+      data = data_cluster,
+      y = ~ideal_height_cm,
+      hoverinfo = "skip",
+      type = "scatter",
+      mode = "lines",
+      line = list(width = 1.5, color = "#0000BB", dash = "dash"),
+      name = "Ideal"
+    ) |>
+    plotly::add_trace(
+      data = data_ditch,
+      y = ~real_height_cm,
+      hoverinfo = "skip",
+      type = "scatter",
+      mode = "lines",
+      line = list(width = 1.5, color = "#BB0000", dash = "dot"),
+      name = "Average",
+      visible = "legendonly"
+    ) |>
+    plotly::add_trace(
+      data = data_cluster,
       y = ~real_height_cm,
       text = ~paste0("Date: ", date,
                      "<br>Height [cm]: ", real_height_cm,
+                     "<br>Ideal Height [cm]: ", ideal_height_cm,
                      "<br>Irrigation: ", irrigation,
-                     "<br>Draining: ", draining),
+                     "<br>Draining: ", draining,
+                     "<br>Plan Delay: ", plan_delay
+      ),
       hoverinfo = "text",
-      type = "scatter", mode = "lines",
+      type = "scatter",
+      mode = "lines",
       line = list(width = 2, color = "black"),
       name = "Simulated"
-    ) |>
-    plotly::add_trace(
-      y = ~ideal_height_cm,
-      type = "scatter", mode = "lines",
-      line = list(width = 2, color = "#0000BB", dash = "dash"),
-      name = "Ideal"
     ) |>
     plotly::layout(
       title = paste("Time Series of Height [cm]"),
