@@ -373,6 +373,17 @@ test_that("compute_real_outflow_m3_s(): sum of real outflows = capacity", {
 
 
 
+test_that("compute_real_outflow_cm(): simple check on a concrete case", {
+  res <- compute_real_outflow_cm(
+    real_outflow_m3_s = 1,
+    area_m2 = 1
+  )
+
+  expect_equal(res$real_outflow_cm, s_per_day() * 100)
+})
+
+
+
 test_that("compute_real_inflow_cm(): output is >0 if ideal diff flow is", {
   set.seed(840)
   n <- rpois(1, 1e3)
@@ -407,4 +418,15 @@ test_that("compute_real_inflow_cm(): real-diff-flow = ideal-diff-flow cases", {
   cond <- real_outflow_cm > -ideal_diff_flow_cm
 
   expect_equal(real_diff_flow_cm[cond], ideal_diff_flow_cm[cond])
+})
+
+
+
+test_that("compute_real_inflow_m3_s(): simple check on a concrete case", {
+  res <- compute_real_inflow_m3_s(
+    real_inflow_cm = 1,
+    area_m2 = 1
+  )
+
+  expect_equal(res$real_inflow_m3_s, 1 / s_per_day() / 100)
 })
