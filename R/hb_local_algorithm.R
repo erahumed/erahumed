@@ -258,13 +258,15 @@ compute_plan_delay <- function(
     thresh = 2.5
     )
 {
-  res <- (plan_delay_lag +
-    (ideal_height_cm == 0) * (real_height_cm > thresh)
-    )
   date <- as.POSIXlt(date[1])
-  res <- res *
-    (get_mm(date) > 4 | get_mm(date) == 4 & get_dd(date) >= 20) *
-    (get_mm(date) < 10)
+  reset_delay <-
+    (get_mm(date) < 4) || (get_mm(date) == 4 && get_dd(date) < 20) ||
+    (get_mm(date) >= 10) #|| (get_mm(date) == 10 && get_dd(date) > 15)
 
-  return( list(plan_delay = res) )
+  if (reset_delay) {
+    return( list(plan_delay = numeric(length(plan_delay_lag))) )
+  }
+
+  add_delay <- (ideal_height_cm == 0) & (real_height_cm > thresh)
+  return( list(plan_delay = plan_delay_lag + add_delay) )
 }
