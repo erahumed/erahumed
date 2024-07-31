@@ -488,3 +488,61 @@ test_that("compute_real_height_cm(): correct results in simple cases", {
   expect_equal(res$real_height_cm, c(11, 0, 3, 2))
 })
 
+
+
+test_that("compute_plan_delay(): returns a (properly) named list", {
+  res <- compute_plan_delay(
+    plan_delay_lag = c(0, 0),
+    ideal_height_cm = c(0, 0),
+    real_height_cm = c(1, 1),
+    date = c("1970-01-01", "1980-06-01"),
+    thresh = 2.5
+    )
+
+  expect_type(res, "list")
+  expect_identical(names(res), "plan_delay")
+})
+
+test_that("compute_plan_delay(): returns the correct structure", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+
+  res <- compute_plan_delay(
+    plan_delay_lag = rpois(n, 10),
+    ideal_height_cm = runif(n, 0, 20),
+    real_height_cm = runif(n, 0, 20),
+    date = seq.Date(from = as.Date("1970-01-01"), by = "day", length.out = n),
+    thresh = 2.5
+  )
+
+  expect_true(is.numeric(res$plan_delay))
+  expect_length(res$plan_delay, n)
+})
+
+test_that("compute_plan_delay(): adds one iff real_height_cm above thresh", {
+  res <- compute_plan_delay(
+    plan_delay_lag = c(1, 7, 21),
+    ideal_height_cm = c(0, 0, 10),
+    real_height_cm = c(1, 3, 20),
+    mm_dd_start = c(4, 20),
+    mm_dd_end = c(10, 15),
+    date = "1970-06-01",  # Inside the plan delay window
+    thresh = 2.5
+  )
+
+  expect_equal(res$plan_delay, c(1, 8, 21))
+})
+
+test_that("compute_plan_delay(): returns 0s outside of plan delay window", {
+  res <- compute_plan_delay(
+    plan_delay_lag = c(1, 7, 21),
+    ideal_height_cm = c(0, 0, 10),
+    real_height_cm = c(1, 3, 20),
+    mm_dd_start = c(4, 20),
+    mm_dd_end = c(10, 15),
+    date = "1970-01-01",  # Outside of the plan delay window
+    thresh = 2.5
+  )
+
+  expect_equal(res$plan_delay, c(0, 0, 0))
+})
