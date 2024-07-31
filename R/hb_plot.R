@@ -7,8 +7,6 @@ plot.hb_global <- function(x, variable, ...) {
   df_obs[[variable]][is_imputed] <- NA
   df_imp[[variable]][!is_imputed] <- NA
 
-  ## Possibly helpful
-  # https://plotly-r.com/linking-views-with-shiny.html#shiny-plotly-inputs
   plotly::plot_ly() |>
     plotly::add_trace(
       data = df_obs, x = ~date, y = ~get(variable),
