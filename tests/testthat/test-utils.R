@@ -31,7 +31,7 @@ test_that("moving_average() returns the correct result for even 'k'", {
 
 
 test_that("get_mm() and get_dd() returns vectors of same length of input", {
-  input <- as.Date(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
+  input <- as.POSIXlt(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
   mm <- get_mm(input)
   dd <- get_dd(input)
 
@@ -40,7 +40,7 @@ test_that("get_mm() and get_dd() returns vectors of same length of input", {
   })
 
 test_that("get_mm() and get_dd() returns month and day numbers", {
-  input <- as.Date(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
+  input <- as.POSIXlt(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
   mm <- get_mm(input)
   dd <- get_dd(input)
 
@@ -49,7 +49,7 @@ test_that("get_mm() and get_dd() returns month and day numbers", {
 })
 
 test_that("get_mm() and get_dd() returns the correct values in simple cases", {
-  input <- as.Date(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
+  input <- as.POSIXlt(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
   mm <- get_mm(input)
   dd <- get_dd(input)
 

@@ -18,11 +18,13 @@ moving_average <- function(x, k) {
 }
 
 get_mm <- function(date) {
-  as.POSIXlt(date)$mon + 1
+  stopifnot(class(date)[1] == "POSIXlt")
+  date$mon + 1
 }
 
 get_dd <- function(date) {
-  as.POSIXlt(date)$mday
+  stopifnot(class(date)[1] == "POSIXlt")
+  date$mday
 }
 
 s_per_day <- function() {
