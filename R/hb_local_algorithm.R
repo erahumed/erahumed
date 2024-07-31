@@ -261,7 +261,7 @@ compute_plan_delay <- function(
   date <- as.POSIXlt(date[1])
   reset_delay <-
     (get_mm(date) < 4) || (get_mm(date) == 4 && get_dd(date) < 20) ||
-    (get_mm(date) >= 10) #|| (get_mm(date) == 10 && get_dd(date) > 15)
+    (get_mm(date) > 10) || (get_mm(date) == 10 && get_dd(date) > 15)
 
   if (reset_delay) {
     return( list(plan_delay = numeric(length(plan_delay_lag))) )
