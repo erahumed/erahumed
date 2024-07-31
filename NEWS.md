@@ -6,6 +6,8 @@
 the abstract logic of the algorithm from our specific conventions used to pack together data for hydrological balance - the latter conventions being relegated
 to `hb_wrappers.R` functions.
 
+* Extensive unit testing of the logical units for the local balance algorithm.
+
 # erahumed 0.1.1
 
 ### Algorithm
