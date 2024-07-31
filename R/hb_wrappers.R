@@ -96,8 +96,11 @@ albufera_hydro_balance_local <- function(
       capacity_m3_s = res[[i]]$flowpoint,
       date = res[[i]]$date,
       ideal_flow_rate_cm = 5,
+      # Dot arguments, appended to resulting df, not required for calculations.
       ditch = res[[i]]$ditch,
-      cluster_id = res[[i]]$cluster_id
+      cluster_id = res[[i]]$cluster_id,
+      tancat = res[[i]]$tancat,
+      variety = res[[i]]$variety
     )
   }
 
