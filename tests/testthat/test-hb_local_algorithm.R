@@ -445,7 +445,7 @@ test_that("compute_real_height_cm() returns a (properly) named list", {
   expect_identical(names(res), "real_height_cm")
 })
 
-test_that("compute_real_outflow_m3_s() returns the correct structure", {
+test_that("compute_real_height_cm() returns the correct structure", {
   set.seed(840)
   n <- rpois(1, 1e3)
 
