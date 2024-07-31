@@ -25,9 +25,9 @@ Imports:
     leaflet,
     plotly,
     RColorBrewer,
-    sf,
     shiny,
     stats
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    sf
 LazyData: true
