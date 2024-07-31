@@ -33,7 +33,7 @@ test_that("make_lhb_df_list() throws if inputs cannot form a data.frame", {
     )
   )
 
-  skip("Corner case if vector with mismatched size can be recycled")
+  skip("make_lhb_df_list(): corner case if wrong size input can be recycled")
   expect_error(
     make_lhb_df_list(
       ideal_height_cm = rep(10, 10),
