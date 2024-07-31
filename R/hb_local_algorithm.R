@@ -8,27 +8,31 @@ simulate_lhb <- function(
     date,
     cluster_id,
     ideal_flow_rate_cm = 5,
-    ...
-    )
+    ...)
 {
 
-  df_list <- make_lhb_df_list(
-    ideal_height_cm = ideal_height_cm,
-    irrigation = irrigation,
-    draining = draining,
-    petp_cm = petp_cm,
-    area_m2 = area_m2,
-    capacity_m3_s = capacity_m3_s,
-    date = date,
-    cluster_id,
-    ...
-  )
+  df_list <-
+    make_lhb_df_list(
+      ideal_height_cm = ideal_height_cm,
+      irrigation = irrigation,
+      draining = draining,
+      petp_cm = petp_cm,
+      area_m2 = area_m2,
+      capacity_m3_s = capacity_m3_s,
+      date = date,
+      cluster_id,
+      ...
+      ) |>
+    lapply(unclass)
 
-  df_list <- lapply(df_list, unclass)
+  randomize_clusters <- Sys.getenv("erahumed_randomize_clusters", "TRUE") |>
+    as.logical()
 
   for (j in seq_along(df_list)) {
-    args <- c(extract_lhb_daily_inputs(df_list, j),
-              list(ideal_flow_rate_cm = ideal_flow_rate_cm)
+    args <- extract_lhb_daily_inputs(df_list, j)
+    args <- c(args,
+              list(ideal_flow_rate_cm = ideal_flow_rate_cm,
+                   randomize_clusters = randomize_clusters)
               )
     update_j <- do.call(simulate_lhb_daily_step, args)
 
@@ -112,7 +116,8 @@ simulate_lhb_daily_step <- function(
     draining,
     area_m2,
     capacity_m3_s,
-    ideal_flow_rate_cm = 5
+    ideal_flow_rate_cm = 5,
+    randomize_clusters
     )
 {
   . <- list()
@@ -128,7 +133,8 @@ simulate_lhb_daily_step <- function(
 
   . <- c(., compute_real_outflow_m3_s(ideal_outflow_cm = .$ideal_outflow_cm,
                                       area_m2 = area_m2,
-                                      capacity_m3_s = capacity_m3_s))
+                                      capacity_m3_s = capacity_m3_s,
+                                      randomize_clusters = randomize_clusters))
 
   . <- c(., compute_real_outflow_cm(real_outflow_m3_s = .$real_outflow_m3_s,
                                     area_m2 = area_m2))
@@ -189,14 +195,13 @@ compute_ideal_flows_cm <- function(
 compute_real_outflow_m3_s <- function(
     ideal_outflow_cm,
     area_m2,
-    capacity_m3_s
+    capacity_m3_s,
+    randomize_clusters = TRUE
     )
 {
   n <- length(ideal_outflow_cm)
 
-  skip_random <- Sys.getenv("erahumed_skip_cluster_randomization", "FALSE")
-  skip_random <- as.logical(skip_random)
-  ord <- if (skip_random) { 1:n } else { sample(n) }
+  ord <- if (randomize_clusters) { sample(n) } else { 1:n }
 
   ideal_outflow_m3_s <- (ideal_outflow_cm / 100) * area_m2 / s_per_day()
   real_outflow_m3_s <- numeric(n)

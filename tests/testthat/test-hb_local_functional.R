@@ -1,4 +1,4 @@
-withr::with_envvar(c(erahumed_skip_cluster_randomization = TRUE), {
+withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   date_min <- as.Date("2010-01-01")
   date_max <- as.Date("2011-12-31")
 
