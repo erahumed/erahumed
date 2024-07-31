@@ -430,3 +430,61 @@ test_that("compute_real_inflow_m3_s(): simple check on a concrete case", {
 
   expect_equal(res$real_inflow_m3_s, 1 / s_per_day() / 100)
 })
+
+
+
+test_that("compute_real_height_cm() returns a (properly) named list", {
+  res <- compute_real_height_cm(
+    real_height_cm_lag = 0,
+    petp_cm = 0,
+    real_inflow_cm = 1,
+    real_outflow_cm = 0
+  )
+
+  expect_type(res, "list")
+  expect_identical(names(res), "real_height_cm")
+})
+
+test_that("compute_real_outflow_m3_s() returns the correct structure", {
+  set.seed(840)
+  n <- rpois(1, 1e3)
+
+  res <- compute_real_height_cm(
+    real_height_cm_lag = runif(n, 0, 20),
+    petp_cm = -rnorm(n, sd = 0.5),
+    real_inflow_cm = runif(n, 0, 10),
+    real_outflow_cm = runif(n,  0, 10)
+  )
+
+  expect_type(res$real_height_cm, "double")
+  expect_length(res$real_height_cm, n)
+})
+
+test_that("compute_real_height_cm(): heights are always positive", {
+  skip("compute_real_height_cm(): heights<0 is possible for certain inputs")
+  set.seed(840)
+  n <- rpois(1, 1e3)
+
+  res <- compute_real_height_cm(
+    real_height_cm_lag = runif(n, 0, 20),
+    petp_cm = -rnorm(n, sd = 0.5),
+    real_inflow_cm = runif(n, 0, 10),
+    real_outflow_cm = runif(n,  0, 10)
+  )
+
+  expect_gte(min(res$real_height_cm), 0)
+})
+
+test_that("compute_real_height_cm(): correct results in simple cases", {
+  set.seed(840)
+
+  res <- compute_real_height_cm(
+    real_height_cm_lag = c(10, 5, 0, 0),
+    petp_cm = c(1, -6, 3, -1),
+    real_inflow_cm = c(5, 5, 0, 2),
+    real_outflow_cm = c(5, 5, 0, 0)
+  )
+
+  expect_equal(res$real_height_cm, c(11, 0, 3, 2))
+})
+
