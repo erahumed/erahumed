@@ -255,13 +255,17 @@ compute_plan_delay <- function(
     ideal_height_cm,
     real_height_cm,
     date,
-    thresh = 2.5
+    thresh = 2.5,
+    mm_dd_start = c(4, 20),
+    mm_dd_end = c(10, 15)
     )
 {
   date <- as.POSIXlt(date[1])
   reset_delay <-
-    (get_mm(date) < 4) || (get_mm(date) == 4 && get_dd(date) < 20) ||
-    (get_mm(date) > 10) || (get_mm(date) == 10 && get_dd(date) > 15)
+    (get_mm(date) < mm_dd_start[1]) ||
+    (get_mm(date) == mm_dd_start[1] && get_dd(date) < mm_dd_start[2]) ||
+    (get_mm(date) > mm_dd_end[1]) ||
+    (get_mm(date) == mm_dd_end[1] && get_dd(date) > mm_dd_end[2])
 
   if (reset_delay) {
     return( list(plan_delay = numeric(length(plan_delay_lag))) )
