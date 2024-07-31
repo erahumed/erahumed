@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### User visible changes
+
+* Improved appearance of cluster level plots in Shiny app UI.
+
 ### Under the hoods
 
 * Important code refactors for the local balance algorithm, aiming to separate 
@@ -7,6 +11,11 @@ the abstract logic of the algorithm from our specific conventions used to pack t
 to `hb_wrappers.R` functions.
 
 * Extensive unit testing of the logical units for the local balance algorithm.
+
+* Performance optimizations in local balance algorithm.
+
+* Sanity check functional tests for `plot.hb_local()` and `plot.hb_global()`.
+
 
 # erahumed 0.1.1
 
