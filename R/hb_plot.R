@@ -1,5 +1,7 @@
 #' @export
 plot.hb_global <- function(x, variable, ...) {
+  assert_string(variable)
+
   if (!variable %in% colnames(x)) {
     msg <- paste(variable, "is not a column of", deparse(substitute(x)))
     stop(msg)
