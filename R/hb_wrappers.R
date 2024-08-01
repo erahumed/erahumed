@@ -72,37 +72,39 @@ albufera_hydro_balance_local <- function(
     date_max = NULL
 )
 {
-  res <- hb_local_data_prep(outflows_df = outflows_df,
-                            weather_df = weather_df,
-                            management_df = management_df,
-                            clusters_df = clusters_df,
-                            storage_curve = storage_curve,
-                            petp_surface = petp_surface,
-                            date_min = date_min,
-                            date_max = date_max
-                            )
+  input <- hb_local_data_prep(outflows_df = outflows_df,
+                              weather_df = weather_df,
+                              management_df = management_df,
+                              clusters_df = clusters_df,
+                              storage_curve = storage_curve,
+                              petp_surface = petp_surface,
+                              date_min = date_min,
+                              date_max = date_max
+                              )  # input dfs, one for each ditch
 
-  for (i in seq_along(res)) {
+  res <- vector("list", length(input))
+  for (i in seq_along(input)) {
     res[[i]] <- simulate_lhb(
-      ideal_height_cm = res[[i]]$height_cm,
-      petp_cm = res[[i]]$petp_cm,
-      irrigation = res[[i]]$irrigation,
-      draining = res[[i]]$draining,
-      area_m2 = res[[i]]$area,
-      capacity_m3_s = res[[i]]$capacity_m3_s,
-      date = res[[i]]$date,
+      ideal_height_cm = input[[i]]$height_cm,
+      petp_cm = input[[i]]$petp_cm,
+      irrigation = input[[i]]$irrigation,
+      draining = input[[i]]$draining,
+      area_m2 = input[[i]]$area,
+      capacity_m3_s = input[[i]]$capacity_m3_s,
+      date = input[[i]]$date,
       ideal_flow_rate_cm = 5,
-      cluster_id = res[[i]]$cluster_id,
+      cluster_id = input[[i]]$cluster_id,
       # Dot arguments, appended to resulting df, not required for calculations.
-      ditch = res[[i]]$ditch,
-      tancat = res[[i]]$tancat,
-      variety = res[[i]]$variety
+      ditch = input[[i]]$ditch,
+      tancat = input[[i]]$tancat,
+      variety = input[[i]]$variety
     )
   }
 
-  res <- do.call(c, res) # flatten to single list of data-frames
-  res <- data.table::rbindlist(res)
-  res <- as.data.frame(res)
+  res <- res |>
+    do.call(c, args = _) |>  # flatten to single list of data-frames
+    data.table::rbindlist() |>
+    as.data.frame()
 
   # To substitute with a proper class constructor?
   class(res) <- c("hb_local", "data.frame")
