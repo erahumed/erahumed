@@ -10,8 +10,8 @@
 #'
 #' @export
 albufera_hb_global <- function(
-    outflows_df = albufera_outflows,
-    weather_df = albufera_weather,
+    outflows_df = erahumed::albufera_outflows,
+    weather_df = erahumed::albufera_weather,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
@@ -49,10 +49,10 @@ albufera_hb_global <- function(
 #'
 #' @export
 albufera_hb_local <- function(
-    outflows_df = albufera_outflows,
-    weather_df = albufera_weather,
-    management_df = albufera_management,
-    clusters_df = albufera_clusters,
+    outflows_df = erahumed::albufera_outflows,
+    weather_df = erahumed::albufera_weather,
+    management_df = erahumed::albufera_management,
+    clusters_df = erahumed::albufera_clusters,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,

@@ -1,5 +1,11 @@
 # erahumed (development version)
 
+### User visible changes
+
+* Default arguments of `albufera_hb_global()` and `albufera_hb_local()` are now
+prepended with the `erahumed::` namespace specifier. Solves #7.
+
+
 # erahumed 0.2.0
 
 ### User visible changes
