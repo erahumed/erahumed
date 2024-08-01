@@ -23,7 +23,7 @@ test_that("linear_petp_surface() returns the correct affine function", {
   expect_equal(
     res(P = c(1, 2, 3), ETP = c(3, 2, 1)),
     1e-3 * (sP * P - ETP * sETP)
-    )
+  )
 })
 
 
@@ -50,6 +50,7 @@ test_that("linear_storage_curve() returns the correct affine function", {
 })
 
 
+
 test_that("residence_time throws no errors on regular call", {
   volume <- c(1, 0.9, 0.86, 0.93, 1.1)
   inflow <- c(0.1, 0.12, 0.2, 0.5, 0.2)
@@ -65,6 +66,5 @@ test_that("residence_time 'k' argument controls level of smoothing", {
   expect_identical(
     residence_time(volume, inflow, k = k),
     moving_average(volume, k = k) / moving_average(inflow, k = k) / s_per_day()
-    )
+  )
 })
-
