@@ -1,5 +1,22 @@
 # erahumed (development version)
 
+### User visible changes
+
+* Reduced number of `*_is_imputed` entries in `hb_global` dataframes. Right now 
+we are only providing `level_is_imputed` and `outflow_is_imputed`, which should
+suffice FAPP.
+
+* Big refactoring of the HB sector naming conventions. The wrappers become `albufera_hb_global/local()`, and the underlying functions are 
+`hb_global/local()`.
+
+### Under the hoods
+
+* We complete the work started with v0.1.2 to separate the algorithms for 
+computing global and local hydrological balance, from the wrappers used to feed
+this algorithms with our prepared datasets. In this version, the wrappers got 
+significantly simplified, their only function being extracting variables from 
+the imported datasets and feeding them to the algorithms (as it should be).
+
 # erahumed 0.1.2
 
 ### User visible changes
