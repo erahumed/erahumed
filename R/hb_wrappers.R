@@ -72,19 +72,15 @@ albufera_hydro_balance_local <- function(
     date_max = NULL
 )
 {
-  res <-
-    albufera_hydro_balance_global(
-      outflows_df = outflows_df,
-      weather_df = weather_df,
-      storage_curve = storage_curve,
-      petp_surface = petp_surface
-    ) |>
-    hb_local_data_prep(
-      management_df = management_df,
-      clusters_df = clusters_df,
-      date_min = date_min,
-      date_max = date_max
-      )
+  res <- hb_local_data_prep(outflows_df = outflows_df,
+                            weather_df = weather_df,
+                            management_df = management_df,
+                            clusters_df = clusters_df,
+                            storage_curve = storage_curve,
+                            petp_surface = petp_surface,
+                            date_min = date_min,
+                            date_max = date_max
+                            )
 
   for (i in seq_along(res)) {
     res[[i]] <- simulate_lhb(
@@ -116,10 +112,23 @@ albufera_hydro_balance_local <- function(
 }
 
 hb_local_data_prep <- function(
-    hb_global, management_df, clusters_df, date_min, date_max
+    outflows_df,
+    weather_df,
+    management_df,
+    clusters_df,
+    storage_curve,
+    petp_surface,
+    date_min,
+    date_max
     )
 {
-  res <- data.table::as.data.table(hb_global)
+  res <- albufera_hydro_balance_global(outflows_df = outflows_df,
+                                       weather_df = weather_df,
+                                       storage_curve = storage_curve,
+                                       petp_surface = petp_surface
+                                       )
+
+  res <- data.table::as.data.table(res)
 
   if(!is.null(date_min)) res <- res[res$date >= date_min, ]
   if(!is.null(date_max)) res <- res[res$date <= date_max, ]
@@ -144,7 +153,10 @@ hb_local_data_prep <- function(
 
   res$petp_cm <- (res$P - res$ETP) / 10
 
-  ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
+  ditch_inflow_pct <- compute_ditch_inflow_pct(
+    clusters_df$ditch,
+    clusters_df$area
+    )
   res$capacity_m3_s <- res$inflow_total *
     ditch_inflow_pct$inflow_pct[match(res$ditch, ditch_inflow_pct$ditch)]
 
