@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("hb_global() succeeds with valid inputs", {
   obj <-  hb_global(level = rep(1, 10),
                     P = rep(10, 10),
                     ETP = rep(1, 10),
