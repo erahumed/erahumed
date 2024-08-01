@@ -55,6 +55,7 @@ hb_global <- function(
     petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
 )
 {
+  hb_global_check_args(level, P, ETP, outflows, ...)
 
   res <- data.frame(level, P, ETP, ...)
 
@@ -84,6 +85,23 @@ hb_global <- function(
   return(make_hb_global(res))
 }
 
+hb_global_check_args <- function(level, P, ETP, outflows, ...) {
+  assert_numeric_vector(level)
+  assert_numeric_vector(P)
+  assert_numeric_vector(ETP)
+  assert_list(outflows)
+  for (i in seq_along(outflows)) {
+    assert_numeric_vector(outflows[[i]])
+  }
+  for (i in seq_along(list(...))) {
+    assert_atomic(list(...)[[i]])
+  }
+
+  lengths <- sapply(c(list(level, P, ETP), outflows, list(...)), length)
+  if (length( unique(lengths) ) > 1)
+    stop("Time series inputs must have equal lengths, see ?hb_global.")
+}
+
 
 
 make_hb_global <- function(df) {
@@ -104,4 +122,8 @@ make_hb_global <- function(df) {
   attr(class(df), "package") <- "erahumed"
   return(df)
 }
+
+
+
+
 

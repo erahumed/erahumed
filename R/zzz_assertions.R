@@ -60,3 +60,17 @@ assert_string <- function(x, name = deparse(substitute(x))) {
   msg <- paste0("'", name, "' must be a length one character (not NA).")
   stop(msg)
 }
+
+assert_list <- function(x, name = deparse(substitute(x))) {
+  if(!is.list(x))
+    stop(paste0("'", name, "' must be a list."))
+
+  return(invisible(TRUE))
+}
+
+assert_atomic <- function(x, name = deparse(substitute(x))) {
+  if(!is.atomic(x))
+    stop(paste0("'", name, "' must be atomic."))
+
+  return(invisible(TRUE))
+}
