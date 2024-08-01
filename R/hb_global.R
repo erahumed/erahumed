@@ -84,6 +84,17 @@ hb_global <- function(
   class(res) <- c("hb_global", "data.frame")
   attr(class(res), "package") <- "erahumed"
 
-  return(res)
+  return(make_hb_global(res))
+}
+
+
+
+make_hb_global <- function(df) {
+  if ( !("data.frame" %in% class(df)) )
+    stop( paste(deparse(substitute(df)), "must be a 'data.frame'.") )
+
+  class(df) <- c("hb_global", "data.frame")
+  attr(class(df), "package") <- "erahumed"
+  return(df)
 }
 
