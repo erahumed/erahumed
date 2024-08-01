@@ -277,3 +277,12 @@ compute_plan_delay <- function(
   add_delay <- (ideal_height_cm == 0) & (real_height_cm > thresh)
   return( list(plan_delay = plan_delay_lag + add_delay) )
 }
+
+compute_ditch_inflow_pct <- function(ditch, area)
+{
+  res <- stats::aggregate(area ~ ditch, FUN = sum)
+  res$area <- res$area / sum(res$area)
+  names(res)[names(res) == "area"] <- "inflow_pct"
+  res <- res[order(res$ditch), ]
+  return(res)
+}
