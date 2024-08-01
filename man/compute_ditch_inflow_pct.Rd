@@ -4,12 +4,13 @@
 \alias{compute_ditch_inflow_pct}
 \title{Compute Ditch Inflow Percent}
 \usage{
-compute_ditch_inflow_pct(clusters_df)
+compute_ditch_inflow_pct(ditch, area)
 }
 \arguments{
-\item{clusters_df}{A dataframe containing two columns \code{ditch} and \code{area}.
-Each row is assumed to represent a distinct cluster pertaining to \code{ditch},
-and with the surface specified by \code{area}.}
+\item{ditch, area}{vectors of equal lengths, of type \code{"character"} and
+\code{"double"}, respectively. The i-th entries of these vectors correspond to the
+i-th cluster of rice paddies, and inform the ditch to which this cluster
+belongs to, and the area of the cluster.}
 }
 \value{
 A dataframe containing two columns, \code{ditch} and \code{inflow_pct},

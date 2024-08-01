@@ -120,9 +120,10 @@ linear_petp_surface <- function(surface_P, surface_ETP)
 #' @description Computes the fraction of water that flows through each ditch, as
 #' the fraction of total surface covered by the clusters adjacent to said ditch.
 #'
-#' @param clusters_df A dataframe containing two columns `ditch` and `area`.
-#' Each row is assumed to represent a distinct cluster pertaining to `ditch`,
-#' and with the surface specified by `area`.
+#' @param ditch,area vectors of equal lengths, of type `"character"` and
+#' `"double"`, respectively. The i-th entries of these vectors correspond to the
+#' i-th cluster of rice paddies, and inform the ditch to which this cluster
+#' belongs to, and the area of the cluster.
 #'
 #' @return A dataframe containing two columns, `ditch` and `inflow_pct`,
 #' specifying a ditch and the amount of inflow corresponding to it,
@@ -132,9 +133,9 @@ linear_petp_surface <- function(surface_P, surface_ETP)
 #' TODO: other options to obtain ditch percents (e.g. empirical data by Soria et al.)?
 #'
 #' @export
-compute_ditch_inflow_pct <- function(clusters_df)
+compute_ditch_inflow_pct <- function(ditch, area)
 {
-  res <- stats::aggregate(area ~ ditch, data = clusters_df, FUN = sum)
+  res <- stats::aggregate(area ~ ditch, FUN = sum)
   res$area <- res$area / sum(res$area)
   names(res)[names(res) == "area"] <- "inflow_pct"
   res <- res[order(res$ditch), ]
