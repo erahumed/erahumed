@@ -116,16 +116,15 @@ albufera_outflows <- albufera_outflows |>
 
 albufera_outflows <- albufera_outflows |>
   rename_with(tolower) |>
-  select(
+  transmute(
     date,
     level,
     pujol,
     perellonet,
     perello,
-    level_is_imputed,
-    pujol_is_imputed,
-    perellonet_is_imputed,
-    perello_is_imputed
+    level_is_imputed = level_is_imputed,
+    outflow_is_imputed =
+      pujol_is_imputed | perello_is_imputed | perellonet_is_imputed
   )
 
 

@@ -31,17 +31,10 @@ albufera_hb_global <- function(
                           perello = input$perello),
     date = input$date,
     level_is_imputed = input$level_is_imputed,
-    pujol_is_imputed = input$pujol_is_imputed,
-    perellonet_is_imputed = input$perellonet_is_imputed,
-    perello_is_imputed = input$perello_is_imputed,
+    outflow_is_imputed = input$outflow_is_imputed,
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
-
-  res <- compute_hb_imputed_cols(res)
-
-  # To substitute with a proper class constructor?
-
 
   return(res)
 }
@@ -176,23 +169,3 @@ hb_local_data_prep <- function(
 
 }
 
-compute_hb_imputed_cols <- function(df) {
-  # Simplify this, just have a column that signals whether a given row has some imputed data
-
-  df$volume_is_imputed <- df$level_is_imputed
-  df$data_is_imputed <-
-    df$level_is_imputed |
-    df$pujol_is_imputed |
-    df$perellonet_is_imputed |
-    df$perello_is_imputed
-  df$volume_change_is_imputed <- df$volume_is_imputed
-  df$petp_change_is_imputed <- FALSE
-  df$outflow_total_is_imputed <-
-    df$pujol_is_imputed |
-    df$perellonet_is_imputed |
-    df$perello_is_imputed
-  df$inflow_total_is_imputed <- df$data_is_imputed
-  df$outflow_extra_is_imputed <- df$inflow_total_is_imputed
-  df$residence_time_days_is_imputed <- df$data_is_imputed
-  return(df)
-}

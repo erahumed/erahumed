@@ -1,7 +1,8 @@
 #' @export
 plot.hb_global <- function(x, variable, ...) {
   var_lab <- hb_var_labels()[variable]
-  is_imputed <- x[[paste0(variable, "_is_imputed")]]
+
+  is_imputed <- x[[hb_get_imp_var(variable)]]
 
   df_obs <- df_imp <- x[, ]
   df_obs[[variable]][is_imputed] <- NA

@@ -33,9 +33,7 @@
 #'   \item{perellonet}{Outflow at Perellonet (meters cube per second)}
 #'   \item{perello}{Outflow at Perello (meters cube per second)}
 #'   \item{level_is_imputed}{Whether the `level` value was imputed.}
-#'   \item{pujol_is_imputed}{Whether the `pujol` value was imputed.}
-#'   \item{perellonet_is_imputed}{Whether the `perellonet` value was imputed.}
-#'   \item{perello_is_imputed}{Whether the `perello` value was imputed.}
+#'   \item{outflow_is_imputed}{Whether (any of) the outflows were imputed.}
 #' }
 #' @source <https://aps.chj.es/>
 "albufera_outflows"

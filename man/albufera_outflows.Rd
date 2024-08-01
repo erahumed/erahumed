@@ -15,9 +15,7 @@ The dataframes have the following columns:
 \item{perellonet}{Outflow at Perellonet (meters cube per second)}
 \item{perello}{Outflow at Perello (meters cube per second)}
 \item{level_is_imputed}{Whether the \code{level} value was imputed.}
-\item{pujol_is_imputed}{Whether the \code{pujol} value was imputed.}
-\item{perellonet_is_imputed}{Whether the \code{perellonet} value was imputed.}
-\item{perello_is_imputed}{Whether the \code{perello} value was imputed.}
+\item{outflow_is_imputed}{Whether (any of) the outflows were imputed.}
 }
 }
 }
