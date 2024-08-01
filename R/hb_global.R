@@ -81,9 +81,6 @@ hb_global <- function(
 
   res <- na.omit(res)  # TODO: Necessary?
 
-  class(res) <- c("hb_global", "data.frame")
-  attr(class(res), "package") <- "erahumed"
-
   return(make_hb_global(res))
 }
 
@@ -103,7 +100,7 @@ make_hb_global <- function(df) {
     stop(paste0("Missing '", col, "' column in input '", name, "'."))
   }
 
-  class(df) <- c("hb_global", "data.frame")
+  class(df) <- c("hb_global", class(df))
   attr(class(df), "package") <- "erahumed"
   return(df)
 }
