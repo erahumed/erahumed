@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.2.0
 
 ### User visible changes
 
