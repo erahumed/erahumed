@@ -93,12 +93,12 @@ albufera_hydro_balance_local <- function(
       irrigation = res[[i]]$irrigation,
       draining = res[[i]]$draining,
       area_m2 = res[[i]]$area,
-      capacity_m3_s = res[[i]]$flowpoint,
+      capacity_m3_s = res[[i]]$capacity_m3_s,
       date = res[[i]]$date,
       ideal_flow_rate_cm = 5,
+      cluster_id = res[[i]]$cluster_id,
       # Dot arguments, appended to resulting df, not required for calculations.
       ditch = res[[i]]$ditch,
-      cluster_id = res[[i]]$cluster_id,
       tancat = res[[i]]$tancat,
       variety = res[[i]]$variety
     )
@@ -119,30 +119,22 @@ hb_local_data_prep <- function(
     hb_global, management_df, clusters_df, date_min, date_max
     )
 {
-  res <- hb_global
+  res <- data.table::as.data.table(hb_global)
 
-  res <- data.table::as.data.table(res)
-  management_df <- data.table::as.data.table(management_df)
-  clusters_df <- data.table::as.data.table(clusters_df)
+  if(!is.null(date_min)) res <- res[res$date >= date_min, ]
+  if(!is.null(date_max)) res <- res[res$date <= date_max, ]
 
-  if(!is.null(date_min)) {
-    res <- res[res$date >= date_min, ]
-  }
-  if(!is.null(date_max)) {
-    res <- res[res$date <= date_max, ]
-  }
-
-  ### Start HB for cluster part. Should break down into components.
-  res$mm <- as.numeric(format(res$date, "%m"))
-  res$dd <- as.numeric(format(res$date, "%d"))
+  date_posixlt <- as.POSIXlt(res$date)  # Required by get_* helpers
+  res$mm <- get_mm(date_posixlt)
+  res$dd <- get_dd(date_posixlt)
 
   res <- res |>
-    merge(management_df,
+    merge(y = data.table::as.data.table(management_df),
           by = c("mm", "dd"),
           sort = FALSE,
           allow.cartesian = TRUE
           ) |>
-    merge(clusters_df,
+    merge(y = data.table::as.data.table(clusters_df),
           by.x = c("tancat", "variety"),
           by.y = c("tancat", "rice_variety"),
           all.y = TRUE,
@@ -151,10 +143,9 @@ hb_local_data_prep <- function(
           )
 
   res$petp_cm <- (res$P - res$ETP) / 10
-  res$plan_delay <- 0
 
   ditch_inflow_pct <- compute_ditch_inflow_pct(clusters_df)
-  res$flowpoint <- res$inflow_total *
+  res$capacity_m3_s <- res$inflow_total *
     ditch_inflow_pct$inflow_pct[match(res$ditch, ditch_inflow_pct$ditch)]
 
   res <- data.table::setorder(res, date, cluster_id)
