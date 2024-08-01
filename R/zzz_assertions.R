@@ -53,4 +53,10 @@ assert_positive_integer <- function(x, name = deparse(substitute(x))) {
   assert_integer_vector(x, name)
 }
 
+assert_string <- function(x, name = deparse(substitute(x))) {
+  if(is.character(x) && length(x) == 1)
+    return(invisible( assert_no_na(x, name) ))
 
+  msg <- paste0("'", name, "' must be a length one character (not NA).")
+  stop(msg)
+}
