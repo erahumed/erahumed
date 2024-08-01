@@ -97,6 +97,13 @@ albufera_hb_local_data_prep <- function(
 
   if(!is.null(date_min)) res <- res[res$date >= date_min, ]
   if(!is.null(date_max)) res <- res[res$date <= date_max, ]
+  if (nrow(res) == 0) {
+    msg <- paste(
+      "No data was found in the specified date range.",
+      "Please check 'date_min' and 'date_max' arguments."
+      )
+    stop(msg)
+  }
 
   res$petp_cm <- (res$P - res$ETP) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))

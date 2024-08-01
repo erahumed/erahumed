@@ -18,7 +18,9 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   })
 
 
+
 # TODO: remove this in favor of more dedicated unit tests
+
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
 
@@ -28,6 +30,8 @@ test_that("simple snapshot is constant", {
 })
 
 
+
+# Property based tests
 
 test_that("Returned dataset has the expected number of rows", {
   n_clusters <- nrow(clusters_df)
@@ -61,4 +65,19 @@ test_that("sum(real outflows) = total capacity of ditch", {
       )
 
   expect_equal(nrow(res), 0)
+})
+
+
+# Exceptions
+
+test_that("albufera_hb_local() throws errors if date range is empty", {
+  expect_error(
+    albufera_hb_local(date_min = "1800-01-01", date_max = "1800-12-31"),
+    regexp = "date_min"
+    )
+
+  expect_error(
+    albufera_hb_local(date_min = "2010-01-01", date_max = "2009-01-01"),
+    regexp = "date_min"
+  )
 })
