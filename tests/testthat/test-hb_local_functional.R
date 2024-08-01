@@ -7,7 +7,7 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   clusters_df <- albufera_clusters
   management_df <- albufera_management
 
-  test_df <- albufera_hydro_balance_local(outflows_df = outflows_df,
+  test_df <- albufera_hb_local(outflows_df = outflows_df,
                                           weather_df = weather_df,
                                           clusters_df = clusters_df,
                                           management_df = management_df,

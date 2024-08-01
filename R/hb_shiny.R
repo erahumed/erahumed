@@ -93,8 +93,8 @@ hbLocalServer <- function(id) {
     data <- shiny::reactiveVal(NULL)
 
     shiny::observeEvent(input$run_button, {
-      data(albufera_hydro_balance_local(date_min = input$date_range[1],
-                                        date_max = input$date_range[2])
+      data(albufera_hb_local(date_min = input$date_range[1],
+                             date_max = input$date_range[2])
            )
     })
 

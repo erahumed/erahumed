@@ -48,7 +48,7 @@ albufera_hb_global <- function(
 #'
 #'
 #' @export
-albufera_hydro_balance_local <- function(
+albufera_hb_local <- function(
     outflows_df = albufera_outflows,
     weather_df = albufera_weather,
     management_df = albufera_management,
