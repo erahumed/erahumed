@@ -1,5 +1,5 @@
 test_that("plot.hb_global does not produce an error with valid inputs", {
-  df <- albufera_hydro_balance_global()
+  df <- albufera_hb_global()
 
   expect_no_error(plot(df, "residence_time_days"))
 })

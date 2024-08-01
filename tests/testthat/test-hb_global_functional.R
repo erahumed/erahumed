@@ -1,7 +1,7 @@
 test_that("global hydrological balance checks out", {
   tol <- 1e-12
 
-  df <- albufera_hydro_balance_global()
+  df <- albufera_hb_global()
 
   res <- df |>
     dplyr::mutate(
@@ -16,7 +16,7 @@ test_that("global hydrological balance checks out", {
 test_that("unaccounted outflow is only possible in cases of zero inflow", {
   tol <- 1e-12
 
-  df <- albufera_hydro_balance_global()
+  df <- albufera_hb_global()
 
   res <- df |>
     dplyr::filter(abs(inflow_total) > tol * mean(abs(inflow_total)),

@@ -9,7 +9,7 @@
 #'
 #'
 #' @export
-albufera_hydro_balance_global <- function(
+albufera_hb_global <- function(
     outflows_df = albufera_outflows,
     weather_df = albufera_weather,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
@@ -22,27 +22,26 @@ albufera_hydro_balance_global <- function(
   input <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
 
   # Bind with global hydrological balance variables
-  res <- hydro_balance_global(
+  res <- hb_global(
     level = input$level,
     P = input$P,
     ETP = input$ETP,
-    outflows = list(pujol = input$pujol,
-                    perellonet = input$perellonet,
-                    perello = input$perello),
+    outflows = data.frame(pujol = input$pujol,
+                          perellonet = input$perellonet,
+                          perello = input$perello),
+    date = input$date,
+    level_is_imputed = input$level_is_imputed,
+    pujol_is_imputed = input$pujol_is_imputed,
+    perellonet_is_imputed = input$perellonet_is_imputed,
+    perello_is_imputed = input$perello_is_imputed,
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
 
-  input <- input[ , !(colnames(input) %in% colnames(res))]
-  res <- cbind(input, res)
-
-  res <- na.omit(res) # Necessary?
-
   res <- compute_hb_imputed_cols(res)
 
   # To substitute with a proper class constructor?
-  class(res) <- c("hb_global", "data.frame")
-  attr(class(res), "package") <- "erahumed"
+
 
   return(res)
 }
@@ -124,11 +123,11 @@ hb_local_data_prep <- function(
     date_max
     )
 {
-  res <- albufera_hydro_balance_global(outflows_df = outflows_df,
-                                       weather_df = weather_df,
-                                       storage_curve = storage_curve,
-                                       petp_surface = petp_surface
-                                       )
+  res <- albufera_hb_global(outflows_df = outflows_df,
+                            weather_df = weather_df,
+                            storage_curve = storage_curve,
+                            petp_surface = petp_surface
+                            )
 
   res <- data.table::as.data.table(res)
 

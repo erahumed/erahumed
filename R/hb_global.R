@@ -10,6 +10,9 @@
 #' millimiters.
 #' @param outflows a data.frame whose columns are the time series of outflows,
 #' expressed in cube meters per second.
+#' @param ... additional columns to be appended in the returned data-frame. Each
+#' of these additional (named) arguments should be a vector of the same length
+#' implied by the previous arguments.
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
 #' levels (passed through the `level` argument) into lake *volumes*.
@@ -42,17 +45,18 @@
 #' * `residence_time_days`. Residence time, as modeled by \link{residence_time}.
 #'
 #' @export
-hydro_balance_global <- function(
+hb_global <- function(
     level,
     P,
     ETP,
     outflows,
+    ...,
     storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
     petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
-    )
+)
 {
 
-  res <- data.frame(level, P, ETP)
+  res <- data.frame(level, P, ETP, ...)
 
   res$volume <- storage_curve(level)
   res$volume_change <- c(diff(res$volume), NA)
@@ -73,9 +77,13 @@ hydro_balance_global <- function(
 
   res$residence_time_days <- residence_time(
     res$volume, res$outflow_total, units = "days"
-    )
+  )
+
+  res <- na.omit(res)  # TODO: Necessary?
+
+  class(res) <- c("hb_global", "data.frame")
+  attr(class(res), "package") <- "erahumed"
 
   return(res)
 }
-
 

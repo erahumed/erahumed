@@ -44,7 +44,7 @@ hbGlobalServer <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    hb_data_full <- albufera_hydro_balance_global()
+    hb_data_full <- albufera_hb_global()
 
     hb_data <- shiny::reactive({
       row_idx <-
