@@ -55,7 +55,15 @@ hb_global <- function(
     petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
 )
 {
-  hb_global_check_args(level, P, ETP, outflows, ...)
+  hb_global_check_args(
+    level = level,
+    P = P,
+    ETP = ETP,
+    outflows = outflows,
+    ... = ...,
+    storage_curve = storage_curve,
+    petp_surface = petp_surface
+    )
 
   res <- data.frame(level, P, ETP, ...)
 
@@ -85,7 +93,16 @@ hb_global <- function(
   return(make_hb_global(res))
 }
 
-hb_global_check_args <- function(level, P, ETP, outflows, ...) {
+hb_global_check_args <- function(
+    level,
+    P,
+    ETP,
+    outflows,
+    ...,
+    storage_curve,
+    petp_surface
+    )
+{
   assert_numeric_vector(level)
   assert_numeric_vector(P)
   assert_numeric_vector(ETP)
