@@ -1,4 +1,4 @@
-hb_var_labels <- function(invert = FALSE) {
+hb_global_var_labs <- function(invert = FALSE) {
   res <- c(
     level = "Lake Level [m]",
     volume = "Lake Volume [m\u{00B3}]",
@@ -19,7 +19,7 @@ hb_var_labels <- function(invert = FALSE) {
   return(res_inv)
 }
 
-hb_get_imp_var <- function(variable) {
+hb_global_is_imputed_var <- function(variable) {
   imp_var <- if (variable %in% c("level", "volume")) {
     "level_is_imputed"
   } else {

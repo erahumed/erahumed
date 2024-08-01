@@ -31,8 +31,8 @@ hbGlobalUI <- function(id) {
                               )),
       shiny::column(4,
         shiny::selectInput(ns("variable"), "Select Variable",
-                           choices = hb_var_labels(invert = TRUE),
-                           selected = hb_var_labels(invert = TRUE)[[1]]
+                           choices = hb_global_var_labs(invert = TRUE),
+                           selected = hb_global_var_labs(invert = TRUE)[[1]]
                            ))
       ),
 
