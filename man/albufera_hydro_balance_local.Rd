@@ -14,7 +14,8 @@ albufera_hydro_balance_local(
   petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e+06, surface_ETP =
     79.360993685 * 1e+06),
   date_min = NULL,
-  date_max = NULL
+  date_max = NULL,
+  ideal_flow_rate_cm = 5
 )
 }
 \description{

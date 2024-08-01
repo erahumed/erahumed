@@ -58,35 +58,23 @@ albufera_hydro_balance_local <- function(
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
                                        surface_ETP = 79.360993685 * 1e6),
     date_min = NULL,
-    date_max = NULL
+    date_max = NULL,
+    ideal_flow_rate_cm = 5
     )
 {
-  input <- hb_local_data_prep(outflows_df = outflows_df,
-                              weather_df = weather_df,
-                              management_df = management_df,
-                              clusters_df = clusters_df,
-                              storage_curve = storage_curve,
-                              petp_surface = petp_surface,
-                              date_min = date_min,
-                              date_max = date_max
-                              )
-
-  res <- hb_local(  # TODO: Use do.call()?
-    date = input$date,
-    ditch = input$ditch,
-    cluster_id = input$cluster_id,
-    ideal_height_cm = input$height_cm,
-    petp_cm = input$petp_cm,
-    irrigation = input$irrigation,
-    draining = input$draining,
-    area_m2 = input$area,
-    total_inflow_lake = input$inflow_total,
-    ideal_flow_rate_cm = 5,
-    tancat = input$tancat,
-    variety = input$variety
+  hbl_args <- hb_local_data_prep(
+    outflows_df = outflows_df,
+    weather_df = weather_df,
+    management_df = management_df,
+    clusters_df = clusters_df,
+    storage_curve = storage_curve,
+    petp_surface = petp_surface,
+    date_min = date_min,
+    date_max = date_max
     )
+  hbl_args <- c(hbl_args, list(ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  return(res)
+  do.call(hb_local, hbl_args)
 }
 
 hb_local_data_prep <- function(
@@ -129,6 +117,19 @@ hb_local_data_prep <- function(
           )
 
   res <- data.table::setorder(res, date, cluster_id)
+
+  res <- list(date = res$date,
+              ditch = res$ditch,
+              cluster_id = res$cluster_id,
+              ideal_height_cm = res$height_cm,
+              petp_cm = res$petp_cm,
+              irrigation = res$irrigation,
+              draining = res$draining,
+              area_m2 = res$area,
+              total_inflow_lake = res$inflow_total,
+              tancat = res$tancat,
+              variety = res$variety
+              )
 
   return(res)
 }
