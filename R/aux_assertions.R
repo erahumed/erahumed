@@ -74,3 +74,10 @@ assert_atomic <- function(x, name = deparse(substitute(x))) {
 
   return(invisible(TRUE))
 }
+
+assert_function <- function(x, name = deparse(substitute(x))) {
+  if(!is.function(x))
+    stop(paste0("'", name, "' must be a function."))
+
+  return(invisible(TRUE))
+}
