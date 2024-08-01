@@ -18,11 +18,10 @@ albufera_hb_global <- function(
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  # Just to select the intersection of dates
+  # Just to get intersection of dates
   input <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
 
-  # Bind with global hydrological balance variables
-  res <- hb_global(
+  hb_global(
     level = input$level,
     P = input$P,
     ETP = input$ETP,
@@ -35,8 +34,6 @@ albufera_hb_global <- function(
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
-
-  return(res)
 }
 
 
