@@ -59,7 +59,7 @@ albufera_hydro_balance_local <- function(
                                        surface_ETP = 79.360993685 * 1e6),
     date_min = NULL,
     date_max = NULL
-)
+    )
 {
   input <- hb_local_data_prep(outflows_df = outflows_df,
                               weather_df = weather_df,
@@ -69,35 +69,22 @@ albufera_hydro_balance_local <- function(
                               petp_surface = petp_surface,
                               date_min = date_min,
                               date_max = date_max
-                              )  # input dfs, one for each ditch
+                              )
 
-  res <- vector("list", length(input))
-  for (i in seq_along(input)) {
-    res[[i]] <- simulate_lhb(
-      ideal_height_cm = input[[i]]$height_cm,
-      petp_cm = input[[i]]$petp_cm,
-      irrigation = input[[i]]$irrigation,
-      draining = input[[i]]$draining,
-      area_m2 = input[[i]]$area,
-      capacity_m3_s = input[[i]]$capacity_m3_s,
-      date = input[[i]]$date,
-      ideal_flow_rate_cm = 5,
-      cluster_id = input[[i]]$cluster_id,
-      # Dot arguments, appended to resulting df, not required for calculations.
-      ditch = input[[i]]$ditch,
-      tancat = input[[i]]$tancat,
-      variety = input[[i]]$variety
+  res <- hb_local(  # TODO: Use do.call()?
+    date = input$date,
+    ditch = input$ditch,
+    cluster_id = input$cluster_id,
+    ideal_height_cm = input$height_cm,
+    petp_cm = input$petp_cm,
+    irrigation = input$irrigation,
+    draining = input$draining,
+    area_m2 = input$area,
+    total_inflow_lake = input$inflow_total,
+    ideal_flow_rate_cm = 5,
+    tancat = input$tancat,
+    variety = input$variety
     )
-  }
-
-  res <- res |>
-    do.call(c, args = _) |>  # flatten to single list of data-frames
-    data.table::rbindlist() |>
-    as.data.frame()
-
-  # To substitute with a proper class constructor?
-  class(res) <- c("hb_local", "data.frame")
-  attr(class(res), "package") <- "erahumed"
 
   return(res)
 }
@@ -144,25 +131,8 @@ hb_local_data_prep <- function(
 
   res$petp_cm <- (res$P - res$ETP) / 10
 
-  ditch_inflow_pct <- compute_ditch_inflow_pct(
-    clusters_df$ditch,
-    clusters_df$area
-    )
-  res$capacity_m3_s <- res$inflow_total *
-    ditch_inflow_pct$inflow_pct[match(res$ditch, ditch_inflow_pct$ditch)]
-
   res <- data.table::setorder(res, date, cluster_id)
 
-  res <- res |>
-    collapse::rsplit(
-      by = ~ ditch,
-      flatten = FALSE,
-      use.names = FALSE,
-      simplify = FALSE,
-      keep.by = TRUE
-    )
-
   return(res)
-
 }
 
