@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: 
     person("Valerio", "Gherardi", , "vgherard840@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8215-3013"))
