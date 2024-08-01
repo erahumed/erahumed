@@ -104,16 +104,15 @@ hb_local_data_prep <- function(
                             weather_df = weather_df,
                             storage_curve = storage_curve,
                             petp_surface = petp_surface
-                            )
-
-  res <- data.table::as.data.table(res)
+                            ) |>
+    data.table::as.data.table()
 
   if(!is.null(date_min)) res <- res[res$date >= date_min, ]
   if(!is.null(date_max)) res <- res[res$date <= date_max, ]
 
-  date_posixlt <- as.POSIXlt(res$date)  # Required by get_* helpers
-  res$mm <- get_mm(date_posixlt)
-  res$dd <- get_dd(date_posixlt)
+  res$petp_cm <- (res$P - res$ETP) / 10
+  res$mm <- get_mm(as.POSIXlt(res$date))
+  res$dd <- get_dd(as.POSIXlt(res$date))
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
@@ -128,8 +127,6 @@ hb_local_data_prep <- function(
           sort = FALSE,
           allow.cartesian = TRUE
           )
-
-  res$petp_cm <- (res$P - res$ETP) / 10
 
   res <- data.table::setorder(res, date, cluster_id)
 
