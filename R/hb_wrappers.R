@@ -62,7 +62,7 @@ albufera_hydro_balance_local <- function(
     ideal_flow_rate_cm = 5
     )
 {
-  hbl_args <- hb_local_data_prep(
+  hbl_args <- albufera_hb_local_data_prep(
     outflows_df = outflows_df,
     weather_df = weather_df,
     management_df = management_df,
@@ -77,7 +77,7 @@ albufera_hydro_balance_local <- function(
   do.call(hb_local, hbl_args)
 }
 
-hb_local_data_prep <- function(
+albufera_hb_local_data_prep <- function(
     outflows_df,
     weather_df,
     management_df,
