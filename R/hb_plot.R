@@ -1,5 +1,10 @@
 #' @export
 plot.hb_global <- function(x, variable, ...) {
+  if (!variable %in% colnames(x)) {
+    msg <- paste(variable, "is not a column of", deparse(substitute(x)))
+    stop(msg)
+  }
+
   var_lab <- hb_global_var_labs()[variable]
 
   is_imputed <- x[[hb_global_is_imputed_var(variable)]]
