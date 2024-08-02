@@ -110,18 +110,6 @@ hb_global_check_args <- function(
   if (length( unique(lengths) ) > 1)
     stop("Time series inputs must have equal lengths, see ?hb_global.")
 
-  assert_function(storage_curve)
-  tryCatch(
-    storage_curve(rep(0, 10)),
-    error = \(cnd)
-      stop("'storage_curve()' must be callable with a single numeric argument.")
-    )
-
-  assert_function(petp_surface)
-  tryCatch(
-    petp_surface(1:10, rep(-3, 10)),
-    error = \(cnd)
-    stop("'petp_surface()' must be callable with two numeric arguments.")
-  )
-
+  assert_function(storage_curve, check = TRUE, level = rep(0, 10))
+  assert_function(petp_surface, check = TRUE, P = 1:10, ETP = rep(3, 10))
 }
