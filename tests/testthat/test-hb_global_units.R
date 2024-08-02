@@ -51,14 +51,14 @@ test_that("linear_storage_curve() returns the correct affine function", {
 
 
 
-test_that("residence_time throws no errors on regular call", {
+test_that("hbg_residence_time throws no errors on regular call", {
   volume <- c(1, 0.9, 0.86, 0.93, 1.1)
   inflow <- c(0.1, 0.12, 0.2, 0.5, 0.2)
 
   expect_no_error(hbg_residence_time(volume, inflow))
 })
 
-test_that("residence_time 'k' argument controls level of smoothing", {
+test_that("hbg_residence_time 'k' argument controls level of smoothing", {
   volume <- c(1, 0.9, 0.86, 0.93, 1.1)
   inflow <- c(0.1, 0.12, 0.2, 0.5, 0.2)
   k <- 3
