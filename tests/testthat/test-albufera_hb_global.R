@@ -6,7 +6,7 @@ test_that("global hydrological balance checks out", {
   res <- df |>
     dplyr::mutate(
       x = volume_change,
-      y = (inflow_total - outflow_total) * s_per_day() + petp_change
+      y = (inflow_total - outflow_total) * s_per_day() + volume_change_petp
     ) |>
     dplyr::filter(abs(x - y) / mean(abs(x)) > tol)
 

@@ -68,28 +68,19 @@ hb_global <- function(
   res <- data.frame(level, P, ETP, ...)
 
   res$volume <- storage_curve(level)
-  res$volume_change <- c(diff(res$volume), NA)
+  res$volume_change <- hbg_volume_change(res$volume, fill_last = NA)
+  res$volume_change_petp <- petp_surface(P, ETP)
 
-  res$outflow_total <- 0
-  for (n in names(outflows)) {
-    res[[ paste0("outflow_", n) ]] <- outflows[[n]]
-    res$outflow_total <- res$outflow_total + outflows[[n]]
-  }
-
-  res$petp_change <- petp_surface(P, ETP)
-
-  res$inflow_total <- res$outflow_total +
-    (res$volume_change - res$petp_change) / s_per_day()
-  res$outflow_extra <- pmax(-res$inflow_total, 0)
-  res$outflow_total <- res$outflow_total + res$outflow_extra
-  res$inflow_total <- pmax(res$inflow_total, 0)
+  flow_balance_df <- hbg_flow_balance(outflows = outflows,
+                                      volume_change = res$volume_change,
+                                      volume_change_petp = res$volume_change_petp)
+  res <- cbind(res, flow_balance_df)
 
   res <- res[-nrow(res), ]  # Drop last row: NA propagates from 'volume_change'
 
-  res$residence_time_days <- residence_time(
-    res$volume, res$outflow_total, units = "days"
-  )
-
+  res$residence_time_days <- hbg_residence_time(res$volume,
+                                                res$outflow_total,
+                                                units = "days")
 
   return(make_hb_global(res))
 }
