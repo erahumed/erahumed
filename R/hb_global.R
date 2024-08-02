@@ -84,11 +84,12 @@ hb_global <- function(
   res$outflow_total <- res$outflow_total + res$outflow_extra
   res$inflow_total <- pmax(res$inflow_total, 0)
 
+  res <- res[-nrow(res), ]  # Drop last row: NA propagates from 'volume_change'
+
   res$residence_time_days <- residence_time(
     res$volume, res$outflow_total, units = "days"
   )
 
-  res <- na.omit(res)  # TODO: Necessary?
 
   return(make_hb_global(res))
 }
