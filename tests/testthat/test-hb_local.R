@@ -1,6 +1,6 @@
-test_that("make_hbl_df_list() succeds if inputs can form a data.frame", {
+test_that("hbl_make_df_list() succeds if inputs can form a data.frame", {
   expect_no_condition(
-    make_hbl_df_list(
+    hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
       draining = rep(TRUE, 10),
@@ -16,9 +16,9 @@ test_that("make_hbl_df_list() succeds if inputs can form a data.frame", {
   )
 })
 
-test_that("make_hbl_df_list() throws if inputs cannot form a data.frame", {
+test_that("hbl_make_df_list() throws if inputs cannot form a data.frame", {
   expect_error(
-    make_hbl_df_list(
+    hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
       draining = rep(TRUE, 10),
@@ -33,9 +33,9 @@ test_that("make_hbl_df_list() throws if inputs cannot form a data.frame", {
     )
   )
 
-  skip("make_hbl_df_list(): corner case if wrong size input can be recycled")
+  skip("hbl_make_df_list(): corner case if wrong size input can be recycled")
   expect_error(
-    make_hbl_df_list(
+    hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
       draining = rep(TRUE, 10),
@@ -52,9 +52,9 @@ test_that("make_hbl_df_list() throws if inputs cannot form a data.frame", {
 
 })
 
-test_that("make_hbl_df_list() throws if date or cluster_id are missing", {
+test_that("hbl_make_df_list() throws if date or cluster_id are missing", {
   expect_error(
-    make_hbl_df_list(
+    hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
       draining = rep(TRUE, 10),
@@ -70,7 +70,7 @@ test_that("make_hbl_df_list() throws if date or cluster_id are missing", {
   )
 
   expect_error(
-    make_hbl_df_list(
+    hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
       draining = rep(TRUE, 10),
@@ -87,8 +87,8 @@ test_that("make_hbl_df_list() throws if date or cluster_id are missing", {
 
 })
 
-test_that("make_hbl_df_list() returns a list of dataframes", {
-  res <- make_hbl_df_list(
+test_that("hbl_make_df_list() returns a list of dataframes", {
+  res <- hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
       irrigation = rep(TRUE, 10),
       draining = rep(TRUE, 10),
@@ -106,7 +106,7 @@ test_that("make_hbl_df_list() returns a list of dataframes", {
   lapply(res, expect_s3_class, "data.frame")
 })
 
-test_that("make_hbl_df_list() returned dfs contain the input columns", {
+test_that("hbl_make_df_list() returned dfs contain the input columns", {
   args <- list(
     ideal_height_cm = rep(10, 10),
     irrigation = rep(TRUE, 10),
@@ -124,13 +124,13 @@ test_that("make_hbl_df_list() returned dfs contain the input columns", {
     extra_column_3 = rpois(10, 1)
   )
 
-  res <- do.call(make_hbl_df_list, args)
+  res <- do.call(hbl_make_df_list, args)
 
   expect_contains(names(res[[1]]), names(args))
 
 })
 
-test_that("make_hbl_df_list() returned dfs are grouped by date", {
+test_that("hbl_make_df_list() returned dfs are grouped by date", {
   args <- list(
     ideal_height_cm = rep(10, 10),
     irrigation = rep(TRUE, 10),
@@ -149,7 +149,7 @@ test_that("make_hbl_df_list() returned dfs are grouped by date", {
     extra_column_3 = rpois(10, 1)
   )
 
-  res <- do.call(make_hbl_df_list, args)
+  res <- do.call(hbl_make_df_list, args)
 
   unique_dates <- lapply(res, \(df) unique(df$date))
 
@@ -157,7 +157,7 @@ test_that("make_hbl_df_list() returned dfs are grouped by date", {
 
 })
 
-test_that("make_hbl_df_list() returned dfs are sorted by date", {
+test_that("hbl_make_df_list() returned dfs are sorted by date", {
   args <- list(
     ideal_height_cm = rep(10, 10),
     irrigation = rep(TRUE, 10),
@@ -176,7 +176,7 @@ test_that("make_hbl_df_list() returned dfs are sorted by date", {
     extra_column_3 = rpois(10, 1)
   )
 
-  res <- do.call(make_hbl_df_list, args)
+  res <- do.call(hbl_make_df_list, args)
 
   unique_dates <- sapply(res, \(df) unique(df$date))
 

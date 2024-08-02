@@ -63,7 +63,7 @@ hbl_simulate_ditch <- function(
 {
 
   df_list <-
-    make_hbl_df_list(
+    hbl_make_df_list(
       ideal_height_cm = ideal_height_cm,
       irrigation = irrigation,
       draining = draining,
@@ -121,7 +121,7 @@ hbl_extract_daily_inputs <- function(df_list, j) {
   )
 }
 
-make_hbl_df_list <- function(
+hbl_make_df_list <- function(
     ideal_height_cm,
     irrigation,
     draining,
