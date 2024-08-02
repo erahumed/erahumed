@@ -4,6 +4,8 @@
 
 * Former `albufera_weather` dataset becomes `albufera_petp`, and its structure is significantly simplified, now having only three columns: `date`, `rain_mm` and `evapotranspiration_mm` (previously named `date`, `P` and `ETP` respectively). All changes get propagated to downstream tables, such as *e.g.* `albufera_hb_global()`.
 
+* Add `"hb_local"` S3 class internal constructor (#21).
+
 # erahumed 0.2.1
 
 ### User visible changes
