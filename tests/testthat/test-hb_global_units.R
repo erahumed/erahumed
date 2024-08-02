@@ -94,3 +94,63 @@ test_that("hbg_volume_change(): volume + differences == lagged volume", {
   s <- s[-length(s)]
   expect_equal(s, volume[-1])
 })
+
+
+
+test_that("hbg_flow_balance(): succeeds with valid inputs", {
+  expect_no_error(
+    hbg_flow_balance(outflows = list(a = 1:10, b = 2:11),
+                     volume_change = rep(1, 10),
+                     volume_change_petp = rep(0.5, 10)
+                     )
+    )
+})
+
+test_that("hbg_flow_balance(): returns a dataframe of the correct length", {
+  len <- 10
+  res <- hbg_flow_balance(outflows = list(a = 1:len, b = (1:len) + 5),
+                          volume_change = rep(1, len),
+                          volume_change_petp = rep(0.5, len)
+                          )
+  expect_s3_class(res, class = "data.frame")
+  expect_equal(nrow(res), len)
+})
+
+test_that("hbg_flow_balance(): returns df has the required columns", {
+  res <- hbg_flow_balance(outflows = list(a = 1:10, b = 2:11),
+                          volume_change = rep(1, 10),
+                          volume_change_petp = rep(0.5, 10)
+                          )
+
+  cols <- colnames(res)
+  expected_cols <- c(
+    "outflow_a", "outflow_b", "outflow_total", "outflow_extra", "inflow_total"
+    )
+  expect_setequal(cols, expected_cols)
+})
+
+test_that("hbg_flow_balance(): net balance checks", {
+  set.seed(840)
+  len <- 1e3
+  tol <- 1e-10
+
+  volume_change <- rnorm(len)
+  volume_change_petp <- rnorm(len)
+
+  res <- hbg_flow_balance(outflows = list(a = runif(len, 0, 1),
+                                          b = runif(len, 0, 1)),
+                          volume_change = volume_change,
+                          volume_change_petp = volume_change_petp
+                          )
+
+  zero_check <- res |>
+    dplyr::mutate(
+      net_flow = (inflow_total - outflow_total) * s_per_day(),
+      flow_vol_change = volume_change - volume_change_petp,
+    ) |>
+    dplyr::filter(
+      abs(net_flow - flow_vol_change) > tol * median(abs(net_flow))
+      )
+
+  expect_equal(nrow(zero_check), 0)
+})
