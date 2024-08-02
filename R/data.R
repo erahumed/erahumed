@@ -1,14 +1,15 @@
-# TODO: fill this in.
-#' Albufera Precipitation and Evapotranspiration Data
+#' Albufera Precipitation and Evapotranspiration Daily Data
+#'
+#' @description TODO
 #'
 #' @format ## `albufera_petp`
-#' A data frame with 6140 rows and 5 columns:
+#' A data frame with 8552 rows and 3 columns:
 #' \describe{
-#'   \item{date}{??}
-#'   \item{P}{??}
-#'   \item{ETP}{??}
+#'   \item{date}{Date of measurement}
+#'   \item{rain_mm}{Daily precipitation in millimiters.}
+#'   \item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}
 #' }
-#' @source ???
+#' @source TODO
 "albufera_petp"
 
 # TODO: Improve the documentation of imputation approach;

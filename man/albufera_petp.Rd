@@ -3,25 +3,25 @@
 \docType{data}
 \name{albufera_petp}
 \alias{albufera_petp}
-\title{Albufera Precipitation and Evapotranspiration Data}
+\title{Albufera Precipitation and Evapotranspiration Daily Data}
 \format{
 \subsection{\code{albufera_petp}}{
 
-A data frame with 6140 rows and 5 columns:
+A data frame with 8552 rows and 3 columns:
 \describe{
-\item{date}{??}
-\item{P}{??}
-\item{ETP}{??}
+\item{date}{Date of measurement}
+\item{rain_mm}{Daily precipitation in millimiters.}
+\item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}
 }
 }
 }
 \source{
-???
+TODO
 }
 \usage{
 albufera_petp
 }
 \description{
-Albufera Precipitation and Evapotranspiration Data
+TODO
 }
 \keyword{datasets}
