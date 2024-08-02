@@ -1,4 +1,18 @@
-test_that("global hydrological balance checks out", {
+test_that("albufera_hb_global(): no error with default arguments", {
+  expect_no_error(albufera_hb_global())
+})
+
+test_that("albufera_hb_global(): errors if provided with invalid input data", {
+  invalid_outflow_df <- erahumed::albufera_outflows |> dplyr::select(-date)
+  invalid_weather_df <- erahumed::albufera_weather |> dplyr::select(-P)
+  expect_error(albufera_hb_global(outflows_df = invalid_outflow_df))
+  expect_error(albufera_hb_global(weather_df = invalid_weather_df))
+})
+
+
+
+# TODO: These tests are really tests on the lower level logical units... move?
+test_that("Hydrological balance checks out", {
   tol <- 1e-12
 
   df <- albufera_hb_global()
@@ -13,7 +27,7 @@ test_that("global hydrological balance checks out", {
   expect_equal(nrow(res), 0)
   })
 
-test_that("unaccounted outflow is only possible in cases of zero inflow", {
+test_that("outflow_extra != requires inflow_total == 0", {
   tol <- 1e-12
 
   df <- albufera_hb_global()
@@ -25,3 +39,4 @@ test_that("unaccounted outflow is only possible in cases of zero inflow", {
 
   expect_equal(nrow(res), 0)
 })
+
