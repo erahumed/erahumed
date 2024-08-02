@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### User visible changes
+
+* Former `albufera_weather` dataset becomes `albufera_petp`, and its structure is significantly simplified, now having only three columns: `date`, `rain_mm` and `evapotranspiration_mm` (previously named `date`, `P` and `ETP` respectively). All changes get propagated to downstream tables, such as *e.g.* `albufera_hb_global()`.
+
 # erahumed 0.2.1
 
 ### User visible changes
