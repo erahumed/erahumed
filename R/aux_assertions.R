@@ -75,12 +75,12 @@ assert_atomic <- function(x, name = deparse(substitute(x))) {
   stop(paste0("'", name, "' must be atomic."))
 }
 
-assert_function <- function(x, name = deparse(substitute(x)), check = TRUE, ...)
+assert_function <- function(x, name = deparse(substitute(x)), check = NULL)
 {
   if (!is.function(x))
     stop(paste0("'", name, "' must be a function."))
 
-  if ( (!check) || succeeds(do.call(x, list(...))) )
+  if ( is.null(check) || succeeds(do.call(x, check)) )
     return(invisible(TRUE))
 
   stop(paste0("Test call of ", name, "() failed."))

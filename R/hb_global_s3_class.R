@@ -5,7 +5,7 @@ make_hb_global <- function(df) {
     stop( paste(name, "must be a 'data.frame'.") )
 
   # Check that df has the required columns
-  required_cols <- c("level", "P", "ETP", "volume",
+  required_cols <- c("level", "rain_mm", "evapotranspiration_mm", "volume",
                      "inflow_total", "outflow_total", "residence_time_days")
   for (col in required_cols) {
     if (col %in% colnames(df)) next

@@ -11,22 +11,22 @@
 #' @export
 albufera_hb_global <- function(
     outflows_df = erahumed::albufera_outflows,
-    weather_df = erahumed::albufera_weather,
+    petp_df = erahumed::albufera_petp,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  albufera_hb_global_datacheck(outflows_df, weather_df)
+  albufera_hb_global_datacheck(outflows_df, petp_df)
 
   # Just to get intersection of dates
-  input <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
+  input <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
 
   hb_global(
     level = input$level,
-    P = input$P,
-    ETP = input$ETP,
+    rain_mm = input$rain_mm,
+    evapotranspiration_mm = input$evapotranspiration_mm,
     outflows = data.frame(pujol = input$pujol,
                           perellonet = input$perellonet,
                           perello = input$perello),
@@ -38,11 +38,11 @@ albufera_hb_global <- function(
     )
 }
 
-albufera_hb_global_datacheck <- function(outflows_df, weather_df) {
+albufera_hb_global_datacheck <- function(outflows_df, petp_df) {
   tryCatch(
     {
       assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
-      assert_data.frame(weather_df, template = erahumed::albufera_weather)
+      assert_data.frame(petp_df, template = erahumed::albufera_petp)
     },
     error = function(e) {
       class(e) <- c("albufera_hb_global_datacheck_error", class(e))
@@ -67,7 +67,7 @@ albufera_hb_global_datacheck <- function(outflows_df, weather_df) {
 #' @export
 albufera_hb_local <- function(
     outflows_df = erahumed::albufera_outflows,
-    weather_df = erahumed::albufera_weather,
+    petp_df = erahumed::albufera_petp,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
@@ -81,7 +81,7 @@ albufera_hb_local <- function(
 {
   hbl_args <- albufera_hb_local_data_prep(
     outflows_df = outflows_df,
-    weather_df = weather_df,
+    petp_df = petp_df,
     management_df = management_df,
     clusters_df = clusters_df,
     storage_curve = storage_curve,
@@ -96,7 +96,7 @@ albufera_hb_local <- function(
 
 albufera_hb_local_data_prep <- function(
     outflows_df,
-    weather_df,
+    petp_df,
     management_df,
     clusters_df,
     storage_curve,
@@ -106,7 +106,7 @@ albufera_hb_local_data_prep <- function(
     )
 {
   res <- albufera_hb_global(outflows_df = outflows_df,
-                            weather_df = weather_df,
+                            petp_df = petp_df,
                             storage_curve = storage_curve,
                             petp_surface = petp_surface
                             ) |>
@@ -122,7 +122,7 @@ albufera_hb_local_data_prep <- function(
     stop(msg)
   }
 
-  res$petp_cm <- (res$P - res$ETP) / 10
+  res$petp_cm <- (res$rain_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))
   res$dd <- get_dd(as.POSIXlt(res$date))
 

@@ -3,12 +3,12 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   date_max <- as.Date("2011-12-31")
 
   outflows_df <- albufera_outflows
-  weather_df <- albufera_weather
+  petp_df <- albufera_petp
   clusters_df <- albufera_clusters
   management_df <- albufera_management
 
   test_df <- albufera_hb_local(outflows_df = outflows_df,
-                                          weather_df = weather_df,
+                                          petp_df = petp_df,
                                           clusters_df = clusters_df,
                                           management_df = management_df,
                                           date_min = date_min,

@@ -1,15 +1,15 @@
 # TODO: fill this in.
-#' Albufera Weather
+#' Albufera Precipitation and Evapotranspiration Data
 #'
-#' @format ## `albufera_weather`
+#' @format ## `albufera_petp`
 #' A data frame with 6140 rows and 5 columns:
 #' \describe{
-#'   \item{A}{??}
-#'   \item{B}{??}
-#'   \item{C}{??}
+#'   \item{date}{??}
+#'   \item{P}{??}
+#'   \item{ETP}{??}
 #' }
 #' @source ???
-"albufera_weather"
+"albufera_petp"
 
 # TODO: Improve the documentation of imputation approach;
 #

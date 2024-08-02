@@ -6,8 +6,8 @@
 \usage{
 hb_global(
   level,
-  P,
-  ETP,
+  rain_mm,
+  evapotranspiration_mm,
   outflows,
   ...,
   storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
@@ -17,9 +17,9 @@ hb_global(
 \arguments{
 \item{level}{numeric vector. Time series of lake levels, in meters.}
 
-\item{P}{numeric vector. Time series of precipitation values, in millimiters.}
+\item{rain_mm}{numeric vector. Time series of precipitation values, in millimiters.}
 
-\item{ETP}{numeric vector. Time series of evapotranspiration values, in
+\item{evapotranspiration_mm}{numeric vector. Time series of evapotranspiration values, in
 millimiters.}
 
 \item{outflows}{a data.frame whose columns are the time series of outflows,
@@ -36,7 +36,7 @@ levels (passed through the \code{level} argument) into lake \emph{volumes}.}
 \item{petp_surface}{a function that takes two numeric vectors of common
 length as inputs, and returns a numeric vector of the same length. Function
 that converts precipitation and evapotranspiration values (passed through
-the \code{P} and \code{ETP} arguments) into an overall volume change.}
+the \code{rain_mm} and \code{evapotranspiration_mm} arguments) into an overall volume change.}
 }
 \value{
 a \code{data.frame} that contains as columns the input time series, as

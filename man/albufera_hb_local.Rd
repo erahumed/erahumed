@@ -6,7 +6,7 @@
 \usage{
 albufera_hb_local(
   outflows_df = erahumed::albufera_outflows,
-  weather_df = erahumed::albufera_weather,
+  petp_df = erahumed::albufera_petp,
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,
   storage_curve = linear_storage_curve(intercept = 16.7459 * 1e+06, slope = 23.6577 *

@@ -5,8 +5,8 @@
 #' measurements of water level, outflows, and precipitation/evapotranspiration.
 #'
 #' @param level numeric vector. Time series of lake levels, in meters.
-#' @param P numeric vector. Time series of precipitation values, in millimiters.
-#' @param ETP numeric vector. Time series of evapotranspiration values, in
+#' @param rain_mm numeric vector. Time series of precipitation values, in millimiters.
+#' @param evapotranspiration_mm numeric vector. Time series of evapotranspiration values, in
 #' millimiters.
 #' @param outflows a data.frame whose columns are the time series of outflows,
 #' expressed in cube meters per second.
@@ -19,7 +19,7 @@
 #' @param petp_surface a function that takes two numeric vectors of common
 #' length as inputs, and returns a numeric vector of the same length. Function
 #' that converts precipitation and evapotranspiration values (passed through
-#' the `P` and `ETP` arguments) into an overall volume change.
+#' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
 #'
 #' @return a `data.frame` that contains as columns the input time series, as
 #' well as the following calculated columns:
@@ -47,8 +47,8 @@
 #' @export
 hb_global <- function(
     level,
-    P,
-    ETP,
+    rain_mm,
+    evapotranspiration_mm,
     outflows,
     ...,
     storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
@@ -57,19 +57,19 @@ hb_global <- function(
 {
   hb_global_argcheck(
     level = level,
-    P = P,
-    ETP = ETP,
+    rain_mm = rain_mm,
+    evapotranspiration_mm = evapotranspiration_mm,
     outflows = outflows,
     ... = ...,
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
 
-  res <- data.frame(level, P, ETP, ...)
+  res <- data.frame(level, rain_mm, evapotranspiration_mm, ...)
 
   res$volume <- storage_curve(level)
   res$volume_change <- hbg_volume_change(res$volume, fill_last = NA)
-  res$volume_change_petp <- petp_surface(P, ETP)
+  res$volume_change_petp <- petp_surface(rain_mm, evapotranspiration_mm)
 
   flow_balance_df <- hbg_flow_balance(outflows = outflows,
                                       volume_change = res$volume_change,
@@ -87,8 +87,8 @@ hb_global <- function(
 
 hb_global_argcheck <- function(
     level,
-    P,
-    ETP,
+    rain_mm,
+    evapotranspiration_mm,
     outflows,
     ...,
     storage_curve,
@@ -98,8 +98,8 @@ hb_global_argcheck <- function(
   tryCatch(
     {
       assert_numeric_vector(level)
-      assert_numeric_vector(P)
-      assert_numeric_vector(ETP)
+      assert_numeric_vector(rain_mm)
+      assert_numeric_vector(evapotranspiration_mm)
       assert_list(outflows)
       for (i in seq_along(outflows)) {
         assert_numeric_vector(outflows[[i]])
@@ -108,12 +108,16 @@ hb_global_argcheck <- function(
         assert_atomic(list(...)[[i]])
       }
 
-      lengths <- sapply(c(list(level, P, ETP), outflows, list(...)), length)
+      lengths <- sapply(c(list(level, rain_mm, evapotranspiration_mm),
+                          outflows,
+                          list(...)
+                          ),
+                        length)
       if (length(unique(lengths)) > 1)
         stop("Time series inputs must have equal lengths, see ?hb_global.")
 
-      assert_function(storage_curve, check = TRUE, level = rep(0, 10))
-      assert_function(petp_surface, check = TRUE, P = 1:10, ETP = rep(3, 10))
+      assert_function(storage_curve, check = list(rep(0, 10)) )
+      assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
       class(e) <- c("hb_global_argcheck_error", class(e))
