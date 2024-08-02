@@ -3,8 +3,24 @@
 ### User visible changes
 
 * Default arguments of `albufera_hb_global()` and `albufera_hb_local()` are now
-prepended with the `erahumed::` namespace specifier. Solves #7.
+prepended with the `erahumed::` namespace specifier.
 
+* Unexported `residence_time()`
+
+### Under the hoods
+
+* Separated logical units of `hb_global()`, collected in `hb_global_units.R`.
+
+* Introduced argument checking for `hb_global()` and its wrapper 
+`albufera_hb_global()`.
+
+* Introduced S3 class constructor for `"hb_global"` class objects (see 
+`hb_global_units_s3_class.R`).
+
+* Important improvements in the testing infrastructure of `hb_global()` and  
+`albufera_hb_global()`, both at the algorithmic level (through testing of 
+`hb_global_units.R`) and at the level of exceptions raised by these two 
+functions.
 
 # erahumed 0.2.0
 
