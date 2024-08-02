@@ -89,9 +89,8 @@ linear_petp_surface <- function(surface_P, surface_ETP)
 #' @return A numeric vector. Time series of residence times, in the units of
 #' measure specified by the \code{units} argument (assuming \code{volume} and
 #' \code{total_inflow} are provided in the correct units).
-#'
-#' @export
-residence_time <- function(
+#' @noRd
+hbg_residence_time <- function(
     volume, outflow_total, k = 61, units = c("days", "seconds")
 )
 {
