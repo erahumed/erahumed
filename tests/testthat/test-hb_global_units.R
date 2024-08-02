@@ -68,3 +68,29 @@ test_that("hbg_residence_time 'k' argument controls level of smoothing", {
     moving_average(volume, k = k) / moving_average(inflow, k = k) / s_per_day()
   )
 })
+
+
+
+test_that("hbg_volume_change() succeeds with valid input", {
+  expect_no_error(hbg_volume_change(rep(1, 10)))
+})
+
+test_that("hbg_volume_change() returns a double of the correct length", {
+  len <- 10
+  res <- hbg_volume_change(rep(1, len))
+  expect_vector(res, ptype = double(), size = len)
+})
+
+test_that("hbg_volume_change(): last entry of output == fill_last", {
+  fill <- 840
+  res <- hbg_volume_change(rep(1, 10), fill_last = fill)
+  expect_equal(res[length(res)], fill)
+})
+
+test_that("hbg_volume_change(): volume + differences == lagged volume", {
+  volume <- c(4, 2, 6, 4, 6, 3, 7, 8, 4, 9, 1)
+  volume_change <- hbg_volume_change(volume)
+  s <- volume + volume_change
+  s <- s[-length(s)]
+  expect_equal(s, volume[-1])
+})
