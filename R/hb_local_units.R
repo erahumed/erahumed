@@ -20,8 +20,8 @@ hb_local <- function(
     total_inflow_lake,
     ideal_flow_rate_cm = 5,
     ...
-) {
-
+    )
+{
   pcts <- hbl_ditch_inflow_pct(ditch, area_m2)
 
   capacity_m3_s <- total_inflow_lake * pcts$inflow_pct[match(ditch, pcts$ditch)]
@@ -68,9 +68,9 @@ hbl_simulate_ditch <- function(
     date,
     cluster_id,
     ideal_flow_rate_cm = 5,
-    ...)
+    ...
+    )
 {
-
   df_list <-
     hbl_make_df_list(
       ideal_height_cm = ideal_height_cm,
@@ -103,31 +103,6 @@ hbl_simulate_ditch <- function(
   df_list <- lapply(df_list, `class<-`, "data.frame")
 
   return(df_list)
-}
-
-hbl_extract_daily_inputs <- function(df_list, j) {
-  current <- df_list[[j]]
-  previous <- if (j > 1) df_list[[j - 1]] else current
-
-  plan_delay_lag <- previous$plan_delay
-  ideal_height_cm <- vapply(
-    seq_along(plan_delay_lag),
-    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] },
-    numeric(1)
-  )
-  real_height_cm_lag <- previous$real_height_cm
-
-  list(
-    real_height_cm_lag = real_height_cm_lag,
-    ideal_height_cm = ideal_height_cm,
-    petp_cm = current$petp_cm,
-    irrigation = current$irrigation,
-    draining = current$draining,
-    area_m2 = current$area,
-    capacity_m3_s = current$capacity_m3_s[[1]],
-    date = current$date,
-    plan_delay_lag = plan_delay_lag
-  )
 }
 
 hbl_make_df_list <- function(
@@ -165,6 +140,30 @@ hbl_make_df_list <- function(
     )
 }
 
+hbl_extract_daily_inputs <- function(df_list, j) {
+  current <- df_list[[j]]
+  previous <- if (j > 1) df_list[[j - 1]] else current
+
+  plan_delay_lag <- previous$plan_delay
+  ideal_height_cm <- vapply(
+    seq_along(plan_delay_lag),
+    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] },
+    numeric(1)
+  )
+  real_height_cm_lag <- previous$real_height_cm
+
+  list(
+    real_height_cm_lag = real_height_cm_lag,
+    ideal_height_cm = ideal_height_cm,
+    petp_cm = current$petp_cm,
+    irrigation = current$irrigation,
+    draining = current$draining,
+    area_m2 = current$area,
+    capacity_m3_s = current$capacity_m3_s[[1]],
+    date = current$date,
+    plan_delay_lag = plan_delay_lag
+  )
+}
 
 hbl_daily_step <- function(
     real_height_cm_lag,
@@ -225,7 +224,7 @@ hbl_ideal_diff_flow_cm <- function(
     ideal_height_cm,
     real_height_cm_lag,
     petp_cm
-)
+    )
 {
   res <- ideal_height_cm - pmax2(real_height_cm_lag + petp_cm, 0)
   return( list(ideal_diff_flow_cm = res) )
@@ -236,7 +235,7 @@ hbl_ideal_flows_cm <- function(
     irrigation,
     draining,
     ideal_flow_rate_cm
-)
+    )
 {
   is_flux <- irrigation * draining
   ideal_inflow_cm <-
@@ -248,8 +247,7 @@ hbl_ideal_flows_cm <- function(
   ideal_outflow_cm <- pmax2(ideal_outflow_cm, 0)
 
   return( list(ideal_inflow_cm = ideal_inflow_cm,
-               ideal_outflow_cm = ideal_outflow_cm)
-  )
+               ideal_outflow_cm = ideal_outflow_cm) )
 }
 
 hbl_real_outflow_m3_s <- function(
@@ -257,7 +255,7 @@ hbl_real_outflow_m3_s <- function(
     area_m2,
     capacity_m3_s,
     randomize_clusters = TRUE
-)
+    )
 {
   n <- length(ideal_outflow_cm)
 
@@ -273,31 +271,17 @@ hbl_real_outflow_m3_s <- function(
   real_outflow_m3_s <- real_outflow_m3_s + capacity_m3_s / length(real_outflow_m3_s)
 
   return( list(real_outflow_m3_s = real_outflow_m3_s) )
-
 }
 
-hbl_real_outflow_cm <- function(
-    real_outflow_m3_s,
-    area_m2
-)
-{
+hbl_real_outflow_cm <- function(real_outflow_m3_s, area_m2) {
   list( real_outflow_cm = m3_s_to_cm_day(real_outflow_m3_s, area_m2) )
 }
 
-
-hbl_real_inflow_cm <- function(
-    real_outflow_cm,
-    ideal_diff_flow_cm
-)
-{
-  list(real_inflow_cm = pmax2(real_outflow_cm + ideal_diff_flow_cm, 0))
+hbl_real_inflow_cm <- function(real_outflow_cm, ideal_diff_flow_cm) {
+  list( real_inflow_cm = pmax2(real_outflow_cm + ideal_diff_flow_cm, 0) )
 }
 
-hbl_real_inflow_m3_s <- function(
-    real_inflow_cm,
-    area_m2
-)
-{
+hbl_real_inflow_m3_s <- function(real_inflow_cm, area_m2) {
   list(real_inflow_m3_s = cm_day_to_m3_s(real_inflow_cm, area_m2))
 }
 
@@ -306,10 +290,10 @@ hbl_real_height_cm <- function(
     petp_cm,
     real_inflow_cm,
     real_outflow_cm
-)
+    )
 {
-  res <- pmax2(real_height_cm_lag + petp_cm, 0) +
-    real_inflow_cm - real_outflow_cm
+  real_diff_flow_cm <- real_inflow_cm - real_outflow_cm
+  res <- pmax2(real_height_cm_lag + petp_cm, 0) + real_diff_flow_cm
   return( list(real_height_cm = res) )
 }
 
@@ -321,7 +305,7 @@ hbl_plan_delay <- function(
     thresh = 2.5,
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15)
-)
+    )
 {
   date <- as.POSIXlt(date[1])
   reset_delay <-
@@ -330,9 +314,8 @@ hbl_plan_delay <- function(
     (get_mm(date) > mm_dd_end[1]) ||
     (get_mm(date) == mm_dd_end[1] && get_dd(date) > mm_dd_end[2])
 
-  if (reset_delay) {
+  if (reset_delay)
     return( list(plan_delay = numeric(length(plan_delay_lag))) )
-  }
 
   add_delay <- (ideal_height_cm == 0) & (real_height_cm > thresh)
   return( list(plan_delay = plan_delay_lag + add_delay) )
