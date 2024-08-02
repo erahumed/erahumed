@@ -42,9 +42,7 @@ hb_local <- function(
     data.table::rbindlist() |>
     as.data.frame()
 
-  # To substitute with a proper class constructor?
-  class(res) <- c("hb_local", "data.frame")
-  attr(class(res), "package") <- "erahumed"
+  res <- make_hb_local(res)
 
   return(res)
 }
