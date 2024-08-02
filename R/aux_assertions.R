@@ -83,7 +83,7 @@ assert_function <- function(x, name = deparse(substitute(x)), check = TRUE, ...)
   if ( (!check) || succeeds(do.call(x, list(...))) )
     return(invisible(TRUE))
 
-  msg <- paste0("Test call of ", name, "() failed.")
+  stop(paste0("Test call of ", name, "() failed."))
 }
 
 assert_data.frame <- function(x, name = deparse(substitute(x)), template = NULL)
