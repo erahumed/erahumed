@@ -62,22 +62,43 @@ assert_string <- function(x, name = deparse(substitute(x))) {
 }
 
 assert_list <- function(x, name = deparse(substitute(x))) {
-  if(!is.list(x))
-    stop(paste0("'", name, "' must be a list."))
+  if(is.list(x))
+    return(invisible(TRUE))
 
-  return(invisible(TRUE))
+  stop(paste0("'", name, "' must be a list."))
 }
 
 assert_atomic <- function(x, name = deparse(substitute(x))) {
-  if(!is.atomic(x))
-    stop(paste0("'", name, "' must be atomic."))
+  if (is.atomic(x))
+    return(invisible(TRUE))
 
-  return(invisible(TRUE))
+  stop(paste0("'", name, "' must be atomic."))
 }
 
 assert_function <- function(x, name = deparse(substitute(x))) {
-  if(!is.function(x))
-    stop(paste0("'", name, "' must be a function."))
+  if (is.function(x))
+    return(invisible(TRUE))
 
-  return(invisible(TRUE))
+  stop(paste0("'", name, "' must be a function."))
+}
+
+assert_data.frame <- function(x, name = deparse(substitute(x)), template = NULL)
+{
+  if (!("data.frame" %in% class(x)))
+    stop(paste0("'", name, "' must be a data.frame."))
+
+  if (is.null(template))
+    return(invisible(TRUE))
+
+  assert_data.frame(template)
+
+  expected_cols <- sort(colnames(template))
+  cols <- sort(colnames(x))
+
+  if (identical(cols, expected_cols))
+    return(invisible(TRUE))
+
+  expected_cols_list <- paste0(expected_cols, collapse = ", ")
+  msg <- paste0(name, " must have the following columns: ", expected_cols_list)
+  stop(msg)
 }

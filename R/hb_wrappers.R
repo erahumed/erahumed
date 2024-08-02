@@ -18,6 +18,9 @@ albufera_hb_global <- function(
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
+  assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
+  assert_data.frame(weather_df, template = erahumed::albufera_weather)
+
   # Just to get intersection of dates
   input <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
 
