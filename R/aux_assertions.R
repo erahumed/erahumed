@@ -86,7 +86,12 @@ assert_function <- function(x, name = deparse(substitute(x)), check = NULL)
   stop(paste0("Test call of ", name, "() failed."))
 }
 
-assert_data.frame <- function(x, name = deparse(substitute(x)), template = NULL)
+assert_data.frame <- function(
+    x,
+    name = deparse(substitute(x)),
+    template = NULL,
+    extends = TRUE
+    )
 {
   if (!("data.frame" %in% class(x)))
     stop(paste0("'", name, "' must be a data.frame."))
@@ -96,13 +101,17 @@ assert_data.frame <- function(x, name = deparse(substitute(x)), template = NULL)
 
   assert_data.frame(template)
 
-  expected_cols <- sort(colnames(template))
+  exp_cols <- sort(colnames(template))
   cols <- sort(colnames(x))
 
-  if (identical(cols, expected_cols))
+  if (identical(cols, exp_cols) || (all(exp_cols %in% cols) && extends))
     return(invisible(TRUE))
 
-  expected_cols_list <- paste0(expected_cols, collapse = ", ")
-  msg <- paste0(name, " must have the following columns: ", expected_cols_list)
+  msg <- paste0("'", name, "' ",
+                "must have ",
+                ifelse(extends, "", "exactly "),
+                "the following columns: ",
+                paste0(exp_cols, collapse = ", ")
+                )
   stop(msg)
 }

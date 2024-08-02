@@ -1,8 +1,9 @@
 test_that("Ensure constructor raises errors of the correct class", {
 
-  expect_error(make_hb_global("not a df"), class = "make_hb_global_error")
+  expect_error(make_hb_global("not a df"),
+               class = "make_hb_global_argcheck_error")
 
   expect_error(make_hb_global(data.frame(x = 1:10, y = 10:1)),  # Wrong cols
-               class = "make_hb_global_error")
+               class = "make_hb_global_argcheck_error")
 
 })
