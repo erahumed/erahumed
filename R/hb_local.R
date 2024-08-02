@@ -80,7 +80,7 @@ hbl_simulate_ditch <- function(
     as.logical()
 
   for (j in seq_along(df_list)) {
-    args <- extract_hbl_daily_inputs(df_list, j)
+    args <- hbl_extract_daily_inputs(df_list, j)
     args <- c(args,
               list(ideal_flow_rate_cm = ideal_flow_rate_cm,
                    randomize_clusters = randomize_clusters)
@@ -96,7 +96,7 @@ hbl_simulate_ditch <- function(
   return(df_list)
 }
 
-extract_hbl_daily_inputs <- function(df_list, j) {
+hbl_extract_daily_inputs <- function(df_list, j) {
   current <- df_list[[j]]
   previous <- if (j > 1) df_list[[j - 1]] else current
 
