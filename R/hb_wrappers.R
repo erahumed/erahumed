@@ -18,8 +18,7 @@ albufera_hb_global <- function(
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
-  assert_data.frame(weather_df, template = erahumed::albufera_weather)
+  albufera_hb_global_datacheck(outflows_df, weather_df)
 
   # Just to get intersection of dates
   input <- merge(outflows_df, weather_df, by = "date", sort = TRUE)
@@ -144,3 +143,16 @@ albufera_hb_local_data_prep <- function(
   return(res)
 }
 
+albufera_hb_global_datacheck <- function(outflows_df, weather_df) {
+  tryCatch(
+    {
+      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
+      assert_data.frame(weather_df, template = erahumed::albufera_weather)
+    },
+    error = function(e) {
+      class(e) <- c("albufera_hb_global_datacheck_error", class(e))
+      stop(e)
+      }
+    )
+
+}
