@@ -55,7 +55,7 @@ hb_global <- function(
     petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
 )
 {
-  hb_global_check_args(
+  hb_global_argcheck(
     level = level,
     P = P,
     ETP = ETP,
@@ -85,7 +85,7 @@ hb_global <- function(
   return(make_hb_global(res))
 }
 
-hb_global_check_args <- function(
+hb_global_argcheck <- function(
     level,
     P,
     ETP,
@@ -95,21 +95,29 @@ hb_global_check_args <- function(
     petp_surface
     )
 {
-  assert_numeric_vector(level)
-  assert_numeric_vector(P)
-  assert_numeric_vector(ETP)
-  assert_list(outflows)
-  for (i in seq_along(outflows)) {
-    assert_numeric_vector(outflows[[i]])
-  }
-  for (i in seq_along(list(...))) {
-    assert_atomic(list(...)[[i]])
-  }
+  tryCatch(
+    {
+      assert_numeric_vector(level)
+      assert_numeric_vector(P)
+      assert_numeric_vector(ETP)
+      assert_list(outflows)
+      for (i in seq_along(outflows)) {
+        assert_numeric_vector(outflows[[i]])
+      }
+      for (i in seq_along(list(...))) {
+        assert_atomic(list(...)[[i]])
+      }
 
-  lengths <- sapply(c(list(level, P, ETP), outflows, list(...)), length)
-  if (length( unique(lengths) ) > 1)
-    stop("Time series inputs must have equal lengths, see ?hb_global.")
+      lengths <- sapply(c(list(level, P, ETP), outflows, list(...)), length)
+      if (length(unique(lengths)) > 1)
+        stop("Time series inputs must have equal lengths, see ?hb_global.")
 
-  assert_function(storage_curve, check = TRUE, level = rep(0, 10))
-  assert_function(petp_surface, check = TRUE, P = 1:10, ETP = rep(3, 10))
+      assert_function(storage_curve, check = TRUE, level = rep(0, 10))
+      assert_function(petp_surface, check = TRUE, P = 1:10, ETP = rep(3, 10))
+    },
+    error = function(e) {
+      class(e) <- c("hb_global_argcheck_error", class(e))
+      stop(e)
+    })
 }
+
