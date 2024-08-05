@@ -61,7 +61,7 @@ non-negative.
 described above.
 \item \code{inflow_total} Time serie of total inflows, in cube meters per second.
 This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-\item \code{residence_time_days}. Residence time, as modeled by \link{residence_time}.
+\item \code{residence_time_days}. Residence time, as modeled by \link{hbg_residence_time}.
 }
 }
 \description{
