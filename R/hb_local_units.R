@@ -149,15 +149,27 @@ hbl_extract_daily_inputs <- function(df_list, j) {
     seq_along(plan_delay_lag),
     \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] },
     numeric(1)
+    )
+  irrigation <- vapply(
+    seq_along(plan_delay_lag),
+    \(c) { df_list[[j - plan_delay_lag[c]]]$irrigation[c] },
+    logical(1)
+    )
+
+  draining <- vapply(
+    seq_along(plan_delay_lag),
+    \(c) { df_list[[j - plan_delay_lag[c]]]$draining[c] },
+    logical(1)
   )
+
   real_height_cm_lag <- previous$real_height_cm
 
   list(
     real_height_cm_lag = real_height_cm_lag,
     ideal_height_cm = ideal_height_cm,
     petp_cm = current$petp_cm,
-    irrigation = current$irrigation,
-    draining = current$draining,
+    irrigation = irrigation,
+    draining = draining,
     area_m2 = current$area,
     capacity_m3_s = current$capacity_m3_s[[1]],
     date = current$date,
