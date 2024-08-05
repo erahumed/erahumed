@@ -1,12 +1,20 @@
-#' Albufera Hydrological Balance
+#' Albufera Local Hydrological Balance
 #'
-#' Documentation TBD
+#' @description
+#' Wrapper around \link{hb_global}, used to run the global hydrological balance
+#' calculations with the data for the Albufera lake packed up in the
+#' `data.frame`s exported by `erahumed`.
+#'
+#' @inheritParams hb_global
+#' @param outflows_df,petp_df `data.frame`s, whose structures follow the
+#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively.
 #'
 #' @details
 #' The numeric inputs used from the linear storage curve and P-ETP surface were
 #' extracted from the CHJ report
 #' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
 #'
+#' @return Same as \link{hb_global}.
 #'
 #' @export
 albufera_hb_global <- function(

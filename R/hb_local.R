@@ -35,7 +35,7 @@
 #' @param ... additional columns to be appended in the returned data-frame. Each
 #' of these additional (named) arguments should be a vector of the same length
 #' implied by the previous arguments.
-#' @param ideal_flow_rate_cm = 5 a positive number. Ideal inflow for days such
+#' @param ideal_flow_rate_cm a positive number. Ideal inflow for days such
 #' that `irrigation` and `draining` are both `TRUE`.
 #'
 #' @details
@@ -47,7 +47,7 @@
 #' the side of the user. To name some examples: `ditch` should be consistent
 #' among `cluster_id`; `petp_cm` should be consistent among `date`; *etc.etc.*.
 #'
-#' @value an object of class `hb_local`, which is a data.frame with some
+#' @return an object of class `hb_local`, which is a data.frame with some
 #' additional methods. (TODO: what methods?)
 #'
 #' @export

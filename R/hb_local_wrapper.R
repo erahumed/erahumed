@@ -1,6 +1,19 @@
-#' Albufera Hydrological Balance
+#' Albufera Local Hydrological Balance
 #'
-#' Documentation TBD
+#' @description
+#' Wrapper around \link{hb_local}, used to run the local hydrological balance
+#' simulation algorithm with the data for the Albufera lake packed up in the
+#' `data.frame`s exported by `erahumed`.
+#'
+#' @inheritParams hb_local
+#' @inheritParams hb_global
+#' @param outflows_df,petp_df,management_df,clusters_df `data.frame`s, whose
+#' structures follow the templates of
+#' \link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
+#' and \link{albufera_clusters}, respectively.
+#' @param date_min,date_max date range for the simulation.
+#'
+#' @return Same as \link{hb_local}.
 #'
 #' @details
 #' The numeric inputs used from the linear storage curve and P-ETP surface were

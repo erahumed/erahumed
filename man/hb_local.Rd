@@ -46,12 +46,16 @@ be drained on this day?).}
 \item{total_inflow_lake}{numeric vector. Total inflow of lake (or,
 equivalently, total outflow of clusters) on the day specified by \code{date}.}
 
-\item{ideal_flow_rate_cm}{= 5 a positive number. Ideal inflow for days such
+\item{ideal_flow_rate_cm}{a positive number. Ideal inflow for days such
 that \code{irrigation} and \code{draining} are both \code{TRUE}.}
 
 \item{...}{additional columns to be appended in the returned data-frame. Each
 of these additional (named) arguments should be a vector of the same length
 implied by the previous arguments.}
+}
+\value{
+an object of class \code{hb_local}, which is a data.frame with some
+additional methods. (TODO: what methods?)
 }
 \description{
 Simulates the local hydrological balance of a set of clusters of rice paddies
