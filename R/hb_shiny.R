@@ -80,8 +80,8 @@ hbLocalUI <- function(id) {
       shiny::column(4, shiny::actionButton(ns("run_button"), "Run"))
       ),
     shiny::fluidRow(
-      shiny::column(4, leaflet::leafletOutput(ns("map"))),
-      shiny::column(8, plotly::plotlyOutput(ns("plot")))
+      shiny::column(4, leaflet::leafletOutput(ns("albufera_map"))),
+      shiny::column(8, plotly::plotlyOutput(ns("hb_plot")))
     )
   )
 }
@@ -90,31 +90,30 @@ hbLocalServer <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    data <- shiny::reactiveVal(NULL)
+    output$albufera_map <- leaflet::renderLeaflet({ plot_albufera_clusters() })
 
-    shiny::observeEvent(input$run_button, {
-      data(albufera_hb_local(date_min = input$date_range[1],
-                             date_max = input$date_range[2])
-           )
-    })
-
-    output$plot <- plotly::renderPlotly({
-      shiny::req(data())
-      shiny::req(input$cluster_id)
-
-      plot(data(), cluster_id = input$cluster_id)
-    })
-
-    output$map <- leaflet::renderLeaflet({
-      plot_albufera_clusters()
-    })
-
-    shiny::observeEvent(input$map_shape_click, {
-      click <- input$map_shape_click
+    shiny::observeEvent(input$albufera_map_shape_click, {
+      click <- input$albufera_map_shape_click
       if (!is.null(click)) {
         shiny::updateSelectInput(session, "cluster_id", selected = click$id)
       }
     })
+
+    hb_data <- shiny::reactiveVal(NULL)
+
+    shiny::observeEvent(input$run_button, {
+      hb_data(
+        albufera_hb_local(date_min = input$date_range[1],
+                          date_max = input$date_range[2])
+        )
+      })
+
+    output$hb_plot <- plotly::renderPlotly({
+      shiny::req(hb_data())
+      shiny::req(input$cluster_id)
+
+      plot(hb_data(), cluster_id = input$cluster_id)
+      })
 
   })
 }
