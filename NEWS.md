@@ -2,7 +2,24 @@
 
 ### User visible changes
 
+* Documentation for the `albufera_hb_global()` and `albufera_hb_local()` 
+wrappers.
+
+* Exported `hbg_residence_time()` doc page.
+
 * Former `albufera_weather` dataset becomes `albufera_petp`, and its structure is significantly simplified, now having only three columns: `date`, `rain_mm` and `evapotranspiration_mm` (previously named `date`, `P` and `ETP` respectively). All changes get propagated to downstream tables, such as *e.g.* `albufera_hb_global()`.
+
+### Algorithm change
+
+* In previous versions of the algorithm, the plan delays upon failing to reach
+zero water levels on a given date were only being applied to the 
+`ideal_height_cm` vector. In the present version, the draining and irrigation
+plan also get delayed. This has been observed to give rise to slightly more 
+natural water profiles (in particular, the delay accumulated during summer
+is often less than 40 days, contrary to what used to happen with the previous
+version).
+
+### Under the hoods
 
 * Add `"hb_local"` S3 class internal constructor (#21).
 
