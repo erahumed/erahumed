@@ -2,20 +2,17 @@ plot_albufera_clusters <- function(
     clusters_df = merge(albufera_clusters,
                         albufera_cluster_geometries,
                         by = "cluster_id"),
-    geometry_col = "geometry"
+    geometry_col = "geometry",
+    seed = 840
     )
 {
-  n_ditches <- length(unique(clusters_df$ditch))
-  colors <- RColorBrewer::brewer.pal(n = n_ditches, name = "Set3")
-  if (n_ditches > length(colors)) {
-    colors <- grDevices::colorRampPalette(
-      RColorBrewer::brewer.pal(12, "Set3")
-      )(n_ditches)
-  }
 
-  # Create a color factor based on the 'ditch' attribute
-  color_palette <- leaflet::colorFactor(palette = colors,
-                                        domain = clusters_df$ditch)
+  unique_ditch <- unique(clusters_df$ditch)
+  n_ditches <- length(unique_ditch)
+  withr::with_seed(seed, {
+    palette <- randomcoloR::distinctColorPalette(n_ditches)
+    color_map <- leaflet::colorFactor(palette = palette, domain = unique_ditch)
+  })
 
   clusters_df |>
     sf::st_as_sf() |>
@@ -24,7 +21,7 @@ plot_albufera_clusters <- function(
     leaflet::leaflet() |>
     leaflet::addProviderTiles("CartoDB.Positron") |>
     leaflet::addPolygons(
-      color = ~color_palette(ditch),
+      color = ~color_map(ditch),
       fillOpacity = 0.25,
       weight = 1,
       popup = ~paste("Cluster ID:", cluster_id, "<br>",
@@ -32,9 +29,9 @@ plot_albufera_clusters <- function(
                      "Tancat:", tancat, "<br>",
                      "Variety:", rice_variety, "<br>",
                      "Area:", area, "m\u{00B2}"
-      ),
+                     ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
-      layerId = ~cluster_id  # Add layerId for easy identification
+      layerId = ~cluster_id
     )
 }
 

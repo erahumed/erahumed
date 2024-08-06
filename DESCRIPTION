@@ -23,6 +23,7 @@ Imports:
     grDevices,
     leaflet,
     plotly,
+    randomcoloR,
     RColorBrewer,
     shiny,
     stats,
