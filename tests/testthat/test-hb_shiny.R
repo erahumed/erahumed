@@ -1,5 +1,14 @@
 library(shiny)
 
+test_that("UIs are return shiny objects without errors", {
+
+  expect_no_error(hbUI("id"))
+  expect_no_error(hbGlobalUI("id"))
+  expect_no_error(hbLocalUI("id"))
+
+})
+
+
 testServer(hbGlobalServer, {
   session$setInputs(
     date_range = as.Date(c("2013-01-01", "2014-12-31")),
