@@ -154,3 +154,49 @@ test_that("hbg_flow_balance(): net balance checks", {
 
   expect_equal(nrow(zero_check), 0)
 })
+
+test_that("hbg_flow_balance(): sum of outflows equals total", {
+  set.seed(840)
+  len <- 1e3
+  tol <- 1e-10
+
+  volume_change <- rnorm(len)
+  volume_change_petp <- rnorm(len)
+
+  res <- hbg_flow_balance(outflows = list(a = runif(len, 0, 1),
+                                          b = runif(len, 0, 1)),
+                          volume_change = volume_change,
+                          volume_change_petp = volume_change_petp
+                          )
+
+  zero_check <- res |>
+    dplyr::mutate(outflow_total_bis = outflow_a + outflow_b + outflow_extra) |>
+    dplyr::filter(
+      abs(outflow_total - outflow_total_bis) > tol * median(abs(outflow_total))
+    )
+
+  expect_equal(nrow(zero_check), 0)
+})
+
+test_that("hbg_flow_balance(): outflow_extra > 0 requires zero inflow", {
+  set.seed(840)
+  len <- 1e3
+  tol <- 1e-10
+
+  volume_change <- rnorm(len)
+  volume_change_petp <- rnorm(len)
+
+  res <- hbg_flow_balance(outflows = list(a = runif(len, 0, 1),
+                                          b = runif(len, 0, 1)),
+                          volume_change = volume_change,
+                          volume_change_petp = volume_change_petp
+  )
+
+  zero_check <- res |>
+    dplyr::filter(
+      outflow_extra > tol * mean(abs(outflow_total)),
+      inflow_total > tol * mean(abs(outflow_total))
+    )
+
+  expect_equal(nrow(zero_check), 0)
+})
