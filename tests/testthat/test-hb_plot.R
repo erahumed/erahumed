@@ -4,6 +4,21 @@ test_that("plot.hb_global does not produce an error with valid inputs", {
   expect_no_error(plot(df, "residence_time_days"))
 })
 
+test_that("plot.hb_global raises an error with invalid inputs", {
+  df <- albufera_hb_global()
+  expect_error(plot(df, "invalid_variable"), class = "plot.hb_global_error")
+  expect_error(plot(df, variable = 840), class = "plot.hb_global_error")
+})
+
+test_that("plot.hb_global raises a warning with unused arguments", {
+  df <- albufera_hb_global()
+  expect_warning(plot(df,
+                      variable = "residence_time_days",
+                      unused_argument = "argument"),
+                 class = "plot.hb_global_warning"
+                 )
+})
+
 test_that("plot.hb_local() succeeds w/ type='cluster_levels' and valid input", {
   df <- albufera_hb_local(date_min = "2010-01-01", date_max = "2010-01-10")
   expect_no_error(

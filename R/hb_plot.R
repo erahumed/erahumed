@@ -1,11 +1,7 @@
 #' @export
 plot.hb_global <- function(x, variable, ...) {
-  assert_string(variable)
 
-  if (!variable %in% colnames(x)) {
-    msg <- paste(variable, "is not a column of", deparse(substitute(x)))
-    stop(msg)
-  }
+  plot_hb_global_argcheck(x, variable, ...)
 
   var_lab <- hb_global_var_labs()[variable]
 
@@ -33,6 +29,29 @@ plot.hb_global <- function(x, variable, ...) {
       xaxis = list(title = "Date"),
       yaxis = list(title = var_lab)
     )
+}
+
+plot_hb_global_argcheck <- function(x, variable, ...) {
+
+  tryCatch(
+    {
+      assert_string(variable)
+      if (!variable %in% colnames(x)) {
+        stop(paste(variable, "is not a column of", deparse(substitute(x))))
+        }
+      for (name in names(list(...))) {
+        warning(paste0("Argument '", name, "' not used."))
+        }
+    },
+    error = function(cnd) {
+      class(cnd) <- c("plot.hb_global_error", class(cnd))
+      stop(cnd)
+      },
+    warning = function(cnd) {
+      class(cnd) <- c("plot.hb_global_warning", class(cnd))
+      warning(cnd)
+    })
+
 }
 
 #' @export
