@@ -8,11 +8,9 @@ launch_app <- function() {
     # {sf} is required to register S3 methods for {sf} objects
     stop("{sf} needs to be loaded for the correct functioning of the app.")
   }
-  shiny::runApp(
-    list(ui = shiny_ui, server = shiny_server),
-    launch.browser = TRUE
-  )
+  shiny::runApp(shiny_app(), launch.browser = TRUE)
 }
+
 
 # TODO: Currently, there is a tabsetPanel nested within the hbUI, and each tab
 # represents a submodule called by the hb module. Another option would be to
@@ -32,8 +30,7 @@ shiny_server <- function(input, output, session) {
   inputsServer("inputs")
 }
 
-
-
-
-
+shiny_app <- function() {
+  shiny::shinyApp(ui = shiny_ui, server = shiny_server)
+}
 
