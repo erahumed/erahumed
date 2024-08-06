@@ -70,15 +70,12 @@ linear_petp_surface <- function(surface_P, surface_ETP)
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' *N.B.:*: This function is the one used internally by \link{hb_global} to
+#' **N.B.:**: This function is the one used internally by \link{hb_global} to
 #' compute residence times, and is not directly exported by `{erahumed}`.
 #'
 #' Computes residence times as
-#' \eqn{t = s_k(\text{Volume}) / s_k(\vert \text{Outflow}\vert) },
-#' where \eqn{s_k(\cdot)} denotes a moving average with a smoothing window of
-#' size \eqn{k}, centered at the current observation, and
-#' \eqn{\vert \cdot \vert} is the absolute value (to deal with cases in which
-#' the inflow becomes negative).
+#' \eqn{t = \overline{\text{Volume}} / \overline{\text{Outflow}} },
+#' where \eqn{\overline {\cdot}} denotes a (symmetric) moving average.
 #'
 #' @param volume numeric vector. Time series of volumes in \eqn{\text{m}^3}.
 #' @param outflow_total numeric vector. Time series of total outflow in
