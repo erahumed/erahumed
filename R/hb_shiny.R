@@ -29,7 +29,14 @@ hbSetupUI <- function(id) {
                           end = as.Date("2020-12-31"),
                           min = min(albufera_outflows$date),
                           max = max(albufera_outflows$date)
-                          )
+                          ),
+    shiny::numericInput(ns("ideal_flow_rate_cm"),
+                        "Ideal Flow Rate [cm]",
+                        value = 5,
+                        min = 0,
+                        max = 20,
+                        step = 0.5
+                        )
 
   )
 }
@@ -114,7 +121,8 @@ hbLocalServer <- function(id, setup) {
     shiny::observeEvent(input$run_button, {
       hb_data(
         albufera_hb_local(date_min = setup$date_range[1],
-                          date_max = setup$date_range[2])
+                          date_max = setup$date_range[2],
+                          ideal_flow_rate_cm = setup$ideal_flow_rate_cm)
         )
       })
 
