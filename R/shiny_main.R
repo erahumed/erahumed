@@ -23,12 +23,13 @@ shiny_ui <- function() {
   shiny::navbarPage(
     "ERAHUMED",
     shiny::tabPanel("Hydrological Balance", hbUI("hb")),
-    shiny::tabPanel("Second Tab", )
+    shiny::tabPanel("Inputs", inputsUI("inputs"))
     )
 }
 
 shiny_server <- function(input, output, session) {
   hbServer("hb")
+  inputsServer("inputs")
 }
 
 
