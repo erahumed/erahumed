@@ -68,4 +68,8 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 \description{
 Computes the global hydrological balance of a water basin from the
 measurements of water level, outflows, and precipitation/evapotranspiration.
+For analyzing Albufera data, you should not need to directly run this
+function, and you can instead use the \link{albufera_hb_global} wrapper, that
+calls \code{hb_global()} with the right arguments, extracted from the built-in
+datasets.
 }

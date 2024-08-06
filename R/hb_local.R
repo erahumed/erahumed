@@ -14,6 +14,12 @@
 #' More details on the concrete algorithm used in the simulations can be found
 #' at TODO.
 #'
+#' For analyzing Albufera data, you should not need to directly run this
+#' function, and you can instead use the \link{albufera_hb_local} wrapper, that
+#' calls `hb_local()` with the right arguments, extracted from the built-in
+#' datasets.
+#'
+#'
 #' @param date vector. Can be either a character, formatted as YYYY-MM-DD, or
 #' a `Date` object.
 #' @param cluster_id character vector.

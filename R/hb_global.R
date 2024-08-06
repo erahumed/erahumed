@@ -3,6 +3,10 @@
 #' @description
 #' Computes the global hydrological balance of a water basin from the
 #' measurements of water level, outflows, and precipitation/evapotranspiration.
+#' For analyzing Albufera data, you should not need to directly run this
+#' function, and you can instead use the \link{albufera_hb_global} wrapper, that
+#' calls `hb_global()` with the right arguments, extracted from the built-in
+#' datasets.
 #'
 #' @param level numeric vector. Time series of lake levels, in meters.
 #' @param rain_mm numeric vector. Time series of precipitation values, in millimiters.
