@@ -36,7 +36,14 @@ hbSetupUI <- function(id) {
                         min = 0,
                         max = 20,
                         step = 0.5
-                        )
+                        ),
+    shiny::numericInput(ns("hbl_seed"),
+                        "Seed for simulation",
+                        value = 840,
+                        min = 0,
+                        max = 20,
+                        step = 1
+    ),
 
   )
 }
@@ -107,7 +114,9 @@ hbLocalServer <- function(id, setup) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    output$albufera_map <- leaflet::renderLeaflet({ plot_albufera_clusters() })
+    output$albufera_map <- leaflet::renderLeaflet({
+      plot_albufera_clusters(seed = setup$seed)
+      })
 
     shiny::observeEvent(input$albufera_map_shape_click, {
       click <- input$albufera_map_shape_click
@@ -120,9 +129,12 @@ hbLocalServer <- function(id, setup) {
 
     shiny::observeEvent(input$run_button, {
       hb_data(
-        albufera_hb_local(date_min = setup$date_range[1],
-                          date_max = setup$date_range[2],
-                          ideal_flow_rate_cm = setup$ideal_flow_rate_cm)
+        withr::with_seed(setup$seed,
+          albufera_hb_local(date_min = setup$date_range[1],
+                            date_max = setup$date_range[2],
+                            ideal_flow_rate_cm = setup$ideal_flow_rate_cm
+                            )
+          )
         )
       })
 
