@@ -1,5 +1,17 @@
 # erahumed (development version)
 
+### User visible changes
+
+* New Shiny module to set parameters of the hydrological balance calculations.
+* New Shiny module to modify input data to the algorithms.
+
+### Under the hoods
+
+* Added shinytest2 testing infrastructure, for snapshot based tests to be 
+developed later.
+* Basic tests for plotting utilities (succeed with default arguments).
+* Server testing of `hb_shiny.R` modules, #15.
+
 # erahumed 0.2.2
 
 ### User visible changes
