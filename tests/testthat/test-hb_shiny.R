@@ -19,7 +19,10 @@ testServer(hbGlobalServer, {
   output$hb_plot
   },
   args = list(
-    setup = list(date_range = as.Date(c("2013-01-01", "2014-12-31")))
+    setup = list(date_range = as.Date(c("2013-01-01", "2014-12-31"))),
+    data = function() list(outflows_df = albufera_outflows,
+                           petp_df = albufera_petp,
+                           management_df = albufera_management)
     )
   )
 
@@ -48,7 +51,10 @@ testServer(hbLocalServer, {
   args = list(
     setup = list(date_range = as.Date(c("2013-01-01", "2013-01-10")),
                  ideal_flow_rate_cm = 5,
-                 seed = 840
-                 )
+                 hbl_seed = 840
+                 ),
+    data = function() list(outflows_df = albufera_outflows,
+                           petp_df = albufera_petp,
+                           management_df = albufera_management)
     )
   )

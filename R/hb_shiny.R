@@ -8,12 +8,12 @@ hbUI <- function(id) {
   )
 }
 
-hbServer <- function(id) {
+hbServer <- function(id, data) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     setup <- hbSetupServer("hb_setup")
-    hbGlobalServer("hb_global", setup)
-    hbLocalServer("hb_local", setup)
+    hbGlobalServer("hb_global", setup, data)
+    hbLocalServer("hb_local", setup, data)
   })
 }
 
@@ -26,9 +26,7 @@ hbSetupUI <- function(id) {
     shiny::dateRangeInput(ns("date_range"),
                           "Select Date Range",
                           start = as.Date("2020-01-01"),
-                          end = as.Date("2020-12-31"),
-                          min = min(albufera_outflows$date),
-                          max = max(albufera_outflows$date)
+                          end = as.Date("2020-12-31")
                           ),
     shiny::numericInput(ns("ideal_flow_rate_cm"),
                         "Ideal Flow Rate [cm]",
@@ -40,8 +38,6 @@ hbSetupUI <- function(id) {
     shiny::numericInput(ns("hbl_seed"),
                         "Seed for simulation",
                         value = 840,
-                        min = 0,
-                        max = 20,
                         step = 1
     ),
 
@@ -73,15 +69,17 @@ hbGlobalUI <- function(id) {
     )
 }
 
-hbGlobalServer <- function(id, setup) {
+hbGlobalServer <- function(id, setup, data) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    hb_data_full <- albufera_hb_global()
-
     hb_data <- shiny::reactive({
-      row_idx <-
-        setup$date_range[1] <= hb_data_full$date & hb_data_full$date <= setup$date_range[2]
+      hb_data_full <- albufera_hb_global(
+        outflows_df = data()$outflows_df,
+        petp_df = data()$petp_df
+        )
+      row_idx <- setup$date_range[1] <= hb_data_full$date
+      row_idx <- row_idx & hb_data_full$date <= setup$date_range[2]
       hb_data_full[row_idx, ]
     })
 
@@ -110,12 +108,12 @@ hbLocalUI <- function(id) {
   )
 }
 
-hbLocalServer <- function(id, setup) {
+hbLocalServer <- function(id, setup, data) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     output$albufera_map <- leaflet::renderLeaflet({
-      plot_albufera_clusters(seed = setup$seed)
+      plot_albufera_clusters(seed = setup$hbl_seed)
       })
 
     shiny::observeEvent(input$albufera_map_shape_click, {
@@ -129,11 +127,15 @@ hbLocalServer <- function(id, setup) {
 
     shiny::observeEvent(input$run_button, {
       hb_data(
-        withr::with_seed(setup$seed,
-          albufera_hb_local(date_min = setup$date_range[1],
-                            date_max = setup$date_range[2],
-                            ideal_flow_rate_cm = setup$ideal_flow_rate_cm
-                            )
+        withr::with_seed(setup$hbl_seed,
+          albufera_hb_local(
+            outflows_df = data()$outflows_df,
+            petp_df = data()$petp_df,
+            management_df = data()$management_df,
+            date_min = setup$date_range[1],
+            date_max = setup$date_range[2],
+            ideal_flow_rate_cm = setup$ideal_flow_rate_cm
+            )
           )
         )
       })
