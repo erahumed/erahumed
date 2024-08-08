@@ -12,8 +12,10 @@ Assuming you have access to the GitHub repository, the simplest and safest
 option for installing the package is to use:
 
 ```r
-remotes::install_github("vgherard/erahumed")
+remotes::install_github("vgherard/erahumed", dependencies = TRUE)
 ```
+
+The `dependencies = TRUE` argument will install all package dependencies, and is recommended; see also the [Modifying `{erahumed}`](modifying_erahumed.md) guide.
 
 In order for this to succeed, though, you need a GitHub PAT (with read access
 for private repositories) to be stored in the local git credential store. If you
@@ -36,7 +38,7 @@ and, from the menu of RStudio, choose "Build > Install Package".
 
 A different possibility is that you only have access to the source files, 
 usually compressed in a .tar.gz archive. Notice that this would be also the 
-guide to follow if you want to distribute this software to a user that does not
+guide to provide if you want to distribute this software to a user that does not
 have access to the `{erahumed}` repo. 
 
 In this case, I suggest to use `devtools::install()` (rather than the built-in 
