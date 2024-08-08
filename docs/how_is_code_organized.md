@@ -62,6 +62,10 @@ adopted to make the software easy to deploy and test, mainly. Resources:
 * **{testthat} and derivatives.** This R package was used to build the software 
 testing infrastructure. Resources:
   - [{testthat} documentation](https://r-pkgs.org/)
+* **Codecov.** For generating package coverage reports. This was implemented 
+through the [{covr}](https://covr.r-lib.org/) R package. Resources:
+  - [Codecov official documentation](https://docs.codecov.com/docs/quick-start)
+  - [{covr} R package website](https://covr.r-lib.org/)
 * **Git and Github.** For code versioning. Resources:
   - [GitHub official documentation](https://docs.github.com/)
 * **Github Actions.** For continuous testing. Resources:
