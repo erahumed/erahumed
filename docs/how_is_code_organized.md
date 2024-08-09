@@ -94,7 +94,6 @@ code behind `{erahumed}`, you will be mostly working within the `R/` and
 `tests/` folder, and possibly on the scripts contained in the `data-raw/` 
 folder. These three important directories are described in more detail below.
 
-<details open> <summary>Show repository folder structure</summary>
 ```
 .
 | .gitignore        Ignored files for Git
@@ -125,7 +124,6 @@ folder. These three important directories are described in more detail below.
 +--- tests/       * Unit and integration tests
 
 ```
-</details>
 
 ### The `R/` folder
 
@@ -166,7 +164,6 @@ files. The purpose of these two files is explained in the "R Packages" book,
 [here](https://r-pkgs.org/data.html#sec-documenting-data) and
 [here](https://r-pkgs.org/man.html#sec-man-package-doc).
 
-<details> <summary>Show `R/` folder structure</summary>
 ```
 .
 |
@@ -194,7 +191,6 @@ files. The purpose of these two files is explained in the "R Packages" book,
 |
 | ...
 ```
-</details>
 
 ### The `tests/` folder
 
@@ -217,7 +213,6 @@ An exception is given by the `test-shinytest2.R`. This file contains
 certain user interactions with the Shiny app and check that the resulting output 
 is predictable.
 
-<details> <summary>Show `tests/` folder structure</summary>
 ```
 .
 |
@@ -250,7 +245,6 @@ is predictable.
 |
 | ...
 ```
-</details>
 
 ### The `data-raw/` folder
 
@@ -277,7 +271,6 @@ of these scripts is to a large extent arbitrary; I usually employ
 folder, and I would recommend sticking to it if you don't have any strong reason
 for doing otherwise.
 
-<details> <summary>Show `data-raw/` folder structure</summary>
 ```
 .
 |
@@ -310,4 +303,3 @@ for doing otherwise.
 |
 | ...
 ```
-</details>
