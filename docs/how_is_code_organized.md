@@ -94,6 +94,7 @@ code behind `{erahumed}`, you will be mostly working within the `R/` and
 `tests/` folder, and possibly on the scripts contained in the `data-raw/` 
 folder. These three important directories are described in more detail below.
 
+<details open> <summary>Show repository folder structure</summary>
 ```
 .
 | .gitignore        Ignored files for Git
@@ -124,6 +125,7 @@ folder. These three important directories are described in more detail below.
 +--- tests/       * Unit and integration tests
 
 ```
+</details>
 
 ### The `R/` folder
 
@@ -141,7 +143,30 @@ the core of `{erahumed}` is still under development. By the time you read this
 document, the content of this folder will likely be much richer, but the logical
 structure will be the same as described in this Section.
 
+Each `.R` file contains the definition of some functions, plus some roxygen 
+documentation and tags. In particular, functions that are not preceded by the
+roxygen tag `#' @export` won't be accessible to the user through 
+`library(erahumed); function_name()` or `erahumed::function_name()` (they will
+still be accessible through `erahumed:::function_name()`).
 
+Code is conceptually organized in "modules", and we recognize here four of them:
+
+* `hb`, standing for Hydrological Balance, is the part of the code that is 
+devoted to this kind of calculations.
+* `aux` is a collection of auxiliary functions that are used extensively 
+throughout the whole code.
+* The `shiny` module contains the main utilities used to orchestrate the user 
+interface of the ERAHUMED dashboard (pieces of UI relative to specific modules
+are still defined within the modules, *e.g.* `hb_shiny.R`).
+* The `data` module contains everything that has to do with *input* data.
+
+If you browse through these files, you will notice that two of them do not 
+contain any function definition. These are the `data.R` and `erahumed-package.R`
+files. The purpose of these two files is explained in the "R Packages" book, 
+[here](https://r-pkgs.org/data.html#sec-documenting-data) and
+[here](https://r-pkgs.org/man.html#sec-man-package-doc).
+
+<details> <summary>Show `R/` folder structure</summary>
 ```
 .
 |
@@ -169,29 +194,7 @@ structure will be the same as described in this Section.
 |
 | ...
 ```
-
-Each `.R` file contains the definition of some functions, plus some roxygen 
-documentation and tags. In particular, functions that are not preceded by the
-roxygen tag `#' @export` won't be accessible to the user through 
-`library(erahumed); function_name()` or `erahumed::function_name()` (they will
-still be accessible through `erahumed:::function_name()`).
-
-Code is conceptually organized in "modules", and we recognize here four of them:
-
-* `hb`, standing for Hydrological Balance, is the part of the code that is 
-devoted to this kind of calculations.
-* `aux` is a collection of auxiliary functions that are used extensively 
-throughout the whole code.
-* The `shiny` module contains the main utilities used to orchestrate the user 
-interface of the ERAHUMED dashboard (pieces of UI relative to specific modules
-are still defined within the modules, *e.g.* `hb_shiny.R`).
-* The `data` module contains everything that has to do with *input* data.
-
-If you browse through these files, you will notice that two of them do not 
-contain any function definition. These are the `data.R` and `erahumed-package.R`
-files. The purpose of these two files is explained in the "R Packages" book, 
-[here](https://r-pkgs.org/data.html#sec-documenting-data) and
-[here](https://r-pkgs.org/man.html#sec-man-package-doc).
+</details>
 
 ### The `tests/` folder
 
@@ -214,10 +217,11 @@ An exception is given by the `test-shinytest2.R`. This file contains
 certain user interactions with the Shiny app and check that the resulting output 
 is predictable.
 
+<details> <summary>Show `tests/` folder structure</summary>
 ```
 .
 |
-|...
+| ...
 |
 +---tests/
 |   |   testthat.R
@@ -244,5 +248,66 @@ is predictable.
 |                   ERAHUMED-001.json
 |                   ERAHUMED-001_.png
 |
-|...
+| ...
 ```
+</details>
+
+### The `data-raw/` folder
+
+This folder contains the one-time scripts that are used to generate the 
+pre-processed data contained in the `data/` folder. These scripts are supposed 
+to be manually executed by the package maintainer, whenever the `{erahumed}` 
+datasets need to be updated, because some raw input, or the 
+pre-processing logic, or both, have changed. These updates should be accompanied
+with a new release of the `{erahumed}` package, and you will need to update 
+`{erahumed}` to the latest version in order for the changes to have effect on 
+your local R installation.
+
+It is worth stressing that the `data-raw/` folder is *ignored* during the 
+building of `{erahumed}`, and the only input to the package is the content of 
+`data/`. The advantage of scripting the data generation process is that it makes 
+it easy to reproduce and modify it, whenever needed.
+
+The content of the folder is shown below: there some R scripts that extract raw 
+data from the `data-raw/raw/` folder, do some pre-processing, and export the 
+resulting data-frames to the `data/` folder in `.rda` format (ready to be 
+included in the `{erahumed}` namespace at the next installation). The structure
+of these scripts is to a large extent arbitrary; I usually employ 
+`usethis::use_data(overwrite = TRUE)` to handle the final export to the `data/` 
+folder, and I would recommend sticking to it if you don't have any strong reason
+for doing otherwise.
+
+<details> <summary>Show `data-raw/` folder structure</summary>
+```
+.
+|
+| ...
+|
++---data-raw
+|   |   albufera_clusters.R
+|   |   albufera_data.R
+|   |   albufera_ditches_inflow_pcts.R
+|   |   albufera_management.R
+|   |
+|   \---raw
+|           CHJ.csv
+|           meteo_beni_2023.xlsx
+|           mod_corr_perellonet_hi.rds
+|           mod_corr_pujol_hi.rds
+|           mod_corr_pujol_low.rds
+|           mod_corr_water_level_low.rds
+|           mod_perello.rds
+|           mod_perellonet.rds
+|           mod_pujol.rds
+|           mod_waterlevel_change.rds
+|           mod_water_level.rds
+|           paddysdef.dbf
+|           paddysdef.prj
+|           paddysdef.shp
+|           paddysdef.shx
+|           paddy_management_farmer_account.csv
+|           pct_soria_obs.rds
+|
+| ...
+```
+</details>
