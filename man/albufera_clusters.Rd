@@ -4,7 +4,7 @@
 \name{albufera_clusters}
 \alias{albufera_clusters}
 \alias{albufera_cluster_geometries}
-\title{Clusters}
+\title{Albufera Rice Paddy Clusters}
 \format{
 \subsection{\code{albufera_clusters}}{
 

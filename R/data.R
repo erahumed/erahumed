@@ -72,7 +72,7 @@
 
 
 
-#' Clusters
+#' Albufera Rice Paddy Clusters
 #'
 #' @description
 #' Datasets containing information on various paddy clusters.
