@@ -122,7 +122,6 @@ folder. These three important directories are described in more detail below.
 +--- R/           * R functions definitions
 |
 +--- tests/       * Unit and integration tests
-
 ```
 
 ### The `R/` folder
