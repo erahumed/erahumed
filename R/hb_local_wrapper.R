@@ -36,6 +36,15 @@ albufera_hb_local <- function(
     ideal_flow_rate_cm = 5
     )
 {
+  albufera_hb_local_argcheck(outflows_df,
+                             petp_df,
+                             management_df,
+                             clusters_df,
+                             date_min,
+                             date_max,
+                             ideal_flow_rate_cm
+                             )
+
   hbl_args <- albufera_hb_local_data_prep(
     outflows_df = outflows_df,
     petp_df = petp_df,
@@ -113,4 +122,31 @@ albufera_hb_local_data_prep <- function(
               )
 
   return(res)
+}
+
+albufera_hb_local_argcheck <- function(
+    outflows_df,
+    petp_df,
+    management_df,
+    clusters_df,
+    date_min,
+    date_max,
+    ideal_flow_rate_cm
+    )
+{  # TODO: test the raising of these exceptions
+  tryCatch(
+    {
+      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
+      assert_data.frame(petp_df, template = erahumed::albufera_petp)
+      assert_data.frame(management_df, template = erahumed::albufera_management)
+      assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
+      # TODO: check date_min/max arguments
+      assert_positive_number(ideal_flow_rate_cm)
+    },
+    error = function(e) {
+      class(e) <- c("albufera_hb_local_argcheck_error", class(e))
+      stop(e)
+    }
+  )
+
 }
