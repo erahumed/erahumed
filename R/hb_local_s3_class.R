@@ -21,7 +21,6 @@ make_hb_local_argcheck <- function(df) {
           area_m2 = numeric(),
           capacity_m3_s = numeric(),
           date = as.Date(character()),
-          ideal_flow_rate_cm = numeric(),
           cluster_id = character(),
           ditch = character(),
           ideal_inflow_cm = numeric(),

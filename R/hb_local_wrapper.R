@@ -20,7 +20,6 @@
 #' extracted from the CHJ report
 #' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
 #'
-#'
 #' @export
 albufera_hb_local <- function(
     outflows_df = erahumed::albufera_outflows,
@@ -36,6 +35,25 @@ albufera_hb_local <- function(
     ideal_flow_rate_cm = 5
     )
 {
+  formals_list <- formals(sys.function())
+  call_list <- as.list(match.call())[-1]
+
+  use_precomputed <- Sys.getenv("erahumed_use_precomputed", "T") |> as.logical()
+  for (arg in names(formals_list)) {
+    if (!use_precomputed) break
+    if (!arg %in% names(call_list)) next
+    provided_hash <- digest::digest(call_list[[arg]])
+    default_hash <- digest::digest(formals_list[[arg]])
+    if (provided_hash != default_hash) use_precomputed <- FALSE
+    }
+
+  if (use_precomputed) {
+    file_path <- system.file(
+      "parquet", "albufera_hb_local.parquet", package = "erahumed"
+      )
+    return(arrow::read_parquet(file_path))
+    }
+
   albufera_hb_local_argcheck(outflows_df,
                              petp_df,
                              management_df,

@@ -18,6 +18,7 @@ Config/testthat/edition: 3
 URL: https://github.com/vgherard/erahumed
 BugReports: https://github.com/vgherard/erahumed/issues
 Imports: 
+    arrow,
     collapse,
     data.table,
     DT,
