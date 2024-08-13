@@ -81,7 +81,7 @@ hbGlobalServer <- function(id, setup, data) {
       row_idx <- setup$date_range[1] <= hb_data_full$date
       row_idx <- row_idx & hb_data_full$date <= setup$date_range[2]
       hb_data_full[row_idx, ]
-    })
+      })
 
     output$hb_plot <- plotly::renderPlotly( plot(hb_data(), input$variable) )
 
@@ -98,8 +98,7 @@ hbLocalUI <- function(id) {
                                        choices = albufera_clusters$cluster_id,
                                        selected = albufera_clusters$cluster_id[1]
                                        )
-                    ),
-      shiny::column(4, shiny::actionButton(ns("run_button"), "Run"))
+                    )
       ),
     shiny::fluidRow(
       shiny::column(4, leaflet::leafletOutput(ns("albufera_map"))),
@@ -114,7 +113,9 @@ hbLocalServer <- function(id, setup, data) {
 
     output$albufera_map <- leaflet::renderLeaflet({
       plot_albufera_clusters(seed = setup$hbl_seed)
-      })
+      }) |>
+      shiny::bindCache(setup$hbl_seed)
+
 
     shiny::observeEvent(input$albufera_map_shape_click, {
       click <- input$albufera_map_shape_click
@@ -123,29 +124,31 @@ hbLocalServer <- function(id, setup, data) {
       }
     })
 
-    hb_data <- shiny::reactiveVal(NULL)
-
-    shiny::observeEvent(input$run_button, {
-      hb_data(
-        withr::with_seed(setup$hbl_seed,
-          albufera_hb_local(
-            outflows_df = data()$outflows_df,
-            petp_df = data()$petp_df,
-            management_df = data()$management_df,
-            date_min = setup$date_range[1],
-            date_max = setup$date_range[2],
-            ideal_flow_rate_cm = setup$ideal_flow_rate_cm
-            )
-          )
-        )
-      })
+    hb_data <- shiny::reactive({
+      withr::with_seed(setup$hbl_seed,
+                       albufera_hb_local(
+                         outflows_df = data()$outflows_df,
+                         petp_df = data()$petp_df,
+                         management_df = data()$management_df,
+                         date_min = setup$date_range[1],
+                         date_max = setup$date_range[2],
+                         ideal_flow_rate_cm = setup$ideal_flow_rate_cm
+                         )
+                       )
+      }) |>
+      shiny::bindCache(digest::digest(data()), setup$hbl_seed, setup$date_range)
 
     output$hb_plot <- plotly::renderPlotly({
       shiny::req(hb_data())
       shiny::req(input$cluster_id)
-
       plot(hb_data(), cluster_id = input$cluster_id)
-      })
+      }) |>
+      shiny::bindCache(
+        input$cluster_id,
+        digest::digest(data()),
+        setup$hbl_seed,
+        setup$date_range
+        )
 
   })
 }

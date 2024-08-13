@@ -29,17 +29,15 @@ testServer(hbGlobalServer, {
 testServer(hbLocalServer, {
 
   output$albufera_map  # Plotted without error (this line takes ~3s)
-  expect_null(hb_data())
+
+  expect_s3_class(hb_data(), "hb_local")  # Correctly computed
 
   session$setInputs(cluster_id = albufera_clusters$cluster_id[1])
-  expect_null(hb_data())  # Still NULL because not yet ran
-
-  session$setInputs(run_button = 1)
-  expect_s3_class(hb_data(), "hb_local")
 
   expect_equal(min(hb_data()$date), setup$date_range[1])
   expect_equal(max(hb_data()$date), setup$date_range[2])
 
+  session$setInputs(cluster_id = albufera_clusters$cluster_id[1])
   output$hb_plot
 
   skip("Testing click interaction of leaflet not currently implemented.")
