@@ -5,6 +5,7 @@
 ^\.github$
 ^codecov\.yml$
 ^data-raw$
+^inst-raw$
 ^benchmarks
 ^\.scribblr$
 _\.new\.png$
