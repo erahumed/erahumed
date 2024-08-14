@@ -68,6 +68,7 @@ test_that("sum(real outflows) = total capacity of ditch", {
 })
 
 
+
 # Exceptions
 
 test_that("albufera_hb_local() throws errors if date range is empty", {
@@ -80,4 +81,40 @@ test_that("albufera_hb_local() throws errors if date range is empty", {
     albufera_hb_local(date_min = "2010-01-01", date_max = "2009-01-01"),
     regexp = "date_min"
   )
+})
+
+
+
+# Precomputed results
+
+test_that("albufera_hb_local_precomputed() does not return NULL normally", {
+  formals <- formals(albufera_hb_local)
+  call <- substitute(albufera_hb_local())
+
+  expect_s3_class(albufera_hb_local_precomputed(formals, call), "hb_local")
+})
+
+test_that("albufera_hb_local_precomputed() is NULL if envvar set to FALSE", {
+  formals <- formals(albufera_hb_local)
+  call <- substitute(albufera_hb_local())
+  withr::with_envvar(c(erahumed_use_precomputed = FALSE),
+                     expect_null(albufera_hb_local_precomputed(formals, call))
+                     )
+
+})
+
+test_that("Parquet precomputed file coincides with would-be default value", {
+  skip_if_not(is_checking())
+
+  expected <- albufera_hb_local()
+  actual <- withr::with_seed(840,
+            withr::with_envvar(c(erahumed_use_precomputed = FALSE),
+              albufera_hb_local()
+            ))
+
+  expect_identical(actual, expected)
+
+  expect_true(all(
+    sapply(colnames(expected), \(c) all.equal(actual[[c]], expected[[c]]))
+  ))
 })
