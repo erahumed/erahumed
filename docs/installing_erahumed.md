@@ -5,14 +5,14 @@
 If you are accessing these documentation pages, it is likely that you have 
 access to the GitHub repository that hosts the `{erahumed}` package project 
 (at the time of  writing this is 
-[vgherard/erahumed](https://github.com/vgherard/erahumed/), but the owner 
+[erahumed/erahumed](https://github.com/erahumed/erahumed/), but the owner 
 GitHub account may change in future).
 
 Assuming you have access to the GitHub repository, the simplest and safest 
 option for installing the package is to use:
 
 ```r
-remotes::install_github("vgherard/erahumed", dependencies = TRUE)
+remotes::install_github("erahumed/erahumed", dependencies = TRUE)
 ```
 
 The `dependencies = TRUE` argument will install all package dependencies, and is recommended; see also the [Modifying `{erahumed}`](modifying_erahumed.md) guide.

@@ -9,7 +9,7 @@ you may want to consult [this other guide](how_is_code_organized.md).
 ## Cloning the repository
 
 The source code for `{erahumed}` lives in a Git repository, which is at the time
-of writing remotely hosted on the (private)  [vgherard/erahumed](https://github.com/vgherard/erahumed/) Github repository.
+of writing remotely hosted on the (private)  [erahumed/erahumed](https://github.com/erahumed/erahumed/) Github repository.
 Since you are reading these notes, I assume that you have access to this remote
 repository.
 

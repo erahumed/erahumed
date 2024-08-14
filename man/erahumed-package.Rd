@@ -11,8 +11,8 @@ ERAHUMED Data Analysis and Visualization.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/vgherard/erahumed}
-  \item Report bugs at \url{https://github.com/vgherard/erahumed/issues}
+  \item \url{https://github.com/erahumed/erahumed}
+  \item Report bugs at \url{https://github.com/erahumed/erahumed/issues}
 }
 
 }
