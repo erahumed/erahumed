@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/vgherard/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/vgherard/erahumed/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/vgherard/erahumed/branch/master/graph/badge.svg?token=t74xLttrBo)](https://codecov.io/gh/vgherard/erahumed)
+[![R-CMD-check](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/erahumed/erahumed/branch/master/graph/badge.svg?token=t74xLttrBo)](https://codecov.io/gh/erahumed/erahumed)
 <!-- badges: end -->
 
 ERAHUMED Data Analysis and Visualization.
