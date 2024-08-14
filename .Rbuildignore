@@ -9,4 +9,4 @@
 ^benchmarks
 ^\.scribblr$
 _\.new\.png$
-^\.docs$
+^docs$
