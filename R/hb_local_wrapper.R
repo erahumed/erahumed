@@ -35,24 +35,11 @@ albufera_hb_local <- function(
     ideal_flow_rate_cm = 5
     )
 {
-  formals_list <- formals(sys.function())
-  call_list <- as.list(match.call())[-1]
 
-  use_precomputed <- Sys.getenv("erahumed_use_precomputed", "T") |> as.logical()
-  for (arg in names(formals_list)) {
-    if (!use_precomputed) break
-    if (!arg %in% names(call_list)) next
-    provided_hash <- digest::digest(call_list[[arg]])
-    default_hash <- digest::digest(formals_list[[arg]])
-    if (provided_hash != default_hash) use_precomputed <- FALSE
-    }
-
-  if (use_precomputed) {
-    file_path <- system.file(
-      "parquet", "albufera_hb_local.parquet", package = "erahumed"
-      )
-    return(arrow::read_parquet(file_path))
-    }
+  res_precomputed <- albufera_hb_local_precomputed(formals = formals(),
+                                                   call = match.call())
+  if (!is.null(res_precomputed))
+    return(res_precomputed)
 
   albufera_hb_local_argcheck(outflows_df,
                              petp_df,
@@ -166,5 +153,27 @@ albufera_hb_local_argcheck <- function(
       stop(e)
     }
   )
+}
 
+albufera_hb_local_precomputed <- function(formals, call) {
+  file_path <- system.file("parquet",
+                           "albufera_hb_local.parquet",
+                           package = "erahumed")
+  if (!file.exists(file_path))
+    return(NULL)
+
+  if (! as.logical(Sys.getenv("erahumed_use_precomputed", "TRUE")) )
+    return(NULL)
+
+  call <- as.list(call)[-1]
+  for (arg in names(formals)) {
+    if (!arg %in% names(call))
+      next
+    provided_hash <- digest::digest(call[[arg]])
+    default_hash <- digest::digest(formals[[arg]])
+    if (provided_hash != default_hash)
+      return(NULL)
+  }
+
+  return(arrow::read_parquet(file_path))
 }
