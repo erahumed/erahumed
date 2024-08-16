@@ -111,7 +111,7 @@ albufera_hb_local_data_prep <- function(
           allow.cartesian = TRUE
           )
 
-  res <- data.table::setorder(res, date, cluster_id)
+  res <- data.table::setorderv(res, c("date", "cluster_id"))
 
   res <- list(date = res$date,
               ditch = res$ditch,
