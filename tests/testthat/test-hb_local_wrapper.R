@@ -18,23 +18,6 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   })
 
 
-
-# Snapshot test, just to monitor unexpected changes. This is simply supposed to
-# be an alert whenever the output of 'albufera_hb_local()' changes without
-# apparent reason. We should not be too strict about this, and be eager to
-# silence the warning (update the snapshot) whenever the lower level tests
-# succeed.
-
-test_that("simple snapshot is constant", {
-  skip_on_ci()  # Gives inconsistent result across different platforms
-
-  hash <- digest::digest(test_df)
-
-  expect_snapshot(hash)
-})
-
-
-
 # Property based tests
 
 test_that("Returned dataset has the expected number of rows", {
@@ -122,3 +105,21 @@ test_that("Parquet precomputed file coincides with would-be default value", {
     sapply(colnames(expected), \(c) all.equal(actual[[c]], expected[[c]]))
   ))
 })
+
+
+
+
+# Snapshot test, just to monitor unexpected changes. This is simply supposed to
+# be an alert whenever the output of 'albufera_hb_local()' changes without
+# apparent reason. We should not be too strict about this, and be eager to
+# silence the warning (update the snapshot) whenever the lower level tests
+# succeed.
+
+test_that("simple snapshot is constant", {
+  skip_on_ci()  # Gives inconsistent result across different platforms
+
+  hash <- digest::digest(test_df)
+
+  expect_snapshot(hash)
+})
+
