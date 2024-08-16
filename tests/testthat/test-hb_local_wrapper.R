@@ -19,7 +19,11 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
 
 
 
-# TODO: remove this in favor of more dedicated unit tests
+# Snapshot test, just to monitor unexpected changes. This is simply supposed to
+# be an alert whenever the output of 'albufera_hb_local()' changes without
+# apparent reason. We should not be too strict about this, and be eager to
+# silence the warning (update the snapshot) whenever the lower level tests
+# succeed.
 
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
