@@ -95,8 +95,8 @@ hbLocalUI <- function(id) {
       shiny::column(4,
                     shiny::selectInput(ns("cluster_id"),
                                        "Select Cluster",
-                                       choices = albufera_clusters$cluster_id,
-                                       selected = albufera_clusters$cluster_id[1]
+                                       choices = erahumed::albufera_clusters$cluster_id,
+                                       selected = erahumed::albufera_clusters$cluster_id[1]
                                        )
                     )
       ),

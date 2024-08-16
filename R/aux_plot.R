@@ -1,6 +1,6 @@
 plot_albufera_clusters <- function(
-    clusters_df = merge(albufera_clusters,
-                        albufera_cluster_geometries,
+    clusters_df = merge(erahumed::albufera_clusters,
+                        erahumed::albufera_cluster_geometries,
                         by = "cluster_id"),
     geometry_col = "geometry",
     seed = 840
