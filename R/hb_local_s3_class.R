@@ -40,3 +40,19 @@ make_hb_local_argcheck <- function(df) {
       stop(e)
     })
 }
+
+#' @export
+print.hb_local <- function(x, ..., max = 100) {
+  cat(bold("An object of class 'hb_local'."))
+
+  min_date <- format(as.Date(min(x$date)))
+  max_date <- format(as.Date(max(x$date)))
+  cat("\nData from:", min_date, "to:", max_date, "\n\n")
+
+  print.data.frame(x, max = max)
+}
+
+#' @export
+summary.hb_local <- function(object, ..., max = 100) {
+  print(object, max = max)
+}

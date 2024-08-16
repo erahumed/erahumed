@@ -1,5 +1,4 @@
-make_hb_global <- function(df)
-{
+make_hb_global <- function(df) {
   make_hb_global_argcheck(df)
 
   class(df) <- c("hb_global", class(df))
@@ -28,4 +27,20 @@ make_hb_global_argcheck <- function(df) {
       class(e) <- c("make_hb_global_argcheck_error", class(e))
       stop(e)
     })
+}
+
+#' @export
+print.hb_global <- function(x, ..., max = 100) {
+  cat(bold("An object of class 'hb_global'."))
+
+  min_date <- format(as.Date(min(x$date)))
+  max_date <- format(as.Date(max(x$date)))
+  cat("\nData from:", min_date, "to:", max_date, "\n\n")
+
+  print.data.frame(x, max = max)
+}
+
+#' @export
+summary.hb_global <- function(object, ..., max = 100) {
+  print(object, max = max)
 }

@@ -2,6 +2,10 @@
 
 S3method(plot,hb_global)
 S3method(plot,hb_local)
+S3method(print,hb_global)
+S3method(print,hb_local)
+S3method(summary,hb_global)
+S3method(summary,hb_local)
 export(albufera_hb_global)
 export(albufera_hb_local)
 export(hb_global)
