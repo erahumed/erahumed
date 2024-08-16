@@ -36,8 +36,7 @@ albufera_cluster_geometries
 \description{
 Datasets containing information on various paddy clusters.
 
-TODO: Document how clusters were defined?
-TODO: Give a few usage examples?
+TODO: Document how clusters were defined? #52
 }
 \details{
 Both datasets have the same cardinality (one row per cluster), and they

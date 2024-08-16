@@ -13,7 +13,7 @@ the package or simply the DSS dashboard, you should rather consult the official
 documentation: including the package `README`, vignettes, and R documentation 
 page accessible through `?` from the R console.
 * This is not a scientific presentation of the various algorithms implemented 
-by the package, for which you should rather consult ...TODO.... The focus of the 
+by the package, for which you should rather consult ...TODO #60.... The focus of the 
 present document is on the container, not on the content itself.
 * This is not a guide to R package or Shiny development. While I've struggled to
 make this documentation as self-contained as possible, I need to assume some 

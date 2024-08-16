@@ -145,7 +145,7 @@ albufera_hb_local_argcheck <- function(
       assert_data.frame(petp_df, template = erahumed::albufera_petp)
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
-      # TODO: check date_min/max arguments
+      # TODO: check date_min/max arguments #56
       assert_positive_number(ideal_flow_rate_cm)
     },
     error = function(e) {
