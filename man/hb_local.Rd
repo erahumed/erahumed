@@ -55,7 +55,7 @@ implied by the previous arguments.}
 }
 \value{
 an object of class \code{hb_local}, which is a data.frame with some
-additional methods. (TODO: what methods?)
+additional methods. (TODO: what methods? #53)
 }
 \description{
 Simulates the local hydrological balance of a set of clusters of rice paddies
@@ -71,7 +71,7 @@ measurements).
 }
 
 More details on the concrete algorithm used in the simulations can be found
-at TODO.
+at TODO #46.
 
 For analyzing Albufera data, you should not need to directly run this
 function, and you can instead use the \link{albufera_hb_local} wrapper, that

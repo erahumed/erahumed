@@ -1,6 +1,6 @@
 #' Albufera Precipitation and Evapotranspiration Daily Data
 #'
-#' @description TODO
+#' @description TODO #50
 #'
 #' @format ## `albufera_petp`
 #' A data frame with 8552 rows and 3 columns:
@@ -9,7 +9,7 @@
 #'   \item{rain_mm}{Daily precipitation in millimiters.}
 #'   \item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}
 #' }
-#' @source TODO
+#' @source TODO #50
 "albufera_petp"
 
 #' Albufera Outflows Daily Data
@@ -20,7 +20,7 @@
 #' missing entries, which have been imputed in this dataset using an approach
 #' based on GAMs.
 #'
-#' TODO: Document imputation approach used here.
+#' TODO: Document imputation approach used here. #51
 #'
 #' @name albufera_outflows
 #'
@@ -46,10 +46,10 @@
 #' Contains information on irrigation, draining and water level of paddies by
 #' day of year.
 #'
-#' TODO: Can we add something about the source of this data (Megia's paper)?
-#' E.g. Ideal height is based on the personal account of local farmers. This
-#' should be either explained here or in some other referenced place (e.g. in
-#' the Data appendix of the User Manual).
+# TODO: Can we add something about the source of this data (Megia's paper)?
+# E.g. Ideal height is based on the personal account of local farmers. This
+# should be either explained here or in some other referenced place (e.g. in
+# the Data appendix of the User Manual). #61
 #'
 #' @format ## `albufera_management`
 #' The dataset has one row per day of year for all combinations of the
@@ -77,8 +77,7 @@
 #' @description
 #' Datasets containing information on various paddy clusters.
 #'
-#' TODO: Document how clusters were defined?
-#' TODO: Give a few usage examples?
+#' TODO: Document how clusters were defined? #52
 #'
 #' @details
 #' Both datasets have the same cardinality (one row per cluster), and they

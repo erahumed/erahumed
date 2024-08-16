@@ -35,10 +35,4 @@ Data on management schedules of rice paddies in the Albufera National Park.
 Contains information on irrigation, draining and water level of paddies by
 day of year.
 }
-\details{
-TODO: Can we add something about the source of this data (Megia's paper)?
-E.g. Ideal height is based on the personal account of local farmers. This
-should be either explained here or in some other referenced place (e.g. in
-the Data appendix of the User Manual).
-}
 \keyword{datasets}

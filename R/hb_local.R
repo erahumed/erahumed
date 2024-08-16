@@ -12,7 +12,7 @@
 #' measurements).
 #'
 #' More details on the concrete algorithm used in the simulations can be found
-#' at TODO.
+#' at TODO #46.
 #'
 #' For analyzing Albufera data, you should not need to directly run this
 #' function, and you can instead use the \link{albufera_hb_local} wrapper, that
@@ -54,7 +54,7 @@
 #' among `cluster_id`; `petp_cm` should be consistent among `date`; *etc.etc.*.
 #'
 #' @return an object of class `hb_local`, which is a data.frame with some
-#' additional methods. (TODO: what methods?)
+#' additional methods. (TODO: what methods? #53)
 #'
 #' @export
 hb_local <- function(
