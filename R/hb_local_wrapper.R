@@ -138,7 +138,7 @@ albufera_hb_local_argcheck <- function(
     date_max,
     ideal_flow_rate_cm
     )
-{  # TODO: test the raising of these exceptions
+{
   tryCatch(
     {
       assert_data.frame(outflows_df, template = erahumed::albufera_outflows)

@@ -14,8 +14,6 @@ albufera_management <-  # Prepare result data-frame
     mm %in% c(4,6,9,11)   ~ dd <= 30,
     TRUE                  ~ TRUE
     )) |>
-  # TODO: according to Pablo's slides, sowing occurs between 10th and 25th May
-  # Why this is set here to the 20th of April?
   mutate(sowing = mm == 4 & dd == 20) |>
   left_join(  # This brings in "irrigation" and "draining" logical columns
     farmer_account,
