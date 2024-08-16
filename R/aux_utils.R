@@ -51,3 +51,7 @@ succeeds <- function(expr) {
   result <- try(expr, silent = TRUE)
   !inherits(result, "try-error")
 }
+
+bold <- function(x) {
+  paste0("\033[1m", x, "\033[0m")
+}
