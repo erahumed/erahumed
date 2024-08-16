@@ -26,10 +26,10 @@ Imports:
     plotly,
     randomcoloR,
     readr,
+    sf,
     shiny,
     stats,
     withr
 Depends: 
-    R (>= 4.1.0),
-    sf
+    R (>= 4.1.0)
 LazyData: true

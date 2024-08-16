@@ -4,11 +4,11 @@
 #'
 #' @export
 launch_app <- function() {
-  if (!requireNamespace("sf")) {
-    # {sf} is required to register S3 methods for {sf} objects
-    stop("{sf} needs to be loaded for the correct functioning of the app.")
-  }
   shiny::runApp(shiny_app(), launch.browser = TRUE)
+}
+
+shiny_app <- function() {
+  shiny::shinyApp(ui = shiny_ui, server = shiny_server)
 }
 
 shiny_ui <- function() {
@@ -24,7 +24,5 @@ shiny_server <- function(input, output, session) {
   hbServer("hb", data)
 }
 
-shiny_app <- function() {
-  shiny::shinyApp(ui = shiny_ui, server = shiny_server)
-}
+
 
