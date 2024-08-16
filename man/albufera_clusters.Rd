@@ -24,7 +24,7 @@ A data frame with one row per cluster, and the following columns:
 A data frame with one row per cluster, and the columns:
 \describe{
 \item{cluster_id}{character. Unique identifier of cluster.}
-\item{geometry}{vector of class \code{MULTIPOLYGON}.}
+\item{geometry}{vector of class \code{sfc_MULTIPOLYGON}.}
 }
 }
 }
@@ -35,6 +35,9 @@ albufera_cluster_geometries
 }
 \description{
 Datasets containing information on various paddy clusters.
+
+TODO: Document how clusters were defined?
+TODO: Give a few usage examples?
 }
 \details{
 Both datasets have the same cardinality (one row per cluster), and they

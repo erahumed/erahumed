@@ -11,12 +11,6 @@ launch_app <- function() {
   shiny::runApp(shiny_app(), launch.browser = TRUE)
 }
 
-
-# TODO: Currently, there is a tabsetPanel nested within the hbUI, and each tab
-# represents a submodule called by the hb module. Another option would be to
-# use dropdown in the navbarPage, and call directly each submodule from the
-# dropdown in the main app. To consider later.
-
 shiny_ui <- function() {
   shiny::navbarPage(
     "ERAHUMED",

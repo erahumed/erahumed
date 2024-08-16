@@ -12,8 +12,6 @@
 #' @source TODO
 "albufera_petp"
 
-# TODO: Improve the documentation of imputation approach;
-#
 #' Albufera Outflows Daily Data
 #'
 #' @description
@@ -22,6 +20,7 @@
 #' missing entries, which have been imputed in this dataset using an approach
 #' based on GAMs.
 #'
+#' TODO: Document imputation approach used here.
 #'
 #' @name albufera_outflows
 #'
@@ -40,14 +39,17 @@
 "albufera_outflows"
 
 
-# TODO: add something about the source of this data (Megia's paper) and how
-# the ideal height_cm were obtained?
-#
+
 #' Albufera Management Data
 #'
 #' Data on management schedules of rice paddies in the Albufera National Park.
 #' Contains information on irrigation, draining and water level of paddies by
 #' day of year.
+#'
+#' TODO: Can we add something about the source of this data (Megia's paper)?
+#' E.g. Ideal height is based on the personal account of local farmers. This
+#' should be either explained here or in some other referenced place (e.g. in
+#' the Data appendix of the User Manual).
 #'
 #' @format ## `albufera_management`
 #' The dataset has one row per day of year for all combinations of the
@@ -70,12 +72,13 @@
 "albufera_management"
 
 
-
-
 #' Albufera Rice Paddy Clusters
 #'
 #' @description
 #' Datasets containing information on various paddy clusters.
+#'
+#' TODO: Document how clusters were defined?
+#' TODO: Give a few usage examples?
 #'
 #' @details
 #' Both datasets have the same cardinality (one row per cluster), and they
@@ -100,6 +103,6 @@
 #' A data frame with one row per cluster, and the columns:
 #' \describe{
 #'   \item{cluster_id}{character. Unique identifier of cluster.}
-#'   \item{geometry}{vector of class `MULTIPOLYGON`.}
+#'   \item{geometry}{vector of class `sfc_MULTIPOLYGON`.}
 #' }
 "albufera_cluster_geometries"
