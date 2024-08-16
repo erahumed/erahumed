@@ -1,5 +1,30 @@
 # erahumed (development version)
 
+### User visible changes
+
+* `albufera_hb_local()`, called with default arguments, now retrieves its value
+from disk, from data installed alongside with `{erahumed}`.
+
+* Due to the previous point, the package's .tar.gz file size is much larger now,
+approximately 50MB. The file size will be tackled, as much as possible, in later
+releases.
+
+* Added light `print()` and `summary()` methods for the S3 objects returned by
+`albufera_hb_local()` and `albufera_hb_global()`.
+
+* `{sf}` is no longer attached upon attaching `{erahumed}`.
+
+### Bug fixes
+
+* Package data is prefixed everywhere in the code by the `erahumed::` NAMESPACE,
+so that executing this code without having the package attached does not lead to
+errors. In particular, calling `erahumed::launch_app()` without attaching 
+`{erahumed}` does no longer lead to an error. 
+
+### Under the hoods
+
+* Fixed R-CMD-check spurious NOTEs.
+
 # erahumed 0.3.0
 
 ### User visible changes
