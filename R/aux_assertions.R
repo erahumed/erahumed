@@ -115,3 +115,19 @@ assert_data.frame <- function(
                 )
   stop(msg)
 }
+
+assert_valid_date_range <- function(x, name = deparse(substitute(x))) {
+  tryCatch(
+    x <- as.Date(x),
+    error = function(cnd)
+      stop(paste0("'", name, "' must be coercible to class 'Date'."))
+    )
+  if (length(x) != 2)
+    stop(paste0("'", name, "' must have length 2."))
+  if (any(is.na(x)))
+    stop(paste0("'", name, "' cannot be NA."))
+  if (x[1] > x[2])
+    stop(paste0("'", name, "' is an empty date range."))
+
+  return(invisible(TRUE))
+}

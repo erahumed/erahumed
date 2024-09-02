@@ -58,18 +58,29 @@ test_that("sum(real outflows) = total capacity of ditch", {
 
 # Exceptions
 
-test_that("albufera_hb_local() throws errors if date range is empty", {
+test_that("albufera_hb_local() throws errors if invalid date range", {
+  # Empty (no data)
   expect_error(
     albufera_hb_local(date_min = "1800-01-01", date_max = "1800-12-31"),
     regexp = "date_min"
     )
 
+  # Invalid
   expect_error(
     albufera_hb_local(date_min = "2010-01-01", date_max = "2009-01-01"),
-    regexp = "date_min"
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(date_min = "A", date_max = "2009-01-01"),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(date_min = 1 + i1, date_max = "2009-01-01"),
+    class = "albufera_hb_local_argcheck_error"
   )
 })
-
 
 
 # Precomputed results
