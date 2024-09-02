@@ -1,6 +1,6 @@
-#' Launch the Shiny Application
+#' ERAHUMED Decision Support System dashboard
 #'
-#' TODO #57
+#' Launches the ERAHUMED Decision Support System dashboard Shiny app.
 #'
 #' @export
 launch_app <- function() {
