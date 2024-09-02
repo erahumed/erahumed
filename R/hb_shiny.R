@@ -111,11 +111,19 @@ hbLocalServer <- function(id, setup, data) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    output$albufera_map <- leaflet::renderLeaflet({
-      plot_albufera_clusters(seed = setup$hbl_seed)
-      }) |>
+    output$albufera_map <- leaflet::renderLeaflet(
+      tryCatch(
+        plot_albufera_clusters(seed = setup$hbl_seed),
+        error = function(cnd) {
+          cat("Error while loading Albufera Leaflet map.")
+          return(NULL)
+          },
+        warning = function(cnd) {
+          return(NULL)
+          }
+        )
+      ) |>
       shiny::bindCache(setup$hbl_seed)
-
 
     shiny::observeEvent(input$albufera_map_shape_click, {
       click <- input$albufera_map_shape_click
@@ -143,13 +151,10 @@ hbLocalServer <- function(id, setup, data) {
       shiny::req(input$cluster_id)
       plot(hb_data(), cluster_id = input$cluster_id)
       }) |>
-      shiny::bindCache(
-        input$cluster_id,
-        digest::digest(data()),
-        setup$hbl_seed,
-        setup$date_range
-        )
-
+      shiny::bindCache(input$cluster_id,
+                       digest::digest(data()),
+                       setup$hbl_seed,
+                       setup$date_range)
   })
 }
 
