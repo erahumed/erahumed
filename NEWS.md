@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Shiny app continues to work if the Albufera Leaflet map cannot be loaded for
+any reason.
+
 # erahumed 0.3.1
 
 ### User visible changes
