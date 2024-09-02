@@ -2,10 +2,10 @@
 % Please edit documentation in R/shiny_main.R
 \name{launch_app}
 \alias{launch_app}
-\title{Launch the Shiny Application}
+\title{ERAHUMED Decision Support System dashboard}
 \usage{
 launch_app()
 }
 \description{
-TODO #57
+Launches the ERAHUMED Decision Support System dashboard Shiny app.
 }
