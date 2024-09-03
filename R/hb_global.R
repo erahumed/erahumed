@@ -25,9 +25,10 @@
 #' that converts precipitation and evapotranspiration values (passed through
 #' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
 #'
-#' @return an object of class `hb_global`, that is a `data.frame` that contains
-#' as columns the input time series, as well as the following calculated
-#' columns:
+#' @return An object of class `hb_global`, a lightweight wrapper of `data.frame`
+#' with a few additional visualization methods (most prominently
+#' \link{plot.hb_global}). The underlying data-frame contains as columns the
+#' input time series, as well as the following calculated columns:
 #' * `volume` Volume time series, obtained from the storage curve.
 #' * `volume_change` Differenced time series of volume. The \eqn{n}-th is given
 #' by \eqn{\Delta V _n \equiv V_{n+1}-V_n}, where \eqn{V_n} is volume at time

@@ -39,9 +39,10 @@ that converts precipitation and evapotranspiration values (passed through
 the \code{rain_mm} and \code{evapotranspiration_mm} arguments) into an overall volume change.}
 }
 \value{
-an object of class \code{hb_global}, that is a \code{data.frame} that contains
-as columns the input time series, as well as the following calculated
-columns:
+An object of class \code{hb_global}, a lightweight wrapper of \code{data.frame}
+with a few additional visualization methods (most prominently
+\link{plot.hb_global}). The underlying data-frame contains as columns the
+input time series, as well as the following calculated columns:
 \itemize{
 \item \code{volume} Volume time series, obtained from the storage curve.
 \item \code{volume_change} Differenced time series of volume. The \eqn{n}-th is given
