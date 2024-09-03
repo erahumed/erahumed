@@ -58,7 +58,7 @@ test_that("sum(real outflows) = total capacity of ditch", {
 
 # Exceptions
 
-test_that("albufera_hb_local() throws errors if invalid date range", {
+test_that("albufera_hb_local() error if invalid date range", {
   # Empty (no data)
   expect_error(
     albufera_hb_local(date_min = "1800-01-01", date_max = "1800-12-31"),
@@ -82,7 +82,7 @@ test_that("albufera_hb_local() throws errors if invalid date range", {
   )
 })
 
-test_that("albufera_hb_local() throws errors if invalid ideal_flow_rate_cm", {
+test_that("albufera_hb_local() error if invalid ideal_flow_rate_cm", {
   expect_error(
     albufera_hb_local(ideal_flow_rate_cm = -1),
     class = "albufera_hb_local_argcheck_error"
@@ -108,6 +108,30 @@ test_that("albufera_hb_local() throws errors if invalid ideal_flow_rate_cm", {
     class = "albufera_hb_local_argcheck_error"
   )
 
+
+})
+
+test_that("albufera_hb_local() error if invalid date frame inputs", {
+  # remove one required column
+  expect_error(
+    albufera_hb_local(outflows_df = erahumed::albufera_outflows[,-1]),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(petp_df = erahumed::albufera_petp[,-1]),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(management_df = erahumed::albufera_management[,-1]),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(clusters_df = erahumed::albufera_clusters[,-1]),
+    class = "albufera_hb_local_argcheck_error"
+  )
 
 })
 
