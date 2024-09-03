@@ -191,43 +191,43 @@ hbl_daily_step <- function(
     randomize_clusters
 )
 {
-  . <- list()
+  l <- list()
 
-  . <- c(., hbl_ideal_diff_flow_cm(ideal_height_cm = ideal_height_cm,
+  l <- c(l, hbl_ideal_diff_flow_cm(ideal_height_cm = ideal_height_cm,
                                    real_height_cm_lag = real_height_cm_lag,
                                    petp_cm = petp_cm))
 
-  . <- c(., hbl_ideal_flows_cm(ideal_diff_flow_cm = .$ideal_diff_flow_cm,
+  l <- c(l, hbl_ideal_flows_cm(ideal_diff_flow_cm = l$ideal_diff_flow_cm,
                                irrigation = irrigation,
                                draining = draining,
                                ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  . <- c(., hbl_real_outflow_m3_s(ideal_outflow_cm = .$ideal_outflow_cm,
+  l <- c(l, hbl_real_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
                                   area_m2 = area_m2,
                                   capacity_m3_s = capacity_m3_s,
                                   randomize_clusters = randomize_clusters))
 
-  . <- c(., hbl_real_outflow_cm(real_outflow_m3_s = .$real_outflow_m3_s,
+  l <- c(l, hbl_real_outflow_cm(real_outflow_m3_s = l$real_outflow_m3_s,
                                 area_m2 = area_m2))
 
-  . <- c(., hbl_real_inflow_cm(real_outflow_cm = .$real_outflow_cm,
-                               ideal_diff_flow_cm = .$ideal_diff_flow_cm))
+  l <- c(l, hbl_real_inflow_cm(real_outflow_cm = l$real_outflow_cm,
+                               ideal_diff_flow_cm = l$ideal_diff_flow_cm))
 
-  . <- c(., hbl_real_inflow_m3_s(real_inflow_cm = .$real_inflow_cm,
+  l <- c(l, hbl_real_inflow_m3_s(real_inflow_cm = l$real_inflow_cm,
                                  area_m2 = area_m2))
 
-  . <- c(., hbl_real_height_cm(real_height_cm_lag = real_height_cm_lag,
+  l <- c(l, hbl_real_height_cm(real_height_cm_lag = real_height_cm_lag,
                                petp_cm = petp_cm,
-                               real_inflow_cm = .$real_inflow_cm,
-                               real_outflow_cm = .$real_outflow_cm))
+                               real_inflow_cm = l$real_inflow_cm,
+                               real_outflow_cm = l$real_outflow_cm))
 
-  . <- c(., hbl_plan_delay(plan_delay_lag = plan_delay_lag,
+  l <- c(l, hbl_plan_delay(plan_delay_lag = plan_delay_lag,
                            ideal_height_cm = ideal_height_cm,
-                           real_height_cm = .$real_height_cm,
+                           real_height_cm = l$real_height_cm,
                            date,
                            thresh = 2.5))
 
-  return(.)
+  return(l)
 
 }
 
