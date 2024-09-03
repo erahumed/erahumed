@@ -5,6 +5,16 @@
 * Shiny app continues to work if the Albufera Leaflet map cannot be loaded for
 any reason.
 
+* Added validation of date range to `albufera_hb_local()`.
+
+* Tested exceptions raised by `albufera_hb_local()`s argument validity checks.
+
+* Documented plotting method for `hb_local` and `hb_global` S3 objects.
+
+### Miscellaneous
+
+* Added Pablo Amador and Andreu Rico to package Authors@R.
+
 # erahumed 0.3.1
 
 ### User visible changes
