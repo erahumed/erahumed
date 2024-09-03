@@ -82,6 +82,35 @@ test_that("albufera_hb_local() throws errors if invalid date range", {
   )
 })
 
+test_that("albufera_hb_local() throws errors if invalid ideal_flow_rate_cm", {
+  expect_error(
+    albufera_hb_local(ideal_flow_rate_cm = -1),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(ideal_flow_rate_cm = "one"),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(ideal_flow_rate_cm = NA),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(ideal_flow_rate_cm = Inf),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+  expect_error(
+    albufera_hb_local(ideal_flow_rate_cm = NaN),
+    class = "albufera_hb_local_argcheck_error"
+  )
+
+
+})
+
 
 # Precomputed results
 
