@@ -1,3 +1,16 @@
+#' Plotting global hydrological balance data
+#'
+#' @description
+#' Plot method for global hydrological balance data, generated through
+#' \link{hb_global}. A simple wrapper around \link[plotly]{plot_ly} to generate
+#' time series plots of the calculated quantities.
+#'
+#' @param x The object of class `hb_global` containing the data to be plotted.
+#' @param variable The variable to be plotted. Can be any numeric column of `x`.
+#' @param ... Not used.
+#'
+#' @return A plotly plot.
+#'
 #' @export
 plot.hb_global <- function(x, variable, ...) {
 
@@ -54,6 +67,34 @@ plot_hb_global_argcheck <- function(x, variable, ...) {
 
 }
 
+#' Plotting local hydrological balance data
+#'
+#' @description
+#' Plot method for local Hydrological balance data, generated through
+#' \link{hb_local}. A simple wrapper around \link[plotly]{plot_ly} to generate
+#' time series plots of the calculated quantities.
+#'
+#' @param x The object of class `hb_global` containing the data to be plotted.
+#' @param type Type of plot to be generated. Currently, only the
+#' `"cluster_levels"` plot is implemented.
+#' @param ... Further plotting parameters, associated with the plot type
+#' specified by `type`; See details.
+#'
+#' @details
+#' The `"cluster_levels"` plot generates a time series plot of the daily
+#' water levels (in cm) of an individual cluster. In order to use this plotting
+#' method, the user must provide an additional `cluster_id` argument, a string
+#' specifying the identifier of the cluster whose levels are to be plotted (see
+#' example below).
+#'
+#' @examples
+#' plot(albufera_hb_local(),
+#'      type = "cluster_levels",
+#'      cluster_id = "02_Carrera_del_Saler0-2_0"
+#'      )
+#'
+#' @return A plotly plot.
+#'
 #' @export
 plot.hb_local <- function(x, type = c("cluster_levels", "map"), ...) {
   type <- match.arg(type)
