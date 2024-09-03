@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.3.2
 
 ### Under the hoods
 
