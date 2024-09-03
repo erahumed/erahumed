@@ -19,5 +19,15 @@ Useful links:
 \author{
 \strong{Maintainer}: Valerio Gherardi \email{vgherard840@gmail.com} (\href{https://orcid.org/0000-0002-8215-3013}{ORCID})
 
+Authors:
+\itemize{
+  \item Pablo Amador
+}
+
+Other contributors:
+\itemize{
+  \item Andreu Rico [reviewer]
+}
+
 }
 \keyword{internal}
