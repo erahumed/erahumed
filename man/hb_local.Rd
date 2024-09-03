@@ -54,8 +54,9 @@ of these additional (named) arguments should be a vector of the same length
 implied by the previous arguments.}
 }
 \value{
-an object of class \code{hb_local}, which is a data.frame with some
-additional methods. (TODO: what methods? #53)
+An object of class \code{hb_local}, a lightweight wrapper of \code{data.frame}
+with a few additional visualization methods (most prominently
+\link{plot.hb_local}).
 }
 \description{
 Simulates the local hydrological balance of a set of clusters of rice paddies

@@ -53,8 +53,10 @@
 #' the side of the user. To name some examples: `ditch` should be consistent
 #' among `cluster_id`; `petp_cm` should be consistent among `date`; *etc.etc.*.
 #'
-#' @return an object of class `hb_local`, which is a data.frame with some
-#' additional methods. (TODO: what methods? #53)
+#' @return
+#' An object of class `hb_local`, a lightweight wrapper of `data.frame`
+#' with a few additional visualization methods (most prominently
+#' \link{plot.hb_local}).
 #'
 #' @export
 hb_local <- function(
