@@ -145,8 +145,12 @@ albufera_hb_local_argcheck <- function(
       assert_data.frame(petp_df, template = erahumed::albufera_petp)
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
-      assert_valid_date_range(c(date_min, date_max))
       assert_positive_number(ideal_flow_rate_cm)
+
+      if (is.null(date_min)) date_min <- as.Date(-Inf)
+      if (is.null(date_max)) date_max <- as.Date(Inf)
+      assert_valid_date_range(c(date_min, date_max))
+
     },
     error = function(e) {
       class(e) <- c("albufera_hb_local_argcheck_error", class(e))
