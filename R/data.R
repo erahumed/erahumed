@@ -71,14 +71,14 @@
 #'
 "albufera_management"
 
-#' Albufera Chemicals Management Data
+#' Albufera Chemical Application Schedules
 #'
 #' Data on application schedules of chemicals used in rice paddies in the
 #' Albufera National Park.
 #'
 # TODO: Can we add something about the source of this data? #68
 #'
-#' @format ## `albufera_management_chemicals`
+#' @format ## `albufera_ca_schedules`
 #' The dataset has one row per chemical scheduled application to a given rice
 #' variety, and the following columns:
 #' \describe{
@@ -90,7 +90,7 @@
 #' }
 #' @source TODO #68
 #'
-"albufera_management_chemicals"
+"albufera_ca_schedules"
 
 
 #' Albufera Rice Paddy Clusters
