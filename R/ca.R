@@ -1,4 +1,7 @@
-ca <- function(hbl, ca_schedules_df = erahumed::albufera_ca_schedules)
+ca <- function(hbl,
+               ca_schedules_df = erahumed::albufera_ca_schedules,
+               height_thresh_cm = 2.5,
+               sowing_day = "04-20")
 {
   stopifnot(inherits(hbl, "hb_local"))
 
@@ -9,12 +12,20 @@ ca <- function(hbl, ca_schedules_df = erahumed::albufera_ca_schedules)
       simplify = FALSE,
       keep.by = TRUE
     ) |>
-    lapply(ca_to_cluster_wrap, ca_schedules_df = ca_schedules_df) |>
+    lapply(ca_to_cluster_wrap,
+           ca_schedules_df = ca_schedules_df,
+           height_thresh_cm = height_thresh_cm,
+           sowing_day = sowing_day) |>
     data.table::rbindlist() |>
     as.data.frame()
 }
 
-ca_to_cluster_wrap <- function(cluster_hbl_df, ca_schedules_df)
+ca_to_cluster_wrap <- function(
+    cluster_hbl_df,
+    ca_schedules_df,
+    height_thresh_cm,
+    sowing_day
+    )
 {
   variety <- cluster_hbl_df$variety[[1]]
 
@@ -25,7 +36,9 @@ ca_to_cluster_wrap <- function(cluster_hbl_df, ca_schedules_df)
                   draining = cluster_hbl_df$draining,
                   plan_delay = cluster_hbl_df$plan_delay,
                   application_days = application_days,
-                  amounts = amounts)
+                  amounts = amounts,
+                  height_thresh_cm = height_thresh_cm,
+                  sowing_day = sowing_day)
   }
 
   res <- cluster_hbl_df
@@ -46,7 +59,8 @@ ca_to_cluster <- function(date,
                           plan_delay,
                           application_days,
                           amounts,
-                          sowing_day = "04-20")
+                          sowing_day,
+                          height_thresh_cm)
 {
   return(numeric(length(date)))  # TODO
 }
