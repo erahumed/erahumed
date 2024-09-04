@@ -1,3 +1,21 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("ca_to_cluster() returns a numeric of the correct length", {
+  n <- 10
+  res <- ca_to_cluster(
+    date = as.Date("1970-01-01") + 1:10,
+    real_height_cm = numeric(n),
+    irrigation = logical(n),
+    draining = logical(n),
+    plan_delay = numeric(n),
+    application_days = c(3, 5, 7),
+    amounts = c(0.1, 0.3, 0.5),
+    sowing_day = "01-01",
+    height_thresh = 1
+    )
+
+  expect_vector(res, ptype = double(), size = n)
+})
+
+test_that("ca() execution succeeds with valid input", {
+  hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2010-01-10")
+  expect_no_error(ca(hbl))
 })
