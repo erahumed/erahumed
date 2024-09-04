@@ -1,20 +1,17 @@
-chem_apply_cluster <- function(date,
-                               real_height_cm,
-                               irrigation,
-                               draining,
-                               plan_delay,
-                               application_days,
-                               amounts,
-                               sowing_day = "04-20"
-)
+ca_cluster <- function(date,
+                       real_height_cm,
+                       irrigation,
+                       draining,
+                       plan_delay,
+                       application_days,
+                       amounts,
+                       sowing_day = "04-20"
+                       )
 {
   return(numeric(length(date)))  # TODO
 }
 
-chem_apply <- function(
-    hbl,
-    management_chemicals_df = erahumed::albufera_management_chemicals
-    )
+ca <- function(hbl, ca_schedules_df = erahumed::albufera_ca_schedules)
 {
   stopifnot(inherits(hbl, "hb_local"))
 

@@ -1,7 +1,7 @@
 library(dplyr)
 
 # TODO: set amounts
-albufera_management_chemicals <- tribble(
+albufera_ca_schedules <- tribble(
   ~day,   ~variety,       ~chemical,        ~amount,
   51,     "J.Sendra",     "Acetamiprid",    0,
   51,     "Bomba",        "Acetamiprid",    0,
@@ -45,4 +45,4 @@ albufera_management_chemicals <- tribble(
   NA,     "Clearfield",   "Difeno",         0   # TODO: why?
 )
 
-usethis::use_data(albufera_management_chemicals, overwrite = TRUE)
+usethis::use_data(albufera_ca_schedules, overwrite = TRUE)
