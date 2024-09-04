@@ -27,6 +27,33 @@ test_that("Returned dataset has the expected number of rows", {
   expect_equal(nrow(test_df), n_clusters * n_days)
 })
 
+test_that("'ditch' is consistent along 'cluster_id'", {
+  res <- test_df |>
+    dplyr::group_by(cluster_id) |>
+    dplyr::summarise(distinct_values = dplyr::n_distinct(ditch)) |>
+    dplyr::filter(distinct_values > 1)
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("'tancat' is consistent along 'cluster_id'", {
+  res <- test_df |>
+    dplyr::group_by(cluster_id) |>
+    dplyr::summarise(distinct_values = dplyr::n_distinct(tancat)) |>
+    dplyr::filter(distinct_values > 1)
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("'variety' is consistent along 'cluster_id'", {
+  res <- test_df |>
+    dplyr::group_by(cluster_id) |>
+    dplyr::summarise(distinct_values = dplyr::n_distinct(variety)) |>
+    dplyr::filter(distinct_values > 1)
+
+  expect_equal(nrow(res), 0)
+})
+
 test_that("ideal flows are always non-negative", {
   res <- test_df |>
     dplyr::filter(ideal_inflow_cm < 0 | ideal_outflow_cm < 0)
