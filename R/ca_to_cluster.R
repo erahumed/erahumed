@@ -29,12 +29,13 @@ ca_to_cluster_argcheck <- function(date,
                                    amount,
                                    height_thresh_cm,
                                    previous_applications,
-                                   sowing_mmdd)
+                                   sowing_mmdd,
+                                   sowing_yyyy)
 {
   tryCatch(
     {
       assert_date(date)
-      assert_positive_vector(real_height_cm)
+      assert_numeric_vector(real_height_cm)
       assert_logical(irrigation)
       assert_logical(draining)
       assert_positive_vector(plan_delay)
@@ -44,7 +45,9 @@ ca_to_cluster_argcheck <- function(date,
       n_lengths <- sapply(
         list(date, real_height_cm, irrigation, draining, plan_delay, previous_applications),
         length
-      ) |> unique()
+        ) |>
+        unique() |>
+        length()
       if (n_lengths > 1)
         stop("Inputs have mismatched lengths.")
 
@@ -56,6 +59,10 @@ ca_to_cluster_argcheck <- function(date,
       assert_string(sowing_mmdd)
       sowing_mmdd <- paste0("2000-", sowing_mmdd)
       assert_date(sowing_mmdd)
+
+      assert_string(sowing_yyyy)
+      sowing_yyyy <- paste0(sowing_yyyy, "-01-01")
+      assert_date(sowing_yyyy)
     },
     error = function(e) {
       class(e) <- c("ca_to_cluster_argcheck_error", class(e))
@@ -63,6 +70,3 @@ ca_to_cluster_argcheck <- function(date,
     }
   )
 }
-
-
-
