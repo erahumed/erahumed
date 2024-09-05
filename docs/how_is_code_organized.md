@@ -110,7 +110,7 @@ detail below.
 |
 +--- .github/       GitHub configurations and workflows
 |
-+--- benchmarks/    R scripts for benchmarking algorithm performances
++--- sandbox/       Miscellaneous scripts for informal tests and examples
 |
 +--- data/        * Data files used in the project
 |
