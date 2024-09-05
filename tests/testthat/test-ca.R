@@ -20,19 +20,31 @@ test_that("ca() total applied amounts are equal to expected", {
                      Cyhalo = sum(Cyhalo),
                      Cicloxidim = sum(Cicloxidim),
                      Azoxy = sum(Azoxy),
-                     Difeno = sum(Difeno)
+                     Difeno = sum(Difeno),
+                     .groups = "drop"
                      )
 
   yearly_amounts_expected <- albufera_ca_schedules |>
     dplyr::group_by(rice_variety, chemical) |>
-    dplyr::summarise(amount = sum(amount)) |>
+    dplyr::summarise(amount = sum(amount), .groups = "drop") |>
     tidyr::pivot_wider(id_cols = rice_variety,
                        names_from = chemical,
                        values_from = amount,
                        values_fill = 0)
 
 
-  res <- yearly_amounts_clusters |> dplyr::anti_join(yearly_amounts_expected)
+  res <- yearly_amounts_clusters |>
+    dplyr::anti_join(yearly_amounts_expected,
+                     by = dplyr::join_by(rice_variety,
+                                         Acetamiprid,
+                                         Benta,
+                                         MCPA,
+                                         Penoxulam,
+                                         Cyhalo,
+                                         Cicloxidim,
+                                         Azoxy,
+                                         Difeno)
+                     )
 
   expect_equal(nrow(res), 0)
 })
