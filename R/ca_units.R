@@ -24,19 +24,37 @@ ca_required_draining <- function(application_type) {
 }
 
 
-ca_filter_by_management <- function(irrigation_delayed,
-                                    draining_delayed,
-                                    application_type)
+ca_filter_by_state <- function(irrigation,
+                               draining,
+                               plan_delay,
+                               application_type)
 {
+  irrigation_delayed <- ca_delay_vector(irrigation, plan_delay)
+  draining_delayed <- ca_delay_vector(draining, plan_delay)
+
   p <- irrigation_delayed == ca_required_irrigation(application_type)
   q <- draining_delayed == ca_required_draining(application_type)
   return(p & q)
 }
 
 
-ca_filter_by_year <- function(seed_day)
+
+ca_filter_by_day <- function(date,
+                             sowing_mmdd,
+                             sowing_yyyy,
+                             plan_delay,
+                             application_day)
 {
-  seed_day > 0
+  seed_day <-  ca_get_seed_day(date, sowing_mmdd, sowing_yyyy)
+  seed_day_delayed <- ca_delay_vector(seed_day, plan_delay)
+
+  seed_day_delayed > application_day - 2
+}
+
+
+ca_filter_by_application_day <- function(application_day, seed_day)
+{
+  application_type == "aerial" | real_height_cm < height_threshold_cm
 }
 
 
@@ -48,7 +66,8 @@ ca_filter_by_water_level <- function(real_height_cm,
 }
 
 
-ca_filter_by_previous_applications <- function(previous_applications, distance = 5)
+ca_filter_by_previous_applications <- function(previous_applications,
+                                               distance = 5)
 {
   # Remove entries within a distance far away from previous applications
   !lgl_buffer(previous_applications, distance = distance)
