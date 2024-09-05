@@ -6,7 +6,7 @@
 ^codecov\.yml$
 ^data-raw$
 ^inst-raw$
-^benchmarks
+^sandbox
 ^\.scribblr$
 _\.new\.png$
 ^docs$
