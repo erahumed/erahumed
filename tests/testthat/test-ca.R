@@ -6,10 +6,11 @@ test_that("ca_to_cluster() returns a numeric of the correct length", {
     irrigation = logical(n),
     draining = logical(n),
     plan_delay = numeric(n),
-    application_days = c(3, 5, 7),
-    amounts = c(0.1, 0.3, 0.5),
+    application_day = 5,
+    amount = 1,
     sowing_day = "01-01",
-    height_thresh = 1
+    height_thresh_cm = 1,
+    previous_applications = numeric(n)
     )
 
   expect_vector(res, ptype = double(), size = n)
