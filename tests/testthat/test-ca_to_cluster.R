@@ -1,7 +1,7 @@
 test_that("ca_to_cluster() returns a numeric of the correct length", {
   n <- 10
   res <- ca_to_cluster(
-    date = as.Date("1970-01-01") + 1:10,
+    date = as.Date("1970-01-01") + 1:n,
     real_height_cm = numeric(n),
     irrigation = logical(n),
     draining = logical(n),
