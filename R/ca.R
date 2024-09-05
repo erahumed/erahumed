@@ -17,7 +17,8 @@ ca <- function(hbl,
            height_thresh_cm = height_thresh_cm,
            sowing_mmdd = sowing_mmdd) |>
     data.table::rbindlist() |>
-    as.data.frame()
+    as.data.frame() |>
+    make_erahumed_ca()
 }
 
 
@@ -72,8 +73,6 @@ ca_to_cluster_wrap <- function(
           previous_applications = res[[ applications_df$chemical[[i]] ]]
         )
     }
-
-
 
   return(res)
 }
