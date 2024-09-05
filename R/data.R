@@ -84,9 +84,11 @@
 #' \describe{
 #'   \item{day}{numeric. Scheduled day, counted starting from the sowing day,
 #'   for the application under consideration.}
-#'   \item{variety}{character. Rice variety to which the chemical is applied.}
+#'   \item{rice_variety}{character. Rice variety for this specific application.}
 #'   \item{chemical}{character. Name of applied chemical.}
 #'   \item{amount}{numeric. Amount of chemical applied.}
+#'   \item{application_type}{either `"ground"` or `"aerial"`. Application
+#'   mode of the chemical to rice paddies.}
 #' }
 #' @source TODO #68
 #'
