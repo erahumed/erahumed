@@ -27,29 +27,44 @@ ca_to_cluster_wrap <- function(
     sowing_day
     )
 {
-  variety <- cluster_hbl_df$variety[[1]]
-
-  ca_to_cluster_fun <- function(application_days, amounts) {
+  ca_to_cluster_fun <- function(
+    application_day, amount, application_type, previous_applications
+    )
+  {
     ca_to_cluster(date = cluster_hbl_df$date,
                   real_height_cm = cluster_hbl_df$real_height_cm,
                   irrigation = cluster_hbl_df$irrigation,
                   draining = cluster_hbl_df$draining,
                   plan_delay = cluster_hbl_df$plan_delay,
-                  application_days = application_days,
-                  amounts = amounts,
+                  application_day = application_day,
+                  amount = amount,
+                  application_type = application_type,
                   height_thresh_cm = height_thresh_cm,
-                  sowing_day = sowing_day)
+                  previous_applications = previous_applications,
+                  sowing_day = sowing_day
+                  )
   }
+
+  variety <- cluster_hbl_df$variety[[1]]
+  applications_df <- ca_schedules_df |> (\(.) .[.$rice_variety == variety, ])()
 
   res <- cluster_hbl_df
-  for (chemical in unique(ca_schedules_df$chemical)) {
-    scdl_filtered <- ca_schedules_df |>
-      (\(.) .[.$variety == variety & .$chemical == chemical, ])()
-    res[chemical] <- ca_to_cluster_fun(application_days = scdl_filtered$day,
-                                       amounts = scdl_filtered$amount)
+  for (chemical in unique(ca_schedules_df$chemical))
+    res[[chemical]] <- 0
+
+  for (i in 1:nrow(applications_df)) {
+    res[[ applications_df$chemical[[i]] ]] <-
+      ca_to_cluster_fun(
+        application_day = applications_df$day[[i]],
+        amount = applications_df$amount[[i]],
+        application_type = applications_df$application_type[[i]],
+        previous_applications = res[[ applications_df$chemical[[i]] ]]
+      )
   }
 
-  res
+
+
+  return(res)
 }
 
 ca_to_cluster <- function(date,
@@ -57,12 +72,14 @@ ca_to_cluster <- function(date,
                           irrigation,
                           draining,
                           plan_delay,
-                          application_days,
-                          amounts,
-                          sowing_day,
-                          height_thresh_cm)
+                          application_day,
+                          amount,
+                          application_type = c("ground", "aerial"),
+                          height_thresh_cm,
+                          previous_applications,
+                          sowing_day)
 {
-  return(numeric(length(date)))  # TODO
+  return(previous_applications)  # TODO
 }
 
 
