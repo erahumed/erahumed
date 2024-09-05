@@ -143,3 +143,10 @@ assert_valid_date_range <- function(x, name = deparse(substitute(x))) {
 
   return(invisible(TRUE))
 }
+
+assert_logical <- function(x, name  = deparse(substitute(x))) {
+  if (is.logical(x))
+    return(invisible(TRUE))
+
+  stop(paste0("'", name, "' must be a logical vector."))
+}
