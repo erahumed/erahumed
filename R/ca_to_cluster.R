@@ -24,13 +24,11 @@ ca_to_cluster <- function(date,
                          sowing_mmdd,
                          sowing_yyyy)
 
-  seed_day <- ca_get_seed_day(date, sowing_mmdd, sowing_yyyy)
-  irri_delayed <- ca_delay_vector(irrigation, plan_delay)
-  drain_delayed <- ca_delay_vector(draining, plan_delay)
 
   potential_day_index <- rep(TRUE, length(date)) &
-    ca_filter_by_year(seed_day) &
-    ca_filter_by_management(irri_delayed, drain_delayed, application_type) &
+    ca_filter_by_day(
+      date, sowing_mmdd, sowing_yyyy, plan_delay, application_day) &
+    ca_filter_by_state(irrigation, draining, plan_delay, application_type) &
     ca_filter_by_water_level(real_height_cm, application_type) &  # TODO: use threshold argument
     ca_filter_by_previous_applications(previous_applications)
 
