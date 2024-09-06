@@ -7,7 +7,7 @@
 ca(
   hbl,
   ca_schedules_df = erahumed::albufera_ca_schedules,
-  height_thresh_cm = 2.5,
+  height_thresh_cm = 2,
   sowing_mmdd = "04-20"
 )
 }
