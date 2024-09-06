@@ -55,3 +55,19 @@ succeeds <- function(expr) {
 bold <- function(x) {
   paste0("\033[1m", x, "\033[0m")
 }
+
+lgl_buffer <- function(x, distance = 0) {
+  # Create a "logical buffer" around a (supposedly sparse) vector 'x'. Entries
+  # within the given distance from non zero values of 'x' are flagged as TRUE.
+  res <- rep(FALSE, length(x))
+
+  for (pos in which(x != 0)) {
+    lo <- max(1, pos - distance)
+    up <- min(length(x), pos + distance)
+
+    res[lo:up] <- TRUE
+  }
+
+  return(res)
+}
+
