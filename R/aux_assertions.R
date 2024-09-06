@@ -103,7 +103,8 @@ assert_data.frame <- function(
     x,
     name = deparse(substitute(x)),
     template = NULL,
-    extends = TRUE
+    extends = TRUE,
+    check_types = TRUE
     )
 {
   if (!("data.frame" %in% class(x)))
@@ -117,13 +118,25 @@ assert_data.frame <- function(
   exp_cols <- sort(colnames(template))
   cols <- sort(colnames(x))
 
-  if (identical(cols, exp_cols) || (all(exp_cols %in% cols) && extends))
+  for (col in exp_cols) {
+    if (!col %in% cols)
+      stop( paste0("Column ", col, " is missing in data.frame '", name, "'.") )
+
+    if (!check_types)
+      next
+    type <- typeof(x[[col]])
+    exp_type <- typeof(template[[col]])
+    type_match <- type == exp_type ||
+      all(c(type, exp_type) %in% c("integer", "double"))
+    if (!type_match)
+      stop( paste0("Columm ", col, " must be of type '", exp_type, "'.") )
+    }
+
+  if (extends | all(col %in% exp_cols))
     return(invisible(TRUE))
 
   msg <- paste0("'", name, "' ",
-                "must have ",
-                ifelse(extends, "", "exactly "),
-                "the following columns: ",
+                "must have exactly the following columns: ",
                 paste0(exp_cols, collapse = ", ")
                 )
   stop(msg)
