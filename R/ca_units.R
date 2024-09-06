@@ -6,11 +6,13 @@ ca_get_seed_day <- function(date, sowing_mmdd, sowing_yyyy)
 }
 
 
+
 ca_delay_vector <- function(x, delay)
 {
   stopifnot(is.atomic(x) && is.numeric(delay) && length(x) == length(delay))
   x[seq_along(x) - delay]
 }
+
 
 
 ca_required_irrigation <- function(application_type)
@@ -19,9 +21,12 @@ ca_required_irrigation <- function(application_type)
 }
 
 
-ca_required_draining <- function(application_type) {
+
+ca_required_draining <- function(application_type)
+{
   application_type == "aerial"
 }
+
 
 
 ca_filter_by_state <- function(irrigation,
@@ -52,12 +57,14 @@ ca_filter_by_day <- function(date,
 }
 
 
+
 ca_filter_by_water_level <- function(real_height_cm,
                                      application_type,
                                      height_threshold_cm = 2.5)
 {
   application_type == "aerial" | real_height_cm < height_threshold_cm
 }
+
 
 
 ca_filter_by_previous_applications <- function(previous_applications,
