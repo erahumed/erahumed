@@ -1,3 +1,28 @@
+#' Chemicals Applications
+#'
+#' @description
+#' Simulates the application of chemicals to rice paddies, given a previous
+#' calculation of local hydrological balance as input.
+#'
+#' @param hbl an object of class `"hb_local"` - see \link{hb_local}.
+#' @param ca_schedules_df a `data.frame` following the template of
+#' \link{albufera_ca_schedules}.
+#' @param height_thresh_cm a positive number. Upper limit of paddy water levels
+#' required for ground applications of chemicals. Expressed in centimeters.
+#' @param sowing_mmdd a string formatted as `"%m-%d"`, where `%m` and `%d`
+#' represent month and day, respectively. Day of the year at which sowing
+#' occurs.
+#'
+#' @return an object of class `"erahumed_ca"`. This is essentially a
+#' `data.frame` similar to the output of \link{hb_local}, with additional
+#' columns named as the chemicals listed in `ca_schedules_df`. Each of these
+#' additional columns provides the (daily) time series of chemicals
+#' applications.
+#'
+#' @details
+#' TODO: Document columns of returned df #72
+#'
+#' @export
 ca <- function(hbl,
                ca_schedules_df = erahumed::albufera_ca_schedules,
                height_thresh_cm = 2.5,
