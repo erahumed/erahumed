@@ -1,3 +1,22 @@
+# erahumed (development version)
+
+### New features
+
+This version introduces a first draft for the new Chemicals Applications (CA) 
+model block, which is meant to simulate the application of chemicals 
+(fertilizers and pesticides), according to the previously obtained simulation of 
+local water levels and water flows, which is the output of the hydrological 
+balance (HB) block.
+
+The basic `ca()` function is provided, which takes as input an object of S3 
+class `"hb_local"` (plus a few other optional input parameters), and returns a 
+similar data-frame, with additional columns that provide the time series of 
+chemical applications.
+
+The accompanying dataset `albufera_ca_schedules` provides the schedules for 
+chemical applications in the Albufera lake, and is one of the customizable 
+inputs to `ca()`.
+
 # erahumed 0.3.2
 
 ### Under the hoods
