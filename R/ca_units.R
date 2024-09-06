@@ -53,7 +53,7 @@ ca_filter_by_day <- function(date,
   seed_day <-  ca_get_seed_day(date, sowing_mmdd, sowing_yyyy)
   seed_day_delayed <- ca_delay_vector(seed_day, plan_delay)
 
-  seed_day_delayed > application_day - 2
+  seed_day_delayed >= application_day - 2
 }
 
 
