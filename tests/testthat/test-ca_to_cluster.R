@@ -8,6 +8,7 @@ test_that("ca_to_cluster() returns a numeric of the correct length", {
     plan_delay = numeric(n),
     application_day = 5,
     amount = 1,
+    application_type = "ground",
     sowing_mmdd = "01-01",
     sowing_yyyy = "1970",
     height_thresh_cm = 1,

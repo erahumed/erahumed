@@ -5,13 +5,12 @@ ca_to_cluster <- function(date,
                           plan_delay,
                           application_day,
                           amount,
-                          application_type = c("ground", "aerial"),
+                          application_type,
                           height_thresh_cm,
                           previous_applications,
                           sowing_mmdd,
                           sowing_yyyy)
 {
-  application_type = match.arg(application_type)
   ca_to_cluster_argcheck(date,
                          real_height_cm,
                          irrigation,
