@@ -26,14 +26,18 @@ ca_to_cluster <- function(date,
 
 
   potential_day_index <- rep(TRUE, length(date)) &
-    ca_filter_by_day(
-      date, sowing_mmdd, sowing_yyyy, plan_delay, application_day) &
     ca_filter_by_state(irrigation, draining, plan_delay, application_type) &
     ca_filter_by_water_level(real_height_cm, application_type) &  # TODO: use threshold argument
     ca_filter_by_previous_applications(previous_applications)
 
   res <- previous_applications
-  res[which.max(potential_day_index)] <- amount
+  idx <- ca_choose_application_day_index(application_day,
+                                         potential_day_index,
+                                         date,
+                                         sowing_mmdd,
+                                         sowing_yyyy,
+                                         plan_delay)
+  res[idx] <- amount
 
   return(res)
 }
