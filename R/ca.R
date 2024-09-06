@@ -28,7 +28,7 @@ ca <- function(hbl,
                height_thresh_cm = 2,
                sowing_mmdd = "04-20")
 {
-  stopifnot(inherits(hbl, "hb_local"))
+  ca_argcheck(hbl, ca_schedules_df, height_thresh_cm, sowing_mmdd)
 
   hbl |>
     collapse::rsplit(
@@ -46,6 +46,23 @@ ca <- function(hbl,
     make_erahumed_ca()
 }
 
+
+
+ca_argcheck <- function(hbl, ca_schedules_df, height_thresh_cm, sowing_mmdd)
+{
+  tryCatch({
+    stopifnot(inherits(hbl, "hb_local"))
+    assert_data.frame(ca_schedules_df, template = albufera_ca_schedules)
+    assert_positive_number(height_thresh_cm)
+    assert_string(sowing_mmdd)
+    sowing_mmdd <- paste0("2000-", sowing_mmdd)
+    assert_date(sowing_mmdd)
+  },
+  error = function(e) {
+    class(e) <- c("ca_argcheck_error", class(e))
+    stop(e)
+  })
+}
 
 
 ca_to_cluster_wrap <- function(
