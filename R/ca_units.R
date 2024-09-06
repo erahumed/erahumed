@@ -44,20 +44,6 @@ ca_filter_by_state <- function(irrigation,
 
 
 
-ca_filter_by_day <- function(date,
-                             sowing_mmdd,
-                             sowing_yyyy,
-                             plan_delay,
-                             application_day)
-{
-  seed_day <-  ca_get_seed_day(date, sowing_mmdd, sowing_yyyy)
-  seed_day_delayed <- ca_delay_vector(seed_day, plan_delay)
-
-  seed_day_delayed >= application_day - 2
-}
-
-
-
 ca_filter_by_water_level <- function(real_height_cm,
                                      application_type,
                                      height_threshold_cm = 2.5)
@@ -72,4 +58,29 @@ ca_filter_by_previous_applications <- function(previous_applications,
 {
   # Remove entries within a distance far away from previous applications
   !lgl_buffer(previous_applications, distance = distance)
+}
+
+
+
+ca_choose_application_day_index <- function(application_day,
+                                            potential_day_index,
+                                            date,
+                                            sowing_mmdd,
+                                            sowing_yyyy,
+                                            plan_delay)
+{
+  # Choose the index of the day that is closest (in absolute value) to the
+  # scheduled application day. Notes:
+  # * Days are counted starting from the sowing day (e.g. 20th of April is zero)
+  # * The day counter keeps into account the delay accumulated in the
+  #   irrigation/draining plan, according the local hydrological balance
+  #   simulation.
+  seed_day <-  ca_get_seed_day(date, sowing_mmdd, sowing_yyyy)
+  seed_day_delayed <- ca_delay_vector(seed_day, plan_delay)
+  potential_days <- seed_day_delayed[potential_day_index]
+
+  actual_day_idx <- which.min(abs(potential_days - application_day))
+  actual_day <- potential_days[actual_day_idx]
+
+  which.max(seed_day_delayed == actual_day)
 }
