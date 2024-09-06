@@ -71,6 +71,29 @@
 #'
 "albufera_management"
 
+#' Albufera Chemical Application Schedules
+#'
+#' Data on application schedules of chemicals used in rice paddies in the
+#' Albufera National Park.
+#'
+# TODO: Can we add something about the source of this data? #68
+#'
+#' @format ## `albufera_ca_schedules`
+#' The dataset has one row per chemical scheduled application to a given rice
+#' variety, and the following columns:
+#' \describe{
+#'   \item{day}{numeric. Scheduled day, counted starting from the sowing day,
+#'   for the application under consideration.}
+#'   \item{rice_variety}{character. Rice variety for this specific application.}
+#'   \item{chemical}{character. Name of applied chemical.}
+#'   \item{amount}{numeric. Amount of chemical applied.}
+#'   \item{application_type}{either `"ground"` or `"aerial"`. Application
+#'   mode of the chemical to rice paddies.}
+#' }
+#' @source TODO #68
+#'
+"albufera_ca_schedules"
+
 
 #' Albufera Rice Paddy Clusters
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hb_global_wrapper.R
 \name{albufera_hb_global}
 \alias{albufera_hb_global}
-\title{Albufera Local Hydrological Balance}
+\title{Albufera Global Hydrological Balance}
 \usage{
 albufera_hb_global(
   outflows_df = erahumed::albufera_outflows,
