@@ -1,4 +1,4 @@
-#' Albufera Local Hydrological Balance
+#' Albufera Global Hydrological Balance
 #'
 #' @description
 #' Wrapper around \link{hb_global}, used to run the global hydrological balance
