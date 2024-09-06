@@ -52,12 +52,6 @@ ca_filter_by_day <- function(date,
 }
 
 
-ca_filter_by_application_day <- function(application_day, seed_day)
-{
-  application_type == "aerial" | real_height_cm < height_threshold_cm
-}
-
-
 ca_filter_by_water_level <- function(real_height_cm,
                                      application_type,
                                      height_threshold_cm = 2.5)
