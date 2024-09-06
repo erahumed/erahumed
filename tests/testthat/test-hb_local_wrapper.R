@@ -66,6 +66,18 @@ test_that("real flows are always non-negative", {
   expect_equal(nrow(res), 0)
 })
 
+test_that("plan_delay is an integer", {
+  res <- test_df |>
+    dplyr::filter(abs(plan_delay - as.integer(plan_delay)) > 0.1)
+  expect_equal(nrow(res), 0)
+})
+
+test_that("plan_delay is positive", {
+  res <- test_df |>
+    dplyr::filter(plan_delay < 0)
+  expect_equal(nrow(res), 0)
+})
+
 test_that("sum(real outflows) = total capacity of ditch", {
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
