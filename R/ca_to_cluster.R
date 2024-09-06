@@ -11,18 +11,21 @@ ca_to_cluster <- function(date,
                           sowing_mmdd,
                           sowing_yyyy)
 {
-  ca_to_cluster_argcheck(date,
-                         real_height_cm,
-                         irrigation,
-                         draining,
-                         plan_delay,
-                         application_day,
-                         amount,
-                         height_thresh_cm,
-                         previous_applications,
-                         sowing_mmdd,
-                         sowing_yyyy)
-
+  # Argument checking here is too costly and not really indispensable, as
+  # all arguments are internally provided, and pass numerous checks before
+  # arriving here. Leaving the code below just for potential debugging purposes.
+  #
+  # ca_to_cluster_argcheck(date,
+  #                        real_height_cm,
+  #                        irrigation,
+  #                        draining,
+  #                        plan_delay,
+  #                        application_day,
+  #                        amount,
+  #                        height_thresh_cm,
+  #                        previous_applications,
+  #                        sowing_mmdd,
+  #                        sowing_yyyy)
 
   potential_day_index <- rep(TRUE, length(date)) &
     ca_filter_by_state(irrigation, draining, plan_delay, application_type) &
