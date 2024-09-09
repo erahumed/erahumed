@@ -7,8 +7,7 @@
 ca(
   hbl,
   ca_schedules_df = erahumed::albufera_ca_schedules,
-  height_thresh_cm = 2.5,
-  sowing_mmdd = "04-20"
+  height_thresh_cm = 2
 )
 }
 \arguments{
@@ -19,10 +18,6 @@ ca(
 
 \item{height_thresh_cm}{a positive number. Upper limit of paddy water levels
 required for ground applications of chemicals. Expressed in centimeters.}
-
-\item{sowing_mmdd}{a string formatted as \code{"\%m-\%d"}, where \verb{\%m} and \verb{\%d}
-represent month and day, respectively. Day of the year at which sowing
-occurs.}
 }
 \value{
 an object of class \code{"erahumed_ca"}. This is essentially a
