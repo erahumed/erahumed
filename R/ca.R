@@ -9,9 +9,6 @@
 #' \link{albufera_ca_schedules}.
 #' @param height_thresh_cm a positive number. Upper limit of paddy water levels
 #' required for ground applications of chemicals. Expressed in centimeters.
-#' @param sowing_mmdd a string formatted as `"%m-%d"`, where `%m` and `%d`
-#' represent month and day, respectively. Day of the year at which sowing
-#' occurs.
 #'
 #' @return an object of class `"erahumed_ca"`. This is essentially a
 #' `data.frame` similar to the output of \link{hb_local}, with additional
@@ -25,22 +22,24 @@
 #' @export
 ca <- function(hbl,
                ca_schedules_df = erahumed::albufera_ca_schedules,
-               height_thresh_cm = 2,
-               sowing_mmdd = "04-20")
+               height_thresh_cm = 2)
 {
-  ca_argcheck(hbl, ca_schedules_df, height_thresh_cm, sowing_mmdd)
+  ca_argcheck(hbl, ca_schedules_df, height_thresh_cm)
+
+  hbl$year <- format(hbl$date, "%Y") |> as.numeric()
+
 
   hbl |>
     collapse::rsplit(
-      by = ~ cluster_id,
+      by = ~ cluster_id + year,
+      flatten = TRUE,
       use.names = FALSE,
       simplify = FALSE,
       keep.by = TRUE
     ) |>
     lapply(ca_to_cluster_wrap,
            ca_schedules_df = ca_schedules_df,
-           height_thresh_cm = height_thresh_cm,
-           sowing_mmdd = sowing_mmdd) |>
+           height_thresh_cm = height_thresh_cm) |>
     data.table::rbindlist() |>
     as.data.frame() |>
     make_erahumed_ca()
@@ -48,16 +47,13 @@ ca <- function(hbl,
 
 
 
-ca_argcheck <- function(hbl, ca_schedules_df, height_thresh_cm, sowing_mmdd)
+ca_argcheck <- function(hbl, ca_schedules_df, height_thresh_cm)
 {
   tryCatch({
     stopifnot(inherits(hbl, "hb_local"))
     assert_data.frame(ca_schedules_df,
                       template = erahumed::albufera_ca_schedules)
     assert_positive_number(height_thresh_cm)
-    assert_string(sowing_mmdd)
-    sowing_mmdd <- paste0("2000-", sowing_mmdd)
-    assert_date(sowing_mmdd)
   },
   error = function(e) {
     class(e) <- c("ca_argcheck_error", class(e))
@@ -66,23 +62,19 @@ ca_argcheck <- function(hbl, ca_schedules_df, height_thresh_cm, sowing_mmdd)
 }
 
 
-ca_to_cluster_wrap <- function(
-    cluster_hbl_df,
-    ca_schedules_df,
-    height_thresh_cm,
-    sowing_mmdd
-    )
+ca_to_cluster_wrap <- function(cluster_hbl_df,
+                               ca_schedules_df,
+                               height_thresh_cm)
 {
   ca_to_cluster_fun <- function(
-    sowing_yyyy,
     application_day,
     amount,
     application_type,
     previous_applications
     )
   {
-    ca_to_cluster(date = cluster_hbl_df$date,
-                  real_height_cm = cluster_hbl_df$real_height_cm,
+    ca_to_cluster(real_height_cm = cluster_hbl_df$real_height_cm,
+                  seed_day = cluster_hbl_df$seed_day,
                   irrigation = cluster_hbl_df$irrigation,
                   draining = cluster_hbl_df$draining,
                   plan_delay = cluster_hbl_df$plan_delay,
@@ -90,32 +82,26 @@ ca_to_cluster_wrap <- function(
                   amount = amount,
                   application_type = application_type,
                   height_thresh_cm = height_thresh_cm,
-                  previous_applications = previous_applications,
-                  sowing_mmdd = sowing_mmdd,
-                  sowing_yyyy = sowing_yyyy
-                  )
+                  previous_applications = previous_applications)
+
   }
 
   variety <- cluster_hbl_df$variety[[1]]
   applications_df <- ca_schedules_df |> (\(.) .[.$rice_variety == variety, ])()
 
-  years <- format(cluster_hbl_df$date, "%Y") |> unique()
-
   res <- cluster_hbl_df
   for (chemical in unique(ca_schedules_df$chemical))
     res[[chemical]] <- 0
 
-  for (year in years)
-    for (i in 1:nrow(applications_df)) {
-      res[[ applications_df$chemical[[i]] ]] <-
-        ca_to_cluster_fun(
-          sowing_yyyy = year,
-          application_day = applications_df$day[[i]],
-          amount = applications_df$amount[[i]],
-          application_type = applications_df$application_type[[i]],
-          previous_applications = res[[ applications_df$chemical[[i]] ]]
-        )
-    }
+  for (i in 1:nrow(applications_df)) {
+    res[[ applications_df$chemical[[i]] ]] <-
+      ca_to_cluster_fun(
+        application_day = applications_df$day[[i]],
+        amount = applications_df$amount[[i]],
+        application_type = applications_df$application_type[[i]],
+        previous_applications = res[[ applications_df$chemical[[i]] ]]
+      )
+  }
 
   return(res)
 }
