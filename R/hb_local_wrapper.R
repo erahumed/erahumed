@@ -118,6 +118,7 @@ albufera_hb_local_data_prep <- function(
               cluster_id = res$cluster_id,
               ideal_height_cm = res$height_cm,
               petp_cm = res$petp_cm,
+              seed_day = res$seed_day,
               irrigation = res$irrigation,
               draining = res$draining,
               area_m2 = res$area,
