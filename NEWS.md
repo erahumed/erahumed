@@ -9,6 +9,8 @@ from `2.5` to `2`.
 the number of day elapsed from the sowing day. This is also returned in the 
 output data.frame of `albufera_hb_local()`.
 
+* `erahumed_ca` S3 class now inherits from `hb_local`.
+
 ### Under the hoods
 
 * Improvement in data.frame validity checks. The `assert_data.frame()` helper 
