@@ -52,7 +52,8 @@ ca_argcheck <- function(hbl, ca_schedules_df, height_thresh_cm, sowing_mmdd)
 {
   tryCatch({
     stopifnot(inherits(hbl, "hb_local"))
-    assert_data.frame(ca_schedules_df, template = albufera_ca_schedules)
+    assert_data.frame(ca_schedules_df,
+                      template = erahumed::albufera_ca_schedules)
     assert_positive_number(height_thresh_cm)
     assert_string(sowing_mmdd)
     sowing_mmdd <- paste0("2000-", sowing_mmdd)
