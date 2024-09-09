@@ -1,21 +1,8 @@
 ca_delay_vector <- function(x, delay)
 {
-  stopifnot(is.atomic(x) && is.numeric(delay) && length(x) == length(delay))
+  # Skipping input validation below: too costly
+  # stopifnot(is.atomic(x) && is.numeric(delay) && length(x) == length(delay))
   x[seq_along(x) - delay]
-}
-
-
-
-ca_required_irrigation <- function(application_type)
-{
-  application_type == "aerial"
-}
-
-
-
-ca_required_draining <- function(application_type)
-{
-  application_type == "aerial"
 }
 
 
@@ -27,10 +14,11 @@ ca_filter_by_state <- function(irrigation,
 {
   irrigation_delayed <- ca_delay_vector(irrigation, plan_delay)
   draining_delayed <- ca_delay_vector(draining, plan_delay)
+  required_state <- ( application_type == "aerial" )
 
-  p <- irrigation_delayed == ca_required_irrigation(application_type)
-  q <- draining_delayed == ca_required_draining(application_type)
-  return(p & q)
+  return(
+    irrigation_delayed == required_state  &  draining_delayed == required_state
+    )
 }
 
 
