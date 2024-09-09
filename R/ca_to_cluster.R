@@ -1,31 +1,32 @@
-ca_to_cluster <- function(date,
-                          real_height_cm,
+ca_to_cluster <- function(real_height_cm,
+                          seed_day,
                           irrigation,
                           draining,
                           plan_delay,
                           application_day,
                           amount,
-                          application_type = c("ground", "aerial"),
+                          application_type,
                           height_thresh_cm,
-                          previous_applications,
-                          sowing_mmdd,
-                          sowing_yyyy)
+                          previous_applications)
+
 {
-  application_type = match.arg(application_type)
-  ca_to_cluster_argcheck(date,
-                         real_height_cm,
-                         irrigation,
-                         draining,
-                         plan_delay,
-                         application_day,
-                         amount,
-                         height_thresh_cm,
-                         previous_applications,
-                         sowing_mmdd,
-                         sowing_yyyy)
+  # Argument checking here is too costly and not really indispensable, as
+  # all arguments are internally provided, and pass numerous checks before
+  # arriving here. Leaving the code below just for potential debugging purposes.
+  #
+  # ca_to_cluster_argcheck(date,
+  #                        real_height_cm,
+  #                        irrigation,
+  #                        draining,
+  #                        plan_delay,
+  #                        application_day,
+  #                        amount,
+  #                        height_thresh_cm,
+  #                        previous_applications,
+  #                        sowing_mmdd,
+  #                        sowing_yyyy)
 
-
-  potential_day_index <- rep(TRUE, length(date)) &
+  potential_day_index <- TRUE &
     ca_filter_by_state(irrigation, draining, plan_delay, application_type) &
     ca_filter_by_water_level(real_height_cm, application_type) &  # TODO: use threshold argument
     ca_filter_by_previous_applications(previous_applications)
@@ -33,9 +34,7 @@ ca_to_cluster <- function(date,
   res <- previous_applications
   idx <- ca_choose_application_day_index(application_day,
                                          potential_day_index,
-                                         date,
-                                         sowing_mmdd,
-                                         sowing_yyyy,
+                                         seed_day,
                                          plan_delay)
   res[idx] <- amount
 
@@ -43,7 +42,7 @@ ca_to_cluster <- function(date,
 }
 
 
-
+# Not used
 ca_to_cluster_argcheck <- function(date,
                                    real_height_cm,
                                    irrigation,

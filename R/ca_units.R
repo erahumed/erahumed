@@ -1,30 +1,8 @@
-ca_get_seed_day <- function(date, sowing_mmdd, sowing_yyyy)
-{
-  sowing_date <- paste0(sowing_yyyy, "-", sowing_mmdd)
-  seed_day <- as.numeric( as.Date(date) - as.Date(sowing_date) )
-  return(seed_day)
-}
-
-
-
 ca_delay_vector <- function(x, delay)
 {
-  stopifnot(is.atomic(x) && is.numeric(delay) && length(x) == length(delay))
+  # Skipping input validation below: too costly
+  # stopifnot(is.atomic(x) && is.numeric(delay) && length(x) == length(delay))
   x[seq_along(x) - delay]
-}
-
-
-
-ca_required_irrigation <- function(application_type)
-{
-  application_type == "aerial"
-}
-
-
-
-ca_required_draining <- function(application_type)
-{
-  application_type == "aerial"
 }
 
 
@@ -36,10 +14,11 @@ ca_filter_by_state <- function(irrigation,
 {
   irrigation_delayed <- ca_delay_vector(irrigation, plan_delay)
   draining_delayed <- ca_delay_vector(draining, plan_delay)
+  required_state <- ( application_type == "aerial" )
 
-  p <- irrigation_delayed == ca_required_irrigation(application_type)
-  q <- draining_delayed == ca_required_draining(application_type)
-  return(p & q)
+  return(
+    irrigation_delayed == required_state  &  draining_delayed == required_state
+    )
 }
 
 
@@ -64,9 +43,7 @@ ca_filter_by_previous_applications <- function(previous_applications,
 
 ca_choose_application_day_index <- function(application_day,
                                             potential_day_index,
-                                            date,
-                                            sowing_mmdd,
-                                            sowing_yyyy,
+                                            seed_day,
                                             plan_delay)
 {
   # Choose the index of the day that is closest (in absolute value) to the
@@ -75,7 +52,6 @@ ca_choose_application_day_index <- function(application_day,
   # * The day counter keeps into account the delay accumulated in the
   #   irrigation/draining plan, according the local hydrological balance
   #   simulation.
-  seed_day <-  ca_get_seed_day(date, sowing_mmdd, sowing_yyyy)
   seed_day_delayed <- ca_delay_vector(seed_day, plan_delay)
   potential_days <- seed_day_delayed[potential_day_index]
 
