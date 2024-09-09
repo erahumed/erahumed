@@ -1,5 +1,27 @@
 # erahumed (development version)
 
+### User visible change
+
+* The default for the `height_thresh_cm` parameter of `ca()` has been changed 
+from `2.5` to `2`.
+
+* The `albufera_management` data-set has a new column `seed_day`, which counts
+the number of day elapsed from the sowing day. This is also returned in the 
+output data.frame of `albufera_hb_local()`.
+
+### Under the hoods
+
+* Improvement in data.frame validity checks. The `assert_data.frame()` helper 
+is now able to check column types. Noteworthy, this allows for much stricter 
+tests in the `"hb_local"` and `"hb_global"` functions.
+
+* Important performance improvements in the function `ca()`. These were mainly 
+achieved by (i) removing validity checks in the low level function 
+`ca_to_cluster()`, supplanted by less costly checks at the level of the 
+`hb_local()` output; and (ii) bypassing computation using `Date` objects, thanks
+to the introduced `seed_day` column in the output of `albufera_hb_local()` (see
+above).
+
 # erahumed 0.4.0
 
 ### New features
