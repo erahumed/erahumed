@@ -32,11 +32,11 @@ assert_integer_vector <- function(x, name = deparse(substitute(x))) {
   stop(msg)
 }
 
-assert_positive_vector <- function(x, name = deparse(substitute(x))) {
+assert_positive_vector <- function(x, name = deparse(substitute(x)), tol = 0) {
   assert_numeric_vector(x, name)
   assert_no_na(x, name)
 
-  if (all(x >= 0))
+  if (all(x >= -tol))
     return(invisible(TRUE))
 
   msg <- paste0("'", name, "' must be positive.")
@@ -46,10 +46,11 @@ assert_positive_vector <- function(x, name = deparse(substitute(x))) {
 assert_positive_number <- function(
     x,
     name = deparse(substitute(x)),
-    check_finite = TRUE
+    check_finite = TRUE,
+    tol = 0
     )
 {
-  assert_positive_vector(x, name)
+  assert_positive_vector(x, name, tol = tol)
   assert_length_one(x, name)
   if (check_finite && is.infinite(x))
     stop(paste0("'", name, "' must be finite."))
