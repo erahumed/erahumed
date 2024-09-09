@@ -34,16 +34,16 @@ make_hb_local_argcheck <- function(df) {
           ),
         extends = TRUE
         )
-      assert_positive_vector(df$ideal_height_cm)
-      assert_positive_vector(df$area_m2)
-      assert_positive_vector(df$capacity_m3_s)
+      assert_positive_vector(df$ideal_height_cm, tol = 1e-6)
+      assert_positive_vector(df$area_m2, tol = 1e-6)
+      assert_positive_vector(df$capacity_m3_s, tol = 1e-6)
       assert_date(df$date)
       assert_character(df$cluster_id)
       assert_character(df$ditch)
-      assert_positive_vector(df$ideal_outflow_cm)
-      assert_positive_vector(df$plan_delay)
+      assert_positive_vector(df$ideal_outflow_cm, tol = 1e-6)
+      assert_positive_vector(df$plan_delay, tol = 1e-6)
       assert_integer_vector(df$plan_delay)
-      assert_positive_vector(df$real_height_cm)
+      assert_positive_vector(df$real_height_cm, tol = 1e-6)
     },
     error = function(e) {
       class(e) <- c("make_hb_local_argcheck_error", class(e))
