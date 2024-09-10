@@ -21,15 +21,12 @@ required for ground applications of chemicals. Expressed in centimeters.}
 }
 \value{
 an object of class \code{"erahumed_ca"}. This is essentially a
-\code{data.frame} similar to the output of \link{hb_local}, with additional
-columns named as the chemicals listed in \code{ca_schedules_df}. Each of these
-additional columns provides the (daily) time series of chemicals
-applications.
+\code{data.frame} with the same columns of the output of \link{hb_local()},
+plus additional columns named as the chemicals listed in \code{ca_schedules_df}.
+Each of these additional columns provides the (daily) time series of
+chemicals applications.
 }
 \description{
 Simulates the application of chemicals to rice paddies, given a previous
 calculation of local hydrological balance as input.
-}
-\details{
-TODO: Document columns of returned df #72
 }
