@@ -11,7 +11,7 @@
 #' required for ground applications of chemicals. Expressed in centimeters.
 #'
 #' @return an object of class `"erahumed_ca"`. This is essentially a
-#' `data.frame` with the same columns of the output of \link{hb_local()},
+#' `data.frame` with the same columns of the output of \link{hb_local}(),
 #' plus additional columns named as the chemicals listed in `ca_schedules_df`.
 #' Each of these additional columns provides the (daily) time series of
 #' chemicals applications.
