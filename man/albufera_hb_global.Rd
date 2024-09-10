@@ -35,7 +35,12 @@ calculations with the data for the Albufera lake packed up in the
 \code{data.frame}s exported by \code{erahumed}.
 }
 \details{
-The numeric inputs used from the linear storage curve and P-ETP surface were
-extracted from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}
+The numeric inputs for the linear storage curve are taken from the CHJ report
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
+The values used as the arguments of \code{petp_surface()} were calculated by the
+package authors, and correspond to the total study area (\code{surface_P}) and
+the flooded surface (\code{surface_ETP}).
+}
+\author{
+Pablo Amador Crespo, Valerio Gherardi
 }
