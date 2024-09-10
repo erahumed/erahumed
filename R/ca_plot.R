@@ -20,7 +20,7 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
     (\(.) .$chemical)() |>
     unique()
 
-  colors <- rainbow(length(chemicals))
+  colors <- grDevices::rainbow(length(chemicals))
   names(colors) <- chemicals
 
   for (chemical in chemicals) {
