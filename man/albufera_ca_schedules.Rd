@@ -14,7 +14,8 @@ variety, and the following columns:
 for the application under consideration.}
 \item{rice_variety}{character. Rice variety for this specific application.}
 \item{chemical}{character. Name of applied chemical.}
-\item{amount}{numeric. Amount of chemical applied.}
+\item{kg_per_ha}{numeric. Amount of chemical applied, in kilograms per
+hectare.}
 \item{application_type}{either \code{"ground"} or \code{"aerial"}. Application
 mode of the chemical to rice paddies.}
 }
