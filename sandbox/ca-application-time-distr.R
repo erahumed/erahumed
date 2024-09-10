@@ -2,6 +2,7 @@
 # visual check, comparing with scheduled times.
 
 library(erahumed)
+library(dplyr)
 library(ggplot2)
 
 hbl <- albufera_hb_local(date_min = "2014-01-01", date_max = "2014-12-31")
