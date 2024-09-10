@@ -4,7 +4,7 @@ test_that("ca() execution succeeds with valid input", {
   expect_no_error(ca(hbl))
 })
 
-test_that("ca() total applied amounts are equal to expected", {
+test_that("ca() total number of applications is equal to expected", {
   set.seed(840)
 
   hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2011-12-31")  # TODO enlarge this date range
@@ -13,23 +13,23 @@ test_that("ca() total applied amounts are equal to expected", {
     dplyr::mutate(year = format(date, "%Y")) |>
     dplyr::rename(rice_variety = variety) |>
     dplyr::group_by(cluster_id, rice_variety, year) |>
-    dplyr::summarise(Acetamiprid = sum(Acetamiprid),
-                     Benta = sum(Benta),
-                     MCPA = sum(MCPA),
-                     Penoxulam = sum(Penoxulam),
-                     Cyhalo = sum(Cyhalo),
-                     Cicloxidim = sum(Cicloxidim),
-                     Azoxy = sum(Azoxy),
-                     Difeno = sum(Difeno),
+    dplyr::summarise(Acetamiprid = sum(Acetamiprid > 0),
+                     Benta = sum(Benta > 0),
+                     MCPA = sum(MCPA > 0),
+                     Penoxulam = sum(Penoxulam > 0),
+                     Cyhalo = sum(Cyhalo > 0),
+                     Cicloxidim = sum(Cicloxidim > 0),
+                     Azoxy = sum(Azoxy > 0),
+                     Difeno = sum(Difeno > 0),
                      .groups = "drop"
                      )
 
   yearly_amounts_expected <- albufera_ca_schedules |>
     dplyr::group_by(rice_variety, chemical) |>
-    dplyr::summarise(amount = sum(amount), .groups = "drop") |>
+    dplyr::summarise(applications = sum(kg_per_ha > 0), .groups = "drop") |>
     tidyr::pivot_wider(id_cols = rice_variety,
                        names_from = chemical,
-                       values_from = amount,
+                       values_from = applications,
                        values_fill = 0)
 
 
