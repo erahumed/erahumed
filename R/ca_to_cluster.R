@@ -4,7 +4,7 @@ ca_to_cluster <- function(real_height_cm,
                           draining,
                           plan_delay,
                           application_day,
-                          amount,
+                          amount_kg,
                           application_type,
                           height_thresh_cm,
                           previous_applications)
@@ -36,7 +36,7 @@ ca_to_cluster <- function(real_height_cm,
                                          potential_day_index,
                                          seed_day,
                                          plan_delay)
-  res[idx] <- amount
+  res[idx] <- amount_kg
 
   return(res)
 }
@@ -49,7 +49,7 @@ ca_to_cluster_argcheck <- function(date,
                                    draining,
                                    plan_delay,
                                    application_day,
-                                   amount,
+                                   amount_kg,
                                    height_thresh_cm,
                                    previous_applications,
                                    sowing_mmdd,
@@ -75,7 +75,7 @@ ca_to_cluster_argcheck <- function(date,
         stop("Inputs have mismatched lengths.")
 
       assert_positive_integer(application_day)
-      assert_positive_number(amount)
+      assert_positive_number(amount_kg)
 
       assert_positive_number(height_thresh_cm)
 

@@ -12,9 +12,9 @@
 #'
 #' @return an object of class `"erahumed_ca"`. This is essentially a
 #' `data.frame` with the same columns of the output of \link{hb_local}(),
-#' plus additional columns named as the chemicals listed in `ca_schedules_df`.
-#' Each of these additional columns provides the (daily) time series of
-#' chemicals applications.
+#' plus additional columns named as the chemicals listed in `ca_schedules_df`,
+#' each of which provides the (daily) time series of chemicals applications,
+#' expressed in kilograms.
 #'
 #' @export
 ca <- function(hbl,
@@ -65,7 +65,7 @@ ca_to_cluster_wrap <- function(cluster_hbl_df,
 {
   ca_to_cluster_fun <- function(
     application_day,
-    amount,
+    amount_kg,
     application_type,
     previous_applications
     )
@@ -76,7 +76,7 @@ ca_to_cluster_wrap <- function(cluster_hbl_df,
                   draining = cluster_hbl_df$draining,
                   plan_delay = cluster_hbl_df$plan_delay,
                   application_day = application_day,
-                  amount = amount,
+                  amount_kg = amount_kg,
                   application_type = application_type,
                   height_thresh_cm = height_thresh_cm,
                   previous_applications = previous_applications)
@@ -84,6 +84,7 @@ ca_to_cluster_wrap <- function(cluster_hbl_df,
   }
 
   variety <- cluster_hbl_df$variety[[1]]
+  area_ha <- cluster_hbl_df$area_m2[[1]] * 1e-4
   applications_df <- ca_schedules_df |> (\(.) .[.$rice_variety == variety, ])()
 
   res <- cluster_hbl_df
@@ -94,7 +95,7 @@ ca_to_cluster_wrap <- function(cluster_hbl_df,
     res[[ applications_df$chemical[[i]] ]] <-
       ca_to_cluster_fun(
         application_day = applications_df$day[[i]],
-        amount = applications_df$amount[[i]],
+        amount_kg = applications_df$kg_per_ha[[i]] * area_ha,
         application_type = applications_df$application_type[[i]],
         previous_applications = res[[ applications_df$chemical[[i]] ]]
       )
