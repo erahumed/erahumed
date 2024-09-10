@@ -1,6 +1,10 @@
 # erahumed (development version)
 
-### User visible change
+### New features
+
+* First draft of `plot.erahumed_ca()` ("cluster view").
+
+### User visible changes
 
 * The default for the `height_thresh_cm` parameter of `ca()` has been changed 
 from `2.5` to `2`.
@@ -23,6 +27,10 @@ achieved by (i) removing validity checks in the low level function
 `hb_local()` output; and (ii) bypassing computation using `Date` objects, thanks
 to the introduced `seed_day` column in the output of `albufera_hb_local()` (see
 above).
+
+### Documentation
+
+* Improved documentation of `albufera_hb_global()` default parameters.
 
 # erahumed 0.4.0
 
