@@ -56,3 +56,38 @@ test_that("ca_filter_by_state(): output is correct in simple case 2", {
 
   expect_equal(value, expected)
 })
+
+
+
+test_that("ca_filter_by_water_level(): output has correct type and length", {
+  n <- 39
+  value <- ca_filter_by_water_level(real_height_cm = numeric(n),
+                                    application_type = "ground",
+                                    height_threshold_cm = 2)
+
+  expect_vector(value, ptype = logical(), size = n)
+})
+
+test_that("ca_filter_by_water_level(): output is correct in simple case 1", {
+  real_height_cm <- c(0, 1, 1.9, 3.2, 3.4, 1.8, 5, 8, 3.2, 1.1)
+  expected       <- c(T, T, T  , F  , F  , T  , F, F, F  , T  )
+
+  value <- ca_filter_by_water_level(
+    real_height_cm = real_height_cm,
+    application_type = "ground",
+    height_threshold_cm = 2)
+
+  expect_equal(value, expected)
+})
+
+test_that("ca_filter_by_water_level(): output is correct in simple case 2", {
+  real_height_cm <- c(0, 1, 1.9, 3.2, 3.4, 1.8, 5, 8, 3.2, 1.1)
+  expected       <- !logical(length(real_height_cm))
+
+  value <- ca_filter_by_water_level(
+    real_height_cm = real_height_cm,
+    application_type = "aerial",
+    height_threshold_cm = 2)
+
+  expect_equal(value, expected)
+})
