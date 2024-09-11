@@ -16,10 +16,43 @@ test_that("ca_delay_vector(): output has same type and length of input", {
   }
 })
 
-test_that("ca_delay_vector(): output is the expected in simple case", {
+test_that("ca_delay_vector(): output is correct in simple case", {
   x <-        1:10
   delay <-    c(0, 0, 0, 1, 1, 2, 3, 3, 3, 0 )
   expected <- c(1, 2, 3, 3, 4, 4, 4, 5, 6, 10)
 
   expect_equal(ca_delay_vector(x, delay), expected)
+})
+
+
+
+test_that("ca_filter_by_state(): output has correct type and length", {
+  n <- 107
+
+  value <- ca_filter_by_state(irrigation = logical(n),
+                              draining = logical(n),
+                              plan_delay = numeric(n),
+                              application_type = "ground")
+
+  expect_vector(value, ptype = logical(), size = n)
+})
+
+test_that("ca_filter_by_state(): output is correct in simple case 1", {
+  value <- ca_filter_by_state(irrigation = c(T, T, F, F, T, F, T, F, T),
+                              draining   = c(F, T, T, F, T, F, F, T, F),
+                              plan_delay = c(0, 0, 1, 1, 1, 1, 2, 2, 0),
+                              application_type = "ground")
+  expected <- c(F, F, F, F, T, F, F, T, F)
+
+  expect_equal(value, expected)
+})
+
+test_that("ca_filter_by_state(): output is correct in simple case 2", {
+  value <- ca_filter_by_state(irrigation = c(T, T, F, F, T, F, T, F, T),
+                              draining   = c(F, T, T, F, T, F, F, T, F),
+                              plan_delay = c(0, 0, 1, 1, 1, 1, 2, 2, 0),
+                              application_type = "aerial")
+  expected <- c(F, T, T, F, F, T, T, F, F)
+
+  expect_equal(value, expected)
 })
