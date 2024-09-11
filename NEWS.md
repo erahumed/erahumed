@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Under the hood
+
+* Unit testing of CA model block.
+
 # erahumed 0.4.1
 
 ### New features
