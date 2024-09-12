@@ -2,8 +2,8 @@ test_that("hbl_make_df_list() succeds if inputs can form a data.frame", {
   expect_no_condition(
     hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
-      irrigation = rep(TRUE, 10),
-      draining = rep(TRUE, 10),
+      ideal_irrigation = rep(TRUE, 10),
+      ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(10),
       area_m2 = runif(10, 1e6, 1e7),
       capacity_m3_s = runif(10, 1, 2),
@@ -20,8 +20,8 @@ test_that("hbl_make_df_list() throws if inputs cannot form a data.frame", {
   expect_error(
     hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
-      irrigation = rep(TRUE, 10),
-      draining = rep(TRUE, 10),
+      ideal_irrigation = rep(TRUE, 10),
+      ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
       area_m2 = runif(10, 1e6, 1e7),
       capacity_m3_s = runif(10, 1, 2),
@@ -37,8 +37,8 @@ test_that("hbl_make_df_list() throws if inputs cannot form a data.frame", {
   expect_error(
     hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
-      irrigation = rep(TRUE, 10),
-      draining = rep(TRUE, 10),
+      ideal_irrigation = rep(TRUE, 10),
+      ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(2),
       area_m2 = runif(10, 1e6, 1e7),
       capacity_m3_s = runif(10, 1, 2),
@@ -56,8 +56,8 @@ test_that("hbl_make_df_list() throws if date or cluster_id are missing", {
   expect_error(
     hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
-      irrigation = rep(TRUE, 10),
-      draining = rep(TRUE, 10),
+      ideal_irrigation = rep(TRUE, 10),
+      ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
       area_m2 = runif(10, 1e6, 1e7),
       capacity_m3_s = runif(10, 1, 2),
@@ -72,8 +72,8 @@ test_that("hbl_make_df_list() throws if date or cluster_id are missing", {
   expect_error(
     hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
-      irrigation = rep(TRUE, 10),
-      draining = rep(TRUE, 10),
+      ideal_irrigation = rep(TRUE, 10),
+      ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
       area_m2 = runif(10, 1e6, 1e7),
       capacity_m3_s = runif(10, 1, 2),
@@ -90,8 +90,8 @@ test_that("hbl_make_df_list() throws if date or cluster_id are missing", {
 test_that("hbl_make_df_list() returns a list of dataframes", {
   res <- hbl_make_df_list(
       ideal_height_cm = rep(10, 10),
-      irrigation = rep(TRUE, 10),
-      draining = rep(TRUE, 10),
+      ideal_irrigation = rep(TRUE, 10),
+      ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(10),
       area_m2 = runif(10, 1e6, 1e7),
       capacity_m3_s = runif(10, 1, 2),
@@ -109,8 +109,8 @@ test_that("hbl_make_df_list() returns a list of dataframes", {
 test_that("hbl_make_df_list() returned dfs contain the input columns", {
   args <- list(
     ideal_height_cm = rep(10, 10),
-    irrigation = rep(TRUE, 10),
-    draining = rep(TRUE, 10),
+    ideal_irrigation = rep(TRUE, 10),
+    ideal_draining = rep(TRUE, 10),
     petp_cm = rnorm(10),
     area_m2 = runif(10, 1e6, 1e7),
     capacity_m3_s = runif(10, 1, 2),
@@ -133,8 +133,8 @@ test_that("hbl_make_df_list() returned dfs contain the input columns", {
 test_that("hbl_make_df_list() returned dfs are grouped by date", {
   args <- list(
     ideal_height_cm = rep(10, 10),
-    irrigation = rep(TRUE, 10),
-    draining = rep(TRUE, 10),
+    ideal_irrigation = rep(TRUE, 10),
+    ideal_draining = rep(TRUE, 10),
     petp_cm = rnorm(10),
     area_m2 = runif(10, 1e6, 1e7),
     capacity_m3_s = runif(10, 1, 2),
@@ -160,8 +160,8 @@ test_that("hbl_make_df_list() returned dfs are grouped by date", {
 test_that("hbl_make_df_list() returned dfs are sorted by date", {
   args <- list(
     ideal_height_cm = rep(10, 10),
-    irrigation = rep(TRUE, 10),
-    draining = rep(TRUE, 10),
+    ideal_irrigation = rep(TRUE, 10),
+    ideal_draining = rep(TRUE, 10),
     petp_cm = rnorm(10),
     area_m2 = runif(10, 1e6, 1e7),
     capacity_m3_s = runif(10, 1, 2),
@@ -238,8 +238,8 @@ test_that("hbl_ideal_diff_flow_cm(): correct result for petp < 0", {
 test_that("hbl_ideal_flows_cm() returns a (properly) named list", {
   res <- hbl_ideal_flows_cm(
     ideal_diff_flow_cm = 1,
-    irrigation = TRUE,
-    draining = TRUE,
+    real_irrigation = TRUE,
+    real_draining = TRUE,
     ideal_flow_rate_cm = 5
   )
 
@@ -253,8 +253,8 @@ test_that("hbl_ideal_flows_cm() returns the correct structure", {
 
   res <- hbl_ideal_flows_cm(
     ideal_diff_flow_cm = rnorm(n, sd = 10),
-    irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
-    draining = sample(c(TRUE, FALSE), n, replace = TRUE),
+    real_irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
+    real_draining = sample(c(TRUE, FALSE), n, replace = TRUE),
     ideal_flow_rate_cm = 5
   )
 
@@ -274,8 +274,8 @@ test_that("hbl_ideal_flows_cm(): inflow - outflow = ideal diff flow", {
 
   res <- hbl_ideal_flows_cm(
     ideal_diff_flow_cm = ideal_diff_flow_cm,
-    irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
-    draining = sample(c(TRUE, FALSE), n, replace = TRUE),
+    real_irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
+    real_draining = sample(c(TRUE, FALSE), n, replace = TRUE),
     ideal_flow_rate_cm = 5
   )
 
@@ -290,8 +290,8 @@ test_that("hbl_ideal_flows_cm(): correct results when in flux", {
 
   res <- hbl_ideal_flows_cm(
     ideal_diff_flow_cm = ideal_diff_flow_cm,
-    irrigation = rep(TRUE, n),
-    draining = rep(TRUE, n),
+    real_irrigation = rep(TRUE, n),
+    real_draining = rep(TRUE, n),
     ideal_flow_rate_cm = ideal_flow_rate_cm
   )
 
@@ -306,8 +306,8 @@ test_that("hbl_ideal_flows_cm(): flows are always positive", {
 
   res <- hbl_ideal_flows_cm(
     ideal_diff_flow_cm = rnorm(n, sd = 10),
-    irrigation = rep(TRUE, n),
-    draining = rep(TRUE, n),
+    real_irrigation = rep(TRUE, n),
+    real_draining = rep(TRUE, n),
     ideal_flow_rate_cm = 5
   )
 

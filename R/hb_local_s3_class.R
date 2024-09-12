@@ -13,25 +13,7 @@ make_hb_local_argcheck <- function(df) {
     {
       assert_data.frame(
         df,
-        template = data.frame(
-          ideal_height_cm = numeric(),
-          petp_cm = numeric(),
-          irrigation = logical(),
-          draining = logical(),
-          area_m2 = numeric(),
-          capacity_m3_s = numeric(),
-          date = as.Date(character()),
-          cluster_id = character(),
-          ditch = character(),
-          ideal_inflow_cm = numeric(),
-          ideal_outflow_cm = numeric(),
-          real_inflow_cm = numeric(),
-          real_outflow_cm = numeric(),
-          real_inflow_m3_s = numeric(),
-          real_outflow_m3_s = numeric(),
-          plan_delay = numeric(),
-          real_height_cm = numeric()
-          ),
+        template = hb_local_template_df(),
         extends = TRUE
         )
       assert_positive_vector(df$ideal_height_cm, tol = 1e-6)
@@ -49,6 +31,30 @@ make_hb_local_argcheck <- function(df) {
       class(e) <- c("make_hb_local_argcheck_error", class(e))
       stop(e)
     })
+}
+
+hb_local_template_df <- function() {
+  data.frame(
+    ideal_height_cm = numeric(),
+    real_height_cm = numeric(),
+    ideal_irrigation = logical(),
+    ideal_draining = logical(),
+    real_irrigation = logical(),
+    real_draining = logical(),
+    petp_cm = numeric(),
+    area_m2 = numeric(),
+    capacity_m3_s = numeric(),
+    date = as.Date(character()),
+    cluster_id = character(),
+    ditch = character(),
+    ideal_inflow_cm = numeric(),
+    ideal_outflow_cm = numeric(),
+    real_inflow_cm = numeric(),
+    real_outflow_cm = numeric(),
+    real_inflow_m3_s = numeric(),
+    real_outflow_m3_s = numeric(),
+    plan_delay = numeric()
+  )
 }
 
 #' @export

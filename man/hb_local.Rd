@@ -6,26 +6,26 @@
 \usage{
 hb_local(
   date,
-  ditch,
   cluster_id,
+  ditch,
   ideal_height_cm,
   petp_cm,
-  irrigation,
-  draining,
+  ideal_irrigation,
+  ideal_draining,
   area_m2,
   total_inflow_lake,
-  ideal_flow_rate_cm = 5,
-  ...
+  ...,
+  ideal_flow_rate_cm = 5
 )
 }
 \arguments{
 \item{date}{vector. Can be either a character, formatted as YYYY-MM-DD, or
 a \code{Date} object.}
 
+\item{cluster_id}{character vector.}
+
 \item{ditch}{character vector. Ditch to which the cluster specified by
 \code{cluster_id} corresponds.}
-
-\item{cluster_id}{character vector.}
 
 \item{ideal_height_cm}{numeric vector. Ideal height of the cluster specified
 by \code{cluster_id}, on the day specified by \code{date}.}
@@ -33,11 +33,11 @@ by \code{cluster_id}, on the day specified by \code{date}.}
 \item{petp_cm}{numeric vector. Precipitation minus evapotranspiration
 (in cm), relevant for the \code{cluster_id}/\code{date} pair.}
 
-\item{irrigation}{logical. Irrigation plan for the cluster specified
+\item{ideal_irrigation}{logical. Irrigation plan for the cluster specified
 by \code{cluster_id}, on the day specified by \code{date} (is this cluster supposed to
 be irrigated on this day?).}
 
-\item{draining}{logical. Draining plan for the cluster specified
+\item{ideal_draining}{logical. Draining plan for the cluster specified
 by \code{cluster_id}, on the day specified by \code{date} (is this cluster supposed to
 be drained on this day?).}
 
@@ -46,12 +46,12 @@ be drained on this day?).}
 \item{total_inflow_lake}{numeric vector. Total inflow of lake (or,
 equivalently, total outflow of clusters) on the day specified by \code{date}.}
 
-\item{ideal_flow_rate_cm}{a positive number. Ideal inflow for days such
-that \code{irrigation} and \code{draining} are both \code{TRUE}.}
-
 \item{...}{additional columns to be appended in the returned data-frame. Each
 of these additional (named) arguments should be a vector of the same length
 implied by the previous arguments.}
+
+\item{ideal_flow_rate_cm}{a positive number. Ideal inflow for days such
+that \code{ideal_irrigation} and \code{ideal_draining} are both \code{TRUE}.}
 }
 \value{
 An object of class \code{hb_local}, a lightweight wrapper of \code{data.frame}
