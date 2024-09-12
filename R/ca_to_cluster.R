@@ -31,11 +31,12 @@ ca_to_cluster <- function(real_height_cm,
     ca_filter_by_water_level(real_height_cm, application_type) &  # TODO: use threshold argument
     ca_filter_by_previous_applications(previous_applications)
 
-  res <- previous_applications
   idx <- ca_choose_application_day_index(application_day,
                                          potential_day_index,
                                          seed_day,
                                          plan_delay)
+
+  res <- previous_applications
   res[idx] <- amount_kg
 
   return(res)
