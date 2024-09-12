@@ -17,7 +17,7 @@ ca_filter_by_state <- function(real_irrigation, real_draining, application_type)
 
 ca_filter_by_water_level <- function(real_height_cm,
                                      application_type,
-                                     height_threshold_cm = 2.5)
+                                     height_threshold_cm)
 {
   application_type == "aerial" | real_height_cm < height_threshold_cm
 }
