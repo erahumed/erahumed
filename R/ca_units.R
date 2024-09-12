@@ -44,13 +44,16 @@ ca_choose_application_day_index <- function(application_day,
   # * The day counter keeps into account the delay accumulated in the
   #   irrigation/draining plan, according the local hydrological balance
   #   simulation.
-  seed_day_delayed <- ca_delay_vector(seed_day, plan_delay)
+
+  # Correct delay is that from previous day!!
+  delay <- c(0, plan_delay[-length(plan_delay)])
+  seed_day_delayed <- ca_delay_vector(seed_day, delay)
   potential_days <- seed_day_delayed[potential_day_index]
 
   actual_day_idx <- which.min(abs(potential_days - application_day))
   actual_day <- potential_days[actual_day_idx]
 
-  return( which.max(seed_day_delayed == actual_day) )
+  return( which.max(potential_day_index & seed_day_delayed == actual_day) )
 
   # The simpler approach below - which would allow to skip the computation of
   # 'potential_days' is not correct, due to the fact that the 'application_day'
