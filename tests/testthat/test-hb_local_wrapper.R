@@ -99,6 +99,33 @@ test_that("sum(real outflows) = total capacity of ditch", {
   expect_equal(nrow(res), 0)
 })
 
+test_that("real_irrigation is the delayed version of ideal_irrigation", {
+  res <- test_df |>
+    dplyr::group_by(cluster_id) |>
+    dplyr::arrange(date) |>
+    dplyr::mutate(
+      # The correct delay for real_irrigation is that from the previous day!
+      delay = dplyr::coalesce(dplyr::lag(plan_delay), 0),
+      real_irrigation_v2 = ideal_irrigation[1:length(delay) - delay]
+      ) |>
+    dplyr::filter(real_irrigation != real_irrigation_v2)
+
+  expect_equal(nrow(res), 0)
+})
+
+test_that("real_draining is the delayed version of ideal_draining", {
+  res <- test_df |>
+    dplyr::group_by(cluster_id) |>
+    dplyr::arrange(date) |>
+    dplyr::mutate(
+      # The correct delay for real_irrigation is that from the previous day!
+      delay = dplyr::coalesce(dplyr::lag(plan_delay), 0),
+      real_draining_v2 = ideal_draining[1:length(delay) - delay]
+      ) |>
+    dplyr::filter(real_draining != real_draining_v2)
+
+  expect_equal(nrow(res), 0)
+})
 
 
 # Exceptions
