@@ -1,8 +1,23 @@
 # erahumed (development version)
 
-### Under the hood
+### Breaking changes
 
-* Unit testing of CA model block.
+* Former `irrigation` and `draining` columns from the output data.frame of 
+`albufera_hb_local()` became `ideal_irrigation` and `ideal_draining`, to better
+reflect that these correspond to the originally scheduled irrigation and
+draining plans. In addition, new columns `real_irrigation` and `real_draining`
+were added to the data.frame, which provide the actual irrigation and draining
+plans followed, modified by the plan delay.
+
+### Bug fixes
+
+* Fixed broken functionality of 'height_thresh_cm' argument (#85).
+* Correct bug that was causing the wrong delay being applied to `seed_day` in 
+the `ca_choose_application_day_index()` helper, building block of `ca()`.
+
+### Under the hoods
+
+* Unit testing of CA model block (#77).
 
 # erahumed 0.4.1
 
