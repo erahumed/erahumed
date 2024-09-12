@@ -29,30 +29,31 @@ test_that("ca_delay_vector(): output is correct in simple case", {
 test_that("ca_filter_by_state(): output has correct type and length", {
   n <- 107
 
-  value <- ca_filter_by_state(irrigation = logical(n),
-                              draining = logical(n),
-                              plan_delay = numeric(n),
+  value <- ca_filter_by_state(real_irrigation = logical(n),
+                              real_draining = logical(n),
                               application_type = "ground")
 
   expect_vector(value, ptype = logical(), size = n)
 })
 
 test_that("ca_filter_by_state(): output is correct in simple case 1", {
-  value <- ca_filter_by_state(irrigation = c(T, T, F, F, T, F, T, F, T),
-                              draining   = c(F, T, T, F, T, F, F, T, F),
-                              plan_delay = c(0, 0, 1, 1, 1, 1, 2, 2, 0),
+  real_irrigation = c(T, T, F, F, T, F, T, F, T)
+  real_draining = c(T, T, F, F, T, F, T, F, T)
+  value <- ca_filter_by_state(real_irrigation,
+                              real_draining,
                               application_type = "ground")
-  expected <- c(F, F, F, F, T, F, F, T, F)
+  expected <- (!real_irrigation) & (!real_draining)
 
   expect_equal(value, expected)
 })
 
 test_that("ca_filter_by_state(): output is correct in simple case 2", {
-  value <- ca_filter_by_state(irrigation = c(T, T, F, F, T, F, T, F, T),
-                              draining   = c(F, T, T, F, T, F, F, T, F),
-                              plan_delay = c(0, 0, 1, 1, 1, 1, 2, 2, 0),
+  real_irrigation = c(T, T, F, F, T, F, T, F, T)
+  real_draining = c(T, T, F, F, T, F, T, F, T)
+  value <- ca_filter_by_state(real_irrigation,
+                              real_draining,
                               application_type = "aerial")
-  expected <- c(F, T, T, F, F, T, T, F, F)
+  expected <- real_irrigation & real_draining
 
   expect_equal(value, expected)
 })

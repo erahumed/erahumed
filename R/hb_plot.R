@@ -154,8 +154,10 @@ plot_hb_local_cluster_levels <- function(data, cluster_id)
       text = ~paste0("Date: ", date,
                      "<br>Height [cm]: ", real_height_cm,
                      "<br>Ideal Height [cm]: ", ideal_height_cm,
-                     "<br>Irrigation: ", irrigation,
-                     "<br>Draining: ", draining,
+                     "<br>Ideal Irrigation: ", ideal_irrigation,
+                     "<br>Ideal Draining: ", ideal_draining,
+                     "<br>Real Irrigation: ", real_irrigation,
+                     "<br>Real Draining: ", real_draining,
                      "<br>Plan Delay: ", plan_delay
       ),
       hoverinfo = "text",

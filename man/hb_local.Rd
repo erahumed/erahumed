@@ -10,8 +10,8 @@ hb_local(
   ditch,
   ideal_height_cm,
   petp_cm,
-  irrigation,
-  draining,
+  ideal_irrigation,
+  ideal_draining,
   area_m2,
   total_inflow_lake,
   ...,
@@ -33,11 +33,11 @@ by \code{cluster_id}, on the day specified by \code{date}.}
 \item{petp_cm}{numeric vector. Precipitation minus evapotranspiration
 (in cm), relevant for the \code{cluster_id}/\code{date} pair.}
 
-\item{irrigation}{logical. Irrigation plan for the cluster specified
+\item{ideal_irrigation}{logical. Irrigation plan for the cluster specified
 by \code{cluster_id}, on the day specified by \code{date} (is this cluster supposed to
 be irrigated on this day?).}
 
-\item{draining}{logical. Draining plan for the cluster specified
+\item{ideal_draining}{logical. Draining plan for the cluster specified
 by \code{cluster_id}, on the day specified by \code{date} (is this cluster supposed to
 be drained on this day?).}
 
@@ -51,7 +51,7 @@ of these additional (named) arguments should be a vector of the same length
 implied by the previous arguments.}
 
 \item{ideal_flow_rate_cm}{a positive number. Ideal inflow for days such
-that \code{irrigation} and \code{draining} are both \code{TRUE}.}
+that \code{ideal_irrigation} and \code{ideal_draining} are both \code{TRUE}.}
 }
 \value{
 An object of class \code{hb_local}, a lightweight wrapper of \code{data.frame}
