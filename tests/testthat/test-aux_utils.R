@@ -74,3 +74,41 @@ test_that("m3_s_to_cm_day() returns correct value in simple case", {
   expected <- 100 * s_per_day()
   expect_equal(m3_s_to_cm_day(input_m3_s, area_m2), expected)
 })
+
+
+
+test_that("lgl_buffer() output has the correct type and length", {
+  n <- 23
+  input <- numeric(n)
+  input[c(1, 5, 9, 19)] <- c(3, 2.1, 7, -12)
+
+  expect_vector(lgl_buffer(input), ptype = logical(), size = n)
+})
+
+test_that("lgl_buffer() output is correct in simple case 1", {
+
+  distance <- 0
+  x        <- c(0.0, 0.0, 0.1, 0.0, 1.3, 0.0, 1.8, 0.1, 0.0, 0.2)
+  expected <- c(  F,   F,   T,   F,   T,   F,   T,   T,   F,   T)
+
+  expect_equal(lgl_buffer(x, distance), expected)
+})
+
+test_that("lgl_buffer() output is correct in simple case 2", {
+
+  distance <- 1
+  x        <- c(0.0, 0.0, 0.1, 0.0, 1.3, 0.0, 1.8, 0.1, 0.0, 0.2)
+  expected <- c(  F,   T,   T,   T,   T,   T,   T,   T,   T,   T)
+
+  expect_equal(lgl_buffer(x, distance), expected)
+})
+
+test_that("lgl_buffer() output is correct in simple case 3", {
+
+  distance <- 1
+  x        <- c(0.0, 0.0, 0.0, 0.1, 0.0, 1.3, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0)
+  expected <- c(  F,   F,   T,   T,   T,   T,   T,   F,   F,   T,   T,   T,   F)
+
+  expect_equal(lgl_buffer(x, distance), expected)
+})
+
