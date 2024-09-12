@@ -1,3 +1,11 @@
+{ set.seed(840)
+
+hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2011-12-31")
+height_thresh_cm <- 2
+
+test_df <- ca(hbl, height_thresh_cm = height_thresh_cm)
+}
+
 test_that("ca() execution succeeds with valid input", {
   set.seed(840)
   hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2010-01-10")
@@ -7,9 +15,7 @@ test_that("ca() execution succeeds with valid input", {
 test_that("ca() total number of applications is equal to expected", {
   set.seed(840)
 
-  hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2011-12-31")  # TODO enlarge this date range
-
-  yearly_amounts_clusters <- ca(hbl) |>
+  yearly_amounts_clusters <- test_df |>
     dplyr::mutate(year = format(date, "%Y")) |>
     dplyr::rename(rice_variety = variety) |>
     dplyr::group_by(cluster_id, rice_variety, year) |>
@@ -50,13 +56,5 @@ test_that("ca() total number of applications is equal to expected", {
 })
 
 test_that("Simple snapshot is constant", {
-  skip("Snapshot test only used for debugging purposes")
-
-  set.seed(840)
-
-  hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2011-12-31")
-
-  hash <- digest::digest(ca(hbl))
-
-  expect_snapshot(hash)
+  expect_snapshot(digest::digest(test_df))
 })
