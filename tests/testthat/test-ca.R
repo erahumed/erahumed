@@ -48,3 +48,15 @@ test_that("ca() total number of applications is equal to expected", {
 
   expect_equal(nrow(res), 0)
 })
+
+test_that("Simple snapshot is constant", {
+  skip("Snapshot test only used for debugging purposes")
+
+  set.seed(840)
+
+  hbl <- albufera_hb_local(date_min = "2010-01-01", date_max = "2011-12-31")
+
+  hash <- digest::digest(ca(hbl))
+
+  expect_snapshot(hash)
+})
