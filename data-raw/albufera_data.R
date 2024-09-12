@@ -84,8 +84,8 @@ albufera_outflows <- albufera_outflows |>
     level_pred = ifelse(level_pred < -0.25 & year < 2010,
                         gam_recalibrate(level_pred, gam_corr_water_level_low),
                         level_pred),
-    level_is_imputed = is.na(Level),
-    Level = ifelse(level_is_imputed, level_pred, Level)
+    is_imputed_level = is.na(Level),
+    Level = ifelse(is_imputed_level, level_pred, Level)
   )
 
 albufera_outflows <- albufera_outflows |>
@@ -124,11 +124,11 @@ albufera_outflows <- albufera_outflows |>
   transmute(
     date,
     level,
-    pujol,
-    perellonet,
-    perello,
-    level_is_imputed = level_is_imputed,
-    outflow_is_imputed =
+    outflow_pujol = pujol,
+    outflow_perellonet = perellonet,
+    outflow_perello = perello,
+    is_imputed_level = is_imputed_level,
+    is_imputed_outflow =
       pujol_is_imputed | perello_is_imputed | perellonet_is_imputed
   )
 
