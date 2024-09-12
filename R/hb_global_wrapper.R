@@ -9,7 +9,8 @@
 #'
 #' @inheritParams hb_global
 #' @param outflows_df,petp_df `data.frame`s, whose structures follow the
-#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively.
+#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
+#' see details.
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
@@ -17,6 +18,15 @@
 #' The values used as the arguments of `petp_surface()` were calculated by the
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
+#'
+#' The `outflows_df` data.frame is supposed to have all columns of
+#' \link{albufera_outflows} whose names do not start by `outflow_`, with the
+#' appropriate type. In addition, `outflows_df` can have an arbitrary number of
+#' numeric columns named `outflow_*`, which represent the measured outflows for
+#' the system. It is fundamental that outflow columns follow this particualr
+#' naming scheme, as these are automatically recognized by
+#' `albufera_hb_global()` and passed down to the `outflow` argument of
+#' \link{hb_global}.
 #'
 #' @return Same as \link{hb_global}.
 #'
