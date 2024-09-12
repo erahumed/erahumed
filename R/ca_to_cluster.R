@@ -16,7 +16,8 @@ ca_to_cluster <- function(real_height_cm,
 
   potential_day_index <- TRUE &
     ca_filter_by_state(real_irrigation, real_draining, application_type) &
-    ca_filter_by_water_level(real_height_cm, application_type) &  # TODO: use threshold argument
+    ca_filter_by_water_level(
+      real_height_cm, application_type, height_thresh_cm) &
     ca_filter_by_previous_applications(previous_applications)
 
   idx <- ca_choose_application_day_index(application_day,
