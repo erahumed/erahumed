@@ -39,12 +39,10 @@ albufera_hb_global <- function(
     level = input$level,
     rain_mm = input$rain_mm,
     evapotranspiration_mm = input$evapotranspiration_mm,
-    outflows = data.frame(pujol = input$pujol,
-                          perellonet = input$perellonet,
-                          perello = input$perello),
+    outflows = input[, grepl("^outflow_", colnames(input))],
     date = input$date,
-    level_is_imputed = input$level_is_imputed,
-    outflow_is_imputed = input$outflow_is_imputed,
+    is_imputed_level = input$is_imputed_level,
+    is_imputed_outflow = input$is_imputed_outflow,
     storage_curve = storage_curve,
     petp_surface = petp_surface
   )

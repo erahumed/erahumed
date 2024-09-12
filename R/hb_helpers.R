@@ -21,8 +21,8 @@ hb_global_var_labs <- function(invert = FALSE) {
 
 hb_global_is_imputed_var <- function(variable) {
   imp_var <- if (variable %in% c("level", "volume")) {
-    "level_is_imputed"
+    "is_imputed_level"
   } else {
-    "outflow_is_imputed"
+    "is_imputed_outflow"
   }
 }
