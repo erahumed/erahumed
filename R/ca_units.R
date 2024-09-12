@@ -7,18 +7,10 @@ ca_delay_vector <- function(x, delay)
 
 
 
-ca_filter_by_state <- function(irrigation,
-                               draining,
-                               plan_delay,
-                               application_type)
+ca_filter_by_state <- function(real_irrigation, real_draining, application_type)
 {
-  irrigation_delayed <- ca_delay_vector(irrigation, plan_delay)
-  draining_delayed <- ca_delay_vector(draining, plan_delay)
   required_state <- ( application_type == "aerial" )
-
-  return(
-    irrigation_delayed == required_state  &  draining_delayed == required_state
-    )
+  return( real_irrigation == required_state & real_draining == required_state )
 }
 
 

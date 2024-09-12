@@ -1,3 +1,9 @@
+test_that("albufera_hb_local() does not raise an error with valid inputs", {
+  expect_no_error(
+    albufera_hb_local(date_min = "2020-01-01", date_max = "2020-01-10")
+    )
+})
+
 withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   date_min <- as.Date("2010-01-01")
   date_max <- as.Date("2011-12-31")
@@ -8,11 +14,11 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   management_df <- albufera_management
 
   test_df <- albufera_hb_local(outflows_df = outflows_df,
-                                          petp_df = petp_df,
-                                          clusters_df = clusters_df,
-                                          management_df = management_df,
-                                          date_min = date_min,
-                                          date_max = date_max)
+                               petp_df = petp_df,
+                               clusters_df = clusters_df,
+                               management_df = management_df,
+                               date_min = date_min,
+                               date_max = date_max)
 
   eps <- 1e-10
   })
