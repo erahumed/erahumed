@@ -1,3 +1,8 @@
+test_that("Constructor succeeds with valid input data.frame", {
+  expect_no_error(make_hb_local(hb_local_template_df()))
+})
+
+
 test_that("Ensure constructor raises errors of the correct class", {
 
   expect_error(make_hb_local("not a df"),
@@ -7,3 +12,4 @@ test_that("Ensure constructor raises errors of the correct class", {
                class = "make_hb_local_argcheck_error")
 
 })
+

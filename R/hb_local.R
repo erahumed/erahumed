@@ -29,10 +29,10 @@
 #' by `cluster_id`, on the day specified by `date`.
 #' @param petp_cm numeric vector. Precipitation minus evapotranspiration
 #' (in cm), relevant for the `cluster_id`/`date` pair.
-#' @param irrigation logical. Irrigation plan for the cluster specified
+#' @param ideal_irrigation logical. Irrigation plan for the cluster specified
 #' by `cluster_id`, on the day specified by `date` (is this cluster supposed to
 #' be irrigated on this day?).
-#' @param draining logical. Draining plan for the cluster specified
+#' @param ideal_draining logical. Draining plan for the cluster specified
 #' by `cluster_id`, on the day specified by `date` (is this cluster supposed to
 #' be drained on this day?).
 #' @param area_m2 numeric vector. Area of the cluster specified by `cluster_id`.
@@ -42,7 +42,7 @@
 #' of these additional (named) arguments should be a vector of the same length
 #' implied by the previous arguments.
 #' @param ideal_flow_rate_cm a positive number. Ideal inflow for days such
-#' that `irrigation` and `draining` are both `TRUE`.
+#' that `ideal_irrigation` and `ideal_draining` are both `TRUE`.
 #'
 #' @details
 #' All arguments of this function  should be conceptually thought as the columns
@@ -65,8 +65,8 @@ hb_local <- function(
     ditch,
     ideal_height_cm,
     petp_cm,
-    irrigation,
-    draining,
+    ideal_irrigation,
+    ideal_draining,
     area_m2,
     total_inflow_lake,
     ...,
@@ -84,8 +84,8 @@ hb_local <- function(
       args <- c(
         list(ideal_height_cm = ideal_height_cm[idx],
              petp_cm = petp_cm[idx],
-             irrigation = irrigation[idx],
-             draining = draining[idx],
+             ideal_irrigation = ideal_irrigation[idx],
+             ideal_draining = ideal_draining[idx],
              area_m2 = area_m2[idx],
              capacity_m3_s = capacity_m3_s[idx],
              date = date[idx],

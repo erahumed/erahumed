@@ -7,61 +7,10 @@ hbl_ditch_inflow_pct <- function(ditch, area)
   return(res)
 }
 
-
-hb_local <- function(
-    date,
-    ditch,
-    cluster_id,
-    ideal_height_cm,
-    petp_cm,
-    irrigation,
-    draining,
-    area_m2,
-    total_inflow_lake,
-    ideal_flow_rate_cm = 5,
-    ...
-    )
-{
-  pcts <- hbl_ditch_inflow_pct(ditch, area_m2)
-
-  capacity_m3_s <- total_inflow_lake * pcts$inflow_pct[match(ditch, pcts$ditch)]
-
-  res <- lapply(
-    unique(ditch),
-    function(dd) {
-      idx <- ditch == dd
-      args <- c(
-        list(ideal_height_cm = ideal_height_cm[idx],
-             petp_cm = petp_cm[idx],
-             irrigation = irrigation[idx],
-             draining = draining[idx],
-             area_m2 = area_m2[idx],
-             capacity_m3_s = capacity_m3_s[idx],
-             date = date[idx],
-             ideal_flow_rate_cm = ideal_flow_rate_cm,
-             cluster_id = cluster_id[idx],
-             ditch = ditch[idx]
-        ),
-        lapply(list(...), \(x) x[idx])
-      )
-
-      do.call(hbl_simulate_ditch, args)
-      }) |>
-    do.call(c, args = _) |>  # flatten to single list of data-frames
-    data.table::rbindlist() |>
-    as.data.frame()
-
-  # To substitute with a proper class constructor?
-  class(res) <- c("hb_local", "data.frame")
-  attr(class(res), "package") <- "erahumed"
-
-  return(res)
-}
-
 hbl_simulate_ditch <- function(
     ideal_height_cm,
-    irrigation,
-    draining,
+    ideal_irrigation,
+    ideal_draining,
     petp_cm,
     area_m2,
     capacity_m3_s,
@@ -74,13 +23,13 @@ hbl_simulate_ditch <- function(
   df_list <-
     hbl_make_df_list(
       ideal_height_cm = ideal_height_cm,
-      irrigation = irrigation,
-      draining = draining,
+      ideal_irrigation = ideal_irrigation,
+      ideal_draining = ideal_draining,
       petp_cm = petp_cm,
       area_m2 = area_m2,
       capacity_m3_s = capacity_m3_s,
       date = date,
-      cluster_id,
+      cluster_id = cluster_id,
       ...
     ) |>
     lapply(unclass)
@@ -107,8 +56,8 @@ hbl_simulate_ditch <- function(
 
 hbl_make_df_list <- function(
     ideal_height_cm,
-    irrigation,
-    draining,
+    ideal_irrigation,
+    ideal_draining,
     petp_cm,
     area_m2,
     capacity_m3_s,
@@ -119,8 +68,8 @@ hbl_make_df_list <- function(
 {
   data.frame(
     ideal_height_cm,
-    irrigation,
-    draining,
+    ideal_irrigation,
+    ideal_draining,
     plan_delay = 0,
     petp_cm,
     real_height_cm = ideal_height_cm,
@@ -150,15 +99,15 @@ hbl_extract_daily_inputs <- function(df_list, j) {
     \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] },
     numeric(1)
     )
-  irrigation <- vapply(
+  real_irrigation <- vapply(
     seq_along(plan_delay_lag),
-    \(c) { df_list[[j - plan_delay_lag[c]]]$irrigation[c] },
+    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_irrigation[c] },
     logical(1)
     )
 
-  draining <- vapply(
+  real_draining <- vapply(
     seq_along(plan_delay_lag),
-    \(c) { df_list[[j - plan_delay_lag[c]]]$draining[c] },
+    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_draining[c] },
     logical(1)
   )
 
@@ -168,8 +117,8 @@ hbl_extract_daily_inputs <- function(df_list, j) {
     real_height_cm_lag = real_height_cm_lag,
     ideal_height_cm = ideal_height_cm,
     petp_cm = current$petp_cm,
-    irrigation = irrigation,
-    draining = draining,
+    real_irrigation = real_irrigation,
+    real_draining = real_draining,
     area_m2 = current$area,
     capacity_m3_s = current$capacity_m3_s[[1]],
     date = current$date,
@@ -183,23 +132,27 @@ hbl_daily_step <- function(
     plan_delay_lag,
     ideal_height_cm,
     petp_cm,
-    irrigation,
-    draining,
+    real_irrigation,
+    real_draining,
     area_m2,
     capacity_m3_s,
     ideal_flow_rate_cm = 5,
     randomize_clusters
 )
 {
-  l <- list()
+  # Including these two columns here is a relatively clean way to force them in
+  # the data.frame output of the calling function.
+  l <- list(
+    real_irrigation = real_irrigation,
+    real_draining = real_draining)
 
   l <- c(l, hbl_ideal_diff_flow_cm(ideal_height_cm = ideal_height_cm,
                                    real_height_cm_lag = real_height_cm_lag,
                                    petp_cm = petp_cm))
 
   l <- c(l, hbl_ideal_flows_cm(ideal_diff_flow_cm = l$ideal_diff_flow_cm,
-                               irrigation = irrigation,
-                               draining = draining,
+                               real_irrigation = real_irrigation,
+                               real_draining = real_draining,
                                ideal_flow_rate_cm = ideal_flow_rate_cm))
 
   l <- c(l, hbl_real_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
@@ -244,12 +197,12 @@ hbl_ideal_diff_flow_cm <- function(
 
 hbl_ideal_flows_cm <- function(
     ideal_diff_flow_cm,
-    irrigation,
-    draining,
+    real_irrigation,
+    real_draining,
     ideal_flow_rate_cm
     )
 {
-  is_flux <- irrigation * draining
+  is_flux <- real_irrigation * real_draining
   ideal_inflow_cm <-
     is_flux * ideal_flow_rate_cm +
     (1-is_flux) * pmax2(ideal_diff_flow_cm, 0)
