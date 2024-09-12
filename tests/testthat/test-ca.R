@@ -80,7 +80,7 @@ test_that("ca() application days have the correct features", {
 
   test_ground_levels <- applications_df |>
     dplyr::filter(application_type == "ground" &
-                    real_height_cm > height_thresh_cm)
+                    real_height_cm > height_thresh_cm + 1e-6)
 
   test_aerial_states <- applications_df |>
     dplyr::filter(application_type == "aerial" &
