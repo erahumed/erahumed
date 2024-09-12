@@ -55,6 +55,45 @@ test_that("ca() total number of applications is equal to expected", {
   expect_equal(nrow(res), 0)
 })
 
+test_that("ca() application days have the correct features", {
+  chems <- erahumed::albufera_ca_schedules |>
+    dplyr::select(chemical, application_type) |>
+    dplyr::filter(chemical %in% colnames(test_df)) |>
+    dplyr::distinct()
+
+  applications_df <- test_df |>
+    dplyr::select(
+      real_height_cm, real_irrigation, real_draining,
+      dplyr::any_of(chems$chemical)
+      ) |>
+    tidyr::pivot_longer(
+      -c(real_height_cm, real_irrigation, real_draining),
+      names_to = "chemical",
+      values_to = "amount"
+      ) |>
+    dplyr::filter(amount > 1e-6) |>
+    dplyr::inner_join(chems, by = "chemical")
+
+  test_ground_states <- applications_df |>
+    dplyr::filter(application_type == "ground" &
+                    (real_irrigation | real_draining))
+
+  test_ground_levels <- applications_df |>
+    dplyr::filter(application_type == "ground" &
+                    real_height_cm > height_thresh_cm)
+
+  test_aerial_states <- applications_df |>
+    dplyr::filter(application_type == "aerial" &
+                    !(real_irrigation & real_draining))
+
+
+
+  expect_equal(nrow(test_ground_states), 0)
+  expect_equal(nrow(test_ground_levels), 0)
+  expect_equal(nrow(test_aerial_states), 0)
+})
+
+
 test_that("Simple snapshot is constant", {
   expect_snapshot(digest::digest(test_df))
 })
