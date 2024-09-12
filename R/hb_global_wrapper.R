@@ -51,7 +51,15 @@ albufera_hb_global <- function(
 albufera_hb_global_datacheck <- function(outflows_df, petp_df) {
   tryCatch(
     {
-      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
+      outflow_required_cols <- c("date",
+                                 "level",
+                                 "is_imputed_level",
+                                 "is_imputed_outflow")
+      assert_data.frame(
+        outflows_df,
+        template = erahumed::albufera_outflows[, outflow_required_cols]
+        )
+
       assert_data.frame(petp_df, template = erahumed::albufera_petp)
     },
     error = function(e) {
