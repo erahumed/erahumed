@@ -124,6 +124,7 @@ hbg_flow_balance <- function(outflows, volume_change, volume_change_petp) {
   outflow_total <- outflow_total + outflow_extra
   inflow_total <- pmax(inflow_total, 0)
 
+  names(outflows) <- gsub("outflow_", "", x = names(outflows), fixed = TRUE)
   names(outflows) <- paste0("outflow_", names(outflows))
 
   res <- cbind(
