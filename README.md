@@ -29,14 +29,19 @@ consists of:
 
 ## Installation
 
-Simple installation instructions are not available yet. When the present
-repository goes public, you will be able to install `{erahumed}` using
-`devtools::install_github()`. For the moment, you can either:
+You can install the latest release of `{erahumed}` from Github, by
+running the following command in your local R session:
 
-- Clone this repository, open the RStudio package project and use
-  `devtools::install()`.
+``` r
+remotes::install_github("erahumed/erahumed@*release")
+```
 
-- Contact the maintainers.
+If you want the development version (notice: this may be unstable),
+simply omit the `@*release` reference, as in:
+
+``` r
+remotes::install_github("erahumed/erahumed")  # development version
+```
 
 ## Usage
 
