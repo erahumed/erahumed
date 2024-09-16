@@ -16,7 +16,14 @@ testServer(hbGlobalServer, {
   expect_equal(min(hb_data()$date), setup$date_range[1])
   expect_equal(max(hb_data()$date), setup$date_range[2])
 
-  output$hb_plot
+  expect_no_error(output$hb_plot)
+
+  # Test that all variables can be plotted successfully
+  for (variable in hb_global_var_labs(invert = TRUE)) {
+    session$setInputs(variable = variable)
+    expect_no_error(output$hb_plot)
+  }
+
   },
   args = list(
     setup = list(date_range = as.Date(c("2013-01-01", "2014-12-31"))),
