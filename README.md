@@ -66,3 +66,7 @@ TODO [\#81](https://github.com/erahumed/erahumed/issues/81).
 If you have issues running `{erahumed}` or want to suggest an
 improvement, please [file an issue on
 Github](https://github.com/erahumed/erahumed/issues).
+
+An internal documentation, aimed at potential contributors to this
+project, is available at [Github
+Wiki](https://github.com/erahumed/erahumed/wiki).
