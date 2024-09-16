@@ -29,11 +29,11 @@
 #' \describe{
 #'   \item{date}{Date of measurement}
 #'   \item{level}{Lake level (in meters above sea level)}
-#'   \item{pujol}{Outflow at Pujol (meters cube per second)}
-#'   \item{perellonet}{Outflow at Perellonet (meters cube per second)}
-#'   \item{perello}{Outflow at Perello (meters cube per second)}
-#'   \item{level_is_imputed}{Whether the `level` value was imputed.}
-#'   \item{outflow_is_imputed}{Whether (any of) the outflows were imputed.}
+#'   \item{outflow_pujol}{Outflow at Pujol (meters cube per second)}
+#'   \item{outflow_perellonet}{Outflow at Perellonet (meters cube per second)}
+#'   \item{outflow_perello}{Outflow at Perello (meters cube per second)}
+#'   \item{is_imputed_level}{Whether the `level` value was imputed.}
+#'   \item{is_imputed_outflow}{Whether (any of) the outflows were imputed.}
 #' }
 #' @source <https://aps.chj.es/>
 "albufera_outflows"

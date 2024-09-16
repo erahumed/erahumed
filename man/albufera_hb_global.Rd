@@ -15,7 +15,8 @@ albufera_hb_global(
 }
 \arguments{
 \item{outflows_df, petp_df}{\code{data.frame}s, whose structures follow the
-templates of \link{albufera_outflows} and \link{albufera_petp}, respectively.}
+templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
+see details.}
 
 \item{storage_curve}{a function that takes a numeric vector as input, and
 returns a numeric vector of the same length. Function that converts lake
@@ -40,6 +41,15 @@ The numeric inputs for the linear storage curve are taken from the CHJ report
 The values used as the arguments of \code{petp_surface()} were calculated by the
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).
+
+The \code{outflows_df} data.frame is supposed to have all columns of
+\link{albufera_outflows} whose names do not start by \code{outflow_}, with the
+appropriate type. In addition, \code{outflows_df} can have an arbitrary number of
+numeric columns named \verb{outflow_*}, which represent the measured outflows for
+the system. It is fundamental that outflow columns follow this particualr
+naming scheme, as these are automatically recognized by
+\code{albufera_hb_global()} and passed down to the \code{outflow} argument of
+\link{hb_global}.
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

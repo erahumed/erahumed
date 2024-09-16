@@ -41,9 +41,7 @@ albufera_hb_local <- function(
   if (!is.null(res_precomputed))
     return(res_precomputed)
 
-  albufera_hb_local_argcheck(outflows_df,
-                             petp_df,
-                             management_df,
+  albufera_hb_local_argcheck(management_df,
                              clusters_df,
                              date_min,
                              date_max,
@@ -131,8 +129,6 @@ albufera_hb_local_data_prep <- function(
 }
 
 albufera_hb_local_argcheck <- function(
-    outflows_df,
-    petp_df,
     management_df,
     clusters_df,
     date_min,
@@ -142,8 +138,8 @@ albufera_hb_local_argcheck <- function(
 {
   tryCatch(
     {
-      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
-      assert_data.frame(petp_df, template = erahumed::albufera_petp)
+      # The checks for albufera_outflows and albufera_petp can be skipped, as
+      # these are performed in the albufera_hb_global() function.
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)
