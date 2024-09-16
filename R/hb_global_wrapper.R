@@ -9,7 +9,8 @@
 #'
 #' @inheritParams hb_global
 #' @param outflows_df,petp_df `data.frame`s, whose structures follow the
-#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively.
+#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
+#' see details.
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
@@ -17,6 +18,15 @@
 #' The values used as the arguments of `petp_surface()` were calculated by the
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
+#'
+#' The `outflows_df` data.frame is supposed to have all columns of
+#' \link{albufera_outflows} whose names do not start by `outflow_`, with the
+#' appropriate type. In addition, `outflows_df` can have an arbitrary number of
+#' numeric columns named `outflow_*`, which represent the measured outflows for
+#' the system. It is fundamental that outflow columns follow this particualr
+#' naming scheme, as these are automatically recognized by
+#' `albufera_hb_global()` and passed down to the `outflow` argument of
+#' \link{hb_global}.
 #'
 #' @return Same as \link{hb_global}.
 #'
@@ -39,12 +49,10 @@ albufera_hb_global <- function(
     level = input$level,
     rain_mm = input$rain_mm,
     evapotranspiration_mm = input$evapotranspiration_mm,
-    outflows = data.frame(pujol = input$pujol,
-                          perellonet = input$perellonet,
-                          perello = input$perello),
+    outflows = input[, grepl("^outflow_", colnames(input))],
     date = input$date,
-    level_is_imputed = input$level_is_imputed,
-    outflow_is_imputed = input$outflow_is_imputed,
+    is_imputed_level = input$is_imputed_level,
+    is_imputed_outflow = input$is_imputed_outflow,
     storage_curve = storage_curve,
     petp_surface = petp_surface
   )
@@ -53,7 +61,15 @@ albufera_hb_global <- function(
 albufera_hb_global_datacheck <- function(outflows_df, petp_df) {
   tryCatch(
     {
-      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
+      outflow_required_cols <- c("date",
+                                 "level",
+                                 "is_imputed_level",
+                                 "is_imputed_outflow")
+      assert_data.frame(
+        outflows_df,
+        template = erahumed::albufera_outflows[, outflow_required_cols]
+        )
+
       assert_data.frame(petp_df, template = erahumed::albufera_petp)
     },
     error = function(e) {

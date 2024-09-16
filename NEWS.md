@@ -2,12 +2,23 @@
 
 ### Breaking changes
 
+* Names of columns representing outflows in `albufera_outflows` have been prepended with `outflow_`.
+
+* Logic of `albufera_hb_global()` has been improved in such a way that the 
+outflow columns are automatically recognized from the input data.frame, and do 
+not need to be exactly `"pujol"`, `"perellonet"` and ``"perello"`, as before.
+
 * Former `irrigation` and `draining` columns from the output data.frame of 
 `albufera_hb_local()` became `ideal_irrigation` and `ideal_draining`, to better
 reflect that these correspond to the originally scheduled irrigation and
 draining plans. In addition, new columns `real_irrigation` and `real_draining`
 were added to the data.frame, which provide the actual irrigation and draining
 plans followed, modified by the plan delay.
+
+### New features
+
+* Visualizations of the "extra outflow" variable have been added to the global 
+hydrological balance module of the Shiny dashboard.
 
 ### Bug fixes
 

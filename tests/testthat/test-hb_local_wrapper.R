@@ -187,12 +187,12 @@ test_that("albufera_hb_local() error if invalid date frame inputs", {
   # remove one required column
   expect_error(
     albufera_hb_local(outflows_df = erahumed::albufera_outflows[,-1]),
-    class = "albufera_hb_local_argcheck_error"
+    class = "albufera_hb_global_datacheck_error"
   )
 
   expect_error(
     albufera_hb_local(petp_df = erahumed::albufera_petp[,-1]),
-    class = "albufera_hb_local_argcheck_error"
+    class = "albufera_hb_global_datacheck_error"
   )
 
   expect_error(

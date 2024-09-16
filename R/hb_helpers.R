@@ -6,6 +6,7 @@ hb_global_var_labs <- function(invert = FALSE) {
     outflow_pujol = "Pujol Outflow [m\u{00B3} / s]",
     outflow_perellonet = "Perellonet Outflow [m\u{00B3} / s]",
     outflow_perello = "Perello Outflow [m\u{00B3} / s]",
+    outflow_extra = "Extra Outflow [m\u{00B3} / s]",
     inflow_total = "Total Inflow [m\u{00B3} / s]",
     residence_time_days = "Residence Time [Days]"
   )
@@ -21,8 +22,8 @@ hb_global_var_labs <- function(invert = FALSE) {
 
 hb_global_is_imputed_var <- function(variable) {
   imp_var <- if (variable %in% c("level", "volume")) {
-    "level_is_imputed"
+    "is_imputed_level"
   } else {
-    "outflow_is_imputed"
+    "is_imputed_outflow"
   }
 }
