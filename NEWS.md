@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* Fix bug that was causing errors in the plots of Perellonet, Perelló and Pujol outflows in the Shiny interface (#90).
+
 # erahumed 0.5.0
 
 ### Breaking changes
