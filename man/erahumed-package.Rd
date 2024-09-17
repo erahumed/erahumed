@@ -21,7 +21,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Pablo Amador
+  \item Pablo Amador \email{pamadorc@gmail.com} (\href{https://orcid.org/0000-0002-3793-8794}{ORCID})
 }
 
 Other contributors:
