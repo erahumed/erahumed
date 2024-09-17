@@ -12,8 +12,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-3793-8794")),
     person("Andreu", "Rico",
            email = NULL, 
-           role = "rev"
-           )      
+           role = "rev",
+           comment = c(ORCID = "0000-0002-1820-4218"))      
     )
 Description: ERAHUMED Data Analysis and Visualization.
 License: GPL (>= 3)
