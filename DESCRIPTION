@@ -27,7 +27,7 @@ Suggests:
     testthat (>= 3.0.0),
     tidyr
 Config/testthat/edition: 3
-URL: https://github.com/erahumed/erahumed
+URL: https://github.com/erahumed/erahumed, https://erahumed.github.io/erahumed/
 BugReports: https://github.com/erahumed/erahumed/issues
 Imports: 
     arrow,

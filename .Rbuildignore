@@ -10,3 +10,5 @@
 ^\.scribblr$
 _\.new\.png$
 ^docs$
+^_pkgdown\.yml$
+^pkgdown$
