@@ -1,8 +1,16 @@
 # erahumed (development version)
 
+### Documentation
+
+* Emails and ORCID of additional package authors were added to the package metadata. 
+
 ### Bug fixes
 
 * Fix bug that was causing errors in the plots of Perellonet, Perelló and Pujol outflows in the Shiny interface (#90).
+
+### Other
+
+* The package has a new website, available at https://erahumed.github.io/erahumed/.
 
 # erahumed 0.5.0
 
