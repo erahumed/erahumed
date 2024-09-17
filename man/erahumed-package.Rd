@@ -12,6 +12,7 @@ ERAHUMED Data Analysis and Visualization.
 Useful links:
 \itemize{
   \item \url{https://github.com/erahumed/erahumed}
+  \item \url{https://erahumed.github.io/erahumed/}
   \item Report bugs at \url{https://github.com/erahumed/erahumed/issues}
 }
 
@@ -26,7 +27,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Andreu Rico [reviewer]
+  \item Andreu Rico (\href{https://orcid.org/0000-0002-1820-4218}{ORCID}) [reviewer]
 }
 
 }
