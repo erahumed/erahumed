@@ -7,7 +7,7 @@
 \method{plot}{hb_local}(x, type = c("cluster_levels", "map"), ...)
 }
 \arguments{
-\item{x}{The object of class \code{hb_global} containing the data to be plotted.}
+\item{x}{The object of class \code{lhb} containing the data to be plotted.}
 
 \item{type}{Type of plot to be generated. Currently, only the
 \code{"cluster_levels"} plot is implemented.}

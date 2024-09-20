@@ -70,7 +70,7 @@ linear_petp_surface <- function(surface_P, surface_ETP)
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' **N.B.:**: This function is the one used internally by \link{hb_global} to
+#' **N.B.:**: This function is the one used internally by \link{lhb} to
 #' compute residence times, and is not directly exported by `{erahumed}`.
 #'
 #' Computes residence times as

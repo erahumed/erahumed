@@ -4,8 +4,8 @@
 #' Computes the global hydrological balance of a water basin from the
 #' measurements of water level, outflows, and precipitation/evapotranspiration.
 #' For analyzing Albufera data, you should not need to directly run this
-#' function, and you can instead use the \link{albufera_hb_global} wrapper, that
-#' calls `hb_global()` with the right arguments, extracted from the built-in
+#' function, and you can instead use the \link{albufera_lhb} wrapper, that
+#' calls `lhb()` with the right arguments, extracted from the built-in
 #' datasets.
 #'
 #' @param level numeric vector. Time series of lake levels, in meters.
@@ -25,9 +25,9 @@
 #' that converts precipitation and evapotranspiration values (passed through
 #' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
 #'
-#' @return An object of class `hb_global`, a lightweight wrapper of `data.frame`
+#' @return An object of class `lhb`, a lightweight wrapper of `data.frame`
 #' with a few additional visualization methods (most prominently
-#' \link{plot.hb_global}). The underlying data-frame contains as columns the
+#' \link{plot.lhb}). The underlying data-frame contains as columns the
 #' input time series, as well as the following calculated columns:
 #' * `volume` Volume time series, obtained from the storage curve.
 #' * `volume_change` Differenced time series of volume. The \eqn{n}-th is given
@@ -51,7 +51,7 @@
 #' * `residence_time_days`. Residence time, as modeled by \link{hbg_residence_time}.
 #'
 #' @export
-hb_global <- function(
+lhb <- function(
     level,
     rain_mm,
     evapotranspiration_mm,
@@ -61,7 +61,7 @@ hb_global <- function(
     petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
 )
 {
-  hb_global_argcheck(
+  lhb_argcheck(
     level = level,
     rain_mm = rain_mm,
     evapotranspiration_mm = evapotranspiration_mm,
@@ -88,10 +88,10 @@ hb_global <- function(
                                                 res$outflow_total,
                                                 units = "days")
 
-  return(make_hb_global(res))
+  return(make_lhb(res))
 }
 
-hb_global_argcheck <- function(
+lhb_argcheck <- function(
     level,
     rain_mm,
     evapotranspiration_mm,
@@ -120,13 +120,13 @@ hb_global_argcheck <- function(
                           ),
                         length)
       if (length(unique(lengths)) > 1)
-        stop("Time series inputs must have equal lengths, see ?hb_global.")
+        stop("Time series inputs must have equal lengths, see ?lhb.")
 
       assert_function(storage_curve, check = list(rep(0, 10)) )
       assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
-      class(e) <- c("hb_global_argcheck_error", class(e))
+      class(e) <- c("lhb_argcheck_error", class(e))
       stop(e)
     })
 }

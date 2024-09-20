@@ -1,12 +1,12 @@
-make_hb_global <- function(df) {
-  make_hb_global_argcheck(df)
+make_lhb <- function(df) {
+  make_lhb_argcheck(df)
 
-  class(df) <- c("hb_global", class(df))
+  class(df) <- c("erahumed_lhb", class(df))
   attr(class(df), "package") <- "erahumed"
   return(df)
 }
 
-make_hb_global_argcheck <- function(df) {
+make_lhb_argcheck <- function(df) {
   tryCatch(
     {
       assert_data.frame(
@@ -24,14 +24,14 @@ make_hb_global_argcheck <- function(df) {
         )
     },
     error = function(e) {
-      class(e) <- c("make_hb_global_argcheck_error", class(e))
+      class(e) <- c("make_lhb_argcheck_error", class(e))
       stop(e)
     })
 }
 
 #' @export
-print.hb_global <- function(x, ..., max = 100) {
-  cat(bold("An object of class 'hb_global'."))
+print.erahumed_lhb <- function(x, ..., max = 100) {
+  cat(bold("An object of class 'lhb'."))
 
   min_date <- format(as.Date(min(x$date)))
   max_date <- format(as.Date(max(x$date)))
@@ -41,6 +41,6 @@ print.hb_global <- function(x, ..., max = 100) {
 }
 
 #' @export
-summary.hb_global <- function(object, ..., max = 100) {
+summary.erahumed_lhb <- function(object, ..., max = 100) {
   print(object, max = max)
 }

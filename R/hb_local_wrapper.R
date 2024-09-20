@@ -6,7 +6,7 @@
 #' `data.frame`s exported by `erahumed`.
 #'
 #' @inheritParams hb_local
-#' @inheritParams hb_global
+#' @inheritParams lhb
 #' @param outflows_df,petp_df,management_df,clusters_df `data.frame`s, whose
 #' structures follow the templates of
 #' \link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
@@ -74,7 +74,7 @@ albufera_hb_local_data_prep <- function(
     date_max
     )
 {
-  res <- albufera_hb_global(outflows_df = outflows_df,
+  res <- albufera_lhb(outflows_df = outflows_df,
                             petp_df = petp_df,
                             storage_curve = storage_curve,
                             petp_surface = petp_surface
@@ -139,7 +139,7 @@ albufera_hb_local_argcheck <- function(
   tryCatch(
     {
       # The checks for albufera_outflows and albufera_petp can be skipped, as
-      # these are performed in the albufera_hb_global() function.
+      # these are performed in the albufera_lhb() function.
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)

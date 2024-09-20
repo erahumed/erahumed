@@ -20,7 +20,6 @@
     "data-outflows-rows": 10,
     "data-petp-file": null,
     "data-petp-rows": 10,
-    "hb-hb_global-variable": "level",
     "hb-hb_local-cluster_id": "02_Carrera_del_Saler0-2_0",
     "hb-hb_setup-date_range": [
       "2020-01-01",
@@ -28,10 +27,11 @@
     ],
     "hb-hb_setup-hbl_seed": 840,
     "hb-hb_setup-ideal_flow_rate_cm": 5,
-    "plotly_afterplot-A": "\"hb-hb_global-hb_plot\""
+    "hb-lhb-variable": "level",
+    "plotly_afterplot-A": "\"hb-lhb-hb_plot\""
   },
   "output": {
-    "hb-hb_global-hb_plot": {
+    "hb-lhb-hb_plot": {
       "x": {
         "layout": {
           "margin": {

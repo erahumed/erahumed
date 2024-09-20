@@ -1,21 +1,21 @@
-test_that("plot.hb_global does not produce an error with valid inputs", {
-  df <- albufera_hb_global()
+test_that("plot.lhb does not produce an error with valid inputs", {
+  df <- albufera_lhb()
 
   expect_no_error(plot(df, "residence_time_days"))
 })
 
-test_that("plot.hb_global raises an error with invalid inputs", {
-  df <- albufera_hb_global()
-  expect_error(plot(df, "invalid_variable"), class = "plot.hb_global_error")
-  expect_error(plot(df, variable = 840), class = "plot.hb_global_error")
+test_that("plot.lhb raises an error with invalid inputs", {
+  df <- albufera_lhb()
+  expect_error(plot(df, "invalid_variable"), class = "plot.lhb_error")
+  expect_error(plot(df, variable = 840), class = "plot.lhb_error")
 })
 
-test_that("plot.hb_global raises a warning with unused arguments", {
-  df <- albufera_hb_global()
+test_that("plot.lhb raises a warning with unused arguments", {
+  df <- albufera_lhb()
   expect_warning(plot(df,
                       variable = "residence_time_days",
                       unused_argument = "argument"),
-                 class = "plot.hb_global_warning"
+                 class = "plot.lhb_warning"
                  )
 })
 

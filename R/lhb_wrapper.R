@@ -3,11 +3,11 @@
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Wrapper around \link{hb_global}, used to run the global hydrological balance
+#' Wrapper around \link{lhb}, used to run the global hydrological balance
 #' calculations with the data for the Albufera lake packed up in the
 #' `data.frame`s exported by `erahumed`.
 #'
-#' @inheritParams hb_global
+#' @inheritParams lhb
 #' @param outflows_df,petp_df `data.frame`s, whose structures follow the
 #' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
 #' see details.
@@ -25,13 +25,13 @@
 #' numeric columns named `outflow_*`, which represent the measured outflows for
 #' the system. It is fundamental that outflow columns follow this particualr
 #' naming scheme, as these are automatically recognized by
-#' `albufera_hb_global()` and passed down to the `outflow` argument of
-#' \link{hb_global}.
+#' `albufera_lhb()` and passed down to the `outflow` argument of
+#' \link{lhb}.
 #'
-#' @return Same as \link{hb_global}.
+#' @return Same as \link{lhb}.
 #'
 #' @export
-albufera_hb_global <- function(
+albufera_lhb <- function(
     outflows_df = erahumed::albufera_outflows,
     petp_df = erahumed::albufera_petp,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
@@ -40,12 +40,12 @@ albufera_hb_global <- function(
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  albufera_hb_global_datacheck(outflows_df, petp_df)
+  albufera_lhb_datacheck(outflows_df, petp_df)
 
   # Just to get intersection of dates
   input <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
 
-  hb_global(
+  lhb(
     level = input$level,
     rain_mm = input$rain_mm,
     evapotranspiration_mm = input$evapotranspiration_mm,
@@ -58,7 +58,7 @@ albufera_hb_global <- function(
   )
 }
 
-albufera_hb_global_datacheck <- function(outflows_df, petp_df) {
+albufera_lhb_datacheck <- function(outflows_df, petp_df) {
   tryCatch(
     {
       outflow_required_cols <- c("date",
@@ -73,7 +73,7 @@ albufera_hb_global_datacheck <- function(outflows_df, petp_df) {
       assert_data.frame(petp_df, template = erahumed::albufera_petp)
     },
     error = function(e) {
-      class(e) <- c("albufera_hb_global_datacheck_error", class(e))
+      class(e) <- c("albufera_lhb_datacheck_error", class(e))
       stop(e)
     }
   )

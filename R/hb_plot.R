@@ -2,23 +2,23 @@
 #'
 #' @description
 #' Plot method for global hydrological balance data, generated through
-#' \link{hb_global}. A simple wrapper around \link[plotly]{plot_ly} to generate
+#' \link{lhb}. A simple wrapper around \link[plotly]{plot_ly} to generate
 #' time series plots of the calculated quantities.
 #'
-#' @param x The object of class `hb_global` containing the data to be plotted.
+#' @param x The object of class `lhb` containing the data to be plotted.
 #' @param variable The variable to be plotted. Can be any numeric column of `x`.
 #' @param ... Not used.
 #'
 #' @return A plotly plot.
 #'
 #' @export
-plot.hb_global <- function(x, variable, ...) {
+plot.erahumed_lhb <- function(x, variable, ...) {
 
-  plot_hb_global_argcheck(x, variable, ...)
+  plot_lhb_argcheck(x, variable, ...)
 
-  var_lab <- hb_global_var_labs()[variable]
+  var_lab <- lhb_var_labs()[variable]
 
-  is_imputed <- x[[hb_global_is_imputed_var(variable)]]
+  is_imputed <- x[[lhb_is_imputed_var(variable)]]
 
   df_obs <- df_imp <- x[, ]
   df_obs[[variable]][is_imputed] <- NA
@@ -44,7 +44,7 @@ plot.hb_global <- function(x, variable, ...) {
     )
 }
 
-plot_hb_global_argcheck <- function(x, variable, ...) {
+plot_lhb_argcheck <- function(x, variable, ...) {
 
   tryCatch(
     {
@@ -57,11 +57,11 @@ plot_hb_global_argcheck <- function(x, variable, ...) {
         }
     },
     error = function(cnd) {
-      class(cnd) <- c("plot.hb_global_error", class(cnd))
+      class(cnd) <- c("plot.lhb_error", class(cnd))
       stop(cnd)
       },
     warning = function(cnd) {
-      class(cnd) <- c("plot.hb_global_warning", class(cnd))
+      class(cnd) <- c("plot.lhb_warning", class(cnd))
       warning(cnd)
     })
 
@@ -74,7 +74,7 @@ plot_hb_global_argcheck <- function(x, variable, ...) {
 #' \link{hb_local}. A simple wrapper around \link[plotly]{plot_ly} to generate
 #' time series plots of the calculated quantities.
 #'
-#' @param x The object of class `hb_global` containing the data to be plotted.
+#' @param x The object of class `lhb` containing the data to be plotted.
 #' @param type Type of plot to be generated. Currently, only the
 #' `"cluster_levels"` plot is implemented.
 #' @param ... Further plotting parameters, associated with the plot type
