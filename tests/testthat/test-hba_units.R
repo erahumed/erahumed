@@ -1,0 +1,202 @@
+test_that("linear_petp_surface() throws no errors on regular call", {
+  expect_no_error( linear_petp_surface(surface_P = 1, surface_ETP = 1) )
+})
+
+test_that("linear_petp_surface() returns a closure", {
+  res <- linear_petp_surface(surface_P = 1, surface_ETP = 1)
+  expect_type(res, "closure")
+})
+
+test_that("return of linear_petp_surface() can be called with two arguments", {
+  res <- linear_petp_surface(surface_P = 1, surface_ETP = 1)
+  expect_no_error(res(0.5, 0.4))
+})
+
+test_that("linear_petp_surface() returns the correct affine function", {
+  sP <- .95
+  sETP <- .85
+
+  P <- c(1, 2, 3)
+  ETP <- c(3, 2, 1)
+
+  res <- linear_petp_surface(surface_P = sP, surface_ETP = sETP)
+  expect_equal(
+    res(P = c(1, 2, 3), ETP = c(3, 2, 1)),
+    1e-3 * (sP * P - ETP * sETP)
+  )
+})
+
+
+test_that("linear_storage_curve() throws no errors on regular call", {
+  expect_no_error( linear_storage_curve(intercept = 0, slope = 1) )
+})
+
+test_that("linear_storage_curve() returns a closure", {
+  res <- linear_storage_curve(intercept = 0, slope = 1)
+  expect_type(res, "closure")
+})
+
+test_that("return of linear_storage_curve() can be called with one argument", {
+  res <- linear_storage_curve(intercept = 0, slope = 1)
+  expect_no_error(res(1))
+})
+
+test_that("linear_storage_curve() returns the correct affine function", {
+  slope <- 4
+  intercept <- 3
+  level <- 1:10
+  res <- linear_storage_curve(intercept = intercept, slope = slope)
+  expect_identical(res(level), slope * level + intercept)
+})
+
+
+
+test_that("hbg_residence_time throws no errors on regular call", {
+  volume <- c(1, 0.9, 0.86, 0.93, 1.1)
+  inflow <- c(0.1, 0.12, 0.2, 0.5, 0.2)
+
+  expect_no_error(hbg_residence_time(volume, inflow))
+})
+
+test_that("hbg_residence_time 'k' argument controls level of smoothing", {
+  volume <- c(1, 0.9, 0.86, 0.93, 1.1)
+  inflow <- c(0.1, 0.12, 0.2, 0.5, 0.2)
+  k <- 3
+
+  expect_identical(
+    hbg_residence_time(volume, inflow, k = k),
+    moving_average(volume, k = k) / moving_average(inflow, k = k) / s_per_day()
+  )
+})
+
+
+
+test_that("hbg_volume_change() succeeds with valid input", {
+  expect_no_error(hbg_volume_change(rep(1, 10)))
+})
+
+test_that("hbg_volume_change() returns a double of the correct length", {
+  len <- 10
+  res <- hbg_volume_change(rep(1, len))
+  expect_vector(res, ptype = double(), size = len)
+})
+
+test_that("hbg_volume_change(): last entry of output == fill_last", {
+  fill <- 840
+  res <- hbg_volume_change(rep(1, 10), fill_last = fill)
+  expect_equal(res[length(res)], fill)
+})
+
+test_that("hbg_volume_change(): volume + differences == lagged volume", {
+  volume <- c(4, 2, 6, 4, 6, 3, 7, 8, 4, 9, 1)
+  volume_change <- hbg_volume_change(volume)
+  s <- volume + volume_change
+  s <- s[-length(s)]
+  expect_equal(s, volume[-1])
+})
+
+
+
+test_that("hbg_flow_balance(): succeeds with valid inputs", {
+  expect_no_error(
+    hbg_flow_balance(outflows = list(a = 1:10, b = 2:11),
+                     volume_change = rep(1, 10),
+                     volume_change_petp = rep(0.5, 10)
+                     )
+    )
+})
+
+test_that("hbg_flow_balance(): returns a dataframe of the correct length", {
+  len <- 10
+  res <- hbg_flow_balance(outflows = list(a = 1:len, b = (1:len) + 5),
+                          volume_change = rep(1, len),
+                          volume_change_petp = rep(0.5, len)
+                          )
+  expect_s3_class(res, class = "data.frame")
+  expect_equal(nrow(res), len)
+})
+
+test_that("hbg_flow_balance(): returns df has the required columns", {
+  res <- hbg_flow_balance(outflows = list(a = 1:10, b = 2:11),
+                          volume_change = rep(1, 10),
+                          volume_change_petp = rep(0.5, 10)
+                          )
+
+  cols <- colnames(res)
+  expected_cols <- c(
+    "outflow_a", "outflow_b", "outflow_total", "outflow_extra", "inflow_total"
+    )
+  expect_setequal(cols, expected_cols)
+})
+
+test_that("hbg_flow_balance(): net balance checks", {
+  set.seed(840)
+  len <- 1e3
+  tol <- 1e-10
+
+  volume_change <- rnorm(len)
+  volume_change_petp <- rnorm(len)
+
+  res <- hbg_flow_balance(outflows = list(a = runif(len, 0, 1),
+                                          b = runif(len, 0, 1)),
+                          volume_change = volume_change,
+                          volume_change_petp = volume_change_petp
+                          )
+
+  zero_check <- res |>
+    dplyr::mutate(
+      net_flow = (inflow_total - outflow_total) * s_per_day(),
+      flow_vol_change = volume_change - volume_change_petp,
+    ) |>
+    dplyr::filter(
+      abs(net_flow - flow_vol_change) > tol * median(abs(net_flow))
+      )
+
+  expect_equal(nrow(zero_check), 0)
+})
+
+test_that("hbg_flow_balance(): sum of outflows equals total", {
+  set.seed(840)
+  len <- 1e3
+  tol <- 1e-10
+
+  volume_change <- rnorm(len)
+  volume_change_petp <- rnorm(len)
+
+  res <- hbg_flow_balance(outflows = list(a = runif(len, 0, 1),
+                                          b = runif(len, 0, 1)),
+                          volume_change = volume_change,
+                          volume_change_petp = volume_change_petp
+                          )
+
+  zero_check <- res |>
+    dplyr::mutate(outflow_total_bis = outflow_a + outflow_b + outflow_extra) |>
+    dplyr::filter(
+      abs(outflow_total - outflow_total_bis) > tol * median(abs(outflow_total))
+    )
+
+  expect_equal(nrow(zero_check), 0)
+})
+
+test_that("hbg_flow_balance(): outflow_extra > 0 requires zero inflow", {
+  set.seed(840)
+  len <- 1e3
+  tol <- 1e-10
+
+  volume_change <- rnorm(len)
+  volume_change_petp <- rnorm(len)
+
+  res <- hbg_flow_balance(outflows = list(a = runif(len, 0, 1),
+                                          b = runif(len, 0, 1)),
+                          volume_change = volume_change,
+                          volume_change_petp = volume_change_petp
+  )
+
+  zero_check <- res |>
+    dplyr::filter(
+      outflow_extra > tol * mean(abs(outflow_total)),
+      inflow_total > tol * mean(abs(outflow_total))
+    )
+
+  expect_equal(nrow(zero_check), 0)
+})

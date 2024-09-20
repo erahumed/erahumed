@@ -19,7 +19,7 @@ testServer(hbGlobalServer, {
   expect_no_error(output$hb_plot)
 
   # Test that all variables can be plotted successfully
-  for (variable in lhb_var_labs(invert = TRUE)) {
+  for (variable in hba_var_labs(invert = TRUE)) {
     session$setInputs(variable = variable)
     expect_no_error(output$hb_plot)
   }
@@ -37,7 +37,7 @@ testServer(hbLocalServer, {
 
   output$albufera_map  # Plotted without error (this line takes ~3s)
 
-  expect_s3_class(hb_data(), "hb_local")  # Correctly computed
+  expect_s3_class(hb_data(), "erahumed_hbp")  # Correctly computed
 
   session$setInputs(cluster_id = albufera_clusters$cluster_id[1])
 

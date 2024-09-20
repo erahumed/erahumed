@@ -1,6 +1,6 @@
 library(erahumed)
 library(profvis)
 
-hbl <- albufera_hb_local()
+hbl <- albufera_hbp()
 
 profvis({ ca(hbl) })

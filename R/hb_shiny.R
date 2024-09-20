@@ -2,8 +2,8 @@ hbUI <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tabsetPanel(
-    shiny::tabPanel("Global Balance", hbGlobalUI(ns("lhb"))),
-    shiny::tabPanel("Local Balance", hbLocalUI(ns("hb_local"))),
+    shiny::tabPanel("Global Balance", hbGlobalUI(ns("hba"))),
+    shiny::tabPanel("Local Balance", hbLocalUI(ns("hbp"))),
     shiny::tabPanel("Setup", hbSetupUI(ns("hb_setup")))
   )
 }
@@ -12,8 +12,8 @@ hbServer <- function(id, data) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
     setup <- hbSetupServer("hb_setup")
-    hbGlobalServer("lhb", setup, data)
-    hbLocalServer("hb_local", setup, data)
+    hbGlobalServer("hba", setup, data)
+    hbLocalServer("hbp", setup, data)
   })
 }
 
@@ -60,8 +60,8 @@ hbGlobalUI <- function(id) {
     shiny::fluidRow(
       shiny::column(4,
         shiny::selectInput(ns("variable"), "Select Variable",
-                           choices = lhb_var_labs(invert = TRUE),
-                           selected = lhb_var_labs(invert = TRUE)[[1]]
+                           choices = hba_var_labs(invert = TRUE),
+                           selected = hba_var_labs(invert = TRUE)[[1]]
                            ))
       ),
 
@@ -74,7 +74,7 @@ hbGlobalServer <- function(id, setup, data) {
     ns <- session$ns
 
     hb_data <- shiny::reactive({
-      hb_data_full <- albufera_lhb(
+      hb_data_full <- albufera_hba(
         outflows_df = data()$outflows_df,
         petp_df = data()$petp_df
         )
@@ -134,7 +134,7 @@ hbLocalServer <- function(id, setup, data) {
 
     hb_data <- shiny::reactive({
       withr::with_seed(setup$hbl_seed,
-                       albufera_hb_local(
+                       albufera_hbp(
                          outflows_df = data()$outflows_df,
                          petp_df = data()$petp_df,
                          management_df = data()$management_df,

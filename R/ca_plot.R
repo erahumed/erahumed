@@ -9,7 +9,7 @@ plot.erahumed_ca <- function(x, type = c("cluster_view", "timeline_view"), ...) 
 }
 
 plot_erahumed_ca_cluster_view <- function(x, ...) {
-  p <- plot.hb_local(x, type = "cluster_levels", ...)
+  p <- plot.erahumed_hbp(x, type = "cluster_levels", ...)
 
   args <- list(...)
 

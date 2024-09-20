@@ -4,14 +4,14 @@
 #' Simulates the application of chemicals to rice paddies, given a previous
 #' calculation of local hydrological balance as input.
 #'
-#' @param hbl an object of class `"hb_local"` - see \link{hb_local}.
+#' @param hbl an object of class `"hbp"` - see \link{hbp}.
 #' @param ca_schedules_df a `data.frame` following the template of
 #' \link{albufera_ca_schedules}.
 #' @param height_thresh_cm a positive number. Upper limit of paddy water levels
 #' required for ground applications of chemicals. Expressed in centimeters.
 #'
 #' @return an object of class `"erahumed_ca"`. This is essentially a
-#' `data.frame` with the same columns of the output of \link{hb_local}(),
+#' `data.frame` with the same columns of the output of \link{hbp}(),
 #' plus additional columns named as the chemicals listed in `ca_schedules_df`,
 #' each of which provides the (daily) time series of chemicals applications,
 #' expressed in kilograms.
@@ -47,7 +47,7 @@ ca <- function(hbl,
 ca_argcheck <- function(hbl, ca_schedules_df, height_thresh_cm)
 {
   tryCatch({
-    stopifnot(inherits(hbl, "hb_local"))
+    stopifnot(inherits(hbl, "erahumed_hbp"))
     assert_data.frame(ca_schedules_df,
                       template = erahumed::albufera_ca_schedules)
     assert_positive_number(height_thresh_cm)

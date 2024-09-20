@@ -11,7 +11,7 @@ ca(
 )
 }
 \arguments{
-\item{hbl}{an object of class \code{"hb_local"} - see \link{hb_local}.}
+\item{hbl}{an object of class \code{"hbp"} - see \link{hbp}.}
 
 \item{ca_schedules_df}{a \code{data.frame} following the template of
 \link{albufera_ca_schedules}.}
@@ -21,7 +21,7 @@ required for ground applications of chemicals. Expressed in centimeters.}
 }
 \value{
 an object of class \code{"erahumed_ca"}. This is essentially a
-\code{data.frame} with the same columns of the output of \link{hb_local}(),
+\code{data.frame} with the same columns of the output of \link{hbp}(),
 plus additional columns named as the chemicals listed in \code{ca_schedules_df},
 each of which provides the (daily) time series of chemicals applications,
 expressed in kilograms.

@@ -1,6 +1,6 @@
 make_erahumed_ca <- function(df)
 {
-  df <- make_hb_local(df)
+  df <- make_hbp(df)
   make_erahumed_ca_argcheck(df)
 
   class(df) <- c("erahumed_ca", class(df))
