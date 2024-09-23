@@ -4,7 +4,7 @@
 #' Simulates the application of chemicals to rice paddies, given a previous
 #' calculation of local hydrological balance as input.
 #'
-#' @param hbp_output an object of class `"hbp"` - see \link{hbp}.
+#' @param hbp_res an object of class `"hbp"` - see \link{hbp}.
 #' @param ca_schedules_df a `data.frame` following the template of
 #' \link{albufera_ca_schedules}.
 #' @param height_thresh_cm a positive number. Upper limit of paddy water levels
@@ -17,16 +17,16 @@
 #' expressed in kilograms.
 #'
 #' @export
-ca <- function(hbp_output,
+ca <- function(hbp_res,
                ca_schedules_df = erahumed::albufera_ca_schedules,
                height_thresh_cm = 2)
 {
-  ca_argcheck(hbp_output, ca_schedules_df, height_thresh_cm)
+  ca_argcheck(hbp_res, ca_schedules_df, height_thresh_cm)
 
-  hbp_output$year <- format(hbp_output$date, "%Y") |> as.numeric()
+  hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()
 
 
-  hbp_output |>
+  hbp_res |>
     collapse::rsplit(
       by = ~ cluster_id + year,
       flatten = TRUE,
@@ -44,10 +44,10 @@ ca <- function(hbp_output,
 
 
 
-ca_argcheck <- function(hbp_output, ca_schedules_df, height_thresh_cm)
+ca_argcheck <- function(hbp_res, ca_schedules_df, height_thresh_cm)
 {
   tryCatch({
-    stopifnot(inherits(hbp_output, "erahumed_hbp"))
+    stopifnot(inherits(hbp_res, "erahumed_hbp"))
     assert_data.frame(ca_schedules_df,
                       template = erahumed::albufera_ca_schedules)
     assert_positive_number(height_thresh_cm)

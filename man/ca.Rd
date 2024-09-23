@@ -5,13 +5,13 @@
 \title{Chemicals Applications}
 \usage{
 ca(
-  hbp_output,
+  hbp_res,
   ca_schedules_df = erahumed::albufera_ca_schedules,
   height_thresh_cm = 2
 )
 }
 \arguments{
-\item{hbp_output}{an object of class \code{"hbp"} - see \link{hbp}.}
+\item{hbp_res}{an object of class \code{"hbp"} - see \link{hbp}.}
 
 \item{ca_schedules_df}{a \code{data.frame} following the template of
 \link{albufera_ca_schedules}.}
