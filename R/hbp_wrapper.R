@@ -74,7 +74,7 @@ albufera_hbp_data_prep <- function(
     date_max
     )
 {
-  res <- albufera_hba(outflows_df = outflows_df,
+  res <- hba(outflows_df = outflows_df,
                             petp_df = petp_df,
                             storage_curve = storage_curve,
                             petp_surface = petp_surface
@@ -139,7 +139,7 @@ albufera_hbp_argcheck <- function(
   tryCatch(
     {
       # The checks for albufera_outflows and albufera_petp can be skipped, as
-      # these are performed in the albufera_hba() function.
+      # these are performed in the hba() function.
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)

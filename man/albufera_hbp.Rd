@@ -24,15 +24,6 @@ structures follow the templates of
 \link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
 and \link{albufera_clusters}, respectively.}
 
-\item{storage_curve}{a function that takes a numeric vector as input, and
-returns a numeric vector of the same length. Function that converts lake
-levels (passed through the \code{level} argument) into lake \emph{volumes}.}
-
-\item{petp_surface}{a function that takes two numeric vectors of common
-length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values (passed through
-the \code{rain_mm} and \code{evapotranspiration_mm} arguments) into an overall volume change.}
-
 \item{date_min, date_max}{date range for the simulation.}
 
 \item{ideal_flow_rate_cm}{a positive number. Ideal inflow for days such

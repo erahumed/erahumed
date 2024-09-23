@@ -1,29 +1,31 @@
-#' Global Hydrological Balance
+#' Hydrological Balance of the Albufera Lake
+#'
+#' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Computes the global hydrological balance of a water basin from the
-#' measurements of water level, outflows, and precipitation/evapotranspiration.
-#' For analyzing Albufera data, you should not need to directly run this
-#' function, and you can instead use the \link{albufera_hba} wrapper, that
-#' calls `hba()` with the right arguments, extracted from the built-in
-#' datasets.
+#' Wrapper around \link{hba}, used to run the global hydrological balance
+#' calculations with the data for the Albufera lake packed up in the
+#' `data.frame`s exported by `erahumed`.
 #'
-#' @param level numeric vector. Time series of lake levels, in meters.
-#' @param rain_mm numeric vector. Time series of precipitation values, in millimiters.
-#' @param evapotranspiration_mm numeric vector. Time series of evapotranspiration values, in
-#' millimiters.
-#' @param outflows a data.frame whose columns are the time series of outflows,
-#' expressed in cube meters per second.
-#' @param ... additional columns to be appended in the returned data-frame. Each
-#' of these additional (named) arguments should be a vector of the same length
-#' implied by the previous arguments.
-#' @param storage_curve a function that takes a numeric vector as input, and
-#' returns a numeric vector of the same length. Function that converts lake
-#' levels (passed through the `level` argument) into lake *volumes*.
-#' @param petp_surface a function that takes two numeric vectors of common
-#' length as inputs, and returns a numeric vector of the same length. Function
-#' that converts precipitation and evapotranspiration values (passed through
-#' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
+#' @inheritParams hba
+#' @param outflows_df,petp_df `data.frame`s, whose structures follow the
+#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
+#' see details.
+#'
+#' @details
+#' The numeric inputs for the linear storage curve are taken from the CHJ report
+#' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+#' The values used as the arguments of `petp_surface()` were calculated by the
+#' package authors, and correspond to the total study area (`surface_P`) and
+#' the flooded surface (`surface_ETP`).
+#'
+#' The `outflows_df` data.frame is supposed to have all columns of
+#' \link{albufera_outflows} whose names do not start by `outflow_`, with the
+#' appropriate type. In addition, `outflows_df` can have an arbitrary number of
+#' numeric columns named `outflow_*`, which represent the measured outflows for
+#' the system. It is fundamental that outflow columns follow this particualr
+#' naming scheme, as these are automatically recognized by
+#' `hba()` and passed down to low level functions.
 #'
 #' @return An object of class `hba`, a lightweight wrapper of `data.frame`
 #' with a few additional visualization methods (most prominently
@@ -48,86 +50,54 @@
 #' described above.
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-#' * `residence_time_days`. Residence time, as modeled by \link{hbg_residence_time}.
+#' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
 #'
 #' @export
 hba <- function(
-    level,
-    rain_mm,
-    evapotranspiration_mm,
-    outflows,
-    ...,
-    storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
-    petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
+    outflows_df = erahumed::albufera_outflows,
+    petp_df = erahumed::albufera_petp,
+    storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
+                                         slope = 23.6577 * 1e6),
+    petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
+                                       surface_ETP = 79.360993685 * 1e6)
 )
 {
-  hba_argcheck(
-    level = level,
-    rain_mm = rain_mm,
-    evapotranspiration_mm = evapotranspiration_mm,
-    outflows = outflows,
-    ... = ...,
+  hba_argcheck(outflows_df, petp_df)
+
+  # Just to get intersection of dates
+  input <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
+
+  .hba(
+    level = input$level,
+    rain_mm = input$rain_mm,
+    evapotranspiration_mm = input$evapotranspiration_mm,
+    outflows = input[, grepl("^outflow_", colnames(input))],
+    date = input$date,
+    is_imputed_level = input$is_imputed_level,
+    is_imputed_outflow = input$is_imputed_outflow,
     storage_curve = storage_curve,
     petp_surface = petp_surface
-    )
-
-  res <- data.frame(level, rain_mm, evapotranspiration_mm, ...)
-
-  res$volume <- storage_curve(level)
-  res$volume_change <- hbg_volume_change(res$volume, fill_last = NA)
-  res$volume_change_petp <- petp_surface(rain_mm, evapotranspiration_mm)
-
-  flow_balance_df <- hbg_flow_balance(outflows = outflows,
-                                      volume_change = res$volume_change,
-                                      volume_change_petp = res$volume_change_petp)
-  res <- cbind(res, flow_balance_df)
-
-  res <- res[-nrow(res), ]  # Drop last row: NA propagates from 'volume_change'
-
-  res$residence_time_days <- hbg_residence_time(res$volume,
-                                                res$outflow_total,
-                                                units = "days")
-
-  return(make_hba(res))
+  )
 }
 
-hba_argcheck <- function(
-    level,
-    rain_mm,
-    evapotranspiration_mm,
-    outflows,
-    ...,
-    storage_curve,
-    petp_surface
-    )
-{
+hba_argcheck <- function(outflows_df, petp_df) {
   tryCatch(
     {
-      assert_numeric_vector(level)
-      assert_numeric_vector(rain_mm)
-      assert_numeric_vector(evapotranspiration_mm)
-      assert_list(outflows)
-      for (i in seq_along(outflows)) {
-        assert_numeric_vector(outflows[[i]])
-      }
-      for (i in seq_along(list(...))) {
-        assert_atomic(list(...)[[i]])
-      }
+      outflow_required_cols <- c("date",
+                                 "level",
+                                 "is_imputed_level",
+                                 "is_imputed_outflow")
+      assert_data.frame(
+        outflows_df,
+        template = erahumed::albufera_outflows[, outflow_required_cols]
+        )
 
-      lengths <- sapply(c(list(level, rain_mm, evapotranspiration_mm),
-                          outflows,
-                          list(...)
-                          ),
-                        length)
-      if (length(unique(lengths)) > 1)
-        stop("Time series inputs must have equal lengths, see ?hba.")
-
-      assert_function(storage_curve, check = list(rep(0, 10)) )
-      assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
+      assert_data.frame(petp_df, template = erahumed::albufera_petp)
     },
     error = function(e) {
       class(e) <- c("hba_argcheck_error", class(e))
       stop(e)
-    })
-}
+    }
+  )
 
+}

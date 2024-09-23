@@ -74,7 +74,7 @@ hbGlobalServer <- function(id, setup, data) {
     ns <- session$ns
 
     hb_data <- shiny::reactive({
-      hb_data_full <- albufera_hba(
+      hb_data_full <- hba(
         outflows_df = data()$outflows_df,
         petp_df = data()$petp_df
         )

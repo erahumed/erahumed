@@ -2,41 +2,21 @@
 % Please edit documentation in R/hba.R
 \name{hba}
 \alias{hba}
-\title{Global Hydrological Balance}
+\title{Hydrological Balance of the Albufera Lake}
 \usage{
 hba(
-  level,
-  rain_mm,
-  evapotranspiration_mm,
-  outflows,
-  ...,
-  storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
-  petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
+  outflows_df = erahumed::albufera_outflows,
+  petp_df = erahumed::albufera_petp,
+  storage_curve = linear_storage_curve(intercept = 16.7459 * 1e+06, slope = 23.6577 *
+    1e+06),
+  petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e+06, surface_ETP =
+    79.360993685 * 1e+06)
 )
 }
 \arguments{
-\item{level}{numeric vector. Time series of lake levels, in meters.}
-
-\item{rain_mm}{numeric vector. Time series of precipitation values, in millimiters.}
-
-\item{evapotranspiration_mm}{numeric vector. Time series of evapotranspiration values, in
-millimiters.}
-
-\item{outflows}{a data.frame whose columns are the time series of outflows,
-expressed in cube meters per second.}
-
-\item{...}{additional columns to be appended in the returned data-frame. Each
-of these additional (named) arguments should be a vector of the same length
-implied by the previous arguments.}
-
-\item{storage_curve}{a function that takes a numeric vector as input, and
-returns a numeric vector of the same length. Function that converts lake
-levels (passed through the \code{level} argument) into lake \emph{volumes}.}
-
-\item{petp_surface}{a function that takes two numeric vectors of common
-length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values (passed through
-the \code{rain_mm} and \code{evapotranspiration_mm} arguments) into an overall volume change.}
+\item{outflows_df, petp_df}{\code{data.frame}s, whose structures follow the
+templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
+see details.}
 }
 \value{
 An object of class \code{hba}, a lightweight wrapper of \code{data.frame}
@@ -63,14 +43,29 @@ non-negative.
 described above.
 \item \code{inflow_total} Time serie of total inflows, in cube meters per second.
 This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-\item \code{residence_time_days}. Residence time, as modeled by \link{hbg_residence_time}.
+\item \code{residence_time_days}. Residence time, as modeled by \link{hba_residence_time}.
 }
 }
 \description{
-Computes the global hydrological balance of a water basin from the
-measurements of water level, outflows, and precipitation/evapotranspiration.
-For analyzing Albufera data, you should not need to directly run this
-function, and you can instead use the \link{albufera_hba} wrapper, that
-calls \code{hba()} with the right arguments, extracted from the built-in
-datasets.
+Wrapper around \link{hba}, used to run the global hydrological balance
+calculations with the data for the Albufera lake packed up in the
+\code{data.frame}s exported by \code{erahumed}.
+}
+\details{
+The numeric inputs for the linear storage curve are taken from the CHJ report
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
+The values used as the arguments of \code{petp_surface()} were calculated by the
+package authors, and correspond to the total study area (\code{surface_P}) and
+the flooded surface (\code{surface_ETP}).
+
+The \code{outflows_df} data.frame is supposed to have all columns of
+\link{albufera_outflows} whose names do not start by \code{outflow_}, with the
+appropriate type. In addition, \code{outflows_df} can have an arbitrary number of
+numeric columns named \verb{outflow_*}, which represent the measured outflows for
+the system. It is fundamental that outflow columns follow this particualr
+naming scheme, as these are automatically recognized by
+\code{hba()} and passed down to low level functions.
+}
+\author{
+Pablo Amador Crespo, Valerio Gherardi
 }
