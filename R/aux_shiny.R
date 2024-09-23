@@ -1,38 +1,4 @@
-dataUI <- function(id) {
-  ns <- shiny::NS(id)
-
-  shiny::tabsetPanel(
-    shiny::tabPanel("Lake Levels and Outflows",
-                    dataInputUI(ns("outflows"))),
-    shiny::tabPanel("Precipitation and Evapotranspiration",
-                    dataInputUI(ns("petp"))),
-    shiny::tabPanel("Paddy Management",
-                    dataInputUI(ns("management"))))
-
-}
-
-dataServer <- function(id) {
-  shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
-
-    o_df <-
-      dataInputServer("outflows", initial_df = erahumed::albufera_outflows)
-    p_df <-
-      dataInputServer("petp", initial_df = erahumed::albufera_petp)
-    m_df <-
-      dataInputServer("management", initial_df = erahumed::albufera_management)
-
-    res <- shiny::reactive({
-      list(outflows_df = o_df(), petp_df = p_df(), management_df = m_df())
-      })
-
-    return(res)
-  })
-}
-
-
-# Define the UI part of the module
-dataInputUI <- function(id) {
+csvInputUI <- function(id) {
   ns <- shiny::NS(id)
   file_accept <- c("text/csv", "text/comma-separated-values,text/plain", ".csv")
 
@@ -49,8 +15,7 @@ dataInputUI <- function(id) {
 
 }
 
-# Define the server part of the module
-dataInputServer <- function(id, initial_df) {
+csvInputServer <- function(id, initial_df) {
   shiny::moduleServer(id, function(input, output, session) {
     df <- shiny::reactiveVal(initial_df)
 

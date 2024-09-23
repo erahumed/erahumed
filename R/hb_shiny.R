@@ -1,24 +1,3 @@
-hbUI <- function(id) {
-  ns <- shiny::NS(id)
-
-  shiny::tabsetPanel(
-    shiny::tabPanel("Global Balance", hbGlobalUI(ns("hba"))),
-    shiny::tabPanel("Local Balance", hbLocalUI(ns("hbp"))),
-    shiny::tabPanel("Setup", hbSetupUI(ns("hb_setup")))
-  )
-}
-
-hbServer <- function(id, data) {
-  shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
-    setup <- hbSetupServer("hb_setup")
-    hbGlobalServer("hba", setup, data)
-    hbLocalServer("hbp", setup, data)
-  })
-}
-
-
-
 hbSetupUI <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(

@@ -14,14 +14,18 @@ shiny_app <- function() {
 shiny_ui <- function() {
   shiny::navbarPage(
     "ERAHUMED",
-    shiny::tabPanel("Hydrological Balance", hbUI("hb")),
-    shiny::tabPanel("Data", dataUI("data"))
+    shiny::tabPanel("Input Data", inpUI("inp")),
+    shiny::tabPanel("Hydrological Balance (Albufera)", hbaUI("hba")),
+    shiny::tabPanel("Hydrological Balance (Rice Paddies)", hbaUI("hbp")),
+    shiny::tabPanel("Chemicals Applications", caUI("ca"))
     )
 }
 
 shiny_server <- function(input, output, session) {
-  data <- dataServer("data")
-  hbServer("hb", data)
+  inp_res <- inpServer("inp")
+  hba_res <- hbaServer("hba", inp_res = inp_res)
+  hbp_res <- hbpServer("hbp", hba_res = hba_res)
+  ca_res <- caServer("ca", hbp_res = hbp_res)
 }
 
 
