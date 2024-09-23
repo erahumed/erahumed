@@ -5,7 +5,7 @@
 \title{Hydrological Balance of the Albufera Lake}
 \usage{
 hba(
-  inp_output,
+  inp_res,
   storage_curve = linear_storage_curve(intercept = 16.7459 * 1e+06, slope = 23.6577 *
     1e+06),
   petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e+06, surface_ETP =
@@ -13,9 +13,14 @@ hba(
 )
 }
 \arguments{
-\item{outflows_df, petp_df}{\code{data.frame}s, whose structures follow the
-templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
-see details.}
+\item{storage_curve}{a function that takes a numeric vector as input, and
+returns a numeric vector of the same length. Function that converts lake
+levels (passed through the \code{level} argument) into lake \emph{volumes}.}
+
+\item{petp_surface}{a function that takes two numeric vectors of common
+length as inputs, and returns a numeric vector of the same length. Function
+that converts precipitation and evapotranspiration values (passed through
+the \code{rain_mm} and \code{evapotranspiration_mm} arguments) into an overall volume change.}
 }
 \value{
 An object of class \code{hba}, a lightweight wrapper of \code{data.frame}
