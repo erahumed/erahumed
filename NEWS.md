@@ -20,12 +20,12 @@
 
 * Names of columns representing outflows in `albufera_outflows` have been prepended with `outflow_`.
 
-* Logic of `albufera_hba()` has been improved in such a way that the 
+* Logic of `albufera_hb_global()` has been improved in such a way that the 
 outflow columns are automatically recognized from the input data.frame, and do 
 not need to be exactly `"pujol"`, `"perellonet"` and ``"perello"`, as before.
 
 * Former `irrigation` and `draining` columns from the output data.frame of 
-`albufera_hbp()` became `ideal_irrigation` and `ideal_draining`, to better
+`albufera_hb_local()` became `ideal_irrigation` and `ideal_draining`, to better
 reflect that these correspond to the originally scheduled irrigation and
 draining plans. In addition, new columns `real_irrigation` and `real_draining`
 were added to the data.frame, which provide the actual irrigation and draining
@@ -59,26 +59,26 @@ from `2.5` to `2`.
 
 * The `albufera_management` data-set has a new column `seed_day`, which counts
 the number of day elapsed from the sowing day. This is also returned in the 
-output data.frame of `albufera_hbp()`.
+output data.frame of `albufera_hb_local()`.
 
-* `erahumed_ca` S3 class now inherits from `hbp`.
+* `erahumed_ca` S3 class now inherits from `hb_local`.
 
 ### Under the hoods
 
 * Improvement in data.frame validity checks. The `assert_data.frame()` helper 
 is now able to check column types. Noteworthy, this allows for much stricter 
-tests in the `"hbp"` and `"hba"` functions.
+tests in the `"hb_local"` and `"hb_global"` functions.
 
 * Important performance improvements in the function `ca()`. These were mainly 
 achieved by (i) removing validity checks in the low level function 
 `ca_to_cluster()`, supplanted by less costly checks at the level of the 
-`hbp()` output; and (ii) bypassing computation using `Date` objects, thanks
-to the introduced `seed_day` column in the output of `albufera_hbp()` (see
+`hb_local()` output; and (ii) bypassing computation using `Date` objects, thanks
+to the introduced `seed_day` column in the output of `albufera_hb_local()` (see
 above).
 
 ### Documentation
 
-* Improved documentation of `albufera_hba()` default parameters.
+* Improved documentation of `albufera_hb_global()` default parameters.
 
 # erahumed 0.4.0
 
@@ -91,7 +91,7 @@ local water levels and water flows, which is the output of the hydrological
 balance (HB) block.
 
 The basic `ca()` function is provided, which takes as input an object of S3 
-class `"hbp"` (plus a few other optional input parameters), and returns a 
+class `"hb_local"` (plus a few other optional input parameters), and returns a 
 similar data-frame, with additional columns that provide the time series of 
 chemical applications.
 
@@ -106,11 +106,11 @@ inputs to `ca()`.
 * Shiny app continues to work if the Albufera Leaflet map cannot be loaded for
 any reason.
 
-* Added validation of date range to `albufera_hbp()`.
+* Added validation of date range to `albufera_hb_local()`.
 
-* Tested exceptions raised by `albufera_hbp()`s argument validity checks.
+* Tested exceptions raised by `albufera_hb_local()`s argument validity checks.
 
-* Documented plotting method for `hbp` and `hba` S3 objects.
+* Documented plotting method for `hb_local` and `hb_global` S3 objects.
 
 ### Miscellaneous
 
@@ -120,7 +120,7 @@ any reason.
 
 ### User visible changes
 
-* `albufera_hbp()`, called with default arguments, now retrieves its value
+* `albufera_hb_local()`, called with default arguments, now retrieves its value
 from disk, from data installed alongside with `{erahumed}`.
 
 * Due to the previous point, the package's .tar.gz file size is much larger now,
@@ -128,7 +128,7 @@ approximately 50MB. The file size will be tackled, as much as possible, in later
 releases.
 
 * Added light `print()` and `summary()` methods for the S3 objects returned by
-`albufera_hbp()` and `albufera_hba()`.
+`albufera_hb_local()` and `albufera_hb_global()`.
 
 * `{sf}` is no longer attached upon attaching `{erahumed}`.
 
@@ -161,12 +161,12 @@ developed later.
 
 ### User visible changes
 
-* Documentation for the `albufera_hba()` and `albufera_hbp()` 
+* Documentation for the `albufera_hb_global()` and `albufera_hb_local()` 
 wrappers.
 
 * Exported `hbg_residence_time()` doc page.
 
-* Former `albufera_weather` dataset becomes `albufera_petp`, and its structure is significantly simplified, now having only three columns: `date`, `rain_mm` and `evapotranspiration_mm` (previously named `date`, `P` and `ETP` respectively). All changes get propagated to downstream tables, such as *e.g.* `albufera_hba()`.
+* Former `albufera_weather` dataset becomes `albufera_petp`, and its structure is significantly simplified, now having only three columns: `date`, `rain_mm` and `evapotranspiration_mm` (previously named `date`, `P` and `ETP` respectively). All changes get propagated to downstream tables, such as *e.g.* `albufera_hb_global()`.
 
 ### Algorithm change
 
@@ -180,42 +180,42 @@ version).
 
 ### Under the hoods
 
-* Add `"hbp"` S3 class internal constructor (#21).
+* Add `"hb_local"` S3 class internal constructor (#21).
 
 # erahumed 0.2.1
 
 ### User visible changes
 
-* Default arguments of `albufera_hba()` and `albufera_hbp()` are now
+* Default arguments of `albufera_hb_global()` and `albufera_hb_local()` are now
 prepended with the `erahumed::` namespace specifier.
 
 * Unexported `residence_time()`
 
 ### Under the hoods
 
-* Separated logical units of `hba()`, collected in `hba_units.R`.
+* Separated logical units of `hb_global()`, collected in `hb_global_units.R`.
 
-* Introduced argument checking for `hba()` and its wrapper 
-`albufera_hba()`.
+* Introduced argument checking for `hb_global()` and its wrapper 
+`albufera_hb_global()`.
 
-* Introduced S3 class constructor for `"hba"` class objects (see 
-`hba_units_s3_class.R`).
+* Introduced S3 class constructor for `"hb_global"` class objects (see 
+`hb_global_units_s3_class.R`).
 
-* Important improvements in the testing infrastructure of `hba()` and  
-`albufera_hba()`, both at the algorithmic level (through testing of 
-`hba_units.R`) and at the level of exceptions raised by these two 
+* Important improvements in the testing infrastructure of `hb_global()` and  
+`albufera_hb_global()`, both at the algorithmic level (through testing of 
+`hb_global_units.R`) and at the level of exceptions raised by these two 
 functions.
 
 # erahumed 0.2.0
 
 ### User visible changes
 
-* Reduced number of `*_is_imputed` entries in `hba` dataframes. Right now 
+* Reduced number of `*_is_imputed` entries in `hb_global` dataframes. Right now 
 we are only providing `level_is_imputed` and `outflow_is_imputed`, which should
 suffice FAPP.
 
-* Big refactoring of the HB sector naming conventions. The wrappers become `albufera_hba/local()`, and the underlying functions are 
-`hba/local()`.
+* Big refactoring of the HB sector naming conventions. The wrappers become `albufera_hb_global/local()`, and the underlying functions are 
+`hb_global/local()`.
 
 ### Under the hoods
 
@@ -241,7 +241,7 @@ to `hb_wrappers.R` functions. Fixes #3.
 
 * Performance optimizations in local balance algorithm.
 
-* Sanity check functional tests for `plot.hbp()` and `plot.hba()`.
+* Sanity check functional tests for `plot.hb_local()` and `plot.hb_global()`.
 
 
 # erahumed 0.1.1
@@ -307,14 +307,14 @@ outflow.
 # erahumed 0.0.5
 
 * The outputs of `albufera_hydro_balance_global()` and 
-`albufera_hydro_balance_local()` get class attributes `"hba"` and
-`"hbp"`, respectively.
+`albufera_hydro_balance_local()` get class attributes `"hb_global"` and
+`"hb_local"`, respectively.
 
 * Added cluster level plots to the shiny UI.
 
 ### Under the hoods
 
-* New plot methods for `"hba"` and `"hbp"` S3 classes. Currently
+* New plot methods for `"hb_global"` and `"hb_local"` S3 classes. Currently
 not exported to NAMESPACE.
 
 
