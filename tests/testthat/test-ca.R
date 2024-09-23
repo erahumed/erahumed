@@ -1,20 +1,25 @@
-{ set.seed(840)
+{
+  set.seed(840)
 
-hbp_res <- hbp(
-  hba_res = hba(inp()),
-  date_min = "2010-01-01",
-  date_max = "2011-12-31")
-height_thresh_cm <- 2
+  outflows_df <- albufera_outflows |>
+    dplyr::filter("2010-01-01" <= date, date <= "2011-12-31")
 
-test_df <- ca(hbp_res, height_thresh_cm = height_thresh_cm)
+  height_thresh_cm <- 2
+
+  test_df <- inp(outflows_df = outflows_df) |>
+    hba() |>
+    hbp() |>
+    ca(height_thresh_cm = height_thresh_cm)
 }
 
 test_that("ca() execution succeeds with valid input", {
   set.seed(840)
-  hbl <- hbp(hba_res = hba(inp()),
-             date_min = "2010-01-01",
-             date_max = "2010-01-10")
-  expect_no_error(ca(hbl))
+
+  outflows_df <- albufera_outflows |>
+    dplyr::filter("2010-01-01" <= date, date <= "2010-01-10")
+
+  hbp_res <- hbp(hba_res = hba(inp(outflows_df = outflows_df)))
+  expect_no_error(ca(hbp_res))
 })
 
 test_that("ca() total number of applications is equal to expected", {

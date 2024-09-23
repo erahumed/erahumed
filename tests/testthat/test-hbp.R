@@ -1,24 +1,22 @@
 test_that("hbp() does not raise an error with valid inputs", {
-  expect_no_error(
-    hbp(hba_res = inp() |> hba(),
-        date_min = "2020-01-01",
-        date_max = "2020-01-10")
-    )
+  outflows_df <- albufera_outflows |>
+    dplyr::filter("2020-01-01" <= date, date <= "2020-01-10")
+
+  hba_res <- inp(outflows_df = outflows_df) |> hba()
+
+  expect_no_error( hbp(hba_res) )
 })
 
 withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   date_min <- as.Date("2010-01-01")
   date_max <- as.Date("2011-12-31")
 
-  hba_res <- inp() |> hba()
-  clusters_df <- albufera_clusters
-  management_df <- albufera_management
+  outflows_df <- albufera_outflows |>
+    dplyr::filter(date_min <= date, date <= date_max)
 
-  test_df <- hbp(hba_res = hba_res,
-                 clusters_df = clusters_df,
-                 management_df = management_df,
-                 date_min = date_min,
-                 date_max = date_max)
+  hba_res <- inp(outflows_df = outflows_df) |> hba()
+
+  test_df <- hbp(hba_res = hba_res)
 
   eps <- 1e-10
   })
@@ -27,10 +25,10 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
 # Property based tests
 
 test_that("Returned dataset has the expected number of rows", {
-  n_clusters <- nrow(clusters_df)
+  n_clusters <- nrow(albufera_clusters)
   n_days <- length( seq.Date(from = date_min, to = date_max, by = "day") )
 
-  expect_equal(nrow(test_df), n_clusters * n_days)
+  expect_equal(nrow(test_df), n_clusters * (n_days-1))
 })
 
 test_that("'ditch' is consistent along 'cluster_id'", {
@@ -129,38 +127,6 @@ test_that("real_draining is the delayed version of ideal_draining", {
 
 
 # Exceptions
-
-test_that("hbp() error if invalid date range", {
-  # Empty (no data)
-  expect_error(
-    hbp(hba_res = inp() |> hba(),
-        date_min = "1800-01-01",
-        date_max = "1800-12-31"),
-    regexp = "date_min"
-    )
-
-  # Invalid
-  expect_error(
-    hbp(hba_res = inp() |> hba(),
-        date_min = "2010-01-01",
-        date_max = "2009-01-01"),
-    class = "hbp_argcheck_error"
-  )
-
-  expect_error(
-    hbp(hba_res = inp() |> hba(),
-        date_min = "A",
-        date_max = "2009-01-01"),
-    class = "hbp_argcheck_error"
-  )
-
-  expect_error(
-    hbp(hba_res = inp() |> hba(),
-        date_min = 1 + i1,
-        date_max = "2009-01-01"),
-    class = "hbp_argcheck_error"
-  )
-})
 
 test_that("hbp() error if invalid ideal_flow_rate_cm", {
   expect_error(

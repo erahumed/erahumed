@@ -9,7 +9,6 @@
 #' structures follow the templates of
 #' \link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
 #' and \link{albufera_clusters}, respectively.
-#' @param date_min,date_max date range for the simulation.
 #'
 #' @return An object of class `hbp`, a lightweight wrapper of `data.frame`
 #' with a few additional visualization methods (most prominently
@@ -25,8 +24,6 @@ hbp <- function(
     hba_res,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
-    date_min = NULL,
-    date_max = NULL,
     ideal_flow_rate_cm = 5
     )
 {
@@ -40,16 +37,12 @@ hbp <- function(
   hbp_argcheck(hba_res,
                management_df,
                clusters_df,
-               date_min,
-               date_max,
                ideal_flow_rate_cm)
 
   .hbp_args <- hbp_data_prep(
     hba_res = hba_res,
     management_df = management_df,
     clusters_df = clusters_df,
-    date_min = date_min,
-    date_max = date_max,
     ideal_flow_rate_cm = ideal_flow_rate_cm
     )
 
@@ -59,21 +52,9 @@ hbp <- function(
 hbp_data_prep <- function(hba_res,
                           management_df,
                           clusters_df,
-                          date_min,
-                          date_max,
                           ideal_flow_rate_cm)
 {
   res <- data.table::as.data.table( hba_res )
-
-  if(!is.null(date_min)) res <- res[res$date >= date_min, ]
-  if(!is.null(date_max)) res <- res[res$date <= date_max, ]
-  if (nrow(res) == 0) {
-    msg <- paste(
-      "No data was found in the specified date range.",
-      "Please check 'date_min' and 'date_max' arguments."
-      )
-    stop(msg)
-  }
 
   res$petp_cm <- (res$rain_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))
@@ -113,14 +94,7 @@ hbp_data_prep <- function(hba_res,
   return(res)
 }
 
-hbp_argcheck <- function(
-    hba_res,
-    management_df,
-    clusters_df,
-    date_min,
-    date_max,
-    ideal_flow_rate_cm
-    )
+hbp_argcheck <- function(hba_res, management_df, clusters_df, ideal_flow_rate_cm)
 {
   tryCatch(
     {
@@ -129,11 +103,6 @@ hbp_argcheck <- function(
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)
-
-      if (is.null(date_min)) date_min <- as.Date(-Inf)
-      if (is.null(date_max)) date_max <- as.Date(Inf)
-      assert_valid_date_range(c(date_min, date_max))
-
     },
     error = function(e) {
       class(e) <- c("hbp_argcheck_error", class(e))
