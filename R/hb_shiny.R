@@ -35,7 +35,7 @@ hbSetupUI <- function(id) {
                         max = 20,
                         step = 0.5
                         ),
-    shiny::numericInput(ns("hbl_seed"),
+    shiny::numericInput(ns("hbp_seed"),
                         "Seed for simulation",
                         value = 840,
                         step = 1
@@ -113,7 +113,7 @@ hbLocalServer <- function(id, setup, data) {
 
     output$albufera_map <- leaflet::renderLeaflet(
       tryCatch(
-        plot_albufera_clusters(seed = setup$hbl_seed),
+        plot_albufera_clusters(seed = setup$hbp_seed),
         error = function(cnd) {
           cat("Error while loading Albufera Leaflet map.")
           return(NULL)
@@ -123,7 +123,7 @@ hbLocalServer <- function(id, setup, data) {
           }
         )
       ) |>
-      shiny::bindCache(setup$hbl_seed)
+      shiny::bindCache(setup$hbp_seed)
 
     shiny::observeEvent(input$albufera_map_shape_click, {
       click <- input$albufera_map_shape_click
@@ -133,7 +133,7 @@ hbLocalServer <- function(id, setup, data) {
     })
 
     hb_data <- shiny::reactive({
-      withr::with_seed(setup$hbl_seed,
+      withr::with_seed(setup$hbp_seed,
                        albufera_hbp(
                          outflows_df = data()$outflows_df,
                          petp_df = data()$petp_df,
@@ -144,7 +144,7 @@ hbLocalServer <- function(id, setup, data) {
                          )
                        )
       }) |>
-      shiny::bindCache(digest::digest(data()), setup$hbl_seed, setup$date_range)
+      shiny::bindCache(digest::digest(data()), setup$hbp_seed, setup$date_range)
 
     output$hb_plot <- plotly::renderPlotly({
       shiny::req(hb_data())
@@ -153,7 +153,7 @@ hbLocalServer <- function(id, setup, data) {
       }) |>
       shiny::bindCache(input$cluster_id,
                        digest::digest(data()),
-                       setup$hbl_seed,
+                       setup$hbp_seed,
                        setup$date_range)
   })
 }

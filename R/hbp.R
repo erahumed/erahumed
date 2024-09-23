@@ -73,7 +73,7 @@ hbp <- function(
     ideal_flow_rate_cm = 5
     ) {
 
-  pcts <- hbl_ditch_inflow_pct(ditch, area_m2)
+  pcts <- hbp_ditch_inflow_pct(ditch, area_m2)
 
   capacity_m3_s <- total_inflow_lake * pcts$inflow_pct[match(ditch, pcts$ditch)]
 
@@ -96,7 +96,7 @@ hbp <- function(
         lapply(list(...), \(x) x[idx])
         )
 
-      do.call(hbl_simulate_ditch, args)
+      do.call(hbp_simulate_ditch, args)
       }
     ) |>
     do.call(c, args = _) |>  # flatten to single list of data-frames

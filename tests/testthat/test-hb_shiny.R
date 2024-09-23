@@ -56,7 +56,7 @@ testServer(hbLocalServer, {
   args = list(
     setup = list(date_range = as.Date(c("2013-01-01", "2013-01-10")),
                  ideal_flow_rate_cm = 5,
-                 hbl_seed = 840
+                 hbp_seed = 840
                  ),
     data = function() list(outflows_df = albufera_outflows,
                            petp_df = albufera_petp,

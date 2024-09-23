@@ -48,7 +48,7 @@ albufera_hbp <- function(
                              ideal_flow_rate_cm
                              )
 
-  hbl_args <- albufera_hbp_data_prep(
+  hbp_args <- albufera_hbp_data_prep(
     outflows_df = outflows_df,
     petp_df = petp_df,
     management_df = management_df,
@@ -58,9 +58,9 @@ albufera_hbp <- function(
     date_min = date_min,
     date_max = date_max
     )
-  hbl_args <- c(hbl_args, list(ideal_flow_rate_cm = ideal_flow_rate_cm))
+  hbp_args <- c(hbp_args, list(ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  do.call(hbp, hbl_args)
+  do.call(hbp, hbp_args)
 }
 
 albufera_hbp_data_prep <- function(
