@@ -1,3 +1,17 @@
+#' ERAHUMED Input Data
+#'
+#' @description
+#' Input data for the algorithms of the ERAHUMED DSS.
+#'
+#' @param outflows_df,petp_df `data.frame`s, whose structures follow the
+#' templates of \link{albufera_outflows}, \link{albufera_petp}.
+#'
+#' @return An object of class `inp`.
+#'
+#' @details
+#' TODO
+#'
+#' @export
 inp <- function(outflows_df = erahumed::albufera_outflows,
                 petp_df = erahumed::albufera_petp)
 {

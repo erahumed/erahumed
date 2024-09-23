@@ -7,10 +7,13 @@
 #' calculations with the data for the Albufera lake packed up in the
 #' `data.frame`s exported by `erahumed`.
 #'
-#' @inheritParams hba
-#' @param outflows_df,petp_df `data.frame`s, whose structures follow the
-#' templates of \link{albufera_outflows} and \link{albufera_petp}, respectively;
-#' see details.
+#' @param storage_curve a function that takes a numeric vector as input, and
+#' returns a numeric vector of the same length. Function that converts lake
+#' levels (passed through the `level` argument) into lake *volumes*.
+#' @param petp_surface a function that takes two numeric vectors of common
+#' length as inputs, and returns a numeric vector of the same length. Function
+#' that converts precipitation and evapotranspiration values (passed through
+#' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
@@ -54,33 +57,33 @@
 #'
 #' @export
 hba <- function(
-    inp_output,
+    inp_res,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  hba_argcheck(inp_output)
+  hba_argcheck(inp_res)
 
   .hba(
-    level = inp_output$level,
-    rain_mm = inp_output$rain_mm,
-    evapotranspiration_mm = inp_output$evapotranspiration_mm,
-    outflows = inp_output[, grepl("^outflow_", colnames(inp_output))],
-    date = inp_output$date,
-    is_imputed_level = inp_output$is_imputed_level,
-    is_imputed_outflow = inp_output$is_imputed_outflow,
+    level = inp_res$level,
+    rain_mm = inp_res$rain_mm,
+    evapotranspiration_mm = inp_res$evapotranspiration_mm,
+    outflows = inp_res[, grepl("^outflow_", colnames(inp_res))],
+    date = inp_res$date,
+    is_imputed_level = inp_res$is_imputed_level,
+    is_imputed_outflow = inp_res$is_imputed_outflow,
     storage_curve = storage_curve,
     petp_surface = petp_surface
   )
 }
 
-hba_argcheck <- function(inp_output) {
+hba_argcheck <- function(inp_res) {
   tryCatch(
     {
-      if(!inherits(inp_output, "erahumed_inp"))
-        stop("'inp_output' must be an object of S3 class 'raw', see `?inp()`.")
+      if(!inherits(inp_res, "erahumed_inp"))
+        stop("'inp_res' must be an object of S3 class 'raw', see `?inp()`.")
     },
     error = function(e) {
       class(e) <- c("hba_argcheck_error", class(e))

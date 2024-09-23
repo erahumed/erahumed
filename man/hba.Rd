@@ -5,7 +5,7 @@
 \title{Hydrological Balance of the Albufera Lake}
 \usage{
 hba(
-  raw_output,
+  inp_output,
   storage_curve = linear_storage_curve(intercept = 16.7459 * 1e+06, slope = 23.6577 *
     1e+06),
   petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e+06, surface_ETP =
