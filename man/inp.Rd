@@ -6,7 +6,9 @@
 \usage{
 inp(
   outflows_df = erahumed::albufera_outflows,
-  petp_df = erahumed::albufera_petp
+  petp_df = erahumed::albufera_petp,
+  date_min = NULL,
+  date_max = NULL
 )
 }
 \arguments{

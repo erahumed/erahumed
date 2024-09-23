@@ -8,14 +8,10 @@ hbp(
   hba_res,
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,
-  date_min = NULL,
-  date_max = NULL,
   ideal_flow_rate_cm = 5
 )
 }
 \arguments{
-\item{date_min, date_max}{date range for the simulation.}
-
 \item{outflows_df, petp_df, management_df, clusters_df}{\code{data.frame}s, whose
 structures follow the templates of
 \link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
