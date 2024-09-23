@@ -22,7 +22,7 @@
 #'
 #' @export
 hbp <- function(
-    hba_output,
+    hba_res,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
     date_min = NULL,
@@ -37,7 +37,7 @@ hbp <- function(
   if (!is.null(res_precomputed))
     return(res_precomputed)
 
-  hbp_argcheck(hba_output,
+  hbp_argcheck(hba_res,
                management_df,
                clusters_df,
                date_min,
@@ -45,7 +45,7 @@ hbp <- function(
                ideal_flow_rate_cm)
 
   .hbp_args <- hbp_data_prep(
-    hba_output = hba_output,
+    hba_res = hba_res,
     management_df = management_df,
     clusters_df = clusters_df,
     date_min = date_min,
@@ -56,14 +56,14 @@ hbp <- function(
   do.call(.hbp, .hbp_args)
 }
 
-hbp_data_prep <- function(hba_output,
+hbp_data_prep <- function(hba_res,
                           management_df,
                           clusters_df,
                           date_min,
                           date_max,
                           ideal_flow_rate_cm)
 {
-  res <- data.table::as.data.table( hba_output )
+  res <- data.table::as.data.table( hba_res )
 
   if(!is.null(date_min)) res <- res[res$date >= date_min, ]
   if(!is.null(date_max)) res <- res[res$date <= date_max, ]
@@ -114,7 +114,7 @@ hbp_data_prep <- function(hba_output,
 }
 
 hbp_argcheck <- function(
-    hba_output,
+    hba_res,
     management_df,
     clusters_df,
     date_min,
@@ -124,8 +124,8 @@ hbp_argcheck <- function(
 {
   tryCatch(
     {
-      if (!inherits(hba_output, "erahumed_hba"))
-        stop("'hba_output' must be an object of S3 class 'hba', see `?hba()`.")
+      if (!inherits(hba_res, "erahumed_hba"))
+        stop("'hba_res' must be an object of S3 class 'hba', see `?hba()`.")
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)

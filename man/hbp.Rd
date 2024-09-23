@@ -5,7 +5,7 @@
 \title{Hydrological Balance of rice Paddies}
 \usage{
 hbp(
-  hba_output,
+  hba_res,
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,
   date_min = NULL,
