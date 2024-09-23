@@ -15,7 +15,7 @@
 #' at TODO #46.
 #'
 #' For analyzing Albufera data, you should not need to directly run this
-#' function, and you can instead use the \link{albufera_hbp} wrapper, that
+#' function, and you can instead use the \link{hbp} wrapper, that
 #' calls `hbp()` with the right arguments, extracted from the built-in
 #' datasets.
 #'

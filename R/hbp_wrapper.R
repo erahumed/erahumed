@@ -1,19 +1,19 @@
-#' Albufera Local Hydrological Balance
+#' Hydrological Balance of rice Paddies
 #'
 #' @description
 #' Wrapper around \link{hbp}, used to run the local hydrological balance
 #' simulation algorithm with the data for the Albufera lake packed up in the
 #' `data.frame`s exported by `erahumed`.
 #'
-#' @inheritParams hbp
-#' @inheritParams hba
 #' @param outflows_df,petp_df,management_df,clusters_df `data.frame`s, whose
 #' structures follow the templates of
 #' \link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
 #' and \link{albufera_clusters}, respectively.
 #' @param date_min,date_max date range for the simulation.
 #'
-#' @return Same as \link{hbp}.
+#' @return An object of class `hbp`, a lightweight wrapper of `data.frame`
+#' with a few additional visualization methods (most prominently
+#' \link{plot.hbp}).
 #'
 #' @details
 #' The numeric inputs used from the linear storage curve and P-ETP surface were
@@ -21,7 +21,7 @@
 #' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
 #'
 #' @export
-albufera_hbp <- function(
+hbp <- function(
     outflows_df = erahumed::albufera_outflows,
     petp_df = erahumed::albufera_petp,
     management_df = erahumed::albufera_management,
@@ -36,19 +36,19 @@ albufera_hbp <- function(
     )
 {
 
-  res_precomputed <- albufera_hbp_precomputed(formals = formals(),
+  res_precomputed <- hbp_precomputed(formals = formals(),
                                               call = match.call())
   if (!is.null(res_precomputed))
     return(res_precomputed)
 
-  albufera_hbp_argcheck(management_df,
+  hbp_argcheck(management_df,
                         clusters_df,
                         date_min,
                         date_max,
                         ideal_flow_rate_cm
                         )
 
-  .hbp_args <- albufera_hbp_data_prep(
+  .hbp_args <- hbp_data_prep(
     outflows_df = outflows_df,
     petp_df = petp_df,
     management_df = management_df,
@@ -63,7 +63,7 @@ albufera_hbp <- function(
   do.call(.hbp, .hbp_args)
 }
 
-albufera_hbp_data_prep <- function(
+hbp_data_prep <- function(
     outflows_df,
     petp_df,
     management_df,
@@ -128,7 +128,7 @@ albufera_hbp_data_prep <- function(
   return(res)
 }
 
-albufera_hbp_argcheck <- function(
+hbp_argcheck <- function(
     management_df,
     clusters_df,
     date_min,
@@ -150,15 +150,15 @@ albufera_hbp_argcheck <- function(
 
     },
     error = function(e) {
-      class(e) <- c("albufera_hbp_argcheck_error", class(e))
+      class(e) <- c("hbp_argcheck_error", class(e))
       stop(e)
     }
   )
 }
 
-albufera_hbp_precomputed <- function(formals, call) {
+hbp_precomputed <- function(formals, call) {
   file_path <- system.file("parquet",
-                           "albufera_hbp.parquet",
+                           "hbp.parquet",
                            package = "erahumed")
   if (!file.exists(file_path))
     return(NULL)

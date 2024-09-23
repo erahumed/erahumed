@@ -134,7 +134,7 @@ hbLocalServer <- function(id, setup, data) {
 
     hb_data <- shiny::reactive({
       withr::with_seed(setup$hbp_seed,
-                       albufera_hbp(
+                       hbp(
                          outflows_df = data()$outflows_df,
                          petp_df = data()$petp_df,
                          management_df = data()$management_df,

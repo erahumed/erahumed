@@ -31,7 +31,7 @@ specifying the identifier of the cluster whose levels are to be plotted (see
 example below).
 }
 \examples{
-plot(albufera_hbp(),
+plot(hbp(),
      type = "cluster_levels",
      cluster_id = "02_Carrera_del_Saler0-2_0"
      )

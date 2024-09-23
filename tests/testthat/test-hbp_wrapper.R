@@ -1,6 +1,6 @@
-test_that("albufera_hbp() does not raise an error with valid inputs", {
+test_that("hbp() does not raise an error with valid inputs", {
   expect_no_error(
-    albufera_hbp(date_min = "2020-01-01", date_max = "2020-01-10")
+    hbp(date_min = "2020-01-01", date_max = "2020-01-10")
     )
 })
 
@@ -13,7 +13,7 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   clusters_df <- albufera_clusters
   management_df <- albufera_management
 
-  test_df <- albufera_hbp(outflows_df = outflows_df,
+  test_df <- hbp(outflows_df = outflows_df,
                                petp_df = petp_df,
                                clusters_df = clusters_df,
                                management_df = management_df,
@@ -130,79 +130,79 @@ test_that("real_draining is the delayed version of ideal_draining", {
 
 # Exceptions
 
-test_that("albufera_hbp() error if invalid date range", {
+test_that("hbp() error if invalid date range", {
   # Empty (no data)
   expect_error(
-    albufera_hbp(date_min = "1800-01-01", date_max = "1800-12-31"),
+    hbp(date_min = "1800-01-01", date_max = "1800-12-31"),
     regexp = "date_min"
     )
 
   # Invalid
   expect_error(
-    albufera_hbp(date_min = "2010-01-01", date_max = "2009-01-01"),
-    class = "albufera_hbp_argcheck_error"
+    hbp(date_min = "2010-01-01", date_max = "2009-01-01"),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(date_min = "A", date_max = "2009-01-01"),
-    class = "albufera_hbp_argcheck_error"
+    hbp(date_min = "A", date_max = "2009-01-01"),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(date_min = 1 + i1, date_max = "2009-01-01"),
-    class = "albufera_hbp_argcheck_error"
+    hbp(date_min = 1 + i1, date_max = "2009-01-01"),
+    class = "hbp_argcheck_error"
   )
 })
 
-test_that("albufera_hbp() error if invalid ideal_flow_rate_cm", {
+test_that("hbp() error if invalid ideal_flow_rate_cm", {
   expect_error(
-    albufera_hbp(ideal_flow_rate_cm = -1),
-    class = "albufera_hbp_argcheck_error"
+    hbp(ideal_flow_rate_cm = -1),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(ideal_flow_rate_cm = "one"),
-    class = "albufera_hbp_argcheck_error"
+    hbp(ideal_flow_rate_cm = "one"),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(ideal_flow_rate_cm = NA),
-    class = "albufera_hbp_argcheck_error"
+    hbp(ideal_flow_rate_cm = NA),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(ideal_flow_rate_cm = Inf),
-    class = "albufera_hbp_argcheck_error"
+    hbp(ideal_flow_rate_cm = Inf),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(ideal_flow_rate_cm = NaN),
-    class = "albufera_hbp_argcheck_error"
+    hbp(ideal_flow_rate_cm = NaN),
+    class = "hbp_argcheck_error"
   )
 
 
 })
 
-test_that("albufera_hbp() error if invalid date frame inputs", {
+test_that("hbp() error if invalid date frame inputs", {
   # remove one required column
   expect_error(
-    albufera_hbp(outflows_df = erahumed::albufera_outflows[,-1]),
+    hbp(outflows_df = erahumed::albufera_outflows[,-1]),
     class = "hba_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(petp_df = erahumed::albufera_petp[,-1]),
+    hbp(petp_df = erahumed::albufera_petp[,-1]),
     class = "hba_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(management_df = erahumed::albufera_management[,-1]),
-    class = "albufera_hbp_argcheck_error"
+    hbp(management_df = erahumed::albufera_management[,-1]),
+    class = "hbp_argcheck_error"
   )
 
   expect_error(
-    albufera_hbp(clusters_df = erahumed::albufera_clusters[,-1]),
-    class = "albufera_hbp_argcheck_error"
+    hbp(clusters_df = erahumed::albufera_clusters[,-1]),
+    class = "hbp_argcheck_error"
   )
 
 })
@@ -210,18 +210,18 @@ test_that("albufera_hbp() error if invalid date frame inputs", {
 
 # Precomputed results
 
-test_that("albufera_hbp_precomputed() does not return NULL normally", {
-  formals <- formals(albufera_hbp)
-  call <- substitute(albufera_hbp())
+test_that("hbp_precomputed() does not return NULL normally", {
+  formals <- formals(hbp)
+  call <- substitute(hbp())
 
-  expect_s3_class(albufera_hbp_precomputed(formals, call), "erahumed_hbp")
+  expect_s3_class(hbp_precomputed(formals, call), "erahumed_hbp")
 })
 
-test_that("albufera_hbp_precomputed() is NULL if envvar set to FALSE", {
-  formals <- formals(albufera_hbp)
-  call <- substitute(albufera_hbp())
+test_that("hbp_precomputed() is NULL if envvar set to FALSE", {
+  formals <- formals(hbp)
+  call <- substitute(hbp())
   withr::with_envvar(c(erahumed_use_precomputed = FALSE),
-                     expect_null(albufera_hbp_precomputed(formals, call))
+                     expect_null(hbp_precomputed(formals, call))
                      )
 
 })
@@ -229,10 +229,10 @@ test_that("albufera_hbp_precomputed() is NULL if envvar set to FALSE", {
 test_that("Parquet precomputed file coincides with would-be default value", {
   skip_if_not(is_checking())
 
-  expected <- albufera_hbp()
+  expected <- hbp()
   actual <- withr::with_seed(840,
             withr::with_envvar(c(erahumed_use_precomputed = FALSE),
-              albufera_hbp()
+              hbp()
             ))
 
   expect_identical(actual, expected)
@@ -246,7 +246,7 @@ test_that("Parquet precomputed file coincides with would-be default value", {
 
 
 # Snapshot test, just to monitor unexpected changes. This is simply supposed to
-# be an alert whenever the output of 'albufera_hbp()' changes without
+# be an alert whenever the output of 'hbp()' changes without
 # apparent reason. We should not be too strict about this, and be eager to
 # silence the warning (update the snapshot) whenever the lower level tests
 # succeed.
