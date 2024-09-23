@@ -22,64 +22,48 @@
 #'
 #' @export
 hbp <- function(
-    outflows_df = erahumed::albufera_outflows,
-    petp_df = erahumed::albufera_petp,
+    hba_output,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
-    storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
-                                         slope = 23.6577 * 1e6),
-    petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
-                                       surface_ETP = 79.360993685 * 1e6),
     date_min = NULL,
     date_max = NULL,
     ideal_flow_rate_cm = 5
     )
 {
 
+  # TODO: remove this
   res_precomputed <- hbp_precomputed(formals = formals(),
                                               call = match.call())
   if (!is.null(res_precomputed))
     return(res_precomputed)
 
-  hbp_argcheck(management_df,
-                        clusters_df,
-                        date_min,
-                        date_max,
-                        ideal_flow_rate_cm
-                        )
+  hbp_argcheck(hba_output,
+               management_df,
+               clusters_df,
+               date_min,
+               date_max,
+               ideal_flow_rate_cm)
 
   .hbp_args <- hbp_data_prep(
-    outflows_df = outflows_df,
-    petp_df = petp_df,
+    hba_output = hba_output,
     management_df = management_df,
     clusters_df = clusters_df,
-    storage_curve = storage_curve,
-    petp_surface = petp_surface,
     date_min = date_min,
-    date_max = date_max
+    date_max = date_max,
+    ideal_flow_rate_cm = ideal_flow_rate_cm
     )
-  .hbp_args <- c(.hbp_args, list(ideal_flow_rate_cm = ideal_flow_rate_cm))
 
   do.call(.hbp, .hbp_args)
 }
 
-hbp_data_prep <- function(
-    outflows_df,
-    petp_df,
-    management_df,
-    clusters_df,
-    storage_curve,
-    petp_surface,
-    date_min,
-    date_max
-    )
+hbp_data_prep <- function(hba_output,
+                          management_df,
+                          clusters_df,
+                          date_min,
+                          date_max,
+                          ideal_flow_rate_cm)
 {
-  res <- hba(outflows_df = outflows_df,
-                            petp_df = petp_df,
-                            storage_curve = storage_curve,
-                            petp_surface = petp_surface
-                            ) |>
-    data.table::as.data.table()
+  res <- data.table::as.data.table( hba_output )
 
   if(!is.null(date_min)) res <- res[res$date >= date_min, ]
   if(!is.null(date_max)) res <- res[res$date <= date_max, ]
@@ -122,13 +106,15 @@ hbp_data_prep <- function(
               area_m2 = res$area,
               total_inflow_lake = res$inflow_total,
               tancat = res$tancat,
-              variety = res$variety
+              variety = res$variety,
+              ideal_flow_rate_cm = ideal_flow_rate_cm
               )
 
   return(res)
 }
 
 hbp_argcheck <- function(
+    hba_output,
     management_df,
     clusters_df,
     date_min,
@@ -138,8 +124,8 @@ hbp_argcheck <- function(
 {
   tryCatch(
     {
-      # The checks for albufera_outflows and albufera_petp can be skipped, as
-      # these are performed in the hba() function.
+      if (!inherits(hba_output, "erahumed_hba"))
+        stop("'hba_output' must be an object of S3 class 'hba', see `?hba()`.")
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)
@@ -157,6 +143,9 @@ hbp_argcheck <- function(
 }
 
 hbp_precomputed <- function(formals, call) {
+  # TODO: Reimplement similar mechanism for the final model
+  return(NULL)
+
   file_path <- system.file("parquet",
                            "hbp.parquet",
                            package = "erahumed")

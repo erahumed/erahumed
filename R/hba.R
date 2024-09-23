@@ -54,45 +54,33 @@
 #'
 #' @export
 hba <- function(
-    outflows_df = erahumed::albufera_outflows,
-    petp_df = erahumed::albufera_petp,
+    raw_output,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  hba_argcheck(outflows_df, petp_df)
-
-  # Just to get intersection of dates
-  input <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
+  hba_argcheck(raw_output)
 
   .hba(
-    level = input$level,
-    rain_mm = input$rain_mm,
-    evapotranspiration_mm = input$evapotranspiration_mm,
-    outflows = input[, grepl("^outflow_", colnames(input))],
-    date = input$date,
-    is_imputed_level = input$is_imputed_level,
-    is_imputed_outflow = input$is_imputed_outflow,
+    level = raw_output$level,
+    rain_mm = raw_output$rain_mm,
+    evapotranspiration_mm = raw_output$evapotranspiration_mm,
+    outflows = raw_output[, grepl("^outflow_", colnames(raw_output))],
+    date = raw_output$date,
+    is_imputed_level = raw_output$is_imputed_level,
+    is_imputed_outflow = raw_output$is_imputed_outflow,
     storage_curve = storage_curve,
     petp_surface = petp_surface
   )
 }
 
-hba_argcheck <- function(outflows_df, petp_df) {
+hba_argcheck <- function(raw_output) {
   tryCatch(
     {
-      outflow_required_cols <- c("date",
-                                 "level",
-                                 "is_imputed_level",
-                                 "is_imputed_outflow")
-      assert_data.frame(
-        outflows_df,
-        template = erahumed::albufera_outflows[, outflow_required_cols]
-        )
-
-      assert_data.frame(petp_df, template = erahumed::albufera_petp)
+      if(!inherits(raw_output, "erahumed_raw"))
+        stop("'raw_output' must be an object of S3 class 'raw', see `?raw()`.")
     },
     error = function(e) {
       class(e) <- c("hba_argcheck_error", class(e))

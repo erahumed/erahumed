@@ -1,14 +1,19 @@
 { set.seed(840)
 
-hbl <- hbp(date_min = "2010-01-01", date_max = "2011-12-31")
+hbp_output <- hbp(
+  hba_output = hba(raw()),
+  date_min = "2010-01-01",
+  date_max = "2011-12-31")
 height_thresh_cm <- 2
 
-test_df <- ca(hbl, height_thresh_cm = height_thresh_cm)
+test_df <- ca(hbp_output, height_thresh_cm = height_thresh_cm)
 }
 
 test_that("ca() execution succeeds with valid input", {
   set.seed(840)
-  hbl <- hbp(date_min = "2010-01-01", date_max = "2010-01-10")
+  hbl <- hbp(hba_output = hba(raw()),
+             date_min = "2010-01-01",
+             date_max = "2010-01-10")
   expect_no_error(ca(hbl))
 })
 
