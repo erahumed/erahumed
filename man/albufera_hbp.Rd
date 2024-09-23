@@ -25,9 +25,6 @@ structures follow the templates of
 and \link{albufera_clusters}, respectively.}
 
 \item{date_min, date_max}{date range for the simulation.}
-
-\item{ideal_flow_rate_cm}{a positive number. Ideal inflow for days such
-that \code{ideal_irrigation} and \code{ideal_draining} are both \code{TRUE}.}
 }
 \value{
 Same as \link{hbp}.

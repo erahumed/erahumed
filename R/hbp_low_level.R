@@ -58,8 +58,8 @@
 #' with a few additional visualization methods (most prominently
 #' \link{plot.hbp}).
 #'
-#' @export
-hbp <- function(
+#' @noRd
+.hbp <- function(
     date,
     cluster_id,
     ditch,

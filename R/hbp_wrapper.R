@@ -42,13 +42,13 @@ albufera_hbp <- function(
     return(res_precomputed)
 
   albufera_hbp_argcheck(management_df,
-                             clusters_df,
-                             date_min,
-                             date_max,
-                             ideal_flow_rate_cm
-                             )
+                        clusters_df,
+                        date_min,
+                        date_max,
+                        ideal_flow_rate_cm
+                        )
 
-  hbp_args <- albufera_hbp_data_prep(
+  .hbp_args <- albufera_hbp_data_prep(
     outflows_df = outflows_df,
     petp_df = petp_df,
     management_df = management_df,
@@ -58,9 +58,9 @@ albufera_hbp <- function(
     date_min = date_min,
     date_max = date_max
     )
-  hbp_args <- c(hbp_args, list(ideal_flow_rate_cm = ideal_flow_rate_cm))
+  .hbp_args <- c(.hbp_args, list(ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  do.call(hbp, hbp_args)
+  do.call(.hbp, .hbp_args)
 }
 
 albufera_hbp_data_prep <- function(
