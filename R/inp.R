@@ -1,15 +1,15 @@
-raw <- function(outflows_df = erahumed::albufera_outflows,
+inp <- function(outflows_df = erahumed::albufera_outflows,
                 petp_df = erahumed::albufera_petp)
 {
-  raw_argcheck(outflows_df, petp_df)
+  inp_argcheck(outflows_df, petp_df)
 
   # Just to get intersection of dates
   df <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
 
-  make_raw(df)
+  make_inp(df)
 }
 
-raw_argcheck <- function(outflows_df, petp_df)
+inp_argcheck <- function(outflows_df, petp_df)
 {
   tryCatch(
     {
@@ -34,7 +34,7 @@ raw_argcheck <- function(outflows_df, petp_df)
 
     },
     error = function(e) {
-      class(e) <- c("raw_argcheck_error", class(e))
+      class(e) <- c("inp_argcheck_error", class(e))
       stop(e)
     })
 }

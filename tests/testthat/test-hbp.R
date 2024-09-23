@@ -1,6 +1,6 @@
 test_that("hbp() does not raise an error with valid inputs", {
   expect_no_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         date_min = "2020-01-01",
         date_max = "2020-01-10")
     )
@@ -10,7 +10,7 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
   date_min <- as.Date("2010-01-01")
   date_max <- as.Date("2011-12-31")
 
-  hba_output <- raw() |> hba()
+  hba_output <- inp() |> hba()
   clusters_df <- albufera_clusters
   management_df <- albufera_management
 
@@ -133,7 +133,7 @@ test_that("real_draining is the delayed version of ideal_draining", {
 test_that("hbp() error if invalid date range", {
   # Empty (no data)
   expect_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         date_min = "1800-01-01",
         date_max = "1800-12-31"),
     regexp = "date_min"
@@ -141,21 +141,21 @@ test_that("hbp() error if invalid date range", {
 
   # Invalid
   expect_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         date_min = "2010-01-01",
         date_max = "2009-01-01"),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         date_min = "A",
         date_max = "2009-01-01"),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         date_min = 1 + i1,
         date_max = "2009-01-01"),
     class = "hbp_argcheck_error"
@@ -164,27 +164,27 @@ test_that("hbp() error if invalid date range", {
 
 test_that("hbp() error if invalid ideal_flow_rate_cm", {
   expect_error(
-    hbp(hba_output = raw() |> hba(), ideal_flow_rate_cm = -1),
+    hbp(hba_output = inp() |> hba(), ideal_flow_rate_cm = -1),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(), ideal_flow_rate_cm = "one"),
+    hbp(hba_output = inp() |> hba(), ideal_flow_rate_cm = "one"),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(), ideal_flow_rate_cm = NA),
+    hbp(hba_output = inp() |> hba(), ideal_flow_rate_cm = NA),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(), ideal_flow_rate_cm = Inf),
+    hbp(hba_output = inp() |> hba(), ideal_flow_rate_cm = Inf),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(), ideal_flow_rate_cm = NaN),
+    hbp(hba_output = inp() |> hba(), ideal_flow_rate_cm = NaN),
     class = "hbp_argcheck_error"
   )
 
@@ -199,13 +199,13 @@ test_that("hbp() error if invalid hba_output", {
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         management_df = erahumed::albufera_management[,-1]),
     class = "hbp_argcheck_error"
   )
 
   expect_error(
-    hbp(hba_output = raw() |> hba(),
+    hbp(hba_output = inp() |> hba(),
         clusters_df = erahumed::albufera_clusters[,-1]),
     class = "hbp_argcheck_error"
   )

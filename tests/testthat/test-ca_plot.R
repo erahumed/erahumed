@@ -1,5 +1,5 @@
 test_that("plot.erahumed_ca does not produce an error with valid inputs", {
-  input <- raw() |>
+  input <- inp() |>
     hba() |>
     hbp(date_min = "2010-01-01", date_max = "2011-12-31") |>
     ca()
