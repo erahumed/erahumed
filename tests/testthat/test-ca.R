@@ -1,28 +1,36 @@
 {
   set.seed(840)
 
+  height_thresh_cm <- 2
+
   outflows_df <- albufera_outflows |>
     dplyr::filter("2010-01-01" <= date, date <= "2011-12-31")
 
-  height_thresh_cm <- 2
+  test_df <- erahumed_model() |>
+    compute_inp(outflows_df = outflows_df) |>
+    compute_hba() |>
+    compute_hbp() |>
+    compute_ca(height_thresh_cm = height_thresh_cm) |>
+    ca() |>
+    (\(.) .$output)()
 
-  test_df <- inp(outflows_df = outflows_df) |>
-    hba() |>
-    hbp() |>
-    ca(height_thresh_cm = height_thresh_cm)
 }
 
-test_that("ca() execution succeeds with valid input", {
+test_that("Execution succeeds with valid input", {
   set.seed(840)
 
   outflows_df <- albufera_outflows |>
     dplyr::filter("2010-01-01" <= date, date <= "2010-01-10")
 
-  hbp_res <- hbp(hba_res = hba(inp(outflows_df = outflows_df)))
-  expect_no_error(ca(hbp_res))
+  model <- erahumed_model() |>
+    compute_inp(outflows_df = outflows_df) |>
+    compute_hba() |>
+    compute_hbp()
+
+  expect_no_error( compute_ca(model) )
 })
 
-test_that("ca() total number of applications is equal to expected", {
+test_that("Total number of applications is equal to expected", {
   set.seed(840)
 
   yearly_amounts_clusters <- test_df |>
@@ -65,7 +73,7 @@ test_that("ca() total number of applications is equal to expected", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("ca() application days have the correct features", {
+test_that("Application days have the correct features", {
   chems <- erahumed::albufera_ca_schedules |>
     dplyr::select(chemical, application_type) |>
     dplyr::filter(chemical %in% colnames(test_df)) |>

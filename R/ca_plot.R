@@ -13,7 +13,8 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
 
   args <- list(...)
 
-  cluster_data <- x[x$cluster_id == args$cluster_id, ]
+
+  cluster_data <- x$output[x$output$cluster_id == args$cluster_id, ]
 
   chemicals <- erahumed::albufera_ca_schedules |>
     (\(.) .[.$rice_variety == cluster_data$variety[[1]], ])() |>
