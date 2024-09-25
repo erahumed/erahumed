@@ -13,14 +13,15 @@
 #'
 #' @export
 plot.erahumed_hba <- function(x, variable, ...) {
+  df <- x$output
 
-  plot_hba_argcheck(x, variable, ...)
+  plot_hba_argcheck(df, variable, ...)
 
   var_lab <- hba_var_labs()[variable]
 
-  is_imputed <- x[[hba_is_imputed_var(variable)]]
+  is_imputed <- df[[hba_is_imputed_var(variable)]]
 
-  df_obs <- df_imp <- x[, ]
+  df_obs <- df_imp <- df[, ]
   df_obs[[variable]][is_imputed] <- NA
   df_imp[[variable]][!is_imputed] <- NA
 

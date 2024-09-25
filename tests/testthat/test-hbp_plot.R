@@ -10,8 +10,9 @@ hbp_obj <-
 
 
 test_that("plot.hbp() succeeds w/ type='cluster_levels' and valid input", {
+  cluster_id <- hbp_obj$output$cluster_id[1]
   expect_no_error(
-    plot(hbp_obj, type = "cluster_levels", cluster_id = hbp_obj$cluster_id[1])
+    plot(hbp_obj, type = "cluster_levels", cluster_id = cluster_id)
   )
 })
 

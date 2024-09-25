@@ -35,13 +35,12 @@ plot.erahumed_hbp <- function(x, type = c("cluster_levels", "map"), ...) {
 
   args <- list(...)
 
+  data <- x$output
+
   if (type == "cluster_levels") {
     if ( !("cluster_id" %in% names(args)) )
       stop("Please specify cluster to plot through the 'cluster_id' argument.")
-
-    return(plot_hbp_cluster_levels(data = x,
-                                        cluster_id = args$cluster_id)
-           )
+    return( plot_hbp_cluster_levels(data = data, cluster_id = args$cluster_id) )
   }
 }
 

@@ -21,6 +21,11 @@
 #' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf)
 #'
 #' @export
+hbp <- function(model)
+  get_model_component(model, "hbp")
+
+#' @rdname hbp
+#' @export
 compute_hbp <- function(
     model,
     management_df = erahumed::albufera_management,
@@ -38,18 +43,13 @@ compute_hbp <- function(
                              clusters_df = clusters_df,
                              ideal_flow_rate_cm = ideal_flow_rate_cm
                              )
+  output <- do.call(.hbp, .hbp_args)
+  params <- list(management_df = management_df,
+                 clusters_df = clusters_df,
+                 ideal_flow_rate_cm = ideal_flow_rate_cm)
 
-  hbp_df <- do.call(.hbp, .hbp_args)
-  hbp_obj <- make_hbp(hbp_df)
+  model$hbp <- new_hbp_component(output, params)
 
-  model <- update_erahumed_model(model,
-                                 outputs = list(hbp = hbp_obj),
-                                 params = list(
-                                   management_df = management_df,
-                                   clusters_df = clusters_df,
-                                   ideal_flow_rate_cm = ideal_flow_rate_cm
-                                   )
-                                 )
   return(model)
 }
 
@@ -58,14 +58,7 @@ hbp_data_prep <- function(model,
                           clusters_df,
                           ideal_flow_rate_cm)
 {
-  # res <- data.table::as.data.table( inp(model) ) |>
-  #   merge(y = data.table::as.data.table( hba(model) ),
-  #         by = "date",
-  #         sort = FALSE,
-  #         allow.cartesian = TRUE
-  #         )
-
-  res <- data.table::as.data.table(hba(model))  # Ugly but required atm
+  res <- data.table::as.data.table(hba(model)$output)  # Ugly but required atm
 
   res$petp_cm <- (res$rain_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))
@@ -121,35 +114,4 @@ compute_hbp_argcheck <- function(model, management_df, clusters_df, ideal_flow_r
   )
 }
 
-hbp_precomputed <- function(formals, call) {
-  # TODO: Reimplement similar mechanism for the final model
-  return(NULL)
 
-  file_path <- system.file("parquet",
-                           "hbp.parquet",
-                           package = "erahumed")
-  if (!file.exists(file_path))
-    return(NULL)
-
-  if (! as.logical(Sys.getenv("erahumed_use_precomputed", "TRUE")) )
-    return(NULL)
-
-  call <- as.list(call)[-1]
-  for (arg in names(formals)) {
-    if (!arg %in% names(call))
-      next
-    provided_hash <- digest::digest(call[[arg]])
-    default_hash <- digest::digest(formals[[arg]])
-    if (provided_hash != default_hash)
-      return(NULL)
-  }
-
-  return(arrow::read_parquet(file_path))
-}
-
-#' @rdname hbp
-#' @export
-hbp <- function(model) {
-  assert_erahumed_model(model)
-  return(model$output$hbp)
-}

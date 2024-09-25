@@ -13,9 +13,8 @@
 #' TODO
 #'
 #' @export
-inp <- function(model, value = c("output", "params")) {
-  get_model_component(model, "inp", value = value)
-}
+inp <- function(model)
+  get_model_component(model, "inp")
 
 #' @rdname inp
 #' @export

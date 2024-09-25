@@ -57,6 +57,11 @@
 #' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
 #'
 #' @export
+hba <- function(model)
+  get_model_component(model, "hba")
+
+#' @rdname hba
+#' @export
 compute_hba <- function(
     model,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
@@ -67,9 +72,8 @@ compute_hba <- function(
 {
   compute_hba_argcheck(model, storage_curve, petp_surface)
 
-  inp_df <- inp(model)
-
-  hba_df <- .hba(
+  inp_df <- get_model_component(model, "inp")$output
+  output <- .hba(
     level = inp_df$level,
     rain_mm = inp_df$rain_mm,
     evapotranspiration_mm = inp_df$evapotranspiration_mm,
@@ -80,14 +84,11 @@ compute_hba <- function(
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
-  hba_obj <- make_hba(hba_df)
+  params <- list(storage_curve = storage_curve, petp_surface = petp_surface)
 
-  model <- update_erahumed_model(model,
-                                 component = "hba",
-                                 output = hba_obj,
-                                 params = list(storage_curve = storage_curve,
-                                               petp_surface = petp_surface)
-  )
+  model$hba <- new_hba_component(output, params)
+
+  return(model)
 }
 
 compute_hba_argcheck <- function(model, storage_curve, petp_surface) {
@@ -104,9 +105,5 @@ compute_hba_argcheck <- function(model, storage_curve, petp_surface) {
   )
 }
 
-#' @rdname hba
-#' @export
-hba <- function(model, value = c("output", "params")) {
-  assert_erahumed_model(model)
-  get_model_component(model, "hba", value = value)
-}
+
+

@@ -21,7 +21,7 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
     compute_hba() |>
     compute_hbp()
 
-  test_df <- hbp(model)
+  test_df <- hbp(model)$output
 
   eps <- 1e-10
   })
