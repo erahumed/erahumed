@@ -1,4 +1,5 @@
-#' Hydrological Balance of the Albufera Lake
+#' @title Hydrological Balance of the Albufera Lake
+#' @rdname hba
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
@@ -56,39 +57,56 @@
 #' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
 #'
 #' @export
-hba <- function(
-    inp_res,
+compute_hba <- function(
+    model,
     storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
                                        surface_ETP = 79.360993685 * 1e6)
 )
 {
-  hba_argcheck(inp_res)
+  compute_hba_argcheck(model, storage_curve, petp_surface)
 
-  .hba(
-    level = inp_res$level,
-    rain_mm = inp_res$rain_mm,
-    evapotranspiration_mm = inp_res$evapotranspiration_mm,
-    outflows = inp_res[, grepl("^outflow_", colnames(inp_res))],
-    date = inp_res$date,
-    is_imputed_level = inp_res$is_imputed_level,
-    is_imputed_outflow = inp_res$is_imputed_outflow,
+  inp_df <- inp(model)
+
+  hba_df <- .hba(
+    level = inp_df$level,
+    rain_mm = inp_df$rain_mm,
+    evapotranspiration_mm = inp_df$evapotranspiration_mm,
+    outflows = inp_df[, grepl("^outflow_", colnames(inp_df))],
+    date = inp_df$date,
+    is_imputed_level = inp_df$is_imputed_level,
+    is_imputed_outflow = inp_df$is_imputed_outflow,
     storage_curve = storage_curve,
     petp_surface = petp_surface
+    )
+  hba_obj <- make_hba(hba_df)
+
+  model <- update_erahumed_model(model,
+                                 component = "hba",
+                                 output = hba_obj,
+                                 params = list(storage_curve = storage_curve,
+                                               petp_surface = petp_surface)
   )
 }
 
-hba_argcheck <- function(inp_res) {
+compute_hba_argcheck <- function(model, storage_curve, petp_surface) {
   tryCatch(
     {
-      if(!inherits(inp_res, "erahumed_inp"))
-        stop("'inp_res' must be an object of S3 class 'raw', see `?inp()`.")
+      assert_erahumed_model(model)
+      assert_function(storage_curve, check = list(rep(0, 10)) )
+      assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
-      class(e) <- c("hba_argcheck_error", class(e))
+      class(e) <- c("compute_hba_argcheck_error", class(e))
       stop(e)
     }
   )
+}
 
+#' @rdname hba
+#' @export
+hba <- function(model, value = c("output", "params")) {
+  assert_erahumed_model(model)
+  get_model_component(model, "hba", value = value)
 }

@@ -103,7 +103,5 @@
     data.table::rbindlist() |>
     as.data.frame()
 
-  res <- make_hbp(res)
-
   return(res)
 }

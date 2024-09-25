@@ -1,10 +1,11 @@
 test_that(".hba() succeeds with valid inputs", {
-  obj <-  .hba(level = rep(1, 10),
-                    rain_mm = rep(10, 10),
-                    evapotranspiration_mm = rep(1, 10),
-                    outflows = list(a = rep(1, 10), b = rep(2, 10))
-                    )
-  expect_s3_class(obj, "erahumed_hba")
+  expect_no_error({
+    .hba(level = rep(1, 10),
+         rain_mm = rep(10, 10),
+         evapotranspiration_mm = rep(1, 10),
+         outflows = list(a = rep(1, 10), b = rep(2, 10))
+         )
+    })
 })
 
 test_that(".hba() succeeds with ellipsis args of correct length", {

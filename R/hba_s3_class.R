@@ -2,7 +2,7 @@ make_hba <- function(df) {
   make_hba_argcheck(df)
 
   class(df) <- c("erahumed_hba", class(df))
-  attr(class(df), "package") <- "erahumed"
+
   return(df)
 }
 

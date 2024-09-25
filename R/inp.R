@@ -1,4 +1,5 @@
-#' ERAHUMED Input Data
+#' @title ERAHUMED Input Data
+#' @rdname inp
 #'
 #' @description
 #' Input data for the algorithms of the ERAHUMED DSS.
@@ -12,32 +13,42 @@
 #' TODO
 #'
 #' @export
-inp <- function(outflows_df = erahumed::albufera_outflows,
-                petp_df = erahumed::albufera_petp)
-{
-  inp_argcheck(outflows_df, petp_df)
-
-  # Just to get intersection of dates
-  df <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
-
-  make_inp(df)
+inp <- function(model, value = c("output", "params")) {
+  get_model_component(model, "inp", value = value)
 }
 
-inp_argcheck <- function(outflows_df, petp_df)
+#' @rdname inp
+#' @export
+compute_inp <- function(model,
+                        outflows_df = erahumed::albufera_outflows,
+                        petp_df = erahumed::albufera_petp)
+{
+  compute_inp_argcheck(model, outflows_df, petp_df)
+
+  output <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
+  params <- list(outflows_df = outflows_df, petp_df = petp_df)
+  model$inp <- new_inp_component(output, params)
+
+  return(model)
+}
+
+compute_inp_argcheck <- function(model, outflows_df, petp_df)
 {
   tryCatch(
     {
+      assert_erahumed_model(model)
+
       outflow_required_cols <- c("date",
-                                "level",
-                                "is_imputed_level",
-                                "is_imputed_outflow")
+                                 "level",
+                                 "is_imputed_level",
+                                 "is_imputed_outflow")
       assert_data.frame(
         outflows_df,
         template = erahumed::albufera_outflows[, outflow_required_cols]
-        )
+      )
       assert_data.frame(petp_df, template = erahumed::albufera_petp)
 
-      # Check that consecutive differences are all equal to one
+      # Check that consecutive date differences are all equal to one
       if (any(diff(outflows_df$date) != 1)) {
         stop("Invalid 'date' domain in 'outflows_df' (not an interval).")
       }
@@ -48,7 +59,7 @@ inp_argcheck <- function(outflows_df, petp_df)
 
     },
     error = function(e) {
-      class(e) <- c("inp_argcheck_error", class(e))
+      class(e) <- c("compute_inp_argcheck_error", class(e))
       stop(e)
     })
 }

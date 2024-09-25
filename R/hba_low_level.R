@@ -88,7 +88,7 @@
                                                 res$outflow_total,
                                                 units = "days")
 
-  return(make_hba(res))
+  return(res)
 }
 
 .hba_argcheck <- function(

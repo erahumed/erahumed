@@ -108,7 +108,7 @@ assert_data.frame <- function(
     check_types = TRUE
     )
 {
-  if (!("data.frame" %in% class(x)))
+  if (!inherits(x, "data.frame"))
     stop(paste0("'", name, "' must be a data.frame."))
 
   if (is.null(template))
@@ -169,4 +169,11 @@ assert_logical <- function(x, name  = deparse(substitute(x))) {
     return(invisible(TRUE))
 
   stop(paste0("'", name, "' must be a logical vector."))
+}
+
+assert_erahumed_model <- function(x, name  = deparse(substitute(x))) {
+  if (is_erahumed_model(x))
+    return(invisible(TRUE))
+  msg <- paste(name, "is not a valid 'erahumed_model' object.")
+  stop(msg)
 }
