@@ -25,11 +25,10 @@ compute_inp <- function(model,
 {
   compute_inp_argcheck(model, outflows_df, petp_df)
 
-  output <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
-
   model$inp <- new_inp_component(
     output = compute_inp_output(model, outflows_df, petp_df),
-    params = capture_params())
+    params = capture_params()
+    )
 
   return(model)
 }
