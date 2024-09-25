@@ -82,3 +82,22 @@ succeeds <- function(expr) {
   result <- try(expr, silent = TRUE)
   !inherits(result, "try-error")
 }
+
+capture_params <- function(
+  fun = sys.function(sys.parent()),
+  envir = parent.frame()
+  )
+{
+  forms <- formals(fun = fun, envir = envir)
+  # Get the names of all formal arguments except 'model'
+  arg_names <- names(forms)[names(forms) != "model"]
+
+  # Retrieve their values
+  args_list <- lapply(arg_names, get, envir = envir)
+
+  # Set the names of the list
+  names(args_list) <- arg_names
+
+  # Return the list of parameters
+  return(args_list)
+}

@@ -5,7 +5,7 @@
 \alias{compute_inp}
 \title{ERAHUMED Input Data}
 \usage{
-inp(model, value = c("output", "params"))
+inp(model)
 
 compute_inp(
   model,

@@ -20,16 +20,21 @@ inp <- function(model)
 #' @export
 compute_inp <- function(model,
                         outflows_df = erahumed::albufera_outflows,
-                        petp_df = erahumed::albufera_petp)
+                        petp_df = erahumed::albufera_petp
+                        )
 {
   compute_inp_argcheck(model, outflows_df, petp_df)
 
   output <- merge(outflows_df, petp_df, by = "date", sort = TRUE)
-  params <- list(outflows_df = outflows_df, petp_df = petp_df)
-  model$inp <- new_inp_component(output, params)
+
+  model$inp <- new_inp_component(
+    output = compute_inp_output(model, outflows_df, petp_df),
+    params = capture_params())
 
   return(model)
 }
+
+
 
 compute_inp_argcheck <- function(model, outflows_df, petp_df)
 {
@@ -61,4 +66,11 @@ compute_inp_argcheck <- function(model, outflows_df, petp_df)
       class(e) <- c("compute_inp_argcheck_error", class(e))
       stop(e)
     })
+}
+
+
+
+compute_inp_output <- function(model, outflows_df, petp_df)
+{
+  merge(outflows_df, petp_df, by = "date", sort = TRUE)
 }

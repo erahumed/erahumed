@@ -5,7 +5,7 @@
 \alias{compute_hba}
 \title{Hydrological Balance of the Albufera Lake}
 \usage{
-hba(model, value = c("output", "params"))
+hba(model)
 
 compute_hba(
   model,

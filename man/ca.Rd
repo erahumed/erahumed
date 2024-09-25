@@ -4,11 +4,7 @@
 \alias{ca}
 \title{Chemicals Applications}
 \usage{
-ca(
-  hbp_res,
-  ca_schedules_df = erahumed::albufera_ca_schedules,
-  height_thresh_cm = 2
-)
+ca(model)
 }
 \arguments{
 \item{hbp_res}{an object of class \code{"hbp"} - see \link{hbp}.}
