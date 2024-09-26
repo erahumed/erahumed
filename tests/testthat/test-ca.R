@@ -1,38 +1,17 @@
 {
   set.seed(840)
 
-  height_thresh_cm <- 2
+  height_thresh_cm <- formals(compute_ca)$height_thresh_cm
 
-  outflows_df <- albufera_outflows |>
-    dplyr::filter("2010-01-01" <= date, date <= "2011-12-31")
-
-  test_df <- erahumed_model() |>
-    compute_inp(outflows_df = outflows_df) |>
-    compute_hba() |>
-    compute_hbp() |>
-    compute_ca(height_thresh_cm = height_thresh_cm) |>
-    ca() |>
-    (\(.) .$output)()
+  test_df <- ca(test_objects$mod_large)$output
 
 }
 
 test_that("Execution succeeds with valid input", {
-  set.seed(840)
-
-  outflows_df <- albufera_outflows |>
-    dplyr::filter("2010-01-01" <= date, date <= "2010-01-10")
-
-  model <- erahumed_model() |>
-    compute_inp(outflows_df = outflows_df) |>
-    compute_hba() |>
-    compute_hbp()
-
-  expect_no_error( compute_ca(model) )
+  expect_no_error( compute_ca(test_objects$mod_small) )
 })
 
 test_that("Total number of applications is equal to expected", {
-  set.seed(840)
-
   yearly_amounts_clusters <- test_df |>
     dplyr::mutate(year = format(date, "%Y")) |>
     dplyr::rename(rice_variety = variety) |>

@@ -1,28 +1,9 @@
 test_that("compute_hbp() does not raise an error with valid inputs", {
-  model <- erahumed_model() |>
-    compute_inp(
-      outflows_df = albufera_outflows |>
-        dplyr::filter("2020-01-01" <= date, date <= "2020-01-10")
-      ) |>
-    compute_hba()
-
-  expect_no_error( compute_hbp(model) )
+  expect_no_error( compute_hbp(test_objects$mod_small) )
 })
 
 withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
-  date_min <- as.Date("2010-01-01")
-  date_max <- as.Date("2011-12-31")
-
-  model <- erahumed_model() |>
-    compute_inp(
-      outflows_df = albufera_outflows |>
-        dplyr::filter(date_min <= date, date <= date_max)
-    ) |>
-    compute_hba() |>
-    compute_hbp()
-
-  test_df <- hbp(model)$output
-
+  test_df <- hbp(test_objects$mod_large)$output
   eps <- 1e-10
   })
 
@@ -31,9 +12,12 @@ withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
 
 test_that("Returned dataset has the expected number of rows", {
   n_clusters <- nrow(albufera_clusters)
-  n_days <- length( seq.Date(from = date_min, to = date_max, by = "day") )
+  n_days <- length( seq.Date(from = min(test_df$date),
+                             to = max(test_df$date),
+                             by = "day")
+                    )
 
-  expect_equal(nrow(test_df), n_clusters * (n_days-1))
+  expect_equal(nrow(test_df), n_clusters * n_days)
 })
 
 test_that("'ditch' is consistent along 'cluster_id'", {
@@ -135,35 +119,28 @@ test_that("real_draining is the delayed version of ideal_draining", {
 
 
 test_that("compute_hbp() error if invalid ideal_flow_rate_cm", {
-  model <- erahumed_model() |>
-    compute_inp(
-      outflows_df = albufera_outflows |>
-        dplyr::filter("2020-01-01" <= date, date <= "2020-01-10")
-    ) |>
-    compute_hba()
-
   expect_error(
-    compute_hbp(model, ideal_flow_rate_cm = -1),
+    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = -1),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(model, ideal_flow_rate_cm = "one"),
+    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = "one"),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(model, ideal_flow_rate_cm = NA),
+    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = NA),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(model, ideal_flow_rate_cm = Inf),
+    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = Inf),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(model, ideal_flow_rate_cm = NaN),
+    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = NaN),
     class = "compute_hbp_argcheck_error"
   )
 
