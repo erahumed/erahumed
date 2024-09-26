@@ -1,13 +1,12 @@
-erahumed_components <- function()
-  c("inp", "hba", "hbp", "ca", "ct")
+erahumed_components <- function() {
+  res <- c("inp", "hba", "hbp", "ca")
+  c(res, "dum") # Add dummy component with upstream dependence from all others
+}
 
-compute_component <- function(
-    model,
-    component = erahumed_components(),
-    ...
-    )
+
+compute_component <- function(model, component = erahumed_components(), ...)
 {
-  assert_erahumed_model(model)
+  compute_component_basecheck(model, component)
   component <- match.arg(component)
 
   compute_argcheck <- get_component_argcheck_fun(component)
@@ -20,12 +19,46 @@ compute_component <- function(
 
   model[[component]] <- new_component(output, params)
 
-  component_level <- match(component, erahumed_components())
-  downstream_components <- erahumed_components()[ -(1:component_level) ]
-  for (comp in downstream_components)
+  for (comp in downstream_components(component))
     model[[comp]] <- NULL
 
   return(model)
+}
+
+upstream_components <- function(component) {
+  i <- match(component, erahumed_components())
+
+  erahumed_components() |> (\(.) .[seq_along(.) < i])()
+}
+
+downstream_components <- function(component) {
+  i <- match(component, erahumed_components())
+
+  erahumed_components() |> (\(.) .[seq_along(.) > i])()
+}
+
+
+
+compute_component_basecheck <- function(model,
+                                        component = erahumed_components()
+                                        )
+{
+  tryCatch({
+    assert_erahumed_model(model)
+    match.arg(component)
+
+    for (comp in upstream_components(component)) {
+      if (!is.null(model[[comp]])) next
+
+      msg <- paste0(
+        "Upstream component '", comp, "' of model must be computed first.")
+      stop(msg)
+    }
+  },
+  error = function(e) {
+    class(e) <- c("compute_component_basecheck_error", class(e))
+    stop(e)
+  })
 }
 
 get_component_argcheck_fun <- function(component) {
@@ -43,7 +76,7 @@ get_component_output_fun <- function(component) {
 }
 
 get_component_output_validator_fun <- function(component) {
-  res <-   get_erahumed_fun( paste0(component, "_validate_output") )
+  res <- get_erahumed_fun( paste0(component, "_validate_output") )
   if (is.null(res))
     res <- function(...) return(assert_data.frame)
   return(res)
