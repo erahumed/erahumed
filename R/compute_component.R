@@ -22,8 +22,8 @@ compute_component <- function(
 
   component_level <- match(component, erahumed_components())
   downstream_components <- erahumed_components()[ -(1:component_level) ]
-  for (c in downstream_components)
-    model[[c]] <- NULL
+  for (comp in downstream_components)
+    model[[comp]] <- NULL
 
   return(model)
 }
