@@ -20,10 +20,9 @@ new_model_component_argcheck <- function(
     validate_params
     )
 {
-  assert_data.frame(output)
-  assert_list(params)
-
   tryCatch({
+    assert_data.frame(output)
+    assert_list(params)
     if(!validate_output(output))
       stop("Invalid 'output' passed to new_model_component().")
     if(!validate_params(params))
