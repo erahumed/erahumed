@@ -24,10 +24,35 @@ compute_ca <- function(model,
                        ca_schedules_df = erahumed::albufera_ca_schedules,
                        height_thresh_cm = 2)
 {
-  compute_ca_argcheck(model, ca_schedules_df, height_thresh_cm)
+  compute_component(model,
+                    "ca",
+                    ca_schedules_df = ca_schedules_df,
+                    height_thresh_cm = height_thresh_cm
+                    )
+}
 
+
+
+compute_ca_argcheck <- function(ca_schedules_df, height_thresh_cm)
+{
+  tryCatch({
+    assert_data.frame(ca_schedules_df,
+                      template = erahumed::albufera_ca_schedules)
+    assert_positive_number(height_thresh_cm)
+  },
+  error = function(e) {
+    class(e) <- c("compute_ca_argcheck_error", class(e))
+    stop(e)
+  })
+}
+
+
+
+compute_ca_output <- function(model, ca_schedules_df, height_thresh_cm)
+{
   hbp_res <- hbp(model)$output
   hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()
+
   output <- hbp_res |>
     collapse::rsplit(
       by = ~ cluster_id + year,
@@ -41,26 +66,28 @@ compute_ca <- function(model,
            height_thresh_cm = height_thresh_cm) |>
     data.table::rbindlist() |>
     as.data.frame()
-  params <- list(ca_schedules_df = ca_schedules_df,
-                 height_thresh_cm = height_thresh_cm)
 
-  model$ca <- new_ca_component(output, params)
-
-  return(model)
+  return(output)
 }
 
 
 
-compute_ca_argcheck <- function(model, ca_schedules_df, height_thresh_cm)
-{
-  tryCatch({
-    assert_erahumed_model(model)
-    assert_data.frame(ca_schedules_df,
-                      template = erahumed::albufera_ca_schedules)
-    assert_positive_number(height_thresh_cm)
-  },
-  error = function(e) {
-    class(e) <- c("compute_ca_argcheck_error", class(e))
-    stop(e)
-  })
+ca_validate_output <- assert_data.frame
+
+
+
+#' @export
+print.erahumed_ca <- function(x, ..., max = 100) {
+  cat(bold("An object of class 'ca'."))
+
+  min_date <- format(as.Date(min(x$output$date)))
+  max_date <- format(as.Date(max(x$output$date)))
+  cat("\nData from:", min_date, "to:", max_date, "\n\n")
+
+  print.data.frame(x$output, max = max)
+}
+
+#' @export
+summary.erahumed_ca <- function(object, ..., max = 100) {
+  print(object, max = max)
 }

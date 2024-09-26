@@ -105,3 +105,50 @@
 
   return(res)
 }
+
+
+
+.hbp_data_prep <- function(model,
+                          management_df,
+                          clusters_df,
+                          ideal_flow_rate_cm)
+{
+  res <- data.table::as.data.table(hba(model)$output)  # Ugly but required atm
+
+  res$petp_cm <- (res$rain_mm - res$evapotranspiration_mm) / 10
+  res$mm <- get_mm(as.POSIXlt(res$date))
+  res$dd <- get_dd(as.POSIXlt(res$date))
+
+  res <- res |>
+    merge(y = data.table::as.data.table(management_df),
+          by = c("mm", "dd"),
+          sort = FALSE,
+          allow.cartesian = TRUE
+    ) |>
+    merge(y = data.table::as.data.table(clusters_df),
+          by.x = c("tancat", "variety"),
+          by.y = c("tancat", "rice_variety"),
+          all.y = TRUE,
+          sort = FALSE,
+          allow.cartesian = TRUE
+    )
+
+  res <- data.table::setorderv(res, c("date", "cluster_id"))
+
+  res <- list(date = res$date,
+              ditch = res$ditch,
+              cluster_id = res$cluster_id,
+              ideal_height_cm = res$height_cm,
+              petp_cm = res$petp_cm,
+              seed_day = res$seed_day,
+              ideal_irrigation = res$irrigation,
+              ideal_draining = res$draining,
+              area_m2 = res$area,
+              total_inflow_lake = res$inflow_total,
+              tancat = res$tancat,
+              variety = res$variety,
+              ideal_flow_rate_cm = ideal_flow_rate_cm
+  )
+
+  return(res)
+}

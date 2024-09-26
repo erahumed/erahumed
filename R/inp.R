@@ -22,25 +22,21 @@ compute_inp <- function(model,
                         outflows_df = erahumed::albufera_outflows,
                         petp_df = erahumed::albufera_petp
                         )
+  compute_component(model, "inp", outflows_df = outflows_df, petp_df = petp_df)
+
+
+
+compute_inp_output <- function(model, outflows_df, petp_df)
 {
-  compute_inp_argcheck(model, outflows_df, petp_df)
-
-  model$inp <- new_inp_component(
-    output = compute_inp_output(model, outflows_df, petp_df),
-    params = capture_params()
-    )
-
-  return(model)
+  merge(outflows_df, petp_df, by = "date", sort = TRUE)
 }
 
 
 
-compute_inp_argcheck <- function(model, outflows_df, petp_df)
+compute_inp_argcheck <- function(outflows_df, petp_df)
 {
   tryCatch(
     {
-      assert_erahumed_model(model)
-
       outflow_required_cols <- c("date",
                                  "level",
                                  "is_imputed_level",
@@ -69,7 +65,7 @@ compute_inp_argcheck <- function(model, outflows_df, petp_df)
 
 
 
-compute_inp_output <- function(model, outflows_df, petp_df)
+inp_validate_output <- function(output)
 {
-  merge(outflows_df, petp_df, by = "date", sort = TRUE)
+  assert_data.frame(output)
 }

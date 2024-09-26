@@ -68,10 +68,18 @@ compute_hba <- function(
                                          slope = 23.6577 * 1e6),
     petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
                                        surface_ETP = 79.360993685 * 1e6)
-)
+    )
 {
-  compute_hba_argcheck(model, storage_curve, petp_surface)
+  compute_component(model, "hba",
+                    storage_curve = storage_curve,
+                    petp_surface = petp_surface
+                    )
+}
 
+
+
+compute_hba_output <- function(model, storage_curve, petp_surface)
+{
   inp_df <- get_model_component(model, "inp")$output
   output <- .hba(
     level = inp_df$level,
@@ -84,17 +92,14 @@ compute_hba <- function(
     storage_curve = storage_curve,
     petp_surface = petp_surface
     )
-  params <- list(storage_curve = storage_curve, petp_surface = petp_surface)
-
-  model$hba <- new_hba_component(output, params)
-
-  return(model)
+  return(output)
 }
 
-compute_hba_argcheck <- function(model, storage_curve, petp_surface) {
+
+
+compute_hba_argcheck <- function(storage_curve, petp_surface) {
   tryCatch(
     {
-      assert_erahumed_model(model)
       assert_function(storage_curve, check = list(rep(0, 10)) )
       assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
     },
@@ -106,4 +111,35 @@ compute_hba_argcheck <- function(model, storage_curve, petp_surface) {
 }
 
 
+
+hba_validate_output <- function(output) {
+  assert_data.frame(output,
+                    template = data.frame(level = numeric(),
+                                          rain_mm = numeric(),
+                                          evapotranspiration_mm = numeric(),
+                                          volume = numeric(),
+                                          inflow_total = numeric(),
+                                          outflow_total = numeric(),
+                                          outflow_extra = numeric(),
+                                          residence_time_days = numeric()
+                    )
+  )
+}
+
+
+#' @export
+print.erahumed_hba <- function(x, ..., max = 100) {
+  cat(bold("An object of class 'hba'."))
+
+  min_date <- format(as.Date(min(x$output$date)))
+  max_date <- format(as.Date(max(x$output$date)))
+  cat("\nData from:", min_date, "to:", max_date, "\n\n")
+
+  print.data.frame(x$output, max = max)
+}
+
+#' @export
+summary.erahumed_hba <- function(object, ..., max = 100) {
+  print(object, max = max)
+}
 
