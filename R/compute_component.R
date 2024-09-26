@@ -1,6 +1,9 @@
+erahumed_components <- function()
+  c("inp", "hba", "hbp", "ca", "ct")
+
 compute_component <- function(
     model,
-    component = c("inp", "hba", "hbp", "ca", "ct"),
+    component = erahumed_components(),
     ...
     )
 {
@@ -16,6 +19,11 @@ compute_component <- function(
   params <- list(...)
 
   model[[component]] <- new_component(output, params)
+
+  component_level <- match(component, erahumed_components())
+  downstream_components <- erahumed_components()[ -(1:component_level) ]
+  for (c in downstream_components)
+    model[[c]] <- NULL
 
   return(model)
 }
