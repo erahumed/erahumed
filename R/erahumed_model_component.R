@@ -1,6 +1,6 @@
 new_model_component <- function(
-    output,
-    params,
+    output = data.frame(),
+    params = list(),
     validate_output = is.data.frame,
     validate_params = is.list
     )
