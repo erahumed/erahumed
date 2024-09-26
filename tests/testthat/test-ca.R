@@ -3,12 +3,12 @@
 
   height_thresh_cm <- formals(compute_ca)$height_thresh_cm
 
-  test_df <- ca(test_objects$mod_large)$output
+  test_df <- ca(test_mod_large())$output
 
 }
 
 test_that("Execution succeeds with valid input", {
-  expect_no_error( compute_ca(test_objects$mod_small) )
+  expect_no_error( compute_ca(test_mod_small()) )
 })
 
 test_that("Total number of applications is equal to expected", {

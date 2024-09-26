@@ -4,6 +4,12 @@ test_that("compute_inp(): execution succeeds with valid input", {
   expect_no_error( compute_inp(model) )
 })
 
+test_that("inp(): execution succeeds with valid input", {
+  model <- erahumed_model() |> compute_inp()
+
+  expect_no_error( inp(model) )
+})
+
 test_that("compute_inp(): no error with simplified outflows_df", {
   cols <- c("date",
             "level",

@@ -1,30 +1,29 @@
-set.seed(840)
+.test_mod_small <- NULL
+.test_mod_large <- NULL
 
-test_objects <- list()
+test_mod_small <- function() {
+  if (is.null(.test_mod_small))
+    .test_mod_small <<- test_model("2010-01-01", "2010-01-10")
 
-test_objects$mod_small <- erahumed_model() |>
-  compute_inp(
-    outflows_df = albufera_outflows |>
-      dplyr::filter("2010-01-01" <= date, date < "2010-01-10")
-  ) |>
-  compute_hba() |>
-  compute_hbp() |>
-  compute_ca()
+  .test_mod_small
+}
 
-test_objects$mod_med <- erahumed_model() |>
-  compute_inp(
-    outflows_df = albufera_outflows |>
-      dplyr::filter("2010-04-01" <= date, date < "2010-06-01")
-  ) |>
-  compute_hba() |>
-  compute_hbp() |>
-  compute_ca()
+test_mod_large <- function() {
+  if (is.null(.test_mod_large))
+    .test_mod_large <<- test_model("2010-01-01", "2011-12-31")
 
-test_objects$mod_large <- erahumed_model() |>
-  compute_inp(
-    outflows_df = albufera_outflows |>
-      dplyr::filter("2010-01-01" <= date, date < "2012-01-01")
-  ) |>
-  compute_hba() |>
-  compute_hbp() |>
-  compute_ca()
+  .test_mod_large
+}
+
+test_model <- function(date_min, date_max, seed = 840) {
+  outflows_df = albufera_outflows |>
+    dplyr::filter(date_min <= date, date <= date_max)
+
+  withr::with_seed(seed, {
+    erahumed_model() |>
+      compute_inp(outflows_df = outflows_df) |>
+      compute_hba() |>
+      compute_hbp() |>
+      compute_ca()
+  })
+}

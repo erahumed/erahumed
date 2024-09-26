@@ -1,9 +1,9 @@
 test_that("compute_hbp() does not raise an error with valid inputs", {
-  expect_no_error( compute_hbp(test_objects$mod_small) )
+  expect_no_error( compute_hbp(test_mod_small()) )
 })
 
 withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
-  test_df <- hbp(test_objects$mod_large)$output
+  test_df <- hbp(test_mod_large())$output
   eps <- 1e-10
   })
 
@@ -120,27 +120,27 @@ test_that("real_draining is the delayed version of ideal_draining", {
 
 test_that("compute_hbp() error if invalid ideal_flow_rate_cm", {
   expect_error(
-    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = -1),
+    compute_hbp(test_mod_small(), ideal_flow_rate_cm = -1),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = "one"),
+    compute_hbp(test_mod_small(), ideal_flow_rate_cm = "one"),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = NA),
+    compute_hbp(test_mod_small(), ideal_flow_rate_cm = NA),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = Inf),
+    compute_hbp(test_mod_small(), ideal_flow_rate_cm = Inf),
     class = "compute_hbp_argcheck_error"
   )
 
   expect_error(
-    compute_hbp(test_objects$mod_small, ideal_flow_rate_cm = NaN),
+    compute_hbp(test_mod_small(), ideal_flow_rate_cm = NaN),
     class = "compute_hbp_argcheck_error"
   )
 
