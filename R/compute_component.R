@@ -4,6 +4,7 @@ erahumed_components <- function() {
 }
 
 
+
 compute_component <- function(model, component = erahumed_components(), ...)
 {
   compute_component_basecheck(model, component)
@@ -25,11 +26,15 @@ compute_component <- function(model, component = erahumed_components(), ...)
   return(model)
 }
 
+
+
 upstream_components <- function(component) {
   i <- match(component, erahumed_components())
 
   erahumed_components() |> (\(.) .[seq_along(.) < i])()
 }
+
+
 
 downstream_components <- function(component) {
   i <- match(component, erahumed_components())
@@ -61,12 +66,16 @@ compute_component_basecheck <- function(model,
   })
 }
 
+
+
 get_component_argcheck_fun <- function(component) {
   res <- get_erahumed_fun( paste0("compute_", component, "_argcheck") )
   if (is.null(res))
     res <- function(...) return(TRUE)
   return(res)
 }
+
+
 
 get_component_output_fun <- function(component) {
   res <- get_erahumed_fun( paste0("compute_", component, "_output") )
@@ -75,12 +84,16 @@ get_component_output_fun <- function(component) {
   return(res)
 }
 
+
+
 get_component_output_validator_fun <- function(component) {
   res <- get_erahumed_fun( paste0(component, "_validate_output") )
   if (is.null(res))
     res <- function(...) return(assert_data.frame)
   return(res)
 }
+
+
 
 get_component_constructor_fun <- function(component) {
   validate_output <- get_component_output_validator_fun(component)
@@ -95,6 +108,8 @@ get_component_constructor_fun <- function(component) {
     return(res)
   }
 }
+
+
 
 get_erahumed_fun <- function(fun_name) {
   tryCatch(
