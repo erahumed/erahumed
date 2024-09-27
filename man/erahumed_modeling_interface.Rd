@@ -71,8 +71,8 @@ compute_hbp(m)
 ### Extracting and plotting outputs
 m <- m |> compute_inp() |> compute_hba()
 
-component_output(inp(m))  # 'erahumed_model_component' method
-component_output(m, "hba")  # 'erahumed_model' method
+component_output(inp(m)) |> head()  # 'erahumed_model_component' method
+component_output(m, "hba") |> head()  # 'erahumed_model' method
 
 \dontrun{
 # Returns an interactive plotly plot, run manually.
