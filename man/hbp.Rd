@@ -3,7 +3,7 @@
 \name{hbp}
 \alias{hbp}
 \alias{compute_hbp}
-\title{Hydrological Balance of rice Paddies}
+\title{HBP: Hydrological Balance of rice Paddies}
 \usage{
 hbp(model)
 
@@ -15,23 +15,46 @@ compute_hbp(
 )
 }
 \arguments{
-\item{outflows_df, petp_df, management_df, clusters_df}{\code{data.frame}s, whose
-structures follow the templates of
-\link{albufera_outflows}, \link{albufera_petp}, \link{albufera_management}
-and \link{albufera_clusters}, respectively.}
+\item{model}{An object of class \link{erahumed_model}, with a pre-computed
+\link{hba} component (\emph{i.e.} such that \code{hba(model)} is not \code{NULL}).}
+
+\item{management_df}{A \code{data.frame} that provides the yearly schedule for
+irrigation and draining, that strictly follows the template of
+\link{albufera_management}.}
+
+\item{clusters_df}{A \code{data.frame} that contains the definition of rice paddy
+clusters. This should strictly follow the template of
+\link{albufera_clusters}, and it is in fact unlikely that the user would want
+to change this input (TODO #47).}
 }
 \value{
-An object of class \code{hbp}, a lightweight wrapper of \code{data.frame}
-with a few additional visualization methods (most prominently
-\link{plot.hbp}).
+Objects of class \link{erahumed_model} and \code{erahumed_hbp}, for
+\code{compute_hbp()} and \code{hbp()} respectively.
 }
 \description{
-Wrapper around \link{hbp}, used to run the local hydrological balance
-simulation algorithm with the data for the Albufera lake packed up in the
-\code{data.frame}s exported by \code{erahumed}.
+This model component performs a simulation of hydrological balance
+daily data for the rice paddies of the Albufera National Park, that provides
+a synthetic dataset of daily inflows, outflows and average water levels for
+each rice paddy.
+
+The inputs to this simulation are:
+\enumerate{
+\item The previously calculated hydrological balance for the Albufera lake.
+\item A geographical subdivision of the Albufera National Park into "clusters"
+of rice paddies, of a definite rice variety, and whose waters flow into the
+same ditch.
+\item An yearly ideal schedule for irrigation and draining, with corresponding
+expected water levels of a cluster for each day of the year.
+}
+
+This modeling layer requires the \link{hba} component of the model to be
+pre-computed.
 }
 \details{
-The numeric inputs used from the linear storage curve and P-ETP surface were
-extracted from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}
+TODO: #64, plus more detailed information on the structure of
+\code{management_df} (and perhaps also on \code{clusters_df}, depending on the decision
+taken regarding #47).
+}
+\author{
+Pablo Amador Crespo, Valerio Gherardi
 }

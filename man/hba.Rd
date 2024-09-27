@@ -30,8 +30,26 @@ volume change.}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_hba}, for
-\code{compute_hba()} and \code{hba()} respectively. In particular, the output
-data.frame of the HBA component has the following calculated columns:
+\code{compute_hba()} and \code{hba()} respectively.
+}
+\description{
+This model component completes the partial hydrological balance information
+provided as input data, by computing the total inflow to the Albufera lake,
+as well as, if relevant, the amount of unaccounted outflow - usually
+attributed to \emph{tancats} that suck water from the lake.
+
+It is the second modeling layer, and requires the \link{inp} component of the
+model to be previously defined.
+}
+\details{
+The numeric inputs for the linear storage curve are taken from the CHJ report
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
+The values used as the arguments of \code{petp_surface()} were calculated by the
+package authors, and correspond to the total study area (\code{surface_P}) and
+the flooded surface (\code{surface_ETP}).
+
+The output data.frame of the calculated HBA component contains a copy of the
+input data, as well as the following additional columns:
 \itemize{
 \item \code{volume} Volume time series, obtained from the storage curve.
 \item \code{volume_change} Differenced time series of volume. The \eqn{n}-th is given
@@ -54,22 +72,6 @@ described above.
 This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
 \item \code{residence_time_days}. Residence time, as modeled by \link{hba_residence_time}.
 }
-}
-\description{
-This model component completes the partial hydrological balance information
-provided as input data, by computing the total inflow to the Albufera lake,
-as well as, if relevant, the amount of unaccounted outflow - usually
-attributed to \emph{tancats} that suck water from the lake.
-
-It is the second modeling layer, and requires the \link{inp} component of the
-model to be previously defined.
-}
-\details{
-The numeric inputs for the linear storage curve are taken from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
-The values used as the arguments of \code{petp_surface()} were calculated by the
-package authors, and correspond to the total study area (\code{surface_P}) and
-the flooded surface (\code{surface_ETP}).
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

@@ -29,9 +29,8 @@
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
 #'
-#' @return Objects of class \link{erahumed_model} and `erahumed_hba`, for
-#' `compute_hba()` and `hba()` respectively. In particular, the output
-#' data.frame of the HBA component has the following calculated columns:
+#' The output data.frame of the calculated HBA component contains a copy of the
+#' input data, as well as the following additional columns:
 #' * `volume` Volume time series, obtained from the storage curve.
 #' * `volume_change` Differenced time series of volume. The \eqn{n}-th is given
 #' by \eqn{\Delta V _n \equiv V_{n+1}-V_n}, where \eqn{V_n} is volume at time
@@ -52,6 +51,9 @@
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
 #' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
+#'
+#' @return Objects of class \link{erahumed_model} and `erahumed_hba`, for
+#' `compute_hba()` and `hba()` respectively.
 #'
 #' @export
 hba <- function(model)
