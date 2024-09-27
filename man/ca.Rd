@@ -2,27 +2,48 @@
 % Please edit documentation in R/ca.R
 \name{ca}
 \alias{ca}
-\title{Chemicals Applications}
+\alias{compute_ca}
+\title{CA: Chemicals Applications}
 \usage{
 ca(model)
+
+compute_ca(
+  model,
+  ca_schedules_df = erahumed::albufera_ca_schedules,
+  height_thresh_cm = 2
+)
 }
 \arguments{
-\item{hbp_res}{an object of class \code{"hbp"} - see \link{hbp}.}
+\item{model}{An object of class \link{erahumed_model}, with a pre-computed
+\link{hbp} component (\emph{i.e.} such that \code{hbp(model)} is not \code{NULL}).}
 
 \item{ca_schedules_df}{a \code{data.frame} following the template of
+\link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
+scheduled application. The semantics of columns are the same as in
 \link{albufera_ca_schedules}.}
 
 \item{height_thresh_cm}{a positive number. Upper limit of paddy water levels
 required for ground applications of chemicals. Expressed in centimeters.}
 }
 \value{
-an object of class \code{"erahumed_ca"}. This is essentially a
-\code{data.frame} with the same columns of the output of \link{hbp}(),
-plus additional columns named as the chemicals listed in \code{ca_schedules_df},
-each of which provides the (daily) time series of chemicals applications,
-expressed in kilograms.
+Objects of class \link{erahumed_model} and \code{erahumed_ca}, for
+\code{compute_ca()} and \code{ca()} respectively.
 }
 \description{
-Simulates the application of chemicals to rice paddies, given a previous
-calculation of local hydrological balance as input.
+This model component simulates the application of chemicals to rice paddy
+clusters, based on a previously computed simulation of local hydrological
+balance. The result is a set of time series of applied doses, one for each
+applied chemical.
+
+This modeling layer requires the \link{hbp} component of the model to be
+pre-computed.
+}
+\details{
+The output \code{data.frame} extends the output of the underlying \link{hbp}
+layer, preserving its cardinality (one row per cluster per day). The
+additional columns, named as the chemicals appearing in \code{ca_schedules_df},
+provide the time series of applied doses, expressed in kilograms.
+}
+\author{
+Pablo Amador Crespo, Valerio Gherardi
 }

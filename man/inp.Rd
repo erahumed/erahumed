@@ -29,7 +29,9 @@ Objects of class \link{erahumed_model} and \code{erahumed_inp}, for
 \description{
 This model component has the only purpose to collect the observational (or,
 potentially, synthetic) data used by the algorithms of the ERAHUMED decision
-support system. It is the first layer of the modeling chain and does not have
+support system.
+
+This is the first layer of the modeling chain and does not have
 any upstream dependence.
 }
 \details{

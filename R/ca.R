@@ -1,25 +1,41 @@
-#' Chemicals Applications
+#' @title CA: Chemicals Applications
+#' @rdname ca
+#'
+#' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Simulates the application of chemicals to rice paddies, given a previous
-#' calculation of local hydrological balance as input.
+#' This model component simulates the application of chemicals to rice paddy
+#' clusters, based on a previously computed simulation of local hydrological
+#' balance. The result is a set of time series of applied doses, one for each
+#' applied chemical.
 #'
-#' @param hbp_res an object of class `"hbp"` - see \link{hbp}.
+#' This modeling layer requires the \link{hbp} component of the model to be
+#' pre-computed.
+#'
+#' @param model An object of class \link{erahumed_model}, with a pre-computed
+#' \link{hbp} component (*i.e.* such that `hbp(model)` is not `NULL`).
 #' @param ca_schedules_df a `data.frame` following the template of
+#' \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
+#' scheduled application. The semantics of columns are the same as in
 #' \link{albufera_ca_schedules}.
 #' @param height_thresh_cm a positive number. Upper limit of paddy water levels
 #' required for ground applications of chemicals. Expressed in centimeters.
 #'
-#' @return an object of class `"erahumed_ca"`. This is essentially a
-#' `data.frame` with the same columns of the output of \link{hbp}(),
-#' plus additional columns named as the chemicals listed in `ca_schedules_df`,
-#' each of which provides the (daily) time series of chemicals applications,
-#' expressed in kilograms.
+#' @return Objects of class \link{erahumed_model} and `erahumed_ca`, for
+#' `compute_ca()` and `ca()` respectively.
+#'
+#' @details
+#' The output `data.frame` extends the output of the underlying \link{hbp}
+#' layer, preserving its cardinality (one row per cluster per day). The
+#' additional columns, named as the chemicals appearing in `ca_schedules_df`,
+#' provide the time series of applied doses, expressed in kilograms.
 #'
 #' @export
 ca <- function(model)
   get_model_component(model, "ca")
 
+#' @rdname ca
+#' @export
 compute_ca <- function(model,
                        ca_schedules_df = erahumed::albufera_ca_schedules,
                        height_thresh_cm = 2)
