@@ -146,20 +146,3 @@ hbp_validate_output <- function(output) {
   assert_integer_vector(output$plan_delay)
   assert_positive_vector(output$real_height_cm, tol = 1e-6)
 }
-
-
-#' @export
-print.erahumed_hbp <- function(x, ..., max = 100) {
-  cat(bold("An object of class 'hbp'."))
-
-  min_date <- format(as.Date(min(x$output$date)))
-  max_date <- format(as.Date(max(x$output$date)))
-  cat("\nData from:", min_date, "to:", max_date, "\n\n")
-
-  print.data.frame(x$output, max = max)
-}
-
-#' @export
-summary.erahumed_hbp <- function(object, ..., max = 100) {
-  print(object, max = max)
-}

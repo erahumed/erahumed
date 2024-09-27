@@ -125,20 +125,3 @@ hba_validate_output <- function(output) {
   )
 }
 
-
-#' @export
-print.erahumed_hba <- function(x, ..., max = 100) {
-  cat(bold("An object of class 'hba'."))
-
-  min_date <- format(as.Date(min(x$output$date)))
-  max_date <- format(as.Date(max(x$output$date)))
-  cat("\nData from:", min_date, "to:", max_date, "\n\n")
-
-  print.data.frame(x$output, max = max)
-}
-
-#' @export
-summary.erahumed_hba <- function(object, ..., max = 100) {
-  print(object, max = max)
-}
-

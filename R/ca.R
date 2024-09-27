@@ -89,21 +89,3 @@ compute_ca_output <- function(model, ca_schedules_df, height_thresh_cm)
 
 
 ca_validate_output <- assert_data.frame
-
-
-
-#' @export
-print.erahumed_ca <- function(x, ..., max = 100) {
-  cat(bold("An object of class 'ca'."))
-
-  min_date <- format(as.Date(min(x$output$date)))
-  max_date <- format(as.Date(max(x$output$date)))
-  cat("\nData from:", min_date, "to:", max_date, "\n\n")
-
-  print.data.frame(x$output, max = max)
-}
-
-#' @export
-summary.erahumed_ca <- function(object, ..., max = 100) {
-  print(object, max = max)
-}
