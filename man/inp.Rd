@@ -3,7 +3,7 @@
 \name{inp}
 \alias{inp}
 \alias{compute_inp}
-\title{INP: Input layer}
+\title{INP: Input data}
 \usage{
 inp(model)
 
@@ -51,4 +51,7 @@ hydrological and weather input data is available.
 model <- erahumed_model() |> compute_inp()
 inp(model)
 
+}
+\author{
+Valerio Gherardi
 }

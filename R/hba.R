@@ -1,20 +1,26 @@
-#' @title Hydrological Balance of the Albufera Lake
+#' @title HBA: Hydrological Balance of the Albufera Lake
 #' @rdname hba
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' Wrapper around \link{hba}, used to run the global hydrological balance
-#' calculations with the data for the Albufera lake packed up in the
-#' `data.frame`s exported by `erahumed`.
+#' This model component completes the partial hydrological balance information
+#' provided as input data, by computing the total inflow to the Albufera lake,
+#' as well as, if relevant, the amount of unaccounted outflow - usually
+#' attributed to *tancats* that suck water from the lake.
 #'
+#' It is the second modeling layer, and requires the \link{inp} component of the
+#' model to be previously defined.
+#'
+#' @param model An object of class \link{erahumed_model}, with a pre-computed
+#' \link{inp} component (*i.e.* such that `inp(model)` is not `NULL`).
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
-#' levels (passed through the `level` argument) into lake *volumes*.
+#' levels into lake *volumes*.
 #' @param petp_surface a function that takes two numeric vectors of common
 #' length as inputs, and returns a numeric vector of the same length. Function
-#' that converts precipitation and evapotranspiration values (passed through
-#' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
+#' that converts precipitation and evapotranspiration values into an overall
+#' volume change.
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
@@ -23,18 +29,9 @@
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
 #'
-#' The `outflows_df` data.frame is supposed to have all columns of
-#' \link{albufera_outflows} whose names do not start by `outflow_`, with the
-#' appropriate type. In addition, `outflows_df` can have an arbitrary number of
-#' numeric columns named `outflow_*`, which represent the measured outflows for
-#' the system. It is fundamental that outflow columns follow this particualr
-#' naming scheme, as these are automatically recognized by
-#' `hba()` and passed down to low level functions.
-#'
-#' @return An object of class `hba`, a lightweight wrapper of `data.frame`
-#' with a few additional visualization methods (most prominently
-#' \link{plot.hba}). The underlying data-frame contains as columns the
-#' input time series, as well as the following calculated columns:
+#' @return Objects of class \link{erahumed_model} and `erahumed_hba`, for
+#' `compute_hba()` and `hba()` respectively. In particular, the output
+#' data.frame of the HBA component has the following calculated columns:
 #' * `volume` Volume time series, obtained from the storage curve.
 #' * `volume_change` Differenced time series of volume. The \eqn{n}-th is given
 #' by \eqn{\Delta V _n \equiv V_{n+1}-V_n}, where \eqn{V_n} is volume at time

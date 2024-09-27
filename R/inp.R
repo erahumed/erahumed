@@ -1,5 +1,7 @@
-#' @title INP: Input layer
+#' @title INP: Input data
 #' @rdname inp
+#'
+#' @author Valerio Gherardi
 #'
 #' @description
 #' This model component has the only purpose to collect the observational (or,

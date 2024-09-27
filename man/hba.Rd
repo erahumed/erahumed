@@ -3,7 +3,7 @@
 \name{hba}
 \alias{hba}
 \alias{compute_hba}
-\title{Hydrological Balance of the Albufera Lake}
+\title{HBA: Hydrological Balance of the Albufera Lake}
 \usage{
 hba(model)
 
@@ -16,20 +16,22 @@ compute_hba(
 )
 }
 \arguments{
+\item{model}{An object of class \link{erahumed_model}, with a pre-computed
+\link{inp} component (\emph{i.e.} such that \code{inp(model)} is not \code{NULL}).}
+
 \item{storage_curve}{a function that takes a numeric vector as input, and
 returns a numeric vector of the same length. Function that converts lake
-levels (passed through the \code{level} argument) into lake \emph{volumes}.}
+levels into lake \emph{volumes}.}
 
 \item{petp_surface}{a function that takes two numeric vectors of common
 length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values (passed through
-the \code{rain_mm} and \code{evapotranspiration_mm} arguments) into an overall volume change.}
+that converts precipitation and evapotranspiration values into an overall
+volume change.}
 }
 \value{
-An object of class \code{hba}, a lightweight wrapper of \code{data.frame}
-with a few additional visualization methods (most prominently
-\link{plot.hba}). The underlying data-frame contains as columns the
-input time series, as well as the following calculated columns:
+Objects of class \link{erahumed_model} and \code{erahumed_hba}, for
+\code{compute_hba()} and \code{hba()} respectively. In particular, the output
+data.frame of the HBA component has the following calculated columns:
 \itemize{
 \item \code{volume} Volume time series, obtained from the storage curve.
 \item \code{volume_change} Differenced time series of volume. The \eqn{n}-th is given
@@ -54,9 +56,13 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 }
 }
 \description{
-Wrapper around \link{hba}, used to run the global hydrological balance
-calculations with the data for the Albufera lake packed up in the
-\code{data.frame}s exported by \code{erahumed}.
+This model component completes the partial hydrological balance information
+provided as input data, by computing the total inflow to the Albufera lake,
+as well as, if relevant, the amount of unaccounted outflow - usually
+attributed to \emph{tancats} that suck water from the lake.
+
+It is the second modeling layer, and requires the \link{inp} component of the
+model to be previously defined.
 }
 \details{
 The numeric inputs for the linear storage curve are taken from the CHJ report
@@ -64,14 +70,6 @@ The numeric inputs for the linear storage curve are taken from the CHJ report
 The values used as the arguments of \code{petp_surface()} were calculated by the
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).
-
-The \code{outflows_df} data.frame is supposed to have all columns of
-\link{albufera_outflows} whose names do not start by \code{outflow_}, with the
-appropriate type. In addition, \code{outflows_df} can have an arbitrary number of
-numeric columns named \verb{outflow_*}, which represent the measured outflows for
-the system. It is fundamental that outflow columns follow this particualr
-naming scheme, as these are automatically recognized by
-\code{hba()} and passed down to low level functions.
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi
