@@ -1,3 +1,18 @@
+#' Initialize an ERAHUMED model
+#'
+#' @description
+#' Initializes an ERAHUMED model. This is the starting point for the ERAHUMED
+#' model chain, whose computations are performed by `compute_*()` functions.
+#'
+#' @return An object of class `erahumed_model`, that represents a blank ERAHUMED
+#' model (with no model component computed yet).
+#'
+#' @author Valerio Gherardi
+#'
+#' @examples
+#' m <- erahumed_model()
+#' m
+#'
 #' @export
 erahumed_model <- function()
   new_erahumed_model()
@@ -19,4 +34,23 @@ is_erahumed_model <- function(obj) {
   return(TRUE)
 }
 
+#' @export
+print.erahumed_model <- function(x, ..., max = 100) {
+  cat(bold("An ERAHUMED model."))
 
+  comps <- if (length(x) == 0) "None" else paste(names(x), collapse = ", ")
+  cat("\nCalculated components: ", comps)
+}
+
+#' @export
+print.erahumed_model <- function(x, ...) {
+  cat(bold("An ERAHUMED model."))
+
+  comps <- if (length(x) == 0) "None" else paste(names(x), collapse = ", ")
+  cat("\n\nCalculated components:", comps)
+}
+
+#' @export
+summary.erahumed_model <- function(object, ...) {
+  print(object)
+}
