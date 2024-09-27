@@ -1,4 +1,4 @@
-#' @title CA: Chemicals Applications
+#' @title CA: Chemical Applications
 #' @rdname ca
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi

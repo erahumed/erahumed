@@ -3,7 +3,7 @@
 \name{ca}
 \alias{ca}
 \alias{compute_ca}
-\title{CA: Chemicals Applications}
+\title{CA: Chemical Applications}
 \usage{
 ca(model)
 

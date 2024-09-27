@@ -3,6 +3,7 @@
 #' @description
 #' Initializes an ERAHUMED model. This is the starting point for the ERAHUMED
 #' model chain, whose computations are performed by `compute_*()` functions.
+#' See \link{erahumed_modeling_interface} for more details.
 #'
 #' @return An object of class `erahumed_model`, that represents a blank ERAHUMED
 #' model (with no model component computed yet).
