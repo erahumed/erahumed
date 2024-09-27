@@ -54,6 +54,13 @@ model <- erahumed_model() |> compute_inp()
 inp(model)
 
 }
+\seealso{
+Other model components: 
+\code{\link{ca}()},
+\code{\link{hba}()},
+\code{\link{hbp}()}
+}
 \author{
 Valerio Gherardi
 }
+\concept{model components}

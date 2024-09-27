@@ -73,6 +73,13 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 \item \code{residence_time_days}. Residence time, as modeled by \link{hba_residence_time}.
 }
 }
+\seealso{
+Other model components: 
+\code{\link{ca}()},
+\code{\link{hbp}()},
+\code{\link{inp}()}
+}
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
+\concept{model components}

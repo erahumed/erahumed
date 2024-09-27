@@ -60,6 +60,13 @@ TODO: #64, plus more detailed information on the structure of
 \code{management_df} (and perhaps also on \code{clusters_df}, depending on the decision
 taken regarding #47).
 }
+\seealso{
+Other model components: 
+\code{\link{ca}()},
+\code{\link{hba}()},
+\code{\link{inp}()}
+}
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
+\concept{model components}

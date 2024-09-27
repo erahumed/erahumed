@@ -1,6 +1,8 @@
 #' @title HBA: Hydrological Balance of the Albufera Lake
 #' @rdname hba
 #'
+#' @family model components
+#'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description

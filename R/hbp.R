@@ -1,6 +1,8 @@
 #' @title HBP: Hydrological Balance of rice Paddies
 #' @rdname hbp
 #'
+#' @family model components
+#'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description

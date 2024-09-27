@@ -33,4 +33,9 @@ based on GAMs.
 
 TODO: Document imputation approach used here. #51
 }
+\seealso{
+Other input data: 
+\code{\link{albufera_petp}}
+}
+\concept{input data}
 \keyword{datasets}

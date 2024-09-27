@@ -1,6 +1,8 @@
 #' @title CA: Chemical Applications
 #' @rdname ca
 #'
+#' @family model components
+#'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description

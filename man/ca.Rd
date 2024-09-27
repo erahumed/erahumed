@@ -44,6 +44,13 @@ layer, preserving its cardinality (one row per cluster per day). The
 additional columns, named as the chemicals appearing in \code{ca_schedules_df},
 provide the time series of applied doses, expressed in kilograms.
 }
+\seealso{
+Other model components: 
+\code{\link{hba}()},
+\code{\link{hbp}()},
+\code{\link{inp}()}
+}
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
+\concept{model components}

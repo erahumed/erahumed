@@ -1,6 +1,9 @@
 #' @title INP: Input data
 #' @rdname inp
 #'
+#' @family model components
+#'
+#'
 #' @author Valerio Gherardi
 #'
 #' @description

@@ -24,4 +24,9 @@ albufera_petp
 \description{
 TODO #50
 }
+\seealso{
+Other input data: 
+\code{\link{albufera_outflows}}
+}
+\concept{input data}
 \keyword{datasets}

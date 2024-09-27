@@ -1,5 +1,7 @@
 #' Albufera Precipitation and Evapotranspiration Daily Data
 #'
+#' @family input data
+#'
 #' @description TODO #50
 #'
 #' @format ## `albufera_petp`
@@ -13,6 +15,8 @@
 "albufera_petp"
 
 #' Albufera Outflows Daily Data
+#'
+#' @family input data
 #'
 #' @description
 #' Data from continuous measurements of outflow rates and lake level from
