@@ -3,8 +3,9 @@
 #'
 #' @description
 #' This model component has the only purpose to collect the observational (or,
-#' potentially, synthetic) data used by the algorithms of the ERAHUMED model
-#' chain.
+#' potentially, synthetic) data used by the algorithms of the ERAHUMED decision
+#' support system. It is the first layer of the modeling chain and does not have
+#' any upstream dependence.
 #'
 #' @param model An object of class \link{erahumed_model}.
 #' @param outflows_df A `data.frame`, whose structure follows the
