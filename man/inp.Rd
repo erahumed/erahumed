@@ -3,7 +3,7 @@
 \name{inp}
 \alias{inp}
 \alias{compute_inp}
-\title{ERAHUMED Input Data}
+\title{INP: Input layer}
 \usage{
 inp(model)
 
@@ -14,15 +14,40 @@ compute_inp(
 )
 }
 \arguments{
-\item{outflows_df, petp_df}{\code{data.frame}s, whose structures follow the
-templates of \link{albufera_outflows}, \link{albufera_petp}.}
+\item{model}{An object of class \link{erahumed_model}.}
+
+\item{outflows_df}{A \code{data.frame}, whose structure follows the
+template of \link{albufera_outflows}; See details.}
+
+\item{petp_df}{A \code{data.frame}, whose structure follows the template of
+\link{albufera_petp}; See details.}
 }
 \value{
-An object of class \code{inp}.
+Objects of class \link{erahumed_model} and \code{erahumed_inp}, for
+\code{compute_inp()} and \code{inp()} respectively.
 }
 \description{
-Input data for the algorithms of the ERAHUMED DSS.
+This model component has the only purpose to collect the observational (or,
+potentially, synthetic) data used by the algorithms of the ERAHUMED model
+chain.
 }
 \details{
-TODO
+The \code{outflows_df} input data.frame is meant to capture the observational
+hydrological data on the Albufera lake. This consists of a \code{level} column,
+that is the daily measured lake water level in meters, plus any number of
+columns named as \verb{outflow_*} (\emph{e.g.} \code{outflow_pujol}), that give the daily
+measured outflows in cube meters per second.
+The \code{petp_df} captures the relevant weather data for hydrological balance,
+that is precipitation and evapotranspiration, corresponding to the \code{rain_mm}
+and \code{evapotranspiration_mm} columns, respectively.
+Both \code{data.frame}s should have a \code{date} column (of class \link{Date}), and
+the corresponding date domain should be an interval (\emph{i.e.} no missing data
+between the maximum and minimum of \code{date} is allowed). The subsequent
+modeling will only be performed on the largest date interval in which both
+hydrological and weather input data is available.
+}
+\examples{
+model <- erahumed_model() |> compute_inp()
+inp(model)
+
 }

@@ -1,16 +1,38 @@
-#' @title ERAHUMED Input Data
+#' @title INP: Input layer
 #' @rdname inp
 #'
 #' @description
-#' Input data for the algorithms of the ERAHUMED DSS.
+#' This model component has the only purpose to collect the observational (or,
+#' potentially, synthetic) data used by the algorithms of the ERAHUMED model
+#' chain.
 #'
-#' @param outflows_df,petp_df `data.frame`s, whose structures follow the
-#' templates of \link{albufera_outflows}, \link{albufera_petp}.
+#' @param model An object of class \link{erahumed_model}.
+#' @param outflows_df A `data.frame`, whose structure follows the
+#' template of \link{albufera_outflows}; See details.
+#' @param petp_df A `data.frame`, whose structure follows the template of
+#' \link{albufera_petp}; See details.
 #'
-#' @return An object of class `inp`.
+#' @return Objects of class \link{erahumed_model} and `erahumed_inp`, for
+#' `compute_inp()` and `inp()` respectively.
 #'
 #' @details
-#' TODO
+#' The `outflows_df` input data.frame is meant to capture the observational
+#' hydrological data on the Albufera lake. This consists of a `level` column,
+#' that is the daily measured lake water level in meters, plus any number of
+#' columns named as `outflow_*` (*e.g.* `outflow_pujol`), that give the daily
+#' measured outflows in cube meters per second.
+#' The `petp_df` captures the relevant weather data for hydrological balance,
+#' that is precipitation and evapotranspiration, corresponding to the `rain_mm`
+#' and `evapotranspiration_mm` columns, respectively.
+#' Both `data.frame`s should have a `date` column (of class \link{Date}), and
+#' the corresponding date domain should be an interval (*i.e.* no missing data
+#' between the maximum and minimum of `date` is allowed). The subsequent
+#' modeling will only be performed on the largest date interval in which both
+#' hydrological and weather input data is available.
+#'
+#' @examples
+#' model <- erahumed_model() |> compute_inp()
+#' inp(model)
 #'
 #' @export
 inp <- function(model)
