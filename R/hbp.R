@@ -29,6 +29,10 @@
 #' @param management_df A `data.frame` that provides the yearly schedule for
 #' irrigation and draining, that strictly follows the template of
 #' \link{albufera_management}.
+#' @param ideal_flow_rate_cm A positive number. Ideal inflow/outflow of a
+#' cluster, for days in which the cluster is scheduled to be in flux (*i.e.*
+#' when being simultaneously irrigated and drained) Expressed in centimeters
+#' per day.
 #'
 #' @return Objects of class \link{erahumed_model} and `erahumed_hbp`, for
 #' `compute_hbp()` and `hbp()` respectively.

@@ -26,6 +26,11 @@ irrigation and draining, that strictly follows the template of
 clusters. This should strictly follow the template of
 \link{albufera_clusters}, and it is in fact unlikely that the user would want
 to change this input (TODO #47).}
+
+\item{ideal_flow_rate_cm}{A positive number. Ideal inflow/outflow of a
+cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.}
+when being simultaneously irrigated and drained) Expressed in centimeters
+per day.}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_hbp}, for
