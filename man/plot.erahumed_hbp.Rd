@@ -30,10 +30,3 @@ method, the user must provide an additional \code{cluster_id} argument, a string
 specifying the identifier of the cluster whose levels are to be plotted (see
 example below).
 }
-\examples{
-plot(hbp(),
-     type = "cluster_levels",
-     cluster_id = "02_Carrera_del_Saler0-2_0"
-     )
-
-}

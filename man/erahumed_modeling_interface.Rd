@@ -64,7 +64,7 @@ hba(m)  # NULL because of previous line
 
 # The code below results in an error, because the HBP component depends
 # on the HBA component, which is still NULL (see above).
-\donttest{
+\dontrun{
 compute_hbp(m)
 }
 

@@ -2,13 +2,24 @@
 % Please edit documentation in R/component_output.R
 \name{component_output}
 \alias{component_output}
+\alias{component_output.erahumed_model_component}
+\alias{component_output.erahumed_model}
 \title{Extract model component outputs}
 \usage{
 component_output(object, ...)
+
+\method{component_output}{erahumed_model_component}(object, ...)
+
+\method{component_output}{erahumed_model}(object, component, ...)
 }
 \arguments{
-\item{component}{An object inheriting from class
-\link{erahumed_model_component}.}
+\item{object}{The object from which the component output is to be extracted
+from (see above for available methods).}
+
+\item{...}{further arguments passed to or from other methods.}
+
+\item{component}{A string. Name of the component whose output \code{data.frame}
+is to be extracted.}
 }
 \value{
 A \code{data.frame}.

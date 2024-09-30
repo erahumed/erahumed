@@ -8,10 +8,11 @@ inpUI <- function(id) {
     shiny::tabPanel(outflows_tab_title, csvInputUI(ns("outflows"))),
     shiny::tabPanel(petp_tab_title, csvInputUI(ns("petp"))),
     shiny::tabPanel("Filters",
-                    dateRangeInput(inputId = ns("date_range"),
-                                   label = "Date Range",
-                                   start = as.Date("2020-01-01"),
-                                   end = as.Date("2020-12-31"))
+                    shiny::dateRangeInput(inputId = ns("date_range"),
+                                          label = "Date Range",
+                                          start = as.Date("2020-01-01"),
+                                          end = as.Date("2020-12-31")
+                                          )
                     )
     )
 }
@@ -23,7 +24,7 @@ inpServer <- function(id, model) {
     petp_df <- csvInputServer("petp", erahumed::albufera_petp)
 
     outflows_df_raw <- csvInputServer("outflows", erahumed::albufera_outflows)
-    outflows_df <- reactive({
+    outflows_df <- shiny::reactive({
       res <- outflows_df_raw()
       res <- res[res$date >= input$date_range[1], ]
       res <- res[res$date <= input$date_range[2], ]
