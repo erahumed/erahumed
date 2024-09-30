@@ -14,10 +14,10 @@ shiny_app <- function() {
 shiny_ui <- function() {
   shiny::navbarPage(
     "ERAHUMED",
-    shiny::tabPanel("Input Data", inpUI("inp")),
-    shiny::tabPanel("Hydrological Balance (Albufera)", hbaUI("hba")),
-    shiny::tabPanel("Hydrological Balance (Rice Paddies)", hbpUI("hbp")),
-    shiny::tabPanel("Chemicals Applications", caUI("ca"))
+    shiny::tabPanel("INP: Input Data", inpUI("inp")),
+    shiny::tabPanel("HBA: Hydrological Balance (Albufera)", hbaUI("hba")),
+    shiny::tabPanel("HBP: Hydrological Balance (rice Paddies)", hbpUI("hbp")),
+    shiny::tabPanel("CA: Chemical Applications", caUI("ca"))
     )
 }
 
