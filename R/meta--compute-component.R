@@ -1,10 +1,3 @@
-erahumed_components <- function() {
-  res <- c("inp", "hba", "hbp", "ca")
-  c(res, "dum") # Add dummy component with upstream dependence from all others
-}
-
-
-
 compute_component <- function(model, component = erahumed_components(), ...)
 {
   compute_component_basecheck(model, component)
