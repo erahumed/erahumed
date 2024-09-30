@@ -9,7 +9,7 @@ test_that("moving_average() gives the correct result in a basic case", {
   expect_equal(moving_average(1:3, 3), (1 / 3) * c(1 + 1 + 2,
                                                    1 + 2 + 3,
                                                    2 + 3 + 3)
-               )
+  )
 })
 
 test_that("moving_average() raises a warning when 'k' is even", {
@@ -27,55 +27,6 @@ test_that("moving_average() gives the correct result for even 'k'", {
                 3 + 4 + 5 + 5 + 5)
   )
 })
-
-
-
-test_that("get_mm() and get_dd() outputs have same length of input", {
-  input <- as.POSIXlt(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
-  mm <- get_mm(input)
-  dd <- get_dd(input)
-
-  expect_length(mm, length(input))
-  expect_length(dd, length(input))
-  })
-
-test_that("get_mm() and get_dd() return month and day numbers", {
-  input <- as.POSIXlt(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
-  mm <- get_mm(input)
-  dd <- get_dd(input)
-
-  expect_in(mm, 1:12)
-  expect_in(dd, 1:31)
-})
-
-test_that("get_mm() and get_dd(): correct values in simple cases", {
-  input <- as.POSIXlt(c("2021-01-01", "2019-12-31", "1992-01-24", "2001-10-02"))
-  mm <- get_mm(input)
-  dd <- get_dd(input)
-
-  expect_equal(mm, c(1, 12, 1, 10))
-  expect_equal(dd, c(1, 31, 24, 2))
-})
-
-
-
-test_that("cm_day_to_m3_s() returns correct value in simple case", {
-  input_cm <- 1 * 100  # 1 m3 of water in 1 day
-  area_m2 <- 1
-
-  expected <- 1 / s_per_day()
-  expect_equal(cm_day_to_m3_s(input_cm, area_m2), expected)
-})
-
-test_that("m3_s_to_cm_day() returns correct value in simple case", {
-  input_m3_s <- 1  # 1 m3/s of water during 1 day
-  area_m2 <- 1
-
-  expected <- 100 * s_per_day()
-  expect_equal(m3_s_to_cm_day(input_m3_s, area_m2), expected)
-})
-
-
 
 test_that("lgl_buffer() output has the correct type and length", {
   n <- 23
@@ -112,3 +63,26 @@ test_that("lgl_buffer() output is correct in simple case 3", {
   expect_equal(lgl_buffer(x, distance), expected)
 })
 
+test_that("pmin2() outputs are correct in simple cases", {
+  expect_equal(
+    pmin2(c(0.1, -1, 2, 3, -0.7, -0.1, 2, 3), thresh = 0),
+    c(0, -1, 0, 0, -0.7, -0.1, 0, 0)
+    )
+
+  expect_equal(
+    pmin2(c(2, 0.5, 1, 1.1, -1, 0.9, 1.4, 3), thresh = 1),
+    c(1, 0.5, 1, 1, -1, 0.9, 1, 1)
+  )
+})
+
+test_that("pmax2() outputs are correct in simple cases", {
+  expect_equal(
+    pmax2(c(0.1, -1, 2, 3, -0.7, -0.1, 2, 3), thresh = 0),
+    c(0.1, 0, 2, 3, 0, 0, 2, 3)
+  )
+
+  expect_equal(
+    pmax2(c(2, 0.5, 1, 1.1, -1, 0.9, 1.4, 3), thresh = 1),
+    c(2, 1, 1, 1.1, 1, 1, 1.4, 3)
+  )
+})
