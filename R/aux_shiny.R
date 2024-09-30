@@ -17,6 +17,8 @@ csvInputUI <- function(id) {
 
 csvInputServer <- function(id, initial_df) {
   shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
     df <- shiny::reactiveVal(initial_df)
 
     # Observe file input and update the data frame

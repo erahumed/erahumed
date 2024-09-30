@@ -1,4 +1,4 @@
-hbpUI <- function(id) {
+caUI <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tabsetPanel(
@@ -9,7 +9,7 @@ hbpUI <- function(id) {
 
 }
 
-hbpServer <- function(id, model) {
+caServer <- function(id, model) {
   shiny::moduleServer(id, function(input, output, session) {
     NULL
   })
