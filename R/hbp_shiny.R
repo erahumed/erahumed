@@ -24,6 +24,8 @@ hbpUI <- function(id) {
       ),
 
 
+    shiny::tabPanel("Management Schedule", csvInputUI(ns("management"))),
+
     shiny::tabPanel("Setup",
                     shiny::numericInput(ns("ideal_flow_rate_cm"),
                                         "Ideal Flow Rate [cm]",
@@ -47,10 +49,13 @@ hbpServer <- function(id, model) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    management_df <- csvInputServer("management", erahumed::albufera_management)
+
     res <- shiny::reactive({
 
       withr::with_seed(input$seed, {
         compute_hbp(model = model(),
+                    management_df = management_df(),
                     ideal_flow_rate_cm = input$ideal_flow_rate_cm
                     )
         })
