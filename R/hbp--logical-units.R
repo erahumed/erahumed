@@ -16,7 +16,8 @@ hbp_simulate_ditch <- function(
     capacity_m3_s,
     date,
     cluster_id,
-    ideal_flow_rate_cm = 5,
+    ideal_flow_rate_cm,
+    height_thresh_cm,
     ...
     )
 {
@@ -41,6 +42,7 @@ hbp_simulate_ditch <- function(
     args <- hbp_extract_daily_inputs(df_list, j)
     args <- c(args,
               list(ideal_flow_rate_cm = ideal_flow_rate_cm,
+                   height_thresh_cm = height_thresh_cm,
                    randomize_clusters = randomize_clusters)
     )
     update_j <- do.call(hbp_daily_step, args)
@@ -136,7 +138,8 @@ hbp_daily_step <- function(
     real_draining,
     area_m2,
     capacity_m3_s,
-    ideal_flow_rate_cm = 5,
+    ideal_flow_rate_cm,
+    height_thresh_cm,
     randomize_clusters
 )
 {
@@ -177,8 +180,8 @@ hbp_daily_step <- function(
   l <- c(l, hbp_plan_delay(plan_delay_lag = plan_delay_lag,
                            ideal_height_cm = ideal_height_cm,
                            real_height_cm = l$real_height_cm,
-                           date,
-                           thresh = 2.5))
+                           date = date,
+                           height_thresh_cm = height_thresh_cm))
 
   return(l)
 
@@ -267,7 +270,7 @@ hbp_plan_delay <- function(
     ideal_height_cm,
     real_height_cm,
     date,
-    thresh = 2.5,
+    height_thresh_cm,
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15)
     )
@@ -282,7 +285,7 @@ hbp_plan_delay <- function(
   if (reset_delay)
     return( list(plan_delay = numeric(length(plan_delay_lag))) )
 
-  add_delay <- (ideal_height_cm == 0) & (real_height_cm > thresh)
+  add_delay <- (ideal_height_cm == 0) & (real_height_cm > height_thresh_cm)
   return( list(plan_delay = plan_delay_lag + add_delay) )
 }
 

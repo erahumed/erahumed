@@ -11,7 +11,8 @@ compute_hbp(
   model,
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,
-  ideal_flow_rate_cm = 5
+  ideal_flow_rate_cm = 5,
+  height_thresh_cm = 2
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ to change this input (TODO #47).}
 cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.}
 when being simultaneously irrigated and drained) Expressed in centimeters
 per day.}
+
+\item{height_thresh_cm}{A positive number. Height threshold for water levels,
+below which a cluster is considered to be emptied.}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_hbp}, for

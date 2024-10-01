@@ -35,6 +35,8 @@
 #' cluster, for days in which the cluster is scheduled to be in flux (*i.e.*
 #' when being simultaneously irrigated and drained) Expressed in centimeters
 #' per day.
+#' @param height_thresh_cm A positive number. Height threshold for water levels,
+#' below which a cluster is considered to be emptied.
 #'
 #' @return Objects of class \link{erahumed_model} and `erahumed_hbp`, for
 #' `compute_hbp()` and `hbp()` respectively.
@@ -55,60 +57,54 @@ compute_hbp <- function(
     model,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
-    ideal_flow_rate_cm = 5
+    ideal_flow_rate_cm = 5,
+    height_thresh_cm = 2
     )
 {
   compute_component(model,
                     "hbp",
                     management_df = management_df,
                     clusters_df = clusters_df,
-                    ideal_flow_rate_cm = ideal_flow_rate_cm
+                    ideal_flow_rate_cm = ideal_flow_rate_cm,
+                    height_thresh_cm = height_thresh_cm
                     )
 }
 
 
 
-compute_hbp_output <- function(
-    model, management_df, clusters_df, ideal_flow_rate_cm
-)
+compute_hbp_output <- function(model,
+                               management_df,
+                               clusters_df,
+                               ideal_flow_rate_cm,
+                               height_thresh_cm)
 {
   .hbp_args <- .hbp_data_prep(model = model,
                               management_df = management_df,
                               clusters_df = clusters_df,
-                              ideal_flow_rate_cm = ideal_flow_rate_cm
-  )
+                              ideal_flow_rate_cm = ideal_flow_rate_cm,
+                              height_thresh_cm = height_thresh_cm)
   do.call(.hbp, .hbp_args)
 }
 
 
 
-compute_hbp_argcheck <- function(management_df, clusters_df, ideal_flow_rate_cm)
+compute_hbp_argcheck <- function(management_df,
+                                 clusters_df,
+                                 ideal_flow_rate_cm,
+                                 height_thresh_cm)
 {
   tryCatch(
     {
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)
+      assert_positive_number(height_thresh_cm)
     },
     error = function(e) {
       class(e) <- c("compute_hbp_argcheck_error", class(e))
       stop(e)
     }
   )
-}
-
-
-
-compute_hbp_output <- function(
-    model, management_df, clusters_df, ideal_flow_rate_cm
-)
-{
-  .hbp_args <- .hbp_data_prep(model = model,
-                              management_df = management_df,
-                              clusters_df = clusters_df,
-                              ideal_flow_rate_cm = ideal_flow_rate_cm
-  )
-  do.call(.hbp, .hbp_args)
 }
 
 

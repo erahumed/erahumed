@@ -20,6 +20,10 @@ Github flavored markdown.
 * Renamed the HBP admissible plot types (value of `type` 
 parameter to `plot.erahumed_hbp()`), from `"cluster_levels"` and `"map"` 
 to `"cluster_view"` and `"map_view"`.
+* Removed `height_thresh_cm` argument from arguments of CA component high level
+functions (`compute_ca()` in the present version), to move it down to the  
+corresponding functions of the HBP component. This ensures, in particular, that
+a common value is used across the two different model components.
 
 # erahumed 0.5.1
 
