@@ -19,7 +19,7 @@
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
 #' levels into lake *volumes*.
-#' @param petp_surface a function that takes two numeric vectors of common
+#' @param petp_function a function that takes two numeric vectors of common
 #' length as inputs, and returns a numeric vector of the same length. Function
 #' that converts precipitation and evapotranspiration values into an overall
 #' volume change.
@@ -27,7 +27,7 @@
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
 #' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
-#' The values used as the arguments of `petp_surface()` were calculated by the
+#' The values used as the arguments of `petp_function()` were calculated by the
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
 #'
@@ -65,21 +65,19 @@ hba <- function(model)
 #' @export
 compute_hba <- function(
     model,
-    storage_curve = linear_storage_curve(intercept = 16.7459 * 1e6,
-                                         slope = 23.6577 * 1e6),
-    petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e6,
-                                       surface_ETP = 79.360993685 * 1e6)
+    storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,
+    petp_function = \(P, ETP) 114.225826072 * 1e6 * P - 79.360993685 * 1e6 * ETP
     )
 {
   compute_component(model, "hba",
                     storage_curve = storage_curve,
-                    petp_surface = petp_surface
+                    petp_function = petp_function
                     )
 }
 
 
 
-compute_hba_output <- function(model, storage_curve, petp_surface)
+compute_hba_output <- function(model, storage_curve, petp_function)
 {
   inp_df <- get_model_component(model, "inp")$output
   output <- .hba(
@@ -91,18 +89,18 @@ compute_hba_output <- function(model, storage_curve, petp_surface)
     is_imputed_level = inp_df$is_imputed_level,
     is_imputed_outflow = inp_df$is_imputed_outflow,
     storage_curve = storage_curve,
-    petp_surface = petp_surface
+    petp_function = petp_function
     )
   return(output)
 }
 
 
 
-compute_hba_argcheck <- function(storage_curve, petp_surface) {
+compute_hba_argcheck <- function(storage_curve, petp_function) {
   tryCatch(
     {
       assert_function(storage_curve, check = list(rep(0, 10)) )
-      assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
+      assert_function(petp_function, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
       class(e) <- c("compute_hba_argcheck_error", class(e))

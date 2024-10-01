@@ -9,10 +9,8 @@ hba(model)
 
 compute_hba(
   model,
-  storage_curve = linear_storage_curve(intercept = 16.7459 * 1e+06, slope = 23.6577 *
-    1e+06),
-  petp_surface = linear_petp_surface(surface_P = 114.225826072 * 1e+06, surface_ETP =
-    79.360993685 * 1e+06)
+  storage_curve = function(level) 16.7459 * 1e+06 + level * 23.6577 * 1e+06,
+  petp_function = function(P, ETP) 114.225826072 * 1e+06 * P - 79.360993685 * 1e+06 * ETP
 )
 }
 \arguments{
@@ -23,7 +21,7 @@ compute_hba(
 returns a numeric vector of the same length. Function that converts lake
 levels into lake \emph{volumes}.}
 
-\item{petp_surface}{a function that takes two numeric vectors of common
+\item{petp_function}{a function that takes two numeric vectors of common
 length as inputs, and returns a numeric vector of the same length. Function
 that converts precipitation and evapotranspiration values into an overall
 volume change.}
@@ -44,7 +42,7 @@ model to be previously defined.
 \details{
 The numeric inputs for the linear storage curve are taken from the CHJ report
 \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
-The values used as the arguments of \code{petp_surface()} were calculated by the
+The values used as the arguments of \code{petp_function()} were calculated by the
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).
 

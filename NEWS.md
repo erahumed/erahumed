@@ -1,5 +1,13 @@
 # erahumed (development version)
 
+### Breaking changes
+
+* Removed helpers `linear_petp_surface()` and `linear_storage_curve()`. These
+were substituted by simple lambdas in the specification of defaults arguments of 
+`compute_hba()`, which seems to be a bit more transparent (#96).
+
+* `compute_hba()` argument name change: `petp_surface` becomes `petp_function`.
+
 # erahumed 0.6.0
 
 ### General info
@@ -366,7 +374,7 @@ input data.
 
 * The functions `albufera_storage_curve()` and `petp_volume_change()` 
 were substituted by the function *factories* `linear_storage_curve()` and 
-`linear_petp_surface()`, that create functions that perform affine 
+`linear_petp_function()`, that create functions that perform affine 
 transformations.
 
 * Function `albufera_hydro_balance()` was renamed 
