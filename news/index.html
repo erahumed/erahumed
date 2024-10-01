@@ -34,6 +34,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<div class="section level4">
+<h4 id="general-info-development-version">General info<a class="anchor" aria-label="anchor" href="#general-info-development-version"></a></h4>
+<p>This version provides an important refactor of the software’s modeling interface, consolidating the concept of ERAHUMED model and model components.</p>
+<p>The refactor necessarily breaks existing code that relied on the initial provisional interface. A basic example illustrating how to use the new modeling interface is provided by the README update that accompanies the new version.</p>
+</div>
+<div class="section level4">
+<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<ul><li>Essential refactor of modeling API, as mentioned above.</li>
+<li>The HBP model component (formerly known as “local hydrological balance”) does not allow anymore the specification of <code>date_min/max</code> arguments; the date range is univocally determined by the data fed to the INP model component.</li>
+<li>Removed bold from printing methods, which was not correctly rendering in Github flavored markdown.</li>
+<li>Renamed the HBP admissible plot types (value of <code>type</code> parameter to <code><a href="../reference/plot.erahumed_hbp.html">plot.erahumed_hbp()</a></code>), from <code>"cluster_levels"</code> and <code>"map"</code> to <code>"cluster_view"</code> and <code>"map_view"</code>.</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.1" id="erahumed-051">erahumed 0.5.1<a class="anchor" aria-label="anchor" href="#erahumed-051"></a></h2>
@@ -55,8 +67,8 @@
 <div class="section level4">
 <h4 id="breaking-changes-0-5-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-5-0"></a></h4>
 <ul><li><p>Names of columns representing outflows in <code>albufera_outflows</code> have been prepended with <code>outflow_</code>.</p></li>
-<li><p>Logic of <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code> has been improved in such a way that the outflow columns are automatically recognized from the input data.frame, and do not need to be exactly <code>"pujol"</code>, <code>"perellonet"</code> and `<code>"perello"</code>, as before.</p></li>
-<li><p>Former <code>irrigation</code> and <code>draining</code> columns from the output data.frame of <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code> became <code>ideal_irrigation</code> and <code>ideal_draining</code>, to better reflect that these correspond to the originally scheduled irrigation and draining plans. In addition, new columns <code>real_irrigation</code> and <code>real_draining</code> were added to the data.frame, which provide the actual irrigation and draining plans followed, modified by the plan delay.</p></li>
+<li><p>Logic of <code>albufera_hb_global()</code> has been improved in such a way that the outflow columns are automatically recognized from the input data.frame, and do not need to be exactly <code>"pujol"</code>, <code>"perellonet"</code> and `<code>"perello"</code>, as before.</p></li>
+<li><p>Former <code>irrigation</code> and <code>draining</code> columns from the output data.frame of <code>albufera_hb_local()</code> became <code>ideal_irrigation</code> and <code>ideal_draining</code>, to better reflect that these correspond to the originally scheduled irrigation and draining plans. In addition, new columns <code>real_irrigation</code> and <code>real_draining</code> were added to the data.frame, which provide the actual irrigation and draining plans followed, modified by the plan delay.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-0-5-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-5-0"></a></h4>
@@ -76,22 +88,22 @@
 <h2 class="pkg-version" data-toc-text="0.4.1" id="erahumed-041">erahumed 0.4.1<a class="anchor" aria-label="anchor" href="#erahumed-041"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-4-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-1"></a></h4>
-<ul><li>First draft of <code>plot.erahumed_ca()</code> (“cluster view”).</li>
+<ul><li>First draft of <code><a href="../reference/plot.erahumed_ca.html">plot.erahumed_ca()</a></code> (“cluster view”).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="user-visible-changes-0-4-1">User visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-4-1"></a></h4>
 <ul><li><p>The default for the <code>height_thresh_cm</code> parameter of <code><a href="../reference/ca.html">ca()</a></code> has been changed from <code>2.5</code> to <code>2</code>.</p></li>
-<li><p>The <code>albufera_management</code> data-set has a new column <code>seed_day</code>, which counts the number of day elapsed from the sowing day. This is also returned in the output data.frame of <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code>.</p></li>
+<li><p>The <code>albufera_management</code> data-set has a new column <code>seed_day</code>, which counts the number of day elapsed from the sowing day. This is also returned in the output data.frame of <code>albufera_hb_local()</code>.</p></li>
 <li><p><code>erahumed_ca</code> S3 class now inherits from <code>hb_local</code>.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-0-4-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-4-1"></a></h4>
 <ul><li><p>Improvement in data.frame validity checks. The <code>assert_data.frame()</code> helper is now able to check column types. Noteworthy, this allows for much stricter tests in the <code>"hb_local"</code> and <code>"hb_global"</code> functions.</p></li>
-<li><p>Important performance improvements in the function <code><a href="../reference/ca.html">ca()</a></code>. These were mainly achieved by (i) removing validity checks in the low level function <code>ca_to_cluster()</code>, supplanted by less costly checks at the level of the <code><a href="../reference/hb_local.html">hb_local()</a></code> output; and (ii) bypassing computation using <code>Date</code> objects, thanks to the introduced <code>seed_day</code> column in the output of <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code> (see above).</p></li>
+<li><p>Important performance improvements in the function <code><a href="../reference/ca.html">ca()</a></code>. These were mainly achieved by (i) removing validity checks in the low level function <code>ca_to_cluster()</code>, supplanted by less costly checks at the level of the <code>hb_local()</code> output; and (ii) bypassing computation using <code>Date</code> objects, thanks to the introduced <code>seed_day</code> column in the output of <code>albufera_hb_local()</code> (see above).</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-0-4-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-4-1"></a></h4>
-<ul><li>Improved documentation of <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code> default parameters.</li>
+<ul><li>Improved documentation of <code>albufera_hb_global()</code> default parameters.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -108,8 +120,8 @@
 <div class="section level4">
 <h4 id="under-the-hoods-0-3-2">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-3-2"></a></h4>
 <ul><li><p>Shiny app continues to work if the Albufera Leaflet map cannot be loaded for any reason.</p></li>
-<li><p>Added validation of date range to <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code>.</p></li>
-<li><p>Tested exceptions raised by <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code>s argument validity checks.</p></li>
+<li><p>Added validation of date range to <code>albufera_hb_local()</code>.</p></li>
+<li><p>Tested exceptions raised by <code>albufera_hb_local()</code>s argument validity checks.</p></li>
 <li><p>Documented plotting method for <code>hb_local</code> and <code>hb_global</code> S3 objects.</p></li>
 </ul></div>
 <div class="section level4">
@@ -121,9 +133,9 @@
 <h2 class="pkg-version" data-toc-text="0.3.1" id="erahumed-031">erahumed 0.3.1<a class="anchor" aria-label="anchor" href="#erahumed-031"></a></h2>
 <div class="section level4">
 <h4 id="user-visible-changes-0-3-1">User visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-3-1"></a></h4>
-<ul><li><p><code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code>, called with default arguments, now retrieves its value from disk, from data installed alongside with <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</p></li>
+<ul><li><p><code>albufera_hb_local()</code>, called with default arguments, now retrieves its value from disk, from data installed alongside with <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</p></li>
 <li><p>Due to the previous point, the package’s .tar.gz file size is much larger now, approximately 50MB. The file size will be tackled, as much as possible, in later releases.</p></li>
-<li><p>Added light <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> methods for the S3 objects returned by <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code> and <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code>.</p></li>
+<li><p>Added light <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> methods for the S3 objects returned by <code>albufera_hb_local()</code> and <code>albufera_hb_global()</code>.</p></li>
 <li><p><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a> is no longer attached upon attaching <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</p></li>
 </ul></div>
 <div class="section level4">
@@ -153,9 +165,9 @@
 <h2 class="pkg-version" data-toc-text="0.2.2" id="erahumed-022">erahumed 0.2.2<a class="anchor" aria-label="anchor" href="#erahumed-022"></a></h2>
 <div class="section level4">
 <h4 id="user-visible-changes-0-2-2">User visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-2-2"></a></h4>
-<ul><li><p>Documentation for the <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code> and <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code> wrappers.</p></li>
-<li><p>Exported <code><a href="../reference/hbg_residence_time.html">hbg_residence_time()</a></code> doc page.</p></li>
-<li><p>Former <code>albufera_weather</code> dataset becomes <code>albufera_petp</code>, and its structure is significantly simplified, now having only three columns: <code>date</code>, <code>rain_mm</code> and <code>evapotranspiration_mm</code> (previously named <code>date</code>, <code>P</code> and <code>ETP</code> respectively). All changes get propagated to downstream tables, such as <em>e.g.</em> <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code>.</p></li>
+<ul><li><p>Documentation for the <code>albufera_hb_global()</code> and <code>albufera_hb_local()</code> wrappers.</p></li>
+<li><p>Exported <code>hbg_residence_time()</code> doc page.</p></li>
+<li><p>Former <code>albufera_weather</code> dataset becomes <code>albufera_petp</code>, and its structure is significantly simplified, now having only three columns: <code>date</code>, <code>rain_mm</code> and <code>evapotranspiration_mm</code> (previously named <code>date</code>, <code>P</code> and <code>ETP</code> respectively). All changes get propagated to downstream tables, such as <em>e.g.</em> <code>albufera_hb_global()</code>.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="algorithm-change-0-2-2">Algorithm change<a class="anchor" aria-label="anchor" href="#algorithm-change-0-2-2"></a></h4>
@@ -170,15 +182,15 @@
 <h2 class="pkg-version" data-toc-text="0.2.1" id="erahumed-021">erahumed 0.2.1<a class="anchor" aria-label="anchor" href="#erahumed-021"></a></h2>
 <div class="section level4">
 <h4 id="user-visible-changes-0-2-1">User visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-2-1"></a></h4>
-<ul><li><p>Default arguments of <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code> and <code><a href="../reference/albufera_hb_local.html">albufera_hb_local()</a></code> are now prepended with the <code>erahumed::</code> namespace specifier.</p></li>
+<ul><li><p>Default arguments of <code>albufera_hb_global()</code> and <code>albufera_hb_local()</code> are now prepended with the <code>erahumed::</code> namespace specifier.</p></li>
 <li><p>Unexported <code>residence_time()</code></p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-0-2-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-2-1"></a></h4>
-<ul><li><p>Separated logical units of <code><a href="../reference/hb_global.html">hb_global()</a></code>, collected in <code>hb_global_units.R</code>.</p></li>
-<li><p>Introduced argument checking for <code><a href="../reference/hb_global.html">hb_global()</a></code> and its wrapper <code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code>.</p></li>
+<ul><li><p>Separated logical units of <code>hb_global()</code>, collected in <code>hb_global_units.R</code>.</p></li>
+<li><p>Introduced argument checking for <code>hb_global()</code> and its wrapper <code>albufera_hb_global()</code>.</p></li>
 <li><p>Introduced S3 class constructor for <code>"hb_global"</code> class objects (see <code>hb_global_units_s3_class.R</code>).</p></li>
-<li><p>Important improvements in the testing infrastructure of <code><a href="../reference/hb_global.html">hb_global()</a></code> and<br><code><a href="../reference/albufera_hb_global.html">albufera_hb_global()</a></code>, both at the algorithmic level (through testing of <code>hb_global_units.R</code>) and at the level of exceptions raised by these two functions.</p></li>
+<li><p>Important improvements in the testing infrastructure of <code>hb_global()</code> and<br><code>albufera_hb_global()</code>, both at the algorithmic level (through testing of <code>hb_global_units.R</code>) and at the level of exceptions raised by these two functions.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -204,7 +216,7 @@
 <ul><li><p>Important code refactors for the local balance algorithm, aiming to separate the abstract logic of the algorithm from our specific conventions used to pack together data for hydrological balance - the latter conventions being relegated to <code>hb_wrappers.R</code> functions. Fixes <a href="https://github.com/erahumed/erahumed/issues/3" class="external-link">#3</a>.</p></li>
 <li><p>Extensive unit testing of the logical units for the local balance algorithm.</p></li>
 <li><p>Performance optimizations in local balance algorithm.</p></li>
-<li><p>Sanity check functional tests for <code><a href="../reference/plot.hb_local.html">plot.hb_local()</a></code> and <code><a href="../reference/plot.hb_global.html">plot.hb_global()</a></code>.</p></li>
+<li><p>Sanity check functional tests for <code>plot.hb_local()</code> and <code>plot.hb_global()</code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

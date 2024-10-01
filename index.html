@@ -86,7 +86,83 @@
 <div class="section level3">
 <h3 id="example-2-command-line-interface-to-the-models">Example 2: command line interface to the models<a class="anchor" aria-label="anchor" href="#example-2-command-line-interface-to-the-models"></a>
 </h3>
-<p>TODO <a href="https://github.com/erahumed/erahumed/issues/81" class="external-link">#81</a>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a></span><span class="op">)</span></span></code></pre></div>
+<p>The following example illustrates the workflow for manually running the ERAHUMED model chain, and extracting the outputs of the various model components.</p>
+<p>The pipeline always starts by initializing a new ERAHUMED model, via:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_model.html">erahumed_model</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">model</span></span>
+<span><span class="co">#&gt; An ERAHUMED model.</span></span>
+<span><span class="co">#&gt; Calculated components:  None</span></span></code></pre></div>
+<p>This is the main abstraction that <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> uses to collect the various components involved in the modeling chain of the DSS, and is initially blank.</p>
+<p>Next, we populate model layers, which is achieved through the set of <code>compute_*()</code> functions:</p>
+<ul>
+<li>
+<code><a href="reference/inp.html">compute_inp()</a></code> - INPut data.</li>
+<li>
+<code><a href="reference/hba.html">compute_hba()</a></code> - Hydrological Balance of the Albufera lake.</li>
+<li>
+<code><a href="reference/hbp.html">compute_hbp()</a></code> - Hydrological Balance of rice Paddy clusters.</li>
+<li>
+<code><a href="reference/ca.html">compute_ca()</a></code> - Chemical Applications.</li>
+<li>(WIP: more components TBD).</li>
+</ul>
+<p>For instance, we can compute the first two layers with default arguments (<em>i.e.</em> default input data and parameters for hydrological balance computation) as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/inp.html">compute_inp</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/hba.html">compute_hba</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">model</span></span>
+<span><span class="co">#&gt; An ERAHUMED model.</span></span>
+<span><span class="co">#&gt; Calculated components:  inp, hba</span></span></code></pre></div>
+<p>We can extract and inspect model components as illustrated in the following examples:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/hba.html">hba</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>  <span class="co"># Extract the HBA model component</span></span>
+<span><span class="co">#&gt; An ERAHUMED HBA model component.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Output columns: level, rain_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days</span></span>
+<span><span class="fu"><a href="reference/hba.html">hba</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="reference/component_output.html">component_output</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># Get output data.frame</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span>    <span class="co"># Just for pretty printing</span></span>
+<span><span class="co">#&gt; # A tibble: 6,139 × 16</span></span>
+<span><span class="co">#&gt;    level rain_mm evapotranspiration_mm date       is_imputed_level</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt;   &lt;dbl&gt;                 &lt;dbl&gt; &lt;date&gt;     &lt;lgl&gt;           </span></span>
+<span><span class="co">#&gt;  1 0.372     8.2                  0.54 2005-12-20 FALSE           </span></span>
+<span><span class="co">#&gt;  2 0.373     0.2                  0.65 2005-12-21 FALSE           </span></span>
+<span><span class="co">#&gt;  3 0.368     0.2                  0.62 2005-12-22 FALSE           </span></span>
+<span><span class="co">#&gt;  4 0.366     0.2                  1.02 2005-12-23 FALSE           </span></span>
+<span><span class="co">#&gt;  5 0.367     0                    0.59 2005-12-24 FALSE           </span></span>
+<span><span class="co">#&gt;  6 0.363     0.2                  0.86 2005-12-25 FALSE           </span></span>
+<span><span class="co">#&gt;  7 0.357     0.2                  0.63 2005-12-26 FALSE           </span></span>
+<span><span class="co">#&gt;  8 0.370     0                    1.96 2005-12-27 FALSE           </span></span>
+<span><span class="co">#&gt;  9 0.346     0                    0.95 2005-12-28 FALSE           </span></span>
+<span><span class="co">#&gt; 10 0.347     0                    1.37 2005-12-29 FALSE           </span></span>
+<span><span class="co">#&gt; # ℹ 6,129 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 11 more variables: is_imputed_outflow &lt;lgl&gt;, volume &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   volume_change &lt;dbl&gt;, volume_change_petp &lt;dbl&gt;, outflow_pujol &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   outflow_perellonet &lt;dbl&gt;, outflow_perello &lt;dbl&gt;, outflow_extra &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   outflow_total &lt;dbl&gt;, inflow_total &lt;dbl&gt;, residence_time_days &lt;dbl&gt;</span></span></code></pre></div>
+<p>Components have plot methods that can help data exploration:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="reference/hba.html">hba</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>, variable <span class="op">=</span> <span class="st">"outflow_total"</span><span class="op">)</span></span></code></pre></div>
+<p>(The output is an interactive plot, not shown here. Try yourself!)</p>
+<p>Extracting a component that has not been computed yet yields a <code>NULL</code> result, <em>e.g.</em>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/hbp.html">hbp</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
+<p>If we attempt to compute a downstream component whose dependencies have not been defined yet, we get an informative error. For example:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ca.html">compute_ca</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in doTryCatch(return(expr), name, parentenv, handler): Upstream component 'hbp' of model must be computed first.</span></span></code></pre></div>
+<p>Also, computing a component erases the output of its downstream dependencies (if any):</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/inp.html">compute_inp</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/hba.html">hba</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
+<p>The order of model components in the list above is the logical one. Each component depends on the previous ones (referred to as “upstream”), and is a dependency of the subsequent ones (referred to as “downstream”).</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inp.html">compute_inp</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="va">model</span></span>
+<span><span class="co">#&gt; An ERAHUMED model.</span></span>
+<span><span class="co">#&gt; Calculated components:  inp</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
