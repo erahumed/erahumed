@@ -7,11 +7,7 @@
 \usage{
 ca(model)
 
-compute_ca(
-  model,
-  ca_schedules_df = erahumed::albufera_ca_schedules,
-  height_thresh_cm = 2
-)
+compute_ca(model, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
 \item{model}{An object of class \link{erahumed_model}, with a pre-computed
@@ -21,9 +17,6 @@ compute_ca(
 \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
 scheduled application. The semantics of columns are the same as in
 \link{albufera_ca_schedules}.}
-
-\item{height_thresh_cm}{a positive number. Upper limit of paddy water levels
-required for ground applications of chemicals. Expressed in centimeters.}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_ca}, for

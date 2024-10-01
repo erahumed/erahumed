@@ -1,7 +1,7 @@
 {
   set.seed(840)
 
-  height_thresh_cm <- formals(compute_ca)$height_thresh_cm
+  height_thresh_cm <- hbp(test_mod_large())$params$height_thresh_cm
 
   test_df <- ca(test_mod_large())$output
 
