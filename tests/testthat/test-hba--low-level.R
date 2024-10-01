@@ -58,12 +58,12 @@ test_that(".hba() error if storage_curve() has invalid signature", {
   )
 })
 
-test_that(".hba() error if petp_surface() has invalid signature", {
+test_that(".hba() error if petp_function() has invalid signature", {
   expect_error(.hba(level = rep(1, 10),
                          rain_mm = 1:10,
                          evapotranspiration_mm = rep(1, 10),
                          outflows = list(a = rep(1, 10), b = rep(2, 10)),
-                         petp_surface = function(x) x
+                         petp_function = function(x) x
   ),
   class = ".hba_argcheck_error"
   )

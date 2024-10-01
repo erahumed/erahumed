@@ -20,7 +20,7 @@
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
 #' levels (passed through the `level` argument) into lake *volumes*.
-#' @param petp_surface a function that takes two numeric vectors of common
+#' @param petp_function a function that takes two numeric vectors of common
 #' length as inputs, and returns a numeric vector of the same length. Function
 #' that converts precipitation and evapotranspiration values (passed through
 #' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
@@ -57,8 +57,8 @@
     evapotranspiration_mm,
     outflows,
     ...,
-    storage_curve = erahumed::linear_storage_curve(slope = 1, intercept = 0),
-    petp_surface = erahumed::linear_petp_surface(surface_P = 1, surface_ETP = 1)
+    storage_curve = \(level) level,
+    petp_function = \(P, ETP) P - ETP
 )
 {
   .hba_argcheck(
@@ -68,14 +68,14 @@
     outflows = outflows,
     ... = ...,
     storage_curve = storage_curve,
-    petp_surface = petp_surface
+    petp_function = petp_function
     )
 
   res <- data.frame(level, rain_mm, evapotranspiration_mm, ...)
 
   res$volume <- storage_curve(level)
   res$volume_change <- hba_volume_change(res$volume, fill_last = NA)
-  res$volume_change_petp <- petp_surface(rain_mm, evapotranspiration_mm)
+  res$volume_change_petp <- petp_function(rain_mm, evapotranspiration_mm)
 
   flow_balance_df <- hba_flow_balance(outflows = outflows,
                                       volume_change = res$volume_change,
@@ -98,7 +98,7 @@
     outflows,
     ...,
     storage_curve,
-    petp_surface
+    petp_function
     )
 {
   tryCatch(
@@ -123,7 +123,7 @@
         stop("Time series inputs must have equal lengths, see ?hba.")
 
       assert_function(storage_curve, check = list(rep(0, 10)) )
-      assert_function(petp_surface, check = list(1:10, rep(3, 10)) )
+      assert_function(petp_function, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
       class(e) <- c(".hba_argcheck_error", class(e))
