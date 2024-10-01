@@ -70,7 +70,7 @@
     area_m2,
     total_inflow_lake,
     ...,
-    ideal_flow_rate_cm = 5
+    ideal_flow_rate_cm,
     ) {
 
   pcts <- hbp_ditch_inflow_pct(ditch, area_m2)

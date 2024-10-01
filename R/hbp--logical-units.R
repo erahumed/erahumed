@@ -16,7 +16,7 @@ hbp_simulate_ditch <- function(
     capacity_m3_s,
     date,
     cluster_id,
-    ideal_flow_rate_cm = 5,
+    ideal_flow_rate_cm,
     ...
     )
 {
@@ -136,7 +136,7 @@ hbp_daily_step <- function(
     real_draining,
     area_m2,
     capacity_m3_s,
-    ideal_flow_rate_cm = 5,
+    ideal_flow_rate_cm,
     randomize_clusters
 )
 {
