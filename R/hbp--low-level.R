@@ -71,6 +71,7 @@
     total_inflow_lake,
     ...,
     ideal_flow_rate_cm,
+    height_thresh_cm
     ) {
 
   pcts <- hbp_ditch_inflow_pct(ditch, area_m2)
@@ -90,6 +91,7 @@
              capacity_m3_s = capacity_m3_s[idx],
              date = date[idx],
              ideal_flow_rate_cm = ideal_flow_rate_cm,
+             height_thresh_cm,
              cluster_id = cluster_id[idx],
              ditch = ditch[idx]
              ),
@@ -111,7 +113,8 @@
 .hbp_data_prep <- function(model,
                           management_df,
                           clusters_df,
-                          ideal_flow_rate_cm)
+                          ideal_flow_rate_cm,
+                          height_thresh_cm)
 {
   res <- data.table::as.data.table(hba(model)$output)  # Ugly but required atm
 
@@ -147,7 +150,8 @@
               total_inflow_lake = res$inflow_total,
               tancat = res$tancat,
               variety = res$variety,
-              ideal_flow_rate_cm = ideal_flow_rate_cm
+              ideal_flow_rate_cm = ideal_flow_rate_cm,
+              height_thresh_cm = height_thresh_cm
   )
 
   return(res)

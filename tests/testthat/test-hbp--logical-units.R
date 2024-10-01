@@ -496,7 +496,7 @@ test_that("hbp_plan_delay(): returns a (properly) named list", {
     ideal_height_cm = c(0, 0),
     real_height_cm = c(1, 1),
     date = c("1970-01-01", "1980-06-01"),
-    thresh = 2.5
+    height_thresh_cm = 2
     )
 
   expect_type(res, "list")
@@ -512,8 +512,8 @@ test_that("hbp_plan_delay(): returns the correct structure", {
     ideal_height_cm = runif(n, 0, 20),
     real_height_cm = runif(n, 0, 20),
     date = seq.Date(from = as.Date("1970-01-01"), by = "day", length.out = n),
-    thresh = 2.5
-  )
+    height_thresh_cm = 2
+    )
 
   expect_true(is.numeric(res$plan_delay))
   expect_length(res$plan_delay, n)
@@ -527,8 +527,8 @@ test_that("hbp_plan_delay(): adds one iff real_height_cm above thresh", {
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15),
     date = "1970-06-01",  # Inside the plan delay window
-    thresh = 2.5
-  )
+    height_thresh_cm = 2
+    )
 
   expect_equal(res$plan_delay, c(1, 8, 21))
 })
@@ -541,8 +541,8 @@ test_that("hbp_plan_delay(): returns 0s outside of plan delay window", {
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15),
     date = "1970-01-01",  # Outside of the plan delay window
-    thresh = 2.5
-  )
+    height_thresh_cm = 2
+    )
 
   expect_equal(res$plan_delay, c(0, 0, 0))
 })
