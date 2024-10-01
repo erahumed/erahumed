@@ -67,6 +67,7 @@ taken regarding #47).
 \seealso{
 Other model components: 
 \code{\link{ca}()},
+\code{\link{ct}()},
 \code{\link{hba}()},
 \code{\link{inp}()}
 }

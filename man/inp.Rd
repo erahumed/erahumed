@@ -57,6 +57,7 @@ inp(model)
 \seealso{
 Other model components: 
 \code{\link{ca}()},
+\code{\link{ct}()},
 \code{\link{hba}()},
 \code{\link{hbp}()}
 }

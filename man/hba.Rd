@@ -76,6 +76,7 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 \seealso{
 Other model components: 
 \code{\link{ca}()},
+\code{\link{ct}()},
 \code{\link{hbp}()},
 \code{\link{inp}()}
 }
