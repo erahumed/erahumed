@@ -45,6 +45,8 @@
 <li>The HBP model component (formerly known as “local hydrological balance”) does not allow anymore the specification of <code>date_min/max</code> arguments; the date range is univocally determined by the data fed to the INP model component.</li>
 <li>Removed bold from printing methods, which was not correctly rendering in Github flavored markdown.</li>
 <li>Renamed the HBP admissible plot types (value of <code>type</code> parameter to <code><a href="../reference/plot.erahumed_hbp.html">plot.erahumed_hbp()</a></code>), from <code>"cluster_levels"</code> and <code>"map"</code> to <code>"cluster_view"</code> and <code>"map_view"</code>.</li>
+<li>Removed <code>height_thresh_cm</code> argument from arguments of CA component high level functions (<code><a href="../reference/ca.html">compute_ca()</a></code> in the present version), to move it down to the<br>
+corresponding functions of the HBP component. This ensures, in particular, that a common value is used across the two different model components.</li>
 </ul></div>
 </div>
     <div class="section level2">

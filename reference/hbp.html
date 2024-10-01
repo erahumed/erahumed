@@ -84,7 +84,8 @@ pre-computed.</p>
 <span>  <span class="va">model</span>,</span>
 <span>  management_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_management.html">albufera_management</a></span>,</span>
 <span>  clusters_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_clusters.html">albufera_clusters</a></span>,</span>
-<span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span></span>
+<span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  height_thresh_cm <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,6 +116,11 @@ to change this input (TODO #47).</p></dd>
 cluster, for days in which the cluster is scheduled to be in flux (<em>i.e.</em>
 when being simultaneously irrigated and drained) Expressed in centimeters
 per day.</p></dd>
+
+
+<dt id="arg-height-thresh-cm">height_thresh_cm<a class="anchor" aria-label="anchor" href="#arg-height-thresh-cm"></a></dt>
+<dd><p>A positive number. Height threshold for water levels,
+below which a cluster is considered to be emptied.</p></dd>
 
 </dl></div>
     <div class="section level2">
