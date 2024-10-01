@@ -63,7 +63,88 @@ explore model outputs in a user friendly manner.
 
 ### Example 2: command line interface to the models
 
-TODO [#81](https://github.com/erahumed/erahumed/issues/81).
+```{r}
+library(erahumed)
+```
+
+
+The following example illustrates the workflow for manually running the ERAHUMED
+model chain, and extracting the outputs of the various model components.
+
+The pipeline always starts by initializing a new ERAHUMED model, via:
+
+```{r}
+model <- erahumed_model()
+model
+```
+
+This is the main abstraction that `{erahumed}` uses to collect the various 
+components involved in the modeling chain of the DSS, and is initially blank.
+
+Next, we populate model layers, which is achieved through the set of
+`compute_*()` functions:
+
+* `compute_inp()` - INPut data.
+* `compute_hba()` - Hydrological Balance of the Albufera lake.
+* `compute_hbp()` - Hydrological Balance of rice Paddy clusters.
+* `compute_ca()` - Chemical Applications. 
+* (WIP: more components TBD).
+
+For instance, we can compute the first two layers with default arguments (*i.e.* 
+default input data and parameters for hydrological balance computation) as 
+follows:
+
+```{r}
+model <- model |> compute_inp() |> compute_hba()
+model
+```
+
+We can extract and inspect model components as illustrated in the following 
+examples:
+
+```{r}
+hba(model)  # Extract the HBA model component
+hba(model) |> 
+  component_output() |>  # Get output data.frame
+  tibble::as_tibble()    # Just for pretty printing
+```
+
+Components have plot methods that can help data exploration:
+
+```{r eval=FALSE, include=TRUE}
+plot(hba(model), variable = "outflow_total")
+```
+
+(The output is an interactive plot, not shown here. Try yourself!)
+
+Extracting a component that has not been computed yet yields a `NULL` result, 
+*e.g.*:
+
+```{r}
+hbp(model)
+```
+
+If we attempt to compute a downstream component whose dependencies have not been
+defined yet, we get an informative error. For example:
+
+```{r, error=TRUE}
+compute_ca(model)
+```
+
+Also, computing a component erases the output of its downstream dependencies (if
+any):
+
+```{r}
+compute_inp(model) |> hba()
+```
+
+The order of model components in the list above is the logical one. Each component depends on the previous ones (referred to as "upstream"), and is a dependency of the subsequent ones (referred to as "downstream").
+
+```{r}
+model <- compute_inp(model)
+model
+```
+
 
 ## Getting help
 
