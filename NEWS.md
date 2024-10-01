@@ -8,6 +8,10 @@ were substituted by simple lambdas in the specification of defaults arguments of
 
 * `compute_hba()` argument name change: `petp_surface` becomes `petp_function`.
 
+### Improvements
+
+* Set amounts (kg_per_ha) in albufera_ca_schedules builtin dataset (close #84).
+
 # erahumed 0.6.0
 
 ### General info
