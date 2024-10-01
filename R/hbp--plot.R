@@ -1,44 +1,41 @@
-#' Plotting local hydrological balance data
+#' Plot HBP model component output
 #'
 #' @description
-#' Plot method for local Hydrological balance data, generated through
-#' \link{hbp}. A simple wrapper around \link[plotly]{plot_ly} to generate
-#' time series plots of the calculated quantities.
+#' Plot method for \link{hbp} model components.
 #'
-#' @param x The object of class `hba` containing the data to be plotted.
+#' @param x An object of class `hbp`.
 #' @param type Type of plot to be generated. Currently, only the
-#' `"cluster_levels"` plot is implemented.
+#' `"cluster_view"` plot type is implemented.
 #' @param ... Further plotting parameters, associated with the plot type
 #' specified by `type`; See details.
 #'
 #' @details
-#' The `"cluster_levels"` plot generates a time series plot of the daily
+#' The `"cluster_view"` plot generates a time series plot of the daily
 #' water levels (in cm) of an individual cluster. In order to use this plotting
 #' method, the user must provide an additional `cluster_id` argument, a string
-#' specifying the identifier of the cluster whose levels are to be plotted (see
-#' example below).
+#' specifying the identifier of the cluster whose levels are to be plotted.
 #'
 #' @return A plotly plot.
 #'
 #' @export
-plot.erahumed_hbp <- function(x, type = c("cluster_levels", "map"), ...) {
+plot.erahumed_hbp <- function(x, type = c("cluster_view", "map_view"), ...) {
   type <- match.arg(type)
 
-  if (type == "map")
-    stop("'map' plot not yet implemented.")
+  if (type == "map_view")
+    stop("'map_view' plot not yet implemented.")
 
   args <- list(...)
 
   data <- x$output
 
-  if (type == "cluster_levels") {
+  if (type == "cluster_view") {
     if ( !("cluster_id" %in% names(args)) )
       stop("Please specify cluster to plot through the 'cluster_id' argument.")
-    return( plot_hbp_cluster_levels(data = data, cluster_id = args$cluster_id) )
+    return( plot_hbp_cluster_view(data = data, cluster_id = args$cluster_id) )
   }
 }
 
-plot_hbp_cluster_levels <- function(data, cluster_id)
+plot_hbp_cluster_view <- function(data, cluster_id)
 {
   data_cluster <- data[data$cluster_id == cluster_id, ]
 

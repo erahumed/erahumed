@@ -1,12 +1,11 @@
-#' Plotting global hydrological balance data
+#' Plot HBA model component output
 #'
 #' @description
-#' Plot method for global hydrological balance data, generated through
-#' \link{hba}. A simple wrapper around \link[plotly]{plot_ly} to generate
-#' time series plots of the calculated quantities.
+#' Plot method for \link{hba} model components.
 #'
-#' @param x The object of class `hba` containing the data to be plotted.
-#' @param variable The variable to be plotted. Can be any numeric column of `x`.
+#' @param x An object of class `hba`.
+#' @param variable The variable to be plotted. Can be any numeric column of
+#' `component_output(x)`.
 #' @param ... Not used.
 #'
 #' @return A plotly plot.

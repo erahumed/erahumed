@@ -2,14 +2,15 @@
 % Please edit documentation in R/hba--plot.R
 \name{plot.erahumed_hba}
 \alias{plot.erahumed_hba}
-\title{Plotting global hydrological balance data}
+\title{Plot HBA model component output}
 \usage{
 \method{plot}{erahumed_hba}(x, variable, ...)
 }
 \arguments{
-\item{x}{The object of class \code{hba} containing the data to be plotted.}
+\item{x}{An object of class \code{hba}.}
 
-\item{variable}{The variable to be plotted. Can be any numeric column of \code{x}.}
+\item{variable}{The variable to be plotted. Can be any numeric column of
+\code{component_output(x)}.}
 
 \item{...}{Not used.}
 }
@@ -17,7 +18,5 @@
 A plotly plot.
 }
 \description{
-Plot method for global hydrological balance data, generated through
-\link{hba}. A simple wrapper around \link[plotly]{plot_ly} to generate
-time series plots of the calculated quantities.
+Plot method for \link{hba} model components.
 }
