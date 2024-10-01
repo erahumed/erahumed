@@ -52,6 +52,22 @@ compute_ct_argcheck <- function()
 
 compute_ct_output <- function(model)
 {
+  ca_res <- component_output(model, "ca")
+
+  output <- ca_res |>
+    collapse::rsplit(
+      by = ~ cluster_id,
+      flatten = TRUE,
+      use.names = FALSE,
+      simplify = FALSE,
+      keep.by = TRUE
+    ) |>
+    lapply(ct_to_cluster_wrap) |>
+    data.table::rbindlist() |>
+    as.data.frame()
+
+  return(output)
+
   return(data.frame())
 }
 
