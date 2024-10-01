@@ -37,18 +37,10 @@ is_erahumed_model <- function(obj) {
 
 #' @export
 print.erahumed_model <- function(x, ..., max = 100) {
-  cat(bold("An ERAHUMED model."))
+  cat("An ERAHUMED model.")
 
   comps <- if (length(x) == 0) "None" else paste(names(x), collapse = ", ")
   cat("\nCalculated components: ", comps)
-}
-
-#' @export
-print.erahumed_model <- function(x, ...) {
-  cat(bold("An ERAHUMED model."))
-
-  comps <- if (length(x) == 0) "None" else paste(names(x), collapse = ", ")
-  cat("\n\nCalculated components:", comps)
 }
 
 #' @export

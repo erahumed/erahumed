@@ -42,7 +42,7 @@ print.erahumed_model_component <- function(x, ...) {
   component_name <- toupper(component_name)
   title <- paste("An", component_name, "model component.")
 
-  cat(bold(title))
+  cat(title)
 
 
   output <- component_output(x)
