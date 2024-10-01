@@ -1,5 +1,26 @@
 # erahumed (development version)
 
+### General info
+
+This version provides an important refactor of the software's modeling 
+interface, consolidating the concept of ERAHUMED model and model components.
+
+The refactor necessarily breaks existing code that relied on the initial 
+provisional interface. A basic example illustrating how to use the new modeling 
+interface is provided by the README update that accompanies the new version.
+
+### Breaking changes
+
+* Essential refactor of modeling API, as mentioned above. 
+* The HBP model component (formerly known as "local hydrological balance") does 
+not allow anymore the specification of `date_min/max` arguments; the date range 
+is univocally determined by the data fed to the INP model component.
+* Removed bold from printing methods, which was not correctly rendering in 
+Github flavored markdown.
+* Renamed the HBP admissible plot types (value of `type` 
+parameter to `plot.erahumed_hbp()`), from `"cluster_levels"` and `"map"` 
+to `"cluster_view"` and `"map_view"`.
+
 # erahumed 0.5.1
 
 ### Documentation
