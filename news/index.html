@@ -34,6 +34,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<div class="section level4">
+<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<ul><li><p>Removed helpers <code>linear_petp_surface()</code> and <code>linear_storage_curve()</code>. These were substituted by simple lambdas in the specification of defaults arguments of <code><a href="../reference/hba.html">compute_hba()</a></code>, which seems to be a bit more transparent (<a href="https://github.com/erahumed/erahumed/issues/96" class="external-link">#96</a>).</p></li>
+<li><p><code><a href="../reference/hba.html">compute_hba()</a></code> argument name change: <code>petp_surface</code> becomes <code>petp_function</code>.</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.0" id="erahumed-060">erahumed 0.6.0<a class="anchor" aria-label="anchor" href="#erahumed-060"></a></h2>
@@ -286,7 +291,7 @@ corresponding functions of the HBP component. This ensures, in particular, that 
 <div class="section level4">
 <h4 id="user-visible-changes-0-0-3">User-visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-0-3"></a></h4>
 <ul><li><p>Big namespace refactor: all datasets get prepended with the prefix <code>"albufera_"</code>.</p></li>
-<li><p>The functions <code>albufera_storage_curve()</code> and <code>petp_volume_change()</code> were substituted by the function <em>factories</em> <code><a href="../reference/linear_storage_curve.html">linear_storage_curve()</a></code> and <code><a href="../reference/linear_petp_surface.html">linear_petp_surface()</a></code>, that create functions that perform affine transformations.</p></li>
+<li><p>The functions <code>albufera_storage_curve()</code> and <code>petp_volume_change()</code> were substituted by the function <em>factories</em> <code>linear_storage_curve()</code> and <code>linear_petp_function()</code>, that create functions that perform affine transformations.</p></li>
 <li><p>Function <code>albufera_hydro_balance()</code> was renamed <code>albufera_hydro_balance_global()</code>. Ditch inflows are not returned anymore. In correspondence, we add a new function <code>albufera_hydro_balance_local()</code>, which at the current moment is still WIP and for testing purposes.</p></li>
 <li><p>Functions <code>albufera_hydro_balance_*()</code> now allow to specify storage curve and P-ETP surface by dedicated arguments. The defaults are defined throughout the new helpers mentioned in a previous point.</p></li>
 <li><p>New function <code>hydro_balance_global()</code>, that is meant to capture the abstract part of the global hydrological balance calculations. The function <code>albufera_hydro_balance()</code> relies on this for its calculations of global balance.</p></li>

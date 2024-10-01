@@ -58,10 +58,8 @@ model to be previously defined.</p>
 <span></span>
 <span><span class="fu">compute_hba</span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
-<span>  storage_curve <span class="op">=</span> <span class="fu"><a href="linear_storage_curve.html">linear_storage_curve</a></span><span class="op">(</span>intercept <span class="op">=</span> <span class="fl">16.7459</span> <span class="op">*</span> <span class="fl">1e+06</span>, slope <span class="op">=</span> <span class="fl">23.6577</span> <span class="op">*</span></span>
-<span>    <span class="fl">1e+06</span><span class="op">)</span>,</span>
-<span>  petp_surface <span class="op">=</span> <span class="fu"><a href="linear_petp_surface.html">linear_petp_surface</a></span><span class="op">(</span>surface_P <span class="op">=</span> <span class="fl">114.225826072</span> <span class="op">*</span> <span class="fl">1e+06</span>, surface_ETP <span class="op">=</span></span>
-<span>    <span class="fl">79.360993685</span> <span class="op">*</span> <span class="fl">1e+06</span><span class="op">)</span></span>
+<span>  storage_curve <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">level</span><span class="op">)</span> <span class="fl">16.7459</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">+</span> <span class="va">level</span> <span class="op">*</span> <span class="fl">23.6577</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
+<span>  petp_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">P</span>, <span class="va">ETP</span><span class="op">)</span> <span class="fl">114.225826072</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">*</span> <span class="va">P</span> <span class="op">-</span> <span class="fl">79.360993685</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">*</span> <span class="va">ETP</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -80,7 +78,7 @@ returns a numeric vector of the same length. Function that converts lake
 levels into lake <em>volumes</em>.</p></dd>
 
 
-<dt id="arg-petp-surface">petp_surface<a class="anchor" aria-label="anchor" href="#arg-petp-surface"></a></dt>
+<dt id="arg-petp-function">petp_function<a class="anchor" aria-label="anchor" href="#arg-petp-function"></a></dt>
 <dd><p>a function that takes two numeric vectors of common
 length as inputs, and returns a numeric vector of the same length. Function
 that converts precipitation and evapotranspiration values into an overall
@@ -96,7 +94,7 @@ volume change.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The numeric inputs for the linear storage curve are taken from the CHJ report
 <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link">Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.</a>.
-The values used as the arguments of <code>petp_surface()</code> were calculated by the
+The values used as the arguments of <code>petp_function()</code> were calculated by the
 package authors, and correspond to the total study area (<code>surface_P</code>) and
 the flooded surface (<code>surface_ETP</code>).</p>
 <p>The output data.frame of the calculated HBA component contains a copy of the
