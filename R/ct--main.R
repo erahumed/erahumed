@@ -52,9 +52,12 @@ compute_ct_argcheck <- function()
 
 compute_ct_output <- function(model)
 {
-  ca_res <- component_output(model, "ca")
+  input <- merge(component_output(model, "ca") |> data.table::as.data.table(),
+                 component_output(model, "inp") |> data.table::as.data.table(),
+                 by = "date",
+                 sort = TRUE)
 
-  output <- ca_res |>
+  output <- input |>
     collapse::rsplit(
       by = ~ cluster_id,
       flatten = TRUE,
@@ -68,7 +71,6 @@ compute_ct_output <- function(model)
 
   return(output)
 
-  return(data.frame())
 }
 
 
