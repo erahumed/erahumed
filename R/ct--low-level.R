@@ -58,7 +58,7 @@ get_ode_model <- function(rain_cm,
                           outflow_m3,
                           application_kg,
                           seed_day
-) {
+                          ) {
 
   drift <- 0  # I     # Fracción perdida por deriva
   covmax <- 0.5  # I   # Cobertura máxima del cultivo
@@ -100,7 +100,39 @@ get_ode_model <- function(rain_cm,
   kdifus <- 69.35 / 365 - pos * ((MW)^(-2/3))  # metros / dia
   fpw <- (kd * css) / (1 + kd * css)  # Porcentaje pesticida particulado en agua
 
-  ts_len <- length(application_kg)
+
+  # Precomputed time series
+  igrow <- seed_day |> pmax2(0) |> pmin2(jgrow)
+  cover <- covmax * (igrow / jgrow)
+
+  # TODO: We should use a threshold here, but likely not the same used in the
+  # previous modeling steps.
+  is_empty <- height_m == 0
+
+  cw_multiplier <-
+    (1-is_empty) / pmax2(volume_m3, 1e-10) +
+    is_empty * (outflow_m3 > 0) / pmax2(outflow_m3, 1e-10)
+
+  msetl_multiplier <- (1-is_empty) * ksetl * (fpw / height_m)
+
+  mdifus_mult_cs <- (1-is_empty) * kdifus * sa * fds  / pos
+  mdifus_mult_cw <- -(1-is_empty) * kdifus * sa * fdw
+
+  # Applying Arrhenius kinetic equilibrium
+
+  kw <- kw * (Q10_kw ^ ((temperature - temp_kw) / 10))
+  ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - temp_ks_sat) / 10))
+  ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - temp_ks_unsat) / 10))
+
+  ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
+
+  mwdeg_multiplier <- (1 - exp(-kw * dt))
+  msdeg_multiplier <- (1 - exp(-ks * dt))
+  mfdeg_multiplier <- (1 - exp(-kf * dt))
+
+  mwash_multiplier <- (1 - exp(-fet * rain_cm * dt))
+
+
 
   f <- function(time, state, parms)
   {
@@ -109,22 +141,12 @@ get_ode_model <- function(rain_cm,
     mw <- state[[2]]
     ms <- state[[3]]
 
-    t <- if (time < 1) 1 else if (time > ts_len) ts_len else time
-
-
-    ### Applications
-    # Interpolacion lineal entre 0 (dia de cultivo) y covmax (cobertura a maduracion).
-    igrow <- seed_day[[t]] |> pmax2(0) |> pmin2(jgrow)
-    cover <- covmax * (igrow / jgrow)
-
-    # TODO: We should use a threshold here, but likely not the same used in the
-    # previous modeling steps.
-    is_empty <- height_m[[t]] == 0
+    t <- time
 
     m_app_kg <- application_kg[[t]] * (1 - drift)
-    mfapp <- m_app_kg * cover
-    mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
-    msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact) * is_empty
+    mfapp <- m_app_kg * cover[[t]]
+    mwapp <- m_app_kg * (1 - cover[[t]]) * (1 - SNK) * (!is_empty[[t]])
+    msapp <- m_app_kg * (1 - cover[[t]]) * (1 - SNK) * (dinc / dact) * is_empty[[t]]
 
 
     ### Solubility
@@ -136,8 +158,7 @@ get_ode_model <- function(rain_cm,
     # zero? ATM, this is defined taking the daily outflow as the relevant volume,
     # but we should think whether this is exactly what we want... and this should
     # likely be determined by how this density enters the equations below.
-    cw <- (mw / max(vw_t, 1e-10)) * (!is_empty) +
-      (mw / max(qout_t, 1e-10)) * (is_empty & qout_t > 0)
+    cw <- cw_multiplier[[t]] * mw
 
     # TODO URGENT:
     # the following two equations introduce the only non-linearity in this
@@ -149,7 +170,7 @@ get_ode_model <- function(rain_cm,
     sol_diff <- pmax2(cw - sol, 0) * vw_t
     cw <- pmin2(cw, sol)
 
-    mw <- (mw - sol_diff) * (!is_empty)
+    mw <- (mw - sol_diff) * (!is_empty[[t]])
     ms <- (ms + sol_diff)
 
     cs <- ms / vsed
@@ -161,27 +182,19 @@ get_ode_model <- function(rain_cm,
     mout <- qout_t * cw
 
     ### Settlement
-    msetl <- ksetl * (fpw * mw / height_m[[t]]) * (!is_empty)
+    msetl <- msetl_multiplier[[t]] * mw
 
     ### Diffusion
-    mdifus <- kdifus * sa * (fds * cs / pos - fdw * cw) * (!is_empty)
-
-
+    mdifus <- mdifus_mult_cs[[t]] * cs + mdifus_mult_cw[[t]] * cw
 
     ### Degradation
     # Applying Arrhenius kinetic equilibrium
-    kw <- kw * (Q10_kw ^ ((temp_t - temp_kw) / 10))
-    ks_sat <- ks_sat * (Q10_ks_sat ^ ((temp_t - temp_ks_sat) / 10))
-    ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temp_t - temp_ks_unsat) / 10))
-
-    ks <- if (!is_empty) ks_sat else ks_unsat
-
-    mwdeg <- mw * (1 - exp(-kw * dt))  # The discrete version of dx = k x dt
-    msdeg <- ms * (1 - exp(-ks * dt))
-    mfdeg <- mf * (1 - exp(-kf * dt))
+    mwdeg <- mwdeg_multiplier[[t]] * mw   # The discrete version of dx = k x dt
+    msdeg <- mwdeg_multiplier[[t]] * ms
+    mfdeg <- mfdeg_multiplier * mf  # A scalar!
 
     ### Washout
-    mwash <- mf * (1 - exp(-fet * rain_cm[[t]] * dt))
+    mwash <- mwash_multiplier[[t]] * mf
 
 
     ### Final derivatives
