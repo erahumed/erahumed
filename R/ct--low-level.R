@@ -7,16 +7,18 @@ ct_to_cluster_wrap <- function(cluster_ca_df)
   chemicals <- unique(albufera_ca_schedules$chemical)
   chemicals <- names(res)[names(res) %in% chemicals]
   for (chemical in chemicals)
-    res[[chemical]] <- ct_to_cluster(
-      application_kg = cluster_ca_df[[chemical]],
-      rain_mm = cluster_ca_df[["rain_mm"]],
-      temperature = rnorm(nrow(cluster_ca_df)),
-      height_cm = cluster_ca_df[["real_height_cm"]],
-      outflow_m3_s = cluster_ca_df[["real_outflow_m3_s"]],
-      area_m2 = cluster_ca_df[["area_m2"]][[1]],
-      seed_day = cluster_ca_df[["seed_day"]],
-      chemical = chemical
-      )
+    res <- cbind(res,
+                 ct_to_cluster(
+                   application_kg = cluster_ca_df[[chemical]],
+                   rain_mm = cluster_ca_df[["rain_mm"]],
+                   temperature = rnorm(nrow(cluster_ca_df)),
+                   height_cm = cluster_ca_df[["real_height_cm"]],
+                   outflow_m3_s = cluster_ca_df[["real_outflow_m3_s"]],
+                   area_m2 = cluster_ca_df[["area_m2"]][[1]],
+                   seed_day = cluster_ca_df[["seed_day"]],
+                   chemical = chemical
+                 )
+                 )
 
   return(res)
 }
@@ -43,12 +45,12 @@ ct_to_cluster <- function(application_kg,
                              application_kg = application_kg,
                              seed_day = seed_day)
 
-  solve <- ode_solve(y = c(mf = 0, mw = 0, ms = 0),
-                     times =  seq_along(application_kg),
-                     func = ode_model
-                     )
+  initial_state <- c(mf = 0, mw = 0, ms = 0)
+  times <- seq_along(application_kg)
 
-  return(application_kg)
+  res <- ode_solve(y = initial_state, times =  times, func = ode_model)
+  names(res) <- paste0(chemical, " (", c("F", "W", "S"), ")")
+  return(res)
 }
 
 get_ode_model <- function(rain_cm,
@@ -217,8 +219,8 @@ euler_base <- function(y, times, func) {
     state[i, ] <- state[i - 1, ] + dt[i - 1] * derivs
   }
 
-  # Return the results as a data frame with times and states
-  return(as.data.frame(cbind(time = times, state)))
+  # Return the results as a data frame of states
+  return(as.data.frame(state))
 }
 
 euler_desolve <- function(y, times, func) {
