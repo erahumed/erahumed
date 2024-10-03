@@ -104,10 +104,14 @@ get_ode_model <- function(rain_cm,
   # Precomputed time series
   igrow <- seed_day |> pmax2(0) |> pmin2(jgrow)
   cover <- covmax * (igrow / jgrow)
-
   # TODO: We should use a threshold here, but likely not the same used in the
   # previous modeling steps.
   is_empty <- height_m == 0
+
+  m_app_kg <- application_kg * (1 - drift)
+  mfapp <- m_app_kg * cover
+  mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
+  msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact) * is_empty
 
   cw_multiplier <-
     (1-is_empty) / pmax2(volume_m3, 1e-10) +
@@ -143,16 +147,9 @@ get_ode_model <- function(rain_cm,
 
     t <- time
 
-    m_app_kg <- application_kg[[t]] * (1 - drift)
-    mfapp <- m_app_kg * cover[[t]]
-    mwapp <- m_app_kg * (1 - cover[[t]]) * (1 - SNK) * (!is_empty[[t]])
-    msapp <- m_app_kg * (1 - cover[[t]]) * (1 - SNK) * (dinc / dact) * is_empty[[t]]
-
-
     ### Solubility
     vw_t <- volume_m3[[t]]
     qout_t <- outflow_m3[[t]]
-    temp_t <- temperature[[t]]
 
     # TODO: Critical, how should we define this density when the water level is
     # zero? ATM, this is defined taking the daily outflow as the relevant volume,
@@ -199,16 +196,13 @@ get_ode_model <- function(rain_cm,
 
     ### Final derivatives
     #fb <- function(x) x / (x + kmonod)  # Turn on in case of <0 values?
-    dMF <- (mfapp - mfdeg - mwash)# * fb(mf)
-    dMW <- (mwapp - mwdeg + mwash - msetl + mdifus - mout) #* fb(mw)
-    dMS <- (msapp - msdeg + msetl - mdifus) #* fb(ms)
+    dMF <- (mfapp[t] - mfdeg - mwash)# * fb(mf)
+    dMW <- (mwapp[t] - mwdeg + mwash - msetl + mdifus - mout) #* fb(mw)
+    dMS <- (msapp[t] - msdeg + msetl - mdifus) #* fb(ms)
 
     # TODO: 'deriv' below was originally multiplied by 'dt', but this seems to
     # be wrong (deSolve expects the derivative, not the increment)
-    list(
-      deriv = c(dMF, dMW, dMS),
-      var_names = c(dw_t = height_m[[t]], vw_t = vw_t, qout_t=qout_t, mout=mout, cw=cw, mdifus=mdifus, mwapp=mwapp, msetl=msetl, mwdeg=mwdeg, mwash=mwash)
-    )
+    list(deriv = c(dMF, dMW, dMS))
 
   }
 
