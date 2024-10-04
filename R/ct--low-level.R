@@ -113,11 +113,16 @@ get_ode_model <- function(rain_cm,
   mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
   msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact) * is_empty
 
+  # Volume for computing density.
+  # TODO: Critical, how should we define this density when the water level is
+  # zero? ATM, this is defined taking the daily outflow as the relevant volume,
+  # but we should think whether this is exactly what we want... and this should
+  # likely be determined by how this density enters the equations below.
   cw_multiplier <-
     (1-is_empty) / pmax2(volume_m3, 1e-10) +
     is_empty * (outflow_m3 > 0) / pmax2(outflow_m3, 1e-10)
 
-  msetl_multiplier <- (1-is_empty) * ksetl * (fpw / height_m)
+  msetl_multiplier <- (1-is_empty) * ksetl * (fpw / pmax2(height_m, 1e-10))
 
   mdifus_mult_cs <- (1-is_empty) * kdifus * sa * fds  / pos
   mdifus_mult_cw <- -(1-is_empty) * kdifus * sa * fdw
@@ -138,37 +143,23 @@ get_ode_model <- function(rain_cm,
 
 
 
-  f <- function(time, state, parms)
+  f <- function(time, state)
   {
 
     mf <- state[[1]]
-    mw <- state[[2]]
-    ms <- state[[3]]
+    mw_max <- state[[2]]
+    ms_min <- state[[3]]
 
-    t <- time
 
     ### Solubility
-    vw_t <- volume_m3[[t]]
-    qout_t <- outflow_m3[[t]]
 
-    # TODO: Critical, how should we define this density when the water level is
-    # zero? ATM, this is defined taking the daily outflow as the relevant volume,
-    # but we should think whether this is exactly what we want... and this should
-    # likely be determined by how this density enters the equations below.
-    cw <- cw_multiplier[[t]] * mw
 
-    # TODO URGENT:
-    # the following two equations introduce the only non-linearity in this
-    # differential system.
-    # This appears to be a special treatment due to the possibility of Volume=0,
-    # which seems to be absent in the RICEWQ documentation.
-    # Is there any possibility to avoid this? Without this, it should be possible
-    # to solve the entire system analytically.
-    sol_diff <- pmax2(cw - sol, 0) * vw_t
-    cw <- pmin2(cw, sol)
+    cw_max <- cw_multiplier[[time]] * mw_max
+    cw <- if (cw_max < sol) cw_max else sol  # The non-linearity
+    sol_diff <- (cw_max - cw) * volume_m3[[time]]
 
-    mw <- (mw - sol_diff) * (!is_empty[[t]])
-    ms <- (ms + sol_diff)
+    mw <- (mw_max - sol_diff) * (1 - is_empty[[time]])
+    ms <- (ms_min + sol_diff)
 
     cs <- ms / vsed
 
@@ -176,33 +167,31 @@ get_ode_model <- function(rain_cm,
     ### TODO: is rain correctly accounted here?
     ### (e.g. days in which it rains a certain amount and immediately flows
     ### away with draining)
-    mout <- qout_t * cw
+    mout <- outflow_m3[[time]] * cw
 
     ### Settlement
-    msetl <- msetl_multiplier[[t]] * mw
+    msetl <- msetl_multiplier[[time]] * mw
 
     ### Diffusion
-    mdifus <- mdifus_mult_cs[[t]] * cs + mdifus_mult_cw[[t]] * cw
+    mdifus <- mdifus_mult_cs[[time]] * cs + mdifus_mult_cw[[time]] * cw
 
     ### Degradation
     # Applying Arrhenius kinetic equilibrium
-    mwdeg <- mwdeg_multiplier[[t]] * mw   # The discrete version of dx = k x dt
-    msdeg <- mwdeg_multiplier[[t]] * ms
+    mwdeg <- mwdeg_multiplier[[time]] * mw   # The discrete version of dx = k x dt
+    msdeg <- mwdeg_multiplier[[time]] * ms
     mfdeg <- mfdeg_multiplier * mf  # A scalar!
 
     ### Washout
-    mwash <- mwash_multiplier[[t]] * mf
+    mwash <- mwash_multiplier[[time]] * mf
 
 
     ### Final derivatives
     #fb <- function(x) x / (x + kmonod)  # Turn on in case of <0 values?
-    dMF <- (mfapp[t] - mfdeg - mwash)# * fb(mf)
-    dMW <- (mwapp[t] - mwdeg + mwash - msetl + mdifus - mout) #* fb(mw)
-    dMS <- (msapp[t] - msdeg + msetl - mdifus) #* fb(ms)
+    dMF <- (mfapp[[time]] - mfdeg - mwash)# * fb(mf)
+    dMW <- (mwapp[[time]] - mwdeg + mwash - msetl + mdifus - mout) #* fb(mw)
+    dMS <- (msapp[[time]] - msdeg + msetl - mdifus) #* fb(ms)
 
-    # TODO: 'deriv' below was originally multiplied by 'dt', but this seems to
-    # be wrong (deSolve expects the derivative, not the increment)
-    list(deriv = c(dMF, dMW, dMS))
+    return(c(dMF, dMW, dMS))
 
   }
 
@@ -220,17 +209,22 @@ euler_base <- function(y, times, func) {
 
   # Euler's method loop
   for (i in 2:n) {
-    derivs <- func(times[i - 1], state[i - 1, ])[[1]]  # Derivatives from model
+    derivs <- func(times[i - 1], state[i - 1, ])  # Derivatives from model
     state[i, ] <- state[i - 1, ] + dt[i - 1] * derivs
   }
 
   # Return the results as a data frame of states
-  return(as.data.frame(state))
+  return( as.data.frame(state) )
 }
 
 euler_desolve <- function(y, times, func) {
-  deSolve::ode(y = y, times = times, func = func,
-               parms = list(), method = "euler"
+  func1 <- function(y, times, parms) { list(deriv = func(y, times)) }
+
+  deSolve::ode(y = y,
+               times = times,
+               func = func1,
+               parms = list(),
+               method = "euler"
                )
 }
 
