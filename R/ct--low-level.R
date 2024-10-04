@@ -154,16 +154,12 @@ get_ode_model <- function(rain_cm,
   f <- function(t, mf, mw, ms)
   {
 
-    ### Solubility
-    mw_max <- mw
-    ms_min <- ms
-
-    cw_max <- cw_multiplier[[t]] * mw_max
+    cw_max <- cw_multiplier[[t]] * mw
     cw <- if (cw_max < sol) cw_max else sol  # The non-linearity
     sol_diff <- (cw_max - cw) * volume_m3[[t]]
 
-    mw <- (mw_max - sol_diff) * (1 - is_empty[[t]])
-    ms <- (ms_min + sol_diff)
+    mw <- (mw - sol_diff) * (1 - is_empty[[t]])
+    ms <- (ms + sol_diff)
 
     delta_mf <-
       mfapp[[t]] + Aff[[t]]*mf
