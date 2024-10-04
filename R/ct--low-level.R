@@ -44,9 +44,10 @@ ct_to_cluster <- function(application_kg,
                              seed_day = seed_day)
 
   initial_state <- c(mf = 0, mw = 0, ms = 0)
-  times <- seq_along(application_kg)
 
-  res <- ode_solve(y = initial_state, times =  times, func = ode_model)
+  n_time_steps <- length(application_kg) - 1
+  res <- ode_solve(func = ode_model, n_time_steps = n_time_steps)
+
   names(res) <- paste0(chemical, " (", c("F", "W", "S"), ")")
   return(res)
 }
@@ -122,9 +123,9 @@ get_ode_model <- function(rain_cm,
     (1-is_empty) / pmax2(volume_m3, 1e-10) +
     is_empty * (outflow_m3 > 0) / pmax2(outflow_m3, 1e-10)
 
-  msetl_multiplier <- (1-is_empty) * ksetl * (fpw / pmax2(height_m, 1e-10))
+  msetl_multiplier <- -(1-is_empty) * ksetl * (fpw / pmax2(height_m, 1e-10))
 
-  mdifus_mult_cs <- (1-is_empty) * kdifus * sa * fds  / pos
+  mdifus_mult_ms <- (1-is_empty) * kdifus * sa * fds  / pos / vsed
   mdifus_mult_cw <- -(1-is_empty) * kdifus * sa * fdw
 
   # Applying Arrhenius kinetic equilibrium
@@ -135,63 +136,45 @@ get_ode_model <- function(rain_cm,
 
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
 
-  mwdeg_multiplier <- (1 - exp(-kw * dt))
-  msdeg_multiplier <- (1 - exp(-ks * dt))
-  mfdeg_multiplier <- (1 - exp(-kf * dt))
+  mwdeg_multiplier <- -(1 - exp(-kw * dt))
+  msdeg_multiplier <- -(1 - exp(-ks * dt))
+  mfdeg_multiplier <- -(1 - exp(-kf * dt))
 
-  mwash_multiplier <- (1 - exp(-fet * rain_cm * dt))
+  mwash_multiplier <- -(1 - exp(-fet * rain_cm * dt))
 
+  Aff <- mfdeg_multiplier + mwash_multiplier
+  Awf <- -mwash_multiplier
+  Aww <- mwdeg_multiplier + msetl_multiplier
+  Aws <- mdifus_mult_ms
+  Asw <- -msetl_multiplier
+  Ass <- msdeg_multiplier - mdifus_mult_ms
+  bw <- mdifus_mult_cw - outflow_m3
+  bs <- -mdifus_mult_cw
 
-
-  f <- function(time, state)
+  f <- function(t, mf, mw, ms)
   {
 
-    mf <- state[[1]]
-    mw_max <- state[[2]]
-    ms_min <- state[[3]]
-
-
     ### Solubility
+    mw_max <- mw
+    ms_min <- ms
 
-
-    cw_max <- cw_multiplier[[time]] * mw_max
+    cw_max <- cw_multiplier[[t]] * mw_max
     cw <- if (cw_max < sol) cw_max else sol  # The non-linearity
-    sol_diff <- (cw_max - cw) * volume_m3[[time]]
+    sol_diff <- (cw_max - cw) * volume_m3[[t]]
 
-    mw <- (mw_max - sol_diff) * (1 - is_empty[[time]])
+    mw <- (mw_max - sol_diff) * (1 - is_empty[[t]])
     ms <- (ms_min + sol_diff)
 
-    cs <- ms / vsed
+    delta_mf <-
+      mfapp[[t]] + Aff[[t]]*mf
 
-    ### Outflow
-    ### TODO: is rain correctly accounted here?
-    ### (e.g. days in which it rains a certain amount and immediately flows
-    ### away with draining)
-    mout <- outflow_m3[[time]] * cw
+    delta_mw <-
+      mwapp[[t]] + Awf[[t]]*mf + Aww[[t]]*mw + Aws[[t]]*ms + bw[[t]]*cw
 
-    ### Settlement
-    msetl <- msetl_multiplier[[time]] * mw
+    delta_ms <-
+      msapp[[t]]               + Asw[[t]]*mw + Ass[[t]]*ms - bs[[t]]*cw
 
-    ### Diffusion
-    mdifus <- mdifus_mult_cs[[time]] * cs + mdifus_mult_cw[[time]] * cw
-
-    ### Degradation
-    # Applying Arrhenius kinetic equilibrium
-    mwdeg <- mwdeg_multiplier[[time]] * mw   # The discrete version of dx = k x dt
-    msdeg <- mwdeg_multiplier[[time]] * ms
-    mfdeg <- mfdeg_multiplier * mf  # A scalar!
-
-    ### Washout
-    mwash <- mwash_multiplier[[time]] * mf
-
-
-    ### Final derivatives
-    #fb <- function(x) x / (x + kmonod)  # Turn on in case of <0 values?
-    dMF <- (mfapp[[time]] - mfdeg - mwash)# * fb(mf)
-    dMW <- (mwapp[[time]] - mwdeg + mwash - msetl + mdifus - mout) #* fb(mw)
-    dMS <- (msapp[[time]] - msdeg + msetl - mdifus) #* fb(ms)
-
-    return(c(dMF, dMW, dMS))
+    return(c(delta_mf, delta_mw, delta_ms))
 
   }
 
@@ -199,33 +182,22 @@ get_ode_model <- function(rain_cm,
 }
 
 
-euler_base <- function(y, times, func) {
+euler_base <- function(func, n_time_steps = n_time_steps) {
   # Preallocate space for solution
-  n <- length(times)
-  state <- matrix(0, nrow = n, ncol = length(y)) # Handle multiple variables
-  state[1, ] <- y  # Initial state
-
-  dt <- diff(times) # Time steps
+  mf <- numeric(n_time_steps + 1)
+  mw <- numeric(n_time_steps + 1)
+  ms <- numeric(n_time_steps + 1)
 
   # Euler's method loop
-  for (i in 2:n) {
-    derivs <- func(times[i - 1], state[i - 1, ])  # Derivatives from model
-    state[i, ] <- state[i - 1, ] + dt[i - 1] * derivs
+  for (t in 1:n_time_steps) {
+    deltas <- func(t = t, mf = mf[[t]], mw = mw[[t]], ms = ms[[t]])
+    mf[[t + 1]] <- mf[[t]] + deltas[[1]]
+    mw[[t + 1]] <- mw[[t]] + deltas[[2]]
+    ms[[t + 1]] <- ms[[t]] + deltas[[3]]
   }
 
   # Return the results as a data frame of states
-  return( as.data.frame(state) )
-}
-
-euler_desolve <- function(y, times, func) {
-  func1 <- function(y, times, parms) { list(deriv = func(y, times)) }
-
-  deSolve::ode(y = y,
-               times = times,
-               func = func1,
-               parms = list(),
-               method = "euler"
-               )
+  return( data.frame(mf = mf, mw = mw, ms = ms) )
 }
 
 ode_solve <- euler_base
