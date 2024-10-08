@@ -105,6 +105,7 @@ get_ode_model <- function(area_m2,
   MW <- 1  # P        # Peso molecular del químico
   fet <- 0.2  # P         # Washoff Fraction per rain cm - Foliar Extraction T...
   kmonod <- 1e-8  # I (seguramente omitiremos) monod feedback function https://stackoverflow.com/questions/56614347/non-negative-ode-solutions-with-functools-in-r/56692927#56692927
+  eps <- 1e-10
 
   # Funciones de parametros
   pos <- fc - wilting
@@ -130,35 +131,43 @@ get_ode_model <- function(area_m2,
   vol_t_petp <- vol_t + c(NA, rain_m3)
   vol_tp1 <- vol_t_petp + c(NA, inflow_m3 - outflow_m3)
 
+  # TODO: check this smoothing is OK.
+  setl_fac <- ksetl * fpw * height_m / ((height_m + eps)^2)
+
+  difus_fac_ms <- kdifus * sa * (fds / pos) / vsed
+  difus_fac_mw <- -kdifus * sa * fdw * vol_t / ((vol_t + eps)^2)
+
   # Degradation (applying Arrhenius kinetic equilibrium)
   kw <- kw * (Q10_kw ^ ((temperature - temp_kw) / 10))
   ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - temp_ks_sat) / 10))
   ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - temp_ks_unsat) / 10))
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
 
-  deg_fac_mf <- replicate(length(application_kg), exp(-kf * dt))
+  deg_fac_mf <- exp(-kf * dt)
   deg_fac_mw <- exp(-kw * dt)
   deg_fac_ms <- exp(-ks * dt)
 
   washout_fac <- 1 - exp(-fet * rain_cm * dt)
 
+  outflow_fac <- 1 - c(outflow_m3, NA) / vol_t_petp
+
+  inflow_mw <- inflow_m3 * 0  # not implemented ATM!
+
   f <- function(t, mf, mw, ms)
   {
 
-    # Settling
-    # TODO: deal with height_m == 0
-    msetl <- ksetl * fpw * mw / height_m[[t]]
+    msetl <- setl_fac[[t]] * mw
     mw <- mw - msetl
     ms <- ms + msetl
 
     # Diffusion
     # TODO: deal with vol_t == 0
-    mdifus <- kdifus * sa * ((fds / pos) * ms / vsed - fdw * mw / vol_t[[t]])
+    mdifus <- difus_fac_ms * ms + difus_fac_mw[[t]] * mw
     mw <- mw + mdifus
     ms <- ms - mdifus
 
     # Degradation
-    mf <- deg_fac_mf[[t]] * mf
+    mf <- deg_fac_mf * mf
     mw <- deg_fac_mw[[t]] * mw
     ms <- deg_fac_ms[[t]] * ms
 
@@ -168,10 +177,10 @@ get_ode_model <- function(area_m2,
     mw <- mw + mwashout
 
     # Outflow
-    mw <- (1 - outflow_m3[[t]] / vol_t_petp[[t]]) * mw
+    mw <- outflow_fac[[t]] * mw
 
-    # Inflow (not implemented ATM!)
-    mw <- mw + inflow_m3[[t]] * 0
+    # Inflow
+    mw <- mw + inflow_mw[[t]]
 
     # Application
     mf <- mf + mfapp[[t]]
