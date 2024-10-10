@@ -153,41 +153,41 @@ get_ode_model <- function(area_m2,
 
   inflow_mw <- inflow_m3 * 0  # not implemented ATM!
 
-  f <- function(t, mf, mw, ms)
+  f <- function(t, state)
   {
 
-    msetl <- setl_fac[[t]] * mw
-    mw <- mw - msetl
-    ms <- ms + msetl
+    msetl <- setl_fac[[t]] * state[2]
+    state[2] <- state[2] - msetl
+    state[3] <- state[3] + msetl
 
     # Diffusion
     # TODO: deal with vol_t == 0
-    mdifus <- difus_fac_ms * ms + difus_fac_mw[[t]] * mw
-    mw <- mw + mdifus
-    ms <- ms - mdifus
+    mdifus <- difus_fac_ms * state[3] + difus_fac_mw[[t]] * state[2]
+    state[2] <- state[2] + mdifus
+    state[3] <- state[3] - mdifus
 
     # Degradation
-    mf <- deg_fac_mf * mf
-    mw <- deg_fac_mw[[t]] * mw
-    ms <- deg_fac_ms[[t]] * ms
+    state[1] <- deg_fac_mf * state[1]
+    state[2] <- deg_fac_mw[[t]] * state[2]
+    state[3] <- deg_fac_ms[[t]] * state[3]
 
     # Washout
-    mwashout <- washout_fac[[t]] * mf
-    mf <- mf - mwashout
-    mw <- mw + mwashout
+    mwashout <- washout_fac[[t]] * state[1]
+    state[1] <- state[1] - mwashout
+    state[2] <- state[2] + mwashout
 
     # Outflow
-    mw <- outflow_fac[[t]] * mw
+    state[2] <- outflow_fac[[t]] * state[2]
 
     # Inflow
-    mw <- mw + inflow_mw[[t]]
+    state[2] <- state[2] + inflow_mw[[t]]
 
     # Application
-    mf <- mf + mfapp[[t]]
-    mw <- mw + mwapp[[t]]
-    ms <- ms + msapp[[t]]
+    state[1] <- state[1] + mfapp[[t]]
+    state[2] <- state[2] + mwapp[[t]]
+    state[3] <- state[3] + msapp[[t]]
 
-    return(c(mf, mw, ms))
+    return(state)
   }
 
   f
@@ -196,20 +196,17 @@ get_ode_model <- function(area_m2,
 
 euler_base <- function(func, n_time_steps = n_time_steps) {
   # Preallocate space for solution
-  mf <- numeric(n_time_steps)
-  mw <- numeric(n_time_steps)
-  ms <- numeric(n_time_steps)
+  res <- matrix(nrow = n_time_steps, ncol = 3)
 
   # Euler's method loop
-  for (t in 2:n_time_steps) {
-    new_m <- func(t = t, mf = mf[[t-1]], mw = mw[[t-1]], ms = ms[[t-1]])
-    mf[[t]] <- new_m[[1]]
-    mw[[t]] <- new_m[[2]]
-    ms[[t]] <- new_m[[3]]
-  }
+  for (t in 2:n_time_steps)
+    res[t, ] <- func(t = t, state = res[t-1, ])
+
+  res <- as.data.frame(res)
+  names(res) <- c("mf", "mw", "ms")
 
   # Return the results as a data frame of states
-  return( data.frame(mf = mf, mw = mw, ms = ms) )
+  return( res )
 }
 
 ode_solve <- euler_base
