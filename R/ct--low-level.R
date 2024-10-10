@@ -34,37 +34,39 @@ ct_to_cluster <- function(application_kg,
                           seed_day,
                           chemical)
 {
-  ode_model <- get_ode_model(area_m2 = area_m2,
-                             rain_mm = rain_mm,
-                             etp_mm = etp_mm,
-                             temperature = temperature,
-                             height_cm = height_cm,
-                             volume_m3 = volume_m3,
-                             outflow_m3_s = outflow_m3_s,
-                             inflow_m3_s = inflow_m3_s,
-                             application_kg = application_kg,
-                             seed_day = seed_day)
-
-  initial_state <- c(mf = 0, mw = 0, ms = 0)
-
   n_time_steps <- length(application_kg)
-  res <- ode_solve(func = ode_model, n_time_steps = n_time_steps)
 
+  evo_model <- ct_evolution_model(area_m2 = area_m2,
+                                  rain_mm = rain_mm,
+                                  etp_mm = etp_mm,
+                                  temperature = temperature,
+                                  height_cm = height_cm,
+                                  volume_m3 = volume_m3,
+                                  outflow_m3_s = outflow_m3_s,
+                                  inflow_m3_s = inflow_m3_s,
+                                  application_kg = application_kg,
+                                  seed_day = seed_day)
+
+  res <- matrix(nrow = n_time_steps, ncol = 3)
+
+  for (t in 2:n_time_steps)
+    res[t, ] <- evo_model(t = t, state = res[t-1, ])
+
+  res <- as.data.frame(res)
   names(res) <- paste0(chemical, " (", c("F", "W", "S"), ")")
   return(res)
 }
 
-get_ode_model <- function(area_m2,
-                          rain_mm,
-                          etp_mm,
-                          temperature,
-                          height_cm,
-                          volume_m3,
-                          outflow_m3_s,
-                          inflow_m3_s,
-                          application_kg,
-                          seed_day
-                          )
+ct_evolution_model <- function(area_m2,
+                               rain_mm,
+                               etp_mm,
+                               temperature,
+                               height_cm,
+                               volume_m3,
+                               outflow_m3_s,
+                               inflow_m3_s,
+                               application_kg,
+                               seed_day)
 {
   height_m <- height_cm / 100
   volume_m3 <- height_m * area_m2
@@ -153,60 +155,43 @@ get_ode_model <- function(area_m2,
 
   inflow_mw <- inflow_m3 * 0  # not implemented ATM!
 
-  f <- function(t, state)
+  res <- function(t, state)
   {
 
-    msetl <- setl_fac[[t]] * state[2]
-    state[2] <- state[2] - msetl
-    state[3] <- state[3] + msetl
+    msetl <- setl_fac[[t]] * state[[2]]
+    state[[2]] <- state[[2]] - msetl
+    state[[3]] <- state[[3]] + msetl
 
     # Diffusion
     # TODO: deal with vol_t == 0
-    mdifus <- difus_fac_ms * state[3] + difus_fac_mw[[t]] * state[2]
-    state[2] <- state[2] + mdifus
-    state[3] <- state[3] - mdifus
+    mdifus <- difus_fac_ms * state[[3]] + difus_fac_mw[[t]] * state[[2]]
+    state[[2]] <- state[[2]] + mdifus
+    state[[3]] <- state[[3]] - mdifus
 
     # Degradation
-    state[1] <- deg_fac_mf * state[1]
-    state[2] <- deg_fac_mw[[t]] * state[2]
-    state[3] <- deg_fac_ms[[t]] * state[3]
+    state[[1]] <- deg_fac_mf * state[[1]]
+    state[[2]] <- deg_fac_mw[[t]] * state[[2]]
+    state[[3]] <- deg_fac_ms[[t]] * state[[3]]
 
     # Washout
-    mwashout <- washout_fac[[t]] * state[1]
-    state[1] <- state[1] - mwashout
-    state[2] <- state[2] + mwashout
+    mwashout <- washout_fac[[t]] * state[[1]]
+    state[[1]] <- state[[1]] - mwashout
+    state[[2]] <- state[[2]] + mwashout
 
     # Outflow
-    state[2] <- outflow_fac[[t]] * state[2]
+    state[[2]] <- outflow_fac[[t]] * state[[2]]
 
     # Inflow
-    state[2] <- state[2] + inflow_mw[[t]]
+    state[[2]] <- state[[2]] + inflow_mw[[t]]
 
     # Application
-    state[1] <- state[1] + mfapp[[t]]
-    state[2] <- state[2] + mwapp[[t]]
-    state[3] <- state[3] + msapp[[t]]
+    state[[1]] <- state[[1]] + mfapp[[t]]
+    state[[2]] <- state[[2]] + mwapp[[t]]
+    state[[3]] <- state[[3]] + msapp[[t]]
 
     return(state)
   }
 
-  f
+  return(res)
 }
 
-
-euler_base <- function(func, n_time_steps = n_time_steps) {
-  # Preallocate space for solution
-  res <- matrix(nrow = n_time_steps, ncol = 3)
-
-  # Euler's method loop
-  for (t in 2:n_time_steps)
-    res[t, ] <- func(t = t, state = res[t-1, ])
-
-  res <- as.data.frame(res)
-  names(res) <- c("mf", "mw", "ms")
-
-  # Return the results as a data frame of states
-  return( res )
-}
-
-ode_solve <- euler_base
