@@ -21,8 +21,9 @@
 #' levels into lake *volumes*.
 #' @param petp_function a function that takes two numeric vectors of common
 #' length as inputs, and returns a numeric vector of the same length. Function
-#' that converts precipitation and evapotranspiration values into an overall
-#' volume change.
+#' that converts precipitation and evapotranspiration values (assumed to be
+#' expressed in millimiters) into an overall volume change (in  cube meters
+#' when the inputs are given in the expected units).
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
@@ -66,7 +67,7 @@ hba <- function(model)
 compute_hba <- function(
     model,
     storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,
-    petp_function = \(P, ETP) 114.225826072 * 1e6 * P - 79.360993685 * 1e6 * ETP
+    petp_function = \(p, etp) 114.225826072 * 1e3 * p - 79.360993685 * 1e3 * etp
     )
 {
   compute_component(model, "hba",

@@ -10,7 +10,7 @@ hba(model)
 compute_hba(
   model,
   storage_curve = function(level) 16.7459 * 1e+06 + level * 23.6577 * 1e+06,
-  petp_function = function(P, ETP) 114.225826072 * 1e+06 * P - 79.360993685 * 1e+06 * ETP
+  petp_function = function(p, etp) 114.225826072 * 1000 * p - 79.360993685 * 1000 * etp
 )
 }
 \arguments{
@@ -23,8 +23,9 @@ levels into lake \emph{volumes}.}
 
 \item{petp_function}{a function that takes two numeric vectors of common
 length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values into an overall
-volume change.}
+that converts precipitation and evapotranspiration values (assumed to be
+expressed in millimiters) into an overall volume change (in  cube meters
+when the inputs are given in the expected units).}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_hba}, for
