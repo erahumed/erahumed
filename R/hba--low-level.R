@@ -64,7 +64,7 @@
   .hba_argcheck(
     level = level,
     rain_mm = rain_mm,
-    evapotranspiration_m = evapotranspiration_mm,
+    evapotranspiration_mm = evapotranspiration_mm,
     outflows = outflows,
     ... = ...,
     storage_curve = storage_curve,
