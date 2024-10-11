@@ -24,6 +24,7 @@ test_model <- function(date_min, date_max, seed = 840) {
       compute_inp(outflows_df = outflows_df) |>
       compute_hba() |>
       compute_hbp() |>
-      compute_ca()
+      compute_ca() |>
+      compute_ct()
   })
 }

@@ -39,6 +39,7 @@ provide the time series of applied doses, expressed in kilograms.
 }
 \seealso{
 Other model components: 
+\code{\link{ct}()},
 \code{\link{hba}()},
 \code{\link{hbp}()},
 \code{\link{inp}()}
