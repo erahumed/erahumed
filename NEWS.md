@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.7.0
 
 ### New features
 
