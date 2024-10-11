@@ -6,6 +6,7 @@
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
+#' `r lifecycle::badge("experimental")`
 #' This model component computes the evolution of chemicals applied to rice
 #' paddy clusters, based on the previously computed simulations for
 #' hydrological balance and chemicals application.

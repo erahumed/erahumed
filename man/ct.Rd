@@ -18,6 +18,7 @@ Objects of class \link{erahumed_model} and \code{erahumed_ct}, for
 \code{compute_ct()} and \code{ct()} respectively.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 This model component computes the evolution of chemicals applied to rice
 paddy clusters, based on the previously computed simulations for
 hydrological balance and chemicals application.
