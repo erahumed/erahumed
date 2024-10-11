@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* Fixes a regression introduced in v0.7.0 that introduced an error in the
+computation of rain and evaporation water volumes (see #115 and #116).
+
 # erahumed 0.7.0
 
 ### New features
