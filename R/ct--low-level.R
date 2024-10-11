@@ -5,7 +5,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df)
     date = cluster_ca_df[["date"]]
     )
 
-  chemicals <- unique(albufera_ca_schedules$chemical)
+  chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
   chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
   for (chemical in chemicals)
     res <- cbind(res,
@@ -13,7 +13,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df)
                    application_kg = cluster_ca_df[[chemical]],
                    rain_mm = cluster_ca_df[["rain_mm"]],
                    etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
-                   temperature = rnorm(nrow(cluster_ca_df)),
+                   temperature = rep(20, nrow(cluster_ca_df)),
                    height_eod_cm = cluster_ca_df[["real_height_cm"]],
                    outflow_m3_s = cluster_ca_df[["real_outflow_m3_s"]],
                    inflow_m3_s = cluster_ca_df[["real_inflow_m3_s"]],
