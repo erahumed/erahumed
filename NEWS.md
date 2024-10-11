@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### New features
+
+* Experimental release of CT model component, with new functions `compute_ct()` 
+and `ct()` (close #92).
+
 ### Breaking changes
 
 * Removed helpers `linear_petp_surface()` and `linear_storage_curve()`. These
