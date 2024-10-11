@@ -59,7 +59,7 @@ model to be previously defined.</p>
 <span><span class="fu">compute_hba</span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
 <span>  storage_curve <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">level</span><span class="op">)</span> <span class="fl">16.7459</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">+</span> <span class="va">level</span> <span class="op">*</span> <span class="fl">23.6577</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
-<span>  petp_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">P</span>, <span class="va">ETP</span><span class="op">)</span> <span class="fl">114.225826072</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">*</span> <span class="va">P</span> <span class="op">-</span> <span class="fl">79.360993685</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">*</span> <span class="va">ETP</span></span>
+<span>  petp_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">etp</span><span class="op">)</span> <span class="fl">114.225826072</span> <span class="op">*</span> <span class="fl">1000</span> <span class="op">*</span> <span class="va">p</span> <span class="op">-</span> <span class="fl">79.360993685</span> <span class="op">*</span> <span class="fl">1000</span> <span class="op">*</span> <span class="va">etp</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -81,8 +81,9 @@ levels into lake <em>volumes</em>.</p></dd>
 <dt id="arg-petp-function">petp_function<a class="anchor" aria-label="anchor" href="#arg-petp-function"></a></dt>
 <dd><p>a function that takes two numeric vectors of common
 length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values into an overall
-volume change.</p></dd>
+that converts precipitation and evapotranspiration values (assumed to be
+expressed in millimiters) into an overall volume change (in  cube meters
+when the inputs are given in the expected units).</p></dd>
 
 </dl></div>
     <div class="section level2">
