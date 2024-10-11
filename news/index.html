@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,14 +33,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.7.0" id="erahumed-070">erahumed 0.7.0<a class="anchor" aria-label="anchor" href="#erahumed-070"></a></h2>
 <div class="section level4">
-<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<h4 id="new-features-0-7-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-7-0"></a></h4>
+<ul><li>Experimental release of CT model component, with new functions <code><a href="../reference/ct.html">compute_ct()</a></code> and <code><a href="../reference/ct.html">ct()</a></code> (close <a href="https://github.com/erahumed/erahumed/issues/92" class="external-link">#92</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="breaking-changes-0-7-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-7-0"></a></h4>
 <ul><li><p>Removed helpers <code>linear_petp_surface()</code> and <code>linear_storage_curve()</code>. These were substituted by simple lambdas in the specification of defaults arguments of <code><a href="../reference/hba.html">compute_hba()</a></code>, which seems to be a bit more transparent (<a href="https://github.com/erahumed/erahumed/issues/96" class="external-link">#96</a>).</p></li>
 <li><p><code><a href="../reference/hba.html">compute_hba()</a></code> argument name change: <code>petp_surface</code> becomes <code>petp_function</code>.</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="improvements-development-version">Improvements<a class="anchor" aria-label="anchor" href="#improvements-development-version"></a></h4>
+<h4 id="improvements-0-7-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-7-0"></a></h4>
 <ul><li>Set amounts (kg_per_ha) in albufera_ca_schedules builtin dataset (close <a href="https://github.com/erahumed/erahumed/issues/84" class="external-link">#84</a>).</li>
 </ul></div>
 </div>
