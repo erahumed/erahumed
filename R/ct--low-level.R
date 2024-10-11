@@ -1,6 +1,9 @@
 ct_to_cluster_wrap <- function(cluster_ca_df)
 {
-  res <- data.frame(date = cluster_ca_df[["date"]])
+  res <- data.frame(
+    cluster_id = cluster_ca_df[["cluster_id"]],
+    date = cluster_ca_df[["date"]]
+    )
 
   chemicals <- unique(albufera_ca_schedules$chemical)
   chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
