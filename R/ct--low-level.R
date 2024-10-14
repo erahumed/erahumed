@@ -46,7 +46,6 @@ ct_to_cluster <- function(application_kg,
   rain_cm <- rain_mm / 10
   rain_m3 <- (rain_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
-  sa <- 114881.779  # C    Superficie del arrozal en m2
 
   drift <- 0        # I    Fracción perdida por deriva
   covmax <- 0.5     # I    Cobertura máxima del cultivo
@@ -55,7 +54,6 @@ ct_to_cluster <- function(application_kg,
   SNK <- 0   # I (seguramente lo descartemos)     # Efecto de sumidero (0 para no usar)
   dact <- 0.1  # I     # Profundidad de la capa activa de sedimento (m)
   css <- 50 * 1e-6   # I  # Concentración de sedimento suspendido (g/cm3)
-  # vbind <- 0.01  # I   # Coeficiente de partición directa (cm/día)
   bd <- 1.5  # I    # Densidad aparente del sedimento (g/cm3)
   qseep <- 0  # I (seguramente omitir)     # Tasa de filtración (m/día)
   wilting <- 0.24  # I    #wilting point
@@ -95,7 +93,7 @@ ct_to_cluster <- function(application_kg,
 
   # Funciones de parametros
   pos <- fc - wilting
-  vsed <- sa * dact
+  vsed <- area_m2 * dact
   fds <- pos / (pos + (kd * bd))
   fdw <- 1 / (1 + kd * css)
   fpw <- (kd * css) / (1 + kd * css)  # Porcentaje pesticida particulado en agua
@@ -121,8 +119,8 @@ ct_to_cluster <- function(application_kg,
 
   setl <- ksetl * fpw / pmax2(height_sod_m, ksetl * fpw)
 
-  diff_s <- kdifus * sa * (fds / pos) / vsed
-  diff_w <- kdifus * sa * fdw / pmax2(volume_sod_m3, kdifus * sa * fdw)
+  diff_s <- kdifus * area_m2 * (fds / pos) / vsed
+  diff_w <- kdifus * area_m2 * fdw / pmax2(volume_sod_m3, kdifus * area_m2 * fdw)
 
   # Degradation (applying Arrhenius kinetic equilibrium)
   kw <- kw * (Q10_kw ^ ((temperature - kw_temp) / 10))
@@ -159,39 +157,6 @@ ct_to_cluster <- function(application_kg,
   ms <- numeric(n_time_steps)
 
   for (t in 2:n_time_steps) {
-    # # Omitted for performance improvement
-    # # mf[t] <- mf[t-1]
-    # # mw[t] <- mw[t-1]
-    # # ms[t] <- ms[t-1]
-    #
-    # # Sedimentation vectorized over all time steps
-    # # (first occurrences of mw and ms, taking values from t-1)
-    # msetl <- setl_fac[t] * mw[t-1]
-    # mw[t] <- mw[t-1] - msetl
-    # ms[t] <- ms[t-1] + msetl
-    #
-    # # Diffusion
-    # mdifus <- difus_fac_ms * ms[t] + difus_fac_mw[t] * mw[t]
-    # mw[t] <- mw[t] + mdifus
-    # ms[t] <- ms[t] - mdifus
-    #
-    # # Degradation
-    # # (first occurrence of mf, taking value from t-1)
-    # mf[t] <- deg_fac_mf * mf[t-1]
-    # mw[t] <- deg_fac_mw[t] * mw[t]
-    # ms[t] <- deg_fac_ms[t] * ms[t]
-    #
-    # # Washout
-    # mwashout <- washout_fac[t] * mf[t]
-    # mf[t] <- mf[t] - mwashout
-    # mw[t] <- mw[t] + mwashout
-    #
-    # # Outflow
-    # mw[t] <- outflow_fac[t] * mw[t]
-    #
-    # # Inflow
-    # mw[t] <- mw[t] + inflow_mw[t]
-    #
 
     mf[t] <- Aff[t]*mf[t-1]
     mw[t] <- Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
