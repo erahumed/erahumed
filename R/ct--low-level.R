@@ -46,38 +46,52 @@ ct_to_cluster <- function(application_kg,
   rain_cm <- rain_mm / 10
   rain_m3 <- (rain_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
+  sa <- 114881.779  # C    Superficie del arrozal en m2
 
   drift <- 0        # I    Fracción perdida por deriva
   covmax <- 0.5     # I    Cobertura máxima del cultivo
   jgrow <- 152      # I    Días totales entre emergencia y maduración
-  sa <- 114881.779  # C    Superficie del arrozal en m2
-  kf <- 0.24        # P    Tasa de degradación en el follaje (día-1)
-  kw <- 0.046       # P    Tasa de degradación en el agua (día-1)
-  Q10_kw <- 2.6     # P
-  temp_kw <- 20     # P
-  ks_sat <- 0.03    # P    Tasa de degradación en el sedimento (día-1)
-  Q10_ks_sat <- 2.6 # P
-  temp_ks_sat <- 20 # P
-  ks_unsat <- 0.117 # P
-  Q10_ks_unsat <-  2.6  # P
-  temp_ks_unsat <- 20  # P
-  sol <- 408   # P     # Solubilidad
   dt <- 1  # I        # Intervalo de tiempo (día)
   SNK <- 0   # I (seguramente lo descartemos)     # Efecto de sumidero (0 para no usar)
-  dinc <- 0.05  # P  # Profundidad de incorporación (m)
   dact <- 0.1  # I     # Profundidad de la capa activa de sedimento (m)
-  kd <- 15    # P      # Coeficiente de partición agua-sedimento (cm3/g)
   css <- 50 * 1e-6   # I  # Concentración de sedimento suspendido (g/cm3)
-  ksetl <- 2   # P   # Velocidad de sedimentación (m/día)
-  vbind <- 0.01  # I   # Coeficiente de partición directa (cm/día)
+  # vbind <- 0.01  # I   # Coeficiente de partición directa (cm/día)
   bd <- 1.5  # I    # Densidad aparente del sedimento (g/cm3)
-  kvolat <- 0.0005  # P    # Tasa de volatilización (m/día)
   qseep <- 0  # I (seguramente omitir)     # Tasa de filtración (m/día)
   wilting <- 0.24  # I    #wilting point
-  fc <- 0.35   # I       #field capcity
-  MW <- 1  # P        # Peso molecular del químico
-  fet <- 0.2  # P         # Washoff Fraction per rain cm - Foliar Extraction T...
-  kmonod <- 1e-8  # I (seguramente omitiremos) monod feedback function https://stackoverflow.com/questions/56614347/non-negative-ode-solutions-with-functools-in-r/56692927#56692927
+  fc <- 0.35   # I       #field capacity
+
+  # drift
+  # covmax
+  # wilting
+  # fc
+  # bd
+  # css
+  # SNK
+  # qseep
+  # dt
+  # vbind
+  # dact
+
+
+
+  kf <- ct_get_param(chemical, "kf")
+  kw <- ct_get_param(chemical, "kw")
+  Q10_kw <- ct_get_param(chemical, "Q10_kw")
+  kw_temp <- ct_get_param(chemical, "kw_temp")
+  ks_sat <- ct_get_param(chemical, "ks_sat")
+  Q10_ks_sat <- ct_get_param(chemical, "Q10_ks_sat")
+  ks_sat_temp <- ct_get_param(chemical, "ks_sat_temp")
+  ks_unsat <- ct_get_param(chemical, "ks_unsat")
+  Q10_ks_unsat <- ct_get_param(chemical, "Q10_ks_unsat")
+  ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
+  sol <- ct_get_param(chemical, "sol")
+  dinc <- ct_get_param(chemical, "dinc")
+  kd <- ct_get_param(chemical, "kd")
+  ksetl <- ct_get_param(chemical, "ksetl")
+  kvolat <- ct_get_param(chemical, "kvolat")
+  MW <- ct_get_param(chemical, "MW")
+  fet <- ct_get_param(chemical, "fet")
 
   # Funciones de parametros
   pos <- fc - wilting
@@ -111,9 +125,9 @@ ct_to_cluster <- function(application_kg,
   diff_w <- kdifus * sa * fdw / pmax2(volume_sod_m3, kdifus * sa * fdw)
 
   # Degradation (applying Arrhenius kinetic equilibrium)
-  kw <- kw * (Q10_kw ^ ((temperature - temp_kw) / 10))
-  ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - temp_ks_sat) / 10))
-  ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - temp_ks_unsat) / 10))
+  kw <- kw * (Q10_kw ^ ((temperature - kw_temp) / 10))
+  ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - ks_sat_temp) / 10))
+  ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - ks_unsat_temp) / 10))
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
   deg_f <- exp(-kf * dt)
   deg_w <- exp(-kw * dt)
@@ -200,4 +214,8 @@ ct_to_cluster <- function(application_kg,
   res <- data.frame(mf = mf, mw = mw, ms = ms)
   names(res) <- paste0(chemical, " (", c("F", "W", "S"), ")")
   return(res)
+}
+
+ct_get_param <- function(chemical, parameter) {
+  albufera_ct_parameters [[ chemical ]] [[ parameter ]]
 }
