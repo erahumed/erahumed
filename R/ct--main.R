@@ -30,6 +30,21 @@ ct <- function(model)
   get_model_component(model, "ct")
 
 #' @rdname ct
+#'
+#' @param drift A number between `0` and `1`. Percentage of chemical
+#' applications lost to drift.
+#' @param covmax A number between `0` and `1`. Interception potential of
+#' foliage at crop maturation.
+#' @param jgrow A positive integer. Length (in days) of crop maturation cycle.
+#' @param SNK A number between `0` and `1`. TODO.
+#' @param dact A positive number. Active sediment layer depth, expressed in meters.
+#' @param css A positive number. Suspended sediment concentration, expressed in grams
+#' per cubic centimeter.
+#' @param bd A positive number. bulk density of the sediment, expressed in grams
+#' per cubic centimeter.
+#' @param qseep A number. TODO.
+#' @param fc A number between `0` and `1`. Field capacity.
+#'
 #' @export
 compute_ct <- function(
     model,
