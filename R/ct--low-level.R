@@ -1,4 +1,15 @@
-ct_to_cluster_wrap <- function(cluster_ca_df)
+ct_to_cluster_wrap <- function(cluster_ca_df,
+                               drift,
+                               covmax,
+                               jgrow,
+                               SNK,
+                               dact,
+                               css,
+                               bd,
+                               qseep,
+                               wilting,
+                               fc
+                               )
 {
   res <- data.frame(
     cluster_id = cluster_ca_df[["cluster_id"]],
@@ -19,7 +30,17 @@ ct_to_cluster_wrap <- function(cluster_ca_df)
                    inflow_m3_s = cluster_ca_df[["real_inflow_m3_s"]],
                    area_m2 = cluster_ca_df[["area_m2"]][[1]],
                    seed_day = cluster_ca_df[["seed_day"]],
-                   chemical = chemical
+                   chemical = chemical,
+                   drift = drift,
+                   covmax = covmax,
+                   jgrow = jgrow,
+                   SNK = SNK,
+                   dact = dact,
+                   css = css,
+                   bd = bd,
+                   qseep = qseep,
+                   wilting = wilting,
+                   fc = fc
                  )
                 )
 
@@ -35,9 +56,21 @@ ct_to_cluster <- function(application_kg,
                           inflow_m3_s,
                           area_m2,
                           seed_day,
-                          chemical)
+                          chemical,
+                          drift,
+                          covmax,
+                          jgrow,
+                          SNK,
+                          dact,
+                          css,
+                          bd,
+                          qseep,
+                          wilting,
+                          fc
+                          )
 {
   n_time_steps <- length(application_kg)
+  dt <- 1
 
   height_eod_m <- height_eod_cm / 100
   volume_eod_m3 <- height_eod_m * area_m2
@@ -46,18 +79,6 @@ ct_to_cluster <- function(application_kg,
   rain_cm <- rain_mm / 10
   rain_m3 <- (rain_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
-
-  drift <- 0        # I    Fracción perdida por deriva
-  covmax <- 0.5     # I    Cobertura máxima del cultivo
-  jgrow <- 152      # I    Días totales entre emergencia y maduración
-  dt <- 1  # I        # Intervalo de tiempo (día)
-  SNK <- 0   # I (seguramente lo descartemos)     # Efecto de sumidero (0 para no usar)
-  dact <- 0.1  # I     # Profundidad de la capa activa de sedimento (m)
-  css <- 50 * 1e-6   # I  # Concentración de sedimento suspendido (g/cm3)
-  bd <- 1.5  # I    # Densidad aparente del sedimento (g/cm3)
-  qseep <- 0  # I (seguramente omitir)     # Tasa de filtración (m/día)
-  wilting <- 0.24  # I    #wilting point
-  fc <- 0.35   # I       #field capacity
 
   kf <- ct_get_param(chemical, "kf")
   kw <- ct_get_param(chemical, "kw")

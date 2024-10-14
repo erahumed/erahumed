@@ -7,7 +7,19 @@
 \usage{
 ct(model)
 
-compute_ct(model)
+compute_ct(
+  model,
+  drift = 0,
+  covmax = 0.5,
+  jgrow = 152,
+  SNK = 0,
+  dact = 0.1,
+  css = 50 * 1e-06,
+  bd = 1.5,
+  qseep = 0,
+  wilting = 0.24,
+  fc = 0.35
+)
 }
 \arguments{
 \item{model}{An object of class \link{erahumed_model}, with a pre-computed

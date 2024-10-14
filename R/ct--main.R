@@ -31,14 +31,49 @@ ct <- function(model)
 
 #' @rdname ct
 #' @export
-compute_ct <- function(model)
+compute_ct <- function(
+    model,
+    drift = 0,
+    covmax = 0.5,
+    jgrow = 152,
+    SNK = 0,
+    dact = 0.1,
+    css = 50 * 1e-6,
+    bd = 1.5,
+    qseep = 0,
+    wilting = 0.24,
+    fc = 0.35
+    )
 {
-  compute_component(model, "ct")
+  compute_component(model = model,
+                    component = "ct",
+                    drift = drift,
+                    covmax = covmax,
+                    jgrow = jgrow,
+                    SNK = SNK,
+                    dact = dact,
+                    css = css,
+                    bd = bd,
+                    qseep = qseep,
+                    wilting = wilting,
+                    fc = fc
+                    )
 }
 
 
 
-compute_ct_argcheck <- function()
+compute_ct_argcheck <- function(
+  drift,
+  covmax,
+  jgrow,
+  SNK,
+  dact,
+  css,
+  bd,
+  qseep,
+  wilting,
+  fc
+  )
 {
   tryCatch({
     TRUE
@@ -51,7 +86,18 @@ compute_ct_argcheck <- function()
 
 
 
-compute_ct_output <- function(model)
+compute_ct_output <- function(
+    model,
+    drift,
+    covmax,
+    jgrow,
+    SNK,
+    dact,
+    css,
+    bd,
+    qseep,
+    wilting,
+    fc)
 {
   input <- merge(component_output(model, "ca") |> data.table::as.data.table(),
                  component_output(model, "inp") |> data.table::as.data.table(),
@@ -66,7 +112,18 @@ compute_ct_output <- function(model)
       simplify = FALSE,
       keep.by = TRUE
     ) |>
-    lapply(ct_to_cluster_wrap) |>
+    lapply(ct_to_cluster_wrap,
+           drift = drift,
+           covmax = covmax,
+           jgrow = jgrow,
+           SNK = SNK,
+           dact = dact,
+           css = css,
+           bd = bd,
+           qseep = qseep,
+           wilting = wilting,
+           fc = fc
+           ) |>
     data.table::rbindlist() |>
     as.data.frame()
 
