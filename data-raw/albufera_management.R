@@ -70,4 +70,3 @@ albufera_management <-  # Prepare result data-frame
   select(mm, dd, tancat, variety, sowing, seed_day, irrigation, draining, height_cm) |>
   arrange(mm, dd, tancat, variety)
 
-usethis::use_data(albufera_management, overwrite = TRUE)

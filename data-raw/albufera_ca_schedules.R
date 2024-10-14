@@ -41,4 +41,3 @@ albufera_ca_schedules <- tribble(
   90,     "Clearfield",   "Difeno",         0.13,           "aerial"
 )
 
-usethis::use_data(albufera_ca_schedules, overwrite = TRUE)
