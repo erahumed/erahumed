@@ -59,20 +59,6 @@ ct_to_cluster <- function(application_kg,
   wilting <- 0.24  # I    #wilting point
   fc <- 0.35   # I       #field capacity
 
-  # drift
-  # covmax
-  # wilting
-  # fc
-  # bd
-  # css
-  # SNK
-  # qseep
-  # dt
-  # vbind
-  # dact
-
-
-
   kf <- ct_get_param(chemical, "kf")
   kw <- ct_get_param(chemical, "kw")
   Q10_kw <- ct_get_param(chemical, "Q10_kw")
