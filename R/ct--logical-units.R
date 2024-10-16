@@ -1,3 +1,47 @@
+ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
+  # Fraction of chemical residues in dissolved form and within voids in the
+  # sediment
+  return( pos / (pos + (kd_cm3_g * bd_g_cm3)) )
+}
+
+ct_fdw <- function(kd_cm3_g, css_ppm) {
+  # Fraction of chemical dissolved in water
+  return( 1 / (1 + 1e-6 * kd_cm3_g * css_ppm) )
+}
+
+ct_kdifus_m_day <- function(pos, MW) {
+  69.35 / 365 - pos * ((MW)^(-2/3))
+}
+
+ct_porosity <- function(fc, wilting) {
+  return(fc - wilting)
+}
+
+ct_cover <- function(seed_day, jgrow, covmax) {
+  igrow <- seed_day |> pmax2(0) |> pmin2(jgrow)
+  cover <- covmax * (igrow / jgrow)
+}
+
+ct_is_empty <- function(height_m, thresh_m) {
+  height_m < thresh_m
+}
+
+ct_setl_fac <- function(ksetl_m_day, fpw, height_sod_m) {
+  ksetl_m_day * fpw / pmax2(height_sod_m, ksetl_m_day * fpw)
+}
+
+ct_diff_s <- function(kdifus_m_day, fds, pos, dact_m) {
+  res <- kdifus_m_day * (fds / pos) / dact_m
+  res <- pmin2(res, 1)
+  res
+}
+
+ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
+  num <- kdifus_m_day * fdw
+  den <- pmax2(height_sod_m, num)
+  num / den
+}
+
 ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
   exp <- (temperature - temperature_ref) / 10
   fac <- Q10 ^ exp
@@ -6,4 +50,34 @@ ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
 
 ct_deg_fac <- function(k, dt) {
   exp(-k * dt)
+}
+
+ct_washout_fac <- function(fet_cm, rain_cm, dt) {
+  1 - exp(-fet_cm * rain_cm * dt)
+}
+
+ct_outflow_fac <- function(volume_eod_m3, outflow_m3) {
+  ifelse(volume_eod_m3 > 0 & outflow_m3 > 0,
+         volume_eod_m3 / (outflow_m3 + volume_eod_m3),
+         1)
+}
+
+ct_mfapp <- function(application_kg, drift, cover) {
+  application_kg * (1 - drift) * cover
+}
+
+ct_mwapp <- function(application_kg, drift, cover, SNK, is_empty) {
+  application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (!is_empty)
+}
+
+ct_msapp <- function(
+    application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m
+    )
+{
+  application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (dinc_m / dact_m) *
+    is_empty
+}
+
+ct_mw_max <- function(sol_ppm, volume_eod_m3) {
+  1e-3 * sol_ppm * volume_eod_m3
 }

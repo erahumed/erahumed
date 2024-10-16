@@ -171,14 +171,12 @@ ct_compute_system_terms <- function(application_kg,
   MW <- ct_get_param(chemical, "MW")
   fet_cm <- ct_get_param(chemical, "fet_cm")
 
-
-
   # Derived parameters
-  pos <- fc - wilting
-  fds <- pos / (pos + (kd_cm3_g * bd_g_cm3))
-  fdw <- 1 / (1 + 1e-6 * kd_cm3_g * css_ppm)
+  pos <- ct_porosity(fc = fc, wilting = wilting)
+  fds <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
+  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
-  kdifus_m_day <- 69.35 / 365 - pos * ((MW)^(-2/3))  # metros / dia
+  kdifus_m_day <- ct_kdifus_m_day(pos = pos, MW = MW)
 
   # Hydro balance time series
   height_eod_m <- height_eod_cm / 100
@@ -193,43 +191,49 @@ ct_compute_system_terms <- function(application_kg,
 
 
   # Precomputed time series
-  igrow <- seed_day |> pmax2(0) |> pmin2(jgrow)
-  cover <- covmax * (igrow / jgrow)
-  is_empty <- height_eod_m == 0
+  cover <- ct_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
+  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
 
   ### Settlement
-  setl <- ksetl_m_day * fpw / pmax2(height_sod_m, ksetl_m_day * fpw)
+  setl <- ct_setl_fac(ksetl_m_day = ksetl_m_day,
+                      fpw = fpw,
+                      height_sod_m = height_sod_m)
 
   ### Diffusion
-  diff_s <- pmin2(kdifus_m_day * (fds / pos) / dact_m, 1)
-  diff_w <- kdifus_m_day * area_m2 * fdw / pmax2(volume_sod_m3,
-                                                 kdifus_m_day * area_m2 * fdw)
+  diff_s <- ct_diff_s(kdifus_m_day = kdifus_m_day,
+                      fds = fds,
+                      pos = pos,
+                      dact_m = dact_m)
+  diff_w <- ct_diff_w(kdifus_m_day = kdifus_m_day,
+                      fdw = fdw,
+                      height_sod_m = height_sod_m)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
   kw_day <- ct_deg_k(kw_day, Q10_kw, temperature, kw_temp)
   ks_sat_day <- ct_deg_k(ks_sat_day, Q10_ks_sat, temperature, ks_sat_temp)
   ks_unsat_day <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temperature, ks_unsat_temp)
   ks_day <- (1-is_empty) * ks_sat_day + is_empty * ks_unsat_day
-  deg_f <- ct_deg_fac(kf_day, dt)
-  deg_w <- ct_deg_fac(kw_day, dt)
-  deg_s <- ct_deg_fac(ks_day, dt)
+  deg_f <- ct_deg_fac(k = kf_day, dt = dt)
+  deg_w <- ct_deg_fac(k = kw_day, dt = dt)
+  deg_s <- ct_deg_fac(k = ks_day, dt = dt)
 
   ### Washout
-  washout_fac <- 1 - exp(-fet_cm * rain_cm * dt)
+  washout_fac <- ct_washout_fac(fet_cm = fet_cm, rain_cm = rain_cm, dt = dt)
 
   ### Outflow
-  outflow_fac <- ifelse(volume_eod_m3 > 0 & outflow_m3 > 0,
-                        volume_eod_m3 / (outflow_m3 + volume_eod_m3),
-                        1)
+  outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3,
+                                outflow_m3 = outflow_m3)
 
   ### Inflow
   inflow_mw <- inflow_m3 * 0  # not implemented ATM!
 
   ### Application
-  m_app_kg <- application_kg * (1 - drift)
-  mfapp <- m_app_kg * cover
-  mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
-  msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc_m / dact_m) * is_empty
+  mfapp <- ct_mfapp(application_kg, drift, cover)
+  mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty)
+  msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
+
+  # Solubility
+  mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
   res <- list()
 
@@ -250,7 +254,7 @@ ct_compute_system_terms <- function(application_kg,
   res$bs <- msapp
 
   # Threshold for mass in water compartment
-  res$mw_max <- 1e-3 * sol_ppm * volume_eod_m3
+  res$mw_max <- mw_max
 
   return(res)
 }
