@@ -31,28 +31,52 @@ test_that("compute_hbp() error if invalid ideal_flow_rate_cm", {
 
 })
 
-test_that("compute_hbp() error if invalid hba_res", {
-  skip("Adapt to new implementation")
+test_that("compute_hbp() error if missing upstream components", {
 
-  m <- erahumed_model()
-
-  # remove one required column
   expect_error(
-    compute_hbp(m),
+    compute_hbp(erahumed_model()),
+    class = "compute_component_basecheck_error"
+  )
+
+})
+
+test_that("compute_hbp() error if invalid input data-frames", {
+  m <- erahumed_model() |> compute_inp() |> compute_hba()
+
+  expect_error(
+    compute_hbp(m, management_df = erahumed::albufera_management[,-1]),
     class = "compute_hbp_argcheck_error"
   )
 
 
-
   expect_error(
-    hbp(hba_res = inp() |> hba(),
-        management_df = erahumed::albufera_management[,-1]),
+    compute_hbp(m, clusters_df = erahumed::albufera_clusters[,-1]),
     class = "compute_hbp_argcheck_error"
   )
 
+})
+
+test_that("compute_hbp() error if invalid input numeric parameters", {
+  m <- erahumed_model() |> compute_inp() |> compute_hba()
+
   expect_error(
-    hbp(hba_res = inp() |> hba(),
-        clusters_df = erahumed::albufera_clusters[,-1]),
+    compute_hbp(m, ideal_flow_rate_cm = -1),
+    class = "compute_hbp_argcheck_error"
+    )
+
+  expect_error(
+    compute_hbp(m, ideal_flow_rate_cm = NA_real_),
+    class = "compute_hbp_argcheck_error"
+  )
+
+
+  expect_error(
+    compute_hbp(m, height_thresh_cm = "two"),
+    class = "compute_hbp_argcheck_error"
+    )
+
+  expect_error(
+    compute_hbp(m, height_thresh_cm = NA_real_),
     class = "compute_hbp_argcheck_error"
   )
 
