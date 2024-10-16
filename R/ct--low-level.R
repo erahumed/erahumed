@@ -3,10 +3,10 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
                                covmax,
                                jgrow,
                                SNK,
-                               dact,
-                               css,
-                               bd,
-                               qseep,
+                               dact_m,
+                               css_ppm,
+                               bd_g_cm3,
+                               qseep_m_day,
                                wilting,
                                fc
 )
@@ -35,10 +35,10 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
       covmax = covmax,
       jgrow = jgrow,
       SNK = SNK,
-      dact = dact,
-      css = css,
-      bd = bd,
-      qseep = qseep,
+      dact_m = dact_m,
+      css_ppm = css_ppm,
+      bd_g_cm3 = bd_g_cm3,
+      qseep_m_day = qseep_m_day,
       wilting = wilting,
       fc = fc
     )
@@ -65,10 +65,10 @@ ct_to_cluster <- function(application_kg,
                           covmax,
                           jgrow,
                           SNK,
-                          dact,
-                          css,
-                          bd,
-                          qseep,
+                          dact_m,
+                          css_ppm,
+                          bd_g_cm3,
+                          qseep_m_day,
                           wilting,
                           fc
 )
@@ -87,10 +87,10 @@ ct_to_cluster <- function(application_kg,
                                    covmax,
                                    jgrow,
                                    SNK,
-                                   dact,
-                                   css,
-                                   bd,
-                                   qseep,
+                                   dact_m,
+                                   css_ppm,
+                                   bd_g_cm3,
+                                   qseep_m_day,
                                    wilting,
                                    fc)
 
@@ -141,10 +141,10 @@ ct_compute_system_terms <- function(application_kg,
                                     covmax,
                                     jgrow,
                                     SNK,
-                                    dact,
-                                    css,
-                                    bd,
-                                    qseep,
+                                    dact_m,
+                                    css_ppm,
+                                    bd_g_cm3,
+                                    qseep_m_day,
                                     wilting,
                                     fc
                                     )
@@ -171,11 +171,13 @@ ct_compute_system_terms <- function(application_kg,
   MW <- ct_get_param(chemical, "MW")
   fet <- ct_get_param(chemical, "fet")
 
+
+
   # Derived parameters
   pos <- fc - wilting
-  fds <- pos / (pos + (kd * bd))
-  fdw <- 1 / (1 + kd * css)
-  fpw <- (kd * css) / (1 + kd * css)  # Porcentaje pesticida particulado en agua
+  fds <- pos / (pos + (kd * bd_g_cm3))
+  fdw <- 1 / (1 + 1e-6 * kd * css_ppm)
+  fpw <- 1 - fdw
   kdifus <- 69.35 / 365 - pos * ((MW)^(-2/3))  # metros / dia
 
   # Hydro balance time series
@@ -199,7 +201,7 @@ ct_compute_system_terms <- function(application_kg,
   setl <- ksetl * fpw / pmax2(height_sod_m, ksetl * fpw)
 
   ### Diffusion
-  diff_s <- pmin2(kdifus * (fds / pos) / dact, 1)
+  diff_s <- pmin2(kdifus * (fds / pos) / dact_m, 1)
   diff_w <- kdifus * area_m2 * fdw / pmax2(volume_sod_m3, kdifus * area_m2 * fdw)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
@@ -226,7 +228,7 @@ ct_compute_system_terms <- function(application_kg,
   m_app_kg <- application_kg * (1 - drift)
   mfapp <- m_app_kg * cover
   mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
-  msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact) * is_empty
+  msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact_m) * is_empty
 
   res <- list()
 
