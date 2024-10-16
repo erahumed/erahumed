@@ -88,7 +88,7 @@ Next, we populate model layers, which is achieved through the set of
 * `compute_hba()` - Hydrological Balance of the Albufera lake.
 * `compute_hbp()` - Hydrological Balance of rice Paddy clusters.
 * `compute_ca()` - Chemical Applications. 
-* (WIP: more components TBD).
+* `compute_ct()` - Chemical Transport.
 
 For instance, we can compute the first two layers with default arguments (*i.e.* 
 default input data and parameters for hydrological balance computation) as 
