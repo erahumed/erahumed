@@ -18,31 +18,35 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
 
   chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
   chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
-  for (chemical in chemicals)
-    res <- cbind(res,
-                 ct_to_cluster(
-                   application_kg = cluster_ca_df[[chemical]],
-                   rain_mm = cluster_ca_df[["rain_mm"]],
-                   etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
-                   temperature = rep(20, nrow(cluster_ca_df)),
-                   height_eod_cm = cluster_ca_df[["real_height_cm"]],
-                   outflow_m3_s = cluster_ca_df[["real_outflow_m3_s"]],
-                   inflow_m3_s = cluster_ca_df[["real_inflow_m3_s"]],
-                   area_m2 = cluster_ca_df[["area_m2"]][[1]],
-                   seed_day = cluster_ca_df[["seed_day"]],
-                   chemical = chemical,
-                   drift = drift,
-                   covmax = covmax,
-                   jgrow = jgrow,
-                   SNK = SNK,
-                   dact = dact,
-                   css = css,
-                   bd = bd,
-                   qseep = qseep,
-                   wilting = wilting,
-                   fc = fc
-                 )
-                )
+  for (chemical in chemicals) {
+    names <- paste(chemical, c("(F)", "(W)", "(S)"))
+    masses <- ct_to_cluster(
+      application_kg = cluster_ca_df[[chemical]],
+      rain_mm = cluster_ca_df[["rain_mm"]],
+      etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
+      temperature = rep(20, nrow(cluster_ca_df)),
+      height_eod_cm = cluster_ca_df[["real_height_cm"]],
+      outflow_m3_s = cluster_ca_df[["real_outflow_m3_s"]],
+      inflow_m3_s = cluster_ca_df[["real_inflow_m3_s"]],
+      area_m2 = cluster_ca_df[["area_m2"]][[1]],
+      seed_day = cluster_ca_df[["seed_day"]],
+      chemical = chemical,
+      drift = drift,
+      covmax = covmax,
+      jgrow = jgrow,
+      SNK = SNK,
+      dact = dact,
+      css = css,
+      bd = bd,
+      qseep = qseep,
+      wilting = wilting,
+      fc = fc
+    )
+    res[[ names[[1]] ]] <- masses[[1]]
+    res[[ names[[2]] ]] <- masses[[2]]
+    res[[ names[[3]] ]] <- masses[[3]]
+  }
+
 
   return(res)
 }
@@ -175,9 +179,7 @@ ct_to_cluster <- function(application_kg,
     }
   }
 
-  res <- data.frame(mf = mf, mw = mw, ms = ms)
-  names(res) <- paste0(chemical, " (", c("F", "W", "S"), ")")
-  return(res)
+  return(list(mf = mf, mw = mw, ms = ms))
 }
 
 ct_get_param <- function(chemical, parameter) {
