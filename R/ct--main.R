@@ -43,6 +43,7 @@ ct <- function(model)
 #' @param bd A positive number. bulk density of the sediment, expressed in grams
 #' per cubic centimeter.
 #' @param qseep A number. TODO.
+#' @param wilting A number. Wilting point (TODO).
 #' @param fc A number between `0` and `1`. Field capacity.
 #'
 #' @export

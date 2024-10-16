@@ -45,6 +45,8 @@ per cubic centimeter.}
 
 \item{qseep}{A number. TODO.}
 
+\item{wilting}{A number. Wilting point (TODO).}
+
 \item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }
 \value{
