@@ -10,8 +10,8 @@
 #' This model component computes the evolution of chemicals applied to rice
 #' paddy clusters, based on the previously computed simulations for
 #' hydrological balance and chemicals application.
-#' The result is a set of time series of concentrations, one for each
-#' applied chemical.
+#' The result is a set of time series of chemical masses, one for each
+#' applied chemical and for the three compartments: foliage, water and sediment.
 #'
 #' This modeling layer requires the \link{ca} component of the model to be
 #' pre-computed.
