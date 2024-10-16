@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* Fixed inhomogeneous term in the evolution equation for `ms[t]` (due to a typo
+ms was wrongly getting added the mass applied on foliage).
+
 ### Under the hoods
 
 * Re-enabled tests that were momentarily disabled after the refactor of v0.6.0.
