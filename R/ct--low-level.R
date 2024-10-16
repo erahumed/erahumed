@@ -173,7 +173,6 @@ ct_compute_system_terms <- function(application_kg,
 
   # Derived parameters
   pos <- fc - wilting
-  vsed <- area_m2 * dact
   fds <- pos / (pos + (kd * bd))
   fdw <- 1 / (1 + kd * css)
   fpw <- (kd * css) / (1 + kd * css)  # Porcentaje pesticida particulado en agua
@@ -200,7 +199,7 @@ ct_compute_system_terms <- function(application_kg,
   setl <- ksetl * fpw / pmax2(height_sod_m, ksetl * fpw)
 
   ### Diffusion
-  diff_s <- kdifus * area_m2 * (fds / pos) / vsed
+  diff_s <- pmin2(kdifus * (fds / pos) / dact, 1)
   diff_w <- kdifus * area_m2 * fdw / pmax2(volume_sod_m3, kdifus * area_m2 * fdw)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
