@@ -164,23 +164,15 @@ ct_to_cluster <- function(application_kg,
   ms <- numeric(n_time_steps)
 
   for (t in 2:n_time_steps) {
-
-    mf[t] <- Aff[t]*mf[t-1]
-    mw[t] <- Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
-    ms[t] <-                  Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
-
-    # Application
-    mf[t] <- mf[t] + bf[t]
-    mw[t] <- mw[t] + bw[t]
-    ms[t] <- ms[t] + bs[t]
+    mf[t] <- bf[t] + Aff[t]*mf[t-1]
+    mw[t] <- bw[t] + Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
+    ms[t] <- bs[t]                  + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
 
     mw_excess <- mw[t] - mw_max[t]
     if (mw_excess > 0) {
       mw[t] <- mw_max[t]
       ms[t] <- ms[t] + mw_excess
     }
-
-
   }
 
   res <- data.frame(mf = mf, mw = mw, ms = ms)
