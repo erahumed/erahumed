@@ -73,6 +73,82 @@ ct_to_cluster <- function(application_kg,
                           fc
 )
 {
+  terms <- ct_compute_system_terms(application_kg,
+                                   rain_mm,
+                                   etp_mm,
+                                   temperature,
+                                   height_eod_cm,
+                                   outflow_m3_s,
+                                   inflow_m3_s,
+                                   area_m2,
+                                   seed_day,
+                                   chemical,
+                                   drift,
+                                   covmax,
+                                   jgrow,
+                                   SNK,
+                                   dact,
+                                   css,
+                                   bd,
+                                   qseep,
+                                   wilting,
+                                   fc)
+
+  Aff <- terms$Aff
+  Afw <- terms$Afw
+  Afs <- terms$Afs
+  Awf <- terms$Awf
+  Aww <- terms$Aww
+  Aws <- terms$Aws
+  Asf <- terms$Asf
+  Asw <- terms$Asw
+  Ass <- terms$Ass
+
+  bf <- terms$bf
+  bw <- terms$bw
+  bs <- terms$bs
+
+  mw_max <- terms$mw_max
+
+  n_time_steps <- length(mw_max)
+  mf <- mw <- ms <- numeric(n_time_steps)
+  for (t in 2:n_time_steps) {
+    mf[t] <- bf[t] + Aff[t]*mf[t-1]
+    mw[t] <- bw[t] + Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
+    ms[t] <- bs[t]                  + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
+
+    mw_excess <- mw[t] - mw_max[t]
+    if (mw_excess > 0) {
+      mw[t] <- mw_max[t]
+      ms[t] <- ms[t] + mw_excess
+    }
+  }
+
+  return(list(mf = mf, mw = mw, ms = ms))
+}
+
+ct_compute_system_terms <- function(application_kg,
+                                    rain_mm,
+                                    etp_mm,
+                                    temperature,
+                                    height_eod_cm,
+                                    outflow_m3_s,
+                                    inflow_m3_s,
+                                    area_m2,
+                                    seed_day,
+                                    chemical,
+                                    drift,
+                                    covmax,
+                                    jgrow,
+                                    SNK,
+                                    dact,
+                                    css,
+                                    bd,
+                                    qseep,
+                                    wilting,
+                                    fc
+                                    )
+{
   n_time_steps <- length(application_kg)
   dt <- 1
 
@@ -153,37 +229,28 @@ ct_to_cluster <- function(application_kg,
   mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
   msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact) * is_empty
 
+  res <- list()
 
   # Homogeneous term for linear component of evolution
-  Aff <- deg_f * washout_fac
-  Awf <- deg_f * (1 - washout_fac)
-  Aww <- outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl)
-  Asw <- deg_s * ((1-setl)*diff_w + setl*(1-diff_s))
-  Aws <- outflow_fac * deg_w * diff_s
-  Ass <- deg_s * (1-diff_s)
+  res$Aff <- deg_f * washout_fac
+  res$Afw <- 0
+  res$Afs <- 0
+  res$Awf <- deg_f * (1 - washout_fac)
+  res$Aww <- outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl)
+  res$Aws <- outflow_fac * deg_w * diff_s
+  res$Asf <- 0
+  res$Asw <- deg_s * ((1-setl)*diff_w + setl*(1-diff_s))
+  res$Ass <- deg_s * (1-diff_s)
 
   # Inhomogeneous term for linear component of evolution
-  bf <- mfapp
-  bw <- mwapp
-  bs <- msapp
+  res$bf <- mfapp
+  res$bw <- mwapp
+  res$bs <- msapp
 
   # Threshold for mass in water compartment
-  mw_max <- volume_eod_m3 * sol
+  res$mw_max <- volume_eod_m3 * sol
 
-  mf <- mw <- ms <- numeric(n_time_steps)
-  for (t in 2:n_time_steps) {
-    mf[t] <- bf[t] + Aff[t]*mf[t-1]
-    mw[t] <- bw[t] + Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
-    ms[t] <- bs[t]                  + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
-
-    mw_excess <- mw[t] - mw_max[t]
-    if (mw_excess > 0) {
-      mw[t] <- mw_max[t]
-      ms[t] <- ms[t] + mw_excess
-    }
-  }
-
-  return(list(mf = mf, mw = mw, ms = ms))
+  return(res)
 }
 
 ct_get_param <- function(chemical, parameter) {
