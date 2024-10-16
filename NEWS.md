@@ -1,5 +1,12 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Re-enabled tests that were momentarily disabled after the refactor of v0.6.0.
+These consisted of a few tests on the argument checking performed by 
+`compute_hbp()`, plus a snapshot test (skipped on CI) on the initial Shiny 
+values.
+
 # erahumed 0.7.2
 
 ### New features
