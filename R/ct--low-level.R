@@ -172,7 +172,7 @@ ct_to_cluster <- function(application_kg,
     # Application
     mf[t] <- mf[t] + bf[t]
     mw[t] <- mw[t] + bw[t]
-    ms[t] <- ms[t] + bf[t]
+    ms[t] <- ms[t] + bs[t]
 
     mw_excess <- mw[t] - mw_max[t]
     if (mw_excess > 0) {
