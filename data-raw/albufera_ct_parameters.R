@@ -3,8 +3,9 @@ albufera_ct_parameters <- readxl::read_excel(
   ) |>
   as.data.frame() |>
   collapse::rsplit(  # This rather than 'base::split()' for simpler syntax
-    by = value ~ c(chemical, parameter),
+    by =  ~ chemical,
     flatten = FALSE,
     use.names = TRUE,
     simplify = TRUE
-  )
+  ) |>
+  lapply(as.list)

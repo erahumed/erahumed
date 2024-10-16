@@ -153,32 +153,32 @@ ct_compute_system_terms <- function(application_kg,
   dt <- 1
 
   # Chemicals parameters
-  kf <- ct_get_param(chemical, "kf")
-  kw <- ct_get_param(chemical, "kw")
+  kf_day <- ct_get_param(chemical, "kf_day")
+  kw_day <- ct_get_param(chemical, "kw_day")
   Q10_kw <- ct_get_param(chemical, "Q10_kw")
   kw_temp <- ct_get_param(chemical, "kw_temp")
-  ks_sat <- ct_get_param(chemical, "ks_sat")
+  ks_sat_day <- ct_get_param(chemical, "ks_sat_day")
   Q10_ks_sat <- ct_get_param(chemical, "Q10_ks_sat")
   ks_sat_temp <- ct_get_param(chemical, "ks_sat_temp")
-  ks_unsat <- ct_get_param(chemical, "ks_unsat")
+  ks_unsat_day <- ct_get_param(chemical, "ks_unsat_day")
   Q10_ks_unsat <- ct_get_param(chemical, "Q10_ks_unsat")
   ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
-  sol <- ct_get_param(chemical, "sol")
-  dinc <- ct_get_param(chemical, "dinc")
-  kd <- ct_get_param(chemical, "kd")
-  ksetl <- ct_get_param(chemical, "ksetl")
-  kvolat <- ct_get_param(chemical, "kvolat")
+  sol_ppm <- ct_get_param(chemical, "sol_ppm")
+  dinc_m <- ct_get_param(chemical, "dinc_m")
+  kd_cm3_g <- ct_get_param(chemical, "kd_cm3_g")
+  ksetl_m_day <- ct_get_param(chemical, "ksetl_m_day")
+  kvolat_m_day <- ct_get_param(chemical, "kvolat_m_day")
   MW <- ct_get_param(chemical, "MW")
-  fet <- ct_get_param(chemical, "fet")
+  fet_cm <- ct_get_param(chemical, "fet_cm")
 
 
 
   # Derived parameters
   pos <- fc - wilting
-  fds <- pos / (pos + (kd * bd_g_cm3))
-  fdw <- 1 / (1 + 1e-6 * kd * css_ppm)
+  fds <- pos / (pos + (kd_cm3_g * bd_g_cm3))
+  fdw <- 1 / (1 + 1e-6 * kd_cm3_g * css_ppm)
   fpw <- 1 - fdw
-  kdifus <- 69.35 / 365 - pos * ((MW)^(-2/3))  # metros / dia
+  kdifus_m_day <- 69.35 / 365 - pos * ((MW)^(-2/3))  # metros / dia
 
   # Hydro balance time series
   height_eod_m <- height_eod_cm / 100
@@ -198,23 +198,24 @@ ct_compute_system_terms <- function(application_kg,
   is_empty <- height_eod_m == 0
 
   ### Settlement
-  setl <- ksetl * fpw / pmax2(height_sod_m, ksetl * fpw)
+  setl <- ksetl_m_day * fpw / pmax2(height_sod_m, ksetl_m_day * fpw)
 
   ### Diffusion
-  diff_s <- pmin2(kdifus * (fds / pos) / dact_m, 1)
-  diff_w <- kdifus * area_m2 * fdw / pmax2(volume_sod_m3, kdifus * area_m2 * fdw)
+  diff_s <- pmin2(kdifus_m_day * (fds / pos) / dact_m, 1)
+  diff_w <- kdifus_m_day * area_m2 * fdw / pmax2(volume_sod_m3,
+                                                 kdifus_m_day * area_m2 * fdw)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
-  kw <- ct_deg_k(kw, Q10_kw, temperature, kw_temp)
-  ks_sat <- ct_deg_k(ks_sat, Q10_ks_sat, temperature, ks_sat_temp)
-  ks_unsat <- ct_deg_k(ks_unsat, Q10_ks_unsat, temperature, ks_unsat_temp)
-  ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
-  deg_f <- ct_deg_fac(kf, dt)
-  deg_w <- ct_deg_fac(kw, dt)
-  deg_s <- ct_deg_fac(ks, dt)
+  kw_day <- ct_deg_k(kw_day, Q10_kw, temperature, kw_temp)
+  ks_sat_day <- ct_deg_k(ks_sat_day, Q10_ks_sat, temperature, ks_sat_temp)
+  ks_unsat_day <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temperature, ks_unsat_temp)
+  ks_day <- (1-is_empty) * ks_sat_day + is_empty * ks_unsat_day
+  deg_f <- ct_deg_fac(kf_day, dt)
+  deg_w <- ct_deg_fac(kw_day, dt)
+  deg_s <- ct_deg_fac(ks_day, dt)
 
   ### Washout
-  washout_fac <- 1 - exp(-fet * rain_cm * dt)
+  washout_fac <- 1 - exp(-fet_cm * rain_cm * dt)
 
   ### Outflow
   outflow_fac <- ifelse(volume_eod_m3 > 0 & outflow_m3 > 0,
@@ -228,7 +229,7 @@ ct_compute_system_terms <- function(application_kg,
   m_app_kg <- application_kg * (1 - drift)
   mfapp <- m_app_kg * cover
   mwapp <- m_app_kg * (1 - cover) * (1 - SNK) * (!is_empty)
-  msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc / dact_m) * is_empty
+  msapp <- m_app_kg * (1 - cover) * (1 - SNK) * (dinc_m / dact_m) * is_empty
 
   res <- list()
 
@@ -249,7 +250,7 @@ ct_compute_system_terms <- function(application_kg,
   res$bs <- msapp
 
   # Threshold for mass in water compartment
-  res$mw_max <- volume_eod_m3 * sol
+  res$mw_max <- 1e-3 * sol_ppm * volume_eod_m3
 
   return(res)
 }
