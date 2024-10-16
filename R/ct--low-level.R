@@ -204,13 +204,13 @@ ct_compute_system_terms <- function(application_kg,
   diff_w <- kdifus * area_m2 * fdw / pmax2(volume_sod_m3, kdifus * area_m2 * fdw)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
-  kw <- kw * (Q10_kw ^ ((temperature - kw_temp) / 10))
-  ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - ks_sat_temp) / 10))
-  ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - ks_unsat_temp) / 10))
+  kw <- ct_deg_k(kw, Q10_kw, temperature, kw_temp)
+  ks_sat <- ct_deg_k(ks_sat, Q10_ks_sat, temperature, ks_sat_temp)
+  ks_unsat <- ct_deg_k(ks_unsat, Q10_ks_unsat, temperature, ks_unsat_temp)
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
-  deg_f <- exp(-kf * dt)
-  deg_w <- exp(-kw * dt)
-  deg_s <- exp(-ks * dt)
+  deg_f <- ct_deg_fac(kf, dt)
+  deg_w <- ct_deg_fac(kw, dt)
+  deg_s <- ct_deg_fac(ks, dt)
 
   ### Washout
   washout_fac <- 1 - exp(-fet * rain_cm * dt)
