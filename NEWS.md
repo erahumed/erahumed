@@ -1,5 +1,11 @@
 # erahumed (development version)
 
+### New features
+
+* CT model component now uses actual cluster and chemical parameters in the 
+evolution equations (whereas it was previously using dummy values of the 
+expected order of magnitude).
+
 # erahumed 0.7.1
 
 ### Bug fixes

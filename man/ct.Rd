@@ -7,11 +7,47 @@
 \usage{
 ct(model)
 
-compute_ct(model)
+compute_ct(
+  model,
+  drift = 0,
+  covmax = 0.5,
+  jgrow = 152,
+  SNK = 0,
+  dact = 0.1,
+  css = 50 * 1e-06,
+  bd = 1.5,
+  qseep = 0,
+  wilting = 0.24,
+  fc = 0.35
+)
 }
 \arguments{
 \item{model}{An object of class \link{erahumed_model}, with a pre-computed
 \link{ca} component (\emph{i.e.} such that \code{ca(model)} is not \code{NULL}).}
+
+\item{drift}{A number between \code{0} and \code{1}. Percentage of chemical
+applications lost to drift.}
+
+\item{covmax}{A number between \code{0} and \code{1}. Interception potential of
+foliage at crop maturation.}
+
+\item{jgrow}{A positive integer. Length (in days) of crop maturation cycle.}
+
+\item{SNK}{A number between \code{0} and \code{1}. TODO.}
+
+\item{dact}{A positive number. Active sediment layer depth, expressed in meters.}
+
+\item{css}{A positive number. Suspended sediment concentration, expressed in grams
+per cubic centimeter.}
+
+\item{bd}{A positive number. bulk density of the sediment, expressed in grams
+per cubic centimeter.}
+
+\item{qseep}{A number. TODO.}
+
+\item{wilting}{A number. Wilting point (TODO).}
+
+\item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_ct}, for
@@ -22,8 +58,8 @@ Objects of class \link{erahumed_model} and \code{erahumed_ct}, for
 This model component computes the evolution of chemicals applied to rice
 paddy clusters, based on the previously computed simulations for
 hydrological balance and chemicals application.
-The result is a set of time series of concentrations, one for each
-applied chemical.
+The result is a set of time series of chemical masses, one for each
+applied chemical and for the three compartments: foliage, water and sediment.
 
 This modeling layer requires the \link{ca} component of the model to be
 pre-computed.

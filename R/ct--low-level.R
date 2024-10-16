@@ -1,4 +1,15 @@
-ct_to_cluster_wrap <- function(cluster_ca_df)
+ct_to_cluster_wrap <- function(cluster_ca_df,
+                               drift,
+                               covmax,
+                               jgrow,
+                               SNK,
+                               dact,
+                               css,
+                               bd,
+                               qseep,
+                               wilting,
+                               fc
+                               )
 {
   res <- data.frame(
     cluster_id = cluster_ca_df[["cluster_id"]],
@@ -19,7 +30,17 @@ ct_to_cluster_wrap <- function(cluster_ca_df)
                    inflow_m3_s = cluster_ca_df[["real_inflow_m3_s"]],
                    area_m2 = cluster_ca_df[["area_m2"]][[1]],
                    seed_day = cluster_ca_df[["seed_day"]],
-                   chemical = chemical
+                   chemical = chemical,
+                   drift = drift,
+                   covmax = covmax,
+                   jgrow = jgrow,
+                   SNK = SNK,
+                   dact = dact,
+                   css = css,
+                   bd = bd,
+                   qseep = qseep,
+                   wilting = wilting,
+                   fc = fc
                  )
                 )
 
@@ -35,9 +56,21 @@ ct_to_cluster <- function(application_kg,
                           inflow_m3_s,
                           area_m2,
                           seed_day,
-                          chemical)
+                          chemical,
+                          drift,
+                          covmax,
+                          jgrow,
+                          SNK,
+                          dact,
+                          css,
+                          bd,
+                          qseep,
+                          wilting,
+                          fc
+                          )
 {
   n_time_steps <- length(application_kg)
+  dt <- 1
 
   height_eod_m <- height_eod_cm / 100
   volume_eod_m3 <- height_eod_m * area_m2
@@ -47,41 +80,27 @@ ct_to_cluster <- function(application_kg,
   rain_m3 <- (rain_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
 
-  drift <- 0        # I    Fracción perdida por deriva
-  covmax <- 0.5     # I    Cobertura máxima del cultivo
-  jgrow <- 152      # I    Días totales entre emergencia y maduración
-  sa <- 114881.779  # C    Superficie del arrozal en m2
-  kf <- 0.24        # P    Tasa de degradación en el follaje (día-1)
-  kw <- 0.046       # P    Tasa de degradación en el agua (día-1)
-  Q10_kw <- 2.6     # P
-  temp_kw <- 20     # P
-  ks_sat <- 0.03    # P    Tasa de degradación en el sedimento (día-1)
-  Q10_ks_sat <- 2.6 # P
-  temp_ks_sat <- 20 # P
-  ks_unsat <- 0.117 # P
-  Q10_ks_unsat <-  2.6  # P
-  temp_ks_unsat <- 20  # P
-  sol <- 408   # P     # Solubilidad
-  dt <- 1  # I        # Intervalo de tiempo (día)
-  SNK <- 0   # I (seguramente lo descartemos)     # Efecto de sumidero (0 para no usar)
-  dinc <- 0.05  # P  # Profundidad de incorporación (m)
-  dact <- 0.1  # I     # Profundidad de la capa activa de sedimento (m)
-  kd <- 15    # P      # Coeficiente de partición agua-sedimento (cm3/g)
-  css <- 50 * 1e-6   # I  # Concentración de sedimento suspendido (g/cm3)
-  ksetl <- 2   # P   # Velocidad de sedimentación (m/día)
-  vbind <- 0.01  # I   # Coeficiente de partición directa (cm/día)
-  bd <- 1.5  # I    # Densidad aparente del sedimento (g/cm3)
-  kvolat <- 0.0005  # P    # Tasa de volatilización (m/día)
-  qseep <- 0  # I (seguramente omitir)     # Tasa de filtración (m/día)
-  wilting <- 0.24  # I    #wilting point
-  fc <- 0.35   # I       #field capcity
-  MW <- 1  # P        # Peso molecular del químico
-  fet <- 0.2  # P         # Washoff Fraction per rain cm - Foliar Extraction T...
-  kmonod <- 1e-8  # I (seguramente omitiremos) monod feedback function https://stackoverflow.com/questions/56614347/non-negative-ode-solutions-with-functools-in-r/56692927#56692927
+  kf <- ct_get_param(chemical, "kf")
+  kw <- ct_get_param(chemical, "kw")
+  Q10_kw <- ct_get_param(chemical, "Q10_kw")
+  kw_temp <- ct_get_param(chemical, "kw_temp")
+  ks_sat <- ct_get_param(chemical, "ks_sat")
+  Q10_ks_sat <- ct_get_param(chemical, "Q10_ks_sat")
+  ks_sat_temp <- ct_get_param(chemical, "ks_sat_temp")
+  ks_unsat <- ct_get_param(chemical, "ks_unsat")
+  Q10_ks_unsat <- ct_get_param(chemical, "Q10_ks_unsat")
+  ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
+  sol <- ct_get_param(chemical, "sol")
+  dinc <- ct_get_param(chemical, "dinc")
+  kd <- ct_get_param(chemical, "kd")
+  ksetl <- ct_get_param(chemical, "ksetl")
+  kvolat <- ct_get_param(chemical, "kvolat")
+  MW <- ct_get_param(chemical, "MW")
+  fet <- ct_get_param(chemical, "fet")
 
   # Funciones de parametros
   pos <- fc - wilting
-  vsed <- sa * dact
+  vsed <- area_m2 * dact
   fds <- pos / (pos + (kd * bd))
   fdw <- 1 / (1 + kd * css)
   fpw <- (kd * css) / (1 + kd * css)  # Porcentaje pesticida particulado en agua
@@ -107,13 +126,13 @@ ct_to_cluster <- function(application_kg,
 
   setl <- ksetl * fpw / pmax2(height_sod_m, ksetl * fpw)
 
-  diff_s <- kdifus * sa * (fds / pos) / vsed
-  diff_w <- kdifus * sa * fdw / pmax2(volume_sod_m3, kdifus * sa * fdw)
+  diff_s <- kdifus * area_m2 * (fds / pos) / vsed
+  diff_w <- kdifus * area_m2 * fdw / pmax2(volume_sod_m3, kdifus * area_m2 * fdw)
 
   # Degradation (applying Arrhenius kinetic equilibrium)
-  kw <- kw * (Q10_kw ^ ((temperature - temp_kw) / 10))
-  ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - temp_ks_sat) / 10))
-  ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - temp_ks_unsat) / 10))
+  kw <- kw * (Q10_kw ^ ((temperature - kw_temp) / 10))
+  ks_sat <- ks_sat * (Q10_ks_sat ^ ((temperature - ks_sat_temp) / 10))
+  ks_unsat <- ks_unsat * (Q10_ks_unsat ^ ((temperature - ks_unsat_temp) / 10))
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
   deg_f <- exp(-kf * dt)
   deg_w <- exp(-kw * dt)
@@ -145,39 +164,6 @@ ct_to_cluster <- function(application_kg,
   ms <- numeric(n_time_steps)
 
   for (t in 2:n_time_steps) {
-    # # Omitted for performance improvement
-    # # mf[t] <- mf[t-1]
-    # # mw[t] <- mw[t-1]
-    # # ms[t] <- ms[t-1]
-    #
-    # # Sedimentation vectorized over all time steps
-    # # (first occurrences of mw and ms, taking values from t-1)
-    # msetl <- setl_fac[t] * mw[t-1]
-    # mw[t] <- mw[t-1] - msetl
-    # ms[t] <- ms[t-1] + msetl
-    #
-    # # Diffusion
-    # mdifus <- difus_fac_ms * ms[t] + difus_fac_mw[t] * mw[t]
-    # mw[t] <- mw[t] + mdifus
-    # ms[t] <- ms[t] - mdifus
-    #
-    # # Degradation
-    # # (first occurrence of mf, taking value from t-1)
-    # mf[t] <- deg_fac_mf * mf[t-1]
-    # mw[t] <- deg_fac_mw[t] * mw[t]
-    # ms[t] <- deg_fac_ms[t] * ms[t]
-    #
-    # # Washout
-    # mwashout <- washout_fac[t] * mf[t]
-    # mf[t] <- mf[t] - mwashout
-    # mw[t] <- mw[t] + mwashout
-    #
-    # # Outflow
-    # mw[t] <- outflow_fac[t] * mw[t]
-    #
-    # # Inflow
-    # mw[t] <- mw[t] + inflow_mw[t]
-    #
 
     mf[t] <- Aff[t]*mf[t-1]
     mw[t] <- Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
@@ -200,4 +186,8 @@ ct_to_cluster <- function(application_kg,
   res <- data.frame(mf = mf, mw = mw, ms = ms)
   names(res) <- paste0(chemical, " (", c("F", "W", "S"), ")")
   return(res)
+}
+
+ct_get_param <- function(chemical, parameter) {
+  albufera_ct_parameters [[ chemical ]] [[ parameter ]]
 }

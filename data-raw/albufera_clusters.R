@@ -24,5 +24,4 @@ albufera_clusters <- sf::st_drop_geometry(clusters_raw) |>
 
 
 
-usethis::use_data(albufera_clusters, overwrite = TRUE)
-usethis::use_data(albufera_cluster_geometries, internal = TRUE, overwrite = TRUE)
+

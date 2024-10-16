@@ -10,8 +10,8 @@
 #' This model component computes the evolution of chemicals applied to rice
 #' paddy clusters, based on the previously computed simulations for
 #' hydrological balance and chemicals application.
-#' The result is a set of time series of concentrations, one for each
-#' applied chemical.
+#' The result is a set of time series of chemical masses, one for each
+#' applied chemical and for the three compartments: foliage, water and sediment.
 #'
 #' This modeling layer requires the \link{ca} component of the model to be
 #' pre-computed.
@@ -30,15 +30,66 @@ ct <- function(model)
   get_model_component(model, "ct")
 
 #' @rdname ct
+#'
+#' @param drift A number between `0` and `1`. Percentage of chemical
+#' applications lost to drift.
+#' @param covmax A number between `0` and `1`. Interception potential of
+#' foliage at crop maturation.
+#' @param jgrow A positive integer. Length (in days) of crop maturation cycle.
+#' @param SNK A number between `0` and `1`. TODO.
+#' @param dact A positive number. Active sediment layer depth, expressed in meters.
+#' @param css A positive number. Suspended sediment concentration, expressed in grams
+#' per cubic centimeter.
+#' @param bd A positive number. bulk density of the sediment, expressed in grams
+#' per cubic centimeter.
+#' @param qseep A number. TODO.
+#' @param wilting A number. Wilting point (TODO).
+#' @param fc A number between `0` and `1`. Field capacity.
+#'
 #' @export
-compute_ct <- function(model)
+compute_ct <- function(
+    model,
+    drift = 0,
+    covmax = 0.5,
+    jgrow = 152,
+    SNK = 0,
+    dact = 0.1,
+    css = 50 * 1e-6,
+    bd = 1.5,
+    qseep = 0,
+    wilting = 0.24,
+    fc = 0.35
+    )
 {
-  compute_component(model, "ct")
+  compute_component(model = model,
+                    component = "ct",
+                    drift = drift,
+                    covmax = covmax,
+                    jgrow = jgrow,
+                    SNK = SNK,
+                    dact = dact,
+                    css = css,
+                    bd = bd,
+                    qseep = qseep,
+                    wilting = wilting,
+                    fc = fc
+                    )
 }
 
 
 
-compute_ct_argcheck <- function()
+compute_ct_argcheck <- function(
+  drift,
+  covmax,
+  jgrow,
+  SNK,
+  dact,
+  css,
+  bd,
+  qseep,
+  wilting,
+  fc
+  )
 {
   tryCatch({
     TRUE
@@ -51,7 +102,18 @@ compute_ct_argcheck <- function()
 
 
 
-compute_ct_output <- function(model)
+compute_ct_output <- function(
+    model,
+    drift,
+    covmax,
+    jgrow,
+    SNK,
+    dact,
+    css,
+    bd,
+    qseep,
+    wilting,
+    fc)
 {
   input <- merge(component_output(model, "ca") |> data.table::as.data.table(),
                  component_output(model, "inp") |> data.table::as.data.table(),
@@ -66,7 +128,18 @@ compute_ct_output <- function(model)
       simplify = FALSE,
       keep.by = TRUE
     ) |>
-    lapply(ct_to_cluster_wrap) |>
+    lapply(ct_to_cluster_wrap,
+           drift = drift,
+           covmax = covmax,
+           jgrow = jgrow,
+           SNK = SNK,
+           dact = dact,
+           css = css,
+           bd = bd,
+           qseep = qseep,
+           wilting = wilting,
+           fc = fc
+           ) |>
     data.table::rbindlist() |>
     as.data.frame()
 

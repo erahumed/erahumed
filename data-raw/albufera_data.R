@@ -133,7 +133,3 @@ albufera_outflows <- albufera_outflows |>
   )
 
 
-### Exports ####################################################################
-
-usethis::use_data(albufera_petp, overwrite = TRUE)
-usethis::use_data(albufera_outflows, overwrite = TRUE)
