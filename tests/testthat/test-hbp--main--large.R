@@ -1,12 +1,7 @@
-withr::with_envvar(c(erahumed_randomize_clusters = FALSE), {
-  test_df <- hbp(test_mod_large())$output
-  eps <- 1e-10
-})
-
-
 # Property based tests
 
 test_that("Returned dataset has the expected number of rows", {
+  test_df <- component_output(test_mod_large(), "hbp")
   n_clusters <- nrow(albufera_clusters)
   n_days <- length( seq.Date(from = min(test_df$date),
                              to = max(test_df$date),
@@ -17,6 +12,7 @@ test_that("Returned dataset has the expected number of rows", {
 })
 
 test_that("'ditch' is consistent along 'cluster_id'", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::group_by(cluster_id) |>
     dplyr::summarise(distinct_values = dplyr::n_distinct(ditch)) |>
@@ -26,6 +22,7 @@ test_that("'ditch' is consistent along 'cluster_id'", {
 })
 
 test_that("'tancat' is consistent along 'cluster_id'", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::group_by(cluster_id) |>
     dplyr::summarise(distinct_values = dplyr::n_distinct(tancat)) |>
@@ -35,6 +32,7 @@ test_that("'tancat' is consistent along 'cluster_id'", {
 })
 
 test_that("'variety' is consistent along 'cluster_id'", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::group_by(cluster_id) |>
     dplyr::summarise(distinct_values = dplyr::n_distinct(variety)) |>
@@ -44,30 +42,35 @@ test_that("'variety' is consistent along 'cluster_id'", {
 })
 
 test_that("ideal flows are always non-negative", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::filter(ideal_inflow_cm < 0 | ideal_outflow_cm < 0)
   expect_equal(nrow(res), 0)
 })
 
 test_that("real flows are always non-negative", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::filter(real_inflow_cm < 0 | real_outflow_cm < 0)
   expect_equal(nrow(res), 0)
 })
 
 test_that("plan_delay is an integer", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::filter(abs(plan_delay - as.integer(plan_delay)) > 0.1)
   expect_equal(nrow(res), 0)
 })
 
 test_that("plan_delay is positive", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::filter(plan_delay < 0)
   expect_equal(nrow(res), 0)
 })
 
 test_that("sum(real outflows) = total capacity of ditch", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::group_by(date, ditch) |>
     dplyr::summarise(
@@ -76,13 +79,14 @@ test_that("sum(real outflows) = total capacity of ditch", {
       .groups = "drop"
     ) |>
     dplyr::filter(
-      abs(real_outflow_m3_s - flowpoint) > mean(abs(flowpoint)) * eps
+      abs(real_outflow_m3_s - flowpoint) > mean(abs(flowpoint)) * 1e-10
     )
 
   expect_equal(nrow(res), 0)
 })
 
 test_that("real_irrigation is the delayed version of ideal_irrigation", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::group_by(cluster_id) |>
     dplyr::arrange(date) |>
@@ -97,6 +101,7 @@ test_that("real_irrigation is the delayed version of ideal_irrigation", {
 })
 
 test_that("real_draining is the delayed version of ideal_draining", {
+  test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
     dplyr::group_by(cluster_id) |>
     dplyr::arrange(date) |>
@@ -113,6 +118,7 @@ test_that("real_draining is the delayed version of ideal_draining", {
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
 
+  test_df <- component_output(test_mod_large(), "hbp")
   hash <- digest::digest(test_df)
 
   expect_snapshot(hash)
