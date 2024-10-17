@@ -68,10 +68,10 @@ pre-computed.</p>
 <span>  covmax <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  jgrow <span class="op">=</span> <span class="fl">152</span>,</span>
 <span>  SNK <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  dact <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span>  css <span class="op">=</span> <span class="fl">50</span> <span class="op">*</span> <span class="fl">1e-06</span>,</span>
-<span>  bd <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>  qseep <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  dact_m <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  css_ppm <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  bd_g_cm3 <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  qseep_m_day <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  wilting <span class="op">=</span> <span class="fl">0.24</span>,</span>
 <span>  fc <span class="op">=</span> <span class="fl">0.35</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -101,29 +101,31 @@ foliage at crop maturation.</p></dd>
 
 
 <dt id="arg-snk">SNK<a class="anchor" aria-label="anchor" href="#arg-snk"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. TODO.</p></dd>
+<dd><p>A number between <code>0</code> and <code>1</code>. (TODO).</p></dd>
 
 
-<dt id="arg-dact">dact<a class="anchor" aria-label="anchor" href="#arg-dact"></a></dt>
-<dd><p>A positive number. Active sediment layer depth, expressed in meters.</p></dd>
+<dt id="arg-dact-m">dact_m<a class="anchor" aria-label="anchor" href="#arg-dact-m"></a></dt>
+<dd><p>A positive number. Active sediment layer depth, expressed in
+meters.</p></dd>
 
 
-<dt id="arg-css">css<a class="anchor" aria-label="anchor" href="#arg-css"></a></dt>
-<dd><p>A positive number. Suspended sediment concentration, expressed in grams
-per cubic centimeter.</p></dd>
+<dt id="arg-css-ppm">css_ppm<a class="anchor" aria-label="anchor" href="#arg-css-ppm"></a></dt>
+<dd><p>A positive number. Suspended sediment concentration, expressed
+in parts per million.</p></dd>
 
 
-<dt id="arg-bd">bd<a class="anchor" aria-label="anchor" href="#arg-bd"></a></dt>
-<dd><p>A positive number. bulk density of the sediment, expressed in grams
-per cubic centimeter.</p></dd>
+<dt id="arg-bd-g-cm-">bd_g_cm3<a class="anchor" aria-label="anchor" href="#arg-bd-g-cm-"></a></dt>
+<dd><p>A positive number. Bulk density of the sediment, expressed in
+grams per cubic centimeter.</p></dd>
 
 
-<dt id="arg-qseep">qseep<a class="anchor" aria-label="anchor" href="#arg-qseep"></a></dt>
-<dd><p>A number. TODO.</p></dd>
+<dt id="arg-qseep-m-day">qseep_m_day<a class="anchor" aria-label="anchor" href="#arg-qseep-m-day"></a></dt>
+<dd><p>A positive number. Seepage rate, expressed in meters per
+day.</p></dd>
 
 
 <dt id="arg-wilting">wilting<a class="anchor" aria-label="anchor" href="#arg-wilting"></a></dt>
-<dd><p>A number. Wilting point (TODO).</p></dd>
+<dd><p>A number between <code>0</code> and <code>1</code>. Wilting point.</p></dd>
 
 
 <dt id="arg-fc">fc<a class="anchor" aria-label="anchor" href="#arg-fc"></a></dt>
