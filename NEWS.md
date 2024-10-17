@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### New features
+
+* CA: added a minimalistic Shiny interface to display the results of chemical 
+applications in the form of time series for individual clusters.
+
 # erahumed 0.7.3
 
 ### Algorithm changes
