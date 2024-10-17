@@ -27,6 +27,8 @@ values.
 
 * Various simplifications in the low-level code of the CT model components.
 
+* Basic unit tests for the CT component functions.
+
 # erahumed 0.7.2
 
 ### New features
