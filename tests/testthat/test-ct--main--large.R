@@ -22,6 +22,26 @@ test_that("The time series of chemical masses are always positive", {
   expect_true(only_positive_values)
 })
 
+test_that("Chemical masses do not increase except if directly applied", {
+  chemicals <- unique(albufera_ca_schedules$chemical)
+  test_df <- component_output(test_mod_large(), "ct")
+  applications_df <- component_output(test_mod_large(), "ca")
+  tol_kg <- 1e-10
+
+  for (chemical in chemicals) {
+    m_applied <- applications_df[[chemical]]
+    if (is.null(m_applied))
+      next
+    actual_masses <- test_df |>
+      dplyr::select(dplyr::contains(chemical)) |>
+      rowSums()
+
+    no_mass_increase <- diff(actual_masses) <= m_applied[-1] + tol_kg
+    expect_true(all(no_mass_increase))
+  }
+})
+
+
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
 
