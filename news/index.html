@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,21 +33,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.7.3" id="erahumed-073">erahumed 0.7.3<a class="anchor" aria-label="anchor" href="#erahumed-073"></a></h2>
 <div class="section level4">
-<h4 id="algorithm-changes-development-version">Algorithm changes<a class="anchor" aria-label="anchor" href="#algorithm-changes-development-version"></a></h4>
+<h4 id="algorithm-changes-0-7-3">Algorithm changes<a class="anchor" aria-label="anchor" href="#algorithm-changes-0-7-3"></a></h4>
 <ul><li>CT: the multiplier for the sediment to water diffusion term was thresholded to one, as this number should always be a positive fraction of unity. In any case, multipliers larger than one are probably being created by issues in the pesticide parameters (<em>e.g.</em> unit errors) that are currently being addressed, so that the threshold should become unnecessary in the long run.</li>
 </ul></div>
 <div class="section level4">
-<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<h4 id="breaking-changes-0-7-3">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-7-3"></a></h4>
 <ul><li>Renamed arguments of <code><a href="../reference/ct.html">compute_ct()</a></code> by making units explicit (<em>e.g.</em> <code>css</code> becomes <code>css_ppm</code>).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<h4 id="bug-fixes-0-7-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-7-3"></a></h4>
 <ul><li>Fixed inhomogeneous term in the evolution equation for <code>ms[t]</code> (due to a typo ms was wrongly getting added the mass applied on foliage).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
+<h4 id="under-the-hoods-0-7-3">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-7-3"></a></h4>
 <ul><li><p>Re-enabled tests that were momentarily disabled after the refactor of v0.6.0. These consisted of a few tests on the argument checking performed by <code><a href="../reference/hbp.html">compute_hbp()</a></code>, plus a snapshot test (skipped on CI) on the initial Shiny values.</p></li>
 <li><p>Various simplifications in the low-level code of the CT model components.</p></li>
 <li><p>Basic unit tests for the CT component functions.</p></li>
