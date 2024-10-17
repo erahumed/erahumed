@@ -1,3 +1,7 @@
+ct_get_param <- function(chemical, parameter) {
+  albufera_ct_parameters [[ chemical ]] [[ parameter ]]
+}
+
 ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
   # Fraction of chemical residues in dissolved form and within voids in the
   # sediment

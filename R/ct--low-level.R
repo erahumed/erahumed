@@ -234,6 +234,3 @@ ct_compute_system_terms <- function(application_kg,
   return(res)
 }
 
-ct_get_param <- function(chemical, parameter) {
-  albufera_ct_parameters [[ chemical ]] [[ parameter ]]
-}
