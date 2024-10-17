@@ -36,14 +36,16 @@ ct <- function(model)
 #' @param covmax A number between `0` and `1`. Interception potential of
 #' foliage at crop maturation.
 #' @param jgrow A positive integer. Length (in days) of crop maturation cycle.
-#' @param SNK A number between `0` and `1`. TODO.
-#' @param dact A positive number. Active sediment layer depth, expressed in meters.
-#' @param css A positive number. Suspended sediment concentration, expressed in grams
-#' per cubic centimeter.
-#' @param bd A positive number. bulk density of the sediment, expressed in grams
-#' per cubic centimeter.
-#' @param qseep A number. TODO.
-#' @param wilting A number. Wilting point (TODO).
+#' @param SNK A number between `0` and `1`. (TODO).
+#' @param dact_m A positive number. Active sediment layer depth, expressed in
+#' meters.
+#' @param css_ppm A positive number. Suspended sediment concentration, expressed
+#' in parts per million.
+#' @param bd_g_cm3 A positive number. Bulk density of the sediment, expressed in
+#' grams per cubic centimeter.
+#' @param qseep_m_day A positive number. Seepage rate, expressed in meters per
+#' day.
+#' @param wilting A number between `0` and `1`. Wilting point.
 #' @param fc A number between `0` and `1`. Field capacity.
 #'
 #' @export
@@ -53,10 +55,10 @@ compute_ct <- function(
     covmax = 0.5,
     jgrow = 152,
     SNK = 0,
-    dact = 0.1,
-    css = 50 * 1e-6,
-    bd = 1.5,
-    qseep = 0,
+    dact_m = 0.1,
+    css_ppm = 50,
+    bd_g_cm3 = 1.5,
+    qseep_m_day = 0,
     wilting = 0.24,
     fc = 0.35
     )
@@ -67,10 +69,10 @@ compute_ct <- function(
                     covmax = covmax,
                     jgrow = jgrow,
                     SNK = SNK,
-                    dact = dact,
-                    css = css,
-                    bd = bd,
-                    qseep = qseep,
+                    dact_m = dact_m,
+                    css_ppm = css_ppm,
+                    bd_g_cm3 = bd_g_cm3,
+                    qseep_m_day = qseep_m_day,
                     wilting = wilting,
                     fc = fc
                     )
@@ -83,10 +85,10 @@ compute_ct_argcheck <- function(
   covmax,
   jgrow,
   SNK,
-  dact,
-  css,
-  bd,
-  qseep,
+  dact_m,
+  css_ppm,
+  bd_g_cm3,
+  qseep_m_day,
   wilting,
   fc
   )
@@ -108,10 +110,10 @@ compute_ct_output <- function(
     covmax,
     jgrow,
     SNK,
-    dact,
-    css,
-    bd,
-    qseep,
+    dact_m,
+    css_ppm,
+    bd_g_cm3,
+    qseep_m_day,
     wilting,
     fc)
 {
@@ -133,10 +135,10 @@ compute_ct_output <- function(
            covmax = covmax,
            jgrow = jgrow,
            SNK = SNK,
-           dact = dact,
-           css = css,
-           bd = bd,
-           qseep = qseep,
+           dact_m = dact_m,
+           css_ppm = css_ppm,
+           bd_g_cm3 = bd_g_cm3,
+           qseep_m_day = qseep_m_day,
            wilting = wilting,
            fc = fc
            ) |>

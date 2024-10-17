@@ -13,10 +13,10 @@ compute_ct(
   covmax = 0.5,
   jgrow = 152,
   SNK = 0,
-  dact = 0.1,
-  css = 50 * 1e-06,
-  bd = 1.5,
-  qseep = 0,
+  dact_m = 0.1,
+  css_ppm = 50,
+  bd_g_cm3 = 1.5,
+  qseep_m_day = 0,
   wilting = 0.24,
   fc = 0.35
 )
@@ -33,19 +33,21 @@ foliage at crop maturation.}
 
 \item{jgrow}{A positive integer. Length (in days) of crop maturation cycle.}
 
-\item{SNK}{A number between \code{0} and \code{1}. TODO.}
+\item{SNK}{A number between \code{0} and \code{1}. (TODO).}
 
-\item{dact}{A positive number. Active sediment layer depth, expressed in meters.}
+\item{dact_m}{A positive number. Active sediment layer depth, expressed in
+meters.}
 
-\item{css}{A positive number. Suspended sediment concentration, expressed in grams
-per cubic centimeter.}
+\item{css_ppm}{A positive number. Suspended sediment concentration, expressed
+in parts per million.}
 
-\item{bd}{A positive number. bulk density of the sediment, expressed in grams
-per cubic centimeter.}
+\item{bd_g_cm3}{A positive number. Bulk density of the sediment, expressed in
+grams per cubic centimeter.}
 
-\item{qseep}{A number. TODO.}
+\item{qseep_m_day}{A positive number. Seepage rate, expressed in meters per
+day.}
 
-\item{wilting}{A number. Wilting point (TODO).}
+\item{wilting}{A number between \code{0} and \code{1}. Wilting point.}
 
 \item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }

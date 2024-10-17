@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Breaking changes
+
+* Renamed arguments of `compute_ct()` by making units explicit (*e.g.* 
+`css` becomes `css_ppm`).
+
 ### Bug fixes
 
 * Fixed inhomogeneous term in the evolution equation for `ms[t]` (due to a typo
