@@ -35,6 +35,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
 <div class="section level4">
+<h4 id="algorithm-changes-development-version">Algorithm changes<a class="anchor" aria-label="anchor" href="#algorithm-changes-development-version"></a></h4>
+<ul><li>CT: the multiplier for the sediment to water diffusion term was thresholded to one, as this number should always be a positive fraction of unity. In any case, multipliers larger than one are probably being created by issues in the pesticide parameters (<em>e.g.</em> unit errors) that are currently being addressed, so that the threshold should become unnecessary in the long run.</li>
+</ul></div>
+<div class="section level4">
 <h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
 <ul><li>Renamed arguments of <code><a href="../reference/ct.html">compute_ct()</a></code> by making units explicit (<em>e.g.</em> <code>css</code> becomes <code>css_ppm</code>).</li>
 </ul></div>
@@ -44,7 +48,8 @@
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
-<ul><li>Re-enabled tests that were momentarily disabled after the refactor of v0.6.0. These consisted of a few tests on the argument checking performed by <code><a href="../reference/hbp.html">compute_hbp()</a></code>, plus a snapshot test (skipped on CI) on the initial Shiny values.</li>
+<ul><li><p>Re-enabled tests that were momentarily disabled after the refactor of v0.6.0. These consisted of a few tests on the argument checking performed by <code><a href="../reference/hbp.html">compute_hbp()</a></code>, plus a snapshot test (skipped on CI) on the initial Shiny values.</p></li>
+<li><p>Various simplifications in the low-level code of the CT model components.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
