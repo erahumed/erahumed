@@ -41,6 +41,22 @@ test_that("Chemical masses do not increase except if directly applied", {
   }
 })
 
+test_that("All compartments of all clusters have at least one >0 value", {
+  # We use Acetamiprid for this test, because it is applied to all clusters
+
+  tol_kg <- 1e-10
+
+  condition <- component_output(test_mod_large(), "ct") |>
+    dplyr::select(cluster_id, dplyr::starts_with("Acetami")) |>
+    dplyr::group_by(cluster_id) |>
+    dplyr::summarise(dplyr::across(dplyr::everything(), sum)) |>
+    dplyr::select(-cluster_id) |>
+    (\(df) df < tol_kg)() |>          # Apply threshold column-wise
+    rowSums() |>    # Vec of number of cols that are below tol_kg for each row
+    (\(x) all(x == 0))()  # ...For each row, this number should be zero!
+
+  expect_true(condition)
+})
 
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
