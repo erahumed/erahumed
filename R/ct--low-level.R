@@ -73,44 +73,17 @@ ct_to_cluster <- function(application_kg,
                           fc
 )
 {
-  terms <- ct_compute_system_terms(application_kg,
-                                   rain_mm,
-                                   etp_mm,
-                                   temperature,
-                                   height_eod_cm,
-                                   outflow_m3_s,
-                                   inflow_m3_s,
-                                   area_m2,
-                                   seed_day,
-                                   chemical,
-                                   drift,
-                                   covmax,
-                                   jgrow,
-                                   SNK,
-                                   dact_m,
-                                   css_ppm,
-                                   bd_g_cm3,
-                                   qseep_m_day,
-                                   wilting,
-                                   fc)
+  # Magic:
+  # * Pass down all arguments to ct_compute_system_terms()
+  # * Export all the elements of the returned list to execution env
+  match.call() |>
+    as.list() |>
+    (\(x) x[-1])() |>
+    lapply(eval, envir = parent.frame()) |>
+    do.call(ct_compute_system_terms, args = _) |>
+    list2env(environment())
 
-  Aff <- terms$Aff
-  Afw <- terms$Afw
-  Afs <- terms$Afs
-  Awf <- terms$Awf
-  Aww <- terms$Aww
-  Aws <- terms$Aws
-  Asf <- terms$Asf
-  Asw <- terms$Asw
-  Ass <- terms$Ass
-
-  bf <- terms$bf
-  bw <- terms$bw
-  bs <- terms$bs
-
-  mw_max <- terms$mw_max
-
-  n_time_steps <- length(mw_max)
+  n_time_steps <- length(application_kg)
   mf <- mw <- ms <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
     mf[t] <- bf[t] + Aff[t]*mf[t-1]
