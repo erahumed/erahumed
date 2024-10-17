@@ -1,5 +1,13 @@
 # erahumed (development version)
 
+### Algorithm changes
+
+* CT: the multiplier for the sediment to water diffusion term was thresholded to
+one, as this number should always be a positive fraction of unity. In any case, 
+multipliers larger than one are probably being created by issues in the 
+pesticide parameters (*e.g.* unit errors) that are currently being addressed, so
+that the threshold should become unnecessary in the long run.
+
 ### Breaking changes
 
 * Renamed arguments of `compute_ct()` by making units explicit (*e.g.* 
@@ -16,6 +24,8 @@ ms was wrongly getting added the mass applied on foliage).
 These consisted of a few tests on the argument checking performed by 
 `compute_hbp()`, plus a snapshot test (skipped on CI) on the initial Shiny 
 values.
+
+* Various simplifications in the low-level code of the CT model components.
 
 # erahumed 0.7.2
 
