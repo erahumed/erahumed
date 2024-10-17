@@ -2,6 +2,10 @@ ct_get_param <- function(chemical, parameter) {
   albufera_ct_parameters [[ chemical ]] [[ parameter ]]
 }
 
+ct_porosity <- function(fc, wilting) {
+  return(fc - wilting)
+}
+
 ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
   # Fraction of chemical residues in dissolved form and within voids in the
   # sediment
@@ -15,10 +19,6 @@ ct_fdw <- function(kd_cm3_g, css_ppm) {
 
 ct_kdifus_m_day <- function(pos, MW) {
   69.35 / 365 - pos * ((MW)^(-2/3))
-}
-
-ct_porosity <- function(fc, wilting) {
-  return(fc - wilting)
 }
 
 ct_cover <- function(seed_day, jgrow, covmax) {
