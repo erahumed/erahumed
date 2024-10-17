@@ -189,10 +189,12 @@ ct_compute_system_terms <- function(application_kg,
   volume_sod_m3 <- volume_eod_m3 - inflow_m3 + outflow_m3 - rain_m3 + etp_m3
   height_sod_m <- volume_sod_m3 / area_m2
 
-
   # Precomputed time series
   cover <- ct_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
   is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
+
+
+  # Processes
 
   ### Settlement
   setl <- ct_setl_fac(ksetl_m_day = ksetl_m_day,
@@ -220,12 +222,12 @@ ct_compute_system_terms <- function(application_kg,
   ### Washout
   washout_fac <- ct_washout_fac(fet_cm = fet_cm, rain_cm = rain_cm, dt = dt)
 
+  ### Inflow
+  inflow_mw <- inflow_m3 * 0  # not implemented ATM!
+
   ### Outflow
   outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3,
                                 outflow_m3 = outflow_m3)
-
-  ### Inflow
-  inflow_mw <- inflow_m3 * 0  # not implemented ATM!
 
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)
@@ -235,26 +237,26 @@ ct_compute_system_terms <- function(application_kg,
   # Solubility
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
-  res <- list()
+  res <- list(
+    # Homogeneous term for linear component of evolution
+    Aff = deg_f * washout_fac,
+    Afw = 0,
+    Afs = 0,
+    Awf = deg_f * (1 - washout_fac),
+    Aww = outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl),
+    Aws = outflow_fac * deg_w * diff_s,
+    Asf = 0,
+    Asw = deg_s * ((1-setl)*diff_w + setl*(1-diff_s)),
+    Ass = deg_s * (1-diff_s),
 
-  # Homogeneous term for linear component of evolution
-  res$Aff <- deg_f * washout_fac
-  res$Afw <- 0
-  res$Afs <- 0
-  res$Awf <- deg_f * (1 - washout_fac)
-  res$Aww <- outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl)
-  res$Aws <- outflow_fac * deg_w * diff_s
-  res$Asf <- 0
-  res$Asw <- deg_s * ((1-setl)*diff_w + setl*(1-diff_s))
-  res$Ass <- deg_s * (1-diff_s)
+    # Inhomogeneous term for linear component of evolution
+    bf = mfapp,
+    bw = mwapp,
+    bs = msapp,
 
-  # Inhomogeneous term for linear component of evolution
-  res$bf <- mfapp
-  res$bw <- mwapp
-  res$bs <- msapp
-
-  # Threshold for mass in water compartment
-  res$mw_max <- mw_max
+    # Threshold for mass in water compartment
+    mw_max = mw_max
+  )
 
   return(res)
 }
