@@ -46,6 +46,12 @@ ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
   num / den
 }
 
+ct_temperature_arrhenius <- function(temperature_ave,
+                                     temperature_min,
+                                     temperature_max) {
+  return(temperature_ave)  # TODO #132
+}
+
 ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
   exp <- (temperature - temperature_ref) / 10
   fac <- Q10 ^ exp
