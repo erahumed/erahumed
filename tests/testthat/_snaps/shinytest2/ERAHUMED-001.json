@@ -6266,8 +6266,8 @@
     },
     "inp-outflows-file": null,
     "inp-outflows-rows": 10,
-    "inp-petp-file": null,
-    "inp-petp-rows": 10
+    "inp-weather-file": null,
+    "inp-weather-rows": 10
   },
   "output": {
     "inp-outflows-contents": {
