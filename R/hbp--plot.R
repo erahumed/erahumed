@@ -21,22 +21,23 @@
 plot.erahumed_hbp <- function(x, type = c("cluster_view", "map_view"), ...) {
   type <- match.arg(type)
 
-  if (type == "map_view")
-    stop("'map_view' plot not yet implemented.")
+  switch(type,
+         cluster_view = plot_erahumed_hbp_cluster_view(x, ...),
+         map_view = plot_erahumed_hbp_map_view(x, ...)
+         )
+}
 
+plot_erahumed_hbp_cluster_view <- function(x, ...)
+{
   args <- list(...)
 
   data <- x$output
 
-  if (type == "cluster_view") {
-    if ( !("cluster_id" %in% names(args)) )
-      stop("Please specify cluster to plot through the 'cluster_id' argument.")
-    return( plot_hbp_cluster_view(data = data, cluster_id = args$cluster_id) )
-  }
-}
+  if ( !("cluster_id" %in% names(args)) )
+    stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-plot_hbp_cluster_view <- function(data, cluster_id)
-{
+  cluster_id <- args$cluster_id
+
   data_cluster <- data[data$cluster_id == cluster_id, ]
 
   ditch <- data_cluster$ditch[1]
@@ -92,4 +93,8 @@ plot_hbp_cluster_view <- function(data, cluster_id)
       xaxis = list(title = "Date"),
       yaxis = list(title = "Height [cm]")
     )
+}
+
+plot_erahumed_hbp_map_view <- function(x, ...) {
+  stop("Not yet implemented.")
 }
