@@ -1,12 +1,12 @@
 inpUI <- function(id) {
   ns <- shiny::NS(id)
 
-  outflows_tab_title <- "Lake Levels and Outflows"
-  petp_tab_title <- "Precipitation and Evapotranspiration"
+  outflows_tab_title <- "Hydrological data"
+  weather_tab_title <- "Weather data"
 
   shiny::tabsetPanel(
     shiny::tabPanel(outflows_tab_title, csvInputUI(ns("outflows"))),
-    shiny::tabPanel(petp_tab_title, csvInputUI(ns("petp"))),
+    shiny::tabPanel(weather_tab_title, csvInputUI(ns("weather"))),
     shiny::tabPanel("Filters",
                     shiny::dateRangeInput(inputId = ns("date_range"),
                                           label = "Date Range",
@@ -21,7 +21,7 @@ inpServer <- function(id, model) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    petp_df <- csvInputServer("petp", erahumed::albufera_petp)
+    weather_df <- csvInputServer("weather", erahumed::albufera_weather)
 
     outflows_df_raw <- csvInputServer("outflows", erahumed::albufera_outflows)
     outflows_df <- shiny::reactive({
@@ -32,7 +32,7 @@ inpServer <- function(id, model) {
     })
 
     res <- shiny::reactive({
-      compute_inp(model(), outflows_df = outflows_df(), petp_df = petp_df())
+      compute_inp(model(), outflows_df = outflows_df(), weather_df = weather_df())
     })
     return(res)
   })

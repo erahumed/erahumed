@@ -118,7 +118,7 @@
 {
   res <- data.table::as.data.table(hba(model)$output)  # Ugly but required atm
 
-  res$petp_cm <- (res$rain_mm - res$evapotranspiration_mm) / 10
+  res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))
   res$dd <- get_dd(as.POSIXlt(res$date))
 

@@ -22,7 +22,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
     names <- paste(chemical, c("(F)", "(W)", "(S)"))
     masses <- ct_to_cluster(
       application_kg = cluster_ca_df[[chemical]],
-      rain_mm = cluster_ca_df[["rain_mm"]],
+      precipitation_mm = cluster_ca_df[["precipitation_mm"]],
       etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
       temperature = rep(20, nrow(cluster_ca_df)),
       height_eod_cm = cluster_ca_df[["real_height_cm"]],
@@ -52,7 +52,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
 }
 
 ct_to_cluster <- function(application_kg,
-                          rain_mm,
+                          precipitation_mm,
                           etp_mm,
                           temperature,
                           height_eod_cm,
@@ -101,7 +101,7 @@ ct_to_cluster <- function(application_kg,
 }
 
 ct_compute_system_terms <- function(application_kg,
-                                    rain_mm,
+                                    precipitation_mm,
                                     etp_mm,
                                     temperature,
                                     height_eod_cm,
@@ -156,8 +156,8 @@ ct_compute_system_terms <- function(application_kg,
   volume_eod_m3 <- height_eod_m * area_m2
   outflow_m3 <- outflow_m3_s * s_per_day()
   inflow_m3 <- inflow_m3_s * s_per_day()
-  rain_cm <- rain_mm / 10
-  rain_m3 <- (rain_mm / 1000) * area_m2
+  rain_cm <- precipitation_mm / 10
+  rain_m3 <- (precipitation_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
   volume_sod_m3 <- volume_eod_m3 - inflow_m3 + outflow_m3 - rain_m3 + etp_m3
   height_sod_m <- volume_sod_m3 / area_m2

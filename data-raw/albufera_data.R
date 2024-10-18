@@ -2,17 +2,23 @@ library(dplyr)
 
 ### Meteorological data ########################################################
 
-albufera_petp <-
+albufera_weather <-
   readxl::read_excel("data-raw/raw/meteo_beni_2023.xlsx",
                      range = cellranger::cell_cols("A:I")
   ) |>
   rename(date = FECHA) |>
   mutate(date = as.Date(date))
 
-albufera_petp_gam_input <- albufera_petp
+albufera_weather_gam_input <- albufera_weather
 
-albufera_petp <- albufera_petp |>
-  transmute(date, rain_mm = P, evapotranspiration_mm = ETP)
+albufera_weather <- albufera_weather |>
+  transmute(date,
+            temperature_ave = TME,
+            temperature_min = TMIN,
+            temperature_max = TMAX,
+            precipitation_mm = P,
+            evapotranspiration_mm = ETP
+            )
 
 
 
@@ -64,7 +70,7 @@ moving_average <- function(x, k) {
   stats::filter(x, rep(1 / k, k), sides = 1) |> as.numeric()
 }
 
-meteo_ext <- albufera_petp_gam_input |>
+meteo_ext <- albufera_weather_gam_input |>
   mutate(
     P_average7 = moving_average(P, 7),
     ETP_average15 = moving_average(ETP, 15),

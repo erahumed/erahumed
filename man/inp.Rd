@@ -10,7 +10,7 @@ inp(model)
 compute_inp(
   model,
   outflows_df = erahumed::albufera_outflows,
-  petp_df = erahumed::albufera_petp
+  weather_df = erahumed::albufera_weather
 )
 }
 \arguments{
@@ -19,8 +19,8 @@ compute_inp(
 \item{outflows_df}{A \code{data.frame}, whose structure follows the
 template of \link{albufera_outflows}; See details.}
 
-\item{petp_df}{A \code{data.frame}, whose structure follows the template of
-\link{albufera_petp}; See details.}
+\item{weather_df}{A \code{data.frame}, whose structure follows the template of
+\link{albufera_weather}; See details.}
 }
 \value{
 Objects of class \link{erahumed_model} and \code{erahumed_inp}, for
@@ -40,9 +40,14 @@ hydrological data on the Albufera lake. This consists of a \code{level} column,
 that is the daily measured lake water level in meters, plus any number of
 columns named as \verb{outflow_*} (\emph{e.g.} \code{outflow_pujol}), that give the daily
 measured outflows in cube meters per second.
-The \code{petp_df} captures the relevant weather data for hydrological balance,
-that is precipitation and evapotranspiration, corresponding to the \code{rain_mm}
-and \code{evapotranspiration_mm} columns, respectively.
+The \code{weather_df} captures the relevant weather data for modeling:
+\itemize{
+\item Precipitation and evapotranspiration, relevant for modeling the
+hydrological balance, corresponding to the
+\code{precipitation_mm} and \code{evapotranspiration_mm} columns, respectively.
+\item Temperature, relevant because it affects chemical reaction speeds.
+}
+
 Both \code{data.frame}s should have a \code{date} column (of class \link{Date}), and
 the corresponding date domain should be an interval (\emph{i.e.} no missing data
 between the maximum and minimum of \code{date} is allowed). The subsequent

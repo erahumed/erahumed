@@ -35,7 +35,7 @@ TODO: Document imputation approach used here. #51
 }
 \seealso{
 Other input data: 
-\code{\link{albufera_petp}}
+\code{\link{albufera_weather}}
 }
 \concept{input data}
 \keyword{datasets}

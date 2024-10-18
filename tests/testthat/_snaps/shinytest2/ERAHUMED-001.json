@@ -1,5 +1,9 @@
 {
   "input": {
+    "ca-ca_schedules-file": null,
+    "ca-ca_schedules-rows": 10,
+    "ca-cluster_id": "02_Carrera_del_Saler0-2_0",
+    "ca-seed": 840,
     "hba-variable": "level",
     "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
     "hbp-ideal_flow_rate_cm": 5,
@@ -6262,8 +6266,8 @@
     },
     "inp-outflows-file": null,
     "inp-outflows-rows": 10,
-    "inp-petp-file": null,
-    "inp-petp-rows": 10
+    "inp-weather-file": null,
+    "inp-weather-rows": 10
   },
   "output": {
     "inp-outflows-contents": {
