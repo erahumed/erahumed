@@ -4,7 +4,7 @@
 \alias{plot.erahumed_ct}
 \title{Plot CT model component output}
 \usage{
-\method{plot}{erahumed_ct}(x, ...)
+\method{plot}{erahumed_ct}(x, type = c("cluster_view", "timeline_view"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{ct}.}
