@@ -24,7 +24,9 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
       application_kg = cluster_ca_df[[chemical]],
       precipitation_mm = cluster_ca_df[["precipitation_mm"]],
       etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
-      temperature = rep(20, nrow(cluster_ca_df)),
+      temperature_ave = cluster_ca_df[["temperature_ave"]],
+      temperature_min = cluster_ca_df[["temperature_min"]],
+      temperature_max = cluster_ca_df[["temperature_max"]],
       height_eod_cm = cluster_ca_df[["real_height_cm"]],
       outflow_m3_s = cluster_ca_df[["real_outflow_m3_s"]],
       inflow_m3_s = cluster_ca_df[["real_inflow_m3_s"]],
@@ -54,7 +56,9 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
 ct_to_cluster <- function(application_kg,
                           precipitation_mm,
                           etp_mm,
-                          temperature,
+                          temperature_ave,
+                          temperature_min,
+                          temperature_max,
                           height_eod_cm,
                           outflow_m3_s,
                           inflow_m3_s,
@@ -103,7 +107,9 @@ ct_to_cluster <- function(application_kg,
 ct_compute_system_terms <- function(application_kg,
                                     precipitation_mm,
                                     etp_mm,
-                                    temperature,
+                                    temperature_ave,
+                                    temperature_min,
+                                    temperature_max,
                                     height_eod_cm,
                                     outflow_m3_s,
                                     inflow_m3_s,
@@ -150,6 +156,9 @@ ct_compute_system_terms <- function(application_kg,
   fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
   kdifus_m_day <- ct_kdifus_m_day(pos = pos, MW = MW)
+  temperature_arrhenius <- ct_temperature_arrhenius(temperature_ave,
+                                                    temperature_min,
+                                                    temperature_max)
 
   # Hydro balance time series
   height_eod_m <- height_eod_cm / 100
@@ -184,9 +193,12 @@ ct_compute_system_terms <- function(application_kg,
                       height_sod_m = height_sod_m)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
-  kw_day <- ct_deg_k(kw_day, Q10_kw, temperature, kw_temp)
-  ks_sat_day <- ct_deg_k(ks_sat_day, Q10_ks_sat, temperature, ks_sat_temp)
-  ks_unsat_day <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temperature, ks_unsat_temp)
+  kw_day <- ct_deg_k(kw_day,
+                     Q10_kw, temperature_arrhenius, kw_temp)
+  ks_sat_day <- ct_deg_k(ks_sat_day,
+                         Q10_ks_sat, temperature_arrhenius, ks_sat_temp)
+  ks_unsat_day <- ct_deg_k(ks_unsat_day,
+                           Q10_ks_unsat, temperature_arrhenius, ks_unsat_temp)
   ks_day <- (1-is_empty) * ks_sat_day + is_empty * ks_unsat_day
   deg_f <- ct_deg_fac(k = kf_day, dt = dt)
   deg_w <- ct_deg_fac(k = kw_day, dt = dt)
