@@ -94,18 +94,17 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       data = data_cluster,
       y = ~real_inflow_cm,
       hoverinfo = "skip",
-      type = "scatter",
-      mode = "lines",
-      line = list(width = 1.5, color = "red"),
+      #type = "scatter", mode = "lines", line = list(width = 1.5, color = "red"),
+      type = "bar", marker = list(width = 3, color = "red"),
       name = "Inflow"
     ) |>
     plotly::add_trace(
       data = data_cluster,
       y = ~ I(-real_outflow_cm),
       hoverinfo = "skip",
-      type = "scatter",
-      mode = "lines",
-      line = list(width = 1.5, color = "red"),
+      # type = "scatter", mode = "lines", line = list(width = 1.5, color = "red"),
+      type = "bar", marker = list(width = 3, color = "red"),
+
       name = "Outflow"
     ) |>
     plotly::add_trace(
@@ -122,9 +121,9 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       # ),
       # hoverinfo = "text",
       hoverinfo = "skip",
-      type = "scatter",
-      mode = "lines",
-      line = list(width = 2, color = "blue"),
+      # type = "scatter", mode = "lines", line = list(width = 2, color = "blue"),
+      type = "bar", marker = list(width = 1, color = "blue"),
+
       name = "P - ETP"
     )
 
