@@ -37,6 +37,12 @@ plot_erahumed_ct_cluster_view <- function(x, ...) {
   for (col in chem_names)
     p <- p |> plotly::add_lines(y = df[[col]], name = col)
 
+  p <- p |>
+    plotly::layout(title = paste("Time Series of chemical masses [Kg]"),
+                   xaxis = list(title = "Date"),
+                   yaxis = list(title = "Mass [kg]")
+                   )
+
   return(p)
 }
 
