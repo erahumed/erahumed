@@ -12,7 +12,7 @@
 #'
 #' @export
 plot.erahumed_hba <- function(x, variable, ...) {
-  df <- x$output
+  df <- component_output(x)
 
   plot_hba_argcheck(df, variable, ...)
 
