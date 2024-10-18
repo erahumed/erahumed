@@ -60,7 +60,7 @@ compute_ca_argcheck <- function(ca_schedules_df)
 compute_ca_output <- function(model, ca_schedules_df)
 {
   height_thresh_cm <- hbp(model)$params$height_thresh_cm
-  hbp_res <- hbp(model)$output
+  hbp_res <- component_output(model, "hbp")
   hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()
 
   output <- hbp_res |>

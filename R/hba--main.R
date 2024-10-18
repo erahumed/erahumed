@@ -80,7 +80,7 @@ compute_hba <- function(
 
 compute_hba_output <- function(model, storage_curve, petp_function)
 {
-  inp_df <- get_model_component(model, "inp")$output
+  inp_df <- component_output(model, "inp")
   output <- .hba(
     level = inp_df$level,
     precipitation_mm = inp_df$precipitation_mm,

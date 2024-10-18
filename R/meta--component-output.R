@@ -29,6 +29,6 @@ component_output.erahumed_model_component <- function(object, ...) {
 #' @export
 component_output.erahumed_model <- function(object, component, ...) {
   comp_obj <- get_model_component(object, component)
-  return(comp_obj$output)
+  component_output(comp_obj)
 }
 
