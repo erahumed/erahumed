@@ -9,6 +9,9 @@
 \arguments{
 \item{x}{An object of class \code{ct}.}
 
+\item{type}{Type of plot to be generated. Currently, only the
+\code{"cluster_view"} plot type is implemented.}
+
 \item{...}{Further plotting parameters.}
 }
 \value{
@@ -18,5 +21,9 @@ A plotly plot.
 Plot method for \link{ct} model components.
 }
 \details{
-TBD.
+The \code{"cluster_view"} plot produces a time series plot of the daily
+amounts of chemical (in Kg) present in the three compartments (foliage,
+water and sediment) of an individual cluster. In order to use this plotting
+method, the user must provide an additional \code{cluster_id} argument, a string
+specifying the identifier of the cluster whose levels are to be plotted.
 }

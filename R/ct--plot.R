@@ -4,10 +4,18 @@
 #' Plot method for \link{ct} model components.
 #'
 #' @param x An object of class `ct`.
+#' @param type Type of plot to be generated. Currently, only the
+#' `"cluster_view"` plot type is implemented.
+#' @param ... Further plotting parameters, associated with the plot type
+#' specified by `type`; See details.
 #' @param ... Further plotting parameters.
 #'
 #' @details
-#' TBD.
+#' The `"cluster_view"` plot produces a time series plot of the daily
+#' amounts of chemical (in Kg) present in the three compartments (foliage,
+#' water and sediment) of an individual cluster. In order to use this plotting
+#' method, the user must provide an additional `cluster_id` argument, a string
+#' specifying the identifier of the cluster whose levels are to be plotted.
 #'
 #' @return A plotly plot.
 #'
