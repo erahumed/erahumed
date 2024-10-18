@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,13 +33,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.8.0" id="erahumed-080">erahumed 0.8.0<a class="anchor" aria-label="anchor" href="#erahumed-080"></a></h2>
 <div class="section level4">
-<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<h4 id="breaking-changes-0-8-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-8-0"></a></h4>
 <ul><li>Nomenclature change: <code>petp_df</code> (argument of <code><a href="../reference/inp.html">compute_inp()</a></code> as well as “parameter” for the INP component) becomes <code>weather_df</code>. Correspondingly, the <code>albufera_petp</code> dataset is renamed <code>albufera_weather</code>. These changes come as a consequence of <a href="https://github.com/erahumed/erahumed/issues/20" class="external-link">#20</a> (see below.)</li>
 </ul></div>
 <div class="section level4">
-<h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<h4 id="new-features-0-8-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-8-0"></a></h4>
 <ul><li><p>Data: added temperature daily data (minimum, maximum and average) to the <code>albufera_weather</code> dataset (formerly known as <code>albufera_petp</code>), closing <a href="https://github.com/erahumed/erahumed/issues/20" class="external-link">#20</a>.</p></li>
 <li><p>Introduced simplified temperature dependence in the algorithm for the CT model component (we simply plug in the average daily temperature in the Arrhenius equation for the degradation constant).</p></li>
 <li><p>HBP: improved plotting method (<code>plot.erahumed_hbp</code>), which now provides a double plot of cluster water levels (on top) and water flows (on bottom).</p></li>
