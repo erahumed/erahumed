@@ -40,8 +40,11 @@
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
-<ul><li><p>CA: added a minimalistic Shiny interface to display the results of chemical applications in the form of time series for individual clusters.</p></li>
-<li><p>Data: added temperature daily data (minimum, maximum and average) to the <code>albufera_weather</code> dataset (formerly known as <code>albufera_petp</code>), closing <a href="https://github.com/erahumed/erahumed/issues/20" class="external-link">#20</a>.</p></li>
+<ul><li><p>Data: added temperature daily data (minimum, maximum and average) to the <code>albufera_weather</code> dataset (formerly known as <code>albufera_petp</code>), closing <a href="https://github.com/erahumed/erahumed/issues/20" class="external-link">#20</a>.</p></li>
+<li><p>Introduced simplified temperature dependence in the algorithm for the CT model component (we simply plug in the average daily temperature in the Arrhenius equation for the degradation constant).</p></li>
+<li><p>HBP: improved plotting method (<code>plot.erahumed_hbp</code>), which now provides a double plot of cluster water levels (on top) and water flows (on bottom).</p></li>
+<li><p>CA: added a minimalistic Shiny interface to display the results of chemical applications in the form of time series for individual clusters.</p></li>
+<li><p>CT: added plotting method (see <code><a href="../reference/plot.erahumed_ct.html">?plot.erahumed_ct</a></code>) and corresponding Shiny interface.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
