@@ -35,8 +35,13 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
 <div class="section level4">
+<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<ul><li>Nomenclature change: <code>petp_df</code> (argument of <code><a href="../reference/inp.html">compute_inp()</a></code> as well as “parameter” for the INP component) becomes <code>weather_df</code>. Correspondingly, the <code>albufera_petp</code> dataset is renamed <code>albufera_weather</code>. These changes come as a consequence of <a href="https://github.com/erahumed/erahumed/issues/20" class="external-link">#20</a> (see below.)</li>
+</ul></div>
+<div class="section level4">
 <h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
-<ul><li>CA: added a minimalistic Shiny interface to display the results of chemical applications in the form of time series for individual clusters.</li>
+<ul><li><p>CA: added a minimalistic Shiny interface to display the results of chemical applications in the form of time series for individual clusters.</p></li>
+<li><p>Data: added temperature daily data (minimum, maximum and average) to the <code>albufera_weather</code> dataset (formerly known as <code>albufera_petp</code>), closing <a href="https://github.com/erahumed/erahumed/issues/20" class="external-link">#20</a>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">

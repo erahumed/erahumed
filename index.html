@@ -120,12 +120,12 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/hba.html">hba</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>  <span class="co"># Extract the HBA model component</span></span>
 <span><span class="co">#&gt; An ERAHUMED HBA model component.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Output columns: level, rain_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days</span></span>
+<span><span class="co">#&gt; Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days</span></span>
 <span><span class="fu"><a href="reference/hba.html">hba</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="reference/component_output.html">component_output</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># Get output data.frame</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span>    <span class="co"># Just for pretty printing</span></span>
 <span><span class="co">#&gt; # A tibble: 6,139 × 16</span></span>
-<span><span class="co">#&gt;    level rain_mm evapotranspiration_mm date       is_imputed_level</span></span>
+<span><span class="co">#&gt;    level precipitation_mm evapotranspiration_mm date       is_imputed_level</span></span>
 <span><span class="co">#&gt;    &lt;dbl&gt;   &lt;dbl&gt;                 &lt;dbl&gt; &lt;date&gt;     &lt;lgl&gt;           </span></span>
 <span><span class="co">#&gt;  1 0.372     8.2                  0.54 2005-12-20 FALSE           </span></span>
 <span><span class="co">#&gt;  2 0.373     0.2                  0.65 2005-12-21 FALSE           </span></span>

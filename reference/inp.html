@@ -56,7 +56,7 @@ any upstream dependence.</p>
 <span><span class="fu">compute_inp</span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
 <span>  outflows_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_outflows.html">albufera_outflows</a></span>,</span>
-<span>  petp_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_petp.html">albufera_petp</a></span></span>
+<span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,9 +73,9 @@ any upstream dependence.</p>
 template of <a href="albufera_outflows.html">albufera_outflows</a>; See details.</p></dd>
 
 
-<dt id="arg-petp-df">petp_df<a class="anchor" aria-label="anchor" href="#arg-petp-df"></a></dt>
+<dt id="arg-weather-df">weather_df<a class="anchor" aria-label="anchor" href="#arg-weather-df"></a></dt>
 <dd><p>A <code>data.frame</code>, whose structure follows the template of
-<a href="albufera_petp.html">albufera_petp</a>; See details.</p></dd>
+<a href="albufera_weather.html">albufera_weather</a>; See details.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -90,10 +90,11 @@ hydrological data on the Albufera lake. This consists of a <code>level</code> co
 that is the daily measured lake water level in meters, plus any number of
 columns named as <code>outflow_*</code> (<em>e.g.</em> <code>outflow_pujol</code>), that give the daily
 measured outflows in cube meters per second.
-The <code>petp_df</code> captures the relevant weather data for hydrological balance,
-that is precipitation and evapotranspiration, corresponding to the <code>rain_mm</code>
-and <code>evapotranspiration_mm</code> columns, respectively.
-Both <code>data.frame</code>s should have a <code>date</code> column (of class <a href="https://rdrr.io/r/base/Dates.html" class="external-link">Date</a>), and
+The <code>weather_df</code> captures the relevant weather data for modeling:</p><ul><li><p>Precipitation and evapotranspiration, relevant for modeling the
+hydrological balance, corresponding to the
+<code>precipitation_mm</code> and <code>evapotranspiration_mm</code> columns, respectively.</p></li>
+<li><p>Temperature, relevant because it affects chemical reaction speeds.</p></li>
+</ul><p>Both <code>data.frame</code>s should have a <code>date</code> column (of class <a href="https://rdrr.io/r/base/Dates.html" class="external-link">Date</a>), and
 the corresponding date domain should be an interval (<em>i.e.</em> no missing data
 between the maximum and minimum of <code>date</code> is allowed). The subsequent
 modeling will only be performed on the largest date interval in which both
@@ -118,7 +119,7 @@ hydrological and weather input data is available.</p>
 <span class="r-in"><span><span class="fu">inp</span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An ERAHUMED INP model component.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Output columns: date, level, outflow_pujol, outflow_perellonet, outflow_perello, is_imputed_level, is_imputed_outflow, rain_mm, evapotranspiration_mm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Output columns: date, level, outflow_pujol, outflow_perellonet, outflow_perello, is_imputed_level, is_imputed_outflow, temperature_ave, temperature_min, temperature_max, precipitation_mm, evapotranspiration_mm</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
