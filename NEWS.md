@@ -1,9 +1,19 @@
 # erahumed (development version)
 
+### Breaking changes
+
+* Nomenclature change: `petp_df` (argument of `compute_inp()` as well as 
+"parameter" for the INP component) becomes `weather_df`. Correspondingly, 
+the `albufera_petp` dataset is renamed `albufera_weather`. These changes come as
+a consequence of #20 (see below.)
+
 ### New features
 
 * CA: added a minimalistic Shiny interface to display the results of chemical 
 applications in the form of time series for individual clusters.
+
+* Data: added temperature daily data (minimum, maximum and average) to the 
+`albufera_weather` dataset (formerly known as `albufera_petp`), closing #20.
 
 # erahumed 0.7.3
 
