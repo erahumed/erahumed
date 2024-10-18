@@ -9,11 +9,22 @@ a consequence of #20 (see below.)
 
 ### New features
 
+* Data: added temperature daily data (minimum, maximum and average) to the 
+`albufera_weather` dataset (formerly known as `albufera_petp`), closing #20.
+
+* Introduced simplified temperature dependence in the algorithm for the CT 
+model component (we simply plug in the average daily temperature in the 
+Arrhenius equation for the degradation constant).
+
+* HBP: improved plotting method (`plot.erahumed_hbp`), which now provides a 
+double plot of cluster water levels (on top) and water flows (on bottom). 
+
 * CA: added a minimalistic Shiny interface to display the results of chemical 
 applications in the form of time series for individual clusters.
 
-* Data: added temperature daily data (minimum, maximum and average) to the 
-`albufera_weather` dataset (formerly known as `albufera_petp`), closing #20.
+* CT: added plotting method (see `?plot.erahumed_ct`) and corresponding Shiny 
+interface.
+
 
 # erahumed 0.7.3
 
