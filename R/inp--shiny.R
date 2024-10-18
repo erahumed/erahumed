@@ -21,7 +21,7 @@ inpServer <- function(id, model) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    petp_df <- csvInputServer("petp", erahumed::albufera_petp)
+    weather_df <- csvInputServer("petp", erahumed::albufera_weather)
 
     outflows_df_raw <- csvInputServer("outflows", erahumed::albufera_outflows)
     outflows_df <- shiny::reactive({
@@ -32,7 +32,7 @@ inpServer <- function(id, model) {
     })
 
     res <- shiny::reactive({
-      compute_inp(model(), outflows_df = outflows_df(), petp_df = petp_df())
+      compute_inp(model(), outflows_df = outflows_df(), weather_df = weather_df())
     })
     return(res)
   })

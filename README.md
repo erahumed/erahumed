@@ -107,12 +107,12 @@ following examples:
 hba(model)  # Extract the HBA model component
 #> An ERAHUMED HBA model component.
 #> 
-#> Output columns: level, rain_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days
+#> Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days
 hba(model) |> 
   component_output() |>  # Get output data.frame
   tibble::as_tibble()    # Just for pretty printing
 #> # A tibble: 6,139 × 16
-#>    level rain_mm evapotranspiration_mm date       is_imputed_level
+#>    level precipitation_mm evapotranspiration_mm date       is_imputed_level
 #>    <dbl>   <dbl>                 <dbl> <date>     <lgl>           
 #>  1 0.372     8.2                  0.54 2005-12-20 FALSE           
 #>  2 0.373     0.2                  0.65 2005-12-21 FALSE           

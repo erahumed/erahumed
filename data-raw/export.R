@@ -5,7 +5,7 @@ source("data-raw/albufera_data.R")
 source("data-raw/albufera_management.R")
 
 usethis::use_data(albufera_outflows, overwrite = TRUE)
-usethis::use_data(albufera_petp, overwrite = TRUE)
+usethis::use_data(albufera_weather, overwrite = TRUE)
 usethis::use_data(albufera_clusters, overwrite = TRUE)
 usethis::use_data(albufera_management, overwrite = TRUE)
 usethis::use_data(albufera_ca_schedules, overwrite = TRUE)

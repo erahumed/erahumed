@@ -17,8 +17,8 @@
 #' @param model An object of class \link{erahumed_model}.
 #' @param outflows_df A `data.frame`, whose structure follows the
 #' template of \link{albufera_outflows}; See details.
-#' @param petp_df A `data.frame`, whose structure follows the template of
-#' \link{albufera_petp}; See details.
+#' @param weather_df A `data.frame`, whose structure follows the template of
+#' \link{albufera_weather}; See details.
 #'
 #' @return Objects of class \link{erahumed_model} and `erahumed_inp`, for
 #' `compute_inp()` and `inp()` respectively.
@@ -29,9 +29,12 @@
 #' that is the daily measured lake water level in meters, plus any number of
 #' columns named as `outflow_*` (*e.g.* `outflow_pujol`), that give the daily
 #' measured outflows in cube meters per second.
-#' The `petp_df` captures the relevant weather data for hydrological balance,
-#' that is precipitation and evapotranspiration, corresponding to the `rain_mm`
-#' and `evapotranspiration_mm` columns, respectively.
+#' The `weather_df` captures the relevant weather data for modeling:
+#' * Precipitation and evapotranspiration, relevant for modeling the
+#' hydrological balance, corresponding to the
+#' `precipitation_mm` and `evapotranspiration_mm` columns, respectively.
+#' * Temperature, relevant because it affects chemical reaction speeds.
+#'
 #' Both `data.frame`s should have a `date` column (of class \link{Date}), and
 #' the corresponding date domain should be an interval (*i.e.* no missing data
 #' between the maximum and minimum of `date` is allowed). The subsequent
@@ -50,20 +53,20 @@ inp <- function(model)
 #' @export
 compute_inp <- function(model,
                         outflows_df = erahumed::albufera_outflows,
-                        petp_df = erahumed::albufera_petp
+                        weather_df = erahumed::albufera_weather
                         )
-  compute_component(model, "inp", outflows_df = outflows_df, petp_df = petp_df)
+  compute_component(model, "inp", outflows_df = outflows_df, weather_df = weather_df)
 
 
 
-compute_inp_output <- function(model, outflows_df, petp_df)
+compute_inp_output <- function(model, outflows_df, weather_df)
 {
-  merge(outflows_df, petp_df, by = "date", sort = TRUE)
+  merge(outflows_df, weather_df, by = "date", sort = TRUE)
 }
 
 
 
-compute_inp_argcheck <- function(outflows_df, petp_df)
+compute_inp_argcheck <- function(outflows_df, weather_df)
 {
   tryCatch(
     {
@@ -75,14 +78,14 @@ compute_inp_argcheck <- function(outflows_df, petp_df)
         outflows_df,
         template = erahumed::albufera_outflows[, outflow_required_cols]
       )
-      assert_data.frame(petp_df, template = erahumed::albufera_petp)
+      assert_data.frame(weather_df, template = erahumed::albufera_weather)
 
       # Check that consecutive date differences are all equal to one
       if (any(diff(outflows_df$date) != 1)) {
         stop("Invalid 'date' domain in 'outflows_df' (not an interval).")
       }
-      if (any(diff(petp_df$date) != 1)) {
-        stop("Invalid 'date' domain in 'petp_df' (not an interval)." )
+      if (any(diff(weather_df$date) != 1)) {
+        stop("Invalid 'date' domain in 'weather_df' (not an interval)." )
       }
 
 

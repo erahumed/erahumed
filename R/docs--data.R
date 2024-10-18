@@ -1,18 +1,21 @@
-#' Albufera Precipitation and Evapotranspiration Daily Data
+#' Albufera Weather Daily Data
 #'
 #' @family input data
 #'
 #' @description TODO #50
 #'
-#' @format ## `albufera_petp`
+#' @format ## `albufera_weather`
 #' A data frame with 8552 rows and 3 columns:
 #' \describe{
 #'   \item{date}{Date of measurement}
-#'   \item{rain_mm}{Daily precipitation in millimiters.}
+#'   \item{temperature_ave}{Average temperature (TODO #50).}
+#'   \item{temperature_min}{Minimum temperature.}
+#'   \item{temperature_max}{Maximum temperature.}
+#'   \item{precipitation_mm}{Daily precipitation in millimiters.}
 #'   \item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}
 #' }
 #' @source TODO #50
-"albufera_petp"
+"albufera_weather"
 
 #' Albufera Outflows Daily Data
 #'

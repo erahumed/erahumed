@@ -9,7 +9,7 @@
 #' datasets.
 #'
 #' @param level numeric vector. Time series of lake levels, in meters.
-#' @param rain_mm numeric vector. Time series of precipitation values, in millimiters.
+#' @param precipitation_mm numeric vector. Time series of precipitation values, in millimiters.
 #' @param evapotranspiration_mm numeric vector. Time series of evapotranspiration values, in
 #' millimiters.
 #' @param outflows a data.frame whose columns are the time series of outflows,
@@ -23,7 +23,7 @@
 #' @param petp_function a function that takes two numeric vectors of common
 #' length as inputs, and returns a numeric vector of the same length. Function
 #' that converts precipitation and evapotranspiration values (passed through
-#' the `rain_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
+#' the `precipitation_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
 #'
 #' @return An object of class `hba`, a lightweight wrapper of `data.frame`
 #' with a few additional visualization methods (most prominently
@@ -53,7 +53,7 @@
 #' @noRd
 .hba <- function(
     level,
-    rain_mm,
+    precipitation_mm,
     evapotranspiration_mm,
     outflows,
     ...,
@@ -63,7 +63,7 @@
 {
   .hba_argcheck(
     level = level,
-    rain_mm = rain_mm,
+    precipitation_mm = precipitation_mm,
     evapotranspiration_mm = evapotranspiration_mm,
     outflows = outflows,
     ... = ...,
@@ -71,11 +71,11 @@
     petp_function = petp_function
     )
 
-  res <- data.frame(level, rain_mm, evapotranspiration_mm, ...)
+  res <- data.frame(level, precipitation_mm, evapotranspiration_mm, ...)
 
   res$volume <- storage_curve(level)
   res$volume_change <- hba_volume_change(res$volume, fill_last = NA)
-  res$volume_change_petp <- petp_function(rain_mm, evapotranspiration_mm)
+  res$volume_change_petp <- petp_function(precipitation_mm, evapotranspiration_mm)
 
   flow_balance_df <- hba_flow_balance(outflows = outflows,
                                       volume_change = res$volume_change,
@@ -93,7 +93,7 @@
 
 .hba_argcheck <- function(
     level,
-    rain_mm,
+    precipitation_mm,
     evapotranspiration_mm,
     outflows,
     ...,
@@ -104,7 +104,7 @@
   tryCatch(
     {
       assert_numeric_vector(level)
-      assert_numeric_vector(rain_mm)
+      assert_numeric_vector(precipitation_mm)
       assert_numeric_vector(evapotranspiration_mm)
       assert_list(outflows)
       for (i in seq_along(outflows)) {
@@ -114,7 +114,7 @@
         assert_atomic(list(...)[[i]])
       }
 
-      lengths <- sapply(c(list(level, rain_mm, evapotranspiration_mm),
+      lengths <- sapply(c(list(level, precipitation_mm, evapotranspiration_mm),
                           outflows,
                           list(...)
                           ),

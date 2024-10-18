@@ -79,7 +79,7 @@ test_that("compute_component() erases downstream deps if present", {
   m <- compute_component(model = m,
                          component = "inp",
                          outflows_df = albufera_outflows,
-                         petp_df = albufera_petp
+                         weather_df = albufera_weather
                          )
 
   expect_null(hba(m))

@@ -83,7 +83,7 @@ compute_hba_output <- function(model, storage_curve, petp_function)
   inp_df <- get_model_component(model, "inp")$output
   output <- .hba(
     level = inp_df$level,
-    rain_mm = inp_df$rain_mm,
+    precipitation_mm = inp_df$precipitation_mm,
     evapotranspiration_mm = inp_df$evapotranspiration_mm,
     outflows = inp_df[, grepl("^outflow_", colnames(inp_df))],
     date = inp_df$date,
@@ -115,7 +115,7 @@ compute_hba_argcheck <- function(storage_curve, petp_function) {
 hba_validate_output <- function(output) {
   assert_data.frame(output,
                     template = data.frame(level = numeric(),
-                                          rain_mm = numeric(),
+                                          precipitation_mm = numeric(),
                                           evapotranspiration_mm = numeric(),
                                           volume = numeric(),
                                           inflow_total = numeric(),

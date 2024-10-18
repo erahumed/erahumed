@@ -1,5 +1,9 @@
 {
   "input": {
+    "ca-ca_schedules-file": null,
+    "ca-ca_schedules-rows": 10,
+    "ca-cluster_id": "02_Carrera_del_Saler0-2_0",
+    "ca-seed": 840,
     "hba-variable": "level",
     "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
     "hbp-ideal_flow_rate_cm": 5,
