@@ -1,5 +1,31 @@
 # erahumed (development version)
 
+### Algorithm
+
+* Fixed various errors in the internal data-set providing physico-chemical 
+parameters for CT model layer. This is a first effort to address (#123), which
+however requires further review.
+
+### New features
+
+* The CT component returns not only masses, but also concentrations (water,
+sediment and outflow densities).
+
+* Density plots are made available, in the Shiny interface as well as in the
+R API, through the new argument `plot.ct_erahumed(variable)`.
+
+### User visible changes
+
+* The output of the CT model component is now in a "long" format, in which
+`chemical` is a column, and masses are reported in the `mf`, `mw` and `ms` 
+columns.
+
+### Under the hoods
+
+* "Bare" references to the `$output` element of model components in internal 
+code have been substituted, using the `component_output()` extractor instead
+(#99).
+
 # erahumed 0.8.0
 
 ### Breaking changes
