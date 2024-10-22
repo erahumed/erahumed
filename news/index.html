@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.8.1" id="erahumed-081">erahumed 0.8.1<a class="anchor" aria-label="anchor" href="#erahumed-081"></a></h2>
+<div class="section level4">
+<h4 id="algorithm-0-8-1">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-0-8-1"></a></h4>
+<ul><li>Fixed various errors in the internal data-set providing physico-chemical parameters for CT model layer. This is a first effort to address (<a href="https://github.com/erahumed/erahumed/issues/123" class="external-link">#123</a>), which however requires further review.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-features-0-8-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-8-1"></a></h4>
+<ul><li><p>The CT component returns not only masses, but also concentrations (water, sediment and outflow densities).</p></li>
+<li><p>Density plots are made available, in the Shiny interface as well as in the R API, through the new argument <code>plot.ct_erahumed(variable)</code>.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="user-visible-changes-0-8-1">User visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-8-1"></a></h4>
+<ul><li>The output of the CT model component is now in a “long” format, in which <code>chemical</code> is a column, and masses are reported in the <code>mf</code>, <code>mw</code> and <code>ms</code> columns.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-8-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-8-1"></a></h4>
+<ul><li>“Bare” references to the <code>$output</code> element of model components in internal code have been substituted, using the <code><a href="../reference/component_output.html">component_output()</a></code> extractor instead (<a href="https://github.com/erahumed/erahumed/issues/99" class="external-link">#99</a>).</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.0" id="erahumed-080">erahumed 0.8.0<a class="anchor" aria-label="anchor" href="#erahumed-080"></a></h2>
