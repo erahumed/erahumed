@@ -77,6 +77,8 @@ ct_to_cluster <- function(application_kg,
                           fc
 )
 {
+  volume_eps <- 1e-6 # Threshold below which densities are reported as NA
+
   # Magic:
   # * Pass down all arguments to ct_compute_system_terms()
   # * Export all the elements of the returned list to execution env
@@ -110,9 +112,9 @@ ct_to_cluster <- function(application_kg,
   }
 
 
-  cw <- ifelse(volume_sod_m3 > 0, mw / volume_sod_m3, NA)
+  cw <- ifelse(volume_sod_m3 > volume_eps, mw / volume_sod_m3, NA)
   cs <- ms / (dact_m * area_m2)
-  cw_outflow <- ifelse(outflow_m3 > 0, mw_outflow / outflow_m3, NA)
+  cw_outflow <- ifelse(outflow_m3 > volume_eps, mw_outflow / outflow_m3, NA)
 
   return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs, cw_outflow = cw_outflow))
 }

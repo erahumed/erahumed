@@ -13,8 +13,15 @@ ctUI <- function(id) {
                                          "Select Cluster",
                                          choices = clusters,
                                          selected = clusters[[1]]
+                                         )
+                      ),
+        shiny::column(8,
+                      shiny::selectInput(ns("variable"),
+                                         "Select Variable",
+                                         choices = c("mass", "density"),
+                                         selected = "mass"
+                                         )
                       )
-        )
       ),
 
       shiny::fluidRow(
@@ -137,7 +144,7 @@ ctServer <- function(id, model) {
 
     output$plot <- plotly::renderPlotly({
       shiny::req(input$cluster_id)
-      plot(ct(res()), cluster_id = input$cluster_id)
+      plot(ct(res()), cluster_id = input$cluster_id, variable = input$variable)
     })
 
     return(res)

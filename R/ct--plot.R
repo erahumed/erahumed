@@ -59,21 +59,21 @@ plot_ct_cluster_view_mass <- function(x, ...) {
         x = ~date,
         y = ~mf,
         line = list(width = 1.5, color = "darkgreen"),
-        name = paste(chemical, "(F)")
+        name = paste(chemical, "(Foliage)")
         ) |>
       plotly::add_lines(
         data = chem_df,
         x = ~date,
         y = ~mw,
         line = list(width = 1.5, color = "darkblue"),
-        name = paste(chemical, "(W)")
+        name = paste(chemical, "(Water)")
         ) |>
       plotly::add_lines(
         data = chem_df,
         x = ~date,
         y = ~ms,
         line = list(width = 1.5, color = "#AA5500"),
-        name = paste(chemical, "(S)")
+        name = paste(chemical, "(Sediment)")
         )
   }
 
@@ -107,21 +107,21 @@ plot_ct_cluster_view_density <- function(x, ...) {
         x = ~date,
         y = ~cw_outflow,
         line = list(width = 1.5, color = "#0099FF"),
-        name = paste(chemical, "(F)")
+        name = paste(chemical, "(Outflow)")
       ) |>
       plotly::add_lines(
         data = chem_df,
         x = ~date,
         y = ~cw,
         line = list(width = 1.5, color = "darkblue"),
-        name = paste(chemical, "(W)")
+        name = paste(chemical, "(Water)")
       ) |>
       plotly::add_lines(
         data = chem_df,
         x = ~date,
         y = ~cs,
         line = list(width = 1.5, color = "#AA5500"),
-        name = paste(chemical, "(S)")
+        name = paste(chemical, "(Sediment)")
       )
   }
 

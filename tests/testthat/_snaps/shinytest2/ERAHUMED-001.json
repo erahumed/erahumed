@@ -15,6 +15,7 @@
     "ct-jgrow": 152,
     "ct-qseep_m_day": 0,
     "ct-seed": 840,
+    "ct-variable": "mass",
     "ct-wilting": 0.24,
     "hba-variable": "level",
     "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
