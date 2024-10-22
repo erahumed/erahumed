@@ -11,16 +11,13 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
                                fc
 )
 {
-  res <- data.frame(
+  res_template <- data.frame(
     cluster_id = cluster_ca_df[["cluster_id"]],
     date = cluster_ca_df[["date"]]
   )
 
-  chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
-  chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
-  for (chemical in chemicals) {
-    names <- paste(chemical, c("(F)", "(W)", "(S)"))
-    masses <- ct_to_cluster(
+  compute_masses <- function(chemical) {
+    ct_to_cluster(
       application_kg = cluster_ca_df[[chemical]],
       precipitation_mm = cluster_ca_df[["precipitation_mm"]],
       etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
@@ -44,13 +41,22 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
       wilting = wilting,
       fc = fc
     )
-    res[[ names[[1]] ]] <- masses[[1]]
-    res[[ names[[2]] ]] <- masses[[2]]
-    res[[ names[[3]] ]] <- masses[[3]]
   }
 
+  chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
+  chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
 
-  return(res)
+  lapply(chemicals, function(chemical) {
+    res <- res_template
+    res$chemical <- chemical
+    masses <- compute_masses(chemical)
+    res$mf <- masses[[1]]
+    res$mw <- masses[[2]]
+    res$ms <- masses[[3]]
+    res
+  }) |>
+    data.table::rbindlist() |>
+    as.data.frame()
 }
 
 ct_to_cluster <- function(application_kg,

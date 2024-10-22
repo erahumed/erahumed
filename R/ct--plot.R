@@ -39,11 +39,35 @@ plot_erahumed_ct_cluster_view <- function(x, ...) {
   df <- component_output(x)
   df <- df[df$cluster_id == args$cluster_id, ]
 
-  p <- plotly::plot_ly(data = df, x = ~date)
+  p <- plotly::plot_ly()
 
-  chem_names <- names(df)[ -c(1:2) ]  # Exclude 'date' and 'cluster_id' columns
-  for (col in chem_names)
-    p <- p |> plotly::add_lines(y = df[[col]], name = col)
+  chemicals <- unique(df$chemical)  # Exclude 'date' and 'cluster_id' columns
+  for (chemical in chemicals) {
+    chem_df <- df[df$chemical == chemical, ]
+    p <- p |>
+      plotly::add_lines(
+        data = chem_df,
+        x = ~date,
+        y = ~mf,
+        line = list(width = 1.5, color = "darkgreen"),
+        name = paste(chemical, "(F)")
+        ) |>
+      plotly::add_lines(
+        data = chem_df,
+        x = ~date,
+        y = ~mw,
+        line = list(width = 1.5, color = "darkblue"),
+        name = paste(chemical, "(W)")
+        ) |>
+      plotly::add_lines(
+        data = chem_df,
+        x = ~date,
+        y = ~ms,
+        line = list(width = 1.5, color = "#AA5500"),
+        name = paste(chemical, "(S)")
+        )
+  }
+
 
   p <- p |>
     plotly::layout(title = paste("Time Series of chemical masses [Kg]"),
