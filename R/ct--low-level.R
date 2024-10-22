@@ -11,7 +11,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
                                fc
 )
 {
-  res_template <- data.frame(
+  res_template <- list(
     cluster_id = cluster_ca_df[["cluster_id"]],
     date = cluster_ca_df[["date"]]
   )
@@ -46,15 +46,9 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
   chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
   chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
 
-  lapply(chemicals, function(chemical) {
-    res <- res_template
-    res$chemical <- chemical
-    masses <- compute_masses(chemical)
-    res$mf <- masses[[1]]
-    res$mw <- masses[[2]]
-    res$ms <- masses[[3]]
-    res
-  }) |>
+  lapply(chemicals, \(chemical)
+         c(res_template, list(chemical = chemical), compute_masses(chemical))
+         ) |>
     data.table::rbindlist() |>
     as.data.frame()
 }
@@ -94,11 +88,19 @@ ct_to_cluster <- function(application_kg,
     list2env(environment())
 
   n_time_steps <- length(application_kg)
-  mf <- mw <- ms <- numeric(n_time_steps)
+  mf <- mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
-    mf[t] <- bf[t] + Aff[t]*mf[t-1]
-    mw[t] <- bw[t] + Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
-    ms[t] <- bs[t]                  + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
+    mf[t] <- Aff[t]*mf[t-1]
+    mw[t] <- Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
+    ms[t] <-                + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
+
+    # At this stage:
+    # mw[t] = outflow_fac * mw_before = mw_before - mw_outflow
+    mw_outflow[t] <- mw[t] * (1 / outflow_fac[t] - 1)
+
+    mf[t] <- mf[t] + bf[t]
+    mw[t] <- mw[t] + bw[t]
+    ms[t] <- ms[t] + bs[t]
 
     mw_excess <- mw[t] - mw_max[t]
     if (mw_excess > 0) {
@@ -107,7 +109,12 @@ ct_to_cluster <- function(application_kg,
     }
   }
 
-  return(list(mf = mf, mw = mw, ms = ms))
+
+  cw <- ifelse(volume_sod_m3 > 0, mw / volume_sod_m3, NA)
+  cs <- ms / (dact_m * area_m2)
+  cw_outflow <- ifelse(outflow_m3 > 0, mw_outflow / outflow_m3, NA)
+
+  return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs, cw_outflow = cw_outflow))
 }
 
 ct_compute_system_terms <- function(application_kg,
@@ -246,7 +253,11 @@ ct_compute_system_terms <- function(application_kg,
     bs = msapp,
 
     # Threshold for mass in water compartment
-    mw_max = mw_max
+    mw_max = mw_max,
+
+    volume_sod_m3 = volume_sod_m3,
+    outflow_m3 = outflow_m3,
+    outflow_fac = outflow_fac
   )
 
   return(res)
