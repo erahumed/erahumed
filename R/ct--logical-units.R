@@ -14,7 +14,7 @@ ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
 
 ct_fdw <- function(kd_cm3_g, css_ppm) {
   # Fraction of chemical dissolved in water
-  return( 1 / (1 + 1e-6 * kd_cm3_g * css_ppm) )
+  return( 1 / (1 + ppm_to_g_cm3(css_ppm) * kd_cm3_g) )
 }
 
 ct_kdifus_m_day <- function(pos, MW) {
@@ -89,5 +89,5 @@ ct_msapp <- function(
 }
 
 ct_mw_max <- function(sol_ppm, volume_eod_m3) {
-  1e-3 * sol_ppm * volume_eod_m3
+  ppm_to_kg_m3(sol_ppm) * volume_eod_m3
 }

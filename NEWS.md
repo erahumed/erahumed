@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Added `ppm_to_kg_m3()` and `ppm_to_g_cm3()` internal helpers.
+
 # erahumed 0.8.1
 
 ### Algorithm
