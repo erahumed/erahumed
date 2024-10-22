@@ -4,13 +4,15 @@
 \alias{plot.erahumed_ct}
 \title{Plot CT model component output}
 \usage{
-\method{plot}{erahumed_ct}(x, type = c("cluster_view", "timeline_view"), ...)
+\method{plot}{erahumed_ct}(x, type = c("cluster_view"), variable = c("mass", "density"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{ct}.}
 
 \item{type}{Type of plot to be generated. Currently, only the
 \code{"cluster_view"} plot type is implemented.}
+
+\item{variable}{Variable to plot. Either "mass" or "density".}
 
 \item{...}{Further plotting parameters.}
 }
