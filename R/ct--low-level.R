@@ -216,8 +216,13 @@ ct_compute_system_terms <- function(application_kg,
                            Q10_ks_unsat, temperature_arrhenius, ks_unsat_temp)
   ks_day <- (1-is_empty) * ks_sat_day + is_empty * ks_unsat_day
   deg_f <- ct_deg_fac(k = kf_day, dt = dt)
-  deg_w <- ct_deg_fac(k = kw_day, dt = dt)
-  deg_s <- ct_deg_fac(k = ks_day, dt = dt)
+  # deg_w <- ct_deg_fac(k = kw_day, dt = dt)
+  # deg_s <- ct_deg_fac(k = ks_day, dt = dt)
+
+  ws_mat <- exp2by2(
+    a = -kw_day-setl-diff_w, b = diff_s,
+    c = diff_w + setl      , d = -ks_day -diff_s
+  )
 
   ### Washout
   washout_fac <- ct_washout_fac(fet_cm = fet_cm, rain_cm = rain_cm, dt = dt)
@@ -237,18 +242,23 @@ ct_compute_system_terms <- function(application_kg,
   # Solubility
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
+
+
   res <- list(
     # Homogeneous term for linear component of evolution
     Aff = deg_f * washout_fac,
     Afw = 0,
     Afs = 0,
     Awf = deg_f * (1 - washout_fac),
-    Aww = outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl),
-    Aws = outflow_fac * deg_w * diff_s,
+    #Aww = outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl),
+    Aww = outflow_fac * ws_mat$E11,
+    #Aws = outflow_fac * deg_w * diff_s,
+    Aws = outflow_fac * ws_mat$E12,
     Asf = 0,
-    Asw = deg_s * ((1-setl)*diff_w + setl*(1-diff_s)),
-    Ass = deg_s * (1-diff_s),
-
+    #Asw = deg_s * ((1-setl)*diff_w + setl*(1-diff_s)),
+    Asw = ws_mat$E21,
+    #Ass = deg_s * (1-diff_s),
+    Ass = ws_mat$E22,
     # Inhomogeneous term for linear component of evolution
     bf = mfapp,
     bw = mwapp,

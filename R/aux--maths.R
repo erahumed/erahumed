@@ -45,3 +45,33 @@ lgl_buffer <- function(x, distance = 0) {
 
   return(res)
 }
+
+
+
+exp2by2 <- function(a, b, c, d) {
+  # Compute matrix exponential
+  # https://math.stackexchange.com/questions/1535731/matrix-exponential-of-non-diagonalizable-matrix/1538095#1538095
+
+  tr <- a + d
+  det <- a * d - b * c
+
+  u <- tr / 2
+  r <- det / u ^ 2
+  sqr <- sqrt(1 - r)
+  lambdap <- u * (1 + sqr)
+  lambdam <- u * (1 - sqr)
+  dlambda <- lambdap - lambdam
+
+  Up11 <- a - lambdam
+  Up22 <- d - lambdam
+  Um11 <- a - lambdap
+  Um22 <- d - lambdap
+
+  list(
+    E11 = (exp(lambdap) * Up11 - exp(lambdam) * Um11) / dlambda,
+    E22 = (exp(lambdap) * Up22 - exp(lambdam) * Um22) / dlambda,
+    E12 = b * (exp(lambdap) - exp(lambdam)) / dlambda,
+    E21 = c * (exp(lambdap) - exp(lambdam)) / dlambda
+  )
+
+}
