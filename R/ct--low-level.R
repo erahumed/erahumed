@@ -90,9 +90,8 @@ ct_to_cluster <- function(application_kg,
     list2env(environment())
 
   n_time_steps <- length(application_kg)
-  mf <- mw <- ms <- mw_outflow <- numeric(n_time_steps)
+  mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
-    mf[t] <- Aff[t]*mf[t-1]
     mw[t] <- Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
     ms[t] <-                + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
 
@@ -100,7 +99,6 @@ ct_to_cluster <- function(application_kg,
     # mw[t] = outflow_fac * mw_before = mw_before - mw_outflow
     mw_outflow[t] <- mw[t] * (1 / outflow_fac[t] - 1)
 
-    mf[t] <- mf[t] + bf[t]
     mw[t] <- mw[t] + bw[t]
     ms[t] <- ms[t] + bs[t]
 
@@ -225,7 +223,7 @@ ct_compute_system_terms <- function(application_kg,
   )
 
   ### Washout
-  washout_fac <- ct_washout_fac(fet_cm = fet_cm, rain_cm = rain_cm, dt = dt)
+  washout_fac <- fet_cm * rain_cm
 
   ### Inflow
   inflow_mw <- inflow_m3 * 0  # not implemented ATM!
@@ -239,6 +237,16 @@ ct_compute_system_terms <- function(application_kg,
   mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty)
   msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
 
+  k_decay_f <- kf_day + washout_fac
+  log_decay_factor_f <- -cumsum(kf_day + washout_fac)
+  mf <- numeric(n_time_steps)
+  for (i in which(mfapp != 0)) {
+    f <- log_decay_factor_f - log_decay_factor_f[i]
+    fac <- exp(f)
+    fac[seq_len(i-1)] <- 0
+    mf <- mf + mfapp[i] * fac
+  }
+
   # Solubility
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
@@ -249,7 +257,7 @@ ct_compute_system_terms <- function(application_kg,
     Aff = deg_f * washout_fac,
     Afw = 0,
     Afs = 0,
-    Awf = deg_f * (1 - washout_fac),
+    Awf = (washout_fac/k_decay_f) * (1 - exp(-k_decay_f)),
     #Aww = outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl),
     Aww = outflow_fac * ws_mat$E11,
     #Aws = outflow_fac * deg_w * diff_s,
@@ -260,6 +268,7 @@ ct_compute_system_terms <- function(application_kg,
     #Ass = deg_s * (1-diff_s),
     Ass = ws_mat$E22,
     # Inhomogeneous term for linear component of evolution
+    mf = mf,
     bf = mfapp,
     bw = mwapp,
     bs = msapp,
@@ -274,4 +283,5 @@ ct_compute_system_terms <- function(application_kg,
 
   return(res)
 }
+
 
