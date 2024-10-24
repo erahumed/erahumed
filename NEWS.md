@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.9.0
 
 ### Algorithm
 
