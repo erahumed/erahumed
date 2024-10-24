@@ -92,12 +92,14 @@ ct_to_cluster <- function(application_kg,
   n_time_steps <- length(application_kg)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
-    mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1]
-    ms[t] <- eAsw[t]*mw[t-1] + eAss[t]*ms[t-1] + qs[t]*mf[t-1]
+    mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1] + mwapp[t]
+    ms[t] <- eAsw[t]*mw[t-1] + eAss[t]*ms[t-1] + qs[t]*mf[t-1] + msapp[t]
 
-    # TODO:
-    # mw[t] = outflow_fac * mw_before = mw_before - mw_outflow
-    #mw_outflow[t] <- mw[t] * (1 / outflow_fac[t] - 1)
+    mw0 <- eAww0[t]*mw[t-1] + eAws0[t]*ms[t-1] + qw0[t]*mf[t-1] + mwapp[t]
+    ms0 <- eAsw0[t]*mw[t-1] + eAss0[t]*ms[t-1] + qs0[t]*mf[t-1] + msapp[t]
+
+    # TODO can we improve this calculation??
+    mw_outflow[t] <- mw0 + ms0 - mw[t] - ms[t]
 
     mw_excess <- mw[t] - mw_max[t]
     if (mw_excess > 0) {
@@ -109,9 +111,9 @@ ct_to_cluster <- function(application_kg,
 
   cw <- ifelse(volume_sod_m3 > volume_eps, mw / volume_sod_m3, NA)
   cs <- ms / (dact_m * area_m2)
-  #cw_outflow <- ifelse(outflow_m3 > volume_eps, mw_outflow / outflow_m3, NA)
+  cw_outflow <- ifelse(outflow_m3 > volume_eps, mw_outflow / outflow_m3, NA)
 
-  return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs))
+  return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs, cw_outflow = cw_outflow))
 }
 
 ct_compute_system_terms <- function(application_kg,
@@ -166,9 +168,9 @@ ct_compute_system_terms <- function(application_kg,
   fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
   kdifus_m_day <- ct_kdifus_m_day(pos = pos, MW = MW)
-  temperature_arrhenius <- ct_temperature_arrhenius(temperature_ave,
-                                                    temperature_min,
-                                                    temperature_max)
+  temp_arr <- ct_temperature_arrhenius(temperature_ave,
+                                       temperature_min,
+                                       temperature_max)
 
   # Hydro balance time series
   height_eod_m <- height_eod_cm / 100
@@ -187,48 +189,45 @@ ct_compute_system_terms <- function(application_kg,
 
 
   ### Settlement
-  setl <- ct_setl_fac(ksetl_m_day = ksetl_m_day,
-                      fpw = fpw,
-                      height_sod_m = height_sod_m)
+  Sw <- ct_setl(ksetl_m_day = ksetl_m_day, fpw = fpw, height_sod_m = height_sod_m)
 
   ### Diffusion
-  diff_s <- ct_diff_s(kdifus_m_day = kdifus_m_day,
-                      fds = fds,
-                      pos = pos,
-                      dact_m = dact_m)
-  diff_w <- ct_diff_w(kdifus_m_day = kdifus_m_day,
-                      fdw = fdw,
-                      height_sod_m = height_sod_m)
+  Ds <- ct_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = pos, dact_m = dact_m)
+  Dw <- ct_diff_w(kdifus_m_day = kdifus_m_day, fdw = fdw, height_sod_m = height_sod_m)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
-  kw_day <- ct_deg_k(kw_day,
-                     Q10_kw, temperature_arrhenius, kw_temp)
-  ks_sat_day <- ct_deg_k(ks_sat_day,
-                         Q10_ks_sat, temperature_arrhenius, ks_sat_temp)
-  ks_unsat_day <- ct_deg_k(ks_unsat_day,
-                           Q10_ks_unsat, temperature_arrhenius, ks_unsat_temp)
-  ks_day <- (1-is_empty) * ks_sat_day + is_empty * ks_unsat_day
-  deg_f <- ct_deg_fac(k = kf_day, dt = dt)
-  # deg_w <- ct_deg_fac(k = kw_day, dt = dt)
-  # deg_s <- ct_deg_fac(k = ks_day, dt = dt)
+  kf <- kf_day
+  kw <- ct_deg_k(kw_day, Q10_kw, temp_arr, kw_temp)
+
+  ks_sat <- ct_deg_k(ks_sat_day, Q10_ks_sat, temp_arr, ks_sat_temp)
+  ks_unsat <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temp_arr, ks_unsat_temp)
+  ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
 
   ### Washout
-  washout_fac <- fet_cm * rain_cm
+  w <- ct_washout(fet_cm = fet_cm, rain_cm = rain_cm)
 
-  ### Inflow
-  inflow_mw <- inflow_m3 * 0  # not implemented ATM!
+  # ### Inflow, not implemented ATM
+  # inflow_mw <- inflow_m3 * 0
 
   ### Outflow
-  outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3,
-                                outflow_m3 = outflow_m3)
+  Ow <- ct_outflow(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
 
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)
   mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty)
   msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
 
-  k_decay_f <- kf_day + washout_fac
-  log_decay_factor_f <- -cumsum(kf_day + washout_fac)
+  mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
+
+  a <- -(kw + Sw + Dw + Ow)
+  a0 <- -(kw + Sw + Dw) # Turn off outflow
+  b <- Ds
+  c <- Dw + Sw
+  d <- -(ks + Ds)
+  u <- -(kf + w)
+  v <- w
+
+  log_decay_factor_f <- cumsum(u)
   mf <- numeric(n_time_steps)
   for (i in which(mfapp != 0)) {
     f <- log_decay_factor_f - log_decay_factor_f[i]
@@ -237,21 +236,19 @@ ct_compute_system_terms <- function(application_kg,
     mf <- mf + mfapp[i] * fac
   }
 
-  mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
-
-  a <- -(kw_day + setl + diff_w + outflow_fac)
-  b <- diff_s
-  c <- diff_w + setl
-  d <- -(ks_day + diff_s)
-  u <- -(kf_day + washout_fac)
-  v <- washout_fac
-
   eA <- exp2by2(a = a, b = b, c = c, d = d)
+  eA0 <- exp2by2(a = a0, b = b, c = c, d = d)
   iC <- inv2by2(a = a - u, b = b, c = c, d = d - u)
+  iC0 <- inv2by2(a = a0 - u, b = b, c = c, d = d - u)
   q1 <- (eA$E11 - exp(u))*iC$I11 + eA$E12*iC$I21
   q2 <- eA$E21*iC$I11 + (eA$E22-exp(u))*iC$I21
   q1 <- q1 * v
   q2 <- q2 * v
+  q10 <- (eA0$E11 - exp(u))*iC0$I11 + eA0$E12*iC0$I21
+  q20 <- eA0$E21*iC0$I11 + (eA0$E22-exp(u))*iC0$I21
+  q10 <- q10 * v
+  q20 <- q20 * v
+
 
   res <- list(
     # Homogeneous term for linear component of evolution
@@ -261,6 +258,14 @@ ct_compute_system_terms <- function(application_kg,
     eAss = eA$E22,
     qw = q1,
     qs = q2,
+    # System without outflow
+    eAww0 = eA0$E11,
+    eAws0 = eA0$E12,
+    eAsw0 = eA0$E21,
+    eAss0 = eA0$E22,
+    qw0 = q10,
+    qs0 = q20,
+
     # Inhomogeneous term for linear component of evolution
     mf = mf,
     mwapp = mwapp,
@@ -269,11 +274,8 @@ ct_compute_system_terms <- function(application_kg,
     # Threshold for mass in water compartment
     mw_max = mw_max,
 
-    k_decay_f = k_decay_f,
-
     volume_sod_m3 = volume_sod_m3,
-    outflow_m3 = outflow_m3,
-    outflow_fac = outflow_fac
+    outflow_m3 = outflow_m3
   )
 
   return(res)

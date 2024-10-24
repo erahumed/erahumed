@@ -30,20 +30,18 @@ ct_is_empty <- function(height_m, thresh_m) {
   height_m < thresh_m
 }
 
-ct_setl_fac <- function(ksetl_m_day, fpw, height_sod_m) {
-  ksetl_m_day * fpw / pmax2(height_sod_m, ksetl_m_day * fpw)
+ct_setl <- function(ksetl_m_day, fpw, height_sod_m) {
+  tol <- 1e-4  # 0.1mm to trigger settlement
+  ifelse(height_sod_m > tol, ksetl_m_day * fpw / height_sod_m, 0)
 }
 
 ct_diff_s <- function(kdifus_m_day, fds, pos, dact_m) {
-  res <- kdifus_m_day * (fds / pos) / dact_m
-  res <- pmin2(res, 1)
-  res
+  kdifus_m_day * (fds / pos) / dact_m
 }
 
 ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
-  num <- kdifus_m_day * fdw
-  den <- pmax2(height_sod_m, num)
-  num / den
+  tol <- 1e-4  # 0.1mm to trigger diffusion
+  ifelse(height_sod_m > tol, kdifus_m_day * fdw / height_sod_m, 0)
 }
 
 ct_temperature_arrhenius <- function(temperature_ave,
@@ -58,18 +56,15 @@ ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
   return(k_ref * fac)
 }
 
-ct_deg_fac <- function(k, dt) {
-  exp(-k * dt)
+ct_washout <- function(fet_cm, rain_cm) {
+  fet_cm * rain_cm
 }
 
-ct_washout_fac <- function(fet_cm, rain_cm, dt) {
-  1 - exp(-fet_cm * rain_cm * dt)
-}
-
-ct_outflow_fac <- function(volume_eod_m3, outflow_m3) {
-  ifelse(volume_eod_m3 > 0 & outflow_m3 > 0,
-         volume_eod_m3 / (outflow_m3 + volume_eod_m3),
-         1)
+ct_outflow <- function(volume_eod_m3, outflow_m3) {
+  tol <- 1e-4 # 0.1mm to trigger diffusion
+  ifelse(outflow_m3 + volume_eod_m3 > tol,
+         outflow_m3 / (outflow_m3 + volume_eod_m3),
+         0)
 }
 
 ct_mfapp <- function(application_kg, drift, cover) {
