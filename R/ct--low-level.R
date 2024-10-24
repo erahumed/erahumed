@@ -92,14 +92,14 @@ ct_to_cluster <- function(application_kg,
   n_time_steps <- length(application_kg)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
-    mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1] + mwapp[t]
-    ms[t] <- eAsw[t]*mw[t-1] + eAss[t]*ms[t-1] + qs[t]*mf[t-1] + msapp[t]
+    mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1]
+    ms[t] <- eAsw[t]*mw[t-1] + eAss[t]*ms[t-1] + qs[t]*mf[t-1]
 
-    mw0 <- eAww0[t]*mw[t-1] + eAws0[t]*ms[t-1] + qw0[t]*mf[t-1] + mwapp[t]
-    ms0 <- eAsw0[t]*mw[t-1] + eAss0[t]*ms[t-1] + qs0[t]*mf[t-1] + msapp[t]
+    mw_outflow[t] <- outflow_fac[t]*mw[t]
+    mw[t] <- mw[t] - mw_outflow[t]
 
-    # TODO can we improve this calculation??
-    mw_outflow[t] <- mw0 + ms0 - mw[t] - ms[t]
+    mw[t] <- mw[t] + mwapp[t]
+    ms[t] <- ms[t] + msapp[t]
 
     mw_excess <- mw[t] - mw_max[t]
     if (mw_excess > 0) {
@@ -210,7 +210,7 @@ ct_compute_system_terms <- function(application_kg,
   # inflow_mw <- inflow_m3 * 0
 
   ### Outflow
-  Ow <- ct_outflow(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
+  outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
 
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)
@@ -219,8 +219,7 @@ ct_compute_system_terms <- function(application_kg,
 
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
-  a <- -(kw + Sw + Dw + Ow)
-  a0 <- -(kw + Sw + Dw) # Turn off outflow
+  a <- -(kw + Sw + Dw)
   b <- Ds
   c <- Dw + Sw
   d <- -(ks + Ds)
@@ -237,18 +236,11 @@ ct_compute_system_terms <- function(application_kg,
   }
 
   eA <- exp2by2(a = a, b = b, c = c, d = d)
-  eA0 <- exp2by2(a = a0, b = b, c = c, d = d)
   iC <- inv2by2(a = a - u, b = b, c = c, d = d - u)
-  iC0 <- inv2by2(a = a0 - u, b = b, c = c, d = d - u)
   q1 <- (eA$E11 - exp(u))*iC$I11 + eA$E12*iC$I21
   q2 <- eA$E21*iC$I11 + (eA$E22-exp(u))*iC$I21
   q1 <- q1 * v
   q2 <- q2 * v
-  q10 <- (eA0$E11 - exp(u))*iC0$I11 + eA0$E12*iC0$I21
-  q20 <- eA0$E21*iC0$I11 + (eA0$E22-exp(u))*iC0$I21
-  q10 <- q10 * v
-  q20 <- q20 * v
-
 
   res <- list(
     # Homogeneous term for linear component of evolution
@@ -258,13 +250,6 @@ ct_compute_system_terms <- function(application_kg,
     eAss = eA$E22,
     qw = q1,
     qs = q2,
-    # System without outflow
-    eAww0 = eA0$E11,
-    eAws0 = eA0$E12,
-    eAsw0 = eA0$E21,
-    eAss0 = eA0$E22,
-    qw0 = q10,
-    qs0 = q20,
 
     # Inhomogeneous term for linear component of evolution
     mf = mf,
@@ -275,7 +260,8 @@ ct_compute_system_terms <- function(application_kg,
     mw_max = mw_max,
 
     volume_sod_m3 = volume_sod_m3,
-    outflow_m3 = outflow_m3
+    outflow_m3 = outflow_m3,
+    outflow_fac = outflow_fac
   )
 
   return(res)

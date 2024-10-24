@@ -60,8 +60,8 @@ ct_washout <- function(fet_cm, rain_cm) {
   fet_cm * rain_cm
 }
 
-ct_outflow <- function(volume_eod_m3, outflow_m3) {
-  tol <- 1e-4 # 0.1mm to trigger diffusion
+ct_outflow_fac <- function(volume_eod_m3, outflow_m3) {
+  tol <- 1e-4 # 0.1mm to trigger outflow
   ifelse(outflow_m3 + volume_eod_m3 > tol,
          outflow_m3 / (outflow_m3 + volume_eod_m3),
          0)
