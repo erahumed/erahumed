@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +33,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.9.0" id="erahumed-090">erahumed 0.9.0<a class="anchor" aria-label="anchor" href="#erahumed-090"></a></h2>
 <div class="section level4">
-<h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
+<h4 id="algorithm-0-9-0">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-0-9-0"></a></h4>
+<ul><li>Major improvements to the ODE solution method underlying the CT model component. Physico-chemical processes are altogether treated exactly, by solving the corresponding linear ODE obtained by removing the terms corresponding to outflow, chemical applications and solubility (the latter processes are calculated in a second stage, with the masses obtained after evolving for a time step according to the linear ODE system). Although this is still suboptimal from the POV that the outflow process is considered as <em>instantaneous</em> and <em>simultaneous to application</em> (see <a href="https://github.com/erahumed/erahumed/issues/146" class="external-link">#146</a>), this already gives rise to much more realistic dynamics, especially in relation to the diffusion process between water and sediment.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-9-0">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-9-0"></a></h4>
 <ul><li>Added <code>ppm_to_kg_m3()</code> and <code>ppm_to_g_cm3()</code> internal helpers.</li>
 </ul></div>
 </div>
