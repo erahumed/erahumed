@@ -75,3 +75,14 @@ exp2by2 <- function(a, b, c, d) {
   )
 
 }
+
+inv2by2 <- function(a,b,c,d) {
+  det <- a*d - b*c
+
+  list(
+    I11 = d / det,
+    I22 = a / det,
+    I12 = -b / det,
+    I21 = -c / det
+  )
+}

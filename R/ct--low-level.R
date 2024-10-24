@@ -92,15 +92,12 @@ ct_to_cluster <- function(application_kg,
   n_time_steps <- length(application_kg)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
-    mw[t] <- Awf[t]*mf[t-1] + Aww[t]*mw[t-1] + Aws[t]*ms[t-1]
-    ms[t] <-                + Asw[t]*mw[t-1] + Ass[t]*ms[t-1]
+    mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1]
+    ms[t] <- eAsw[t]*mw[t-1] + eAss[t]*ms[t-1] + qs[t]*mf[t-1]
 
-    # At this stage:
+    # TODO:
     # mw[t] = outflow_fac * mw_before = mw_before - mw_outflow
-    mw_outflow[t] <- mw[t] * (1 / outflow_fac[t] - 1)
-
-    mw[t] <- mw[t] + bw[t]
-    ms[t] <- ms[t] + bs[t]
+    #mw_outflow[t] <- mw[t] * (1 / outflow_fac[t] - 1)
 
     mw_excess <- mw[t] - mw_max[t]
     if (mw_excess > 0) {
@@ -112,9 +109,9 @@ ct_to_cluster <- function(application_kg,
 
   cw <- ifelse(volume_sod_m3 > volume_eps, mw / volume_sod_m3, NA)
   cs <- ms / (dact_m * area_m2)
-  cw_outflow <- ifelse(outflow_m3 > volume_eps, mw_outflow / outflow_m3, NA)
+  #cw_outflow <- ifelse(outflow_m3 > volume_eps, mw_outflow / outflow_m3, NA)
 
-  return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs, cw_outflow = cw_outflow))
+  return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs))
 }
 
 ct_compute_system_terms <- function(application_kg,
@@ -189,8 +186,6 @@ ct_compute_system_terms <- function(application_kg,
   is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
 
 
-  # Processes
-
   ### Settlement
   setl <- ct_setl_fac(ksetl_m_day = ksetl_m_day,
                       fpw = fpw,
@@ -217,11 +212,6 @@ ct_compute_system_terms <- function(application_kg,
   # deg_w <- ct_deg_fac(k = kw_day, dt = dt)
   # deg_s <- ct_deg_fac(k = ks_day, dt = dt)
 
-  ws_mat <- exp2by2(
-    a = -kw_day-setl-diff_w, b = diff_s,
-    c = diff_w + setl      , d = -ks_day -diff_s
-  )
-
   ### Washout
   washout_fac <- fet_cm * rain_cm
 
@@ -247,34 +237,39 @@ ct_compute_system_terms <- function(application_kg,
     mf <- mf + mfapp[i] * fac
   }
 
-  # Solubility
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
+  a <- -(kw_day + setl + diff_w + outflow_fac)
+  b <- diff_s
+  c <- diff_w + setl
+  d <- -(ks_day + diff_s)
+  u <- -(kf_day + washout_fac)
+  v <- washout_fac
 
+  eA <- exp2by2(a = a, b = b, c = c, d = d)
+  iC <- inv2by2(a = a - u, b = b, c = c, d = d - u)
+  q1 <- (eA$E11 - exp(u))*iC$I11 + eA$E12*iC$I21
+  q2 <- eA$E21*iC$I11 + (eA$E22-exp(u))*iC$I21
+  q1 <- q1 * v
+  q2 <- q2 * v
 
   res <- list(
     # Homogeneous term for linear component of evolution
-    Aff = deg_f * washout_fac,
-    Afw = 0,
-    Afs = 0,
-    Awf = (washout_fac/k_decay_f) * (1 - exp(-k_decay_f)),
-    #Aww = outflow_fac * deg_w * ((1-diff_w)*(1-setl) + diff_s*setl),
-    Aww = outflow_fac * ws_mat$E11,
-    #Aws = outflow_fac * deg_w * diff_s,
-    Aws = outflow_fac * ws_mat$E12,
-    Asf = 0,
-    #Asw = deg_s * ((1-setl)*diff_w + setl*(1-diff_s)),
-    Asw = ws_mat$E21,
-    #Ass = deg_s * (1-diff_s),
-    Ass = ws_mat$E22,
+    eAww = eA$E11,
+    eAws = eA$E12,
+    eAsw = eA$E21,
+    eAss = eA$E22,
+    qw = q1,
+    qs = q2,
     # Inhomogeneous term for linear component of evolution
     mf = mf,
-    bf = mfapp,
-    bw = mwapp,
-    bs = msapp,
+    mwapp = mwapp,
+    msapp = msapp,
 
     # Threshold for mass in water compartment
     mw_max = mw_max,
+
+    k_decay_f = k_decay_f,
 
     volume_sod_m3 = volume_sod_m3,
     outflow_m3 = outflow_m3,
