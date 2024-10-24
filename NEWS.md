@@ -1,5 +1,18 @@
 # erahumed (development version)
 
+### Algorithm
+
+* Major improvements to the ODE solution method underlying the CT model 
+component. Physico-chemical processes are altogether treated exactly, by solving
+the corresponding linear ODE obtained by removing the terms corresponding to 
+outflow, chemical applications and solubility (the latter processes are 
+calculated in a second stage, with the masses obtained after evolving for a time 
+step according to the linear ODE system). Although this is still suboptimal from
+the POV that the outflow process is considered as *instantaneous* and 
+*simultaneous to application* (see #146), this already gives rise to much more 
+realistic dynamics, especially in relation to the diffusion process between 
+water and sediment.
+
 ### Under the hoods
 
 * Added `ppm_to_kg_m3()` and `ppm_to_g_cm3()` internal helpers.
