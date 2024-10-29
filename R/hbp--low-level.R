@@ -141,7 +141,7 @@
   res <- list(date = res$date,
               ditch = res$ditch,
               cluster_id = res$cluster_id,
-              ideal_height_cm = res$height_cm,
+              ideal_height_cm = res$height_eod_cm,
               petp_cm = res$petp_cm,
               seed_day = res$seed_day,
               ideal_irrigation = res$irrigation,

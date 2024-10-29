@@ -21,10 +21,10 @@ albufera_management <-  # Prepare result data-frame
     ) |>
   arrange(mm, dd) |>
   mutate(
-    # Create the variable 'height_cm'. We assume that it takes two days for the
-    # paddies to empty and refill.
+    # Create the variable 'height_eod_cm'. We assume that it takes two days for
+    # the paddies to empty and refill.
 
-    height_cm = case_when(
+    height_eod_cm = case_when(
       irrigation ~ ifelse(draining | lag(irrigation), 10, 5),
       draining   ~ ifelse(lag(irrigation), 5, 0),
       TRUE       ~ 0
@@ -52,11 +52,11 @@ albufera_management <-  # Prepare result data-frame
       TRUE                                       ~ draining
     ),
 
-    height_cm = case_when(
-      !tancat                                    ~ height_cm,
+    height_eod_cm = case_when(
+      !tancat                                    ~ height_eod_cm,
       mm == 11 & dd == 1 | mm == 1 & dd == 15    ~ 10,
       mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ 20,
-      TRUE                                       ~ height_cm
+      TRUE                                       ~ height_eod_cm
     )
   ) |>
   tidyr::crossing(tibble(variety = c("J.Sendra", "Bomba", "Clearfield"))) |>
@@ -65,8 +65,8 @@ albufera_management <-  # Prepare result data-frame
     .p = variety == "Clearfield" & mm == 4 & dd %in% 24:28,
     irrigation = ifelse(.p, TRUE, irrigation),
     draining = ifelse(.p, TRUE, draining),
-    height_cm = ifelse(.p, 10, height_cm)
+    height_eod_cm = ifelse(.p, 10, height_eod_cm)
   ) |>
-  select(mm, dd, tancat, variety, sowing, seed_day, irrigation, draining, height_cm) |>
+  select(mm, dd, tancat, variety, sowing, seed_day, irrigation, draining, height_eod_cm) |>
   arrange(mm, dd, tancat, variety)
 

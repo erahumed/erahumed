@@ -20,7 +20,8 @@ consideration.}
 on this day.}
 \item{draining}{logical. Whether the paddy is scheduled to be drained on
 this day.}
-\item{height_cm}{numeric. Water level of the paddy.}
+\item{height_eod_cm}{numeric. Scheduled water level of the paddy
+\emph{at the end of the day} (that is, after irrigation and draining).}
 }
 }
 }
