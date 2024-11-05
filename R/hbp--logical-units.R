@@ -145,9 +145,9 @@ hbp_daily_step <- function(
 {
   # Including these two columns here is a relatively clean way to force them in
   # the data.frame output of the calling function.
-  l <- list(
-    irrigation = irrigation,
-    draining = draining)
+  l <- list(height_sod_cm = height_sod_cm,
+            irrigation = irrigation,
+            draining = draining)
 
   l <- c(l, hbp_ideal_diff_flow_cm(ideal_height_eod_cm = ideal_height_eod_cm,
                                    height_sod_cm = height_sod_cm,
