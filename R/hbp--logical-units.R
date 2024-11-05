@@ -158,24 +158,24 @@ hbp_daily_step <- function(
                                draining = draining,
                                ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  l <- c(l, hbp_real_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
+  l <- c(l, hbp_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
                                   area_m2 = area_m2,
                                   capacity_m3_s = capacity_m3_s,
                                   randomize_clusters = randomize_clusters))
 
-  l <- c(l, hbp_real_outflow_cm(real_outflow_m3_s = l$real_outflow_m3_s,
+  l <- c(l, hbp_outflow_cm(outflow_m3_s = l$outflow_m3_s,
                                 area_m2 = area_m2))
 
-  l <- c(l, hbp_real_inflow_cm(real_outflow_cm = l$real_outflow_cm,
+  l <- c(l, hbp_inflow_cm(outflow_cm = l$outflow_cm,
                                ideal_diff_flow_cm = l$ideal_diff_flow_cm))
 
-  l <- c(l, hbp_real_inflow_m3_s(real_inflow_cm = l$real_inflow_cm,
+  l <- c(l, hbp_inflow_m3_s(inflow_cm = l$inflow_cm,
                                  area_m2 = area_m2))
 
   l <- c(l, hbp_height_eod_cm(height_sod_cm = height_sod_cm,
                                petp_cm = petp_cm,
-                               real_inflow_cm = l$real_inflow_cm,
-                               real_outflow_cm = l$real_outflow_cm))
+                               inflow_cm = l$inflow_cm,
+                               outflow_cm = l$outflow_cm))
 
   l <- c(l, hbp_plan_delay(plan_delay_lag = plan_delay_lag,
                            ideal_height_eod_cm = ideal_height_eod_cm,
@@ -218,7 +218,7 @@ hbp_ideal_flows_cm <- function(
                ideal_outflow_cm = ideal_outflow_cm) )
 }
 
-hbp_real_outflow_m3_s <- function(
+hbp_outflow_m3_s <- function(
     ideal_outflow_cm,
     area_m2,
     capacity_m3_s,
@@ -230,37 +230,37 @@ hbp_real_outflow_m3_s <- function(
   ord <- if (randomize_clusters) { sample(n) } else { 1:n }
 
   ideal_outflow_m3_s <- (ideal_outflow_cm / 100) * area_m2 / s_per_day()
-  real_outflow_m3_s <- numeric(n)
+  outflow_m3_s <- numeric(n)
 
   cum_outflows <- pmin2(cumsum(c(0, ideal_outflow_m3_s[ord])), capacity_m3_s)
-  real_outflow_m3_s[ord] <- diff(cum_outflows)
+  outflow_m3_s[ord] <- diff(cum_outflows)
   capacity_m3_s <- capacity_m3_s - cum_outflows[length(cum_outflows)]
 
-  real_outflow_m3_s <- real_outflow_m3_s + capacity_m3_s / length(real_outflow_m3_s)
+  outflow_m3_s <- outflow_m3_s + capacity_m3_s / length(outflow_m3_s)
 
-  return( list(real_outflow_m3_s = real_outflow_m3_s) )
+  return( list(outflow_m3_s = outflow_m3_s) )
 }
 
-hbp_real_outflow_cm <- function(real_outflow_m3_s, area_m2) {
-  list( real_outflow_cm = m3_s_to_cm_day(real_outflow_m3_s, area_m2) )
+hbp_outflow_cm <- function(outflow_m3_s, area_m2) {
+  list( outflow_cm = m3_s_to_cm_day(outflow_m3_s, area_m2) )
 }
 
-hbp_real_inflow_cm <- function(real_outflow_cm, ideal_diff_flow_cm) {
-  list( real_inflow_cm = pmax2(real_outflow_cm + ideal_diff_flow_cm, 0) )
+hbp_inflow_cm <- function(outflow_cm, ideal_diff_flow_cm) {
+  list( inflow_cm = pmax2(outflow_cm + ideal_diff_flow_cm, 0) )
 }
 
-hbp_real_inflow_m3_s <- function(real_inflow_cm, area_m2) {
-  list(real_inflow_m3_s = cm_day_to_m3_s(real_inflow_cm, area_m2))
+hbp_inflow_m3_s <- function(inflow_cm, area_m2) {
+  list(inflow_m3_s = cm_day_to_m3_s(inflow_cm, area_m2))
 }
 
 hbp_height_eod_cm <- function(
     height_sod_cm,
     petp_cm,
-    real_inflow_cm,
-    real_outflow_cm
+    inflow_cm,
+    outflow_cm
     )
 {
-  real_diff_flow_cm <- real_inflow_cm - real_outflow_cm
+  real_diff_flow_cm <- inflow_cm - outflow_cm
   res <- pmax2(height_sod_cm + petp_cm, 0) + real_diff_flow_cm
   return( list(height_eod_cm = res) )
 }

@@ -51,7 +51,7 @@ test_that("ideal flows are always non-negative", {
 test_that("real flows are always non-negative", {
   test_df <- component_output(test_mod_large(), "hbp")
   res <- test_df |>
-    dplyr::filter(real_inflow_cm < 0 | real_outflow_cm < 0)
+    dplyr::filter(inflow_cm < 0 | outflow_cm < 0)
   expect_equal(nrow(res), 0)
 })
 
@@ -75,11 +75,11 @@ test_that("sum(real outflows) = total capacity of ditch", {
     dplyr::group_by(date, ditch) |>
     dplyr::summarise(
       flowpoint = capacity_m3_s[1],
-      real_outflow_m3_s = sum(real_outflow_m3_s),
+      outflow_m3_s = sum(outflow_m3_s),
       .groups = "drop"
     ) |>
     dplyr::filter(
-      abs(real_outflow_m3_s - flowpoint) > mean(abs(flowpoint)) * 1e-10
+      abs(outflow_m3_s - flowpoint) > mean(abs(flowpoint)) * 1e-10
     )
 
   expect_equal(nrow(res), 0)

@@ -318,117 +318,117 @@ test_that("hbp_ideal_flows_cm(): flows are always positive", {
 
 
 
-test_that("hbp_real_outflow_m3_s() returns a (properly) named list", {
-  res <- hbp_real_outflow_m3_s(
+test_that("hbp_outflow_m3_s() returns a (properly) named list", {
+  res <- hbp_outflow_m3_s(
     ideal_outflow_cm = c(1, 2, 3),
     area_m2 = c(1, 1, 2),
     capacity_m3_s = 1
   )
 
   expect_type(res, "list")
-  expect_identical(names(res), "real_outflow_m3_s")
+  expect_identical(names(res), "outflow_m3_s")
 })
 
-test_that("hbp_real_outflow_m3_s() returns the correct structure", {
+test_that("hbp_outflow_m3_s() returns the correct structure", {
   set.seed(840)
   n <- rpois(1, 1e3)
 
-  res <- hbp_real_outflow_m3_s(
+  res <- hbp_outflow_m3_s(
     ideal_outflow_cm = runif(n, 0, 10),
     area_m2 = runif(n, 1e6, 1e7),
     capacity_m3_s = 5
   )
 
-  expect_type(res$real_outflow_m3_s, "double")
-  expect_length(res$real_outflow_m3_s, n)
+  expect_type(res$outflow_m3_s, "double")
+  expect_length(res$outflow_m3_s, n)
 })
 
-test_that("hbp_real_outflow_m3_s(): outflows are always positive", {
+test_that("hbp_outflow_m3_s(): outflows are always positive", {
   set.seed(840)
   n <- rpois(1, 1e3)
   capacity_m3_s <- 5
 
-  res <- hbp_real_outflow_m3_s(
+  res <- hbp_outflow_m3_s(
     ideal_outflow_cm = runif(n, 0, 10),
     area_m2 = runif(n, 1e6, 1e7),
     capacity_m3_s = capacity_m3_s
   )
 
-  expect_gte(min(res$real_outflow_m3_s), 0)
+  expect_gte(min(res$outflow_m3_s), 0)
 })
 
-test_that("hbp_real_outflow_m3_s(): sum of real outflows = capacity", {
+test_that("hbp_outflow_m3_s(): sum of real outflows = capacity", {
   set.seed(840)
   n <- rpois(1, 1e3)
   capacity_m3_s <- 5
 
-  res <- hbp_real_outflow_m3_s(
+  res <- hbp_outflow_m3_s(
     ideal_outflow_cm = runif(n, 0, 10),
     area_m2 = runif(n, 1e6, 1e7),
     capacity_m3_s = capacity_m3_s
   )
 
-  expect_equal(sum(res$real_outflow_m3_s), capacity_m3_s)
+  expect_equal(sum(res$outflow_m3_s), capacity_m3_s)
 })
 
 
 
-test_that("hbp_real_outflow_cm(): simple check on a concrete case", {
-  res <- hbp_real_outflow_cm(
-    real_outflow_m3_s = 1,
+test_that("hbp_outflow_cm(): simple check on a concrete case", {
+  res <- hbp_outflow_cm(
+    outflow_m3_s = 1,
     area_m2 = 1
   )
 
-  expect_equal(res$real_outflow_cm, s_per_day() * 100)
+  expect_equal(res$outflow_cm, s_per_day() * 100)
 })
 
 
 
-test_that("hbp_real_inflow_cm(): output is >0 if ideal diff flow is", {
+test_that("hbp_inflow_cm(): output is >0 if ideal diff flow is", {
   set.seed(840)
   n <- rpois(1, 1e3)
   ideal_diff_flow_cm <- rnorm(n, sd = 10)
 
 
-  res <- hbp_real_inflow_cm(
-    real_outflow_cm = runif(n, 0, 10) * (runif(n) > .5) ,
+  res <- hbp_inflow_cm(
+    outflow_cm = runif(n, 0, 10) * (runif(n) > .5) ,
     ideal_diff_flow_cm = ideal_diff_flow_cm
   )
 
   expect_gt(
-    min(res$real_inflow_cm[ideal_diff_flow_cm > 0]),
+    min(res$inflow_cm[ideal_diff_flow_cm > 0]),
     0)
 })
 
-test_that("hbp_real_inflow_cm(): real-diff-flow = ideal-diff-flow cases", {
+test_that("hbp_inflow_cm(): real-diff-flow = ideal-diff-flow cases", {
   set.seed(840)
   n <- rpois(1, 1e3)
   ideal_diff_flow_cm <- rnorm(n, sd = 10)
-  real_outflow_cm <- runif(n, 0, 10) * (runif(n) > .5)
+  outflow_cm <- runif(n, 0, 10) * (runif(n) > .5)
 
-  res <- hbp_real_inflow_cm(
-    real_outflow_cm = real_outflow_cm,
+  res <- hbp_inflow_cm(
+    outflow_cm = outflow_cm,
     ideal_diff_flow_cm = ideal_diff_flow_cm
   )
 
-  real_diff_flow_cm <- res$real_inflow_cm - real_outflow_cm
+  real_diff_flow_cm <- res$inflow_cm - outflow_cm
 
   # 'cond' captures the fact that either (i) the net flow is expected to be
   # positive, or (ii) there's enough capacity to outflow the expected net flow.
-  cond <- real_outflow_cm > -ideal_diff_flow_cm
+  cond <- outflow_cm > -ideal_diff_flow_cm
 
   expect_equal(real_diff_flow_cm[cond], ideal_diff_flow_cm[cond])
 })
 
 
 
-test_that("hbp_real_inflow_m3_s(): simple check on a concrete case", {
-  res <- hbp_real_inflow_m3_s(
-    real_inflow_cm = 1,
+test_that("hbp_inflow_m3_s(): simple check on a concrete case", {
+  res <- hbp_inflow_m3_s(
+    inflow_cm = 1,
     area_m2 = 1
   )
 
-  expect_equal(res$real_inflow_m3_s, 1 / s_per_day() / 100)
+  expect_equal(res$inflow_m3_s, 1 / s_per_day() / 100)
 })
 
 
@@ -437,8 +437,8 @@ test_that("hbp_height_eod_cm() returns a (properly) named list", {
   res <- hbp_height_eod_cm(
     height_sod_cm = 0,
     petp_cm = 0,
-    real_inflow_cm = 1,
-    real_outflow_cm = 0
+    inflow_cm = 1,
+    outflow_cm = 0
   )
 
   expect_type(res, "list")
@@ -452,8 +452,8 @@ test_that("hbp_height_eod_cm() returns the correct structure", {
   res <- hbp_height_eod_cm(
     height_sod_cm = runif(n, 0, 20),
     petp_cm = -rnorm(n, sd = 0.5),
-    real_inflow_cm = runif(n, 0, 10),
-    real_outflow_cm = runif(n,  0, 10)
+    inflow_cm = runif(n, 0, 10),
+    outflow_cm = runif(n,  0, 10)
   )
 
   expect_type(res$height_eod_cm, "double")
@@ -468,8 +468,8 @@ test_that("hbp_height_eod_cm(): heights are always positive", {
   res <- hbp_height_eod_cm(
     height_sod_cm = runif(n, 0, 20),
     petp_cm = -rnorm(n, sd = 0.5),
-    real_inflow_cm = runif(n, 0, 10),
-    real_outflow_cm = runif(n,  0, 10)
+    inflow_cm = runif(n, 0, 10),
+    outflow_cm = runif(n,  0, 10)
   )
 
   expect_gte(min(res$height_eod_cm), 0)
@@ -481,8 +481,8 @@ test_that("hbp_height_eod_cm(): correct results in simple cases", {
   res <- hbp_height_eod_cm(
     height_sod_cm = c(10, 5, 0, 0),
     petp_cm = c(1, -6, 3, -1),
-    real_inflow_cm = c(5, 5, 0, 2),
-    real_outflow_cm = c(5, 5, 0, 0)
+    inflow_cm = c(5, 5, 0, 2),
+    outflow_cm = c(5, 5, 0, 0)
   )
 
   expect_equal(res$height_eod_cm, c(11, 0, 3, 2))

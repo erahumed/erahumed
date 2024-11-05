@@ -125,10 +125,10 @@ hbp_validate_output <- function(output) {
                                             ditch = character(),
                                             ideal_inflow_cm = numeric(),
                                             ideal_outflow_cm = numeric(),
-                                            real_inflow_cm = numeric(),
-                                            real_outflow_cm = numeric(),
-                                            real_inflow_m3_s = numeric(),
-                                            real_outflow_m3_s = numeric(),
+                                            inflow_cm = numeric(),
+                                            outflow_cm = numeric(),
+                                            inflow_m3_s = numeric(),
+                                            outflow_m3_s = numeric(),
                                             plan_delay = numeric()
                     )
   )

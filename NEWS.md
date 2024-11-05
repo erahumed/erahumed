@@ -15,6 +15,9 @@ representing the cluster's water level at "start-of-day".
 
   * Former `real_irrigation`, `real_draining` and `real_height_cm` columns of 
   the HBP component output become `irrigation`, `draining` and `height_eod_cm`.
+  
+  * Former `real_inflow_cm/m3_s` and `real_outflow_cm/m3_s` are renamed 
+  `inflow_cm/m3_s` and `outflow_cm/m3_s`, respectively.
 
 * HBP model component plot method: the height variable plotted is now 
 `height_sod_cm`, rather than `height_eod_cm` as before. This is done in order to 

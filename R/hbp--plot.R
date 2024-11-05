@@ -92,7 +92,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
   bottom_plot <- plotly::plot_ly(x = ~date) |>
     plotly::add_trace(
       data = data_cluster,
-      y = ~real_inflow_cm,
+      y = ~inflow_cm,
       hoverinfo = "skip",
       #type = "scatter", mode = "lines", line = list(width = 1.5, color = "red"),
       type = "bar", marker = list(width = 3, color = "red"),
@@ -100,7 +100,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
     ) |>
     plotly::add_trace(
       data = data_cluster,
-      y = ~ I(-real_outflow_cm),
+      y = ~ I(-outflow_cm),
       hoverinfo = "skip",
       # type = "scatter", mode = "lines", line = list(width = 1.5, color = "red"),
       type = "bar", marker = list(width = 3, color = "red"),
