@@ -111,7 +111,7 @@ compute_hbp_argcheck <- function(management_df,
 
 hbp_validate_output <- function(output) {
   assert_data.frame(output,
-                    template =   data.frame(ideal_height_cm = numeric(),
+                    template =   data.frame(ideal_height_eod_cm = numeric(),
                                             real_height_cm = numeric(),
                                             ideal_irrigation = logical(),
                                             ideal_draining = logical(),
@@ -133,7 +133,7 @@ hbp_validate_output <- function(output) {
                     )
   )
 
-  assert_positive_vector(output$ideal_height_cm, tol = 1e-6)
+  assert_positive_vector(output$ideal_height_eod_cm, tol = 1e-6)
   assert_positive_vector(output$area_m2, tol = 1e-6)
   assert_positive_vector(output$capacity_m3_s, tol = 1e-6)
   assert_date(output$date)

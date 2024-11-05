@@ -8,7 +8,7 @@ hbp_ditch_inflow_pct <- function(ditch, area)
 }
 
 hbp_simulate_ditch <- function(
-    ideal_height_cm,
+    ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
     petp_cm,
@@ -23,7 +23,7 @@ hbp_simulate_ditch <- function(
 {
   df_list <-
     hbp_make_df_list(
-      ideal_height_cm = ideal_height_cm,
+      ideal_height_eod_cm = ideal_height_eod_cm,
       ideal_irrigation = ideal_irrigation,
       ideal_draining = ideal_draining,
       petp_cm = petp_cm,
@@ -57,7 +57,7 @@ hbp_simulate_ditch <- function(
 }
 
 hbp_make_df_list <- function(
-    ideal_height_cm,
+    ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
     petp_cm,
@@ -69,12 +69,12 @@ hbp_make_df_list <- function(
 )
 {
   data.frame(
-    ideal_height_cm,
+    ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
     plan_delay = 0,
     petp_cm,
-    real_height_cm = ideal_height_cm,
+    real_height_cm = ideal_height_eod_cm,
     area_m2,
     capacity_m3_s,
     date,
@@ -96,9 +96,9 @@ hbp_extract_daily_inputs <- function(df_list, j) {
   previous <- if (j > 1) df_list[[j - 1]] else current
 
   plan_delay_lag <- previous$plan_delay
-  ideal_height_cm <- vapply(
+  ideal_height_eod_cm <- vapply(
     seq_along(plan_delay_lag),
-    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_cm[c] },
+    \(c) { df_list[[j - plan_delay_lag[c]]]$ideal_height_eod_cm[c] },
     numeric(1)
     )
   real_irrigation <- vapply(
@@ -117,7 +117,7 @@ hbp_extract_daily_inputs <- function(df_list, j) {
 
   list(
     real_height_cm_lag = real_height_cm_lag,
-    ideal_height_cm = ideal_height_cm,
+    ideal_height_eod_cm = ideal_height_eod_cm,
     petp_cm = current$petp_cm,
     real_irrigation = real_irrigation,
     real_draining = real_draining,
@@ -132,7 +132,7 @@ hbp_daily_step <- function(
     real_height_cm_lag,
     date,
     plan_delay_lag,
-    ideal_height_cm,
+    ideal_height_eod_cm,
     petp_cm,
     real_irrigation,
     real_draining,
@@ -149,7 +149,7 @@ hbp_daily_step <- function(
     real_irrigation = real_irrigation,
     real_draining = real_draining)
 
-  l <- c(l, hbp_ideal_diff_flow_cm(ideal_height_cm = ideal_height_cm,
+  l <- c(l, hbp_ideal_diff_flow_cm(ideal_height_eod_cm = ideal_height_eod_cm,
                                    real_height_cm_lag = real_height_cm_lag,
                                    petp_cm = petp_cm))
 
@@ -178,7 +178,7 @@ hbp_daily_step <- function(
                                real_outflow_cm = l$real_outflow_cm))
 
   l <- c(l, hbp_plan_delay(plan_delay_lag = plan_delay_lag,
-                           ideal_height_cm = ideal_height_cm,
+                           ideal_height_eod_cm = ideal_height_eod_cm,
                            real_height_cm = l$real_height_cm,
                            date = date,
                            height_thresh_cm = height_thresh_cm))
@@ -189,12 +189,12 @@ hbp_daily_step <- function(
 
 
 hbp_ideal_diff_flow_cm <- function(
-    ideal_height_cm,
+    ideal_height_eod_cm,
     real_height_cm_lag,
     petp_cm
     )
 {
-  res <- ideal_height_cm - pmax2(real_height_cm_lag + petp_cm, 0)
+  res <- ideal_height_eod_cm - pmax2(real_height_cm_lag + petp_cm, 0)
   return( list(ideal_diff_flow_cm = res) )
 }
 
@@ -267,7 +267,7 @@ hbp_real_height_cm <- function(
 
 hbp_plan_delay <- function(
     plan_delay_lag,
-    ideal_height_cm,
+    ideal_height_eod_cm,
     real_height_cm,
     date,
     height_thresh_cm,
@@ -285,7 +285,7 @@ hbp_plan_delay <- function(
   if (reset_delay)
     return( list(plan_delay = numeric(length(plan_delay_lag))) )
 
-  add_delay <- (ideal_height_cm == 0) & (real_height_cm > height_thresh_cm)
+  add_delay <- (ideal_height_eod_cm == 0) & (real_height_cm > height_thresh_cm)
   return( list(plan_delay = plan_delay_lag + add_delay) )
 }
 

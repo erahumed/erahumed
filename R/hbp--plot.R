@@ -53,7 +53,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
   top_plot <- plotly::plot_ly(x = ~date) |>
     plotly::add_trace(
       data = data_cluster,
-      y = ~ideal_height_cm,
+      y = ~ideal_height_eod_cm,
       hoverinfo = "skip",
       type = "scatter",
       mode = "lines",
@@ -75,7 +75,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       y = ~real_height_cm,
       text = ~paste0("Date: ", date,
                      "<br>Height [cm]: ", real_height_cm,
-                     "<br>Ideal Height [cm]: ", ideal_height_cm,
+                     "<br>Ideal Height [cm]: ", ideal_height_eod_cm,
                      "<br>Ideal Irrigation: ", ideal_irrigation,
                      "<br>Ideal Draining: ", ideal_draining,
                      "<br>Real Irrigation: ", real_irrigation,
@@ -112,7 +112,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       y = ~petp_cm,
       # text = ~paste0("Date: ", date,
       #                "<br>Height [cm]: ", real_height_cm,
-      #                "<br>Ideal Height [cm]: ", ideal_height_cm,
+      #                "<br>Ideal Height [cm]: ", ideal_height_eod_cm,
       #                "<br>Ideal Irrigation: ", ideal_irrigation,
       #                "<br>Ideal Draining: ", ideal_draining,
       #                "<br>Real Irrigation: ", real_irrigation,

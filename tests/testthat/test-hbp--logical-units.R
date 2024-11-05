@@ -1,7 +1,7 @@
 test_that("hbp_make_df_list() succeds if inputs can form a data.frame", {
   expect_no_condition(
     hbp_make_df_list(
-      ideal_height_cm = rep(10, 10),
+      ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(10),
@@ -19,7 +19,7 @@ test_that("hbp_make_df_list() succeds if inputs can form a data.frame", {
 test_that("hbp_make_df_list() throws if inputs cannot form a data.frame", {
   expect_error(
     hbp_make_df_list(
-      ideal_height_cm = rep(10, 10),
+      ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
@@ -36,7 +36,7 @@ test_that("hbp_make_df_list() throws if inputs cannot form a data.frame", {
   skip("hbp_make_df_list(): corner case if wrong size input can be recycled")
   expect_error(
     hbp_make_df_list(
-      ideal_height_cm = rep(10, 10),
+      ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(2),
@@ -55,7 +55,7 @@ test_that("hbp_make_df_list() throws if inputs cannot form a data.frame", {
 test_that("hbp_make_df_list() throws if date or cluster_id are missing", {
   expect_error(
     hbp_make_df_list(
-      ideal_height_cm = rep(10, 10),
+      ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
@@ -71,7 +71,7 @@ test_that("hbp_make_df_list() throws if date or cluster_id are missing", {
 
   expect_error(
     hbp_make_df_list(
-      ideal_height_cm = rep(10, 10),
+      ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
@@ -89,7 +89,7 @@ test_that("hbp_make_df_list() throws if date or cluster_id are missing", {
 
 test_that("hbp_make_df_list() returns a list of dataframes", {
   res <- hbp_make_df_list(
-      ideal_height_cm = rep(10, 10),
+      ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(10),
@@ -108,7 +108,7 @@ test_that("hbp_make_df_list() returns a list of dataframes", {
 
 test_that("hbp_make_df_list() returned dfs contain the input columns", {
   args <- list(
-    ideal_height_cm = rep(10, 10),
+    ideal_height_eod_cm = rep(10, 10),
     ideal_irrigation = rep(TRUE, 10),
     ideal_draining = rep(TRUE, 10),
     petp_cm = rnorm(10),
@@ -132,7 +132,7 @@ test_that("hbp_make_df_list() returned dfs contain the input columns", {
 
 test_that("hbp_make_df_list() returned dfs are grouped by date", {
   args <- list(
-    ideal_height_cm = rep(10, 10),
+    ideal_height_eod_cm = rep(10, 10),
     ideal_irrigation = rep(TRUE, 10),
     ideal_draining = rep(TRUE, 10),
     petp_cm = rnorm(10),
@@ -159,7 +159,7 @@ test_that("hbp_make_df_list() returned dfs are grouped by date", {
 
 test_that("hbp_make_df_list() returned dfs are sorted by date", {
   args <- list(
-    ideal_height_cm = rep(10, 10),
+    ideal_height_eod_cm = rep(10, 10),
     ideal_irrigation = rep(TRUE, 10),
     ideal_draining = rep(TRUE, 10),
     petp_cm = rnorm(10),
@@ -188,7 +188,7 @@ test_that("hbp_make_df_list() returned dfs are sorted by date", {
 
 test_that("hbp_ideal_diff_flow_cm() returns a (properly) named list", {
   res <- hbp_ideal_diff_flow_cm(
-    ideal_height_cm = 10, real_height_cm_lag = 8, petp_cm = 1
+    ideal_height_eod_cm = 10, real_height_cm_lag = 8, petp_cm = 1
   )
 
   expect_type(res, "list")
@@ -200,7 +200,7 @@ test_that("hbp_ideal_diff_flow_cm() returns the correct structure", {
   n <- 10
 
   res <- hbp_ideal_diff_flow_cm(
-    ideal_height_cm = runif(n, 5, 10),
+    ideal_height_eod_cm = runif(n, 5, 10),
     real_height_cm_lag = runif(n, 0, 10),
     petp_cm = rnorm(n, sd = 5)
   )
@@ -213,7 +213,7 @@ test_that("hbp_ideal_diff_flow_cm() returns the correct structure", {
 
 test_that("hbp_ideal_diff_flow_cm(): correct result for petp > 0", {
   hbp_ideal_diff_flow_cm(
-    ideal_height_cm = c(10, 10),
+    ideal_height_eod_cm = c(10, 10),
     real_height_cm_lag = c(8, 8),
     petp_cm = c(1, 3)
     ) |>
@@ -224,7 +224,7 @@ test_that("hbp_ideal_diff_flow_cm(): correct result for petp > 0", {
 
 test_that("hbp_ideal_diff_flow_cm(): correct result for petp < 0", {
   hbp_ideal_diff_flow_cm(
-    ideal_height_cm = 10,
+    ideal_height_eod_cm = 10,
     real_height_cm_lag = 8,
     petp_cm = -9
   ) |>
@@ -493,7 +493,7 @@ test_that("hbp_real_height_cm(): correct results in simple cases", {
 test_that("hbp_plan_delay(): returns a (properly) named list", {
   res <- hbp_plan_delay(
     plan_delay_lag = c(0, 0),
-    ideal_height_cm = c(0, 0),
+    ideal_height_eod_cm = c(0, 0),
     real_height_cm = c(1, 1),
     date = c("1970-01-01", "1980-06-01"),
     height_thresh_cm = 2
@@ -509,7 +509,7 @@ test_that("hbp_plan_delay(): returns the correct structure", {
 
   res <- hbp_plan_delay(
     plan_delay_lag = rpois(n, 10),
-    ideal_height_cm = runif(n, 0, 20),
+    ideal_height_eod_cm = runif(n, 0, 20),
     real_height_cm = runif(n, 0, 20),
     date = seq.Date(from = as.Date("1970-01-01"), by = "day", length.out = n),
     height_thresh_cm = 2
@@ -522,7 +522,7 @@ test_that("hbp_plan_delay(): returns the correct structure", {
 test_that("hbp_plan_delay(): adds one iff real_height_cm above thresh", {
   res <- hbp_plan_delay(
     plan_delay_lag = c(1, 7, 21),
-    ideal_height_cm = c(0, 0, 10),
+    ideal_height_eod_cm = c(0, 0, 10),
     real_height_cm = c(1, 3, 20),
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15),
@@ -536,7 +536,7 @@ test_that("hbp_plan_delay(): adds one iff real_height_cm above thresh", {
 test_that("hbp_plan_delay(): returns 0s outside of plan delay window", {
   res <- hbp_plan_delay(
     plan_delay_lag = c(1, 7, 21),
-    ideal_height_cm = c(0, 0, 10),
+    ideal_height_eod_cm = c(0, 0, 10),
     real_height_cm = c(1, 3, 20),
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15),
