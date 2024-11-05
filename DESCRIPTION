@@ -23,7 +23,9 @@ RoxygenNote: 7.3.2
 Suggests: 
     digest,
     dplyr,
+    knitr,
     lifecycle,
+    rmarkdown,
     shinytest2,
     testthat (>= 3.0.0),
     tidyr
@@ -45,3 +47,4 @@ Imports:
 Depends: 
     R (>= 4.1.0)
 LazyData: true
+VignetteBuilder: knitr
