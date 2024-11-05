@@ -1,5 +1,11 @@
 # erahumed (development version)
 
+### Data
+
+* Reduced the number of significant digits in the default P-ETP function used
+by the HBA component, so as to match the relative accuracy of the storage curve 
+extracted from the cited CHJ report (#95). 
+
 ### Documentation
 
 * Added information and references in the documentation page of 
@@ -7,6 +13,10 @@
 
 * Citation of Martínez-Megías et al. (2023) in `?albufera_management` changed 
 to APA style.
+
+### New features
+
+* New generic function `component_parameters()` (#142).
 
 # erahumed 0.10.0
 
@@ -26,18 +36,10 @@ from an independent source.
 `height_sod_cm`, rather than `height_eod_cm` as before. This is done in order to 
 simplify visual comparisons between the plots for HBP and CT model components.
 
-### Data
-
-* Reduced the number of significant digits in the default P-ETP function used
-by the HBA component, so as to match the relative accuracy of the storage curve 
-extracted from the cited CHJ report (#95). 
-
 ### New features
 
 * HBP model component output now also includes an `height_sod_cm` column, 
 representing the cluster's water level at "start-of-day".
-
-* New generic function `component_parameters()` (#142).
 
 ### Breaking changes in API
 
