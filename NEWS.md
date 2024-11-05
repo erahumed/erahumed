@@ -1,5 +1,16 @@
 # erahumed (development version)
 
+### Breaking changes
+
+* Variable names refactors:
+
+  * Former `irrigation`, `draining` and `height_cm` columns of 
+  `albufera_management` become `ideal_irrigation`, `ideal_draining` and 
+  `ideal_height_eod_cm`.
+
+  * Former `real_irrigation`, `real_draining` and `real_height_cm` columns of 
+  the HBP component output become `irrigation`, `draining` and `height_eod_cm`.
+
 # erahumed 0.9.0
 
 ### Algorithm
