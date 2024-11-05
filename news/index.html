@@ -34,6 +34,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<div class="section level4">
+<h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<ul><li>HBP model component output now also includes an <code>height_sod_cm</code> column, representing the cluster’s water level at “start-of-day”.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h4>
+<ul><li>
+<p>Variable names refactors:</p>
+<ul><li><p>Former <code>irrigation</code>, <code>draining</code> and <code>height_cm</code> columns of <code>albufera_management</code> become <code>ideal_irrigation</code>, <code>ideal_draining</code> and <code>ideal_height_eod_cm</code>.</p></li>
+<li><p>Former <code>real_irrigation</code>, <code>real_draining</code> and <code>real_height_cm</code> columns of the HBP component output become <code>irrigation</code>, <code>draining</code> and <code>height_eod_cm</code>.</p></li>
+<li><p>Former <code>real_inflow_cm/m3_s</code> and <code>real_outflow_cm/m3_s</code> are renamed <code>inflow_cm/m3_s</code> and <code>outflow_cm/m3_s</code>, respectively.</p></li>
+</ul></li>
+<li><p>HBP model component plot method: the height variable plotted is now <code>height_sod_cm</code>, rather than <code>height_eod_cm</code> as before. This is done in order to simplify visual comparisons between the plots for HBP and CT model components.</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.0" id="erahumed-090">erahumed 0.9.0<a class="anchor" aria-label="anchor" href="#erahumed-090"></a></h2>
