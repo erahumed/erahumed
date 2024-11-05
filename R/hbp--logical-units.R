@@ -236,7 +236,13 @@ hbp_outflow_m3_s <- function(
   outflow_m3_s[ord] <- diff(cum_outflows)
   capacity_m3_s <- capacity_m3_s - cum_outflows[length(cum_outflows)]
 
-  outflow_m3_s <- outflow_m3_s + capacity_m3_s / length(outflow_m3_s)
+  # In an older version of the algorithm, we used to compensate for a positive
+  # difference between the ditch outflow and the sum of clusters ideal outflows,
+  # by sharing the extra outflow uniformly among clusters (and adjusting the
+  # inflow as required). This was implemented by the line below, which I leave
+  # here for the records. VG
+  #
+  # outflow_m3_s <- outflow_m3_s + capacity_m3_s / length(outflow_m3_s)
 
   return( list(outflow_m3_s = outflow_m3_s) )
 }

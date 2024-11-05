@@ -1,11 +1,27 @@
 # erahumed (development version)
 
+### Algorithm
+
+In previous implementations of HBP, whenever there was a positive difference
+between the ditch's outflow, and the sum of the clusters ideal outflows, this 
+was compensated by sharing it uniformly among clusters (and adding equal amounts 
+of irrigation to these). We stop doing this and, instead, allow for the sum of 
+cluster outflows to be less than the corresponding ditch outflow. If we assume
+constant ditch water levels, this amounts to assuming that the difference comes
+from an independent source.
+
+### Visualization
+
+* HBP model component plot method: the height variable plotted is now 
+`height_sod_cm`, rather than `height_eod_cm` as before. This is done in order to 
+simplify visual comparisons between the plots for HBP and CT model components.
+
 ### New features
 
 * HBP model component output now also includes an `height_sod_cm` column, 
 representing the cluster's water level at "start-of-day".
 
-### Breaking changes
+### Breaking changes in API
 
 * Variable names refactors:
 
@@ -18,10 +34,6 @@ representing the cluster's water level at "start-of-day".
   
   * Former `real_inflow_cm/m3_s` and `real_outflow_cm/m3_s` are renamed 
   `inflow_cm/m3_s` and `outflow_cm/m3_s`, respectively.
-
-* HBP model component plot method: the height variable plotted is now 
-`height_sod_cm`, rather than `height_eod_cm` as before. This is done in order to 
-simplify visual comparisons between the plots for HBP and CT model components.
 
 # erahumed 0.9.0
 

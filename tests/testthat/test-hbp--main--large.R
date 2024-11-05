@@ -79,7 +79,7 @@ test_that("sum(real outflows) = total capacity of ditch", {
       .groups = "drop"
     ) |>
     dplyr::filter(
-      abs(outflow_m3_s - flowpoint) > mean(abs(flowpoint)) * 1e-10
+      abs(outflow_m3_s) > flowpoint + mean(flowpoint) * 1e-10
     )
 
   expect_equal(nrow(res), 0)
