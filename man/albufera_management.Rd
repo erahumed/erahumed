@@ -16,11 +16,11 @@ categorical variables \code{tancat} and \code{variety}. The columns are the foll
 \item{variety}{character. Variety of rice planted in the paddy under
 consideration.}
 \item{sowing}{logical. Whether \code{mm} and \code{dd} correspond to the sowing day.}
-\item{irrigation}{logical. Whether the paddy is scheduled to be irrigated
+\item{ideal_irrigation}{logical. Whether the paddy is scheduled to be irrigated
 on this day.}
-\item{draining}{logical. Whether the paddy is scheduled to be drained on
+\item{ideal_draining}{logical. Whether the paddy is scheduled to be drained on
 this day.}
-\item{height_eod_cm}{numeric. Scheduled water level of the paddy
+\item{ideal_height_eod_cm}{numeric. Scheduled water level of the paddy
 \emph{at the end of the day} (that is, after irrigation and draining).}
 }
 }

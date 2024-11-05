@@ -1,4 +1,4 @@
-mm,dd,irrigation,draining
+mm,dd,ideal_irrigation,ideal_draining
 4,20,FALSE,FALSE
 4,21,TRUE,FALSE
 4,22,TRUE,FALSE
