@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-11-05T16:57Z
+last_built: 2024-11-05T17:07Z
 urls:
   reference: https://erahumed.github.io/erahumed/reference
   article: https://erahumed.github.io/erahumed/articles

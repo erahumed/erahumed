@@ -35,9 +35,17 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
 <div class="section level4">
+<h4 id="data-development-version">Data<a class="anchor" aria-label="anchor" href="#data-development-version"></a></h4>
+<ul><li>Reduced the number of significant digits in the default P-ETP function used by the HBA component, so as to match the relative accuracy of the storage curve extracted from the cited CHJ report (<a href="https://github.com/erahumed/erahumed/issues/95" class="external-link">#95</a>).</li>
+</ul></div>
+<div class="section level4">
 <h4 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h4>
 <ul><li><p>Added information and references in the documentation page of <code>albufera_clusters</code> and <code>albufera_cluster_geometries</code> datasets (<a href="https://github.com/erahumed/erahumed/issues/52" class="external-link">#52</a>).</p></li>
 <li><p>Citation of Martínez-Megías et al. (2023) in <code><a href="../reference/albufera_management.html">?albufera_management</a></code> changed to APA style.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
+<ul><li>New generic function <code><a href="../reference/component_parameters.html">component_parameters()</a></code> (<a href="https://github.com/erahumed/erahumed/issues/142" class="external-link">#142</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -51,13 +59,8 @@
 <ul><li>HBP model component plot method: the height variable plotted is now <code>height_sod_cm</code>, rather than <code>height_eod_cm</code> as before. This is done in order to simplify visual comparisons between the plots for HBP and CT model components.</li>
 </ul></div>
 <div class="section level4">
-<h4 id="data-0-10-0">Data<a class="anchor" aria-label="anchor" href="#data-0-10-0"></a></h4>
-<ul><li>Reduced the number of significant digits in the default P-ETP function used by the HBA component, so as to match the relative accuracy of the storage curve extracted from the cited CHJ report (<a href="https://github.com/erahumed/erahumed/issues/95" class="external-link">#95</a>).</li>
-</ul></div>
-<div class="section level4">
 <h4 id="new-features-0-10-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-10-0"></a></h4>
-<ul><li><p>HBP model component output now also includes an <code>height_sod_cm</code> column, representing the cluster’s water level at “start-of-day”.</p></li>
-<li><p>New generic function <code><a href="../reference/component_parameters.html">component_parameters()</a></code> (<a href="https://github.com/erahumed/erahumed/issues/142" class="external-link">#142</a>).</p></li>
+<ul><li>HBP model component output now also includes an <code>height_sod_cm</code> column, representing the cluster’s water level at “start-of-day”.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="breaking-changes-in-api-0-10-0">Breaking changes in API<a class="anchor" aria-label="anchor" href="#breaking-changes-in-api-0-10-0"></a></h4>
