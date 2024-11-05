@@ -1,5 +1,13 @@
 # erahumed (development version)
 
+### Documentation
+
+* Added information and references in the documentation page of 
+`albufera_clusters` and `albufera_cluster_geometries` datasets (#52).
+
+* Citation of Martínez-Megías et al. (2023) in `?albufera_management` changed 
+to APA style.
+
 # erahumed 0.10.0
 
 ### Algorithm
