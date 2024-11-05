@@ -40,19 +40,8 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
 
   data_cluster <- data[data$cluster_id == cluster_id, ]
 
-  ditch <- data_cluster$ditch[1]
-  tancat <- data_cluster$tancat[1]
-  variety <- data_cluster$variety[1]
-
-  data_ditch <- data[
-    data$ditch == ditch & data$tancat == tancat & data$variety == variety,
-    ] |>
-    stats::aggregate(height_eod_cm ~ date, data = _, FUN = mean)
-
-
-  top_plot <- plotly::plot_ly(x = ~date) |>
+  top_plot <- plotly::plot_ly(data = data_cluster, x = ~date) |>
     plotly::add_trace(
-      data = data_cluster,
       y = ~lag(ideal_height_eod_cm),
       hoverinfo = "skip",
       type = "scatter",
@@ -60,18 +49,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       line = list(width = 1.5, color = "black", dash = "dash"),
       name = "Water Level (ideal)"
     ) |>
-    # plotly::add_trace(
-    #   data = data_ditch,
-    #   y = ~height_eod_cm,
-    #   hoverinfo = "skip",
-    #   type = "scatter",
-    #   mode = "lines",
-    #   line = list(width = 1.5, color = "#BB0000", dash = "dot"),
-    #   name = "Average",
-    #   visible = "legendonly"
-    # ) |>
     plotly::add_trace(
-      data = data_cluster,
       y = ~height_sod_cm,
       text = ~paste0("Date: ", date,
                      "<br>Height [cm]: ", height_sod_cm,
@@ -89,44 +67,25 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       name = "Water Level (simulated)"
     )
 
-  bottom_plot <- plotly::plot_ly(x = ~date) |>
+  bottom_plot <- plotly::plot_ly(data = data_cluster, x = ~date) |>
     plotly::add_trace(
-      data = data_cluster,
       y = ~inflow_cm,
       hoverinfo = "skip",
-      #type = "scatter", mode = "lines", line = list(width = 1.5, color = "red"),
       type = "bar", marker = list(width = 3, color = "red"),
       name = "Inflow"
     ) |>
     plotly::add_trace(
-      data = data_cluster,
       y = ~ I(-outflow_cm),
       hoverinfo = "skip",
-      # type = "scatter", mode = "lines", line = list(width = 1.5, color = "red"),
       type = "bar", marker = list(width = 3, color = "red"),
-
       name = "Outflow"
     ) |>
     plotly::add_trace(
-      data = data_cluster,
       y = ~petp_cm,
-      # text = ~paste0("Date: ", date,
-      #                "<br>Height [cm]: ", height_eod_cm,
-      #                "<br>Ideal Height [cm]: ", ideal_height_eod_cm,
-      #                "<br>Ideal Irrigation: ", ideal_irrigation,
-      #                "<br>Ideal Draining: ", ideal_draining,
-      #                "<br>Real Irrigation: ", irrigation,
-      #                "<br>Real Draining: ", draining,
-      #                "<br>Plan Delay: ", plan_delay
-      # ),
-      # hoverinfo = "text",
       hoverinfo = "skip",
-      # type = "scatter", mode = "lines", line = list(width = 2, color = "blue"),
       type = "bar", marker = list(width = 1, color = "blue"),
-
       name = "P - ETP"
     )
-
 
   plotly::subplot(top_plot, bottom_plot, nrows = 2, shareX = TRUE) |>
     plotly::layout(
