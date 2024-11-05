@@ -188,7 +188,7 @@ test_that("hbp_make_df_list() returned dfs are sorted by date", {
 
 test_that("hbp_ideal_diff_flow_cm() returns a (properly) named list", {
   res <- hbp_ideal_diff_flow_cm(
-    ideal_height_eod_cm = 10, real_height_cm_lag = 8, petp_cm = 1
+    ideal_height_eod_cm = 10, height_eod_cm_lag = 8, petp_cm = 1
   )
 
   expect_type(res, "list")
@@ -201,7 +201,7 @@ test_that("hbp_ideal_diff_flow_cm() returns the correct structure", {
 
   res <- hbp_ideal_diff_flow_cm(
     ideal_height_eod_cm = runif(n, 5, 10),
-    real_height_cm_lag = runif(n, 0, 10),
+    height_eod_cm_lag = runif(n, 0, 10),
     petp_cm = rnorm(n, sd = 5)
   )
 
@@ -214,7 +214,7 @@ test_that("hbp_ideal_diff_flow_cm() returns the correct structure", {
 test_that("hbp_ideal_diff_flow_cm(): correct result for petp > 0", {
   hbp_ideal_diff_flow_cm(
     ideal_height_eod_cm = c(10, 10),
-    real_height_cm_lag = c(8, 8),
+    height_eod_cm_lag = c(8, 8),
     petp_cm = c(1, 3)
     ) |>
     (\(x) x$ideal_diff_flow_cm)() |>
@@ -225,7 +225,7 @@ test_that("hbp_ideal_diff_flow_cm(): correct result for petp > 0", {
 test_that("hbp_ideal_diff_flow_cm(): correct result for petp < 0", {
   hbp_ideal_diff_flow_cm(
     ideal_height_eod_cm = 10,
-    real_height_cm_lag = 8,
+    height_eod_cm_lag = 8,
     petp_cm = -9
   ) |>
     (\(x) x$ideal_diff_flow_cm)() |>
@@ -238,8 +238,8 @@ test_that("hbp_ideal_diff_flow_cm(): correct result for petp < 0", {
 test_that("hbp_ideal_flows_cm() returns a (properly) named list", {
   res <- hbp_ideal_flows_cm(
     ideal_diff_flow_cm = 1,
-    real_irrigation = TRUE,
-    real_draining = TRUE,
+    irrigation = TRUE,
+    draining = TRUE,
     ideal_flow_rate_cm = 5
   )
 
@@ -253,8 +253,8 @@ test_that("hbp_ideal_flows_cm() returns the correct structure", {
 
   res <- hbp_ideal_flows_cm(
     ideal_diff_flow_cm = rnorm(n, sd = 10),
-    real_irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
-    real_draining = sample(c(TRUE, FALSE), n, replace = TRUE),
+    irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
+    draining = sample(c(TRUE, FALSE), n, replace = TRUE),
     ideal_flow_rate_cm = 5
   )
 
@@ -274,8 +274,8 @@ test_that("hbp_ideal_flows_cm(): inflow - outflow = ideal diff flow", {
 
   res <- hbp_ideal_flows_cm(
     ideal_diff_flow_cm = ideal_diff_flow_cm,
-    real_irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
-    real_draining = sample(c(TRUE, FALSE), n, replace = TRUE),
+    irrigation = sample(c(TRUE, FALSE), n, replace = TRUE),
+    draining = sample(c(TRUE, FALSE), n, replace = TRUE),
     ideal_flow_rate_cm = 5
   )
 
@@ -290,8 +290,8 @@ test_that("hbp_ideal_flows_cm(): correct results when in flux", {
 
   res <- hbp_ideal_flows_cm(
     ideal_diff_flow_cm = ideal_diff_flow_cm,
-    real_irrigation = rep(TRUE, n),
-    real_draining = rep(TRUE, n),
+    irrigation = rep(TRUE, n),
+    draining = rep(TRUE, n),
     ideal_flow_rate_cm = ideal_flow_rate_cm
   )
 
@@ -306,8 +306,8 @@ test_that("hbp_ideal_flows_cm(): flows are always positive", {
 
   res <- hbp_ideal_flows_cm(
     ideal_diff_flow_cm = rnorm(n, sd = 10),
-    real_irrigation = rep(TRUE, n),
-    real_draining = rep(TRUE, n),
+    irrigation = rep(TRUE, n),
+    draining = rep(TRUE, n),
     ideal_flow_rate_cm = 5
   )
 
@@ -433,59 +433,59 @@ test_that("hbp_real_inflow_m3_s(): simple check on a concrete case", {
 
 
 
-test_that("hbp_real_height_cm() returns a (properly) named list", {
-  res <- hbp_real_height_cm(
-    real_height_cm_lag = 0,
+test_that("hbp_height_eod_cm() returns a (properly) named list", {
+  res <- hbp_height_eod_cm(
+    height_eod_cm_lag = 0,
     petp_cm = 0,
     real_inflow_cm = 1,
     real_outflow_cm = 0
   )
 
   expect_type(res, "list")
-  expect_identical(names(res), "real_height_cm")
+  expect_identical(names(res), "height_eod_cm")
 })
 
-test_that("hbp_real_height_cm() returns the correct structure", {
+test_that("hbp_height_eod_cm() returns the correct structure", {
   set.seed(840)
   n <- rpois(1, 1e3)
 
-  res <- hbp_real_height_cm(
-    real_height_cm_lag = runif(n, 0, 20),
+  res <- hbp_height_eod_cm(
+    height_eod_cm_lag = runif(n, 0, 20),
     petp_cm = -rnorm(n, sd = 0.5),
     real_inflow_cm = runif(n, 0, 10),
     real_outflow_cm = runif(n,  0, 10)
   )
 
-  expect_type(res$real_height_cm, "double")
-  expect_length(res$real_height_cm, n)
+  expect_type(res$height_eod_cm, "double")
+  expect_length(res$height_eod_cm, n)
 })
 
-test_that("hbp_real_height_cm(): heights are always positive", {
-  skip("hbp_real_height_cm(): heights<0 is possible for certain inputs")
+test_that("hbp_height_eod_cm(): heights are always positive", {
+  skip("hbp_height_eod_cm(): heights<0 is possible for certain inputs")
   set.seed(840)
   n <- rpois(1, 1e3)
 
-  res <- hbp_real_height_cm(
-    real_height_cm_lag = runif(n, 0, 20),
+  res <- hbp_height_eod_cm(
+    height_eod_cm_lag = runif(n, 0, 20),
     petp_cm = -rnorm(n, sd = 0.5),
     real_inflow_cm = runif(n, 0, 10),
     real_outflow_cm = runif(n,  0, 10)
   )
 
-  expect_gte(min(res$real_height_cm), 0)
+  expect_gte(min(res$height_eod_cm), 0)
 })
 
-test_that("hbp_real_height_cm(): correct results in simple cases", {
+test_that("hbp_height_eod_cm(): correct results in simple cases", {
   set.seed(840)
 
-  res <- hbp_real_height_cm(
-    real_height_cm_lag = c(10, 5, 0, 0),
+  res <- hbp_height_eod_cm(
+    height_eod_cm_lag = c(10, 5, 0, 0),
     petp_cm = c(1, -6, 3, -1),
     real_inflow_cm = c(5, 5, 0, 2),
     real_outflow_cm = c(5, 5, 0, 0)
   )
 
-  expect_equal(res$real_height_cm, c(11, 0, 3, 2))
+  expect_equal(res$height_eod_cm, c(11, 0, 3, 2))
 })
 
 
@@ -494,7 +494,7 @@ test_that("hbp_plan_delay(): returns a (properly) named list", {
   res <- hbp_plan_delay(
     plan_delay_lag = c(0, 0),
     ideal_height_eod_cm = c(0, 0),
-    real_height_cm = c(1, 1),
+    height_eod_cm = c(1, 1),
     date = c("1970-01-01", "1980-06-01"),
     height_thresh_cm = 2
     )
@@ -510,7 +510,7 @@ test_that("hbp_plan_delay(): returns the correct structure", {
   res <- hbp_plan_delay(
     plan_delay_lag = rpois(n, 10),
     ideal_height_eod_cm = runif(n, 0, 20),
-    real_height_cm = runif(n, 0, 20),
+    height_eod_cm = runif(n, 0, 20),
     date = seq.Date(from = as.Date("1970-01-01"), by = "day", length.out = n),
     height_thresh_cm = 2
     )
@@ -519,11 +519,11 @@ test_that("hbp_plan_delay(): returns the correct structure", {
   expect_length(res$plan_delay, n)
 })
 
-test_that("hbp_plan_delay(): adds one iff real_height_cm above thresh", {
+test_that("hbp_plan_delay(): adds one iff height_eod_cm above thresh", {
   res <- hbp_plan_delay(
     plan_delay_lag = c(1, 7, 21),
     ideal_height_eod_cm = c(0, 0, 10),
-    real_height_cm = c(1, 3, 20),
+    height_eod_cm = c(1, 3, 20),
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15),
     date = "1970-06-01",  # Inside the plan delay window
@@ -537,7 +537,7 @@ test_that("hbp_plan_delay(): returns 0s outside of plan delay window", {
   res <- hbp_plan_delay(
     plan_delay_lag = c(1, 7, 21),
     ideal_height_eod_cm = c(0, 0, 10),
-    real_height_cm = c(1, 3, 20),
+    height_eod_cm = c(1, 3, 20),
     mm_dd_start = c(4, 20),
     mm_dd_end = c(10, 15),
     date = "1970-01-01",  # Outside of the plan delay window

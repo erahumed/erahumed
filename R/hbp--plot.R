@@ -47,7 +47,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
   data_ditch <- data[
     data$ditch == ditch & data$tancat == tancat & data$variety == variety,
     ] |>
-    stats::aggregate(real_height_cm ~ date, data = _, FUN = mean)
+    stats::aggregate(height_eod_cm ~ date, data = _, FUN = mean)
 
 
   top_plot <- plotly::plot_ly(x = ~date) |>
@@ -62,7 +62,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
     ) |>
     # plotly::add_trace(
     #   data = data_ditch,
-    #   y = ~real_height_cm,
+    #   y = ~height_eod_cm,
     #   hoverinfo = "skip",
     #   type = "scatter",
     #   mode = "lines",
@@ -72,14 +72,14 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
     # ) |>
     plotly::add_trace(
       data = data_cluster,
-      y = ~real_height_cm,
+      y = ~height_eod_cm,
       text = ~paste0("Date: ", date,
-                     "<br>Height [cm]: ", real_height_cm,
+                     "<br>Height [cm]: ", height_eod_cm,
                      "<br>Ideal Height [cm]: ", ideal_height_eod_cm,
                      "<br>Ideal Irrigation: ", ideal_irrigation,
                      "<br>Ideal Draining: ", ideal_draining,
-                     "<br>Real Irrigation: ", real_irrigation,
-                     "<br>Real Draining: ", real_draining,
+                     "<br>Real Irrigation: ", irrigation,
+                     "<br>Real Draining: ", draining,
                      "<br>Plan Delay: ", plan_delay
       ),
       hoverinfo = "text",
@@ -111,12 +111,12 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
       data = data_cluster,
       y = ~petp_cm,
       # text = ~paste0("Date: ", date,
-      #                "<br>Height [cm]: ", real_height_cm,
+      #                "<br>Height [cm]: ", height_eod_cm,
       #                "<br>Ideal Height [cm]: ", ideal_height_eod_cm,
       #                "<br>Ideal Irrigation: ", ideal_irrigation,
       #                "<br>Ideal Draining: ", ideal_draining,
-      #                "<br>Real Irrigation: ", real_irrigation,
-      #                "<br>Real Draining: ", real_draining,
+      #                "<br>Real Irrigation: ", irrigation,
+      #                "<br>Real Draining: ", draining,
       #                "<br>Plan Delay: ", plan_delay
       # ),
       # hoverinfo = "text",

@@ -1,10 +1,10 @@
 test_that("ca_to_cluster() returns a numeric of the correct length", {
   n <- 10
   res <- ca_to_cluster(
-    real_height_cm = numeric(n),
+    height_eod_cm = numeric(n),
     seed_day = -4:5,
-    real_irrigation = logical(n),
-    real_draining = logical(n),
+    irrigation = logical(n),
+    draining = logical(n),
     plan_delay = numeric(n),
     application_day = 5,
     amount = 1,

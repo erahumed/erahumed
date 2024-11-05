@@ -112,11 +112,11 @@ compute_hbp_argcheck <- function(management_df,
 hbp_validate_output <- function(output) {
   assert_data.frame(output,
                     template =   data.frame(ideal_height_eod_cm = numeric(),
-                                            real_height_cm = numeric(),
+                                            height_eod_cm = numeric(),
                                             ideal_irrigation = logical(),
                                             ideal_draining = logical(),
-                                            real_irrigation = logical(),
-                                            real_draining = logical(),
+                                            irrigation = logical(),
+                                            draining = logical(),
                                             petp_cm = numeric(),
                                             area_m2 = numeric(),
                                             capacity_m3_s = numeric(),
@@ -142,5 +142,5 @@ hbp_validate_output <- function(output) {
   assert_positive_vector(output$ideal_outflow_cm, tol = 1e-6)
   assert_positive_vector(output$plan_delay, tol = 1e-6)
   assert_integer_vector(output$plan_delay)
-  assert_positive_vector(output$real_height_cm, tol = 1e-6)
+  assert_positive_vector(output$height_eod_cm, tol = 1e-6)
 }

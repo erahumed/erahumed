@@ -52,11 +52,11 @@ test_that("Application days have the correct features", {
 
   applications_df <- test_df |>
     dplyr::select(
-      real_height_cm, real_irrigation, real_draining,
+      height_eod_cm, irrigation, draining,
       dplyr::any_of(chems$chemical)
     ) |>
     tidyr::pivot_longer(
-      -c(real_height_cm, real_irrigation, real_draining),
+      -c(height_eod_cm, irrigation, draining),
       names_to = "chemical",
       values_to = "amount"
     ) |>
@@ -65,15 +65,15 @@ test_that("Application days have the correct features", {
 
   test_ground_states <- applications_df |>
     dplyr::filter(application_type == "ground" &
-                    (real_irrigation | real_draining))
+                    (irrigation | draining))
 
   test_ground_levels <- applications_df |>
     dplyr::filter(application_type == "ground" &
-                    real_height_cm > height_thresh_cm + 1e-6)
+                    height_eod_cm > height_thresh_cm + 1e-6)
 
   test_aerial_states <- applications_df |>
     dplyr::filter(application_type == "aerial" &
-                    !(real_irrigation & real_draining))
+                    !(irrigation & draining))
 
 
   expect_equal(nrow(test_ground_states), 0)
