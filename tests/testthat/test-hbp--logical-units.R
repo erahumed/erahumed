@@ -188,7 +188,7 @@ test_that("hbp_make_df_list() returned dfs are sorted by date", {
 
 test_that("hbp_ideal_diff_flow_cm() returns a (properly) named list", {
   res <- hbp_ideal_diff_flow_cm(
-    ideal_height_eod_cm = 10, height_eod_cm_lag = 8, petp_cm = 1
+    ideal_height_eod_cm = 10, height_sod_cm = 8, petp_cm = 1
   )
 
   expect_type(res, "list")
@@ -201,7 +201,7 @@ test_that("hbp_ideal_diff_flow_cm() returns the correct structure", {
 
   res <- hbp_ideal_diff_flow_cm(
     ideal_height_eod_cm = runif(n, 5, 10),
-    height_eod_cm_lag = runif(n, 0, 10),
+    height_sod_cm = runif(n, 0, 10),
     petp_cm = rnorm(n, sd = 5)
   )
 
@@ -214,7 +214,7 @@ test_that("hbp_ideal_diff_flow_cm() returns the correct structure", {
 test_that("hbp_ideal_diff_flow_cm(): correct result for petp > 0", {
   hbp_ideal_diff_flow_cm(
     ideal_height_eod_cm = c(10, 10),
-    height_eod_cm_lag = c(8, 8),
+    height_sod_cm = c(8, 8),
     petp_cm = c(1, 3)
     ) |>
     (\(x) x$ideal_diff_flow_cm)() |>
@@ -225,7 +225,7 @@ test_that("hbp_ideal_diff_flow_cm(): correct result for petp > 0", {
 test_that("hbp_ideal_diff_flow_cm(): correct result for petp < 0", {
   hbp_ideal_diff_flow_cm(
     ideal_height_eod_cm = 10,
-    height_eod_cm_lag = 8,
+    height_sod_cm = 8,
     petp_cm = -9
   ) |>
     (\(x) x$ideal_diff_flow_cm)() |>
@@ -435,7 +435,7 @@ test_that("hbp_real_inflow_m3_s(): simple check on a concrete case", {
 
 test_that("hbp_height_eod_cm() returns a (properly) named list", {
   res <- hbp_height_eod_cm(
-    height_eod_cm_lag = 0,
+    height_sod_cm = 0,
     petp_cm = 0,
     real_inflow_cm = 1,
     real_outflow_cm = 0
@@ -450,7 +450,7 @@ test_that("hbp_height_eod_cm() returns the correct structure", {
   n <- rpois(1, 1e3)
 
   res <- hbp_height_eod_cm(
-    height_eod_cm_lag = runif(n, 0, 20),
+    height_sod_cm = runif(n, 0, 20),
     petp_cm = -rnorm(n, sd = 0.5),
     real_inflow_cm = runif(n, 0, 10),
     real_outflow_cm = runif(n,  0, 10)
@@ -466,7 +466,7 @@ test_that("hbp_height_eod_cm(): heights are always positive", {
   n <- rpois(1, 1e3)
 
   res <- hbp_height_eod_cm(
-    height_eod_cm_lag = runif(n, 0, 20),
+    height_sod_cm = runif(n, 0, 20),
     petp_cm = -rnorm(n, sd = 0.5),
     real_inflow_cm = runif(n, 0, 10),
     real_outflow_cm = runif(n,  0, 10)
@@ -479,7 +479,7 @@ test_that("hbp_height_eod_cm(): correct results in simple cases", {
   set.seed(840)
 
   res <- hbp_height_eod_cm(
-    height_eod_cm_lag = c(10, 5, 0, 0),
+    height_sod_cm = c(10, 5, 0, 0),
     petp_cm = c(1, -6, 3, -1),
     real_inflow_cm = c(5, 5, 0, 2),
     real_outflow_cm = c(5, 5, 0, 0)

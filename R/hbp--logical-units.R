@@ -113,10 +113,10 @@ hbp_extract_daily_inputs <- function(df_list, j) {
     logical(1)
   )
 
-  height_eod_cm_lag <- previous$height_eod_cm
+  height_sod_cm <- previous$height_eod_cm
 
   list(
-    height_eod_cm_lag = height_eod_cm_lag,
+    height_sod_cm = height_sod_cm,
     ideal_height_eod_cm = ideal_height_eod_cm,
     petp_cm = current$petp_cm,
     irrigation = irrigation,
@@ -129,7 +129,7 @@ hbp_extract_daily_inputs <- function(df_list, j) {
 }
 
 hbp_daily_step <- function(
-    height_eod_cm_lag,
+    height_sod_cm,
     date,
     plan_delay_lag,
     ideal_height_eod_cm,
@@ -150,7 +150,7 @@ hbp_daily_step <- function(
     draining = draining)
 
   l <- c(l, hbp_ideal_diff_flow_cm(ideal_height_eod_cm = ideal_height_eod_cm,
-                                   height_eod_cm_lag = height_eod_cm_lag,
+                                   height_sod_cm = height_sod_cm,
                                    petp_cm = petp_cm))
 
   l <- c(l, hbp_ideal_flows_cm(ideal_diff_flow_cm = l$ideal_diff_flow_cm,
@@ -172,7 +172,7 @@ hbp_daily_step <- function(
   l <- c(l, hbp_real_inflow_m3_s(real_inflow_cm = l$real_inflow_cm,
                                  area_m2 = area_m2))
 
-  l <- c(l, hbp_height_eod_cm(height_eod_cm_lag = height_eod_cm_lag,
+  l <- c(l, hbp_height_eod_cm(height_sod_cm = height_sod_cm,
                                petp_cm = petp_cm,
                                real_inflow_cm = l$real_inflow_cm,
                                real_outflow_cm = l$real_outflow_cm))
@@ -190,11 +190,11 @@ hbp_daily_step <- function(
 
 hbp_ideal_diff_flow_cm <- function(
     ideal_height_eod_cm,
-    height_eod_cm_lag,
+    height_sod_cm,
     petp_cm
     )
 {
-  res <- ideal_height_eod_cm - pmax2(height_eod_cm_lag + petp_cm, 0)
+  res <- ideal_height_eod_cm - pmax2(height_sod_cm + petp_cm, 0)
   return( list(ideal_diff_flow_cm = res) )
 }
 
@@ -254,14 +254,14 @@ hbp_real_inflow_m3_s <- function(real_inflow_cm, area_m2) {
 }
 
 hbp_height_eod_cm <- function(
-    height_eod_cm_lag,
+    height_sod_cm,
     petp_cm,
     real_inflow_cm,
     real_outflow_cm
     )
 {
   real_diff_flow_cm <- real_inflow_cm - real_outflow_cm
-  res <- pmax2(height_eod_cm_lag + petp_cm, 0) + real_diff_flow_cm
+  res <- pmax2(height_sod_cm + petp_cm, 0) + real_diff_flow_cm
   return( list(height_eod_cm = res) )
 }
 
