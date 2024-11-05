@@ -28,15 +28,23 @@ A data frame with one row per cluster, and the columns:
 }
 }
 }
+\source{
+Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
+Rico, A. (2023). Influence of climate change and pesticide use practices on
+the ecological risks of pesticides in a protected Mediterranean wetland: A
+Bayesian network approach. \emph{Science of The Total Environment, 878},
+163018. \url{https://doi.org/10.1016/j.scitotenv.2023.163018}
+}
 \usage{
 albufera_clusters
 
 albufera_cluster_geometries
 }
 \description{
-Datasets containing information on various paddy clusters.
-
-TODO: Document how clusters were defined? #52
+Datasets containing information on rice field clusters into which the
+rice production area of the Albufera Natural Park is decomposed. For the
+actual definition of these clusters, see
+\href{https://doi.org/10.1016/j.scitotenv.2023.163018}{Martínez-Megías et al. (2023)}.
 }
 \details{
 Both datasets have the same cardinality (one row per cluster), and they

@@ -107,9 +107,10 @@
 #' Albufera Rice Paddy Clusters
 #'
 #' @description
-#' Datasets containing information on various paddy clusters.
-#'
-#' TODO: Document how clusters were defined? #52
+#' Datasets containing information on rice field clusters into which the
+#' rice production area of the Albufera Natural Park is decomposed. For the
+#' actual definition of these clusters, see
+#' [Martínez-Megías et al. (2023)](https://doi.org/10.1016/j.scitotenv.2023.163018).
 #'
 #' @details
 #' Both datasets have the same cardinality (one row per cluster), and they
@@ -127,6 +128,13 @@
 #'   \item{rice_variety}{character. Variety of rice planted in the cluster.}
 #'   \item{case}{factor. ...?}
 #' }
+#'
+#' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
+#' Rico, A. (2023). Influence of climate change and pesticide use practices on
+#' the ecological risks of pesticides in a protected Mediterranean wetland: A
+#' Bayesian network approach. *Science of The Total Environment, 878*,
+#' 163018. <https://doi.org/10.1016/j.scitotenv.2023.163018>
+#'
 "albufera_clusters"
 
 #' @rdname albufera_clusters
