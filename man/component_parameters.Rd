@@ -3,11 +3,14 @@
 \name{component_parameters}
 \alias{component_parameters}
 \alias{component_parameters.erahumed_model_component}
+\alias{component_parameters.erahumed_model}
 \title{Extract model component parameters}
 \usage{
 component_parameters(object, ...)
 
 \method{component_parameters}{erahumed_model_component}(object, ...)
+
+\method{component_parameters}{erahumed_model}(object, component, ...)
 }
 \arguments{
 \item{object}{The object from which the component parameters are to be
