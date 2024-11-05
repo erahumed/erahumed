@@ -75,7 +75,11 @@
 #'   \item{ideal_height_eod_cm}{numeric. Scheduled water level of the paddy
 #'   *at the end of the day* (that is, after irrigation and draining).}
 #' }
-#' @source <https://doi.org/10.1016/j.scitotenv.2023.163018>
+#' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
+#' Rico, A. (2023). Influence of climate change and pesticide use practices on
+#' the ecological risks of pesticides in a protected Mediterranean wetland: A
+#' Bayesian network approach. *Science of The Total Environment, 878*,
+#' 163018. <https://doi.org/10.1016/j.scitotenv.2023.163018>
 #'
 "albufera_management"
 
