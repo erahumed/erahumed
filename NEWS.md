@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### New features
+
+* HBP model component output now also includes an `height_sod_cm` column, 
+representing the cluster's water level at "start-of-day".
+
 ### Breaking changes
 
 * Variable names refactors:
@@ -10,6 +15,10 @@
 
   * Former `real_irrigation`, `real_draining` and `real_height_cm` columns of 
   the HBP component output become `irrigation`, `draining` and `height_eod_cm`.
+
+* HBP model component plot method: the height variable plotted is now 
+`height_sod_cm`, rather than `height_eod_cm` as before. This is done in order to 
+simplify visual comparisons between the plots for HBP and CT model components.
 
 # erahumed 0.9.0
 
