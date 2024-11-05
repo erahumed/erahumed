@@ -43,7 +43,8 @@ test_that("Total number of applications is equal to expected", {
 
 test_that("Application days have the correct features", {
   test_df <- component_output(test_mod_large(), "ca")
-  height_thresh_cm <- hbp(test_mod_large())$params$height_thresh_cm
+  height_thresh_cm <-
+    component_parameters(test_mod_large(), "hbp")[["height_thresh_cm"]]
 
   chems <- erahumed::albufera_ca_schedules |>
     dplyr::select(chemical, application_type) |>

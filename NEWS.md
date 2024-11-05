@@ -30,12 +30,14 @@ simplify visual comparisons between the plots for HBP and CT model components.
 
 * Reduced the number of significant digits in the default P-ETP function used
 by the HBA component, so as to match the relative accuracy of the storage curve 
-extracted from the cited CHJ report. 
+extracted from the cited CHJ report (#95). 
 
 ### New features
 
 * HBP model component output now also includes an `height_sod_cm` column, 
 representing the cluster's water level at "start-of-day".
+
+* New generic function `component_parameters()` (#142).
 
 ### Breaking changes in API
 
