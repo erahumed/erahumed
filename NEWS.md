@@ -26,6 +26,12 @@ from an independent source.
 `height_sod_cm`, rather than `height_eod_cm` as before. This is done in order to 
 simplify visual comparisons between the plots for HBP and CT model components.
 
+### Data
+
+* Reduced the number of significant digits in the default P-ETP function used
+by the HBA component, so as to match the relative accuracy of the storage curve 
+extracted from the cited CHJ report. 
+
 ### New features
 
 * HBP model component output now also includes an `height_sod_cm` column, 

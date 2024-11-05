@@ -67,7 +67,7 @@ hba <- function(model)
 compute_hba <- function(
     model,
     storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,
-    petp_function = \(p, etp) 114.225826072 * 1e3 * p - 79.360993685 * 1e3 * etp
+    petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
     )
 {
   compute_component(model, "hba",

@@ -10,7 +10,7 @@ hba(model)
 compute_hba(
   model,
   storage_curve = function(level) 16.7459 * 1e+06 + level * 23.6577 * 1e+06,
-  petp_function = function(p, etp) 114.225826072 * 1000 * p - 79.360993685 * 1000 * etp
+  petp_function = function(p, etp) 114.226 * 1000 * p - 79.361 * 1000 * etp
 )
 }
 \arguments{
