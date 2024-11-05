@@ -15,58 +15,58 @@ albufera_management <-  # Prepare result data-frame
     TRUE                  ~ TRUE
     )) |>
   mutate(sowing = mm == 4 & dd == 20, seed_day = 1:n() - which(sowing)) |>
-  left_join(  # This brings in "irrigation" and "draining" logical columns
+  left_join(  # This brings in "ideal_irrigation" and "ideal_draining" logical columns
     farmer_account,
     by = c("mm", "dd")
     ) |>
   arrange(mm, dd) |>
   mutate(
-    # Create the variable 'height_cm'. We assume that it takes two days for the
-    # paddies to empty and refill.
+    # Create the variable 'ideal_height_eod_cm'. We assume that it takes two days for
+    # the paddies to empty and refill.
 
-    height_cm = case_when(
-      irrigation ~ ifelse(draining | lag(irrigation), 10, 5),
-      draining   ~ ifelse(lag(irrigation), 5, 0),
+    ideal_height_eod_cm = case_when(
+      ideal_irrigation ~ ifelse(ideal_draining | lag(ideal_irrigation), 10, 5),
+      ideal_draining   ~ ifelse(lag(ideal_irrigation), 5, 0),
       TRUE       ~ 0
     )
 
     ) |>
-  mutate(across(c(irrigation, draining), \(x) ifelse(is.na(x), FALSE, x))) |>
+  mutate(across(c(ideal_irrigation, ideal_draining), \(x) ifelse(is.na(x), FALSE, x))) |>
   tidyr::crossing(tibble(tancat = c(TRUE, FALSE))) |>
   mutate(
     # Corrections to irrigation/draining scheduling due to winter drowning
 
-    irrigation = case_when(
-      !tancat                                    ~ irrigation,
+    ideal_irrigation = case_when(
+      !tancat                                    ~ ideal_irrigation,
       mm == 11 & dd %in% 1:2                     ~ TRUE,
       mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ TRUE,
       mm == 1 & dd %in% 15:16                    ~ FALSE,
-      TRUE                                       ~ irrigation
+      TRUE                                       ~ ideal_irrigation
     ),
 
-    draining = case_when(
-      !tancat                                    ~ draining,
+    ideal_draining = case_when(
+      !tancat                                    ~ ideal_draining,
       mm == 11 & dd %in% 1:2                     ~ FALSE,
       mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ TRUE,
       mm == 1 & dd %in% 15:16                    ~ TRUE,
-      TRUE                                       ~ draining
+      TRUE                                       ~ ideal_draining
     ),
 
-    height_cm = case_when(
-      !tancat                                    ~ height_cm,
+    ideal_height_eod_cm = case_when(
+      !tancat                                    ~ ideal_height_eod_cm,
       mm == 11 & dd == 1 | mm == 1 & dd == 15    ~ 10,
       mm %in% c(11, 12) | (mm == 1 & dd < 15)    ~ 20,
-      TRUE                                       ~ height_cm
+      TRUE                                       ~ ideal_height_eod_cm
     )
   ) |>
   tidyr::crossing(tibble(variety = c("J.Sendra", "Bomba", "Clearfield"))) |>
   mutate(
   # Corrections for rice variety: for 'Clearfield' there's one less emptying
     .p = variety == "Clearfield" & mm == 4 & dd %in% 24:28,
-    irrigation = ifelse(.p, TRUE, irrigation),
-    draining = ifelse(.p, TRUE, draining),
-    height_cm = ifelse(.p, 10, height_cm)
+    ideal_irrigation = ifelse(.p, TRUE, ideal_irrigation),
+    ideal_draining = ifelse(.p, TRUE, ideal_draining),
+    ideal_height_eod_cm = ifelse(.p, 10, ideal_height_eod_cm)
   ) |>
-  select(mm, dd, tancat, variety, sowing, seed_day, irrigation, draining, height_cm) |>
+  select(mm, dd, tancat, variety, sowing, seed_day, ideal_irrigation, ideal_draining, ideal_height_eod_cm) |>
   arrange(mm, dd, tancat, variety)
 

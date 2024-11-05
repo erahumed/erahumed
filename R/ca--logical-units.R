@@ -7,19 +7,19 @@ ca_delay_vector <- function(x, delay)
 
 
 
-ca_filter_by_state <- function(real_irrigation, real_draining, application_type)
+ca_filter_by_state <- function(irrigation, draining, application_type)
 {
   required_state <- ( application_type == "aerial" )
-  return( real_irrigation == required_state & real_draining == required_state )
+  return( irrigation == required_state & draining == required_state )
 }
 
 
 
-ca_filter_by_water_level <- function(real_height_cm,
+ca_filter_by_water_level <- function(height_eod_cm,
                                      application_type,
                                      height_threshold_cm)
 {
-  application_type == "aerial" | real_height_cm < height_threshold_cm
+  application_type == "aerial" | height_eod_cm < height_threshold_cm
 }
 
 

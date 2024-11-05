@@ -25,7 +25,7 @@
 #' @param cluster_id character vector.
 #' @param ditch character vector. Ditch to which the cluster specified by
 #' `cluster_id` corresponds.
-#' @param ideal_height_cm numeric vector. Ideal height of the cluster specified
+#' @param ideal_height_eod_cm numeric vector. Ideal height of the cluster specified
 #' by `cluster_id`, on the day specified by `date`.
 #' @param petp_cm numeric vector. Precipitation minus evapotranspiration
 #' (in cm), relevant for the `cluster_id`/`date` pair.
@@ -63,7 +63,7 @@
     date,
     cluster_id,
     ditch,
-    ideal_height_cm,
+    ideal_height_eod_cm,
     petp_cm,
     ideal_irrigation,
     ideal_draining,
@@ -83,7 +83,7 @@
     function(dd) {
       idx <- ditch == dd
       args <- c(
-        list(ideal_height_cm = ideal_height_cm[idx],
+        list(ideal_height_eod_cm = ideal_height_eod_cm[idx],
              petp_cm = petp_cm[idx],
              ideal_irrigation = ideal_irrigation[idx],
              ideal_draining = ideal_draining[idx],
@@ -141,11 +141,11 @@
   res <- list(date = res$date,
               ditch = res$ditch,
               cluster_id = res$cluster_id,
-              ideal_height_cm = res$height_cm,
+              ideal_height_eod_cm = res$ideal_height_eod_cm,
               petp_cm = res$petp_cm,
               seed_day = res$seed_day,
-              ideal_irrigation = res$irrigation,
-              ideal_draining = res$draining,
+              ideal_irrigation = res$ideal_irrigation,
+              ideal_draining = res$ideal_draining,
               area_m2 = res$area,
               total_inflow_lake = res$inflow_total,
               tancat = res$tancat,

@@ -52,8 +52,8 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
                               data = cluster_data[idx, ],
                               x = ~date,
                               xend = ~date,
-                              y = ~min(cluster_data$real_height_cm),
-                              yend = ~max(cluster_data$real_height_cm),
+                              y = ~min(cluster_data$height_eod_cm),
+                              yend = ~max(cluster_data$height_eod_cm),
                               line = list(color = colors[chemical], width = 1),
                               name = chemical)
   }

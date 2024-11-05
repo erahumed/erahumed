@@ -68,11 +68,12 @@
 #'   \item{variety}{character. Variety of rice planted in the paddy under
 #'    consideration.}
 #'   \item{sowing}{logical. Whether `mm` and `dd` correspond to the sowing day.}
-#'   \item{irrigation}{logical. Whether the paddy is scheduled to be irrigated
+#'   \item{ideal_irrigation}{logical. Whether the paddy is scheduled to be irrigated
 #'    on this day.}
-#'   \item{draining}{logical. Whether the paddy is scheduled to be drained on
+#'   \item{ideal_draining}{logical. Whether the paddy is scheduled to be drained on
 #'    this day.}
-#'   \item{height_cm}{numeric. Water level of the paddy.}
+#'   \item{ideal_height_eod_cm}{numeric. Scheduled water level of the paddy
+#'   *at the end of the day* (that is, after irrigation and draining).}
 #' }
 #' @source <https://doi.org/10.1016/j.scitotenv.2023.163018>
 #'

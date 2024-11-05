@@ -10,10 +10,10 @@ ca_to_cluster_wrap <- function(cluster_hbp_df,
     previous_applications
   )
   {
-    ca_to_cluster(real_height_cm = cluster_hbp_df$real_height_cm,
+    ca_to_cluster(height_eod_cm = cluster_hbp_df$height_eod_cm,
                   seed_day = cluster_hbp_df$seed_day,
-                  real_irrigation = cluster_hbp_df$real_irrigation,
-                  real_draining = cluster_hbp_df$real_draining,
+                  irrigation = cluster_hbp_df$irrigation,
+                  draining = cluster_hbp_df$draining,
                   plan_delay = cluster_hbp_df$plan_delay,
                   application_day = application_day,
                   amount_kg = amount_kg,
@@ -44,10 +44,10 @@ ca_to_cluster_wrap <- function(cluster_hbp_df,
   return(res)
 }
 
-ca_to_cluster <- function(real_height_cm,
+ca_to_cluster <- function(height_eod_cm,
                           seed_day,
-                          real_irrigation,
-                          real_draining,
+                          irrigation,
+                          draining,
                           plan_delay,
                           application_day,
                           amount_kg,
@@ -61,9 +61,9 @@ ca_to_cluster <- function(real_height_cm,
   # arriving here. Leaving the code below just for potential debugging purposes.
 
   potential_day_index <- TRUE &
-    ca_filter_by_state(real_irrigation, real_draining, application_type) &
+    ca_filter_by_state(irrigation, draining, application_type) &
     ca_filter_by_water_level(
-      real_height_cm, application_type, height_thresh_cm) &
+      height_eod_cm, application_type, height_thresh_cm) &
     ca_filter_by_previous_applications(previous_applications)
 
   idx <- ca_choose_application_day_index(application_day,
