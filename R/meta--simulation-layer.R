@@ -1,7 +1,7 @@
 new_simulation_layer <- function(
-    output = data.frame(),
+    output = NULL,
     params = list(),
-    validate_output = is.data.frame,
+    validate_output = function(output) TRUE,
     validate_params = is.list
     )
 {
@@ -21,7 +21,8 @@ new_simulation_layer_argcheck <- function(
     )
 {
   tryCatch({
-    assert_data.frame(output)
+    if(!is.null(output))
+      assert_data.frame(output)
     assert_list(params)
     if(!validate_output(output))
       stop("Invalid 'output' passed to new_simulation_layer().")
