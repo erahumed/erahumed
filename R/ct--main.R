@@ -19,18 +19,6 @@
 #' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
 #' \link{ca} layer (*i.e.* such that `ca(simulation)` is not `NULL`).
 #'
-#' @return Objects of class \link{erahumed_simulation} and `erahumed_ct`, for
-#' `compute_ct()` and `ct()` respectively.
-#'
-#' @details
-#' TBD.
-#' @rdname ct
-#' @export
-ct <- function(simulation)
-  get_simulation_layer(simulation, "ct")
-
-#' @rdname ct
-#'
 #' @param drift A number between `0` and `1`. Percentage of chemical
 #' applications lost to drift.
 #' @param covmax A number between `0` and `1`. Interception potential of
@@ -47,6 +35,9 @@ ct <- function(simulation)
 #' day.
 #' @param wilting A number between `0` and `1`. Wilting point.
 #' @param fc A number between `0` and `1`. Field capacity.
+#'
+#' @return Objects of class \link{erahumed_simulation} and `erahumed_ct`, for
+#' `compute_ct()` and `ct()` respectively.
 #'
 #' @export
 setup_ct <- function(

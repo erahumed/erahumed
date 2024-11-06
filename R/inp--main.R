@@ -46,11 +46,6 @@
 #' inp(simulation)
 #'
 #' @export
-inp <- function(simulation)
-  get_simulation_layer(simulation, "inp")
-
-#' @rdname inp
-#' @export
 setup_inp <- function(simulation,
                       outflows_df = erahumed::albufera_outflows,
                       weather_df = erahumed::albufera_weather)
@@ -96,7 +91,7 @@ validate_inp_params <- function(outflows_df, weather_df)
 
     },
     error = function(e) {
-      class(e) <- c("compute_inp_argcheck_error", class(e))
+      class(e) <- c("validate_inp_params_error", class(e))
       stop(e)
     })
 }

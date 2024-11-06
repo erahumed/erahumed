@@ -5,8 +5,6 @@
 \alias{setup_ct}
 \title{CT: Chemical Transport}
 \usage{
-ct(simulation)
-
 setup_ct(
   simulation,
   drift = 0,
@@ -66,15 +64,12 @@ applied chemical and for the three compartments: foliage, water and sediment.
 This simulation layer requires the \link{ca} layer of the simulation to be
 pre-computed.
 }
-\details{
-TBD.
-}
 \seealso{
 Other simulation layers: 
-\code{\link{ca}()},
-\code{\link{hba}()},
-\code{\link{hbp}()},
-\code{\link{inp}()}
+\code{\link{ca}},
+\code{\link{setup_hba}()},
+\code{\link{setup_hbp}()},
+\code{\link{setup_inp}()}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

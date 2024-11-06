@@ -5,8 +5,6 @@
 \alias{setup_ca}
 \title{CA: Chemical Applications}
 \usage{
-ca(simulation)
-
 setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
@@ -39,10 +37,10 @@ provide the time series of applied doses, expressed in kilograms.
 }
 \seealso{
 Other simulation layers: 
-\code{\link{ct}()},
-\code{\link{hba}()},
-\code{\link{hbp}()},
-\code{\link{inp}()}
+\code{\link{ct}},
+\code{\link{setup_hba}()},
+\code{\link{setup_hbp}()},
+\code{\link{setup_inp}()}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

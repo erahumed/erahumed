@@ -59,11 +59,6 @@
 #' `compute_hba()` and `hba()` respectively.
 #'
 #' @export
-hba <- function(simulation)
-  get_simulation_layer(simulation, "hba")
-
-#' @rdname hba
-#' @export
 setup_hba <- function(
     simulation,
     storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,

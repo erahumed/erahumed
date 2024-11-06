@@ -31,11 +31,6 @@
 #' provide the time series of applied doses, expressed in kilograms.
 #' @rdname ca
 #' @export
-ca <- function(simulation)
-  get_simulation_layer(simulation, "ca")
-
-#' @rdname ca
-#' @export
 setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 {
   setup_layer(simulation = simulation,
@@ -47,7 +42,7 @@ setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedul
 
 compute_ca_bare <- function(simulation)
 {
-  ca_schedules_df <- layer_parameters(simulation, "ct")[["ca_schedules_df"]]
+  ca_schedules_df <- layer_parameters(simulation, "ca")[["ca_schedules_df"]]
   height_thresh_cm <- layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
 
   hbp_res <- layer_output(simulation, "hbp")

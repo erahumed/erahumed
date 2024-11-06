@@ -3,6 +3,9 @@ compute_layer <- function(simulation, layer = erahumed_layers())
   assert_erahumed_simulation(simulation)
   layer <- match.arg(layer)
 
+  if (!is.null(simulation [[layer]] [["output"]]))
+    return(simulation)
+
   check_upstream_layers(simulation, layer)
 
   compute_bare_fun <- get_compute_bare_fun(layer)

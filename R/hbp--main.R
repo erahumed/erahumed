@@ -48,11 +48,6 @@
 #'
 #'
 #' @export
-hbp <- function(simulation)
-  get_simulation_layer(simulation, "hbp")
-
-#' @rdname hbp
-#' @export
 setup_hbp <- function(
     simulation,
     management_df = erahumed::albufera_management,

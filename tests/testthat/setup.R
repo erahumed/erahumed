@@ -1,18 +1,18 @@
-.test_mod_small <- NULL
-.test_mod_large <- NULL
+.test_sim_small <- NULL
+.test_sim_large <- NULL
 
-test_mod_small <- function() {
-  if (is.null(.test_mod_small))
-    .test_mod_small <<- test_simulation("2010-01-01", "2010-01-10")
+test_sim_small <- function() {
+  if (is.null(.test_sim_small))
+    .test_sim_small <<- test_simulation("2010-01-01", "2010-01-10")
 
-  .test_mod_small
+  .test_sim_small
 }
 
-test_mod_large <- function() {
-  if (is.null(.test_mod_large))
-    .test_mod_large <<- test_simulation("2010-01-01", "2011-12-31")
+test_sim_large <- function() {
+  if (is.null(.test_sim_large))
+    .test_sim_large <<- test_simulation("2010-01-01", "2011-12-31")
 
-  .test_mod_large
+  .test_sim_large
 }
 
 test_simulation <- function(date_min, date_max, seed = 840) {
@@ -21,10 +21,7 @@ test_simulation <- function(date_min, date_max, seed = 840) {
 
   withr::with_seed(seed, {
     erahumed_simulation() |>
-      compute_inp(outflows_df = outflows_df) |>
-      compute_hba() |>
-      compute_hbp() |>
-      compute_ca() |>
-      compute_ct()
+      setup_inp(outflows_df = outflows_df) |>
+      run_simulation()
   })
 }
