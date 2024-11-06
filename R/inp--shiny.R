@@ -32,8 +32,11 @@ inpServer <- function(id, simulation) {
     })
 
     res <- shiny::reactive({
-      compute_inp(simulation(), outflows_df = outflows_df(), weather_df = weather_df())
+      simulation() |>
+        setup_inp(outflows_df = outflows_df(), weather_df = weather_df()) |>
+        run_simulation(layer = "inp")
     })
+
     return(res)
   })
 }

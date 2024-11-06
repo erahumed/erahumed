@@ -47,7 +47,9 @@ caServer <- function(id, simulation) {
                                     erahumed::albufera_ca_schedules)
 
     res <- shiny::reactive({
-      compute_ca(simulation = simulation(), ca_schedules_df = ca_schedules_df())
+      simulation() |>
+        setup_ca(ca_schedules_df = ca_schedules_df()) |>
+        run_simulation(layer = "ca")
       })
 
     output$albufera_map <- leaflet::renderLeaflet(
@@ -72,7 +74,10 @@ caServer <- function(id, simulation) {
 
     output$plot <- plotly::renderPlotly({
       shiny::req(input$cluster_id)
-      plot(ca(res()), cluster_id = input$cluster_id)
+
+      res() |>
+        get_simulation_layer("ca") |>
+        plot(cluster_id = input$cluster_id)
     })
 
     return(res)

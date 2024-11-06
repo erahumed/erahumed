@@ -33,9 +33,16 @@ hbaServer <- function(id, simulation) {
 
     # Read setup stuff
     #
-    res <- shiny::reactive({ compute_hba(simulation()) })
+    res <- shiny::reactive({
+      setup_hba(simulation()) |>
+        run_simulation(layer = "hba")
+        })
 
-    output$plot <- plotly::renderPlotly({ plot(hba(res()), input$variable) })
+    output$plot <- plotly::renderPlotly({
+      res() |>
+        get_simulation_layer("hba") |>
+        plot(input$variable)
+      })
 
     return(res)
   })

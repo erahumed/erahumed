@@ -37,61 +37,61 @@ ctUI <- function(id) {
                                         step = 1),
                     shiny::numericInput(ns("drift"),
                                         "drift",
-                                        value = formals(compute_ct)$drift,
+                                        value = formals(setup_ct)$drift,
                                         step = 0.01,
                                         min = 0,
                                         max = 1),
                     shiny::numericInput(ns("covmax"),
                                         "covmax",
-                                        value = formals(compute_ct)$covmax,
+                                        value = formals(setup_ct)$covmax,
                                         step = 0.01,
                                         min = 0,
                                         max = 1),
                     shiny::numericInput(ns("jgrow"),
                                         "jgrow",
-                                        value = formals(compute_ct)$jgrow,
+                                        value = formals(setup_ct)$jgrow,
                                         step = 1,
                                         min = 0,
                                         max = 400),
                     shiny::numericInput(ns("SNK"),
                                         "SNK",
-                                        value = formals(compute_ct)$SNK,
+                                        value = formals(setup_ct)$SNK,
                                         step = 1,
                                         min = 0,
                                         max = 400),
                     shiny::numericInput(ns("dact_m"),
                                         "dact_m",
-                                        value = formals(compute_ct)$dact_m,
+                                        value = formals(setup_ct)$dact_m,
                                         step = 0.01,
                                         min = 0,
                                         max = 1),
                     shiny::numericInput(ns("css_ppm"),
                                         "css_ppm",
-                                        value = formals(compute_ct)$css_ppm,
+                                        value = formals(setup_ct)$css_ppm,
                                         step = 1,
                                         min = 0,
                                         max = 500),
                     shiny::numericInput(ns("bd_g_cm3"),
                                         "bd_g_cm3",
-                                        value = formals(compute_ct)$bd_g_cm3,
+                                        value = formals(setup_ct)$bd_g_cm3,
                                         step = 0.01,
                                         min = 0,
                                         max = 10),
                     shiny::numericInput(ns("qseep_m_day"),
                                         "qseep_m_day",
-                                        value = formals(compute_ct)$qseep_m_day,
+                                        value = formals(setup_ct)$qseep_m_day,
                                         step = 0.01,
                                         min = 0,
                                         max = 10),
                     shiny::numericInput(ns("wilting"),
                                         "wilting",
-                                        value = formals(compute_ct)$wilting,
+                                        value = formals(setup_ct)$wilting,
                                         step = 0.01,
                                         min = 0,
                                         max = 1),
                     shiny::numericInput(ns("fc"),
                                         "fc",
-                                        value = formals(compute_ct)$fc,
+                                        value = formals(setup_ct)$fc,
                                         step = 0.01,
                                         min = 0,
                                         max = 1)
@@ -108,8 +108,8 @@ ctServer <- function(id, simulation) {
     ns <- session$ns
 
     res <- shiny::reactive({
-      compute_ct(simulation = simulation(),
-                 drift = input$drift,
+      simulation() |>
+        setup_ct(drift = input$drift,
                  covmax = input$covmax,
                  jgrow = input$jgrow,
                  SNK = input$SNK,
@@ -119,7 +119,8 @@ ctServer <- function(id, simulation) {
                  qseep_m_day = input$qseep_m_day,
                  wilting = input$wilting,
                  fc = input$fc
-                 )
+                 ) |>
+        run_simulation(layer = "ct")
       })
 
     output$albufera_map <- leaflet::renderLeaflet(
@@ -144,7 +145,10 @@ ctServer <- function(id, simulation) {
 
     output$plot <- plotly::renderPlotly({
       shiny::req(input$cluster_id)
-      plot(ct(res()), cluster_id = input$cluster_id, variable = input$variable)
+
+      res() |>
+        get_simulation_layer("ct") |>
+        plot(cluster_id = input$cluster_id, variable = input$variable)
     })
 
     return(res)
