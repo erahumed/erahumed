@@ -19,24 +19,6 @@ compute_layer <- function(model, layer = erahumed_layers(), ...)
   return(model)
 }
 
-
-
-upstream_layers <- function(layer) {
-  i <- match(layer, erahumed_layers())
-
-  erahumed_layers() |> (\(.) .[seq_along(.) < i])()
-}
-
-
-
-downstream_layers <- function(layer) {
-  i <- match(layer, erahumed_layers())
-
-  erahumed_layers() |> (\(.) .[seq_along(.) > i])()
-}
-
-
-
 compute_layer_basecheck <- function(model,
                                         layer = erahumed_layers()
                                         )
