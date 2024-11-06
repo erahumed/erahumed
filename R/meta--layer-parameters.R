@@ -1,9 +1,9 @@
-#' @title Extract model layer parameters
+#' @title Extract simulation layer parameters
 #'
 #' @author Valerio Gherardi
 #'
 #' @description
-#' Extracts the parameters used in the computation of a model layer.
+#' Extracts the parameters used in the computation of a simulation layer.
 #'
 #' @param object The object from which the layer parameters are to be
 #' extracted from (see above for available methods).

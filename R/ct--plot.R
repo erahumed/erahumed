@@ -1,7 +1,7 @@
-#' Plot CT model layer output
+#' Plot CT simulation layer output
 #'
 #' @description
-#' Plot method for \link{ct} model layers.
+#' Plot method for \link{ct} simulation layers.
 #'
 #' @param x An object of class `ct`.
 #' @param type Type of plot to be generated. Currently, only the

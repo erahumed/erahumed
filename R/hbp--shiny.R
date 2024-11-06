@@ -45,7 +45,7 @@ hbpUI <- function(id) {
 
 }
 
-hbpServer <- function(id, model) {
+hbpServer <- function(id, simulation) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -54,7 +54,7 @@ hbpServer <- function(id, model) {
     res <- shiny::reactive({
 
       withr::with_seed(input$seed, {
-        compute_hbp(model = model(),
+        compute_hbp(simulation = simulation(),
                     management_df = management_df(),
                     ideal_flow_rate_cm = input$ideal_flow_rate_cm
                     )

@@ -1,12 +1,12 @@
-# Dummy model layer definition, only used for testing purposes
+# Dummy simulation layer definition, only used for testing purposes
 
-dum <- function(model)
-  get_simulation_layer(model, "dum")
+dum <- function(simulation)
+  get_simulation_layer(simulation, "dum")
 
-compute_dum <- function(model, numeric_param = 0)
-  compute_layer(model, "dum", numeric_param)
+compute_dum <- function(simulation, numeric_param = 0)
+  compute_layer(simulation, "dum", numeric_param)
 
-compute_dum_output <- function(model, numeric_param)
+compute_dum_output <- function(simulation, numeric_param)
   data.frame()
 
 compute_dum_argcheck <- function(numeric_param)

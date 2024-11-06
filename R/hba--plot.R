@@ -1,7 +1,7 @@
-#' Plot HBA model layer output
+#' Plot HBA simulation layer output
 #'
 #' @description
-#' Plot method for \link{hba} model layers.
+#' Plot method for \link{hba} simulation layers.
 #'
 #' @param x An object of class `hba`.
 #' @param variable The variable to be plotted. Can be any numeric column of

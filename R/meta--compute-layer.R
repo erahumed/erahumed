@@ -1,6 +1,6 @@
-compute_layer <- function(model, layer = erahumed_layers(), ...)
+compute_layer <- function(simulation, layer = erahumed_layers(), ...)
 {
-  compute_layer_basecheck(model, layer)
+  compute_layer_basecheck(simulation, layer)
   layer <- match.arg(layer)
 
   compute_argcheck <- get_layer_argcheck_fun(layer)
@@ -8,27 +8,25 @@ compute_layer <- function(model, layer = erahumed_layers(), ...)
   new_layer <- get_layer_constructor_fun(layer)
 
   compute_argcheck(...)
-  output <- compute_output(model, ...)
+  output <- compute_output(simulation, ...)
   params <- list(...)
 
-  model[[layer]] <- new_layer(output, params)
+  simulation[[layer]] <- new_layer(output, params)
 
   for (comp in downstream_layers(layer))
-    model[[comp]] <- NULL
+    simulation[[comp]] <- NULL
 
-  return(model)
+  return(simulation)
 }
 
-compute_layer_basecheck <- function(model,
-                                        layer = erahumed_layers()
-                                        )
+compute_layer_basecheck <- function(simulation, layer = erahumed_layers())
 {
   tryCatch({
-    assert_erahumed_simulation(model)
+    assert_erahumed_simulation(simulation)
     match.arg(layer)
 
     for (comp in upstream_layers(layer)) {
-      if (!is.null(model[[comp]])) next
+      if (!is.null(simulation[[comp]])) next
 
       msg <- paste0(
         "Upstream layer '", comp, "' of simulation must be computed first.")
@@ -55,7 +53,7 @@ get_layer_argcheck_fun <- function(layer) {
 get_layer_output_fun <- function(layer) {
   res <- get_erahumed_fun( paste0("compute_", layer, "_output") )
   if (is.null(res))
-    stop(paste0("Model layer, '", layer, "' not yet implemented."))
+    stop(paste0("simulation layer, '", layer, "' not yet implemented."))
   return(res)
 }
 

@@ -7,7 +7,7 @@ ranges <- list(
   large = c("2010-01-01", "2019-12-31")
 )
 
-models <- lapply(ranges, function(range) {
+simulations <- lapply(ranges, function(range) {
   outflows_df <- albufera_outflows |>
     dplyr::filter(range[[1]] <= date, date <= range[[2]])
 
@@ -20,8 +20,8 @@ models <- lapply(ranges, function(range) {
 })
 
 
-profvis({ compute_ca(models[[1]]) })
+profvis({ compute_ca(simulations[[1]]) })
 
-profvis({ compute_ca(models[[2]]) })
+profvis({ compute_ca(simulations[[2]]) })
 
-profvis({ compute_ca(models[[3]]) })
+profvis({ compute_ca(simulations[[3]]) })

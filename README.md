@@ -19,10 +19,10 @@ consists of:
 
 - **Data**. The inputs for the DSS are packaged as R `data.frame`s
   imported with `{erahumed}`.
-- **Analysis**. The entire modeling pipeline is implemented by R
+- **Analysis**. The entire simulation pipeline is implemented by R
   functions.
-- **Visualization**. All model outputs are R objects with methods for
-  data exploration and visualization.
+- **Visualization**. All simulation outputs are R objects with methods
+  for data exploration and visualization.
 - **Interactive Interface**. All of the above has a graphical interface
   implemented as a Shiny application, which is also bundled with the
   package.
@@ -55,33 +55,34 @@ erahumed::launch_app()
 ```
 
 This will open the DSS dashboard in your default browser, from where you
-can explore model outputs in a user friendly manner.
+can explore simulation outputs in a user friendly manner.
 
-### Example 2: command line interface to the models
+### Example 2: command line interface to the simulations
 
 ``` r
 library(erahumed)
 ```
 
 The following example illustrates the workflow for manually running the
-ERAHUMED model chain, and extracting the outputs of the various model
-layers.
+ERAHUMED simulation chain, and extracting the outputs of the various
+simulation layers.
 
-The pipeline always starts by initializing a new ERAHUMED model, via:
+The pipeline always starts by initializing a new ERAHUMED simulation,
+via:
 
 ``` r
-model <- erahumed_simulation()
-model
+simulation <- erahumed_simulation()
+simulation
 #> An ERAHUMED simulation.
 #> Calculated layers:  None
 ```
 
 This is the main abstraction that `{erahumed}` uses to collect the
-various layers involved in the modeling chain of the DSS, and is
+various layers involved in the simulation chain of the DSS, and is
 initially blank.
 
-Next, we populate model layers, which is achieved through the set of
-`compute_*()` functions:
+Next, we populate simulation layers, which is achieved through the set
+of `compute_*()` functions:
 
 - `compute_inp()` - INPut data.
 - `compute_hba()` - Hydrological Balance of the Albufera lake.
@@ -94,21 +95,21 @@ For instance, we can compute the first two layers with default arguments
 computation) as follows:
 
 ``` r
-model <- model |> compute_inp() |> compute_hba()
-model
+simulation <- simulation |> compute_inp() |> compute_hba()
+simulation
 #> An ERAHUMED simulation.
 #> Calculated layers:  inp, hba
 ```
 
-We can extract and inspect model layers as illustrated in the following
-examples:
+We can extract and inspect simulation layers as illustrated in the
+following examples:
 
 ``` r
-hba(model)  # Extract the HBA model layer
+hba(simulation)  # Extract the HBA simulation layer
 #> A ERAHUMED HBA simulation layer.
 #> 
 #> Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days
-hba(model) |> 
+hba(simulation) |> 
   layer_output() |>  # Get output data.frame
   tibble::as_tibble()    # Just for pretty printing
 #> # A tibble: 6,139 × 16
@@ -134,7 +135,7 @@ hba(model) |>
 layers have plot methods that can help data exploration:
 
 ``` r
-plot(hba(model), variable = "outflow_total")
+plot(hba(simulation), variable = "outflow_total")
 ```
 
 (The output is an interactive plot, not shown here. Try yourself!)
@@ -143,7 +144,7 @@ Extracting a layer that has not been computed yet yields a `NULL`
 result, *e.g.*:
 
 ``` r
-hbp(model)
+hbp(simulation)
 #> NULL
 ```
 
@@ -151,7 +152,7 @@ If we attempt to compute a downstream layer whose dependencies have not
 been defined yet, we get an informative error. For example:
 
 ``` r
-compute_ca(model)
+compute_ca(simulation)
 #> Error in doTryCatch(return(expr), name, parentenv, handler): Upstream layer 'hbp' of simulation must be computed first.
 ```
 
@@ -159,17 +160,17 @@ Also, computing a layer erases the output of its downstream dependencies
 (if any):
 
 ``` r
-compute_inp(model) |> hba()
+compute_inp(simulation) |> hba()
 #> NULL
 ```
 
-The order of model layers in the list above is the logical one. Each
-layer depends on the previous ones (referred to as “upstream”), and is a
-dependency of the subsequent ones (referred to as “downstream”).
+The order of simulation layers in the list above is the logical one.
+Each layer depends on the previous ones (referred to as “upstream”), and
+is a dependency of the subsequent ones (referred to as “downstream”).
 
 ``` r
-model <- compute_inp(model)
-model
+simulation <- compute_inp(simulation)
+simulation
 #> An ERAHUMED simulation.
 #> Calculated layers:  inp
 ```

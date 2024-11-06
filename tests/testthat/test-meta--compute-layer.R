@@ -41,14 +41,14 @@ test_that("get_layer_constructor_fun() returns a valid constructor", {
 
 test_that("compute_layer() succeeds with valid input", {
   expect_no_error(
-    compute_layer(model = test_mod_small(),
+    compute_layer(simulation = test_mod_small(),
                       layer = "dum",
                       numeric_param = 0)
     )
 })
 
 test_that("compute_layer() returns an object of the correct class", {
-  obj <- compute_layer(model = test_mod_small(),
+  obj <- compute_layer(simulation = test_mod_small(),
                            layer = "dum",
                            numeric_param = 0)
 
@@ -56,7 +56,7 @@ test_that("compute_layer() returns an object of the correct class", {
 })
 
 test_that("compute_layer() returned object has the added layer", {
-  obj <- compute_layer(model = test_mod_small(),
+  obj <- compute_layer(simulation = test_mod_small(),
                            layer = "dum",
                            numeric_param = 0)
 
@@ -64,7 +64,7 @@ test_that("compute_layer() returned object has the added layer", {
 })
 
 test_that("compute_layer() throws error when missing upstream deps", {
-  expect_error(compute_layer(model = erahumed_simulation(),
+  expect_error(compute_layer(simulation = erahumed_simulation(),
                                  layer = "dum",
                                  numeric_param = 0),
                class = "compute_layer_basecheck_error"
@@ -76,7 +76,7 @@ test_that("compute_layer() erases downstream deps if present", {
 
   if (is.null(hba(m)))
     stop("Invalid test object") # Ensure the test does not succeed trivially!
-  m <- compute_layer(model = m,
+  m <- compute_layer(simulation = m,
                          layer = "inp",
                          outflows_df = albufera_outflows,
                          weather_df = albufera_weather

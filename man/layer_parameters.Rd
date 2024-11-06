@@ -4,7 +4,7 @@
 \alias{layer_parameters}
 \alias{layer_parameters.erahumed_simulation_layer}
 \alias{layer_parameters.erahumed_simulation}
-\title{Extract model layer parameters}
+\title{Extract simulation layer parameters}
 \usage{
 layer_parameters(object, ...)
 
@@ -25,7 +25,7 @@ is to be extracted.}
 A \code{list}.
 }
 \description{
-Extracts the parameters used in the computation of a model layer.
+Extracts the parameters used in the computation of a simulation layer.
 }
 \author{
 Valerio Gherardi

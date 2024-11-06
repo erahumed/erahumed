@@ -5,13 +5,13 @@
 \alias{compute_ca}
 \title{CA: Chemical Applications}
 \usage{
-ca(model)
+ca(simulation)
 
-compute_ca(model, ca_schedules_df = erahumed::albufera_ca_schedules)
+compute_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{hbp} layer (\emph{i.e.} such that \code{hbp(model)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
+\link{hbp} layer (\emph{i.e.} such that \code{hbp(simulation)} is not \code{NULL}).}
 
 \item{ca_schedules_df}{a \code{data.frame} following the template of
 \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
@@ -23,12 +23,12 @@ Objects of class \link{erahumed_simulation} and \code{erahumed_ca}, for
 \code{compute_ca()} and \code{ca()} respectively.
 }
 \description{
-This model layer simulates the application of chemicals to rice paddy
+This simulation layer simulates the application of chemicals to rice paddy
 clusters, based on a previously computed simulation of local hydrological
 balance. The result is a set of time series of applied doses, one for each
 applied chemical.
 
-This modeling layer requires the \link{hbp} layer of the model to be
+This simulation layer requires the \link{hbp} layer of the simulation to be
 pre-computed.
 }
 \details{
@@ -38,7 +38,7 @@ additional columns, named as the chemicals appearing in \code{ca_schedules_df},
 provide the time series of applied doses, expressed in kilograms.
 }
 \seealso{
-Other model layers: 
+Other simulation layers: 
 \code{\link{ct}()},
 \code{\link{hba}()},
 \code{\link{hbp}()},
@@ -47,4 +47,4 @@ Other model layers:
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model layers}
+\concept{simulation layers}

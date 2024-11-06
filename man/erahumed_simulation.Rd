@@ -12,8 +12,8 @@ simulation (with no simulation layer computed yet).
 }
 \description{
 Initializes an ERAHUMED simulation. This is the starting point for the ERAHUMED
-model chain, whose computations are performed by \verb{compute_*()} functions.
-See \link{erahumed_modeling_interface} for more details.
+simulation chain, whose computations are performed by \verb{compute_*()} functions.
+See \link{erahumed_simulation_interface} for more details.
 }
 \examples{
 m <- erahumed_simulation()

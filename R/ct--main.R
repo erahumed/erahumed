@@ -1,23 +1,23 @@
 #' @title CT: Chemical Transport
 #' @name ct
 #'
-#' @family model layers
+#' @family simulation layers
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#' This model layer computes the evolution of chemicals applied to rice
+#' This simulation layer computes the evolution of chemicals applied to rice
 #' paddy clusters, based on the previously computed simulations for
 #' hydrological balance and chemicals application.
 #' The result is a set of time series of chemical masses, one for each
 #' applied chemical and for the three compartments: foliage, water and sediment.
 #'
-#' This modeling layer requires the \link{ca} layer of the model to be
+#' This simulation layer requires the \link{ca} layer of the simulation to be
 #' pre-computed.
 #'
-#' @param model An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{ca} layer (*i.e.* such that `ca(model)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
+#' \link{ca} layer (*i.e.* such that `ca(simulation)` is not `NULL`).
 #'
 #' @return Objects of class \link{erahumed_simulation} and `erahumed_ct`, for
 #' `compute_ct()` and `ct()` respectively.
@@ -26,8 +26,8 @@
 #' TBD.
 #' @rdname ct
 #' @export
-ct <- function(model)
-  get_simulation_layer(model, "ct")
+ct <- function(simulation)
+  get_simulation_layer(simulation, "ct")
 
 #' @rdname ct
 #'
@@ -50,7 +50,7 @@ ct <- function(model)
 #'
 #' @export
 compute_ct <- function(
-    model,
+    simulation,
     drift = 0,
     covmax = 0.5,
     jgrow = 152,
@@ -63,7 +63,7 @@ compute_ct <- function(
     fc = 0.35
     )
 {
-  compute_layer(model = model,
+  compute_layer(simulation = simulation,
                     layer = "ct",
                     drift = drift,
                     covmax = covmax,
@@ -105,7 +105,7 @@ compute_ct_argcheck <- function(
 
 
 compute_ct_output <- function(
-    model,
+    simulation,
     drift,
     covmax,
     jgrow,
@@ -117,8 +117,8 @@ compute_ct_output <- function(
     wilting,
     fc)
 {
-  input <- merge(layer_output(model, "ca") |> data.table::as.data.table(),
-                 layer_output(model, "inp") |> data.table::as.data.table(),
+  input <- merge(layer_output(simulation, "ca") |> data.table::as.data.table(),
+                 layer_output(simulation, "inp") |> data.table::as.data.table(),
                  by = "date",
                  sort = TRUE)
 

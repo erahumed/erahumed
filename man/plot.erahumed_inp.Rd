@@ -2,7 +2,7 @@
 % Please edit documentation in R/inp--plot.R
 \name{plot.erahumed_inp}
 \alias{plot.erahumed_inp}
-\title{Plot INP model layer output}
+\title{Plot INP simulation layer output}
 \usage{
 \method{plot}{erahumed_inp}(x, ...)
 }
@@ -15,7 +15,7 @@
 A plotly plot.
 }
 \description{
-\strong{Not yet implemented.} Plot method for \link{inp} model layers.
+\strong{Not yet implemented.} Plot method for \link{inp} simulation layers.
 }
 \details{
 \strong{Not yet implemented.}

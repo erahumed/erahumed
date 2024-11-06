@@ -2,7 +2,7 @@
 % Please edit documentation in R/ca--plot.R
 \name{plot.erahumed_ca}
 \alias{plot.erahumed_ca}
-\title{Plot CA model layer output}
+\title{Plot CA simulation layer output}
 \usage{
 \method{plot}{erahumed_ca}(x, type = c("cluster_view", "timeline_view"), ...)
 }
@@ -19,7 +19,7 @@ specified by \code{type}; See details.}
 A plotly plot.
 }
 \description{
-Plot method for \link{ca} model layers.
+Plot method for \link{ca} simulation layers.
 }
 \details{
 The \code{"cluster_view"} plot generates a time series plot of the daily

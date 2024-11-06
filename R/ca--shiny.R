@@ -39,7 +39,7 @@ caUI <- function(id) {
 
 }
 
-caServer <- function(id, model) {
+caServer <- function(id, simulation) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -47,7 +47,7 @@ caServer <- function(id, model) {
                                     erahumed::albufera_ca_schedules)
 
     res <- shiny::reactive({
-      compute_ca(model = model(), ca_schedules_df = ca_schedules_df())
+      compute_ca(simulation = simulation(), ca_schedules_df = ca_schedules_df())
       })
 
     output$albufera_map <- leaflet::renderLeaflet(

@@ -1,21 +1,21 @@
 #' @title HBA: Hydrological Balance of the Albufera Lake
 #' @rdname hba
 #'
-#' @family model layers
+#' @family simulation layers
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' This model layer completes the partial hydrological balance information
+#' This simulation layer completes the partial hydrological balance information
 #' provided as input data, by computing the total inflow to the Albufera lake,
 #' as well as, if relevant, the amount of unaccounted outflow - usually
 #' attributed to *tancats* that suck water from the lake.
 #'
-#' It is the second modeling layer, and requires the \link{inp} layer of the
-#' model to be previously defined.
+#' It is the second simulation layer, and requires the \link{inp} layer of the
+#' simulation to be previously defined.
 #'
-#' @param model An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{inp} layer (*i.e.* such that `inp(model)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
+#' \link{inp} layer (*i.e.* such that `inp(simulation)` is not `NULL`).
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
 #' levels into lake *volumes*.
@@ -27,7 +27,7 @@
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
-#' [Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+#' [simulationo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
 #' The values used as the arguments of `petp_function()` were calculated by the
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
@@ -53,24 +53,24 @@
 #' described above.
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-#' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
+#' * `residence_time_days`. Residence time, as simulationed by \link{hba_residence_time}.
 #'
 #' @return Objects of class \link{erahumed_simulation} and `erahumed_hba`, for
 #' `compute_hba()` and `hba()` respectively.
 #'
 #' @export
-hba <- function(model)
-  get_simulation_layer(model, "hba")
+hba <- function(simulation)
+  get_simulation_layer(simulation, "hba")
 
 #' @rdname hba
 #' @export
 compute_hba <- function(
-    model,
+    simulation,
     storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,
     petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
     )
 {
-  compute_layer(model, "hba",
+  compute_layer(simulation, "hba",
                     storage_curve = storage_curve,
                     petp_function = petp_function
                     )
@@ -78,9 +78,9 @@ compute_hba <- function(
 
 
 
-compute_hba_output <- function(model, storage_curve, petp_function)
+compute_hba_output <- function(simulation, storage_curve, petp_function)
 {
-  inp_df <- layer_output(model, "inp")
+  inp_df <- layer_output(simulation, "inp")
   output <- .hba(
     level = inp_df$level,
     precipitation_mm = inp_df$precipitation_mm,

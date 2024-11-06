@@ -1,12 +1,12 @@
-#' @title ERAHUMED modeling interface
-#' @name erahumed_modeling_interface
+#' @title ERAHUMED simulation interface
+#' @name erahumed_simulation_interface
 #' @aliases erahumed_simulation_layer
 #'
 #' @author Valerio Gherardi
 #'
 #' @examples
 #' ### Computation workflow
-#' m <- erahumed_simulation()  # Initialize a blank model
+#' m <- erahumed_simulation()  # Initialize a blank simulation
 #'
 #' m <- m |> compute_inp() |> compute_hba()  # Compute INP and HBA layers
 #'
@@ -37,42 +37,42 @@
 #'
 #' @description
 #' The programming interface of the `{erahumed}` package reflects the sequential
-#' structure of the ERAHUMED modeling chain. Each step of the sequence is
-#' referred across this documentation as a model "layer" (or, sometimes,
-#' informally as a modeling "layer"). This documentation page focuses on
+#' structure of the ERAHUMED simulation chain. Each step of the sequence is
+#' referred across this documentation as a simulation "layer" (or, sometimes,
+#' informally as a simulation "layer"). This documentation page focuses on
 #' describing the set of abstractions provided by `{erahumed}` to deal with
-#' sequential modeling and model layers.
+#' sequential simulation and simulation layers.
 #'
 #' The first abstraction is provided by \link{erahumed_simulation} objects. These
 #' objects, technically implemented as S3 classes, are simple containers for
-#' model layers - that is, a `erahumed_simulation` is a list that stores a
-#' sequence of model layers. The way layers of a model are populated is
+#' simulation layers - that is, a `erahumed_simulation` is a list that stores a
+#' sequence of simulation layers. The way layers of a simulation are populated is
 #' described subsequently.
 #'
-#' We define the following model layers, whose technical implementation is
+#' We define the following simulation layers, whose technical implementation is
 #' discussed extensively in the linked documentation pages:
 #' * \link{inp}: INPut data.
 #' * \link{hba}: Hydrological Balance of the Albufera lake.
 #' * \link{hbp}: Hydrological Balance of rice Paddy clusters.
 #' * \link{ca}: Chemical Applications.
-#' The order of model layers in the list above is the logical one. Each
+#' The order of simulation layers in the list above is the logical one. Each
 #' layer depends on the previous ones (referred to as "upstream"),
 #' and is a dependency of the subsequent ones (referred to as "downstream").
 #'
 #' Each of these layers has associated:
 #' 1. A `compute_*()` function, that takes a \link{erahumed_simulation} as input and
-#' returns a model with the desired layer computed on top as output.
+#' returns a simulation with the desired layer computed on top as output.
 #' 1. An extractor function of the form `*()` (the asterisk standing for the
 #' actual layer name), that extracts the desired layer from a
 #' \link{erahumed_simulation}.
 #' 1. An S3 class following the naming scheme `erahumed_*`, that inherits from
 #' `erahumed_simulation_layer`, with ad-hoc \link{print} and \link{plot} methods.
-#' layers can be re-computed (that is, the input model to `compute_*()`) can
+#' layers can be re-computed (that is, the input simulation to `compute_*()`) can
 #' have a previous computation of the same layers. In this case, in order to
 #' avoid confusing results, any existing downstream dependency of the layer
-#' to be recomputed is erased from the output model, and must be recomputed if
+#' to be recomputed is erased from the output simulation, and must be recomputed if
 #' required.
 #'
-#' The example code below illustrates typical operations with model layers,
+#' The example code below illustrates typical operations with simulation layers,
 #'
 NULL

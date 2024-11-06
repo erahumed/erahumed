@@ -1,20 +1,20 @@
 #' @title INP: Input data
 #' @rdname inp
 #'
-#' @family model layers
+#' @family simulation layers
 #'
 #'
 #' @author Valerio Gherardi
 #'
 #' @description
-#' This model layer has the only purpose to collect the observational (or,
+#' This simulation layer has the only purpose to collect the observational (or,
 #' potentially, synthetic) data used by the algorithms of the ERAHUMED decision
 #' support system.
 #'
-#' This is the first layer of the modeling chain and does not have
+#' This is the first layer of the simulation chain and does not have
 #' any upstream dependence.
 #'
-#' @param model An object of class \link{erahumed_simulation}.
+#' @param simulation An object of class \link{erahumed_simulation}.
 #' @param outflows_df A `data.frame`, whose structure follows the
 #' template of \link{albufera_outflows}; See details.
 #' @param weather_df A `data.frame`, whose structure follows the template of
@@ -29,8 +29,8 @@
 #' that is the daily measured lake water level in meters, plus any number of
 #' columns named as `outflow_*` (*e.g.* `outflow_pujol`), that give the daily
 #' measured outflows in cube meters per second.
-#' The `weather_df` captures the relevant weather data for modeling:
-#' * Precipitation and evapotranspiration, relevant for modeling the
+#' The `weather_df` captures the relevant weather data for simulation:
+#' * Precipitation and evapotranspiration, relevant for simulation the
 #' hydrological balance, corresponding to the
 #' `precipitation_mm` and `evapotranspiration_mm` columns, respectively.
 #' * Temperature, relevant because it affects chemical reaction speeds.
@@ -38,28 +38,28 @@
 #' Both `data.frame`s should have a `date` column (of class \link{Date}), and
 #' the corresponding date domain should be an interval (*i.e.* no missing data
 #' between the maximum and minimum of `date` is allowed). The subsequent
-#' modeling will only be performed on the largest date interval in which both
+#' simulation will only be performed on the largest date interval in which both
 #' hydrological and weather input data is available.
 #'
 #' @examples
-#' model <- erahumed_simulation() |> compute_inp()
-#' inp(model)
+#' simulation <- erahumed_simulation() |> compute_inp()
+#' inp(simulation)
 #'
 #' @export
-inp <- function(model)
-  get_simulation_layer(model, "inp")
+inp <- function(simulation)
+  get_simulation_layer(simulation, "inp")
 
 #' @rdname inp
 #' @export
-compute_inp <- function(model,
+compute_inp <- function(simulation,
                         outflows_df = erahumed::albufera_outflows,
                         weather_df = erahumed::albufera_weather
                         )
-  compute_layer(model, "inp", outflows_df = outflows_df, weather_df = weather_df)
+  compute_layer(simulation, "inp", outflows_df = outflows_df, weather_df = weather_df)
 
 
 
-compute_inp_output <- function(model, outflows_df, weather_df)
+compute_inp_output <- function(simulation, outflows_df, weather_df)
 {
   merge(outflows_df, weather_df, by = "date", sort = TRUE)
 }

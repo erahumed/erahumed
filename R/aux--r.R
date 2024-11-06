@@ -11,7 +11,7 @@ capture_params <- function(
 )
 {
   forms <- formals(fun = fun, envir = envir)
-  arg_names <- names(forms)[names(forms) != "model"]
+  arg_names <- names(forms)[names(forms) != "simulation"]
   args_list <- lapply(arg_names, get, envir = envir)
   names(args_list) <- arg_names
 

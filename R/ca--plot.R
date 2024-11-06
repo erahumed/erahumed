@@ -1,7 +1,7 @@
-#' Plot CA model layer output
+#' Plot CA simulation layer output
 #'
 #' @description
-#' Plot method for \link{ca} model layers.
+#' Plot method for \link{ca} simulation layers.
 #'
 #' @param x An object of class `ca`.
 #' @param type Type of plot to be generated. Currently, only the

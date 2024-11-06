@@ -5,10 +5,10 @@
 \alias{compute_hbp}
 \title{HBP: Hydrological Balance of rice Paddies}
 \usage{
-hbp(model)
+hbp(simulation)
 
 compute_hbp(
-  model,
+  simulation,
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,
   ideal_flow_rate_cm = 5,
@@ -16,8 +16,8 @@ compute_hbp(
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{hba} layer (\emph{i.e.} such that \code{hba(model)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
+\link{hba} layer (\emph{i.e.} such that \code{hba(simulation)} is not \code{NULL}).}
 
 \item{management_df}{A \code{data.frame} that provides the yearly schedule for
 irrigation and draining, that strictly follows the template of
@@ -41,7 +41,7 @@ Objects of class \link{erahumed_simulation} and \code{erahumed_hbp}, for
 \code{compute_hbp()} and \code{hbp()} respectively.
 }
 \description{
-This model layer performs a simulation of hydrological balance
+This simulation layer performs a simulation of hydrological balance
 daily data for the rice paddies of the Albufera National Park, that provides
 a synthetic dataset of daily inflows, outflows and average water levels for
 each rice paddy.
@@ -56,7 +56,7 @@ same ditch.
 expected water levels of a cluster for each day of the year.
 }
 
-This modeling layer requires the \link{hba} layer of the model to be
+This simulation layer requires the \link{hba} layer of the simulation to be
 pre-computed.
 }
 \details{
@@ -65,7 +65,7 @@ TODO: #64, plus more detailed information on the structure of
 taken regarding #47).
 }
 \seealso{
-Other model layers: 
+Other simulation layers: 
 \code{\link{ca}()},
 \code{\link{ct}()},
 \code{\link{hba}()},
@@ -74,4 +74,4 @@ Other model layers:
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model layers}
+\concept{simulation layers}

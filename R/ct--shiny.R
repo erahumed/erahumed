@@ -103,12 +103,12 @@ ctUI <- function(id) {
 
 }
 
-ctServer <- function(id, model) {
+ctServer <- function(id, simulation) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     res <- shiny::reactive({
-      compute_ct(model = model(),
+      compute_ct(simulation = simulation(),
                  drift = input$drift,
                  covmax = input$covmax,
                  jgrow = input$jgrow,

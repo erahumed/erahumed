@@ -2,7 +2,7 @@
 % Please edit documentation in R/ct--plot.R
 \name{plot.erahumed_ct}
 \alias{plot.erahumed_ct}
-\title{Plot CT model layer output}
+\title{Plot CT simulation layer output}
 \usage{
 \method{plot}{erahumed_ct}(x, type = c("cluster_view"), variable = c("mass", "density"), ...)
 }
@@ -20,7 +20,7 @@
 A plotly plot.
 }
 \description{
-Plot method for \link{ct} model layers.
+Plot method for \link{ct} simulation layers.
 }
 \details{
 The \code{"cluster_view"} plot produces a time series plot of the daily

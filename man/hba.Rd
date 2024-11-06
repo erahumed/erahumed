@@ -5,17 +5,17 @@
 \alias{compute_hba}
 \title{HBA: Hydrological Balance of the Albufera Lake}
 \usage{
-hba(model)
+hba(simulation)
 
 compute_hba(
-  model,
+  simulation,
   storage_curve = function(level) 16.7459 * 1e+06 + level * 23.6577 * 1e+06,
   petp_function = function(p, etp) 114.226 * 1000 * p - 79.361 * 1000 * etp
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{inp} layer (\emph{i.e.} such that \code{inp(model)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
+\link{inp} layer (\emph{i.e.} such that \code{inp(simulation)} is not \code{NULL}).}
 
 \item{storage_curve}{a function that takes a numeric vector as input, and
 returns a numeric vector of the same length. Function that converts lake
@@ -32,17 +32,17 @@ Objects of class \link{erahumed_simulation} and \code{erahumed_hba}, for
 \code{compute_hba()} and \code{hba()} respectively.
 }
 \description{
-This model layer completes the partial hydrological balance information
+This simulation layer completes the partial hydrological balance information
 provided as input data, by computing the total inflow to the Albufera lake,
 as well as, if relevant, the amount of unaccounted outflow - usually
 attributed to \emph{tancats} that suck water from the lake.
 
-It is the second modeling layer, and requires the \link{inp} layer of the
-model to be previously defined.
+It is the second simulation layer, and requires the \link{inp} layer of the
+simulation to be previously defined.
 }
 \details{
 The numeric inputs for the linear storage curve are taken from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{simulationo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
 The values used as the arguments of \code{petp_function()} were calculated by the
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).
@@ -69,11 +69,11 @@ non-negative.
 described above.
 \item \code{inflow_total} Time serie of total inflows, in cube meters per second.
 This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-\item \code{residence_time_days}. Residence time, as modeled by \link{hba_residence_time}.
+\item \code{residence_time_days}. Residence time, as simulationed by \link{hba_residence_time}.
 }
 }
 \seealso{
-Other model layers: 
+Other simulation layers: 
 \code{\link{ca}()},
 \code{\link{ct}()},
 \code{\link{hbp}()},
@@ -82,4 +82,4 @@ Other model layers:
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model layers}
+\concept{simulation layers}

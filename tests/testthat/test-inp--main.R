@@ -1,13 +1,13 @@
 test_that("compute_inp(): execution succeeds with valid input", {
-  model <- erahumed_simulation()
+  simulation <- erahumed_simulation()
 
-  expect_no_error( compute_inp(model) )
+  expect_no_error( compute_inp(simulation) )
 })
 
 test_that("inp(): execution succeeds with valid input", {
-  model <- erahumed_simulation() |> compute_inp()
+  simulation <- erahumed_simulation() |> compute_inp()
 
-  expect_no_error( inp(model) )
+  expect_no_error( inp(simulation) )
 })
 
 test_that("compute_inp(): no error with simplified outflows_df", {

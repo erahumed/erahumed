@@ -1,4 +1,4 @@
-#' @title Extract model layer outputs
+#' @title Extract simulation layer outputs
 #'
 #' @author Valerio Gherardi
 #'

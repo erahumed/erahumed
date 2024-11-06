@@ -4,7 +4,7 @@
 \alias{layer_output}
 \alias{layer_output.erahumed_simulation_layer}
 \alias{layer_output.erahumed_simulation}
-\title{Extract model layer outputs}
+\title{Extract simulation layer outputs}
 \usage{
 layer_output(object, ...)
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hba--plot.R
 \name{plot.erahumed_hba}
 \alias{plot.erahumed_hba}
-\title{Plot HBA model layer output}
+\title{Plot HBA simulation layer output}
 \usage{
 \method{plot}{erahumed_hba}(x, variable, ...)
 }
@@ -18,5 +18,5 @@
 A plotly plot.
 }
 \description{
-Plot method for \link{hba} model layers.
+Plot method for \link{hba} simulation layers.
 }

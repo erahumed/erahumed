@@ -1,12 +1,12 @@
 #' @title HBP: Hydrological Balance of rice Paddies
 #' @rdname hbp
 #'
-#' @family model layers
+#' @family simulation layers
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' This model layer performs a simulation of hydrological balance
+#' This simulation layer performs a simulation of hydrological balance
 #' daily data for the rice paddies of the Albufera National Park, that provides
 #' a synthetic dataset of daily inflows, outflows and average water levels for
 #' each rice paddy.
@@ -19,11 +19,11 @@
 #' 1. An yearly ideal schedule for irrigation and draining, with corresponding
 #' expected water levels of a cluster for each day of the year.
 #'
-#' This modeling layer requires the \link{hba} layer of the model to be
+#' This simulation layer requires the \link{hba} layer of the simulation to be
 #' pre-computed.
 #'
-#' @param model An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{hba} layer (*i.e.* such that `hba(model)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
+#' \link{hba} layer (*i.e.* such that `hba(simulation)` is not `NULL`).
 #' @param clusters_df A `data.frame` that contains the definition of rice paddy
 #' clusters. This should strictly follow the template of
 #' \link{albufera_clusters}, and it is in fact unlikely that the user would want
@@ -48,20 +48,20 @@
 #'
 #'
 #' @export
-hbp <- function(model)
-  get_simulation_layer(model, "hbp")
+hbp <- function(simulation)
+  get_simulation_layer(simulation, "hbp")
 
 #' @rdname hbp
 #' @export
 compute_hbp <- function(
-    model,
+    simulation,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 2
     )
 {
-  compute_layer(model,
+  compute_layer(simulation,
                     "hbp",
                     management_df = management_df,
                     clusters_df = clusters_df,
@@ -72,13 +72,13 @@ compute_hbp <- function(
 
 
 
-compute_hbp_output <- function(model,
+compute_hbp_output <- function(simulation,
                                management_df,
                                clusters_df,
                                ideal_flow_rate_cm,
                                height_thresh_cm)
 {
-  .hbp_args <- .hbp_data_prep(model = model,
+  .hbp_args <- .hbp_data_prep(simulation = simulation,
                               management_df = management_df,
                               clusters_df = clusters_df,
                               ideal_flow_rate_cm = ideal_flow_rate_cm,

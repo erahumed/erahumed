@@ -1,7 +1,7 @@
-#' Plot HBP model layer output
+#' Plot HBP simulation layer output
 #'
 #' @description
-#' Plot method for \link{hbp} model layers.
+#' Plot method for \link{hbp} simulation layers.
 #'
 #' @param x An object of class `hbp`.
 #' @param type Type of plot to be generated. Currently, only the
