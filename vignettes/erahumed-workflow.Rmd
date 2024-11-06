@@ -14,8 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-This document illustrates the typical modeling workflow with `{erahumed}`.
+# Introduction
 
-```{r setup}
+This document illustrates the typical modeling workflow of
+
+```{r load-erahumed}
 library(erahumed)
 ```
+
+Running a simulation from a ERAHUMED model involves several layers of 
+computation, which we formalize through the concept of model *components*, or 
+model layers.
