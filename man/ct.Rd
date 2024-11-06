@@ -22,8 +22,8 @@ compute_ct(
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}, with a pre-computed
-\link{ca} component (\emph{i.e.} such that \code{ca(model)} is not \code{NULL}).}
+\item{model}{An object of class \link{erahumed_simulation}, with a pre-computed
+\link{ca} layer (\emph{i.e.} such that \code{ca(model)} is not \code{NULL}).}
 
 \item{drift}{A number between \code{0} and \code{1}. Percentage of chemical
 applications lost to drift.}
@@ -52,25 +52,25 @@ day.}
 \item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_ct}, for
+Objects of class \link{erahumed_simulation} and \code{erahumed_ct}, for
 \code{compute_ct()} and \code{ct()} respectively.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-This model component computes the evolution of chemicals applied to rice
+This model layer computes the evolution of chemicals applied to rice
 paddy clusters, based on the previously computed simulations for
 hydrological balance and chemicals application.
 The result is a set of time series of chemical masses, one for each
 applied chemical and for the three compartments: foliage, water and sediment.
 
-This modeling layer requires the \link{ca} component of the model to be
+This modeling layer requires the \link{ca} layer of the model to be
 pre-computed.
 }
 \details{
 TBD.
 }
 \seealso{
-Other model components: 
+Other model layers: 
 \code{\link{ca}()},
 \code{\link{hba}()},
 \code{\link{hbp}()},
@@ -79,4 +79,4 @@ Other model components:
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model components}
+\concept{model layers}

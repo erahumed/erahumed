@@ -1,18 +1,18 @@
-#' Plot HBA model component output
+#' Plot HBA model layer output
 #'
 #' @description
-#' Plot method for \link{hba} model components.
+#' Plot method for \link{hba} model layers.
 #'
 #' @param x An object of class `hba`.
 #' @param variable The variable to be plotted. Can be any numeric column of
-#' `component_output(x)`.
+#' `layer_output(x)`.
 #' @param ... Not used.
 #'
 #' @return A plotly plot.
 #'
 #' @export
 plot.erahumed_hba <- function(x, variable, ...) {
-  df <- component_output(x)
+  df <- layer_output(x)
 
   plot_hba_argcheck(df, variable, ...)
 

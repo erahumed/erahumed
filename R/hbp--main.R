@@ -1,12 +1,12 @@
 #' @title HBP: Hydrological Balance of rice Paddies
 #' @rdname hbp
 #'
-#' @family model components
+#' @family model layers
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' This model component performs a simulation of hydrological balance
+#' This model layer performs a simulation of hydrological balance
 #' daily data for the rice paddies of the Albufera National Park, that provides
 #' a synthetic dataset of daily inflows, outflows and average water levels for
 #' each rice paddy.
@@ -19,11 +19,11 @@
 #' 1. An yearly ideal schedule for irrigation and draining, with corresponding
 #' expected water levels of a cluster for each day of the year.
 #'
-#' This modeling layer requires the \link{hba} component of the model to be
+#' This modeling layer requires the \link{hba} layer of the model to be
 #' pre-computed.
 #'
-#' @param model An object of class \link{erahumed_model}, with a pre-computed
-#' \link{hba} component (*i.e.* such that `hba(model)` is not `NULL`).
+#' @param model An object of class \link{erahumed_simulation}, with a pre-computed
+#' \link{hba} layer (*i.e.* such that `hba(model)` is not `NULL`).
 #' @param clusters_df A `data.frame` that contains the definition of rice paddy
 #' clusters. This should strictly follow the template of
 #' \link{albufera_clusters}, and it is in fact unlikely that the user would want
@@ -38,7 +38,7 @@
 #' @param height_thresh_cm A positive number. Height threshold for water levels,
 #' below which a cluster is considered to be emptied.
 #'
-#' @return Objects of class \link{erahumed_model} and `erahumed_hbp`, for
+#' @return Objects of class \link{erahumed_simulation} and `erahumed_hbp`, for
 #' `compute_hbp()` and `hbp()` respectively.
 #'
 #' @details
@@ -49,7 +49,7 @@
 #'
 #' @export
 hbp <- function(model)
-  get_model_component(model, "hbp")
+  get_simulation_layer(model, "hbp")
 
 #' @rdname hbp
 #' @export
@@ -61,7 +61,7 @@ compute_hbp <- function(
     height_thresh_cm = 2
     )
 {
-  compute_component(model,
+  compute_layer(model,
                     "hbp",
                     management_df = management_df,
                     clusters_df = clusters_df,

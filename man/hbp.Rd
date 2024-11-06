@@ -16,8 +16,8 @@ compute_hbp(
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}, with a pre-computed
-\link{hba} component (\emph{i.e.} such that \code{hba(model)} is not \code{NULL}).}
+\item{model}{An object of class \link{erahumed_simulation}, with a pre-computed
+\link{hba} layer (\emph{i.e.} such that \code{hba(model)} is not \code{NULL}).}
 
 \item{management_df}{A \code{data.frame} that provides the yearly schedule for
 irrigation and draining, that strictly follows the template of
@@ -37,11 +37,11 @@ per day.}
 below which a cluster is considered to be emptied.}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_hbp}, for
+Objects of class \link{erahumed_simulation} and \code{erahumed_hbp}, for
 \code{compute_hbp()} and \code{hbp()} respectively.
 }
 \description{
-This model component performs a simulation of hydrological balance
+This model layer performs a simulation of hydrological balance
 daily data for the rice paddies of the Albufera National Park, that provides
 a synthetic dataset of daily inflows, outflows and average water levels for
 each rice paddy.
@@ -56,7 +56,7 @@ same ditch.
 expected water levels of a cluster for each day of the year.
 }
 
-This modeling layer requires the \link{hba} component of the model to be
+This modeling layer requires the \link{hba} layer of the model to be
 pre-computed.
 }
 \details{
@@ -65,7 +65,7 @@ TODO: #64, plus more detailed information on the structure of
 taken regarding #47).
 }
 \seealso{
-Other model components: 
+Other model layers: 
 \code{\link{ca}()},
 \code{\link{ct}()},
 \code{\link{hba}()},
@@ -74,4 +74,4 @@ Other model components:
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model components}
+\concept{model layers}

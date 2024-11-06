@@ -31,17 +31,17 @@ test_that("compute_hbp() error if invalid ideal_flow_rate_cm", {
 
 })
 
-test_that("compute_hbp() error if missing upstream components", {
+test_that("compute_hbp() error if missing upstream layers", {
 
   expect_error(
-    compute_hbp(erahumed_model()),
-    class = "compute_component_basecheck_error"
+    compute_hbp(erahumed_simulation()),
+    class = "compute_layer_basecheck_error"
   )
 
 })
 
 test_that("compute_hbp() error if invalid input data-frames", {
-  m <- erahumed_model() |> compute_inp() |> compute_hba()
+  m <- erahumed_simulation() |> compute_inp() |> compute_hba()
 
   expect_error(
     compute_hbp(m, management_df = erahumed::albufera_management[,-1]),
@@ -57,7 +57,7 @@ test_that("compute_hbp() error if invalid input data-frames", {
 })
 
 test_that("compute_hbp() error if invalid input numeric parameters", {
-  m <- erahumed_model() |> compute_inp() |> compute_hba()
+  m <- erahumed_simulation() |> compute_inp() |> compute_hba()
 
   expect_error(
     compute_hbp(m, ideal_flow_rate_cm = -1),

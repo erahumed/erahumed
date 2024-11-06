@@ -1,6 +1,6 @@
 test_that("plot.hbp() succeeds w/ type='cluster_levels' and valid input", {
   hbp_obj <- hbp(test_mod_small())
-  cluster_id <- component_output(hbp_obj)$cluster_id[1]
+  cluster_id <- layer_output(hbp_obj)$cluster_id[1]
   expect_no_error(
     plot(hbp_obj, type = "cluster_view", cluster_id = cluster_id)
   )

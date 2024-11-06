@@ -1,4 +1,4 @@
-obj <- erahumed_model() |>
+obj <- erahumed_simulation() |>
   compute_inp() |>
   compute_hba() |>
   hba()

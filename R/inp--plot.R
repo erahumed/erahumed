@@ -1,7 +1,7 @@
-#' Plot INP model component output
+#' Plot INP model layer output
 #'
 #' @description
-#' **Not yet implemented.** Plot method for \link{inp} model components.
+#' **Not yet implemented.** Plot method for \link{inp} model layers.
 #'
 #' @param x An object of class `inp`.
 #' @param ... Further plotting parameters; see details.

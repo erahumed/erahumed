@@ -14,8 +14,8 @@ compute_hba(
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}, with a pre-computed
-\link{inp} component (\emph{i.e.} such that \code{inp(model)} is not \code{NULL}).}
+\item{model}{An object of class \link{erahumed_simulation}, with a pre-computed
+\link{inp} layer (\emph{i.e.} such that \code{inp(model)} is not \code{NULL}).}
 
 \item{storage_curve}{a function that takes a numeric vector as input, and
 returns a numeric vector of the same length. Function that converts lake
@@ -28,16 +28,16 @@ expressed in millimiters) into an overall volume change (in  cube meters
 when the inputs are given in the expected units).}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_hba}, for
+Objects of class \link{erahumed_simulation} and \code{erahumed_hba}, for
 \code{compute_hba()} and \code{hba()} respectively.
 }
 \description{
-This model component completes the partial hydrological balance information
+This model layer completes the partial hydrological balance information
 provided as input data, by computing the total inflow to the Albufera lake,
 as well as, if relevant, the amount of unaccounted outflow - usually
 attributed to \emph{tancats} that suck water from the lake.
 
-It is the second modeling layer, and requires the \link{inp} component of the
+It is the second modeling layer, and requires the \link{inp} layer of the
 model to be previously defined.
 }
 \details{
@@ -47,7 +47,7 @@ The values used as the arguments of \code{petp_function()} were calculated by th
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).
 
-The output data.frame of the calculated HBA component contains a copy of the
+The output data.frame of the calculated HBA layer contains a copy of the
 input data, as well as the following additional columns:
 \itemize{
 \item \code{volume} Volume time series, obtained from the storage curve.
@@ -73,7 +73,7 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 }
 }
 \seealso{
-Other model components: 
+Other model layers: 
 \code{\link{ca}()},
 \code{\link{ct}()},
 \code{\link{hbp}()},
@@ -82,4 +82,4 @@ Other model components:
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model components}
+\concept{model layers}

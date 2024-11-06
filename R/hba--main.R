@@ -1,21 +1,21 @@
 #' @title HBA: Hydrological Balance of the Albufera Lake
 #' @rdname hba
 #'
-#' @family model components
+#' @family model layers
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' This model component completes the partial hydrological balance information
+#' This model layer completes the partial hydrological balance information
 #' provided as input data, by computing the total inflow to the Albufera lake,
 #' as well as, if relevant, the amount of unaccounted outflow - usually
 #' attributed to *tancats* that suck water from the lake.
 #'
-#' It is the second modeling layer, and requires the \link{inp} component of the
+#' It is the second modeling layer, and requires the \link{inp} layer of the
 #' model to be previously defined.
 #'
-#' @param model An object of class \link{erahumed_model}, with a pre-computed
-#' \link{inp} component (*i.e.* such that `inp(model)` is not `NULL`).
+#' @param model An object of class \link{erahumed_simulation}, with a pre-computed
+#' \link{inp} layer (*i.e.* such that `inp(model)` is not `NULL`).
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
 #' levels into lake *volumes*.
@@ -32,7 +32,7 @@
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
 #'
-#' The output data.frame of the calculated HBA component contains a copy of the
+#' The output data.frame of the calculated HBA layer contains a copy of the
 #' input data, as well as the following additional columns:
 #' * `volume` Volume time series, obtained from the storage curve.
 #' * `volume_change` Differenced time series of volume. The \eqn{n}-th is given
@@ -55,12 +55,12 @@
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
 #' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
 #'
-#' @return Objects of class \link{erahumed_model} and `erahumed_hba`, for
+#' @return Objects of class \link{erahumed_simulation} and `erahumed_hba`, for
 #' `compute_hba()` and `hba()` respectively.
 #'
 #' @export
 hba <- function(model)
-  get_model_component(model, "hba")
+  get_simulation_layer(model, "hba")
 
 #' @rdname hba
 #' @export
@@ -70,7 +70,7 @@ compute_hba <- function(
     petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
     )
 {
-  compute_component(model, "hba",
+  compute_layer(model, "hba",
                     storage_curve = storage_curve,
                     petp_function = petp_function
                     )
@@ -80,7 +80,7 @@ compute_hba <- function(
 
 compute_hba_output <- function(model, storage_curve, petp_function)
 {
-  inp_df <- component_output(model, "inp")
+  inp_df <- layer_output(model, "inp")
   output <- .hba(
     level = inp_df$level,
     precipitation_mm = inp_df$precipitation_mm,

@@ -69,17 +69,17 @@ library(erahumed)
 
 
 The following example illustrates the workflow for manually running the ERAHUMED
-model chain, and extracting the outputs of the various model components.
+model chain, and extracting the outputs of the various model layers.
 
 The pipeline always starts by initializing a new ERAHUMED model, via:
 
 ```{r}
-model <- erahumed_model()
+model <- erahumed_simulation()
 model
 ```
 
 This is the main abstraction that `{erahumed}` uses to collect the various 
-components involved in the modeling chain of the DSS, and is initially blank.
+layers involved in the modeling chain of the DSS, and is initially blank.
 
 Next, we populate model layers, which is achieved through the set of
 `compute_*()` functions:
@@ -99,17 +99,17 @@ model <- model |> compute_inp() |> compute_hba()
 model
 ```
 
-We can extract and inspect model components as illustrated in the following 
+We can extract and inspect model layers as illustrated in the following 
 examples:
 
 ```{r}
-hba(model)  # Extract the HBA model component
+hba(model)  # Extract the HBA model layer
 hba(model) |> 
-  component_output() |>  # Get output data.frame
+  layer_output() |>  # Get output data.frame
   tibble::as_tibble()    # Just for pretty printing
 ```
 
-Components have plot methods that can help data exploration:
+layers have plot methods that can help data exploration:
 
 ```{r eval=FALSE, include=TRUE}
 plot(hba(model), variable = "outflow_total")
@@ -117,28 +117,28 @@ plot(hba(model), variable = "outflow_total")
 
 (The output is an interactive plot, not shown here. Try yourself!)
 
-Extracting a component that has not been computed yet yields a `NULL` result, 
+Extracting a layer that has not been computed yet yields a `NULL` result, 
 *e.g.*:
 
 ```{r}
 hbp(model)
 ```
 
-If we attempt to compute a downstream component whose dependencies have not been
+If we attempt to compute a downstream layer whose dependencies have not been
 defined yet, we get an informative error. For example:
 
 ```{r, error=TRUE}
 compute_ca(model)
 ```
 
-Also, computing a component erases the output of its downstream dependencies (if
+Also, computing a layer erases the output of its downstream dependencies (if
 any):
 
 ```{r}
 compute_inp(model) |> hba()
 ```
 
-The order of model components in the list above is the logical one. Each component depends on the previous ones (referred to as "upstream"), and is a dependency of the subsequent ones (referred to as "downstream").
+The order of model layers in the list above is the logical one. Each layer depends on the previous ones (referred to as "upstream"), and is a dependency of the subsequent ones (referred to as "downstream").
 
 ```{r}
 model <- compute_inp(model)

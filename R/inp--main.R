@@ -1,26 +1,26 @@
 #' @title INP: Input data
 #' @rdname inp
 #'
-#' @family model components
+#' @family model layers
 #'
 #'
 #' @author Valerio Gherardi
 #'
 #' @description
-#' This model component has the only purpose to collect the observational (or,
+#' This model layer has the only purpose to collect the observational (or,
 #' potentially, synthetic) data used by the algorithms of the ERAHUMED decision
 #' support system.
 #'
 #' This is the first layer of the modeling chain and does not have
 #' any upstream dependence.
 #'
-#' @param model An object of class \link{erahumed_model}.
+#' @param model An object of class \link{erahumed_simulation}.
 #' @param outflows_df A `data.frame`, whose structure follows the
 #' template of \link{albufera_outflows}; See details.
 #' @param weather_df A `data.frame`, whose structure follows the template of
 #' \link{albufera_weather}; See details.
 #'
-#' @return Objects of class \link{erahumed_model} and `erahumed_inp`, for
+#' @return Objects of class \link{erahumed_simulation} and `erahumed_inp`, for
 #' `compute_inp()` and `inp()` respectively.
 #'
 #' @details
@@ -42,12 +42,12 @@
 #' hydrological and weather input data is available.
 #'
 #' @examples
-#' model <- erahumed_model() |> compute_inp()
+#' model <- erahumed_simulation() |> compute_inp()
 #' inp(model)
 #'
 #' @export
 inp <- function(model)
-  get_model_component(model, "inp")
+  get_simulation_layer(model, "inp")
 
 #' @rdname inp
 #' @export
@@ -55,7 +55,7 @@ compute_inp <- function(model,
                         outflows_df = erahumed::albufera_outflows,
                         weather_df = erahumed::albufera_weather
                         )
-  compute_component(model, "inp", outflows_df = outflows_df, weather_df = weather_df)
+  compute_layer(model, "inp", outflows_df = outflows_df, weather_df = weather_df)
 
 
 

@@ -14,7 +14,7 @@ compute_inp(
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}.}
+\item{model}{An object of class \link{erahumed_simulation}.}
 
 \item{outflows_df}{A \code{data.frame}, whose structure follows the
 template of \link{albufera_outflows}; See details.}
@@ -23,11 +23,11 @@ template of \link{albufera_outflows}; See details.}
 \link{albufera_weather}; See details.}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_inp}, for
+Objects of class \link{erahumed_simulation} and \code{erahumed_inp}, for
 \code{compute_inp()} and \code{inp()} respectively.
 }
 \description{
-This model component has the only purpose to collect the observational (or,
+This model layer has the only purpose to collect the observational (or,
 potentially, synthetic) data used by the algorithms of the ERAHUMED decision
 support system.
 
@@ -55,12 +55,12 @@ modeling will only be performed on the largest date interval in which both
 hydrological and weather input data is available.
 }
 \examples{
-model <- erahumed_model() |> compute_inp()
+model <- erahumed_simulation() |> compute_inp()
 inp(model)
 
 }
 \seealso{
-Other model components: 
+Other model layers: 
 \code{\link{ca}()},
 \code{\link{ct}()},
 \code{\link{hba}()},
@@ -69,4 +69,4 @@ Other model components:
 \author{
 Valerio Gherardi
 }
-\concept{model components}
+\concept{model layers}

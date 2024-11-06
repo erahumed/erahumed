@@ -11,7 +11,7 @@ models <- lapply(ranges, function(range) {
   outflows_df <- albufera_outflows |>
     dplyr::filter(range[[1]] <= date, date <= range[[2]])
 
-  res <- erahumed_model() |>
+  res <- erahumed_simulation() |>
     compute_inp(outflows_df = outflows_df) |>
     compute_hba()
 

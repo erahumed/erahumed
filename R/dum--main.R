@@ -1,10 +1,10 @@
-# Dummy model component definition, only used for testing purposes
+# Dummy model layer definition, only used for testing purposes
 
 dum <- function(model)
-  get_model_component(model, "dum")
+  get_simulation_layer(model, "dum")
 
 compute_dum <- function(model, numeric_param = 0)
-  compute_component(model, "dum", numeric_param)
+  compute_layer(model, "dum", numeric_param)
 
 compute_dum_output <- function(model, numeric_param)
   data.frame()
