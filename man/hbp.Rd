@@ -2,12 +2,12 @@
 % Please edit documentation in R/hbp--main.R
 \name{hbp}
 \alias{hbp}
-\alias{compute_hbp}
+\alias{setup_hbp}
 \title{HBP: Hydrological Balance of rice Paddies}
 \usage{
 hbp(simulation)
 
-compute_hbp(
+setup_hbp(
   simulation,
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,

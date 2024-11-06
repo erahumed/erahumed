@@ -18,8 +18,15 @@
 erahumed_simulation <- function()
   new_erahumed_simulation()
 
-new_erahumed_simulation <- function()
-  structure(list(), class = "erahumed_simulation")
+new_erahumed_simulation <- function() {
+  structure(list(), class = "erahumed_simulation") |>
+    setup_inp() |>
+    setup_hba() |>
+    setup_hbp() |>
+    setup_ca() |>
+    setup_ct()
+}
+
 
 is_erahumed_simulation <- function(obj) {
   if (!is.list(obj))
@@ -29,7 +36,7 @@ is_erahumed_simulation <- function(obj) {
   if (!all(elems_have_right_class))
     return(FALSE)
 
-  if ( !inherits(obj, class(new_erahumed_simulation())) )
+  if ( !inherits(obj, "erahumed_simulation") )
     return(FALSE)
 
   return(TRUE)

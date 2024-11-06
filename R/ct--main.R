@@ -49,7 +49,7 @@ ct <- function(simulation)
 #' @param fc A number between `0` and `1`. Field capacity.
 #'
 #' @export
-compute_ct <- function(
+setup_ct <- function(
     simulation,
     drift = 0,
     covmax = 0.5,
@@ -61,51 +61,25 @@ compute_ct <- function(
     qseep_m_day = 0,
     wilting = 0.24,
     fc = 0.35
-    )
+)
 {
-  compute_layer(simulation = simulation,
-                    layer = "ct",
-                    drift = drift,
-                    covmax = covmax,
-                    jgrow = jgrow,
-                    SNK = SNK,
-                    dact_m = dact_m,
-                    css_ppm = css_ppm,
-                    bd_g_cm3 = bd_g_cm3,
-                    qseep_m_day = qseep_m_day,
-                    wilting = wilting,
-                    fc = fc
-                    )
+  setup_layer(simulation = simulation,
+              layer = "ct",
+              drift = drift,
+              covmax = covmax,
+              jgrow = jgrow,
+              SNK = SNK,
+              dact_m = dact_m,
+              css_ppm = css_ppm,
+              bd_g_cm3 = bd_g_cm3,
+              qseep_m_day = qseep_m_day,
+              wilting = wilting,
+              fc = fc,
+              validate_params = validate_ct_params)
 }
 
 
-
-compute_ct_argcheck <- function(
-  drift,
-  covmax,
-  jgrow,
-  SNK,
-  dact_m,
-  css_ppm,
-  bd_g_cm3,
-  qseep_m_day,
-  wilting,
-  fc
-  )
-{
-  tryCatch({
-    TRUE
-  },
-  error = function(e) {
-    class(e) <- c("compute_ct_argcheck_error", class(e))
-    stop(e)
-  })
-}
-
-
-
-compute_ct_output <- function(
-    simulation,
+validate_ct_params <- function(
     drift,
     covmax,
     jgrow,
@@ -115,8 +89,33 @@ compute_ct_output <- function(
     bd_g_cm3,
     qseep_m_day,
     wilting,
-    fc)
+    fc
+)
 {
+  tryCatch({
+    TRUE
+  },
+  error = function(e) {
+    class(e) <- c("validate_ct_params_error", class(e))
+    stop(e)
+  })
+}
+
+
+
+compute_ct_bare <- function(simulation)
+{
+  drift <- layer_parameters(simulation, "ct")[["drift"]]
+  covmax <- layer_parameters(simulation, "ct")[["covmax"]]
+  jgrow <- layer_parameters(simulation, "ct")[["jgrow"]]
+  SNK <- layer_parameters(simulation, "ct")[["SNK"]]
+  dact_m <- layer_parameters(simulation, "ct")[["dact_m"]]
+  css_ppm <- layer_parameters(simulation, "ct")[["css_ppm"]]
+  bd_g_cm3 <- layer_parameters(simulation, "ct")[["bd_g_cm3"]]
+  qseep_m_day <- layer_parameters(simulation, "ct")[["qseep_m_day"]]
+  wilting <- layer_parameters(simulation, "ct")[["wilting"]]
+  fc <- layer_parameters(simulation, "ct")[["fc"]]
+
   input <- merge(layer_output(simulation, "ca") |> data.table::as.data.table(),
                  layer_output(simulation, "inp") |> data.table::as.data.table(),
                  by = "date",
@@ -151,4 +150,4 @@ compute_ct_output <- function(
 
 
 
-ct_validate_output <- assert_data.frame
+validate_ct_output <- assert_data.frame

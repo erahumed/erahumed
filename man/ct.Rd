@@ -2,12 +2,12 @@
 % Please edit documentation in R/ct--main.R
 \name{ct}
 \alias{ct}
-\alias{compute_ct}
+\alias{setup_ct}
 \title{CT: Chemical Transport}
 \usage{
 ct(simulation)
 
-compute_ct(
+setup_ct(
   simulation,
   drift = 0,
   covmax = 0.5,

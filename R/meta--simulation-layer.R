@@ -1,33 +1,26 @@
 new_simulation_layer <- function(
     output = NULL,
     params = list(),
-    validate_output = function(output) TRUE,
-    validate_params = is.list
+    layer_name = ""
     )
 {
-  new_simulation_layer_argcheck(output, params, validate_output, validate_params)
+  new_simulation_layer_argcheck(output, params, layer_name)
 
   res <- list(output = output, params = params)
-  class(res) <- "erahumed_simulation_layer"
+
+  base_class <- paste0("erahumed_", layer_name)
+  class(res) <- c(base_class, "erahumed_simulation_layer")
 
   return(res)
 }
 
-new_simulation_layer_argcheck <- function(
-    output,
-    params,
-    validate_output,
-    validate_params
-    )
+new_simulation_layer_argcheck <- function(output, params, layer_name)
 {
   tryCatch({
     if(!is.null(output))
       assert_data.frame(output)
     assert_list(params)
-    if(!validate_output(output))
-      stop("Invalid 'output' passed to new_simulation_layer().")
-    if(!validate_params(params))
-      stop("Invalid 'params' passed to new_simulation_layer().")
+    assert_string(layer_name)
   },
   error = function(e) {
     class(e) <- c("new_simulation_layer_argcheck_error", class(e))

@@ -64,22 +64,26 @@ hba <- function(simulation)
 
 #' @rdname hba
 #' @export
-compute_hba <- function(
+setup_hba <- function(
     simulation,
     storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,
     petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-    )
+)
 {
-  compute_layer(simulation, "hba",
-                    storage_curve = storage_curve,
-                    petp_function = petp_function
-                    )
+  setup_layer(simulation = simulation,
+              layer = "hba",
+              storage_curve = storage_curve,
+              petp_function = petp_function,
+              validate_params = validate_hba_params
+  )
 }
 
 
-
-compute_hba_output <- function(simulation, storage_curve, petp_function)
+compute_hba_bare <- function(simulation)
 {
+  storage_curve <- layer_parameters(simulation, "hba")[["storage_curve"]]
+  petp_function <- layer_parameters(simulation, "hba")[["petp_function"]]
+
   inp_df <- layer_output(simulation, "inp")
   output <- .hba(
     level = inp_df$level,
@@ -97,14 +101,14 @@ compute_hba_output <- function(simulation, storage_curve, petp_function)
 
 
 
-compute_hba_argcheck <- function(storage_curve, petp_function) {
+validate_hba_params <- function(storage_curve, petp_function) {
   tryCatch(
     {
       assert_function(storage_curve, check = list(rep(0, 10)) )
       assert_function(petp_function, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
-      class(e) <- c("compute_hba_argcheck_error", class(e))
+      class(e) <- c("validate_hba_params_error", class(e))
       stop(e)
     }
   )
@@ -112,7 +116,7 @@ compute_hba_argcheck <- function(storage_curve, petp_function) {
 
 
 
-hba_validate_output <- function(output) {
+validate_hba_output <- function(output) {
   assert_data.frame(output,
                     template = data.frame(level = numeric(),
                                           precipitation_mm = numeric(),

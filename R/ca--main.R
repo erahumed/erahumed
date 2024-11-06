@@ -36,30 +36,20 @@ ca <- function(simulation)
 
 #' @rdname ca
 #' @export
-compute_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
+setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 {
-  compute_layer(simulation, "ca", ca_schedules_df = ca_schedules_df)
+  setup_layer(simulation = simulation,
+              layer = "ca",
+              ca_schedules_df = ca_schedules_df,
+              validate_params = validate_ca_params)
 }
 
 
-
-compute_ca_argcheck <- function(ca_schedules_df)
+compute_ca_bare <- function(simulation)
 {
-  tryCatch({
-    assert_data.frame(ca_schedules_df,
-                      template = erahumed::albufera_ca_schedules)
-  },
-  error = function(e) {
-    class(e) <- c("compute_ca_argcheck_error", class(e))
-    stop(e)
-  })
-}
-
-
-
-compute_ca_output <- function(simulation, ca_schedules_df)
-{
+  ca_schedules_df <- layer_parameters(simulation, "ct")[["ca_schedules_df"]]
   height_thresh_cm <- layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+
   hbp_res <- layer_output(simulation, "hbp")
   hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()
 
@@ -82,4 +72,19 @@ compute_ca_output <- function(simulation, ca_schedules_df)
 
 
 
-ca_validate_output <- assert_data.frame
+
+validate_ca_params <- function(ca_schedules_df)
+{
+  tryCatch({
+    assert_data.frame(ca_schedules_df,
+                      template = erahumed::albufera_ca_schedules)
+  },
+  error = function(e) {
+    class(e) <- c("validate_ca_params_error", class(e))
+    stop(e)
+  })
+}
+
+
+
+validate_ca_output <- assert_data.frame

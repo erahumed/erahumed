@@ -2,12 +2,12 @@
 % Please edit documentation in R/ca--main.R
 \name{ca}
 \alias{ca}
-\alias{compute_ca}
+\alias{setup_ca}
 \title{CA: Chemical Applications}
 \usage{
 ca(simulation)
 
-compute_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
+setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
 \item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed

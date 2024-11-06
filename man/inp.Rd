@@ -2,12 +2,12 @@
 % Please edit documentation in R/inp--main.R
 \name{inp}
 \alias{inp}
-\alias{compute_inp}
+\alias{setup_inp}
 \title{INP: Input data}
 \usage{
 inp(simulation)
 
-compute_inp(
+setup_inp(
   simulation,
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather

@@ -22,7 +22,7 @@ layer_output <- function(object, ...) {
 #' @rdname layer_output
 #' @export
 layer_output.erahumed_simulation_layer <- function(object, ...) {
-  return(object$output)
+  return(object[["output"]])
 }
 
 #' @rdname layer_output
@@ -30,5 +30,13 @@ layer_output.erahumed_simulation_layer <- function(object, ...) {
 layer_output.erahumed_simulation <- function(object, layer, ...) {
   comp_obj <- get_simulation_layer(object, layer)
   layer_output(comp_obj)
+}
+
+reset_layer_output <- function(simulation, layer = erahumed_layers())
+{
+  assert_erahumed_simulation(simulation)
+  layer <- match.arg(layer)
+  simulation [[layer]] [["output"]] <- NULL
+  return(simulation)
 }
 

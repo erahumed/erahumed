@@ -51,22 +51,27 @@ inp <- function(simulation)
 
 #' @rdname inp
 #' @export
-compute_inp <- function(simulation,
-                        outflows_df = erahumed::albufera_outflows,
-                        weather_df = erahumed::albufera_weather
-                        )
-  compute_layer(simulation, "inp", outflows_df = outflows_df, weather_df = weather_df)
-
-
-
-compute_inp_output <- function(simulation, outflows_df, weather_df)
+setup_inp <- function(simulation,
+                      outflows_df = erahumed::albufera_outflows,
+                      weather_df = erahumed::albufera_weather)
 {
+  setup_layer(simulation = simulation,
+              layer = "inp",
+              outflows_df = outflows_df,
+              weather_df = weather_df,
+              validate_params = validate_inp_params
+              )
+}
+
+compute_inp_bare <- function(simulation)
+{
+  outflows_df <- layer_parameters(simulation, "inp")[["outflows_df"]]
+  weather_df <- layer_parameters(simulation, "inp")[["weather_df"]]
+
   merge(outflows_df, weather_df, by = "date", sort = TRUE)
 }
 
-
-
-compute_inp_argcheck <- function(outflows_df, weather_df)
+validate_inp_params <- function(outflows_df, weather_df)
 {
   tryCatch(
     {
@@ -94,11 +99,4 @@ compute_inp_argcheck <- function(outflows_df, weather_df)
       class(e) <- c("compute_inp_argcheck_error", class(e))
       stop(e)
     })
-}
-
-
-
-inp_validate_output <- function(output)
-{
-  assert_data.frame(output)
 }

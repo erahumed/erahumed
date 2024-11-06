@@ -2,12 +2,12 @@
 % Please edit documentation in R/hba--main.R
 \name{hba}
 \alias{hba}
-\alias{compute_hba}
+\alias{setup_hba}
 \title{HBA: Hydrological Balance of the Albufera Lake}
 \usage{
 hba(simulation)
 
-compute_hba(
+setup_hba(
   simulation,
   storage_curve = function(level) 16.7459 * 1e+06 + level * 23.6577 * 1e+06,
   petp_function = function(p, etp) 114.226 * 1000 * p - 79.361 * 1000 * etp
