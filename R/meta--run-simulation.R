@@ -1,3 +1,22 @@
+#' Run an ERAHUMED simulation
+#'
+#' @description
+#' Computes the layers of a ERAHUMED simulation. See
+#' \link{erahumed_simulation_interface} for a detailed description of the
+#' simulation workflow.
+#'
+#' @param simulation An \link{erahumed_simulation}.
+#' @param layer Either `NULL` or a string. Instructs `run_simulation()` to
+#' compute all simulation layers until `layer`. The default (`NULL`) means to
+#' compute all layers.
+#'
+#' @return An \link{erahumed_simulation}.
+#'
+#' @examples
+#' s <- erahumed_simulation()
+#' s
+#' run_simulation(s, layer = "hba")
+#'
 #' @export
 run_simulation <- function(simulation, layer = NULL) {
   run_simulation_argcheck(simulation, layer)
