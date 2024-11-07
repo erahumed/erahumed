@@ -27,15 +27,22 @@ hbaUI <- function(id) {
 
 }
 
-hbaServer <- function(id, model) {
+hbaServer <- function(id, simulation) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     # Read setup stuff
     #
-    res <- shiny::reactive({ compute_hba(model()) })
+    res <- shiny::reactive({
+      setup_hba(simulation()) |>
+        run_simulation(layer = "hba")
+        })
 
-    output$plot <- plotly::renderPlotly({ plot(hba(res()), input$variable) })
+    output$plot <- plotly::renderPlotly({
+      res() |>
+        get_layer("hba") |>
+        plot(input$variable)
+      })
 
     return(res)
   })

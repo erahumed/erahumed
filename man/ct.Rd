@@ -2,13 +2,11 @@
 % Please edit documentation in R/ct--main.R
 \name{ct}
 \alias{ct}
-\alias{compute_ct}
+\alias{setup_ct}
 \title{CT: Chemical Transport}
 \usage{
-ct(model)
-
-compute_ct(
-  model,
+setup_ct(
+  simulation,
   drift = 0,
   covmax = 0.5,
   jgrow = 152,
@@ -22,8 +20,7 @@ compute_ct(
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}, with a pre-computed
-\link{ca} component (\emph{i.e.} such that \code{ca(model)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{drift}{A number between \code{0} and \code{1}. Percentage of chemical
 applications lost to drift.}
@@ -52,31 +49,24 @@ day.}
 \item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_ct}, for
-\code{compute_ct()} and \code{ct()} respectively.
+An objects of class \link{erahumed_simulation}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-This model component computes the evolution of chemicals applied to rice
+This simulation layer computes the evolution of chemicals applied to rice
 paddy clusters, based on the previously computed simulations for
 hydrological balance and chemicals application.
 The result is a set of time series of chemical masses, one for each
 applied chemical and for the three compartments: foliage, water and sediment.
-
-This modeling layer requires the \link{ca} component of the model to be
-pre-computed.
-}
-\details{
-TBD.
 }
 \seealso{
-Other model components: 
-\code{\link{ca}()},
-\code{\link{hba}()},
-\code{\link{hbp}()},
-\code{\link{inp}()}
+Other simulation layers: 
+\code{\link{ca}},
+\code{\link{hba}},
+\code{\link{hbp}},
+\code{\link{inp}}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model components}
+\concept{simulation layers}

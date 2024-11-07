@@ -1,7 +1,7 @@
-#' Plot CT model component output
+#' Plot CT simulation layer output
 #'
 #' @description
-#' Plot method for \link{ct} model components.
+#' Plot method for \link{ct} simulation layers.
 #'
 #' @param x An object of class `ct`.
 #' @param type Type of plot to be generated. Currently, only the
@@ -45,7 +45,7 @@ plot_ct_cluster_view_mass <- function(x, ...) {
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-  df <- component_output(x)
+  df <- get_layer_output(x)
   df <- df[df$cluster_id == args$cluster_id, ]
 
   p <- plotly::plot_ly()
@@ -93,7 +93,7 @@ plot_ct_cluster_view_density <- function(x, ...) {
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-  df <- component_output(x)
+  df <- get_layer_output(x)
   df <- df[df$cluster_id == args$cluster_id, ]
 
   p <- plotly::plot_ly()

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hba--plot.R
 \name{plot.erahumed_hba}
 \alias{plot.erahumed_hba}
-\title{Plot HBA model component output}
+\title{Plot HBA simulation layer output}
 \usage{
 \method{plot}{erahumed_hba}(x, variable, ...)
 }
@@ -10,7 +10,7 @@
 \item{x}{An object of class \code{hba}.}
 
 \item{variable}{The variable to be plotted. Can be any numeric column of
-\code{component_output(x)}.}
+\code{get_layer_output(x)}.}
 
 \item{...}{Not used.}
 }
@@ -18,5 +18,5 @@
 A plotly plot.
 }
 \description{
-Plot method for \link{hba} model components.
+Plot method for \link{hba} simulation layers.
 }

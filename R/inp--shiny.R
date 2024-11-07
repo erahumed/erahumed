@@ -17,7 +17,7 @@ inpUI <- function(id) {
     )
 }
 
-inpServer <- function(id, model) {
+inpServer <- function(id, simulation) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -32,8 +32,11 @@ inpServer <- function(id, model) {
     })
 
     res <- shiny::reactive({
-      compute_inp(model(), outflows_df = outflows_df(), weather_df = weather_df())
+      simulation() |>
+        setup_inp(outflows_df = outflows_df(), weather_df = weather_df()) |>
+        run_simulation(layer = "inp")
     })
+
     return(res)
   })
 }

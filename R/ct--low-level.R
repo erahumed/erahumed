@@ -243,7 +243,7 @@ ct_compute_system_terms <- function(application_kg,
   q2 <- q2 * v
 
   res <- list(
-    # Homogeneous term for linear component of evolution
+    # Homogeneous term for linear layer of evolution
     eAww = eA$E11,
     eAws = eA$E12,
     eAsw = eA$E21,
@@ -251,7 +251,7 @@ ct_compute_system_terms <- function(application_kg,
     qw = q1,
     qs = q2,
 
-    # Inhomogeneous term for linear component of evolution
+    # Inhomogeneous term for linear layer of evolution
     mf = mf,
     mwapp = mwapp,
     msapp = msapp,

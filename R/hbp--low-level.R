@@ -110,13 +110,13 @@
 
 
 
-.hbp_data_prep <- function(model,
+.hbp_data_prep <- function(simulation,
                           management_df,
                           clusters_df,
                           ideal_flow_rate_cm,
                           height_thresh_cm)
 {
-  res <- data.table::as.data.table( component_output(model, "hba") )
+  res <- data.table::as.data.table( get_layer_output(simulation, "hba") )
 
   res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))

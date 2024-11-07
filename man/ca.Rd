@@ -2,16 +2,13 @@
 % Please edit documentation in R/ca--main.R
 \name{ca}
 \alias{ca}
-\alias{compute_ca}
+\alias{setup_ca}
 \title{CA: Chemical Applications}
 \usage{
-ca(model)
-
-compute_ca(model, ca_schedules_df = erahumed::albufera_ca_schedules)
+setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}, with a pre-computed
-\link{hbp} component (\emph{i.e.} such that \code{hbp(model)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{ca_schedules_df}{a \code{data.frame} following the template of
 \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
@@ -19,17 +16,13 @@ scheduled application. The semantics of columns are the same as in
 \link{albufera_ca_schedules}.}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_ca}, for
-\code{compute_ca()} and \code{ca()} respectively.
+An objects of class \link{erahumed_simulation}.
 }
 \description{
-This model component simulates the application of chemicals to rice paddy
+This simulation layer simulates the application of chemicals to rice paddy
 clusters, based on a previously computed simulation of local hydrological
 balance. The result is a set of time series of applied doses, one for each
 applied chemical.
-
-This modeling layer requires the \link{hbp} component of the model to be
-pre-computed.
 }
 \details{
 The output \code{data.frame} extends the output of the underlying \link{hbp}
@@ -38,13 +31,13 @@ additional columns, named as the chemicals appearing in \code{ca_schedules_df},
 provide the time series of applied doses, expressed in kilograms.
 }
 \seealso{
-Other model components: 
-\code{\link{ct}()},
-\code{\link{hba}()},
-\code{\link{hbp}()},
-\code{\link{inp}()}
+Other simulation layers: 
+\code{\link{ct}},
+\code{\link{hba}},
+\code{\link{hbp}},
+\code{\link{inp}}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model components}
+\concept{simulation layers}

@@ -19,10 +19,10 @@ consists of:
 
 - **Data**. The inputs for the DSS are packaged as R `data.frame`s
   imported with `{erahumed}`.
-- **Analysis**. The entire modeling pipeline is implemented by R
+- **Analysis**. The entire simulation pipeline is implemented by R
   functions.
-- **Visualization**. All model outputs are R objects with methods for
-  data exploration and visualization.
+- **Visualization**. All simulation outputs are R objects with methods
+  for data exploration and visualization.
 - **Interactive Interface**. All of the above has a graphical interface
   implemented as a Shiny application, which is also bundled with the
   package.
@@ -55,124 +55,104 @@ erahumed::launch_app()
 ```
 
 This will open the DSS dashboard in your default browser, from where you
-can explore model outputs in a user friendly manner.
+can explore simulation outputs in a user friendly manner.
 
-### Example 2: command line interface to the models
+### Example 2: command line interface to simulations
 
 ``` r
 library(erahumed)
 ```
 
 The following example illustrates the workflow for manually running the
-ERAHUMED model chain, and extracting the outputs of the various model
-components.
+ERAHUMED simulation chain, and extracting the outputs of the various
+simulation layers.
 
-The pipeline always starts by initializing a new ERAHUMED model, via:
+The pipeline always starts by initializing an ERAHUMED simulation, via:
 
 ``` r
-model <- erahumed_model()
-model
-#> An ERAHUMED model.
-#> Calculated components:  None
+simulation <- erahumed_simulation()
+simulation
+#> An ERAHUMED simulation.
+#> Computed layers: None
 ```
 
 This is the main abstraction that `{erahumed}` uses to collect the
-various components involved in the modeling chain of the DSS, and is
-initially blank.
+various layers involved in the simulation chain of the DSS. As the
+output above shows, its layers are initialized but not computed yet.
 
-Next, we populate model layers, which is achieved through the set of
-`compute_*()` functions:
-
-- `compute_inp()` - INPut data.
-- `compute_hba()` - Hydrological Balance of the Albufera lake.
-- `compute_hbp()` - Hydrological Balance of rice Paddy clusters.
-- `compute_ca()` - Chemical Applications.
-- `compute_ct()` - Chemical Transport.
-
-For instance, we can compute the first two layers with default arguments
-(*i.e.* default input data and parameters for hydrological balance
-computation) as follows:
+We can modify the configuration of specific layers through the
+`setup_*()` functions, for instance:
 
 ``` r
-model <- model |> compute_inp() |> compute_hba()
-model
-#> An ERAHUMED model.
-#> Calculated components:  inp, hba
+simulation <- simulation |>
+  setup_hbp(ideal_flow_rate_cm = 2.5) |>
+  setup_ct(dact_m = 0.2)
 ```
 
-We can extract and inspect model components as illustrated in the
-following examples:
+In order to actually compute the layers, we use `run_simulation()`:
 
 ``` r
-hba(model)  # Extract the HBA model component
-#> An ERAHUMED HBA model component.
+simulation <- simulation |>
+  run_simulation(layer = "hba")  # Run simulation until the HBA layer
+```
+
+Simulations are composed of the following layers (in dependency order,
+from upstream to downstream):
+
+- INP \[`setup_inp()`\]: INPut data.
+- HBA \[`setup_hba()`\]: Hydrological Balance of the Albufera lake.
+- HBP \[`setup_hbp()`\]: Hydrological Balance of rice Paddy clusters.
+- CA \[`setup_ca()`\]: Chemical Applications.
+- CT \[`setup_ct()`\]: Chemical Transport.
+
+In order to inspect the results of a given layer, we use:
+
+``` r
+get_layer(simulation, "hba")
+#> A ERAHUMED HBA simulation layer.
 #> 
 #> Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days
-hba(model) |> 
-  component_output() |>  # Get output data.frame
-  tibble::as_tibble()    # Just for pretty printing
-#> # A tibble: 6,139 × 16
-#>    level precipitation_mm evapotranspiration_mm date       is_imputed_level
-#>    <dbl>   <dbl>                 <dbl> <date>     <lgl>           
-#>  1 0.372     8.2                  0.54 2005-12-20 FALSE           
-#>  2 0.373     0.2                  0.65 2005-12-21 FALSE           
-#>  3 0.368     0.2                  0.62 2005-12-22 FALSE           
-#>  4 0.366     0.2                  1.02 2005-12-23 FALSE           
-#>  5 0.367     0                    0.59 2005-12-24 FALSE           
-#>  6 0.363     0.2                  0.86 2005-12-25 FALSE           
-#>  7 0.357     0.2                  0.63 2005-12-26 FALSE           
-#>  8 0.370     0                    1.96 2005-12-27 FALSE           
-#>  9 0.346     0                    0.95 2005-12-28 FALSE           
-#> 10 0.347     0                    1.37 2005-12-29 FALSE           
-#> # ℹ 6,129 more rows
-#> # ℹ 11 more variables: is_imputed_outflow <lgl>, volume <dbl>,
-#> #   volume_change <dbl>, volume_change_petp <dbl>, outflow_pujol <dbl>,
-#> #   outflow_perellonet <dbl>, outflow_perello <dbl>, outflow_extra <dbl>,
-#> #   outflow_total <dbl>, inflow_total <dbl>, residence_time_days <dbl>
+get_layer_parameters(simulation, "hba")
+#> $storage_curve
+#> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
+#> <environment: 0x00000299e7d875a0>
+#> 
+#> $petp_function
+#> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
+#> <environment: 0x00000299e7d875a0>
+get_layer_output(simulation, "hba") |> head()
+#>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
+#> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
+#> 2 0.3726458              0.2                  0.65 2005-12-21            FALSE
+#> 3 0.3683833              0.2                  0.62 2005-12-22            FALSE
+#> 4 0.3662375              0.2                  1.02 2005-12-23            FALSE
+#> 5 0.3667417              0.0                  0.59 2005-12-24            FALSE
+#> 6 0.3634917              0.2                  0.86 2005-12-25            FALSE
+#>   is_imputed_outflow   volume volume_change volume_change_petp outflow_pujol
+#> 1               TRUE 25558393      3450.081          893798.26      5.739292
+#> 2               TRUE 25561843   -100840.946          -28739.45      5.901080
+#> 3               TRUE 25461002    -50765.481          -26358.62      3.877427
+#> 4               TRUE 25410237     11927.424          -58103.02      5.410336
+#> 5               TRUE 25422164    -76887.525          -46822.99      1.055759
+#> 6               TRUE 25345277   -157323.705          -45405.26      6.922879
+#>   outflow_perellonet outflow_perello outflow_extra outflow_total inflow_total
+#> 1           2.919471        2.785127             0     11.443889     1.138934
+#> 2           3.140746        2.919733             0     11.961558    11.127050
+#> 3           2.500297        2.075301             0      8.453025     8.170538
+#> 4           3.180986        2.763805             0     11.355127    12.165665
+#> 5           1.578490        1.226585             0      3.860835     3.512866
+#> 6           3.786494        3.249450             0     13.958823    12.663471
+#>   residence_time_days
+#> 1            21.01039
+#> 2            20.97162
+#> 3            20.97415
+#> 4            20.92734
+#> 5            20.92254
+#> 6            20.86514
 ```
 
-Components have plot methods that can help data exploration:
-
-``` r
-plot(hba(model), variable = "outflow_total")
-```
-
-(The output is an interactive plot, not shown here. Try yourself!)
-
-Extracting a component that has not been computed yet yields a `NULL`
-result, *e.g.*:
-
-``` r
-hbp(model)
-#> NULL
-```
-
-If we attempt to compute a downstream component whose dependencies have
-not been defined yet, we get an informative error. For example:
-
-``` r
-compute_ca(model)
-#> Error in doTryCatch(return(expr), name, parentenv, handler): Upstream component 'hbp' of model must be computed first.
-```
-
-Also, computing a component erases the output of its downstream
-dependencies (if any):
-
-``` r
-compute_inp(model) |> hba()
-#> NULL
-```
-
-The order of model components in the list above is the logical one. Each
-component depends on the previous ones (referred to as “upstream”), and
-is a dependency of the subsequent ones (referred to as “downstream”).
-
-``` r
-model <- compute_inp(model)
-model
-#> An ERAHUMED model.
-#> Calculated components:  inp
-```
+For more information on the simulation interface, you can consult
+`?erahumed_simulation_interface`.
 
 ## Getting help
 
