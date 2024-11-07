@@ -69,7 +69,8 @@ library(erahumed)
 
 
 The following example illustrates the workflow for manually running the ERAHUMED
-simulation chain, and extracting the outputs of the various simulation layers.
+simulation chain, and extracting the outputs of the various simulation layers. For further information, see the 
+[main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
 
 The pipeline always starts by initializing an ERAHUMED simulation, via:
 

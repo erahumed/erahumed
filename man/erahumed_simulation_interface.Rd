@@ -9,7 +9,8 @@ The programming interface of the \code{{erahumed}} package reflects the sequenti
 structure of the ERAHUMED simulation chain. Each step of the sequence is
 referred across this documentation as a simulation "layer".
 This documentation page focuses on describing the set of abstractions
-provided by \code{{erahumed}} to deal with simulation layers.
+provided by \code{{erahumed}} to deal with simulation layers. For further
+information, you can consult \href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{the main package vignette}.
 
 The first abstraction is provided by \link{erahumed_simulation} objects.
 These objects, technically implemented as S3 classes, are simple containers

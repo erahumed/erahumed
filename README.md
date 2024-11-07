@@ -65,7 +65,8 @@ library(erahumed)
 
 The following example illustrates the workflow for manually running the
 ERAHUMED simulation chain, and extracting the outputs of the various
-simulation layers.
+simulation layers. For further information, see the [main package
+vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
 
 The pipeline always starts by initializing an ERAHUMED simulation, via:
 
@@ -115,11 +116,11 @@ get_layer(simulation, "hba")
 get_layer_parameters(simulation, "hba")
 #> $storage_curve
 #> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x00000299e7d875a0>
+#> <environment: 0x000002174e984bc8>
 #> 
 #> $petp_function
 #> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x00000299e7d875a0>
+#> <environment: 0x000002174e984bc8>
 get_layer_output(simulation, "hba") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
