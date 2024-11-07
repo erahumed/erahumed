@@ -94,7 +94,7 @@
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a></span><span class="op">)</span></span></code></pre></div>
-<p>The following example illustrates the workflow for manually running the ERAHUMED simulation chain, and extracting the outputs of the various simulation layers.</p>
+<p>The following example illustrates the workflow for manually running the ERAHUMED simulation chain, and extracting the outputs of the various simulation layers. For further information, see the <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>.</p>
 <p>The pipeline always starts by initializing an ERAHUMED simulation, via:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -128,11 +128,11 @@
 <span><span class="fu"><a href="reference/get_layer_parameters.html">get_layer_parameters</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $storage_curve</span></span>
 <span><span class="co">#&gt; \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x00000299e7d875a0&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x000002174e984bc8&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $petp_function</span></span>
 <span><span class="co">#&gt; \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x00000299e7d875a0&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x000002174e984bc8&gt;</span></span>
 <span><span class="fu"><a href="reference/get_layer_output.html">get_layer_output</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       level precipitation_mm evapotranspiration_mm       date is_imputed_level</span></span>
 <span><span class="co">#&gt; 1 0.3725000              8.2                  0.54 2005-12-20            FALSE</span></span>
