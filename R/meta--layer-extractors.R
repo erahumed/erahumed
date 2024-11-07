@@ -84,19 +84,19 @@ reset_layer_output <- function(simulation, layer = erahumed_layers())
 #' A `list`.
 #'
 #' @export
-layer_parameters <- function(object, ...) {
-  UseMethod("layer_parameters", object)
+get_layer_parameters <- function(object, ...) {
+  UseMethod("get_layer_parameters", object)
 }
 
-#' @rdname layer_parameters
+#' @rdname get_layer_parameters
 #' @export
-layer_parameters.erahumed_simulation_layer <- function(object, ...) {
+get_layer_parameters.erahumed_simulation_layer <- function(object, ...) {
   return(object$params)
 }
 
-#' @rdname layer_parameters
+#' @rdname get_layer_parameters
 #' @export
-layer_parameters.erahumed_simulation <- function(object, layer, ...) {
+get_layer_parameters.erahumed_simulation <- function(object, layer, ...) {
   comp_obj <- get_layer(object, layer)
   get_layer_parameters(comp_obj)
 }
