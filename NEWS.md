@@ -1,5 +1,29 @@
 # erahumed (development version)
 
+### API changes
+
+Former `erahumed_model()` has been substituted by `erahumed_simulation()`. 
+Beyond the terminology change, the main difference lies in the fact that 
+simulation setup and computation are handled separately in the new 
+implementation. The best introduction to the new API is probably the fresh new
+vignette, 
+[Simulation workflow](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+
+As a further terminology change, what we previously referred to as a "model 
+component" becomes a "simulation layer". Apart from the obvious changes in 
+function names, this does not imply any conceptual or API change.
+
+Currently, the exported namespace of the package consists of:
+
+* **Datasets.** No changes.
+* **Layer extractors.** `get_layer()`, `get_layer_output()`, 
+`get_layer_parameters()`.
+* **Simulation initialization.** `erahumed_simulation()`.
+* **Simulation setup.** `setup_inp()`, `setup_hba()`, `setup_hbp()`, 
+`setup_ca()`, `setup_ct()`.
+* **Simulation execution.** `run_simulation()`.
+* **Shiny App.** No changes.
+
 ### Data
 
 * Reduced the number of significant digits in the default P-ETP function used
@@ -8,15 +32,13 @@ extracted from the cited CHJ report (#95).
 
 ### Documentation
 
+* New package vignette: [Simulation workflow](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+
 * Added information and references in the documentation page of 
 `albufera_clusters` and `albufera_cluster_geometries` datasets (#52).
 
 * Citation of Martínez-Megías et al. (2023) in `?albufera_management` changed 
 to APA style.
-
-### New features
-
-* New generic function `component_parameters()` (#142).
 
 # erahumed 0.10.0
 
