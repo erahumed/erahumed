@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,19 +37,34 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.11.0" id="erahumed-0110">erahumed 0.11.0<a class="anchor" aria-label="anchor" href="#erahumed-0110"></a></h2>
 <div class="section level4">
-<h4 id="data-development-version">Data<a class="anchor" aria-label="anchor" href="#data-development-version"></a></h4>
+<h4 id="api-changes-0-11-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-11-0"></a></h4>
+<p>Former <code>erahumed_model()</code> has been substituted by <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>. Beyond the terminology change, the main difference lies in the fact that simulation setup and computation are handled separately in the new implementation. The best introduction to the new API is probably the fresh new vignette, <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">Simulation workflow</a>.</p>
+<p>As a further terminology change, what we previously referred to as a “model component” becomes a “simulation layer”. Apart from the obvious changes in function names, this does not imply any conceptual or API change.</p>
+<p>Currently, the exported namespace of the package consists of:</p>
+<ul><li>
+<strong>Datasets.</strong> No changes.</li>
+<li>
+<strong>Layer extractors.</strong> <code><a href="../reference/get_layer.html">get_layer()</a></code>, <code><a href="../reference/get_layer_output.html">get_layer_output()</a></code>, <code><a href="../reference/get_layer_parameters.html">get_layer_parameters()</a></code>.</li>
+<li>
+<strong>Simulation initialization.</strong> <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>.</li>
+<li>
+<strong>Simulation setup.</strong> <code><a href="../reference/inp.html">setup_inp()</a></code>, <code><a href="../reference/hba.html">setup_hba()</a></code>, <code><a href="../reference/hbp.html">setup_hbp()</a></code>, <code><a href="../reference/ca.html">setup_ca()</a></code>, <code><a href="../reference/ct.html">setup_ct()</a></code>.</li>
+<li>
+<strong>Simulation execution.</strong> <code><a href="../reference/run_simulation.html">run_simulation()</a></code>.</li>
+<li>
+<strong>Shiny App.</strong> No changes.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="data-0-11-0">Data<a class="anchor" aria-label="anchor" href="#data-0-11-0"></a></h4>
 <ul><li>Reduced the number of significant digits in the default P-ETP function used by the HBA component, so as to match the relative accuracy of the storage curve extracted from the cited CHJ report (<a href="https://github.com/erahumed/erahumed/issues/95" class="external-link">#95</a>).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h4>
-<ul><li><p>Added information and references in the documentation page of <code>albufera_clusters</code> and <code>albufera_cluster_geometries</code> datasets (<a href="https://github.com/erahumed/erahumed/issues/52" class="external-link">#52</a>).</p></li>
+<h4 id="documentation-0-11-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-11-0"></a></h4>
+<ul><li><p>New package vignette: <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">Simulation workflow</a>.</p></li>
+<li><p>Added information and references in the documentation page of <code>albufera_clusters</code> and <code>albufera_cluster_geometries</code> datasets (<a href="https://github.com/erahumed/erahumed/issues/52" class="external-link">#52</a>).</p></li>
 <li><p>Citation of Martínez-Megías et al. (2023) in <code><a href="../reference/albufera_management.html">?albufera_management</a></code> changed to APA style.</p></li>
-</ul></div>
-<div class="section level4">
-<h4 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h4>
-<ul><li>New generic function <code>component_parameters()</code> (<a href="https://github.com/erahumed/erahumed/issues/142" class="external-link">#142</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
