@@ -44,7 +44,7 @@ test_that("Total number of applications is equal to expected", {
 test_that("Application days have the correct features", {
   test_df <- get_layer_output(test_sim_large(), "ca")
   height_thresh_cm <-
-    layer_parameters(test_sim_large(), "hbp")[["height_thresh_cm"]]
+    get_layer_parameters(test_sim_large(), "hbp")[["height_thresh_cm"]]
 
   chems <- erahumed::albufera_ca_schedules |>
     dplyr::select(chemical, application_type) |>

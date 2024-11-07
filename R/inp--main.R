@@ -3,7 +3,6 @@
 #'
 #' @family simulation layers
 #'
-#'
 #' @author Valerio Gherardi
 #'
 #' @description
@@ -20,8 +19,7 @@
 #' @param weather_df A `data.frame`, whose structure follows the template of
 #' \link{albufera_weather}; See details.
 #'
-#' @return Objects of class \link{erahumed_simulation} and `erahumed_inp`, for
-#' `compute_inp()` and `inp()` respectively.
+#' @return An object of class \link{erahumed_simulation}.
 #'
 #' @details
 #' The `outflows_df` input data.frame is meant to capture the observational
@@ -41,10 +39,6 @@
 #' simulation will only be performed on the largest date interval in which both
 #' hydrological and weather input data is available.
 #'
-#' @examples
-#' simulation <- erahumed_simulation() |> compute_inp()
-#' inp(simulation)
-#'
 #' @export
 setup_inp <- function(simulation,
                       outflows_df = erahumed::albufera_outflows,
@@ -60,8 +54,8 @@ setup_inp <- function(simulation,
 
 compute_inp_bare <- function(simulation)
 {
-  outflows_df <- layer_parameters(simulation, "inp")[["outflows_df"]]
-  weather_df <- layer_parameters(simulation, "inp")[["weather_df"]]
+  outflows_df <- get_layer_parameters(simulation, "inp")[["outflows_df"]]
+  weather_df <- get_layer_parameters(simulation, "inp")[["weather_df"]]
 
   merge(outflows_df, weather_df, by = "date", sort = TRUE)
 }

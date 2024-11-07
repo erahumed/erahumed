@@ -11,8 +11,7 @@ setup_hba(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{inp} layer (\emph{i.e.} such that \code{inp(simulation)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{storage_curve}{a function that takes a numeric vector as input, and
 returns a numeric vector of the same length. Function that converts lake
@@ -25,21 +24,17 @@ expressed in millimiters) into an overall volume change (in  cube meters
 when the inputs are given in the expected units).}
 }
 \value{
-Objects of class \link{erahumed_simulation} and \code{erahumed_hba}, for
-\code{compute_hba()} and \code{hba()} respectively.
+An objects of class \link{erahumed_simulation}.
 }
 \description{
 This simulation layer completes the partial hydrological balance information
 provided as input data, by computing the total inflow to the Albufera lake,
 as well as, if relevant, the amount of unaccounted outflow - usually
 attributed to \emph{tancats} that suck water from the lake.
-
-It is the second simulation layer, and requires the \link{inp} layer of the
-simulation to be previously defined.
 }
 \details{
 The numeric inputs for the linear storage curve are taken from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{simulationo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
 The values used as the arguments of \code{petp_function()} were calculated by the
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).

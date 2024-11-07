@@ -11,18 +11,13 @@
 #' balance. The result is a set of time series of applied doses, one for each
 #' applied chemical.
 #'
-#' This simulation layer requires the \link{hbp} layer of the simulation to be
-#' pre-computed.
-#'
-#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{hbp} layer (*i.e.* such that `hbp(simulation)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}.
 #' @param ca_schedules_df a `data.frame` following the template of
 #' \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
 #' scheduled application. The semantics of columns are the same as in
 #' \link{albufera_ca_schedules}.
 #'
-#' @return Objects of class \link{erahumed_simulation} and `erahumed_ca`, for
-#' `compute_ca()` and `ca()` respectively.
+#' @return An objects of class \link{erahumed_simulation}.
 #'
 #' @details
 #' The output `data.frame` extends the output of the underlying \link{hbp}
@@ -42,8 +37,8 @@ setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedul
 
 compute_ca_bare <- function(simulation)
 {
-  ca_schedules_df <- layer_parameters(simulation, "ca")[["ca_schedules_df"]]
-  height_thresh_cm <- layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+  ca_schedules_df <- get_layer_parameters(simulation, "ca")[["ca_schedules_df"]]
+  height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
 
   hbp_res <- get_layer_output(simulation, "hbp")
   hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()

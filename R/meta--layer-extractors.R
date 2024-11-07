@@ -98,5 +98,5 @@ layer_parameters.erahumed_simulation_layer <- function(object, ...) {
 #' @export
 layer_parameters.erahumed_simulation <- function(object, layer, ...) {
   comp_obj <- get_layer(object, layer)
-  layer_parameters(comp_obj)
+  get_layer_parameters(comp_obj)
 }

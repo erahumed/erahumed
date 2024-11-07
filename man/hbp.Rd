@@ -13,8 +13,7 @@ setup_hbp(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{hba} layer (\emph{i.e.} such that \code{hba(simulation)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{management_df}{A \code{data.frame} that provides the yearly schedule for
 irrigation and draining, that strictly follows the template of
@@ -34,8 +33,7 @@ per day.}
 below which a cluster is considered to be emptied.}
 }
 \value{
-Objects of class \link{erahumed_simulation} and \code{erahumed_hbp}, for
-\code{compute_hbp()} and \code{hbp()} respectively.
+An object of class \link{erahumed_simulation}.
 }
 \description{
 This simulation layer performs a simulation of hydrological balance
@@ -52,9 +50,6 @@ same ditch.
 \item An yearly ideal schedule for irrigation and draining, with corresponding
 expected water levels of a cluster for each day of the year.
 }
-
-This simulation layer requires the \link{hba} layer of the simulation to be
-pre-computed.
 }
 \details{
 TODO: #64, plus more detailed information on the structure of

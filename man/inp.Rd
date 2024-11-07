@@ -20,8 +20,7 @@ template of \link{albufera_outflows}; See details.}
 \link{albufera_weather}; See details.}
 }
 \value{
-Objects of class \link{erahumed_simulation} and \code{erahumed_inp}, for
-\code{compute_inp()} and \code{inp()} respectively.
+An object of class \link{erahumed_simulation}.
 }
 \description{
 This simulation layer has the only purpose to collect the observational (or,
@@ -50,11 +49,6 @@ the corresponding date domain should be an interval (\emph{i.e.} no missing data
 between the maximum and minimum of \code{date} is allowed). The subsequent
 simulation will only be performed on the largest date interval in which both
 hydrological and weather input data is available.
-}
-\examples{
-simulation <- erahumed_simulation() |> compute_inp()
-inp(simulation)
-
 }
 \seealso{
 Other simulation layers: 

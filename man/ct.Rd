@@ -20,8 +20,7 @@ setup_ct(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{ca} layer (\emph{i.e.} such that \code{ca(simulation)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{drift}{A number between \code{0} and \code{1}. Percentage of chemical
 applications lost to drift.}
@@ -50,8 +49,7 @@ day.}
 \item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }
 \value{
-Objects of class \link{erahumed_simulation} and \code{erahumed_ct}, for
-\code{compute_ct()} and \code{ct()} respectively.
+An objects of class \link{erahumed_simulation}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -60,9 +58,6 @@ paddy clusters, based on the previously computed simulations for
 hydrological balance and chemicals application.
 The result is a set of time series of chemical masses, one for each
 applied chemical and for the three compartments: foliage, water and sediment.
-
-This simulation layer requires the \link{ca} layer of the simulation to be
-pre-computed.
 }
 \seealso{
 Other simulation layers: 

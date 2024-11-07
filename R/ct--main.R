@@ -13,11 +13,7 @@
 #' The result is a set of time series of chemical masses, one for each
 #' applied chemical and for the three compartments: foliage, water and sediment.
 #'
-#' This simulation layer requires the \link{ca} layer of the simulation to be
-#' pre-computed.
-#'
-#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{ca} layer (*i.e.* such that `ca(simulation)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}.
 #'
 #' @param drift A number between `0` and `1`. Percentage of chemical
 #' applications lost to drift.
@@ -36,8 +32,7 @@
 #' @param wilting A number between `0` and `1`. Wilting point.
 #' @param fc A number between `0` and `1`. Field capacity.
 #'
-#' @return Objects of class \link{erahumed_simulation} and `erahumed_ct`, for
-#' `compute_ct()` and `ct()` respectively.
+#' @return An objects of class \link{erahumed_simulation}.
 #'
 #' @export
 setup_ct <- function(
@@ -96,16 +91,16 @@ validate_ct_params <- function(
 
 compute_ct_bare <- function(simulation)
 {
-  drift <- layer_parameters(simulation, "ct")[["drift"]]
-  covmax <- layer_parameters(simulation, "ct")[["covmax"]]
-  jgrow <- layer_parameters(simulation, "ct")[["jgrow"]]
-  SNK <- layer_parameters(simulation, "ct")[["SNK"]]
-  dact_m <- layer_parameters(simulation, "ct")[["dact_m"]]
-  css_ppm <- layer_parameters(simulation, "ct")[["css_ppm"]]
-  bd_g_cm3 <- layer_parameters(simulation, "ct")[["bd_g_cm3"]]
-  qseep_m_day <- layer_parameters(simulation, "ct")[["qseep_m_day"]]
-  wilting <- layer_parameters(simulation, "ct")[["wilting"]]
-  fc <- layer_parameters(simulation, "ct")[["fc"]]
+  drift <- get_layer_parameters(simulation, "ct")[["drift"]]
+  covmax <- get_layer_parameters(simulation, "ct")[["covmax"]]
+  jgrow <- get_layer_parameters(simulation, "ct")[["jgrow"]]
+  SNK <- get_layer_parameters(simulation, "ct")[["SNK"]]
+  dact_m <- get_layer_parameters(simulation, "ct")[["dact_m"]]
+  css_ppm <- get_layer_parameters(simulation, "ct")[["css_ppm"]]
+  bd_g_cm3 <- get_layer_parameters(simulation, "ct")[["bd_g_cm3"]]
+  qseep_m_day <- get_layer_parameters(simulation, "ct")[["qseep_m_day"]]
+  wilting <- get_layer_parameters(simulation, "ct")[["wilting"]]
+  fc <- get_layer_parameters(simulation, "ct")[["fc"]]
 
   input <- merge(get_layer_output(simulation, "ca") |> data.table::as.data.table(),
                  get_layer_output(simulation, "inp") |> data.table::as.data.table(),

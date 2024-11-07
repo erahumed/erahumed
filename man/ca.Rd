@@ -8,8 +8,7 @@
 setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}, with a pre-computed
-\link{hbp} layer (\emph{i.e.} such that \code{hbp(simulation)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{ca_schedules_df}{a \code{data.frame} following the template of
 \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
@@ -17,17 +16,13 @@ scheduled application. The semantics of columns are the same as in
 \link{albufera_ca_schedules}.}
 }
 \value{
-Objects of class \link{erahumed_simulation} and \code{erahumed_ca}, for
-\code{compute_ca()} and \code{ca()} respectively.
+An objects of class \link{erahumed_simulation}.
 }
 \description{
 This simulation layer simulates the application of chemicals to rice paddy
 clusters, based on a previously computed simulation of local hydrological
 balance. The result is a set of time series of applied doses, one for each
 applied chemical.
-
-This simulation layer requires the \link{hbp} layer of the simulation to be
-pre-computed.
 }
 \details{
 The output \code{data.frame} extends the output of the underlying \link{hbp}

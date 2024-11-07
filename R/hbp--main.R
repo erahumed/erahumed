@@ -19,11 +19,7 @@
 #' 1. An yearly ideal schedule for irrigation and draining, with corresponding
 #' expected water levels of a cluster for each day of the year.
 #'
-#' This simulation layer requires the \link{hba} layer of the simulation to be
-#' pre-computed.
-#'
-#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{hba} layer (*i.e.* such that `hba(simulation)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}.
 #' @param clusters_df A `data.frame` that contains the definition of rice paddy
 #' clusters. This should strictly follow the template of
 #' \link{albufera_clusters}, and it is in fact unlikely that the user would want
@@ -38,8 +34,7 @@
 #' @param height_thresh_cm A positive number. Height threshold for water levels,
 #' below which a cluster is considered to be emptied.
 #'
-#' @return Objects of class \link{erahumed_simulation} and `erahumed_hbp`, for
-#' `compute_hbp()` and `hbp()` respectively.
+#' @return An object of class \link{erahumed_simulation}.
 #'
 #' @details
 #' TODO: #64, plus more detailed information on the structure of
@@ -70,10 +65,10 @@ setup_hbp <- function(
 
 compute_hbp_bare <- function(simulation)
 {
-  management_df <- layer_parameters(simulation, "hbp")[["management_df"]]
-  clusters_df <- layer_parameters(simulation, "hbp")[["clusters_df"]]
-  ideal_flow_rate_cm <- layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
-  height_thresh_cm <- layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+  management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
+  clusters_df <- get_layer_parameters(simulation, "hbp")[["clusters_df"]]
+  ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
+  height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
 
   .hbp_args <- .hbp_data_prep(simulation = simulation,
                               management_df = management_df,

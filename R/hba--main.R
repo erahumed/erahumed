@@ -11,11 +11,7 @@
 #' as well as, if relevant, the amount of unaccounted outflow - usually
 #' attributed to *tancats* that suck water from the lake.
 #'
-#' It is the second simulation layer, and requires the \link{inp} layer of the
-#' simulation to be previously defined.
-#'
-#' @param simulation An object of class \link{erahumed_simulation}, with a pre-computed
-#' \link{inp} layer (*i.e.* such that `inp(simulation)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}.
 #' @param storage_curve a function that takes a numeric vector as input, and
 #' returns a numeric vector of the same length. Function that converts lake
 #' levels into lake *volumes*.
@@ -27,7 +23,7 @@
 #'
 #' @details
 #' The numeric inputs for the linear storage curve are taken from the CHJ report
-#' [simulationo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+#' [modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
 #' The values used as the arguments of `petp_function()` were calculated by the
 #' package authors, and correspond to the total study area (`surface_P`) and
 #' the flooded surface (`surface_ETP`).
@@ -55,8 +51,7 @@
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
 #' * `residence_time_days`. Residence time, as simulationed by \link{hba_residence_time}.
 #'
-#' @return Objects of class \link{erahumed_simulation} and `erahumed_hba`, for
-#' `compute_hba()` and `hba()` respectively.
+#' @return An objects of class \link{erahumed_simulation}.
 #'
 #' @export
 setup_hba <- function(
@@ -76,8 +71,8 @@ setup_hba <- function(
 
 compute_hba_bare <- function(simulation)
 {
-  storage_curve <- layer_parameters(simulation, "hba")[["storage_curve"]]
-  petp_function <- layer_parameters(simulation, "hba")[["petp_function"]]
+  storage_curve <- get_layer_parameters(simulation, "hba")[["storage_curve"]]
+  petp_function <- get_layer_parameters(simulation, "hba")[["petp_function"]]
 
   inp_df <- get_layer_output(simulation, "inp")
   output <- .hba(
