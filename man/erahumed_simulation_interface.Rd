@@ -56,15 +56,15 @@ s <- run_simulation(s, layer = "hba")
 
 ### Extract layers
 get_layer(s, "inp")
-get_layer_output(s, "hba")
+get_layer_output(s, "hba") |> head()
 get_layer_output(s, "hbp")  # NULL because not yet computed
-get_layer_params(s, "ca")  # Layer parameters set during initialization
+get_layer_parameters(s, "ca")  # Layer parameters set during initialization
 
 ### Reconfigure a layer
 s <- s |> setup_hba(storage_curve = \(level) level + 1)
 get_layer_output(s, "hba")  # NULL because invalidated by previous line...
 s <- run_simulation(s, layer = "hba")  # ... which requires to re-run layer
-get_layer_output(s, "hba")
+get_layer_output(s, "hba") |> head()
 
 \dontrun{
 # Returns an interactive plotly plot, run manually.
