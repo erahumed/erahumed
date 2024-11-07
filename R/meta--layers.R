@@ -1,5 +1,5 @@
 erahumed_layers <- function() {
-  res <- c("inp", "hba", "hbp", "ca", "ct")
+  c("inp", "hba", "hbp", "ca", "ct")
 }
 
 upstream_layers <- function(layer) {
