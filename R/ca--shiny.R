@@ -76,7 +76,7 @@ caServer <- function(id, simulation) {
       shiny::req(input$cluster_id)
 
       res() |>
-        get_simulation_layer("ca") |>
+        get_layer("ca") |>
         plot(cluster_id = input$cluster_id)
     })
 

@@ -107,8 +107,8 @@ compute_ct_bare <- function(simulation)
   wilting <- layer_parameters(simulation, "ct")[["wilting"]]
   fc <- layer_parameters(simulation, "ct")[["fc"]]
 
-  input <- merge(layer_output(simulation, "ca") |> data.table::as.data.table(),
-                 layer_output(simulation, "inp") |> data.table::as.data.table(),
+  input <- merge(get_layer_output(simulation, "ca") |> data.table::as.data.table(),
+                 get_layer_output(simulation, "inp") |> data.table::as.data.table(),
                  by = "date",
                  sort = TRUE)
 

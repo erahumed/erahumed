@@ -40,7 +40,7 @@ hbaServer <- function(id, simulation) {
 
     output$plot <- plotly::renderPlotly({
       res() |>
-        get_simulation_layer("hba") |>
+        get_layer("hba") |>
         plot(input$variable)
       })
 

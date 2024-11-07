@@ -79,7 +79,7 @@ compute_hba_bare <- function(simulation)
   storage_curve <- layer_parameters(simulation, "hba")[["storage_curve"]]
   petp_function <- layer_parameters(simulation, "hba")[["petp_function"]]
 
-  inp_df <- layer_output(simulation, "inp")
+  inp_df <- get_layer_output(simulation, "inp")
   output <- .hba(
     level = inp_df$level,
     precipitation_mm = inp_df$precipitation_mm,

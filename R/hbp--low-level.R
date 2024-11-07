@@ -116,7 +116,7 @@
                           ideal_flow_rate_cm,
                           height_thresh_cm)
 {
-  res <- data.table::as.data.table( layer_output(simulation, "hba") )
+  res <- data.table::as.data.table( get_layer_output(simulation, "hba") )
 
   res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))

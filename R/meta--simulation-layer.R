@@ -39,7 +39,7 @@ print.erahumed_simulation_layer <- function(x, ...) {
   cat(title)
 
 
-  output <- layer_output(x)
+  output <- get_layer_output(x)
   cat("\n\nOutput columns:", paste(names(output), collapse = ", "))
 
   # cat("\n\nExample of output:\n")

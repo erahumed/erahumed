@@ -25,7 +25,7 @@ compute_layer <- function(simulation, layer = erahumed_layers())
 check_upstream_layers <- function(simulation, layer) {
   tryCatch({
     for (upstream_layer in upstream_layers(layer)) {
-      if (!is.null( layer_output(simulation, upstream_layer) )) next
+      if (!is.null( get_layer_output(simulation, upstream_layer) )) next
 
       msg <- paste0(
         "Upstream layer '", upstream_layer, "' of model must be computed first."

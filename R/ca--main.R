@@ -45,7 +45,7 @@ compute_ca_bare <- function(simulation)
   ca_schedules_df <- layer_parameters(simulation, "ca")[["ca_schedules_df"]]
   height_thresh_cm <- layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
 
-  hbp_res <- layer_output(simulation, "hbp")
+  hbp_res <- get_layer_output(simulation, "hbp")
   hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()
 
   output <- hbp_res |>

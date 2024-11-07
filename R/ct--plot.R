@@ -45,7 +45,7 @@ plot_ct_cluster_view_mass <- function(x, ...) {
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-  df <- layer_output(x)
+  df <- get_layer_output(x)
   df <- df[df$cluster_id == args$cluster_id, ]
 
   p <- plotly::plot_ly()
@@ -93,7 +93,7 @@ plot_ct_cluster_view_density <- function(x, ...) {
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-  df <- layer_output(x)
+  df <- get_layer_output(x)
   df <- df[df$cluster_id == args$cluster_id, ]
 
   p <- plotly::plot_ly()

@@ -105,7 +105,7 @@ examples:
 ```{r}
 hba(simulation)  # Extract the HBA simulation layer
 hba(simulation) |> 
-  layer_output() |>  # Get output data.frame
+  get_layer_output() |>  # Get output data.frame
   tibble::as_tibble()    # Just for pretty printing
 ```
 

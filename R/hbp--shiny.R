@@ -87,7 +87,7 @@ hbpServer <- function(id, simulation) {
       shiny::req(input$cluster_id)
 
       res() |>
-        get_simulation_layer("hbp") |>
+        get_layer("hbp") |>
         plot(cluster_id = input$cluster_id)
     })
 

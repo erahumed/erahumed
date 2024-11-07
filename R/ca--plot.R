@@ -33,7 +33,7 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
 
   args <- list(...)
 
-  df <- layer_output(x)
+  df <- get_layer_output(x)
 
   cluster_data <- df[df$cluster_id == args$cluster_id, ]
 

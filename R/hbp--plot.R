@@ -31,7 +31,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
 {
   args <- list(...)
 
-  data <- layer_output(x)
+  data <- get_layer_output(x)
 
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")

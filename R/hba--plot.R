@@ -5,14 +5,14 @@
 #'
 #' @param x An object of class `hba`.
 #' @param variable The variable to be plotted. Can be any numeric column of
-#' `layer_output(x)`.
+#' `get_layer_output(x)`.
 #' @param ... Not used.
 #'
 #' @return A plotly plot.
 #'
 #' @export
 plot.erahumed_hba <- function(x, variable, ...) {
-  df <- layer_output(x)
+  df <- get_layer_output(x)
 
   plot_hba_argcheck(df, variable, ...)
 

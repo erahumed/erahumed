@@ -5,73 +5,67 @@
 #' @author Valerio Gherardi
 #'
 #' @examples
-#' ### Computation workflow
-#' m <- erahumed_simulation()  # Initialize a blank simulation
+#' # Simulation workflow
 #'
-#' m <- m |> compute_inp() |> compute_hba()  # Compute INP and HBA layers
+#' ### Initialize a new simulation
+#' s <- erahumed_simulation()
 #'
-#' m
-#' inp(m)
-#' hba(m)
-#' hbp(m)  # NULL because not yet computed
+#' ### Fine-tune layers
+#' s <- s |>
+#'   setup_hbp(ideal_flow_rate_cm = 2.5) |>
+#'   setup_ct(dact_m = 0.1)
 #'
-#' m <- m |> compute_inp()  # Recompute INP layer
-#' hba(m)  # NULL because of previous line
+#' ### Run simulation until a given layer
+#' s <- run_simulation(s, layer = "hba")
 #'
-#' # The code below results in an error, because the HBP layer depends
-#' # on the HBA layer, which is still NULL (see above).
-#' \dontrun{
-#' compute_hbp(m)
-#' }
+#' ### Extract layers
+#' get_layer(s, "inp")
+#' get_layer_output(s, "hba")
+#' get_layer_output(s, "hbp")  # NULL because not yet computed
+#' get_layer_params(s, "ca")  # Layer parameters set during initialization
 #'
-#' ### Extracting and plotting outputs
-#' m <- m |> compute_inp() |> compute_hba()
-#'
-#' layer_output(inp(m)) |> head()  # 'erahumed_simulation_layer' method
-#' layer_output(m, "hba") |> head()  # 'erahumed_simulation' method
+#' ### Reconfigure a layer
+#' s <- s |> setup_hba(storage_curve = \(level) level + 1)
+#' get_layer_output(s, "hba")  # NULL because invalidated by previous line...
+#' s <- run_simulation(s, layer = "hba")  # ... which requires to re-run layer
+#' get_layer_output(s, "hba")
 #'
 #' \dontrun{
 #' # Returns an interactive plotly plot, run manually.
-#' plot(hba(m), variable = "outflow_total")
+#' s |> get_layer("hba") |> plot(variable = "outflow_total")
 #' }
 #'
 #' @description
 #' The programming interface of the `{erahumed}` package reflects the sequential
 #' structure of the ERAHUMED simulation chain. Each step of the sequence is
-#' referred across this documentation as a simulation "layer" (or, sometimes,
-#' informally as a simulation "layer"). This documentation page focuses on
-#' describing the set of abstractions provided by `{erahumed}` to deal with
-#' sequential simulation and simulation layers.
+#' referred across this documentation as a simulation "layer".
+#' This documentation page focuses on describing the set of abstractions
+#' provided by `{erahumed}` to deal with simulation layers.
 #'
-#' The first abstraction is provided by \link{erahumed_simulation} objects. These
-#' objects, technically implemented as S3 classes, are simple containers for
-#' simulation layers - that is, a `erahumed_simulation` is a list that stores a
-#' sequence of simulation layers. The way layers of a simulation are populated is
-#' described subsequently.
+#' The first abstraction is provided by \link{erahumed_simulation} objects.
+#' These objects, technically implemented as S3 classes, are simple containers
+#' for simulation layers - that is, a `erahumed_simulation` is a list that
+#' stores simulation layers. In turn, layers are implemented as S3 classes
+#' following the naming scheme `erahumed_*`, that inherit from
+#' `erahumed_simulation_layer`, with ad-hoc \link{print} and \link{plot}
+#' methods.
 #'
-#' We define the following simulation layers, whose technical implementation is
-#' discussed extensively in the linked documentation pages:
+#' Creating a new `erahumed_simulation` object will setup, but not run, a
+#' fresh new simulation with default settings for all the above layers. Each
+#' layer has associated a `setup_*()` function that allows to modify
+#' layer-specific configurations. In order to run (*i.e* compute the actual
+#' results) of a simulation, one would use \link{run_simulation}.
+#'
+#' We define the following layers, whose technical implementation is discussed
+#' extensively in the linked documentation pages:
 #' * \link{inp}: INPut data.
 #' * \link{hba}: Hydrological Balance of the Albufera lake.
 #' * \link{hbp}: Hydrological Balance of rice Paddy clusters.
 #' * \link{ca}: Chemical Applications.
+#' * \link{ct}: Chemical Transport.
 #' The order of simulation layers in the list above is the logical one. Each
 #' layer depends on the previous ones (referred to as "upstream"),
 #' and is a dependency of the subsequent ones (referred to as "downstream").
-#'
-#' Each of these layers has associated:
-#' 1. A `compute_*()` function, that takes a \link{erahumed_simulation} as input and
-#' returns a simulation with the desired layer computed on top as output.
-#' 1. An extractor function of the form `*()` (the asterisk standing for the
-#' actual layer name), that extracts the desired layer from a
-#' \link{erahumed_simulation}.
-#' 1. An S3 class following the naming scheme `erahumed_*`, that inherits from
-#' `erahumed_simulation_layer`, with ad-hoc \link{print} and \link{plot} methods.
-#' layers can be re-computed (that is, the input simulation to `compute_*()`) can
-#' have a previous computation of the same layers. In this case, in order to
-#' avoid confusing results, any existing downstream dependency of the layer
-#' to be recomputed is erased from the output simulation, and must be recomputed if
-#' required.
 #'
 #' The example code below illustrates typical operations with simulation layers,
 #'

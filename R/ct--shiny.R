@@ -147,7 +147,7 @@ ctServer <- function(id, simulation) {
       shiny::req(input$cluster_id)
 
       res() |>
-        get_simulation_layer("ct") |>
+        get_layer("ct") |>
         plot(cluster_id = input$cluster_id, variable = input$variable)
     })
 

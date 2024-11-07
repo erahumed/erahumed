@@ -10,7 +10,7 @@
 \item{x}{An object of class \code{hba}.}
 
 \item{variable}{The variable to be plotted. Can be any numeric column of
-\code{layer_output(x)}.}
+\code{get_layer_output(x)}.}
 
 \item{...}{Not used.}
 }
