@@ -1,0 +1,174 @@
+---
+title: "Simulation workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{erahumed-workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+This document illustrates the simulation workflow of ERAHUMED. Specifically, we 
+will cover:
+
+* How to setup and run a simulation.
+* How to extract and analyze simulation results.
+
+This guide is addressed to users working with the command-line (*i.e.* R) 
+interface of `{erahumed}`.
+
+```{r load-erahumed}
+library(erahumed)
+```
+
+## Bird's eye view
+
+Running a ERAHUMED simulation involves several layers of computation, which we 
+formalize through the concept of simulation *layers*. Concretely, simulations
+are composed of the following layers:
+
+* INP: INPut data.
+* HBA: Hydrological Balance of the Albufera lake.
+* HBP: Hydrological Balance of rice Paddy clusters.
+* CA: Chemical Applications. 
+* CT: Chemical Transport.
+
+Each layer depends on the previous ones and is a dependency of the subsequent
+ones (in the order above). The goal of the following sections is to teach you
+how to operate with simulations and layers in `{erahumed}`.
+
+## The simulation workflow
+
+We can create a new simulation with:
+
+```{r}
+s <- erahumed_simulation()
+s
+```
+
+The object `s` is, behind the scenes, an R list that contains simulation layers.
+We can extract individual layers as follows:
+
+```{r}
+get_layer(s, "hba")  # Extract the HBA layer
+```
+
+As revealed by the outputs above, the layers of the simulation are not yet 
+computed at this stage. This is so because the only result of 
+`erahumed_simulation()` is to *initialize* a simulation, using default values
+for the parameters required by the various simulation layers. We show in the
+following how to setup individual layers, run the simulation and extract 
+results.
+
+### Setup
+
+Setup of individual layers is achieved through the family of `setup_*()` 
+functions, that receive a simulation as input, and return a simulation with the 
+updated setup. 
+
+For instance, to configure the height threshold parameter used in HBP layer 
+computations (see `?setup_hbp`), we would use:
+
+```{r}
+s <- setup_hbp(s, height_thresh_cm = 1) 
+```
+
+Similarly, to limit the date range of the simulation, we can provide a filtered  
+`outflows_df` data-set to the INP layer:
+
+```{r}
+outflows_df <- albufera_outflows |>
+  (\(.) .["2020-01-01" <= .$date & .$date <= "2020-12-31", ])()
+s <- setup_inp(s, outflows_df = outflows_df)
+```
+
+The available parameters for each layer are the arguments of the corresponding
+`setup_*()` function, and the default values set by `erahumed_simulation()` 
+correspond to the defaults of the `setup_*()` arguments. The current layer 
+parameters of a simulation can be obtained through:
+
+```{r}
+get_layer_parameters(s, "ct")  # Get parameters of CT layer
+```
+
+### Run
+
+Once we are ready with our simulation setup, we can compute the various layers,
+using the `run_simulation()` function. In order to speed up iterations,  
+`{erahumed}` gives you the option to compute just a specific layer with all its 
+upstream dependencies. For example:
+
+```{r}
+s <- run_simulation(s, layer = "hbp")
+s
+```
+
+would compute only the INP, HBA and HBP layers. If you simply want to compute 
+all layers, you can just call:
+
+```{r}
+s <- run_simulation(s)
+s
+```
+(notice that this will not recompute the INP, HBA and HBP layers, since these 
+results are already stored in the input simulation object).
+
+### Analyse
+
+Once we have setup and ran a simulation, we want to analyse its result, which 
+will be essentially time-series data-sets (possibly with a spatial component
+identified by a `cluster_id`).
+
+You can extract the output (a `data.frame`) of a given layer as follows:
+
+```{r}
+hbp_df <- get_layer_output(s, "hbp")  # Get output data.frame of HBP layer
+head(hbp_df)
+```
+
+From here on, the analysis may proceed in the way you find more convenient. For instance, in the chunk below I create a plot of water levels for a set of 
+clusters with similar features, using `dplyr` and `ggplot2`:
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+
+ditch <- "d4"
+tancat <- FALSE
+variety <- "Clearfield"
+
+clusters_df <- hbp_df |>
+  filter(ditch == !!ditch, tancat == !!tancat, variety == !!variety)
+
+avg_df <- clusters_df |>
+  group_by(date) |>
+  summarise(height_eod_cm = mean(height_eod_cm))
+
+ggplot() +
+  geom_line(
+    data = clusters_df,
+    mapping = aes(x = date, y = height_eod_cm, group = cluster_id),
+    color = "black", linewidth = 0.1, alpha = 0.2) +
+  geom_line(
+    data = avg_df, 
+    mapping = aes(x = date, y = height_eod_cm),
+    color = "black"
+    ) +
+  xlab("Date") + ylab("Height [cm]") + 
+  ggtitle("Cluster simulated water levels",
+          paste("Ditch:", ditch, "- Tancat:", tancat, "- Variety:", variety)
+          )
+```
+
+## Further information
+
+TODO. Further details will appear in this and possibly other vignettes. For 
+specific problems, you can [file an issue on Github](https://github.com/erahumed/erahumed/issues).
