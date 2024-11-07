@@ -7,17 +7,14 @@
 erahumed_simulation()
 }
 \value{
-An object of class \code{erahumed_simulation}, that represents a blank ERAHUMED
-simulation (with no simulation layer computed yet).
+An object of class \code{erahumed_simulation}.
 }
 \description{
-Initializes an ERAHUMED simulation. This is the starting point for the ERAHUMED
-simulation chain, whose computations are performed by \verb{compute_*()} functions.
-See \link{erahumed_simulation_interface} for more details.
+Initializes an ERAHUMED simulation. See \link{erahumed_simulation_interface}
+for a detailed description of the simulation workflow.
 }
 \examples{
-m <- erahumed_simulation()
-m
+erahumed_simulation()
 
 }
 \author{

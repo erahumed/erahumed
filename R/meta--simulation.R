@@ -1,18 +1,15 @@
 #' Initialize an ERAHUMED simulation
 #'
 #' @description
-#' Initializes an ERAHUMED simulation. This is the starting point for the ERAHUMED
-#' simulation chain, whose computations are performed by `compute_*()` functions.
-#' See \link{erahumed_simulation_interface} for more details.
+#' Initializes an ERAHUMED simulation. See \link{erahumed_simulation_interface}
+#' for a detailed description of the simulation workflow.
 #'
-#' @return An object of class `erahumed_simulation`, that represents a blank ERAHUMED
-#' simulation (with no simulation layer computed yet).
+#' @return An object of class `erahumed_simulation`.
 #'
 #' @author Valerio Gherardi
 #'
 #' @examples
-#' m <- erahumed_simulation()
-#' m
+#' erahumed_simulation()
 #'
 #' @export
 erahumed_simulation <- function()
@@ -46,8 +43,18 @@ is_erahumed_simulation <- function(obj) {
 print.erahumed_simulation <- function(x, ..., max = 100) {
   cat("An ERAHUMED simulation.")
 
-  comps <- if (length(x) == 0) "None" else paste(names(x), collapse = ", ")
-  cat("\nCalculated layers: ", comps)
+  layer_is_computed <- sapply(erahumed_layers(), \(layer) {
+    !is.null(get_layer_output(x, layer))
+  })
+  if (sum(layer_is_computed) == 0)
+    computed_layers <- "None"
+  else
+    computed_layers <- paste(erahumed_layers()[layer_is_computed],
+                             collapse = ", ")
+
+  cat("\nComputed layers:", computed_layers)
+
+  return(invisible(x))
 }
 
 #' @export
