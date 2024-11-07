@@ -24,7 +24,7 @@
 #' layer, preserving its cardinality (one row per cluster per day). The
 #' additional columns, named as the chemicals appearing in `ca_schedules_df`,
 #' provide the time series of applied doses, expressed in kilograms.
-#' @rdname ca
+#'
 #' @export
 setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 {

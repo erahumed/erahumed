@@ -33,9 +33,9 @@ provide the time series of applied doses, expressed in kilograms.
 \seealso{
 Other simulation layers: 
 \code{\link{ct}},
-\code{\link{setup_hba}()},
-\code{\link{setup_hbp}()},
-\code{\link{setup_inp}()}
+\code{\link{hba}},
+\code{\link{hbp}},
+\code{\link{inp}}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

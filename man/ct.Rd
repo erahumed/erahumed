@@ -62,9 +62,9 @@ applied chemical and for the three compartments: foliage, water and sediment.
 \seealso{
 Other simulation layers: 
 \code{\link{ca}},
-\code{\link{setup_hba}()},
-\code{\link{setup_hbp}()},
-\code{\link{setup_inp}()}
+\code{\link{hba}},
+\code{\link{hbp}},
+\code{\link{inp}}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi

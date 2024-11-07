@@ -1,5 +1,5 @@
 #' @title INP: Input data
-#' @rdname inp
+#' @name inp
 #'
 #' @family simulation layers
 #'

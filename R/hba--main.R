@@ -1,5 +1,5 @@
 #' @title HBA: Hydrological Balance of the Albufera Lake
-#' @rdname hba
+#' @name hba
 #'
 #' @family simulation layers
 #'

@@ -1,5 +1,5 @@
 #' @title HBP: Hydrological Balance of rice Paddies
-#' @rdname hbp
+#' @name hbp
 #'
 #' @family simulation layers
 #'
@@ -40,7 +40,6 @@
 #' TODO: #64, plus more detailed information on the structure of
 #' `management_df` (and perhaps also on `clusters_df`, depending on the decision
 #' taken regarding #47).
-#'
 #'
 #' @export
 setup_hbp <- function(
