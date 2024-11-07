@@ -61,7 +61,7 @@ erahumed::launch_app()
 This will open the DSS dashboard in your default browser, from where you can 
 explore simulation outputs in a user friendly manner.
 
-### Example 2: command line interface to the simulations
+### Example 2: command line interface to simulations
 
 ```{r}
 library(erahumed)
@@ -71,7 +71,7 @@ library(erahumed)
 The following example illustrates the workflow for manually running the ERAHUMED
 simulation chain, and extracting the outputs of the various simulation layers.
 
-The pipeline always starts by initializing a new ERAHUMED simulation, via:
+The pipeline always starts by initializing an ERAHUMED simulation, via:
 
 ```{r}
 simulation <- erahumed_simulation()
@@ -79,72 +79,43 @@ simulation
 ```
 
 This is the main abstraction that `{erahumed}` uses to collect the various 
-layers involved in the simulation chain of the DSS, and is initially blank.
+layers involved in the simulation chain of the DSS. As the output above shows, 
+its layers are initialized but not computed yet. 
 
-Next, we populate simulation layers, which is achieved through the set of
-`compute_*()` functions:
-
-* `compute_inp()` - INPut data.
-* `compute_hba()` - Hydrological Balance of the Albufera lake.
-* `compute_hbp()` - Hydrological Balance of rice Paddy clusters.
-* `compute_ca()` - Chemical Applications. 
-* `compute_ct()` - Chemical Transport.
-
-For instance, we can compute the first two layers with default arguments (*i.e.* 
-default input data and parameters for hydrological balance computation) as 
-follows:
+We can modify the configuration of specific layers through the `setup_*()` 
+functions, for instance:
 
 ```{r}
-simulation <- simulation |> compute_inp() |> compute_hba()
-simulation
+simulation <- simulation |>
+  setup_hbp(ideal_flow_rate_cm = 2.5) |>
+  setup_ct(dact_m = 0.2)
 ```
 
-We can extract and inspect simulation layers as illustrated in the following 
-examples:
+In order to actually compute the layers, we use `run_simulation()`:
 
 ```{r}
-hba(simulation)  # Extract the HBA simulation layer
-hba(simulation) |> 
-  get_layer_output() |>  # Get output data.frame
-  tibble::as_tibble()    # Just for pretty printing
+simulation <- simulation |>
+  run_simulation(layer = "hba")  # Run simulation until the HBA layer
 ```
 
-layers have plot methods that can help data exploration:
+Simulations are composed of the following layers (in dependency order, from 
+upstream to downstream):
 
-```{r eval=FALSE, include=TRUE}
-plot(hba(simulation), variable = "outflow_total")
-```
+* INP [`setup_inp()`]: INPut data.
+* HBA [`setup_hba()`]: Hydrological Balance of the Albufera lake.
+* HBP [`setup_hbp()`]: Hydrological Balance of rice Paddy clusters.
+* CA [`setup_ca()`]: Chemical Applications. 
+* CT [`setup_ct()`]: Chemical Transport.
 
-(The output is an interactive plot, not shown here. Try yourself!)
-
-Extracting a layer that has not been computed yet yields a `NULL` result, 
-*e.g.*:
+In order to inspect the results of a given layer, we use:
 
 ```{r}
-hbp(simulation)
+get_layer(simulation, "hba")
+get_layer_parameters(simulation, "hba")
+get_layer_output(simulation, "hba") |> head()
 ```
 
-If we attempt to compute a downstream layer whose dependencies have not been
-defined yet, we get an informative error. For example:
-
-```{r, error=TRUE}
-compute_ca(simulation)
-```
-
-Also, computing a layer erases the output of its downstream dependencies (if
-any):
-
-```{r}
-compute_inp(simulation) |> hba()
-```
-
-The order of simulation layers in the list above is the logical one. Each layer depends on the previous ones (referred to as "upstream"), and is a dependency of the subsequent ones (referred to as "downstream").
-
-```{r}
-simulation <- compute_inp(simulation)
-simulation
-```
-
+For more information on the simulation interface, you can consult `?erahumed_simulation_interface`.
 
 ## Getting help
 
