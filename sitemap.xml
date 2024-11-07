@@ -10,12 +10,13 @@
 <url><loc>https://erahumed.github.io/erahumed/reference/albufera_outflows.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/albufera_weather.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/ca.html</loc></url>
-<url><loc>https://erahumed.github.io/erahumed/reference/component_output.html</loc></url>
-<url><loc>https://erahumed.github.io/erahumed/reference/component_parameters.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/ct.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/erahumed-package.html</loc></url>
-<url><loc>https://erahumed.github.io/erahumed/reference/erahumed_model.html</loc></url>
-<url><loc>https://erahumed.github.io/erahumed/reference/erahumed_modeling_interface.html</loc></url>
+<url><loc>https://erahumed.github.io/erahumed/reference/erahumed_simulation.html</loc></url>
+<url><loc>https://erahumed.github.io/erahumed/reference/erahumed_simulation_interface.html</loc></url>
+<url><loc>https://erahumed.github.io/erahumed/reference/get_layer.html</loc></url>
+<url><loc>https://erahumed.github.io/erahumed/reference/get_layer_output.html</loc></url>
+<url><loc>https://erahumed.github.io/erahumed/reference/get_layer_parameters.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/hba.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/hba_residence_time.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/hbp.html</loc></url>
@@ -27,5 +28,6 @@
 <url><loc>https://erahumed.github.io/erahumed/reference/plot.erahumed_hba.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/plot.erahumed_hbp.html</loc></url>
 <url><loc>https://erahumed.github.io/erahumed/reference/plot.erahumed_inp.html</loc></url>
+<url><loc>https://erahumed.github.io/erahumed/reference/run_simulation.html</loc></url>
 </urlset>
 
