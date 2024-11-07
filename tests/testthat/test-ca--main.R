@@ -1,4 +1,4 @@
 test_that("Execution succeeds with valid input", {
-  expect_no_error( compute_ca(test_mod_small()) )
+  expect_no_error( setup_ca(test_sim_small()) )
 })
 

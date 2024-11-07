@@ -45,7 +45,7 @@ hbpUI <- function(id) {
 
 }
 
-hbpServer <- function(id, model) {
+hbpServer <- function(id, simulation) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -54,10 +54,11 @@ hbpServer <- function(id, model) {
     res <- shiny::reactive({
 
       withr::with_seed(input$seed, {
-        compute_hbp(model = model(),
-                    management_df = management_df(),
+        simulation() |>
+          setup_hbp(management_df = management_df(),
                     ideal_flow_rate_cm = input$ideal_flow_rate_cm
-                    )
+                    ) |>
+          run_simulation(layer = "hbp")
         })
 
       })
@@ -84,7 +85,10 @@ hbpServer <- function(id, model) {
 
     output$plot <- plotly::renderPlotly({
       shiny::req(input$cluster_id)
-      plot(hbp(res()), cluster_id = input$cluster_id)
+
+      res() |>
+        get_layer("hbp") |>
+        plot(cluster_id = input$cluster_id)
     })
 
     return(res)

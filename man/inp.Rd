@@ -2,19 +2,17 @@
 % Please edit documentation in R/inp--main.R
 \name{inp}
 \alias{inp}
-\alias{compute_inp}
+\alias{setup_inp}
 \title{INP: Input data}
 \usage{
-inp(model)
-
-compute_inp(
-  model,
+setup_inp(
+  simulation,
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}.}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{outflows_df}{A \code{data.frame}, whose structure follows the
 template of \link{albufera_outflows}; See details.}
@@ -23,15 +21,14 @@ template of \link{albufera_outflows}; See details.}
 \link{albufera_weather}; See details.}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_inp}, for
-\code{compute_inp()} and \code{inp()} respectively.
+An object of class \link{erahumed_simulation}.
 }
 \description{
-This model component has the only purpose to collect the observational (or,
+This simulation layer has the only purpose to collect the observational (or,
 potentially, synthetic) data used by the algorithms of the ERAHUMED decision
 support system.
 
-This is the first layer of the modeling chain and does not have
+This is the first layer of the simulation chain and does not have
 any upstream dependence.
 }
 \details{
@@ -40,9 +37,9 @@ hydrological data on the Albufera lake. This consists of a \code{level} column,
 that is the daily measured lake water level in meters, plus any number of
 columns named as \verb{outflow_*} (\emph{e.g.} \code{outflow_pujol}), that give the daily
 measured outflows in cube meters per second.
-The \code{weather_df} captures the relevant weather data for modeling:
+The \code{weather_df} captures the relevant weather data for simulation:
 \itemize{
-\item Precipitation and evapotranspiration, relevant for modeling the
+\item Precipitation and evapotranspiration, relevant for simulation the
 hydrological balance, corresponding to the
 \code{precipitation_mm} and \code{evapotranspiration_mm} columns, respectively.
 \item Temperature, relevant because it affects chemical reaction speeds.
@@ -51,22 +48,17 @@ hydrological balance, corresponding to the
 Both \code{data.frame}s should have a \code{date} column (of class \link{Date}), and
 the corresponding date domain should be an interval (\emph{i.e.} no missing data
 between the maximum and minimum of \code{date} is allowed). The subsequent
-modeling will only be performed on the largest date interval in which both
+simulation will only be performed on the largest date interval in which both
 hydrological and weather input data is available.
 }
-\examples{
-model <- erahumed_model() |> compute_inp()
-inp(model)
-
-}
 \seealso{
-Other model components: 
-\code{\link{ca}()},
-\code{\link{ct}()},
-\code{\link{hba}()},
-\code{\link{hbp}()}
+Other simulation layers: 
+\code{\link{ca}},
+\code{\link{ct}},
+\code{\link{hba}},
+\code{\link{hbp}}
 }
 \author{
 Valerio Gherardi
 }
-\concept{model components}
+\concept{simulation layers}

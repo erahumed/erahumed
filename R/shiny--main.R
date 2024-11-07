@@ -23,8 +23,8 @@ shiny_ui <- function() {
 }
 
 shiny_server <- function(input, output, session) {
-  model <- shiny::reactiveVal(erahumed_model())
-  inp_res <- inpServer("inp", model)
+  simulation <- shiny::reactiveVal(erahumed_simulation())
+  inp_res <- inpServer("inp", simulation)
   hba_res <- hbaServer("hba", inp_res)
   hbp_res <- hbpServer("hbp", hba_res)
   ca_res <- caServer("ca", hbp_res)

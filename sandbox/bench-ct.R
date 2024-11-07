@@ -7,11 +7,11 @@ ranges <- list(
   #, large = c("2010-01-01", "2019-12-31")
 )
 
-models <- lapply(ranges, function(range) {
+simulations <- lapply(ranges, function(range) {
   outflows_df <- albufera_outflows |>
     dplyr::filter(range[[1]] <= date, date <= range[[2]])
 
-  res <- erahumed_model() |>
+  res <- erahumed_simulation() |>
     compute_inp(outflows_df = outflows_df) |>
     compute_hba() |>
     compute_hbp() |>
@@ -20,4 +20,4 @@ models <- lapply(ranges, function(range) {
   return(res)
 })
 
-profvis({ compute_ct(models[[2]]) })
+profvis({ compute_ct(simulations[[2]]) })

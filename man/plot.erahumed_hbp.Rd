@@ -2,7 +2,7 @@
 % Please edit documentation in R/hbp--plot.R
 \name{plot.erahumed_hbp}
 \alias{plot.erahumed_hbp}
-\title{Plot HBP model component output}
+\title{Plot HBP simulation layer output}
 \usage{
 \method{plot}{erahumed_hbp}(x, type = c("cluster_view", "map_view"), ...)
 }
@@ -19,7 +19,7 @@ specified by \code{type}; See details.}
 A plotly plot.
 }
 \description{
-Plot method for \link{hbp} model components.
+Plot method for \link{hbp} simulation layers.
 }
 \details{
 The \code{"cluster_view"} plot generates a time series plot of the daily

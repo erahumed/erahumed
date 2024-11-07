@@ -1,12 +1,12 @@
 #' @title HBP: Hydrological Balance of rice Paddies
-#' @rdname hbp
+#' @name hbp
 #'
-#' @family model components
+#' @family simulation layers
 #'
 #' @author Pablo Amador Crespo, Valerio Gherardi
 #'
 #' @description
-#' This model component performs a simulation of hydrological balance
+#' This simulation layer performs a simulation of hydrological balance
 #' daily data for the rice paddies of the Albufera National Park, that provides
 #' a synthetic dataset of daily inflows, outflows and average water levels for
 #' each rice paddy.
@@ -19,11 +19,7 @@
 #' 1. An yearly ideal schedule for irrigation and draining, with corresponding
 #' expected water levels of a cluster for each day of the year.
 #'
-#' This modeling layer requires the \link{hba} component of the model to be
-#' pre-computed.
-#'
-#' @param model An object of class \link{erahumed_model}, with a pre-computed
-#' \link{hba} component (*i.e.* such that `hba(model)` is not `NULL`).
+#' @param simulation An object of class \link{erahumed_simulation}.
 #' @param clusters_df A `data.frame` that contains the definition of rice paddy
 #' clusters. This should strictly follow the template of
 #' \link{albufera_clusters}, and it is in fact unlikely that the user would want
@@ -38,47 +34,42 @@
 #' @param height_thresh_cm A positive number. Height threshold for water levels,
 #' below which a cluster is considered to be emptied.
 #'
-#' @return Objects of class \link{erahumed_model} and `erahumed_hbp`, for
-#' `compute_hbp()` and `hbp()` respectively.
+#' @return An object of class \link{erahumed_simulation}.
 #'
 #' @details
 #' TODO: #64, plus more detailed information on the structure of
 #' `management_df` (and perhaps also on `clusters_df`, depending on the decision
 #' taken regarding #47).
 #'
-#'
 #' @export
-hbp <- function(model)
-  get_model_component(model, "hbp")
-
-#' @rdname hbp
-#' @export
-compute_hbp <- function(
-    model,
+setup_hbp <- function(
+    simulation,
     management_df = erahumed::albufera_management,
     clusters_df = erahumed::albufera_clusters,
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 2
-    )
+)
 {
-  compute_component(model,
-                    "hbp",
-                    management_df = management_df,
-                    clusters_df = clusters_df,
-                    ideal_flow_rate_cm = ideal_flow_rate_cm,
-                    height_thresh_cm = height_thresh_cm
-                    )
+  setup_layer(simulation = simulation,
+              layer = "hbp",
+              management_df = management_df,
+              clusters_df = clusters_df,
+              ideal_flow_rate_cm = ideal_flow_rate_cm,
+              height_thresh_cm = height_thresh_cm,
+              validate_params = validate_hbp_params
+  )
 }
 
 
 
-compute_hbp_output <- function(model,
-                               management_df,
-                               clusters_df,
-                               ideal_flow_rate_cm,
-                               height_thresh_cm)
+compute_hbp_bare <- function(simulation)
 {
-  .hbp_args <- .hbp_data_prep(model = model,
+  management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
+  clusters_df <- get_layer_parameters(simulation, "hbp")[["clusters_df"]]
+  ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
+  height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+
+  .hbp_args <- .hbp_data_prep(simulation = simulation,
                               management_df = management_df,
                               clusters_df = clusters_df,
                               ideal_flow_rate_cm = ideal_flow_rate_cm,
@@ -88,10 +79,10 @@ compute_hbp_output <- function(model,
 
 
 
-compute_hbp_argcheck <- function(management_df,
-                                 clusters_df,
-                                 ideal_flow_rate_cm,
-                                 height_thresh_cm)
+validate_hbp_params <- function(management_df,
+                                clusters_df,
+                                ideal_flow_rate_cm,
+                                height_thresh_cm)
 {
   tryCatch(
     {
@@ -101,7 +92,7 @@ compute_hbp_argcheck <- function(management_df,
       assert_positive_number(height_thresh_cm)
     },
     error = function(e) {
-      class(e) <- c("compute_hbp_argcheck_error", class(e))
+      class(e) <- c("validate_hbp_params_error", class(e))
       stop(e)
     }
   )
@@ -109,7 +100,7 @@ compute_hbp_argcheck <- function(management_df,
 
 
 
-hbp_validate_output <- function(output) {
+validate_hbp_output <- function(output) {
   assert_data.frame(output,
                     template =   data.frame(ideal_height_eod_cm = numeric(),
                                             height_eod_cm = numeric(),

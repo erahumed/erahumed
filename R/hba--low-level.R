@@ -48,7 +48,7 @@
 #' described above.
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-#' * `residence_time_days`. Residence time, as modeled by \link{hba_residence_time}.
+#' * `residence_time_days`. Residence time, as simulationed by \link{hba_residence_time}.
 #'
 #' @noRd
 .hba <- function(

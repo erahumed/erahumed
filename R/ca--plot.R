@@ -1,7 +1,7 @@
-#' Plot CA model component output
+#' Plot CA simulation layer output
 #'
 #' @description
-#' Plot method for \link{ca} model components.
+#' Plot method for \link{ca} simulation layers.
 #'
 #' @param x An object of class `ca`.
 #' @param type Type of plot to be generated. Currently, only the
@@ -33,7 +33,7 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
 
   args <- list(...)
 
-  df <- component_output(x)
+  df <- get_layer_output(x)
 
   cluster_data <- df[df$cluster_id == args$cluster_id, ]
 

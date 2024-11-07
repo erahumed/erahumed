@@ -171,9 +171,9 @@ assert_logical <- function(x, name  = deparse(substitute(x))) {
   stop(paste0("'", name, "' must be a logical vector."))
 }
 
-assert_erahumed_model <- function(x, name  = deparse(substitute(x))) {
-  if (is_erahumed_model(x))
+assert_erahumed_simulation <- function(x, name  = deparse(substitute(x))) {
+  if (is_erahumed_simulation(x))
     return(invisible(TRUE))
-  msg <- paste(name, "is not a valid 'erahumed_model' object.")
+  msg <- paste(name, "is not a valid 'erahumed_simulation' object.")
   stop(msg)
 }

@@ -1,10 +1,10 @@
-test_that("compute_hba(): no error with valid arguments", {
-  m <- test_mod_small()
+test_that("setup_hba(): no error with valid arguments", {
+  m <- test_sim_small()
 
-  expect_no_error( compute_hba(m) )
+  expect_no_error( setup_hba(m) )
 })
 
-test_that("compute_hba(): returns an object of the correct class", {
-  obj <- compute_hba(test_mod_small())
-  expect_s3_class(obj, class(erahumed_model()))
+test_that("setup_hba(): returns an object of the correct class", {
+  obj <- setup_hba(test_sim_small())
+  expect_s3_class(obj, class(erahumed_simulation()))
 })

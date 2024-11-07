@@ -2,20 +2,17 @@
 % Please edit documentation in R/hba--main.R
 \name{hba}
 \alias{hba}
-\alias{compute_hba}
+\alias{setup_hba}
 \title{HBA: Hydrological Balance of the Albufera Lake}
 \usage{
-hba(model)
-
-compute_hba(
-  model,
+setup_hba(
+  simulation,
   storage_curve = function(level) 16.7459 * 1e+06 + level * 23.6577 * 1e+06,
   petp_function = function(p, etp) 114.226 * 1000 * p - 79.361 * 1000 * etp
 )
 }
 \arguments{
-\item{model}{An object of class \link{erahumed_model}, with a pre-computed
-\link{inp} component (\emph{i.e.} such that \code{inp(model)} is not \code{NULL}).}
+\item{simulation}{An object of class \link{erahumed_simulation}.}
 
 \item{storage_curve}{a function that takes a numeric vector as input, and
 returns a numeric vector of the same length. Function that converts lake
@@ -28,26 +25,22 @@ expressed in millimiters) into an overall volume change (in  cube meters
 when the inputs are given in the expected units).}
 }
 \value{
-Objects of class \link{erahumed_model} and \code{erahumed_hba}, for
-\code{compute_hba()} and \code{hba()} respectively.
+An objects of class \link{erahumed_simulation}.
 }
 \description{
-This model component completes the partial hydrological balance information
+This simulation layer completes the partial hydrological balance information
 provided as input data, by computing the total inflow to the Albufera lake,
 as well as, if relevant, the amount of unaccounted outflow - usually
 attributed to \emph{tancats} that suck water from the lake.
-
-It is the second modeling layer, and requires the \link{inp} component of the
-model to be previously defined.
 }
 \details{
 The numeric inputs for the linear storage curve are taken from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
+\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
 The values used as the arguments of \code{petp_function()} were calculated by the
 package authors, and correspond to the total study area (\code{surface_P}) and
 the flooded surface (\code{surface_ETP}).
 
-The output data.frame of the calculated HBA component contains a copy of the
+The output data.frame of the calculated HBA layer contains a copy of the
 input data, as well as the following additional columns:
 \itemize{
 \item \code{volume} Volume time series, obtained from the storage curve.
@@ -69,17 +62,17 @@ non-negative.
 described above.
 \item \code{inflow_total} Time serie of total inflows, in cube meters per second.
 This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-\item \code{residence_time_days}. Residence time, as modeled by \link{hba_residence_time}.
+\item \code{residence_time_days}. Residence time, as simulationed by \link{hba_residence_time}.
 }
 }
 \seealso{
-Other model components: 
-\code{\link{ca}()},
-\code{\link{ct}()},
-\code{\link{hbp}()},
-\code{\link{inp}()}
+Other simulation layers: 
+\code{\link{ca}},
+\code{\link{ct}},
+\code{\link{hbp}},
+\code{\link{inp}}
 }
 \author{
 Pablo Amador Crespo, Valerio Gherardi
 }
-\concept{model components}
+\concept{simulation layers}

@@ -1,7 +1,7 @@
-#' Plot HBP model component output
+#' Plot HBP simulation layer output
 #'
 #' @description
-#' Plot method for \link{hbp} model components.
+#' Plot method for \link{hbp} simulation layers.
 #'
 #' @param x An object of class `hbp`.
 #' @param type Type of plot to be generated. Currently, only the
@@ -31,7 +31,7 @@ plot_erahumed_hbp_cluster_view <- function(x, ...)
 {
   args <- list(...)
 
-  data <- component_output(x)
+  data <- get_layer_output(x)
 
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
