@@ -63,10 +63,11 @@
 #' * \link{hbp}: Hydrological Balance of rice Paddy clusters.
 #' * \link{ca}: Chemical Applications.
 #' * \link{ct}: Chemical Transport.
+#'
 #' The order of simulation layers in the list above is the logical one. Each
 #' layer depends on the previous ones (referred to as "upstream"),
 #' and is a dependency of the subsequent ones (referred to as "downstream").
 #'
-#' The example code below illustrates typical operations with simulation layers,
+#' The example code below illustrates typical operations with simulation layers.
 #'
 NULL
