@@ -12,6 +12,7 @@
     "ct-dact_m": 0.1,
     "ct-drift": 0,
     "ct-fc": 0.35,
+    "ct-foc": 0.17,
     "ct-jgrow": 152,
     "ct-qseep_m_day": 0,
     "ct-seed": 840,
