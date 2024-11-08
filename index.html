@@ -101,14 +101,17 @@
 <span><span class="va">simulation</span></span>
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
 <span><span class="co">#&gt; Computed layers: None</span></span></code></pre></div>
-<p>This is the main abstraction that <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> uses to collect the various layers involved in the simulation chain of the DSS. As the output above shows, its layers are initialized but not computed yet.</p>
-<p>We can modify the configuration of specific layers through the <code>setup_*()</code> functions, for instance:</p>
+<p>This is the main abstraction that <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> uses to collect the various layers involved in the simulation chain of the DSS, namely:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/erahumed_layers.html">erahumed_layers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "inp" "hba" "hbp" "ca"  "ct"</span></span></code></pre></div>
+<p>As the output above shows, the layers of <code>simulation</code> are initialized but not computed yet. We can modify the configuration of specific layers through the <code>setup_*()</code> functions, for instance:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/hbp.html">setup_hbp</a></span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/ct.html">setup_ct</a></span><span class="op">(</span>dact_m <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
 <p>In order to actually compute the layers, we use <code><a href="reference/run_simulation.html">run_simulation()</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/run_simulation.html">run_simulation</a></span><span class="op">(</span>layer <span class="op">=</span> <span class="st">"hba"</span><span class="op">)</span>  <span class="co"># Run simulation until the HBA layer</span></span></code></pre></div>
 <p>Simulations are composed of the following layers (in dependency order, from upstream to downstream):</p>
@@ -120,7 +123,7 @@
 <li>CT [<code><a href="reference/ct.html">setup_ct()</a></code>]: Chemical Transport.</li>
 </ul>
 <p>In order to inspect the results of a given layer, we use:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_layer.html">get_layer</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; A ERAHUMED HBA simulation layer.</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -128,11 +131,11 @@
 <span><span class="fu"><a href="reference/get_layer_parameters.html">get_layer_parameters</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $storage_curve</span></span>
 <span><span class="co">#&gt; \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000002174e984bc8&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x000001f595f6f960&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $petp_function</span></span>
 <span><span class="co">#&gt; \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000002174e984bc8&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x000001f595f6f960&gt;</span></span>
 <span><span class="fu"><a href="reference/get_layer_output.html">get_layer_output</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       level precipitation_mm evapotranspiration_mm       date is_imputed_level</span></span>
 <span><span class="co">#&gt; 1 0.3725000              8.2                  0.54 2005-12-20            FALSE</span></span>

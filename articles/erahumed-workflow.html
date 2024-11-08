@@ -107,9 +107,13 @@ is to teach you how to operate with simulations and layers in
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
 <span><span class="co">#&gt; Computed layers: None</span></span></code></pre></div>
 <p>The object <code>s</code> is, behind the scenes, an R list that
-contains simulation layers. We can extract individual layers as
-follows:</p>
+contains simulation layers. The list of ERAHUMED layers can be obtained
+through:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/erahumed_layers.html">erahumed_layers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "inp" "hba" "hbp" "ca"  "ct"</span></span></code></pre></div>
+<p>We can extract individual layers as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_layer.html">get_layer</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"hba"</span><span class="op">)</span>  <span class="co"># Extract the HBA layer</span></span>
 <span><span class="co">#&gt; A ERAHUMED HBA simulation layer.</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -128,11 +132,11 @@ individual layers, run the simulation and extract results.</p>
 and return a simulation with the updated setup.</p>
 <p>For instance, to configure the height threshold parameter used in HBP
 layer computations (see <code><a href="../reference/hbp.html">?setup_hbp</a></code>), we would use:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hbp.html">setup_hbp</a></span><span class="op">(</span><span class="va">s</span>, height_thresh_cm <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span></code></pre></div>
 <p>Similarly, to limit the date range of the simulation, we can provide
 a filtered<br><code>outflows_df</code> data-set to the INP layer:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outflows_df</span> <span class="op">&lt;-</span> <span class="va">albufera_outflows</span> <span class="op">|&gt;</span></span>
 <span>  <span class="op">(</span>\<span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="va">.</span><span class="op">[</span><span class="st">"2020-01-01"</span> <span class="op">&lt;=</span> <span class="va">.</span><span class="op">$</span><span class="va">date</span> <span class="op">&amp;</span> <span class="va">.</span><span class="op">$</span><span class="va">date</span> <span class="op">&lt;=</span> <span class="st">"2020-12-31"</span>, <span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inp.html">setup_inp</a></span><span class="op">(</span><span class="va">s</span>, outflows_df <span class="op">=</span> <span class="va">outflows_df</span><span class="op">)</span></span></code></pre></div>
@@ -141,7 +145,7 @@ corresponding <code>setup_*()</code> function, and the default values
 set by <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> correspond to the defaults of
 the <code>setup_*()</code> arguments. The current layer parameters of a
 simulation can be obtained through:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_layer_parameters.html">get_layer_parameters</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"ct"</span><span class="op">)</span>  <span class="co"># Get parameters of CT layer</span></span>
 <span><span class="co">#&gt; $drift</span></span>
 <span><span class="co">#&gt; [1] 0</span></span>
@@ -183,14 +187,14 @@ simulation can be obtained through:</p>
 various layers, using the <code><a href="../reference/run_simulation.html">run_simulation()</a></code> function. In
 order to speed up iterations,<br><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> gives you the option to compute just a specific
 layer with all its upstream dependencies. For example:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_simulation.html">run_simulation</a></span><span class="op">(</span><span class="va">s</span>, layer <span class="op">=</span> <span class="st">"hbp"</span><span class="op">)</span></span>
 <span><span class="va">s</span></span>
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
 <span><span class="co">#&gt; Computed layers: inp, hba, hbp</span></span></code></pre></div>
 <p>would compute only the INP, HBA and HBP layers. If you simply want to
 compute all layers, you can just call:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_simulation.html">run_simulation</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
 <span><span class="va">s</span></span>
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
@@ -207,7 +211,7 @@ result, which will be essentially time-series data-sets (possibly with a
 spatial component identified by a <code>cluster_id</code>).</p>
 <p>You can extract the output (a <code>data.frame</code>) of a given
 layer as follows:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hbp_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_layer_output.html">get_layer_output</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"hbp"</span><span class="op">)</span>  <span class="co"># Get output data.frame of HBP layer</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hbp_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   ideal_height_eod_cm ideal_irrigation ideal_draining petp_cm   area_m2</span></span>
@@ -249,7 +253,7 @@ layer as follows:</p>
 convenient. For instance, in the chunk below I create a plot of water
 levels for a set of clusters with similar features, using
 <code>dplyr</code> and <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
@@ -278,7 +282,7 @@ levels for a set of clusters with similar features, using
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Cluster simulated water levels"</span>,</span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Ditch:"</span>, <span class="va">ditch</span>, <span class="st">"- Tancat:"</span>, <span class="va">tancat</span>, <span class="st">"- Variety:"</span>, <span class="va">variety</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
