@@ -21,6 +21,8 @@ whereas it would previously return the `"inp"` layer.
 
 * New helper `erahumed_layers()` that returns the list of ERAHUMED simulation 
 layers.
+* New helpers `chemicals()` and `chemical_properties()` providing information on 
+supported chemicals.
 
 # erahumed 0.11.0
 
