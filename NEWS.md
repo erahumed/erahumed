@@ -1,5 +1,17 @@
 # erahumed (development version)
 
+### Algorithm
+
+* The water-sediment partition coefficient of chemicals is now computed as 
+`kd = koc * foc`, where `koc` is the carbon-water partition coefficient, and 
+`foc` is the fraction of organic content in soil (#105). Correspondingly, 
+`setup_ct()` gets a new argument `foc`, with default value `foc = 0.17`.
+
+* The internal data-set of physico-chemical parameters used by the CT layer was 
+thoroughly reviewed (#123), with sizable corrections to some parameters. In 
+particular, `kd` values have been substituted by `koc` values (see previous 
+point).
+
 # erahumed 0.11.0
 
 ### API changes
