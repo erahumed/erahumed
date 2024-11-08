@@ -7,11 +7,12 @@
 erahumed_layers()
 }
 \value{
-A character vector. List of ERAHUMED simulation layers.
+A character vector.
 }
 \description{
-Returns a list of ERAHUMED simulation layers
-(\emph{cf.} \link{erahumed_simulation_interface}).
+Enumerates the ERAHUMED simulation layers
+(\emph{cf.} \link{erahumed_simulation_interface}), in dependency order (from
+upstream to downstream).
 }
 \details{
 For further information on the various layers, see \verb{?<layer_name>}.

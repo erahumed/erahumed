@@ -1,11 +1,12 @@
 #' ERAHUMED simulation layers
 #'
 #' @description
-#' Returns a list of ERAHUMED simulation layers
-#' (*cf.* \link{erahumed_simulation_interface}).
+#' Enumerates the ERAHUMED simulation layers
+#' (*cf.* \link{erahumed_simulation_interface}), in dependency order (from
+#' upstream to downstream).
 #'
 #' @return
-#' A character vector. List of ERAHUMED simulation layers.
+#' A character vector.
 #'
 #' @details For further information on the various layers, see `?<layer_name>`.
 #'
