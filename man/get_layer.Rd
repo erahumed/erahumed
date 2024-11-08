@@ -4,7 +4,7 @@
 \alias{get_layer}
 \title{Extract simulation layers}
 \usage{
-get_layer(simulation, layer = erahumed_layers())
+get_layer(simulation, layer)
 }
 \arguments{
 \item{simulation}{The simulation from which the layer is to be extracted
