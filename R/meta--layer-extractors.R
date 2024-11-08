@@ -13,9 +13,9 @@
 #' A \link{erahumed_simulation_layer}.
 #'
 #' @export
-get_layer <- function(simulation, layer = erahumed_layers()) {
+get_layer <- function(simulation, layer) {
   assert_erahumed_simulation(simulation)
-  layer <- match.arg(layer)
+  layer <- match.arg(layer, erahumed_layers())
 
   return( simulation[[layer]] )
 }
