@@ -29,7 +29,8 @@ test_that("ct_fds(): result is a percentage with the standard inputs", {
 
   chemicals <- unique(albufera_ca_schedules$chemical)
   for (chemical in chemicals) {
-    kd_cm3_g <- ct_get_param(chemical, "kd_cm3_g")
+    foc <- 0.17
+    kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
 
     res <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
     expect_gte(res, 0)
@@ -56,7 +57,8 @@ test_that("ct_fdw(): result is a percentage with the standard inputs", {
 
   chemicals <- unique(albufera_ca_schedules$chemical)
   for (chemical in chemicals) {
-    kd_cm3_g <- ct_get_param(chemical, "kd_cm3_g")
+    foc <- 0.17
+    kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
 
     res <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
     expect_gte(res, 0)

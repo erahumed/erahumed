@@ -25,6 +25,7 @@
 #' meters.
 #' @param css_ppm A positive number. Suspended sediment concentration, expressed
 #' in parts per million.
+#' @param foc A number between `0` and `1`. Fraction of organic content.
 #' @param bd_g_cm3 A positive number. Bulk density of the sediment, expressed in
 #' grams per cubic centimeter.
 #' @param qseep_m_day A positive number. Seepage rate, expressed in meters per
@@ -43,6 +44,7 @@ setup_ct <- function(
     SNK = 0,
     dact_m = 0.1,
     css_ppm = 50,
+    foc = 0.17,
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     wilting = 0.24,
@@ -57,6 +59,7 @@ setup_ct <- function(
               SNK = SNK,
               dact_m = dact_m,
               css_ppm = css_ppm,
+              foc = foc,
               bd_g_cm3 = bd_g_cm3,
               qseep_m_day = qseep_m_day,
               wilting = wilting,
@@ -72,6 +75,7 @@ validate_ct_params <- function(
     SNK,
     dact_m,
     css_ppm,
+    foc,
     bd_g_cm3,
     qseep_m_day,
     wilting,
@@ -97,6 +101,7 @@ compute_ct_bare <- function(simulation)
   SNK <- get_layer_parameters(simulation, "ct")[["SNK"]]
   dact_m <- get_layer_parameters(simulation, "ct")[["dact_m"]]
   css_ppm <- get_layer_parameters(simulation, "ct")[["css_ppm"]]
+  foc <- get_layer_parameters(simulation, "ct")[["foc"]]
   bd_g_cm3 <- get_layer_parameters(simulation, "ct")[["bd_g_cm3"]]
   qseep_m_day <- get_layer_parameters(simulation, "ct")[["qseep_m_day"]]
   wilting <- get_layer_parameters(simulation, "ct")[["wilting"]]
@@ -122,6 +127,7 @@ compute_ct_bare <- function(simulation)
            SNK = SNK,
            dact_m = dact_m,
            css_ppm = css_ppm,
+           foc = foc,
            bd_g_cm3 = bd_g_cm3,
            qseep_m_day = qseep_m_day,
            wilting = wilting,

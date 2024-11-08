@@ -5,6 +5,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
                                SNK,
                                dact_m,
                                css_ppm,
+                               foc,
                                bd_g_cm3,
                                qseep_m_day,
                                wilting,
@@ -36,6 +37,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
       SNK = SNK,
       dact_m = dact_m,
       css_ppm = css_ppm,
+      foc = foc,
       bd_g_cm3 = bd_g_cm3,
       qseep_m_day = qseep_m_day,
       wilting = wilting,
@@ -71,6 +73,7 @@ ct_to_cluster <- function(application_kg,
                           SNK,
                           dact_m,
                           css_ppm,
+                          foc,
                           bd_g_cm3,
                           qseep_m_day,
                           wilting,
@@ -102,6 +105,14 @@ ct_to_cluster <- function(application_kg,
     ms[t] <- ms[t] + msapp[t]
 
     mw_excess <- mw[t] - mw_max[t]
+
+    # if(is.na(mw_excess)) {
+    #   mw_excess
+    #   kd_cm3_g
+    #   mw[t]
+    #   mw_max[t]
+    # }
+
     if (mw_excess > 0) {
       mw[t] <- mw_max[t]
       ms[t] <- ms[t] + mw_excess
@@ -134,6 +145,7 @@ ct_compute_system_terms <- function(application_kg,
                                     SNK,
                                     dact_m,
                                     css_ppm,
+                                    foc,
                                     bd_g_cm3,
                                     qseep_m_day,
                                     wilting,
@@ -144,6 +156,7 @@ ct_compute_system_terms <- function(application_kg,
   dt <- 1
 
   # Chemicals parameters
+  kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
   kf_day <- ct_get_param(chemical, "kf_day")
   kw_day <- ct_get_param(chemical, "kw_day")
   Q10_kw <- ct_get_param(chemical, "Q10_kw")
@@ -156,7 +169,6 @@ ct_compute_system_terms <- function(application_kg,
   ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
   sol_ppm <- ct_get_param(chemical, "sol_ppm")
   dinc_m <- ct_get_param(chemical, "dinc_m")
-  kd_cm3_g <- ct_get_param(chemical, "kd_cm3_g")
   ksetl_m_day <- ct_get_param(chemical, "ksetl_m_day")
   kvolat_m_day <- ct_get_param(chemical, "kvolat_m_day")
   MW <- ct_get_param(chemical, "MW")

@@ -13,6 +13,7 @@ setup_ct(
   SNK = 0,
   dact_m = 0.1,
   css_ppm = 50,
+  foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   wilting = 0.24,
@@ -37,6 +38,8 @@ meters.}
 
 \item{css_ppm}{A positive number. Suspended sediment concentration, expressed
 in parts per million.}
+
+\item{foc}{A number between \code{0} and \code{1}. Fraction of organic content.}
 
 \item{bd_g_cm3}{A positive number. Bulk density of the sediment, expressed in
 grams per cubic centimeter.}
