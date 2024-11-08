@@ -38,6 +38,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<div class="section level4">
+<h4 id="algorithm-development-version">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-development-version"></a></h4>
+<ul><li><p>The water-sediment partition coefficient of chemicals is now computed as <code>kd = koc * foc</code>, where <code>koc</code> is the carbon-water partition coefficient, and <code>foc</code> is the fraction of organic content in soil (<a href="https://github.com/erahumed/erahumed/issues/105" class="external-link">#105</a>). Correspondingly, <code><a href="../reference/ct.html">setup_ct()</a></code> gets a new argument <code>foc</code>, with default value <code>foc = 0.17</code>.</p></li>
+<li><p>The internal data-set of physico-chemical parameters used by the CT layer was thoroughly reviewed (<a href="https://github.com/erahumed/erahumed/issues/123" class="external-link">#123</a>), with sizable corrections to some parameters. In particular, <code>kd</code> values have been substituted by <code>koc</code> values (see previous point).</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.0" id="erahumed-0110">erahumed 0.11.0<a class="anchor" aria-label="anchor" href="#erahumed-0110"></a></h2>
