@@ -12,6 +12,11 @@ thoroughly reviewed (#123), with sizable corrections to some parameters. In
 particular, `kd` values have been substituted by `koc` values (see previous 
 point).
 
+### API changes
+
+* `get_layer()` now throws an error if the `layer` argument is not specified, 
+whereas it would previously return the `"inp"` layer.
+
 # erahumed 0.11.0
 
 ### API changes
