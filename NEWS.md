@@ -17,6 +17,11 @@ point).
 * `get_layer()` now throws an error if the `layer` argument is not specified, 
 whereas it would previously return the `"inp"` layer.
 
+### New features
+
+* New helper `erahumed_layers()` that returns the list of ERAHUMED simulation 
+layers.
+
 # erahumed 0.11.0
 
 ### API changes

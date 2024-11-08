@@ -78,11 +78,16 @@ simulation
 ```
 
 This is the main abstraction that `{erahumed}` uses to collect the
-various layers involved in the simulation chain of the DSS. As the
-output above shows, its layers are initialized but not computed yet.
+various layers involved in the simulation chain of the DSS, namely:
 
-We can modify the configuration of specific layers through the
-`setup_*()` functions, for instance:
+``` r
+erahumed_layers()
+#> [1] "inp" "hba" "hbp" "ca"  "ct"
+```
+
+As the output above shows, the layers of `simulation` are initialized
+but not computed yet. We can modify the configuration of specific layers
+through the `setup_*()` functions, for instance:
 
 ``` r
 simulation <- simulation |>
@@ -116,11 +121,11 @@ get_layer(simulation, "hba")
 get_layer_parameters(simulation, "hba")
 #> $storage_curve
 #> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x000002174e984bc8>
+#> <environment: 0x000001f595f6f960>
 #> 
 #> $petp_function
 #> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x000002174e984bc8>
+#> <environment: 0x000001f595f6f960>
 get_layer_output(simulation, "hba") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE

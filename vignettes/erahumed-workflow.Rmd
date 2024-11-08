@@ -55,6 +55,12 @@ s
 ```
 
 The object `s` is, behind the scenes, an R list that contains simulation layers.
+The list of ERAHUMED layers can be obtained through:
+
+```{r}
+erahumed_layers()
+```
+
 We can extract individual layers as follows:
 
 ```{r}

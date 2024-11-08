@@ -80,11 +80,13 @@ simulation
 ```
 
 This is the main abstraction that `{erahumed}` uses to collect the various 
-layers involved in the simulation chain of the DSS. As the output above shows, 
-its layers are initialized but not computed yet. 
+layers involved in the simulation chain of the DSS, namely:
 
-We can modify the configuration of specific layers through the `setup_*()` 
-functions, for instance:
+```{r}
+erahumed_layers()
+```
+
+As the output above shows, the layers of `simulation` are initialized but not computed yet. We can modify the configuration of specific layers through the `setup_*()` functions, for instance:
 
 ```{r}
 simulation <- simulation |>

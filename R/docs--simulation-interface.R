@@ -68,6 +68,8 @@
 #' The order of simulation layers in the list above is the logical one. Each
 #' layer depends on the previous ones (referred to as "upstream"),
 #' and is a dependency of the subsequent ones (referred to as "downstream").
+#' The list of ERAHUMED layers can also be obtained through the
+#' \link{erahumed_layers} helper.
 #'
 #' The example code below illustrates typical operations with simulation layers.
 #'
