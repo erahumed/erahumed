@@ -12,7 +12,11 @@ hbaUI <- function(id) {
                                             "Select Variable",
                                             choices = vars,
                                             selected = vars[[1]])
-                      )),
+                      ),
+        shiny::column(4,
+                      shiny::downloadButton(ns("downloadData"), "Download Data")
+                      )
+        ),
 
       plotly::plotlyOutput(ns("plot"))
 
@@ -43,6 +47,11 @@ hbaServer <- function(id, simulation) {
         get_layer("hba") |>
         plot(input$variable)
       })
+
+    output$downloadData <- shiny::downloadHandler(
+      filename = function() paste0("output-hba-", Sys.Date(), ".csv"),
+      content = \(file) readr::write_csv(get_layer_output(res(), "hba"), file)
+    )
 
     return(res)
   })

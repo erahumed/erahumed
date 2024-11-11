@@ -14,6 +14,9 @@ hbpUI <- function(id) {
                                          choices = clusters,
                                          selected = clusters[[1]]
                                          )
+                      ),
+        shiny::column(4,
+                      shiny::downloadButton(ns("downloadData"), "Download Data")
                       )
         ),
 
@@ -89,6 +92,11 @@ hbpServer <- function(id, simulation) {
         get_layer("hbp") |>
         plot(cluster_id = input$cluster_id)
     })
+
+    output$downloadData <- shiny::downloadHandler(
+      filename = function() paste0("output-hbp-", Sys.Date(), ".csv"),
+      content = \(file) readr::write_csv(get_layer_output(res(), "hbp"), file)
+    )
 
     return(res)
   })

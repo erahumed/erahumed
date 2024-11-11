@@ -14,6 +14,9 @@ caUI <- function(id) {
                                          choices = clusters,
                                          selected = clusters[[1]]
                       )
+        ),
+        shiny::column(4,
+                      shiny::downloadButton(ns("downloadData"), "Download Data")
         )
       ),
 
@@ -79,6 +82,11 @@ caServer <- function(id, simulation) {
         get_layer("ca") |>
         plot(cluster_id = input$cluster_id)
     })
+
+    output$downloadData <- shiny::downloadHandler(
+      filename = function() paste0("output-ca-", Sys.Date(), ".csv"),
+      content = \(file) readr::write_csv(get_layer_output(res(), "ca"), file)
+    )
 
     return(res)
   })

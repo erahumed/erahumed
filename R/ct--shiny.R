@@ -15,13 +15,17 @@ ctUI <- function(id) {
                                          selected = clusters[[1]]
                                          )
                       ),
-        shiny::column(8,
+        shiny::column(4,
                       shiny::selectInput(ns("variable"),
                                          "Select Variable",
                                          choices = c("mass", "density"),
                                          selected = "mass"
                                          )
+                      ),
+        shiny::column(4,
+                      shiny::downloadButton(ns("downloadData"), "Download Data")
                       )
+
       ),
 
       shiny::fluidRow(
@@ -157,6 +161,11 @@ ctServer <- function(id, simulation) {
         get_layer("ct") |>
         plot(cluster_id = input$cluster_id, variable = input$variable)
     })
+
+    output$downloadData <- shiny::downloadHandler(
+      filename = function() paste0("output-ct-", Sys.Date(), ".csv"),
+      content = \(file) readr::write_csv(get_layer_output(res(), "ct"), file)
+    )
 
     return(res)
   })

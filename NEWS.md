@@ -7,6 +7,10 @@ by the underlying algorithm (default to `840`). (#153)
 
 ### Minor API/GUI changes
 
+* All modules of the GUI now have a "Download Data" button that allows to 
+download the output data.frame (in CSV format) of the corresponding simulation 
+layer (#144).
+
 * "Observed/Imputed Data" labels in the legend of HBA plots become 
 "Source: Observed/Imputed Outflow Data". (#100)
 
