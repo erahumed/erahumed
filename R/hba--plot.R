@@ -29,13 +29,13 @@ plot.erahumed_hba <- function(x, variable, ...) {
       data = df_obs, x = ~date, y = ~get(variable),
       type = "scatter", mode = "lines",
       line = list(color = "blue", width = 2, dash = "solid"),
-      name = "Observed Data"
+      name = "Source: Observed Outflow Data"
     ) |>
     plotly::add_trace(
       data = df_imp, x = ~date, y = ~get(variable),
       type = "scatter", mode = "lines",
       line = list(color = "red", width = 2, dash = "dash"),
-      name = "Imputed Data"
+      name = "Source: Imputed Outflow Data"
     ) |>
     plotly::layout(
       title = paste("Time Series of", var_lab),
