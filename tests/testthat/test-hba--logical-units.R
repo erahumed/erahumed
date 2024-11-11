@@ -71,7 +71,7 @@ test_that("hba_flow_balance(): returns df has the required columns", {
 
   cols <- colnames(res)
   expected_cols <- c(
-    "outflow_a", "outflow_b", "outflow_total", "outflow_extra", "inflow_total"
+    "outflow_a", "outflow_b", "outflow_total", "outflow_recirculation", "inflow_total"
     )
   expect_setequal(cols, expected_cols)
 })
@@ -117,7 +117,7 @@ test_that("hba_flow_balance(): sum of outflows equals total", {
                           )
 
   zero_check <- res |>
-    dplyr::mutate(outflow_total_bis = outflow_a + outflow_b + outflow_extra) |>
+    dplyr::mutate(outflow_total_bis = outflow_a + outflow_b + outflow_recirculation) |>
     dplyr::filter(
       abs(outflow_total - outflow_total_bis) > tol * median(abs(outflow_total))
     )
@@ -125,7 +125,7 @@ test_that("hba_flow_balance(): sum of outflows equals total", {
   expect_equal(nrow(zero_check), 0)
 })
 
-test_that("hba_flow_balance(): outflow_extra > 0 requires zero inflow", {
+test_that("hba_flow_balance(): outflow_recirculation > 0 requires zero inflow", {
   set.seed(840)
   len <- 1e3
   tol <- 1e-10
@@ -141,7 +141,7 @@ test_that("hba_flow_balance(): outflow_extra > 0 requires zero inflow", {
 
   zero_check <- res |>
     dplyr::filter(
-      outflow_extra > tol * mean(abs(outflow_total)),
+      outflow_recirculation > tol * mean(abs(outflow_total)),
       inflow_total > tol * mean(abs(outflow_total))
     )
 

@@ -40,13 +40,10 @@
 #' * `outflow_total` Time series of total outflows, measured in cube meters per
 #' second. This is the sum
 #' \eqn{\sum _i O_i} of time series passed through the `outflows` argument,
-#' plus an extra term \eqn{\delta O} of unaccounted outflow. The correction term
-#' is defined by
-#' \eqn{\delta O = \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60} -\sum _i O_i}
-#' and is chosen in such a way to ensure that the total inflow is always
-#' non-negative.
-#' * `outflow_extra` Time series. The unaccounted outflow term \eqn{\delta O}
-#' described above.
+#' plus an extra term \eqn{O_R} that estimates the outflow due to water
+#' recirculation (see TODO #60).
+#' * `outflow_recirculation` Time series. Estimate of outflow due to water
+#' recirculation.
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
 #' * `residence_time_days`. Residence time, as simulationed by \link{hba_residence_time}.
@@ -114,7 +111,7 @@ validate_hba_output <- function(output) {
                                           volume = numeric(),
                                           inflow_total = numeric(),
                                           outflow_total = numeric(),
-                                          outflow_extra = numeric(),
+                                          outflow_recirculation = numeric(),
                                           residence_time_days = numeric()
                     )
   )

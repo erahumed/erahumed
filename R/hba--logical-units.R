@@ -53,8 +53,8 @@ hba_flow_balance <- function(outflows, volume_change, volume_change_petp) {
   outflow_total <- Reduce("+", outflows)
   net_flow_total <- (volume_change - volume_change_petp) / s_per_day()
   inflow_total <- outflow_total + net_flow_total
-  outflow_extra <- pmax(-inflow_total, 0)
-  outflow_total <- outflow_total + outflow_extra
+  outflow_recirculation <- pmax(-inflow_total, 0)
+  outflow_total <- outflow_total + outflow_recirculation
   inflow_total <- pmax(inflow_total, 0)
 
   names(outflows) <- gsub("outflow_", "", x = names(outflows), fixed = TRUE)
@@ -62,7 +62,7 @@ hba_flow_balance <- function(outflows, volume_change, volume_change_petp) {
 
   res <- cbind(
     as.data.frame(outflows),
-    data.frame(outflow_extra, outflow_total, inflow_total)
+    data.frame(outflow_recirculation, outflow_total, inflow_total)
     )
 
   return(res)

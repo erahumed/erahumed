@@ -44,7 +44,7 @@
 #' \eqn{\delta O = \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60} -\sum _i O_i}
 #' and is chosen in such a way to ensure that the total inflow is always
 #' non-negative.
-#' * `outflow_extra` Time series. The unaccounted outflow term \eqn{\delta O}
+#' * `outflow_recirculation` Time series. The unaccounted outflow term \eqn{\delta O}
 #' described above.
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.

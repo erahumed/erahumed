@@ -117,15 +117,15 @@ In order to inspect the results of a given layer, we use:
 get_layer(simulation, "hba")
 #> A ERAHUMED HBA simulation layer.
 #> 
-#> Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days
+#> Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_recirculation, outflow_total, inflow_total, residence_time_days
 get_layer_parameters(simulation, "hba")
 #> $storage_curve
 #> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x000001f595f6f960>
+#> <environment: 0x00000270bbb6e920>
 #> 
 #> $petp_function
 #> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x000001f595f6f960>
+#> <environment: 0x00000270bbb6e920>
 get_layer_output(simulation, "hba") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
@@ -141,20 +141,20 @@ get_layer_output(simulation, "hba") |> head()
 #> 4               TRUE 25410237     11927.424          -58103.02      5.410336
 #> 5               TRUE 25422164    -76887.525          -46822.99      1.055759
 #> 6               TRUE 25345277   -157323.705          -45405.26      6.922879
-#>   outflow_perellonet outflow_perello outflow_extra outflow_total inflow_total
-#> 1           2.919471        2.785127             0     11.443889     1.138934
-#> 2           3.140746        2.919733             0     11.961558    11.127050
-#> 3           2.500297        2.075301             0      8.453025     8.170538
-#> 4           3.180986        2.763805             0     11.355127    12.165665
-#> 5           1.578490        1.226585             0      3.860835     3.512866
-#> 6           3.786494        3.249450             0     13.958823    12.663471
-#>   residence_time_days
-#> 1            21.01039
-#> 2            20.97162
-#> 3            20.97415
-#> 4            20.92734
-#> 5            20.92254
-#> 6            20.86514
+#>   outflow_perellonet outflow_perello outflow_recirculation outflow_total
+#> 1           2.919471        2.785127                     0     11.443889
+#> 2           3.140746        2.919733                     0     11.961558
+#> 3           2.500297        2.075301                     0      8.453025
+#> 4           3.180986        2.763805                     0     11.355127
+#> 5           1.578490        1.226585                     0      3.860835
+#> 6           3.786494        3.249450                     0     13.958823
+#>   inflow_total residence_time_days
+#> 1     1.138934            21.01039
+#> 2    11.127050            20.97162
+#> 3     8.170538            20.97415
+#> 4    12.165665            20.92734
+#> 5     3.512866            20.92254
+#> 6    12.663471            20.86514
 ```
 
 For more information on the simulation interface, you can consult
