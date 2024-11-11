@@ -53,13 +53,12 @@ hbpServer <- function(id, simulation) {
 
     res <- shiny::reactive({
 
-      withr::with_seed(input$seed, {
         simulation() |>
           setup_hbp(management_df = management_df(),
-                    ideal_flow_rate_cm = input$ideal_flow_rate_cm
+                    ideal_flow_rate_cm = input$ideal_flow_rate_cm,
+                    seed = input$seed
                     ) |>
           run_simulation(layer = "hbp")
-        })
 
       })
 

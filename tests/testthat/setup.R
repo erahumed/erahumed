@@ -19,9 +19,7 @@ test_simulation <- function(date_min, date_max, seed = 840) {
   outflows_df = albufera_outflows |>
     dplyr::filter(date_min <= date, date <= date_max)
 
-  withr::with_seed(seed, {
-    erahumed_simulation() |>
-      setup_inp(outflows_df = outflows_df) |>
-      run_simulation()
-  })
+  erahumed_simulation() |>
+    setup_inp(outflows_df = outflows_df) |>
+    run_simulation()
 }

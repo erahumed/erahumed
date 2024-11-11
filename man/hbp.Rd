@@ -10,7 +10,8 @@ setup_hbp(
   management_df = erahumed::albufera_management,
   clusters_df = erahumed::albufera_clusters,
   ideal_flow_rate_cm = 5,
-  height_thresh_cm = 2
+  height_thresh_cm = 2,
+  seed = 840
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ per day.}
 
 \item{height_thresh_cm}{A positive number. Height threshold for water levels,
 below which a cluster is considered to be emptied.}
+
+\item{seed}{A number. Seed for random number generation used by the
+algorithm.}
 }
 \value{
 An object of class \link{erahumed_simulation}.
