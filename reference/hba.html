@@ -103,13 +103,10 @@ P-ETP surface.</p></li>
 <li><p><code>outflow_total</code> Time series of total outflows, measured in cube meters per
 second. This is the sum
 \(\sum _i O_i\) of time series passed through the <code>outflows</code> argument,
-plus an extra term \(\delta O\) of unaccounted outflow. The correction term
-is defined by
-\(\delta O = \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60} -\sum _i O_i\)
-and is chosen in such a way to ensure that the total inflow is always
-non-negative.</p></li>
-<li><p><code>outflow_extra</code> Time series. The unaccounted outflow term \(\delta O\)
-described above.</p></li>
+plus an extra term \(O_R\) that estimates the outflow due to water
+recirculation (see TODO #60).</p></li>
+<li><p><code>outflow_recirculation</code> Time series. Estimate of outflow due to water
+recirculation.</p></li>
 <li><p><code>inflow_total</code> Time serie of total inflows, in cube meters per second.
 This is computed as \(I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}\).</p></li>
 <li><p><code>residence_time_days</code>. Residence time, as simulationed by <a href="hba_residence_time.html">hba_residence_time</a>.</p></li>

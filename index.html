@@ -127,15 +127,15 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_layer.html">get_layer</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; A ERAHUMED HBA simulation layer.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_extra, outflow_total, inflow_total, residence_time_days</span></span>
+<span><span class="co">#&gt; Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_recirculation, outflow_total, inflow_total, residence_time_days</span></span>
 <span><span class="fu"><a href="reference/get_layer_parameters.html">get_layer_parameters</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $storage_curve</span></span>
 <span><span class="co">#&gt; \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000001f595f6f960&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x00000270bbb6e920&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $petp_function</span></span>
 <span><span class="co">#&gt; \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000001f595f6f960&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x00000270bbb6e920&gt;</span></span>
 <span><span class="fu"><a href="reference/get_layer_output.html">get_layer_output</a></span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hba"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       level precipitation_mm evapotranspiration_mm       date is_imputed_level</span></span>
 <span><span class="co">#&gt; 1 0.3725000              8.2                  0.54 2005-12-20            FALSE</span></span>
@@ -151,20 +151,20 @@
 <span><span class="co">#&gt; 4               TRUE 25410237     11927.424          -58103.02      5.410336</span></span>
 <span><span class="co">#&gt; 5               TRUE 25422164    -76887.525          -46822.99      1.055759</span></span>
 <span><span class="co">#&gt; 6               TRUE 25345277   -157323.705          -45405.26      6.922879</span></span>
-<span><span class="co">#&gt;   outflow_perellonet outflow_perello outflow_extra outflow_total inflow_total</span></span>
-<span><span class="co">#&gt; 1           2.919471        2.785127             0     11.443889     1.138934</span></span>
-<span><span class="co">#&gt; 2           3.140746        2.919733             0     11.961558    11.127050</span></span>
-<span><span class="co">#&gt; 3           2.500297        2.075301             0      8.453025     8.170538</span></span>
-<span><span class="co">#&gt; 4           3.180986        2.763805             0     11.355127    12.165665</span></span>
-<span><span class="co">#&gt; 5           1.578490        1.226585             0      3.860835     3.512866</span></span>
-<span><span class="co">#&gt; 6           3.786494        3.249450             0     13.958823    12.663471</span></span>
-<span><span class="co">#&gt;   residence_time_days</span></span>
-<span><span class="co">#&gt; 1            21.01039</span></span>
-<span><span class="co">#&gt; 2            20.97162</span></span>
-<span><span class="co">#&gt; 3            20.97415</span></span>
-<span><span class="co">#&gt; 4            20.92734</span></span>
-<span><span class="co">#&gt; 5            20.92254</span></span>
-<span><span class="co">#&gt; 6            20.86514</span></span></code></pre></div>
+<span><span class="co">#&gt;   outflow_perellonet outflow_perello outflow_recirculation outflow_total</span></span>
+<span><span class="co">#&gt; 1           2.919471        2.785127                     0     11.443889</span></span>
+<span><span class="co">#&gt; 2           3.140746        2.919733                     0     11.961558</span></span>
+<span><span class="co">#&gt; 3           2.500297        2.075301                     0      8.453025</span></span>
+<span><span class="co">#&gt; 4           3.180986        2.763805                     0     11.355127</span></span>
+<span><span class="co">#&gt; 5           1.578490        1.226585                     0      3.860835</span></span>
+<span><span class="co">#&gt; 6           3.786494        3.249450                     0     13.958823</span></span>
+<span><span class="co">#&gt;   inflow_total residence_time_days</span></span>
+<span><span class="co">#&gt; 1     1.138934            21.01039</span></span>
+<span><span class="co">#&gt; 2    11.127050            20.97162</span></span>
+<span><span class="co">#&gt; 3     8.170538            20.97415</span></span>
+<span><span class="co">#&gt; 4    12.165665            20.92734</span></span>
+<span><span class="co">#&gt; 5     3.512866            20.92254</span></span>
+<span><span class="co">#&gt; 6    12.663471            20.86514</span></span></code></pre></div>
 <p>For more information on the simulation interface, you can consult <code><a href="reference/erahumed_simulation_interface.html">?erahumed_simulation_interface</a></code>.</p>
 </div>
 </div>
