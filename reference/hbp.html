@@ -133,7 +133,102 @@ algorithm.</p></dd>
     <p>TODO: #64, plus more detailed information on the structure of
 <code>management_df</code> (and perhaps also on <code>clusters_df</code>, depending on the decision
 taken regarding #47).</p>
-    </div>
+<p>The output <code>data.frame</code> for this model layer, retrieved through
+<code>get_layer_output(layer = "hbp")</code> has one row per cluster and per day,
+providing the simulated hydrological times-series for all paddy clusters. The
+data-set has the following columns:</p>
+<dl><dt>date</dt>
+<dd><p>Date of measurement</p></dd>
+
+<dt>cluster_id</dt>
+<dd><p>Cluster identifier.</p></dd>
+
+<dt>area_m2</dt>
+<dd><p>Surface area (in squared meters) of cluster.</p></dd>
+
+<dt>tancat</dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>, whether the cluster is a <em>tancat</em>
+(<em>cf.</em> <a href="albufera_clusters.html">albufera_clusters</a>).</p></dd>
+
+<dt>variety</dt>
+<dd><p>Variety of rice planted in the cluster.
+(<em>cf.</em> <a href="albufera_clusters.html">albufera_clusters</a>).</p></dd>
+
+<dt>area_m2</dt>
+<dd><p>Surface area (in squared meters) of cluster.</p></dd>
+
+<dt>ditch</dt>
+<dd><p>Ditch to which the cluster pertains (<em>cf.</em>
+<a href="albufera_clusters.html">albufera_clusters</a>).</p></dd>
+
+<dt>capacity_m3_s</dt>
+<dd><p>Outflow (to the Albufera Lake) of ditch.</p></dd>
+
+<dt>seed_day</dt>
+<dd><p>Whether <code>date</code> corresponds to the sowing day of the year.</p></dd>
+
+<dt>petp_cm</dt>
+<dd><p>Precipitation minus evapotranspiration per unit area, in
+centimeters (common to all clusters).</p></dd>
+
+<dt>ideal_draining</dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>, whether the cluster is supposed to
+be drained on this day of the year.</p></dd>
+
+<dt>ideal_irrigation</dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>, whether the cluster is supposed
+to be irrigated on this day of the year.</p></dd>
+
+<dt>ideal_inflow_cm</dt>
+<dd><p>Ideal inflow computed by the HBP algorithm
+(see TODO #46).</p></dd>
+
+<dt>ideal_outflow_cm</dt>
+<dd><p>Ideal outflow computed by the HBP algorithm
+(see TODO #46).</p></dd>
+
+<dt>ideal_diff_flow_cm</dt>
+<dd><p>Ideal inflow minus ideal outflow.</p></dd>
+
+<dt>ideal_height_eod_cm</dt>
+<dd><p>Ideal water level of cluster at the end of day
+(<em>i.e.</em> after draining and/or irrigation, for this day of the year.</p></dd>
+
+<dt>draining</dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>, whether the cluster is actually (<em>i.e.</em>
+in the simulation) being drained on this day of the year.</p></dd>
+
+<dt>irrigation</dt>
+<dd><p><code>TRUE</code> or <code>FALSE</code>, whether the cluster is actually (
+<em>i.e.</em> in the simulation) being irrigated on this day of the year.</p></dd>
+
+<dt>height_eod_cm</dt>
+<dd><p>Simulated water level of cluster at the end of day.</p></dd>
+
+<dt>height_sod_cm</dt>
+<dd><p>Simulated water level of cluster at the end of day (
+<em>i.e.</em> before irrigation and/or draining).</p></dd>
+
+<dt>inflow_cm</dt>
+<dd><p>Simulated inflow of cluster (in centimeters).</p></dd>
+
+<dt>inflow_m3_s</dt>
+<dd><p>Simulated inflow of cluster (in cube meters per
+second).</p></dd>
+
+<dt>outflow_cm</dt>
+<dd><p>Simulated outflow of cluster (in centimeters).</p></dd>
+
+<dt>outflow_m3_s</dt>
+<dd><p>Simulated outflow of cluster (in cube meters per
+second).</p></dd>
+
+<dt>plan_delay</dt>
+<dd><p>Accumulated delay on the yearly plan for this cluster.
+See (TODO #46) for a detailed description.</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other simulation layers:
