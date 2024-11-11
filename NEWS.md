@@ -14,6 +14,10 @@ by the underlying algorithm (default to `840`). (#153)
 Correspondingly, the label for this variable in the GUI becomes 
 `"Water Recirculation Outflow"`. (#102)
 
+### Documentation
+
+* `?hbp` now documents the columns of the output data.frame of the HBP layer.
+
 # erahumed 0.11.1
 
 ### Algorithm

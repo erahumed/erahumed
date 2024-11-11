@@ -60,6 +60,54 @@ expected water levels of a cluster for each day of the year.
 TODO: #64, plus more detailed information on the structure of
 \code{management_df} (and perhaps also on \code{clusters_df}, depending on the decision
 taken regarding #47).
+
+The output \code{data.frame} for this model layer, retrieved through
+\code{get_layer_output(layer = "hbp")} has one row per cluster and per day,
+providing the simulated hydrological times-series for all paddy clusters. The
+data-set has the following columns:
+
+\describe{
+\item{date}{Date of measurement}
+\item{cluster_id}{Cluster identifier.}
+\item{area_m2}{Surface area (in squared meters) of cluster.}
+\item{tancat}{\code{TRUE} or \code{FALSE}, whether the cluster is a \emph{tancat}
+(\emph{cf.} \link{albufera_clusters}).}
+\item{variety}{Variety of rice planted in the cluster.
+(\emph{cf.} \link{albufera_clusters}).}
+\item{area_m2}{Surface area (in squared meters) of cluster.}
+\item{ditch}{Ditch to which the cluster pertains (\emph{cf.}
+\link{albufera_clusters}).}
+\item{capacity_m3_s}{Outflow (to the Albufera Lake) of ditch.}
+\item{seed_day}{Whether \code{date} corresponds to the sowing day of the year.}
+\item{petp_cm}{Precipitation minus evapotranspiration per unit area, in
+centimeters (common to all clusters).}
+\item{ideal_draining}{\code{TRUE} or \code{FALSE}, whether the cluster is supposed to
+be drained on this day of the year.}
+\item{ideal_irrigation}{\code{TRUE} or \code{FALSE}, whether the cluster is supposed
+to be irrigated on this day of the year.}
+\item{ideal_inflow_cm}{Ideal inflow computed by the HBP algorithm
+(see TODO #46).}
+\item{ideal_outflow_cm}{Ideal outflow computed by the HBP algorithm
+(see TODO #46).}
+\item{ideal_diff_flow_cm}{Ideal inflow minus ideal outflow.}
+\item{ideal_height_eod_cm}{Ideal water level of cluster at the end of day
+(\emph{i.e.} after draining and/or irrigation, for this day of the year.}
+\item{draining}{\code{TRUE} or \code{FALSE}, whether the cluster is actually (\emph{i.e.}
+in the simulation) being drained on this day of the year.}
+\item{irrigation}{\code{TRUE} or \code{FALSE}, whether the cluster is actually (
+\emph{i.e.} in the simulation) being irrigated on this day of the year.}
+\item{height_eod_cm}{Simulated water level of cluster at the end of day.}
+\item{height_sod_cm}{Simulated water level of cluster at the end of day (
+\emph{i.e.} before irrigation and/or draining).}
+\item{inflow_cm}{Simulated inflow of cluster (in centimeters).}
+\item{inflow_m3_s}{Simulated inflow of cluster (in cube meters per
+second).}
+\item{outflow_cm}{Simulated outflow of cluster (in centimeters).}
+\item{outflow_m3_s}{Simulated outflow of cluster (in cube meters per
+second).}
+\item{plan_delay}{Accumulated delay on the yearly plan for this cluster.
+See (TODO #46) for a detailed description.}
+}
 }
 \seealso{
 Other simulation layers: 
