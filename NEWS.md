@@ -1,5 +1,19 @@
 # erahumed (development version)
 
+### New features
+
+* `setup_hbp()` receives an additional `seed` argument, which sets the seed used
+by the underlying algorithm (default to `840`). (#153)
+
+### Minor API/GUI changes
+
+* "Observed/Imputed Data" labels in the legend of HBA plots become 
+"Source: Observed/Imputed Outflow Data". (#100)
+
+* `outflow_extra` column HBA output becomes `outflow_recirculation`. 
+Correspondingly, the label for this variable in the GUI becomes 
+`"Water Recirculation Outflow"`. (#102)
+
 # erahumed 0.11.1
 
 ### Algorithm
