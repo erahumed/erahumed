@@ -22,6 +22,9 @@ Correspondingly, the label for this variable in the GUI becomes
 
 * `?hbp` now documents the columns of the output data.frame of the HBP layer.
 
+* The main package vignette, as well as the `?get_layer()` documentation page 
+now mention the built-in plotting methods of `{erahumed}` (#159).
+
 # erahumed 0.11.1
 
 ### Algorithm
