@@ -140,7 +140,8 @@ hbp_df <- get_layer_output(s, "hbp")  # Get output data.frame of HBP layer
 head(hbp_df)
 ```
 
-From here on, the analysis may proceed in the way you find more convenient. For instance, in the chunk below I create a plot of water levels for a set of 
+From here on, the analysis may proceed in the way you find more convenient. 
+For instance, in the chunk below I create a plot of water levels for a set of 
 clusters with similar features, using `dplyr` and `ggplot2`:
 
 ```{r message=FALSE, warning=FALSE}
@@ -173,6 +174,20 @@ ggplot() +
           paste("Ditch:", ditch, "- Tancat:", tancat, "- Variety:", variety)
           )
 ```
+
+## Predefined plotting methods
+
+`{erahumed}` comes equipped with a few basic plotting methods that return 
+interactive visualizations of the various model layers. These can be used by 
+accessing the relevant model layer through `get_layer()`, for example:
+
+```{r}
+get_layer(s, "hba") |>
+  plot(variable = "volume")
+```
+
+The documentation of the various plotting methods can be found under 
+`?plot.erahumed_<layer_name>`, *e.g.* `?plot.erahumed_hba`.
 
 ## Further information
 

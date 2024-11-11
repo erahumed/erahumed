@@ -18,6 +18,19 @@ A \link{erahumed_simulation_layer}.
 \description{
 Extracts an \link{erahumed_simulation_layer}.
 }
+\details{
+At present, the main purpose of extracting full layer objects is to use
+the predefined plotting methods of \code{{erahumed}} (see example below).
+}
+\examples{
+\dontrun{
+# Generate a plotly plot of the volume time-series
+erahumed_simulation() |>
+  run_simulation("hba") |>
+  get_layer("hba") |>
+  plot("volume")
+}
+}
 \author{
 Valerio Gherardi
 }
