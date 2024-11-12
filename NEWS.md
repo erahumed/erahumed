@@ -1,9 +1,15 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Fixed functionality of `assert_data.frame(extends = FALSE)` (the
+`extends` argument was being bypassed).
+
 ### Testing
 
 * Added snapshot tests for plot methods of ERAHUMED layers (#149).
 * Added basic server tests for all shiny modules (#150).
+* Testing corner cases of assertions.
 
 # erahumed 0.11.2
 
