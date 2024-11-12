@@ -1,7 +1,8 @@
-# test_that("", {})
+test_that("UI succeeds", {
+  expect_no_error(caUI("ui"))
+})
 
 args <- list(simulation = shiny::reactive(test_sim_small()))
-
 shiny::testServer(caServer, args = args, {
   session$setInputs(seed = 840)
 

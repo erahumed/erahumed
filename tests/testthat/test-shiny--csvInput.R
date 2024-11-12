@@ -1,7 +1,8 @@
-# test_that("", {})
+test_that("UI succeeds", {
+  expect_no_error(csvInputUI("ui"))
+})
 
 args <- list(initial_df = albufera_weather)
-
 shiny::testServer(csvInputServer, args = args, {
   session$setInputs(rows = 10)
 

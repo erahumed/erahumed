@@ -1,7 +1,8 @@
-test_that("", {})
+test_that("UI succeeds", {
+  expect_no_error(inpUI("ui"))
+})
 
 args <- list(simulation = shiny::reactive(test_sim_small()))
-
 shiny::testServer(inpServer, args = args, {
   session$setInputs(date_range = as.Date(c("2020-01-01", "2020-12-31")))
 

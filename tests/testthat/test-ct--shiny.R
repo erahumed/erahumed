@@ -1,7 +1,8 @@
-# test_that("", {})
+test_that("UI succeeds", {
+  expect_no_error(ctUI("ui"))
+})
 
 args <- list(simulation = shiny::reactive(test_sim_small()))
-
 shiny::testServer(ctServer, args = args, {
   session$setInputs(seed = 840)
   do.call(session$setInputs, formals(setup_ct)[-1])

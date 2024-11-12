@@ -1,7 +1,8 @@
-#test_that("", {})
+test_that("UI succeeds", {
+  expect_no_error(hbpUI("ui"))
+})
 
 args <- list(simulation = shiny::reactive(test_sim_small()))
-
 shiny::testServer(hbpServer, args = args, {
   session$setInputs(ideal_flow_rate_cm = 5, seed = 840)
 
