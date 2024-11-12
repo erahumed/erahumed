@@ -38,17 +38,13 @@ print.erahumed_simulation_layer <- function(x, ...) {
 
   cat(title)
 
-
   output <- get_layer_output(x)
   cat("\n\nOutput columns:", paste(names(output), collapse = ", "))
-
-  # cat("\n\nExample of output:\n")
-  # print(head(output))
 
   return(invisible(x))
 }
 
 #' @export
 summary.erahumed_simulation_layer <- function(object, ...) {
-  print(object, max = max)
+  print(object)
 }

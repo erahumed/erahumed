@@ -2,8 +2,10 @@
 
 ### Under the hoods
 
-* Fixed functionality of `assert_data.frame(extends = FALSE)` (the
+* Fixed broken functionality of `assert_data.frame(extends = FALSE)` (the
 `extends` argument was being bypassed).
+
+* Fix broken `summary.erahumed_simulation_layer()` method.
 
 * Removed low-level creator for `erahumed_simulation` class objects (*i.e.* 
 `new_erahumed_simulation()`).
