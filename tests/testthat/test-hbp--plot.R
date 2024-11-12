@@ -16,3 +16,12 @@ test_that("plot.hbp throws an error if no cluster is specified", {
   expect_error( plot(hbp_obj, type = "cluster_view") )  # No cluster_id passed
 })
 
+test_that("plot.hbp snapshot is constant", {
+  skip_on_ci()
+
+  hbp_obj <- get_layer(test_sim_small(), "hbp")
+  cluster_id <- get_layer_output(hbp_obj)$cluster_id[1]
+  plot_obj <- plot(hbp_obj, type = "cluster_view", cluster_id = cluster_id)
+
+  expect_snapshot(plot_obj)
+})

@@ -21,3 +21,11 @@ test_that("plot.hba raises a warning with unused arguments", {
                  )
 })
 
+test_that("plot.hba snapshot is constant", {
+  skip_on_ci()
+
+  hba_obj <- get_layer(test_sim_small(), "hba")
+  plot_obj <- plot(hba_obj, variable = "volume")
+
+  expect_snapshot(plot_obj)
+})
