@@ -37,7 +37,7 @@ is_erahumed_simulation <- function(obj) {
 }
 
 #' @export
-print.erahumed_simulation <- function(x, ..., max = 100) {
+print.erahumed_simulation <- function(x, ...) {
   cat("An ERAHUMED simulation.")
 
   layer_is_computed <- sapply(erahumed_layers(), \(layer) {

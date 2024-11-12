@@ -8,6 +8,8 @@
 * Removed low-level creator for `erahumed_simulation` class objects (*i.e.* 
 `new_erahumed_simulation()`).
 
+* Remove unused `max = 100` argument of `print.erahumed_simulation()`.
+
 ### Testing
 
 * Added snapshot tests for plot methods of ERAHUMED layers (#149).
