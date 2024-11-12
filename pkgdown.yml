@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   erahumed-workflow: erahumed-workflow.html
-last_built: 2024-11-12T11:38Z
+last_built: 2024-11-12T11:58Z
 urls:
   reference: https://erahumed.github.io/erahumed/reference
   article: https://erahumed.github.io/erahumed/articles
