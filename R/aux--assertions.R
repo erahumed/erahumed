@@ -133,7 +133,7 @@ assert_data.frame <- function(
       stop( paste0("Columm ", col, " must be of type '", exp_type, "'.") )
     }
 
-  if (extends | all(col %in% exp_cols))
+  if (extends | all(cols %in% exp_cols))
     return(invisible(TRUE))
 
   msg <- paste0("'", name, "' ",
