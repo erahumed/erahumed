@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Testing
+
+* Added snapshot tests for plot methods of ERAHUMED layers (#149).
+* Added basic server tests for all shiny modules (#150).
+
 # erahumed 0.11.2
 
 ### New features
