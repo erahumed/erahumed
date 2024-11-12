@@ -15,3 +15,19 @@ test_that("Constructor throws an error if 'params' is not a list", {
     class = "new_simulation_layer_argcheck_error"
   )
 })
+
+test_that("print() method succeeds", {
+  obj <- erahumed_simulation() |> get_layer("hba")
+  expect_no_error(capture.output(print(obj)))
+})
+
+test_that("print() method returns invisibly", {
+  obj <- erahumed_simulation() |> get_layer("hba")
+  print_res <- expect_output(print(obj))
+  expect_identical(print_res, obj)
+})
+
+test_that("summary() method succeeds", {
+  obj <- erahumed_simulation() |> get_layer("hba")
+  expect_no_error( capture.output(summary(obj)) )
+})

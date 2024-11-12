@@ -18,8 +18,8 @@
 * Added basic server tests for all shiny modules (#150).
 * Added basic UI no-error tests for all shiny modules.
 * Testing corner cases of assertions.
-* Testing of `print()` and `summary()` S3 methods for `"erahumed_simulation"` 
-class.
+* Testing of `print()` and `summary()` S3 methods for `erahumed_simulation` and 
+`erahumed_simulation_layer` S3 classes.
 
 # erahumed 0.11.2
 
