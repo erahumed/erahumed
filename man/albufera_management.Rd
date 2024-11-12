@@ -38,6 +38,8 @@ albufera_management
 \description{
 Data on management schedules of rice paddies in the Albufera National Park.
 Contains information on irrigation, draining and water level of paddies by
-day of year.
+day of year. For further details on how this information was obtained, see
+the original source
+\href{https://doi.org/10.1016/j.scitotenv.2023.163018}{Martínez-Megías et al. (2023)}.
 }
 \keyword{datasets}

@@ -51,12 +51,10 @@
 #'
 #' Data on management schedules of rice paddies in the Albufera National Park.
 #' Contains information on irrigation, draining and water level of paddies by
-#' day of year.
+#' day of year. For further details on how this information was obtained, see
+#' the original source
+#' [Martínez-Megías et al. (2023)](https://doi.org/10.1016/j.scitotenv.2023.163018).
 #'
-# TODO: Can we add something about the source of this data (Megia's paper)?
-# E.g. Ideal height is based on the personal account of local farmers. This
-# should be either explained here or in some other referenced place (e.g. in
-# the Data appendix of the User Manual). #61
 #'
 #' @format ## `albufera_management`
 #' The dataset has one row per day of year for all combinations of the
@@ -86,9 +84,9 @@
 #' Albufera Chemical Application Schedules
 #'
 #' Data on application schedules of chemicals used in rice paddies in the
-#' Albufera National Park.
-#'
-# TODO: Can we add something about the source of this data? #68
+#' Albufera National Park. For further details on how this information was obtained, see
+#' the original source
+#' [Martínez-Megías et al. (2023)](https://doi.org/10.1016/j.scitotenv.2023.163018).
 #'
 #' @format ## `albufera_ca_schedules`
 #' The dataset has one row per chemical scheduled application to a given rice
@@ -103,7 +101,12 @@
 #'   \item{application_type}{either `"ground"` or `"aerial"`. Application
 #'   mode of the chemical to rice paddies.}
 #' }
-#' @source TODO #68
+#'
+#' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
+#' Rico, A. (2023). Influence of climate change and pesticide use practices on
+#' the ecological risks of pesticides in a protected Mediterranean wetland: A
+#' Bayesian network approach. *Science of The Total Environment, 878*,
+#' 163018. <https://doi.org/10.1016/j.scitotenv.2023.163018>
 #'
 "albufera_ca_schedules"
 

@@ -22,13 +22,19 @@ mode of the chemical to rice paddies.}
 }
 }
 \source{
-TODO #68
+Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
+Rico, A. (2023). Influence of climate change and pesticide use practices on
+the ecological risks of pesticides in a protected Mediterranean wetland: A
+Bayesian network approach. \emph{Science of The Total Environment, 878},
+163018. \url{https://doi.org/10.1016/j.scitotenv.2023.163018}
 }
 \usage{
 albufera_ca_schedules
 }
 \description{
 Data on application schedules of chemicals used in rice paddies in the
-Albufera National Park.
+Albufera National Park. For further details on how this information was obtained, see
+the original source
+\href{https://doi.org/10.1016/j.scitotenv.2023.163018}{Martínez-Megías et al. (2023)}.
 }
 \keyword{datasets}
