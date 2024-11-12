@@ -12,10 +12,7 @@
 #' erahumed_simulation()
 #'
 #' @export
-erahumed_simulation <- function()
-  new_erahumed_simulation()
-
-new_erahumed_simulation <- function() {
+erahumed_simulation <- function() {
   structure(list(), class = "erahumed_simulation") |>
     setup_inp() |>
     setup_hba() |>

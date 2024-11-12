@@ -1,8 +1,4 @@
-test_that("Low-level constructor succeeds", {
-  expect_no_error( new_erahumed_simulation() )
-})
-
-test_that("High-level constructor succeeds", {
+test_that("Constructor succeeds", {
   expect_no_error( erahumed_simulation() )
 })
 
