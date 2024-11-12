@@ -152,25 +152,6 @@ assert_date <- function(x, name = deparse(substitute(x))) {
   return(invisible(TRUE))
 }
 
-assert_valid_date_range <- function(x, name = deparse(substitute(x))) {
-  assert_date(x, name = name)
-  if (length(x) != 2)
-    stop(paste0("'", name, "' must have length 2."))
-  if (any(is.na(x)))
-    stop(paste0("'", name, "' cannot be NA."))
-  if (x[1] > x[2])
-    stop(paste0("'", name, "' is an empty date range."))
-
-  return(invisible(TRUE))
-}
-
-assert_logical <- function(x, name  = deparse(substitute(x))) {
-  if (is.logical(x))
-    return(invisible(TRUE))
-
-  stop(paste0("'", name, "' must be a logical vector."))
-}
-
 assert_erahumed_simulation <- function(x, name  = deparse(substitute(x))) {
   if (is_erahumed_simulation(x))
     return(invisible(TRUE))
