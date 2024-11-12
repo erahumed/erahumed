@@ -21,3 +21,18 @@ test_that("Validator: FALSE if list elements are not of the right S3 class", {
 test_that("Validator: FALSE if object is not of the right S3 class", {
   expect_false( is_erahumed_simulation(list()) )
 })
+
+test_that("print() method succeeds", {
+  obj <- erahumed_simulation()
+  expect_no_error(capture.output(print(obj)))
+})
+
+test_that("print() method returns invisibly", {
+  obj <- erahumed_simulation()
+  print_res <- expect_output(print(obj))
+  expect_identical(print_res, obj)
+})
+
+test_that("summary() method succeeds", {
+  expect_no_error( capture.output(summary(erahumed_simulation())) )
+})
