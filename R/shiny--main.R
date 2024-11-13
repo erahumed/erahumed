@@ -23,7 +23,7 @@ shiny_ui <- function() {
 }
 
 shiny_server <- function(input, output, session) {
-  shared <- reactiveValues(
+  shared <- shiny::reactiveValues(
     map = plot_albufera_clusters(),
     selected_cluster_id = albufera_clusters$cluster_id[1]
   )
