@@ -1,6 +1,18 @@
 # erahumed (development version)
 
+### GUI
+
+* The selected cluster is now synced across the HBP, CA and CT layers of the
+Shiny interface.
+
+### Documentation
+
+* Documented source of `albufera_weather` dataset.
+
 ### Under the hoods
+
+* HBP, CA and CT Shiny submodules now share a common leaflet map reactive 
+object, that thus does not need to be computed several times (#131).
 
 * Fixed broken functionality of `assert_data.frame(extends = FALSE)` (the
 `extends` argument was being bypassed).
@@ -23,10 +35,6 @@ different seeds give rise to different outputs.
 * Testing corner cases of assertions.
 * Testing of `print()` and `summary()` S3 methods for `erahumed_simulation` and 
 `erahumed_simulation_layer` S3 classes.
-
-### Documentation
-
-* Documented source of `albufera_weather` dataset.
 
 # erahumed 0.11.2
 
