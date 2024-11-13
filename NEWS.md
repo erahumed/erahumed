@@ -24,6 +24,10 @@ different seeds give rise to different outputs.
 * Testing of `print()` and `summary()` S3 methods for `erahumed_simulation` and 
 `erahumed_simulation_layer` S3 classes.
 
+### Documentation
+
+* Documented source of `albufera_weather` dataset.
+
 # erahumed 0.11.2
 
 ### New features

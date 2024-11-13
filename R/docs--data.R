@@ -2,19 +2,22 @@
 #'
 #' @family input data
 #'
-#' @description TODO #50
+#' @description Measurements from the Benifaió meteorological station operated
+#' by the *Instituto Valenciano de Investigaciones Agrarias* (IVIA),
+#' considered as representative data for the Albufera Natural Park.
+#' Publicly available at <http://riegos.ivia.es/>.
 #'
 #' @format ## `albufera_weather`
 #' A data frame with 8552 rows and 3 columns:
 #' \describe{
 #'   \item{date}{Date of measurement}
-#'   \item{temperature_ave}{Average temperature (TODO #50).}
+#'   \item{temperature_ave}{Average temperature.}
 #'   \item{temperature_min}{Minimum temperature.}
 #'   \item{temperature_max}{Maximum temperature.}
 #'   \item{precipitation_mm}{Daily precipitation in millimiters.}
 #'   \item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}
 #' }
-#' @source TODO #50
+#' @source <http://riegos.ivia.es/>
 "albufera_weather"
 
 #' Albufera Outflows Daily Data
