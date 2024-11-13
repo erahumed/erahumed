@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.11.2.9000
+Version: 0.11.3
 Authors@R: c(
     person("Valerio", "Gherardi",
            email = "vgherard840@gmail.com", 
