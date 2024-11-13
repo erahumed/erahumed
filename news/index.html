@@ -39,8 +39,17 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
 <div class="section level4">
+<h4 id="gui-development-version">GUI<a class="anchor" aria-label="anchor" href="#gui-development-version"></a></h4>
+<ul><li>The selected cluster is now synced across the HBP, CA and CT layers of the Shiny interface.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h4>
+<ul><li>Documented source of <code>albufera_weather</code> dataset.</li>
+</ul></div>
+<div class="section level4">
 <h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
-<ul><li><p>Fixed broken functionality of <code>assert_data.frame(extends = FALSE)</code> (the <code>extends</code> argument was being bypassed).</p></li>
+<ul><li><p>HBP, CA and CT Shiny submodules now share a common leaflet map reactive object, that thus does not need to be computed several times (<a href="https://github.com/erahumed/erahumed/issues/131" class="external-link">#131</a>).</p></li>
+<li><p>Fixed broken functionality of <code>assert_data.frame(extends = FALSE)</code> (the <code>extends</code> argument was being bypassed).</p></li>
 <li><p>Fix broken <code>summary.erahumed_simulation_layer()</code> method.</p></li>
 <li><p>Removed low-level creator for <code>erahumed_simulation</code> class objects (<em>i.e.</em> <code>new_erahumed_simulation()</code>).</p></li>
 <li><p>Remove unused <code>max = 100</code> argument of <code>print.erahumed_simulation()</code>.</p></li>
@@ -54,10 +63,6 @@
 <li>Test that setting seed in <code><a href="../reference/hbp.html">setup_hbp()</a></code> ensures reproducibility, and that different seeds give rise to different outputs.</li>
 <li>Testing corner cases of assertions.</li>
 <li>Testing of <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> S3 methods for <code>erahumed_simulation</code> and <code>erahumed_simulation_layer</code> S3 classes.</li>
-</ul></div>
-<div class="section level4">
-<h4 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h4>
-<ul><li>Documented source of <code>albufera_weather</code> dataset.</li>
 </ul></div>
 </div>
     <div class="section level2">
