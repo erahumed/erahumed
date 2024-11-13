@@ -32,6 +32,3 @@ Computes residence times as
 \eqn{t = \overline{\text{Volume}} / \overline{\text{Outflow}} },
 where \eqn{\overline {\cdot}} denotes a (symmetric) moving average.
 }
-\author{
-Pablo Amador Crespo, Valerio Gherardi
-}

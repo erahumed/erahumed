@@ -1,7 +1,5 @@
 #' Residence Time
 #'
-#' @author Pablo Amador Crespo, Valerio Gherardi
-#'
 #' @description
 #' **N.B.:**: This function is the one used internally by \link{hba} to
 #' compute residence times, and is not directly exported by `{erahumed}`.

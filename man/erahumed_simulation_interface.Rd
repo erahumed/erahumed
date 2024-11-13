@@ -76,6 +76,3 @@ s |> get_layer("hba") |> plot(variable = "outflow_total")
 }
 
 }
-\author{
-Valerio Gherardi
-}

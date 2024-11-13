@@ -58,7 +58,4 @@ Other simulation layers:
 \code{\link{hba}},
 \code{\link{hbp}}
 }
-\author{
-Valerio Gherardi
-}
 \concept{simulation layers}

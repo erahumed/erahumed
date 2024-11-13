@@ -27,6 +27,3 @@ A \code{data.frame}.
 \description{
 Extracts the output \code{data.frame} of a \link{erahumed_simulation_layer}.
 }
-\author{
-Valerio Gherardi
-}

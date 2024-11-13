@@ -27,6 +27,3 @@ A \code{list}.
 \description{
 Extracts the parameters used in the computation of a simulation layer.
 }
-\author{
-Valerio Gherardi
-}

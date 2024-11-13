@@ -69,7 +69,4 @@ Other simulation layers:
 \code{\link{hbp}},
 \code{\link{inp}}
 }
-\author{
-Pablo Amador Crespo, Valerio Gherardi
-}
 \concept{simulation layers}

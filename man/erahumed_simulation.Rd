@@ -17,6 +17,3 @@ for a detailed description of the simulation workflow.
 erahumed_simulation()
 
 }
-\author{
-Valerio Gherardi
-}

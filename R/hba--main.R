@@ -3,8 +3,6 @@
 #'
 #' @family simulation layers
 #'
-#' @author Pablo Amador Crespo, Valerio Gherardi
-#'
 #' @description
 #' This simulation layer completes the partial hydrological balance information
 #' provided as input data, by computing the total inflow to the Albufera lake,

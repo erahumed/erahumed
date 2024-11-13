@@ -3,8 +3,6 @@
 #'
 #' @family simulation layers
 #'
-#' @author Valerio Gherardi
-#'
 #' @description
 #' This simulation layer has the only purpose to collect the observational (or,
 #' potentially, synthetic) data used by the algorithms of the ERAHUMED decision

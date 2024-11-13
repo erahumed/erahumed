@@ -3,8 +3,6 @@
 #'
 #' @family simulation layers
 #'
-#' @author Pablo Amador Crespo, Valerio Gherardi
-#'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #' This simulation layer computes the evolution of chemicals applied to rice

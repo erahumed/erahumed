@@ -6,8 +6,6 @@
 #'
 #' @return An object of class `erahumed_simulation`.
 #'
-#' @author Valerio Gherardi
-#'
 #' @examples
 #' erahumed_simulation()
 #'

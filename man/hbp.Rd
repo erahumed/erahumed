@@ -116,7 +116,4 @@ Other simulation layers:
 \code{\link{hba}},
 \code{\link{inp}}
 }
-\author{
-Pablo Amador Crespo, Valerio Gherardi
-}
 \concept{simulation layers}

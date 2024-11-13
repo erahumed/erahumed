@@ -31,6 +31,3 @@ erahumed_simulation() |>
   plot("volume")
 }
 }
-\author{
-Valerio Gherardi
-}

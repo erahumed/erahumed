@@ -3,8 +3,6 @@
 #'
 #' @family simulation layers
 #'
-#' @author Pablo Amador Crespo, Valerio Gherardi
-#'
 #' @description
 #' This simulation layer simulates the application of chemicals to rice paddy
 #' clusters, based on a previously computed simulation of local hydrological

@@ -3,8 +3,6 @@
 #'
 #' @family simulation layers
 #'
-#' @author Pablo Amador Crespo, Valerio Gherardi
-#'
 #' @description
 #' This simulation layer performs a simulation of hydrological balance
 #' daily data for the rice paddies of the Albufera National Park, that provides

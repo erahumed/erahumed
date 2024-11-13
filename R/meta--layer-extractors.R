@@ -1,7 +1,5 @@
 #' @title Extract simulation layers
 #'
-#' @author Valerio Gherardi
-#'
 #' @description
 #' Extracts an \link{erahumed_simulation_layer}.
 #'
@@ -33,8 +31,6 @@ get_layer <- function(simulation, layer) {
 }
 
 #' @title Extract simulation layer outputs
-#'
-#' @author Valerio Gherardi
 #'
 #' @description
 #' Extracts the output `data.frame` of a \link{erahumed_simulation_layer}.
@@ -77,8 +73,6 @@ reset_layer_output <- function(simulation, layer = erahumed_layers())
 
 
 #' @title Extract simulation layer parameters
-#'
-#' @author Valerio Gherardi
 #'
 #' @description
 #' Extracts the parameters used in the computation of a simulation layer.

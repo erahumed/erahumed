@@ -2,8 +2,6 @@
 #' @name erahumed_simulation_interface
 #' @aliases erahumed_simulation_layer
 #'
-#' @author Valerio Gherardi
-#'
 #' @examples
 #' # Simulation workflow
 #'
