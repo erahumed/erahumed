@@ -23,12 +23,17 @@ shiny_ui <- function() {
 }
 
 shiny_server <- function(input, output, session) {
+  shared <- reactiveValues(
+    map = plot_albufera_clusters(),
+    selected_cluster_id = albufera_clusters$cluster_id[1]
+  )
   simulation <- shiny::reactiveVal(erahumed_simulation())
-  inp_res <- inpServer("inp", simulation)
-  hba_res <- hbaServer("hba", inp_res)
-  hbp_res <- hbpServer("hbp", hba_res)
-  ca_res <- caServer("ca", hbp_res)
-  ct_res <- ctServer("ct", ca_res)
+
+  inp_res <- inpServer("inp", simulation, shared)
+  hba_res <- hbaServer("hba", inp_res, shared)
+  hbp_res <- hbpServer("hbp", hba_res, shared)
+  ca_res <- caServer("ca", hbp_res, shared)
+  ct_res <- ctServer("ct", ca_res, shared)
 
 }
 

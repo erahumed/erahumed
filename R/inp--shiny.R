@@ -17,7 +17,7 @@ inpUI <- function(id) {
     )
 }
 
-inpServer <- function(id, simulation) {
+inpServer <- function(id, simulation, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
