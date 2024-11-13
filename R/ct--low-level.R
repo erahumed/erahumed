@@ -85,12 +85,46 @@ ct_to_cluster <- function(application_kg,
   # Magic:
   # * Pass down all arguments to ct_compute_system_terms()
   # * Export all the elements of the returned list to execution env
-  match.call() |>
-    as.list() |>
-    (\(x) x[-1])() |>
-    lapply(eval, envir = parent.frame()) |>
-    do.call(ct_compute_system_terms, args = _) |>
-    list2env(environment())
+
+  terms <- ct_compute_system_terms(application_kg = application_kg,
+                                    precipitation_mm = precipitation_mm,
+                                    etp_mm = etp_mm,
+                                    temperature_ave = temperature_ave,
+                                    temperature_min = temperature_min,
+                                    temperature_max = temperature_max,
+                                    height_eod_cm = height_eod_cm,
+                                    outflow_m3_s = outflow_m3_s,
+                                    inflow_m3_s = inflow_m3_s,
+                                    area_m2 = area_m2,
+                                    seed_day = seed_day,
+                                    chemical = chemical,
+                                    drift = drift,
+                                    covmax = covmax,
+                                    jgrow = jgrow,
+                                    SNK = SNK,
+                                    dact_m = dact_m,
+                                    css_ppm = css_ppm,
+                                    foc = foc,
+                                    bd_g_cm3 = bd_g_cm3,
+                                    qseep_m_day = qseep_m_day,
+                                    wilting = wilting,
+                                    fc = fc)
+
+  eAww <- terms[["eAww"]]
+  eAws <- terms[["eAws"]]
+  eAsw <- terms[["eAsw"]]
+  eAss <- terms[["eAss"]]
+  mf <- terms[["mf"]]
+  qw <- terms[["qw"]]
+  qs <- terms[["qs"]]
+  mwapp <- terms[["mwapp"]]
+  msapp <- terms[["msapp"]]
+
+  mw_max <- terms[["mw_max"]]
+
+  volume_sod_m3 <- terms[["volume_sod_m3"]]
+  outflow_m3 <- terms[["outflow_m3"]]
+  outflow_fac <- terms[["outflow_fac"]]
 
   n_time_steps <- length(application_kg)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
@@ -106,19 +140,11 @@ ct_to_cluster <- function(application_kg,
 
     mw_excess <- mw[t] - mw_max[t]
 
-    # if(is.na(mw_excess)) {
-    #   mw_excess
-    #   kd_cm3_g
-    #   mw[t]
-    #   mw_max[t]
-    # }
-
     if (mw_excess > 0) {
       mw[t] <- mw_max[t]
       ms[t] <- ms[t] + mw_excess
     }
   }
-
 
   cw <- ifelse(volume_sod_m3 > volume_eps, mw / volume_sod_m3, NA)
   cs <- ms / (dact_m * area_m2)
