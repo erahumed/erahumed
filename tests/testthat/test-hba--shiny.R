@@ -2,7 +2,14 @@ test_that("UI succeeds", {
   expect_no_error(hbaUI("ui"))
 })
 
-args <- list(simulation = shiny::reactive(test_sim_small()))
+args <- list(
+  simulation = shiny::reactive(test_sim_small()),
+  shared = shiny::reactiveValues(
+    map = plot_albufera_clusters(),
+    selected_cluster_id = albufera_clusters$cluster_id[1]
+  )
+)
+
 shiny::testServer(hbaServer, args = args, {
   # Test that server returns an object of class erahumed_simulation()
   expect_no_error(session$returned())
