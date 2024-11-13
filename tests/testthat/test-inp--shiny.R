@@ -2,7 +2,14 @@ test_that("UI succeeds", {
   expect_no_error(inpUI("ui"))
 })
 
-args <- list(simulation = shiny::reactive(test_sim_small()))
+args <- list(
+  simulation = shiny::reactive(test_sim_small()),
+  shared = shiny::reactiveValues(
+    map = plot_albufera_clusters(),
+    selected_cluster_id = albufera_clusters$cluster_id[1]
+    )
+  )
+
 shiny::testServer(inpServer, args = args, {
   session$setInputs(date_range = as.Date(c("2020-01-01", "2020-12-31")))
 

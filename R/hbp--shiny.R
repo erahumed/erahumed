@@ -21,7 +21,7 @@ hbpUI <- function(id) {
         ),
 
       shiny::fluidRow(
-        shiny::column(4, leaflet::leafletOutput(ns("albufera_map"))),
+        shiny::column(4, leaflet::leafletOutput(ns("map"))),
         shiny::column(8, plotly::plotlyOutput(ns("plot")))
         )
       ),
@@ -48,7 +48,7 @@ hbpUI <- function(id) {
 
 }
 
-hbpServer <- function(id, simulation) {
+hbpServer <- function(id, simulation, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -65,32 +65,32 @@ hbpServer <- function(id, simulation) {
 
       })
 
-    output$albufera_map <- leaflet::renderLeaflet(
-      tryCatch(
-        plot_albufera_clusters(seed = input$seed),
-        error = function(cnd) {
-          cat("Error while loading Albufera Leaflet map.")
-          return(NULL)
-        },
-        warning = function(cnd) {
-          return(NULL)
-        }
-      )
-    )
+    output$map <- leaflet::renderLeaflet(shared$map)
 
-    shiny::observeEvent(input$albufera_map_shape_click, {
-      click <- input$albufera_map_shape_click
-      if (!is.null(click)) {
+    shiny::observeEvent(input$map_shape_click, {
+      click <- input$map_shape_click
+      if (!is.null(click))
         shiny::updateSelectInput(session, "cluster_id", selected = click$id)
-      }
     })
+
+    shiny::observeEvent(input$cluster_id, {
+      if (input$cluster_id != shared$selected_cluster_id)
+        shared$selected_cluster_id <- input$cluster_id
+    })
+
+    shiny::observeEvent(shared$selected_cluster_id, {
+      if (input$cluster_id != shared$selected_cluster_id)
+        shiny::updateSelectInput(session, "cluster_id",
+                                 selected = shared$selected_cluster_id)
+    })
+
 
     output$plot <- plotly::renderPlotly({
       shiny::req(input$cluster_id)
 
       res() |>
         get_layer("hbp") |>
-        plot(cluster_id = input$cluster_id)
+        plot(cluster_id = shared$selected_cluster_id)
     })
 
     output$downloadData <- shiny::downloadHandler(

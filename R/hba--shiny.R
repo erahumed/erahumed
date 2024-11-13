@@ -31,7 +31,7 @@ hbaUI <- function(id) {
 
 }
 
-hbaServer <- function(id, simulation) {
+hbaServer <- function(id, simulation, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
