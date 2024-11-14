@@ -15,7 +15,7 @@ csvInputUI <- function(id) {
 
 }
 
-csvInputServer <- function(id, initial_df) {
+csvInputServer <- function(id, initial_df, sig_digits = 4) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -35,7 +35,8 @@ csvInputServer <- function(id, initial_df) {
 
     # Output the data frame as a paginated table
     output$contents <- DT::renderDT({
-      DT::datatable(df(), options = list(pageLength = input$rows))
+      DT::datatable(df(), options = list(pageLength = input$rows)) |>
+        DT::formatSignif(which(sapply(df(), is.numeric)), digits = sig_digits)
     })
 
     # Downloadable csv of the data frame

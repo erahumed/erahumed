@@ -1,5 +1,15 @@
 # erahumed (development version)
 
+### GUI
+
+* Data-frames displayed in the INP Shiny module show up to 4 significant digits
+(#164).
+
+### Under the hoods
+
+* Server function of CSV input gets a new argument `sig_digits`, set by default
+to `4` (#164).
+
 # erahumed 0.11.3
 
 ### GUI
