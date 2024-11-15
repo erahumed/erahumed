@@ -1,3 +1,38 @@
+renv::use(
+  bit         = "bit@4.5.0",
+  bit64       = "bit64@4.5.2",
+  cli         = "cli@3.6.3",
+  clipr       = "clipr@0.8.0",
+  cpp11       = "cpp11@0.5.0",
+  crayon      = "crayon@1.5.3",
+  dplyr       = "dplyr@1.1.4",
+  fansi       = "fansi@1.0.6",
+  generics    = "generics@0.1.3",
+  glue        = "glue@1.8.0",
+  hms         = "hms@1.1.3",
+  lifecycle   = "lifecycle@1.0.4",
+  magrittr    = "magrittr@2.0.3",
+  pillar      = "pillar@1.9.0",
+  pkgconfig   = "pkgconfig@2.0.3",
+  prettyunits = "prettyunits@1.2.0",
+  progress    = "progress@1.2.3",
+  purrr       = "purrr@1.0.2",
+  R6          = "R6@2.5.1",
+  readr       = "readr@2.1.5",
+  renv        = "renv@1.0.11",
+  rlang       = "rlang@1.1.4",
+  stringi     = "stringi@1.8.4",
+  stringr     = "stringr@1.5.1",
+  tibble      = "tibble@3.2.1",
+  tidyr       = "tidyr@1.3.1",
+  tidyselect  = "tidyselect@1.2.1",
+  tzdb        = "tzdb@0.4.0",
+  utf8        = "utf8@1.2.4",
+  vctrs       = "vctrs@0.6.5",
+  vroom       = "vroom@1.6.5",
+  withr       = "withr@3.0.1"
+)
+
 library(dplyr)
 
 # Data from https://doi.org/10.1016/j.scitotenv.2023.163018

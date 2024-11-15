@@ -1,3 +1,23 @@
+renv::use(
+  cli        = "cli@3.6.3",
+  dplyr      = "dplyr@1.1.4",
+  fansi      = "fansi@1.0.6",
+  generics   = "generics@0.1.3",
+  glue       = "glue@1.8.0",
+  lifecycle  = "lifecycle@1.0.4",
+  magrittr   = "magrittr@2.0.3",
+  pillar     = "pillar@1.9.0",
+  pkgconfig  = "pkgconfig@2.0.3",
+  R6         = "R6@2.5.1",
+  renv       = "renv@1.0.11",
+  rlang      = "rlang@1.1.4",
+  tibble     = "tibble@3.2.1",
+  tidyselect = "tidyselect@1.2.1",
+  utf8       = "utf8@1.2.4",
+  vctrs      = "vctrs@0.6.5",
+  withr      = "withr@3.0.1"
+)
+
 library(dplyr)
 
 albufera_ca_schedules <- tribble(
