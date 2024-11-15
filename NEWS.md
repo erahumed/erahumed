@@ -12,6 +12,9 @@ package, caused by unreferenced call to the `albufera_clusters` dataset.
 
 ### Under the hoods
 
+* Data generation scripts in `data-raw/` now use 'renv::use()' directive at the 
+beginning of code to ensure reproducibility (#35)
+
 * Server function of CSV input gets a new argument `sig_digits`, set by default
 to `4` (#164).
 
