@@ -1,6 +1,5 @@
 library(dplyr)
 
-# TODO: set amounts
 albufera_ca_schedules <- tribble(
   ~day,   ~rice_variety,  ~chemical,        ~kg_per_ha,     ~application_type,
   51,     "J.Sendra",     "Acetamiprid",    0.03,           "ground",
