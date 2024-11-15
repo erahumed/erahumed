@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* Fix regression that was making the app crash if called without loading the
+package, caused by unreferenced call to the `albufera_clusters` dataset.
+
 ### GUI
 
 * Data-frames displayed in the INP Shiny module show up to 4 significant digits
