@@ -191,5 +191,5 @@ The documentation of the various plotting methods can be found under
 
 ## Further information
 
-TODO. Further details will appear in this and possibly other vignettes. For 
+Further details will appear in this and possibly other vignettes. For 
 specific problems, you can [file an issue on Github](https://github.com/erahumed/erahumed/issues).
