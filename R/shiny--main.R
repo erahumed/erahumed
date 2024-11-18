@@ -12,8 +12,18 @@ shiny_app <- function() {
 }
 
 shiny_ui <- function() {
+  app_title <- paste0("ERAHUMED v", packageVersion("erahumed"))
+  favicon_path <- system.file("app/www/favicon.ico", package = "erahumed")
+  favicon <- base64enc::dataURI(file = favicon_path, mime = "image/x-icon")
+
+
+
   shiny::navbarPage(
-    paste0("ERAHUMED v", packageVersion("erahumed")),
+    title = app_title,
+    windowTitle = app_title,
+    header = tags$head(
+      tags$link(rel = "icon", type = "image/x-icon", href = favicon)
+      ),
     shiny::tabPanel("INP: Input Data", inpUI("inp")),
     shiny::tabPanel("HBA: Hydrological Balance (Albufera)", hbaUI("hba")),
     shiny::tabPanel("HBP: Hydrological Balance (rice Paddies)", hbpUI("hbp")),
@@ -36,6 +46,3 @@ shiny_server <- function(input, output, session) {
   ct_res <- ctServer("ct", ca_res, shared)
 
 }
-
-
-
