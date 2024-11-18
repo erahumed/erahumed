@@ -13,7 +13,7 @@ shiny_app <- function() {
 
 shiny_ui <- function() {
   shiny::navbarPage(
-    "ERAHUMED",
+    paste0("ERAHUMED v", packageVersion("erahumed")),
     shiny::tabPanel("INP: Input Data", inpUI("inp")),
     shiny::tabPanel("HBA: Hydrological Balance (Albufera)", hbaUI("hba")),
     shiny::tabPanel("HBP: Hydrological Balance (rice Paddies)", hbpUI("hbp")),

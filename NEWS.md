@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### GUI
+
+* Shiny app title now includes the version of the package (#174).
+
 # erahumed 0.11.4
 
 ### Bug fixes
