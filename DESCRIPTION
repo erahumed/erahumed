@@ -43,6 +43,7 @@ Imports:
     readr,
     sf,
     shiny,
+    shinycssloaders,
     stats,
     withr
 Depends: 

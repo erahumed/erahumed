@@ -29,8 +29,12 @@ ctUI <- function(id) {
       ),
 
       shiny::fluidRow(
-        shiny::column(4, leaflet::leafletOutput(ns("map"))),
-        shiny::column(8, plotly::plotlyOutput(ns("plot")))
+        shiny::column(4, leaflet::leafletOutput(ns("map")) |>
+                        shinycssloaders::withSpinner()
+                      ),
+        shiny::column(8, plotly::plotlyOutput(ns("plot")) |>
+                        shinycssloaders::withSpinner()
+                      )
       )
     ),
 
