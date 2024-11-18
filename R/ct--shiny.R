@@ -35,10 +35,6 @@ ctUI <- function(id) {
     ),
 
     shiny::tabPanel("Setup",
-                    shiny::numericInput(ns("seed"),
-                                        "Seed for simulation",
-                                        value = 840,
-                                        step = 1),
                     shiny::numericInput(ns("drift"),
                                         "drift",
                                         value = formals(setup_ct)$drift,

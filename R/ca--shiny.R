@@ -29,12 +29,7 @@ caUI <- function(id) {
 
     shiny::tabPanel("Application Schedules", csvInputUI(ns("ca_schedules"))),
 
-    shiny::tabPanel("Setup",
-                    shiny::numericInput(ns("seed"),
-                                        "Seed for simulation",
-                                        value = 840,
-                                        step = 1),
-                    )
+    shiny::tabPanel("Setup", )
 
 
   )
@@ -46,8 +41,8 @@ caServer <- function(id, simulation, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    ca_schedules_df <- csvInputServer("ca_schedules",
-                                    erahumed::albufera_ca_schedules)
+    ca_schedules_df <-
+      csvInputServer("ca_schedules", erahumed::albufera_ca_schedules)
 
     res <- shiny::reactive({
       simulation() |>
