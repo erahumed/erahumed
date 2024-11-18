@@ -2,6 +2,7 @@ hbaUI <- function(id) {
   ns <- shiny::NS(id)
 
   vars <- hba_var_labs(invert = TRUE)
+  vars <- vars[vars != "level"]  # Easy fix for #101
 
   shiny::tabsetPanel(
 

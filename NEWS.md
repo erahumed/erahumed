@@ -10,6 +10,10 @@ package, caused by unreferenced call to the `albufera_clusters` dataset.
 * Data-frames displayed in the INP Shiny module show up to 4 significant digits
 (#164).
 
+* The "Lake Level" variable for the HBA layer plots no longer exists, since the
+resulting plot was identical to the "Lake Volume" plot, up to an affine 
+transformation of the Y-axis (#101).
+
 ### Under the hoods
 
 * Data generation scripts in `data-raw/` now use 'renv::use()' directive at the 

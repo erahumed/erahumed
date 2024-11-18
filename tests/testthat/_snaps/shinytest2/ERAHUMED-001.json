@@ -18,7 +18,7 @@
     "ct-seed": 840,
     "ct-variable": "mass",
     "ct-wilting": 0.24,
-    "hba-variable": "level",
+    "hba-variable": "volume",
     "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
     "hbp-ideal_flow_rate_cm": 5,
     "hbp-management-file": null,
