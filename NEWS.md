@@ -3,6 +3,13 @@
 ### GUI
 
 * Shiny app title now includes the version of the package (#174).
+* Added favicon to app.
+* Loading UI element now show a loading animation.
+* Removed unused "seed" inputs from CA and CT layers Shiny modules.
+
+### Visualization
+
+* CA: changed line styles of applications to dashed.
 
 # erahumed 0.11.4
 
