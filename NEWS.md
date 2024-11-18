@@ -1,15 +1,19 @@
 # erahumed (development version)
 
+### Dependencies
+
+* Added Imports: `base64enc` and `utils`.
+
 ### GUI
 
 * Shiny app title now includes the version of the package (#174).
-* Added favicon to app.
-* Loading UI element now show a loading animation.
-* Removed unused "seed" inputs from CA and CT layers Shiny modules.
+* Added favicon to app (#178).
+* Loading UI element now show a loading animation (#175).
+* Removed unused "seed" inputs from CA and CT layers Shiny modules (#177).
 
 ### Visualization
 
-* CA: changed line styles of applications to dashed.
+* CA: changed line styles of applications to dashed (#176).
 
 # erahumed 0.11.4
 
