@@ -34,6 +34,7 @@ Config/testthat/edition: 3
 URL: https://github.com/erahumed/erahumed, https://erahumed.github.io/erahumed/
 BugReports: https://github.com/erahumed/erahumed/issues
 Imports: 
+    base64enc,
     collapse,
     data.table,
     DT,
@@ -45,6 +46,7 @@ Imports:
     shiny,
     shinycssloaders,
     stats,
+    utils,
     withr
 Depends: 
     R (>= 4.1.0)
