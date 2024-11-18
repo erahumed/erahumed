@@ -54,7 +54,10 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
                               xend = ~date,
                               y = ~min(cluster_data$height_eod_cm),
                               yend = ~max(cluster_data$height_eod_cm),
-                              line = list(color = colors[chemical], width = 1),
+                              line = list(color = colors[chemical],
+                                          width = 1,
+                                          dash = "dot"
+                                          ),
                               name = chemical)
   }
 
