@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,18 +37,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.11.4" id="erahumed-0114">erahumed 0.11.4<a class="anchor" aria-label="anchor" href="#erahumed-0114"></a></h2>
 <div class="section level4">
-<h4 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<h4 id="bug-fixes-0-11-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-11-4"></a></h4>
 <ul><li>Fix regression that was making the app crash if called without loading the package, caused by unreferenced call to the <code>albufera_clusters</code> dataset.</li>
 </ul></div>
 <div class="section level4">
-<h4 id="gui-development-version">GUI<a class="anchor" aria-label="anchor" href="#gui-development-version"></a></h4>
+<h4 id="gui-0-11-4">GUI<a class="anchor" aria-label="anchor" href="#gui-0-11-4"></a></h4>
 <ul><li><p>Data-frames displayed in the INP Shiny module show up to 4 significant digits (<a href="https://github.com/erahumed/erahumed/issues/164" class="external-link">#164</a>).</p></li>
 <li><p>The “Lake Level” variable for the HBA layer plots no longer exists, since the resulting plot was identical to the “Lake Volume” plot, up to an affine transformation of the Y-axis (<a href="https://github.com/erahumed/erahumed/issues/101" class="external-link">#101</a>).</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
+<h4 id="under-the-hoods-0-11-4">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-11-4"></a></h4>
 <ul><li><p>Data generation scripts in <code>data-raw/</code> now use ‘renv::use()’ directive at the beginning of code to ensure reproducibility (<a href="https://github.com/erahumed/erahumed/issues/35" class="external-link">#35</a>)</p></li>
 <li><p>Server function of CSV input gets a new argument <code>sig_digits</code>, set by default to <code>4</code> (<a href="https://github.com/erahumed/erahumed/issues/164" class="external-link">#164</a>).</p></li>
 </ul></div>
