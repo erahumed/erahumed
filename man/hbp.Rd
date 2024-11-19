@@ -30,11 +30,6 @@ below which a cluster is considered to be emptied.}
 
 \item{seed}{A number. Seed for random number generation used by the
 algorithm.}
-
-\item{clusters_df}{A \code{data.frame} that contains the definition of rice paddy
-clusters. This should strictly follow the template of
-\link{albufera_clusters}, and it is in fact unlikely that the user would want
-to change this input (TODO #47).}
 }
 \value{
 An object of class \link{erahumed_simulation}.

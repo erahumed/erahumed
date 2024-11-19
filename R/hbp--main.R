@@ -18,10 +18,6 @@
 #' expected water levels of a cluster for each day of the year.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param clusters_df A `data.frame` that contains the definition of rice paddy
-#' clusters. This should strictly follow the template of
-#' \link{albufera_clusters}, and it is in fact unlikely that the user would want
-#' to change this input (TODO #47).
 #' @param management_df A `data.frame` that provides the yearly schedule for
 #' irrigation and draining, that strictly follows the template of
 #' \link{albufera_management}.
