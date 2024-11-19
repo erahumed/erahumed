@@ -17,11 +17,10 @@
 #' 1. An yearly ideal schedule for irrigation and draining, with corresponding
 #' expected water levels of a cluster for each day of the year.
 #'
+#' The data for the second input is stored internally in `{erahumed}`, and can
+#' be examined through the \link{clusters} helper.
+#'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param clusters_df A `data.frame` that contains the definition of rice paddy
-#' clusters. This should strictly follow the template of
-#' \link{albufera_clusters}, and it is in fact unlikely that the user would want
-#' to change this input (TODO #47).
 #' @param management_df A `data.frame` that provides the yearly schedule for
 #' irrigation and draining, that strictly follows the template of
 #' \link{albufera_management}.
@@ -37,10 +36,6 @@
 #' @return An object of class \link{erahumed_simulation}.
 #'
 #' @details
-#' TODO: #64, plus more detailed information on the structure of
-#' `management_df` (and perhaps also on `clusters_df`, depending on the decision
-#' taken regarding #47).
-#'
 #' The output `data.frame` for this model layer, retrieved through
 #' `get_layer_output(layer = "hbp")` has one row per cluster and per day,
 #' providing the simulated hydrological times-series for all paddy clusters. The
@@ -51,12 +46,12 @@
 #'   \item{cluster_id}{Cluster identifier.}
 #'   \item{area_m2}{Surface area (in squared meters) of cluster.}
 #'   \item{tancat}{`TRUE` or `FALSE`, whether the cluster is a *tancat*
-#'   (*cf.* \link{albufera_clusters}).}
+#'   (*cf.* \link{clusters}).}
 #'   \item{variety}{Variety of rice planted in the cluster.
-#'   (*cf.* \link{albufera_clusters}).}
+#'   (*cf.* \link{clusters}).}
 #'   \item{area_m2}{Surface area (in squared meters) of cluster.}
 #'   \item{ditch}{Ditch to which the cluster pertains (*cf.*
-#'   \link{albufera_clusters}).}
+#'   \link{clusters}).}
 #'   \item{capacity_m3_s}{Outflow (to the Albufera Lake) of ditch.}
 #'   \item{seed_day}{Whether `date` corresponds to the sowing day of the year.}
 #'   \item{petp_cm}{Precipitation minus evapotranspiration per unit area, in
@@ -93,7 +88,6 @@
 setup_hbp <- function(
     simulation,
     management_df = erahumed::albufera_management,
-    clusters_df = erahumed::albufera_clusters,
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 2,
     seed = 840
@@ -102,7 +96,6 @@ setup_hbp <- function(
   setup_layer(simulation = simulation,
               layer = "hbp",
               management_df = management_df,
-              clusters_df = clusters_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm,
               seed = seed,
@@ -115,23 +108,27 @@ setup_hbp <- function(
 compute_hbp_bare <- function(simulation)
 {
   management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
-  clusters_df <- get_layer_parameters(simulation, "hbp")[["clusters_df"]]
+  clusters_df <- albufera_clusters
   ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
   seed <- get_layer_parameters(simulation, "hbp")[["seed"]]
 
-  .hbp_args <- .hbp_data_prep(simulation = simulation,
-                              management_df = management_df,
-                              clusters_df = clusters_df,
-                              ideal_flow_rate_cm = ideal_flow_rate_cm,
-                              height_thresh_cm = height_thresh_cm)
-  withr::with_seed(seed, do.call(.hbp, .hbp_args))
+  withr::with_seed(seed, {
+    .hbp_args <- .hbp_data_prep(simulation = simulation,
+                                management_df = management_df,
+                                clusters_df = clusters_df,
+                                ideal_flow_rate_cm = ideal_flow_rate_cm,
+                                height_thresh_cm = height_thresh_cm,
+                                variety_prop = variety_prop)
+
+    do.call(.hbp, .hbp_args)
+    })
 }
 
 
 
 validate_hbp_params <- function(management_df,
-                                clusters_df,
                                 ideal_flow_rate_cm,
                                 height_thresh_cm,
                                 seed)
@@ -139,7 +136,6 @@ validate_hbp_params <- function(management_df,
   tryCatch(
     {
       assert_data.frame(management_df, template = erahumed::albufera_management)
-      assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)
       assert_positive_number(height_thresh_cm)
       assert_numeric_vector(seed)

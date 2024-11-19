@@ -1,7 +1,7 @@
 hbpUI <- function(id) {
   ns <- shiny::NS(id)
 
-  clusters <- erahumed::albufera_clusters$cluster_id
+  clusters <- albufera_clusters$cluster_id
 
   shiny::tabsetPanel(
     shiny::tabPanel(

@@ -48,19 +48,13 @@ test_that("setup_hbp() error if invalid height_thresh_cm", {
 
 })
 
-test_that("setup_hbp() error if invalid input data-frames", {
+test_that("setup_hbp() error for invalid 'management_df'", {
   expect_error(
     setup_hbp(test_sim_small(),
               management_df = erahumed::albufera_management[,-1]
               ),
     class = "validate_hbp_params_error"
     )
-
-  expect_error(
-    setup_hbp(test_sim_small(), clusters_df = erahumed::albufera_clusters[,-1]),
-    class = "validate_hbp_params_error"
-    )
-
 })
 
 test_that("HBP results depend on seed", {

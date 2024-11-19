@@ -1,22 +1,20 @@
-plot_albufera_clusters <- function(
-  clusters_df = merge(erahumed::albufera_clusters,
-                      erahumed::albufera_cluster_geometries,
-                      by = "cluster_id"),
-  geometry_col = "geometry",
-  seed = 840
-  )
+plot_albufera_clusters <- function(seed = 840)
 {
-  tryCatch(.plot_albufera_clusters(clusters_df, geometry_col, seed),
+  tryCatch(.plot_albufera_clusters(seed),
            error = function(cnd) {
-             cat("Error while loading Albufera Leaflet map.")
+             warning("Error while loading Albufera Leaflet map.")
              return(NULL)
              },
-           warning = function(cnd) { return(NULL) }
+           warning = function(cnd) {
+             warning("Warnings while loading Albufera Leaflet map.")
+             return(NULL)
+             }
            )
 }
 
-.plot_albufera_clusters <- function(clusters_df, geometry_col, seed)
+.plot_albufera_clusters <- function(seed)
 {
+  clusters_df <- clusters(include_geometry = TRUE)
 
   unique_ditch <- unique(clusters_df$ditch)
   n_ditches <- length(unique_ditch)
@@ -38,7 +36,6 @@ plot_albufera_clusters <- function(
       popup = ~paste("Cluster ID:", cluster_id, "<br>",
                      "Ditch:", ditch, "<br>",
                      "Tancat:", tancat, "<br>",
-                     "Variety:", rice_variety, "<br>",
                      "Area:", area, "m\u{00B2}"
                      ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),

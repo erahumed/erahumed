@@ -114,13 +114,20 @@
                           management_df,
                           clusters_df,
                           ideal_flow_rate_cm,
-                          height_thresh_cm)
+                          height_thresh_cm,
+                          variety_prop)
 {
   res <- data.table::as.data.table( get_layer_output(simulation, "hba") )
 
   res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))
   res$dd <- get_dd(as.POSIXlt(res$date))
+
+  clusters_df$variety <- hbp_cluster_variety(area = clusters_df$area,
+                                             ditch = clusters_df$ditch,
+                                             tancat = clusters_df$tancat,
+                                             variety_prop
+                                             )
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
@@ -129,8 +136,7 @@
           allow.cartesian = TRUE
     ) |>
     merge(y = data.table::as.data.table(clusters_df),
-          by.x = c("tancat", "variety"),
-          by.y = c("tancat", "rice_variety"),
+          by = c("tancat", "variety"),
           all.y = TRUE,
           sort = FALSE,
           allow.cartesian = TRUE

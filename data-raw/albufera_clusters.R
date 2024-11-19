@@ -49,10 +49,8 @@ albufera_clusters <- sf::st_drop_geometry(clusters_raw) |>
     cluster_id,
     ditch = gsub("acq", "d", acq_code),
     area,
-    tancat = tancat == "1",
-    rice_variety = mngmt,
-    case = gsub("Case", "", CASE) |> as.factor()
-  )
+    tancat = tancat == "1"
+    )
 
 
 

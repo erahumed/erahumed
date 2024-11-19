@@ -30,3 +30,39 @@ test_that("setup_inp(): errors if provided with invalid input data", {
     class = "validate_inp_params_error"
   )
 })
+
+test_that("setup_inp(): error if 'date' cols of input dfs are not intervals", {
+
+  # Arbitrarily remove one row (one day)
+  invalid_weather_df <- erahumed::albufera_weather[-10, ]
+  invalid_outflow_df <- erahumed::albufera_outflows[-10, ]
+
+  expect_error(
+    setup_inp(erahumed_simulation(), outflows_df = invalid_outflow_df),
+    class = "validate_inp_params_error"
+  )
+  expect_error(
+    setup_inp(erahumed_simulation(), weather_df = invalid_weather_df),
+    class = "validate_inp_params_error"
+  )
+})
+
+test_that("setup_inp(): no error with modified variety proportions", {
+  simulation <- erahumed_simulation()
+
+  expect_no_error( setup_inp(simulation, variety_prop = c(6, 2, 2)) )
+})
+
+test_that("setup_inp(): error with invalid variety proportions", {
+  simulation <- erahumed_simulation()
+
+  expect_error(
+    setup_inp(simulation, variety_prop = c(-6, 2, 2)),
+    class = "validate_inp_params_error"
+    )
+
+  expect_error(
+    setup_inp(simulation, variety_prop = c(5, 5)),
+    class = "validate_inp_params_error"
+  )
+})

@@ -16,6 +16,9 @@
 #' template of \link{albufera_outflows}; See details.
 #' @param weather_df A `data.frame`, whose structure follows the template of
 #' \link{albufera_weather}; See details.
+#' @param variety_prop Numeric vector of length `3` with positive entries.
+#' Proportions of rice clusters of varieties `"J.Sendra"`, `"Bomba"` and
+#' `"Clearfield"`, respectively; see details.
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
@@ -37,15 +40,25 @@
 #' simulation will only be performed on the largest date interval in which both
 #' hydrological and weather input data is available.
 #'
+#' The `variety_prop` parameters controls the proportions of rice paddies
+#' allocated to the cultivation of the J. Sendra, Bomba, and Clearfield
+#' varieties, respectively (`sum(variety_prop) != 1` is allowed, with the
+#' entries of `variety_prop` understood as relative proportions).
+#'
 #' @export
 setup_inp <- function(simulation,
                       outflows_df = erahumed::albufera_outflows,
-                      weather_df = erahumed::albufera_weather)
+                      weather_df = erahumed::albufera_weather,
+                      variety_prop = c("J.Sendra" = 0.8,
+                                       "Bomba" = 0.1,
+                                       "Clearfield" = 0.1)
+                      )
 {
   setup_layer(simulation = simulation,
               layer = "inp",
               outflows_df = outflows_df,
               weather_df = weather_df,
+              variety_prop = variety_prop,
               validate_params = validate_inp_params
               )
 }
@@ -58,7 +71,7 @@ compute_inp_bare <- function(simulation)
   merge(outflows_df, weather_df, by = "date", sort = TRUE)
 }
 
-validate_inp_params <- function(outflows_df, weather_df)
+validate_inp_params <- function(outflows_df, weather_df, variety_prop)
 {
   tryCatch(
     {
@@ -80,6 +93,10 @@ validate_inp_params <- function(outflows_df, weather_df)
         stop("Invalid 'date' domain in 'weather_df' (not an interval)." )
       }
 
+      assert_positive_vector(variety_prop)
+      if (length(variety_prop) != 3) {
+        stop("'variety_prop' must have length 3.")
+      }
 
     },
     error = function(e) {
