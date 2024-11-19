@@ -93,7 +93,6 @@
 setup_hbp <- function(
     simulation,
     management_df = erahumed::albufera_management,
-    clusters_df = erahumed::albufera_clusters,
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 2,
     seed = 840
@@ -102,7 +101,6 @@ setup_hbp <- function(
   setup_layer(simulation = simulation,
               layer = "hbp",
               management_df = management_df,
-              clusters_df = clusters_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm,
               seed = seed,
@@ -115,7 +113,7 @@ setup_hbp <- function(
 compute_hbp_bare <- function(simulation)
 {
   management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
-  clusters_df <- get_layer_parameters(simulation, "hbp")[["clusters_df"]]
+  clusters_df <- erahumed::albufera_clusters
   ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
   variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
@@ -136,7 +134,6 @@ compute_hbp_bare <- function(simulation)
 
 
 validate_hbp_params <- function(management_df,
-                                clusters_df,
                                 ideal_flow_rate_cm,
                                 height_thresh_cm,
                                 seed)
@@ -144,7 +141,6 @@ validate_hbp_params <- function(management_df,
   tryCatch(
     {
       assert_data.frame(management_df, template = erahumed::albufera_management)
-      assert_data.frame(clusters_df, template = erahumed::albufera_clusters)
       assert_positive_number(ideal_flow_rate_cm)
       assert_positive_number(height_thresh_cm)
       assert_numeric_vector(seed)
