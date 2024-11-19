@@ -1,12 +1,6 @@
-plot_albufera_clusters <- function(
-  clusters_df = merge(erahumed::albufera_clusters,
-                      erahumed::albufera_cluster_geometries,
-                      by = "cluster_id"),
-  geometry_col = "geometry",
-  seed = 840
-  )
+plot_albufera_clusters <- function(seed = 840)
 {
-  tryCatch(.plot_albufera_clusters(clusters_df, geometry_col, seed),
+  tryCatch(.plot_albufera_clusters(seed),
            error = function(cnd) {
              warning("Error while loading Albufera Leaflet map.")
              return(NULL)
@@ -18,8 +12,12 @@ plot_albufera_clusters <- function(
            )
 }
 
-.plot_albufera_clusters <- function(clusters_df, geometry_col, seed)
+.plot_albufera_clusters <- function(seed)
 {
+  requireNamespace("sf", quietly = TRUE)
+
+  clusters_df <-
+    merge(albufera_clusters, albufera_cluster_geometries, by = "cluster_id")
 
   unique_ditch <- unique(clusters_df$ditch)
   n_ditches <- length(unique_ditch)

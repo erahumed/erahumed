@@ -113,7 +113,7 @@ setup_hbp <- function(
 compute_hbp_bare <- function(simulation)
 {
   management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
-  clusters_df <- erahumed::albufera_clusters
+  clusters_df <- albufera_clusters
   ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
   variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]

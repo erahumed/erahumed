@@ -8,7 +8,6 @@
 setup_hbp(
   simulation,
   management_df = erahumed::albufera_management,
-  clusters_df = erahumed::albufera_clusters,
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 2,
   seed = 840
@@ -21,11 +20,6 @@ setup_hbp(
 irrigation and draining, that strictly follows the template of
 \link{albufera_management}.}
 
-\item{clusters_df}{A \code{data.frame} that contains the definition of rice paddy
-clusters. This should strictly follow the template of
-\link{albufera_clusters}, and it is in fact unlikely that the user would want
-to change this input (TODO #47).}
-
 \item{ideal_flow_rate_cm}{A positive number. Ideal inflow/outflow of a
 cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.}
 when being simultaneously irrigated and drained) Expressed in centimeters
@@ -36,6 +30,11 @@ below which a cluster is considered to be emptied.}
 
 \item{seed}{A number. Seed for random number generation used by the
 algorithm.}
+
+\item{clusters_df}{A \code{data.frame} that contains the definition of rice paddy
+clusters. This should strictly follow the template of
+\link{albufera_clusters}, and it is in fact unlikely that the user would want
+to change this input (TODO #47).}
 }
 \value{
 An object of class \link{erahumed_simulation}.
