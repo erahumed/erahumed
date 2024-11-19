@@ -8,10 +8,13 @@ plot_albufera_clusters <- function(
 {
   tryCatch(.plot_albufera_clusters(clusters_df, geometry_col, seed),
            error = function(cnd) {
-             cat("Error while loading Albufera Leaflet map.")
+             warning("Error while loading Albufera Leaflet map.")
              return(NULL)
              },
-           warning = function(cnd) { return(NULL) }
+           warning = function(cnd) {
+             warning("Warnings while loading Albufera Leaflet map.")
+             return(NULL)
+             }
            )
 }
 
@@ -38,7 +41,6 @@ plot_albufera_clusters <- function(
       popup = ~paste("Cluster ID:", cluster_id, "<br>",
                      "Ditch:", ditch, "<br>",
                      "Tancat:", tancat, "<br>",
-                     "Variety:", rice_variety, "<br>",
                      "Area:", area, "m\u{00B2}"
                      ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
