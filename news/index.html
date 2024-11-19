@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.4.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,30 +37,30 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.12.0" id="erahumed-0120">erahumed 0.12.0<a class="anchor" aria-label="anchor" href="#erahumed-0120"></a></h2>
 <div class="section level4">
-<h4 id="algorithms-changes-development-version">Algorithms changes<a class="anchor" aria-label="anchor" href="#algorithms-changes-development-version"></a></h4>
+<h4 id="algorithms-changes-0-12-0">Algorithms changes<a class="anchor" aria-label="anchor" href="#algorithms-changes-0-12-0"></a></h4>
 <ul><li>The variety of clusters is no longer fixed data, but is rather generated randomly in each simulation, with a fixed proportion of the Albufera’s total surface allocated to Bomba/Sendra/Clearfield varieties. The relevant parameter is the new <code>variety_prop</code> argument of <code><a href="../reference/inp.html">setup_inp()</a></code> (see below), while the actual computation currently happens at the level of the HBP layer.</li>
 </ul></div>
 <div class="section level4">
-<h4 id="api-changes-development-version">API changes<a class="anchor" aria-label="anchor" href="#api-changes-development-version"></a></h4>
+<h4 id="api-changes-0-12-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-12-0"></a></h4>
 <ul><li>Removed <code>albufera_clusters</code> and <code>albufera_cluster_geometries</code> data-sets (<a href="https://github.com/erahumed/erahumed/issues/47" class="external-link">#47</a>).</li>
 <li>Removed <code>clusters_df</code> argument from <code><a href="../reference/hbp.html">setup_hbp()</a></code>.</li>
 <li>New argument <code>variety_prop</code> in <code><a href="../reference/inp.html">setup_inp()</a></code>, to set the proportion of the Albufera’s Natural Park surface allocated for the three rice varieties (J. Sendra, Bomba, and Clearfield) (<a href="https://github.com/erahumed/erahumed/issues/185" class="external-link">#185</a>).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="gui-development-version">GUI<a class="anchor" aria-label="anchor" href="#gui-development-version"></a></h4>
+<h4 id="gui-0-12-0">GUI<a class="anchor" aria-label="anchor" href="#gui-0-12-0"></a></h4>
 <ul><li>Shiny app title now includes the version of the package (<a href="https://github.com/erahumed/erahumed/issues/174" class="external-link">#174</a>).</li>
 <li>Added favicon to app (<a href="https://github.com/erahumed/erahumed/issues/178" class="external-link">#178</a>).</li>
 <li>Loading UI element now show a loading animation (<a href="https://github.com/erahumed/erahumed/issues/175" class="external-link">#175</a>).</li>
 <li>Removed unused “seed” inputs from CA and CT layers Shiny modules (<a href="https://github.com/erahumed/erahumed/issues/177" class="external-link">#177</a>).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="visualizations-development-version">Visualizations<a class="anchor" aria-label="anchor" href="#visualizations-development-version"></a></h4>
+<h4 id="visualizations-0-12-0">Visualizations<a class="anchor" aria-label="anchor" href="#visualizations-0-12-0"></a></h4>
 <ul><li>CA: changed line styles of applications to dashed (<a href="https://github.com/erahumed/erahumed/issues/176" class="external-link">#176</a>).</li>
 </ul></div>
 <div class="section level4">
-<h4 id="dependencies-development-version">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-development-version"></a></h4>
+<h4 id="dependencies-0-12-0">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-0-12-0"></a></h4>
 <ul><li>Added Imports: <code>base64enc</code> and <code>utils</code>.</li>
 </ul></div>
 </div>
