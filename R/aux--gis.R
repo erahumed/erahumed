@@ -14,10 +14,7 @@ plot_albufera_clusters <- function(seed = 840)
 
 .plot_albufera_clusters <- function(seed)
 {
-  requireNamespace("sf", quietly = TRUE)
-
-  clusters_df <-
-    merge(albufera_clusters, albufera_cluster_geometries, by = "cluster_id")
+  clusters_df <- clusters(include_geometry = TRUE)
 
   unique_ditch <- unique(clusters_df$ditch)
   n_ditches <- length(unique_ditch)
