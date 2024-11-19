@@ -8,7 +8,8 @@
 setup_inp(
   simulation,
   outflows_df = erahumed::albufera_outflows,
-  weather_df = erahumed::albufera_weather
+  weather_df = erahumed::albufera_weather,
+  variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1)
 )
 }
 \arguments{
@@ -19,6 +20,10 @@ template of \link{albufera_outflows}; See details.}
 
 \item{weather_df}{A \code{data.frame}, whose structure follows the template of
 \link{albufera_weather}; See details.}
+
+\item{variety_prop}{Numeric vector of length \code{3} with positive entries.
+Proportions of rice clusters of varieties \code{"J.Sendra"}, \code{"Bomba"} and
+\code{"Clearfield"}, respectively; see details.}
 }
 \value{
 An object of class \link{erahumed_simulation}.
@@ -50,6 +55,11 @@ the corresponding date domain should be an interval (\emph{i.e.} no missing data
 between the maximum and minimum of \code{date} is allowed). The subsequent
 simulation will only be performed on the largest date interval in which both
 hydrological and weather input data is available.
+
+The \code{variety_prop} parameters controls the proportions of rice paddies
+allocated to the cultivation of the J. Sendra, Bomba, and Clearfield
+varieties, respectively (\code{sum(variety_prop) != 1} is allowed, with the
+entries of \code{variety_prop} understood as relative proportions).
 }
 \seealso{
 Other simulation layers: 

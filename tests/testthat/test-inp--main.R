@@ -46,3 +46,23 @@ test_that("setup_inp(): error if 'date' cols of input dfs are not intervals", {
     class = "validate_inp_params_error"
   )
 })
+
+test_that("setup_inp(): no error with modified variety proportions", {
+  simulation <- erahumed_simulation()
+
+  expect_no_error( setup_inp(simulation, variety_prop = c(6, 2, 2)) )
+})
+
+test_that("setup_inp(): error with invalid variety proportions", {
+  simulation <- erahumed_simulation()
+
+  expect_error(
+    setup_inp(simulation, variety_prop = c(-6, 2, 2)),
+    class = "validate_inp_params_error"
+    )
+
+  expect_error(
+    setup_inp(simulation, variety_prop = c(5, 5)),
+    class = "validate_inp_params_error"
+  )
+})
