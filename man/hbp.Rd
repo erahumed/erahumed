@@ -49,12 +49,11 @@ same ditch.
 \item An yearly ideal schedule for irrigation and draining, with corresponding
 expected water levels of a cluster for each day of the year.
 }
+
+The data for the second input is stored internally in \code{{erahumed}}, and can
+be examined through the \link{clusters} helper.
 }
 \details{
-TODO: #64, plus more detailed information on the structure of
-\code{management_df} (and perhaps also on \code{clusters_df}, depending on the decision
-taken regarding #47).
-
 The output \code{data.frame} for this model layer, retrieved through
 \code{get_layer_output(layer = "hbp")} has one row per cluster and per day,
 providing the simulated hydrological times-series for all paddy clusters. The
@@ -65,12 +64,12 @@ data-set has the following columns:
 \item{cluster_id}{Cluster identifier.}
 \item{area_m2}{Surface area (in squared meters) of cluster.}
 \item{tancat}{\code{TRUE} or \code{FALSE}, whether the cluster is a \emph{tancat}
-(\emph{cf.} \link{albufera_clusters}).}
+(\emph{cf.} \link{clusters}).}
 \item{variety}{Variety of rice planted in the cluster.
-(\emph{cf.} \link{albufera_clusters}).}
+(\emph{cf.} \link{clusters}).}
 \item{area_m2}{Surface area (in squared meters) of cluster.}
 \item{ditch}{Ditch to which the cluster pertains (\emph{cf.}
-\link{albufera_clusters}).}
+\link{clusters}).}
 \item{capacity_m3_s}{Outflow (to the Albufera Lake) of ditch.}
 \item{seed_day}{Whether \code{date} corresponds to the sowing day of the year.}
 \item{petp_cm}{Precipitation minus evapotranspiration per unit area, in
