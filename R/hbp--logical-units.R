@@ -3,6 +3,7 @@
 #'
 #' @details `ditch` and `area` must have the same cardinality, equal to the
 #' total number of clusters.
+#' @noRd
 hbp_ditch_inflow_pct <- function(ditch, area)
 {
   res <- stats::aggregate(area ~ ditch, FUN = sum)
@@ -12,8 +13,43 @@ hbp_ditch_inflow_pct <- function(ditch, area)
   return(res)
 }
 
-hbp_cluster_variety <- function(clusters_df, variety_prop) {
-  clusters_df$rice_variety
+hbp_cluster_variety <- function(area, ditch, tancat, variety_prop) {
+  n_clusters <- length(area)
+
+  variety_prop <- variety_prop / sum(variety_prop)
+
+  area_tot <- sum(area)
+  area_bomba_target <- variety_prop[[2]] * area_tot
+  area_clearfield_target <- variety_prop[[3]] * area_tot
+
+  ditches_clearfield <- paste0("d", 1:19)
+
+  res <- character(n_clusters)
+  res[] <- NA
+
+  area_bomba <- 0
+  while(area_bomba < area_bomba_target) {
+    i <- sample(n_clusters, 1)
+    eligible <- tancat[i] && is.na(res[i])
+    if (!eligible)
+      next
+    res[i] <- "Bomba"
+    area_bomba <- area_bomba + area[i]
+  }
+
+  area_clearfield <- 0
+  while(area_clearfield < area_clearfield_target) {
+    i <- sample(n_clusters, 1)
+    eligible <- ditch[i] %in% ditches_clearfield && is.na(res[i])
+    if (!eligible)
+      next
+    res[i] <- "Clearfield"
+    area_clearfield <- area_clearfield + area[i]
+  }
+
+  res[is.na(res)] <- "J.Sendra"
+
+  return(res)
 }
 
 hbp_simulate_ditch <- function(

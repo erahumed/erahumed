@@ -123,7 +123,11 @@
   res$mm <- get_mm(as.POSIXlt(res$date))
   res$dd <- get_dd(as.POSIXlt(res$date))
 
-  clusters_df$variety <- hbp_cluster_variety(clusters_df, variety_prop)
+  clusters_df$variety <- hbp_cluster_variety(area = clusters_df$area,
+                                             ditch = clusters_df$ditch,
+                                             tancat = clusters_df$tancat,
+                                             variety_prop
+                                             )
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
