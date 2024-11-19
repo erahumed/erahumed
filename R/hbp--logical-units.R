@@ -1,3 +1,8 @@
+#' @param ditch character vector.
+#' @param area numeric vector (positive).
+#'
+#' @details `ditch` and `area` must have the same cardinality, equal to the
+#' total number of clusters.
 hbp_ditch_inflow_pct <- function(ditch, area)
 {
   res <- stats::aggregate(area ~ ditch, FUN = sum)
