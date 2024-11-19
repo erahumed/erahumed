@@ -1,8 +1,20 @@
 # erahumed (development version)
 
-### Dependencies
+### Algorithms changes
 
-* Added Imports: `base64enc` and `utils`.
+* The variety of clusters is no longer fixed data, but is rather generated 
+randomly in each simulation, with a fixed proportion of the Albufera's total 
+surface allocated to Bomba/Sendra/Clearfield varieties. The relevant parameter
+is the new `variety_prop` argument of `setup_inp()` (see below), while the 
+actual computation currently happens at the level of the HBP layer.
+
+### API changes
+
+* Removed `albufera_clusters` and `albufera_cluster_geometries` data-sets (#47).
+* Removed `clusters_df` argument from `setup_hbp()`.
+* New argument `variety_prop` in `setup_inp()`, to set the proportion of the
+Albufera's Natural Park surface allocated for the three rice varieties (J. 
+Sendra, Bomba, and Clearfield) (#185).
 
 ### GUI
 
@@ -11,9 +23,13 @@
 * Loading UI element now show a loading animation (#175).
 * Removed unused "seed" inputs from CA and CT layers Shiny modules (#177).
 
-### Visualization
+### Visualizations
 
 * CA: changed line styles of applications to dashed (#176).
+
+### Dependencies
+
+* Added Imports: `base64enc` and `utils`.
 
 # erahumed 0.11.4
 
