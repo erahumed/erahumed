@@ -118,13 +118,16 @@ compute_hbp_bare <- function(simulation)
   clusters_df <- get_layer_parameters(simulation, "hbp")[["clusters_df"]]
   ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+  variety_prop <- get_layer_parameters(simulation, "hbp")[["variety_prop"]]
   seed <- get_layer_parameters(simulation, "hbp")[["seed"]]
 
   .hbp_args <- .hbp_data_prep(simulation = simulation,
                               management_df = management_df,
                               clusters_df = clusters_df,
                               ideal_flow_rate_cm = ideal_flow_rate_cm,
-                              height_thresh_cm = height_thresh_cm)
+                              height_thresh_cm = height_thresh_cm,
+                              variety_prop = variety_prop)
+
   withr::with_seed(seed, do.call(.hbp, .hbp_args))
 }
 

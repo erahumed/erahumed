@@ -7,6 +7,10 @@ hbp_ditch_inflow_pct <- function(ditch, area)
   return(res)
 }
 
+hbp_cluster_variety <- function(clusters_df, variety_prop) {
+  clusters_df$rice_variety
+}
+
 hbp_simulate_ditch <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
