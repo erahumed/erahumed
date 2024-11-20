@@ -1,0 +1,149 @@
+library(erahumed)
+library(visNetwork)
+
+# Layer info
+layer_deps <- function(layer) {
+  map <- list(
+    inp = character(), hba = "inp", hbp = "hba", ca = "hbp", ct = "ca"
+  )
+  map[[layer]]
+}
+
+layer_desc <- function(layer) {
+  c(
+    inp = "INPut data",
+    hba = "Hydrological Balance of the Albufera lake",
+    hbp = "Hydrological Balance of rice Paddy clusters",
+    ca = "Chemical Applications",
+    ct = "Chemical Transport"
+  )[[layer]]
+}
+
+layer_title <- function(layer) {
+
+  title <- paste0('<p>',
+                  '<a href="https://erahumed.github.io/erahumed/reference/',
+                  layer, '.html" target="_blank">', toupper(layer), '</a>',
+                  ': ', layer_desc(layer), '</p>'
+                  )
+}
+
+layer_params <- function(layer) {
+  fun_name <- paste0("setup_", layer)
+  fun <- get(fun_name, envir = asNamespace("erahumed"))
+  res <- names(formals(fun))
+  res[res != "simulation"]
+}
+
+# Node and edge customization
+layer_color <- "#2222AA"
+param_color <- "#AA2222"
+
+add_node <- function(
+    nodes_df,
+    id,
+    label,
+    group = c("layer", "param"),
+    shape = "box",
+    font = list(size = 14),
+    x = NA,
+    y = NA,
+    fixed = FALSE,
+    title = ""
+) {
+  group <- match.arg(group)
+  new_node <- data.frame(id, label, group, shape, font, x, y, fixed, title)
+  rbind(nodes_df, new_node)
+}
+
+add_layer_node <- function(
+    nodes_df,
+    id,
+    label,
+    y_step = 100
+    )
+{
+  y <-
+    if (nrow(nodes_df) == 0 || all(is.na(nodes_df$y)))
+      0
+    else
+      max(nodes_df$y, na.rm = TRUE) + y_step
+
+  nodes_df |>
+    add_node(id = id,
+             label = label,
+             group = "layer",
+             title = layer_title(label),
+             x = 0,
+             y = y,
+             font = list(size = 18),
+             fixed = TRUE
+             )
+}
+
+add_param_node <- function(
+    nodes_df,
+    id,
+    label
+)
+{
+  nodes_df |>
+    add_node(id = id,
+             label = label,
+             group = "param",
+             fixed = FALSE
+             )
+}
+
+add_edge <- function(edges_df, from, to, arrows) {
+  rbind(edges_df, data.frame(from = from, to = to, arrows = arrows))
+}
+
+add_layer_edge <- function(edges_df, from, to) {
+  add_edge(edges_df, from = from, to = to, arrows = "to")
+}
+
+add_param_edge <- function(edges_df, from, to) {
+  add_edge(edges_df, from = from, to = to, arrows = "none")
+}
+
+# Create ERAHUMED graph
+create_erahumed_graph <- function() {
+  nodes_df <- data.frame()
+  edges_df <- data.frame()
+  current_node_id <- 1
+  for (layer in erahumed_layers()) {
+    # Add layer node
+    nodes_df <- nodes_df |> add_layer_node(current_node_id, layer)
+    layer_id <- current_node_id
+    current_node_id <- current_node_id + 1
+
+    # Add layer dependencies
+    for (dep in layer_deps(layer)) {
+      dep_id <- nodes_df$id[nodes_df$label == dep]
+      edges_df <- edges_df |> add_layer_edge(from = dep_id, to = layer_id)
+    }
+
+    # Add parameter nodes and edges
+    for (param in layer_params(layer)) {
+      nodes_df <- nodes_df |> add_param_node(current_node_id, param)
+      edges_df <- edges_df |> add_param_edge(from = current_node_id, to = layer_id)
+      current_node_id <- current_node_id + 1
+    }
+  }
+
+  g <- visNetwork(nodes_df, edges_df) |>
+    visOptions(highlightNearest = list(enabled = TRUE,
+                                       degree = list(from = 1, to = 1),
+                                       algorithm = "hierarchical",
+                                       labelOnly = FALSE
+                                       )
+    ) |>
+    visPhysics(stabilization = TRUE)
+
+  g
+}
+
+# Generate and render the graph
+create_erahumed_graph()
+debug(create_erahumed_graph)
