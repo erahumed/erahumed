@@ -1,3 +1,20 @@
+---
+title: "Scheme of the simulation pipeline"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{pipeline-scheme}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.height=8}
 library(erahumed)
 library(visNetwork)
 
@@ -132,7 +149,7 @@ create_erahumed_graph <- function() {
     }
   }
 
-  g <- visNetwork(nodes_df, edges_df) |>
+  g <- visNetwork(nodes_df, edges_df, width = "100%") |>
     visOptions(highlightNearest = list(enabled = TRUE,
                                        degree = list(from = 1, to = 1),
                                        algorithm = "hierarchical",
@@ -146,4 +163,4 @@ create_erahumed_graph <- function() {
 
 # Generate and render the graph
 create_erahumed_graph()
-debug(create_erahumed_graph)
+```

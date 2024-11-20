@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Documentation
+
+* New vignette showing the simulation pipeline as DAG (#182).
+
 # erahumed 0.12.0
 
 ### Algorithms changes
