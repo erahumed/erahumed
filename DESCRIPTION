@@ -29,7 +29,8 @@ Suggests:
     rmarkdown,
     shinytest2,
     testthat (>= 3.0.0),
-    tidyr
+    tidyr,
+    visNetwork
 Config/testthat/edition: 3
 URL: https://github.com/erahumed/erahumed, https://erahumed.github.io/erahumed/
 BugReports: https://github.com/erahumed/erahumed/issues
