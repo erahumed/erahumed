@@ -20,14 +20,8 @@ hbpUI <- function(id) {
                       )
         ),
 
-      shiny::fluidRow(
-        shiny::column(4, leaflet::leafletOutput(ns("map")) |>
-                        shinycssloaders::withSpinner()
-                      ),
-        shiny::column(8, plotly::plotlyOutput(ns("plot")) |>
-                        shinycssloaders::withSpinner()
-                      )
-        )
+      plotly::plotlyOutput(ns("plot")) |> shinycssloaders::withSpinner()
+
       ),
 
 
@@ -68,14 +62,6 @@ hbpServer <- function(id, simulation, shared) {
           run_simulation(layer = "hbp")
 
       })
-
-    output$map <- leaflet::renderLeaflet(shared$map)
-
-    shiny::observeEvent(input$map_shape_click, {
-      click <- input$map_shape_click
-      if (!is.null(click))
-        shiny::updateSelectInput(session, "cluster_id", selected = click$id)
-    })
 
     shiny::observeEvent(input$cluster_id, {
       if (input$cluster_id != shared$selected_cluster_id)

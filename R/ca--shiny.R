@@ -20,14 +20,8 @@ caUI <- function(id) {
         )
       ),
 
-      shiny::fluidRow(
-        shiny::column(4, leaflet::leafletOutput(ns("map")) |>
-                        shinycssloaders::withSpinner()
-                      ),
-        shiny::column(8, plotly::plotlyOutput(ns("plot")) |>
-                        shinycssloaders::withSpinner()
-                      )
-        )
+      plotly::plotlyOutput(ns("plot")) |> shinycssloaders::withSpinner()
+
       ),
 
 
@@ -53,14 +47,6 @@ caServer <- function(id, simulation, shared) {
         setup_ca(ca_schedules_df = ca_schedules_df()) |>
         run_simulation(layer = "ca")
       })
-
-    output$map <- leaflet::renderLeaflet(shared$map)
-
-    shiny::observeEvent(input$map_shape_click, {
-      click <- input$map_shape_click
-      if (!is.null(click))
-        shiny::updateSelectInput(session, "cluster_id", selected = click$id)
-    })
 
     shiny::observeEvent(input$cluster_id, {
       if (input$cluster_id != shared$selected_cluster_id)
