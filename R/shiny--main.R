@@ -23,7 +23,7 @@ shiny_ui <- function() {
   mp_h <- 600
   mapPanel <- absolutePanel2(
     id = "floating-map",
-    leaflet::leafletOutput("map", width = mp_w * 0.9, height = mp_h * 0.9) |>
+    leaflet::leafletOutput("map", width = mp_w * 0.9, height = mp_h * 0.85) |>
       shinycssloaders::withSpinner(),
     width = mp_w,
     height = mp_h

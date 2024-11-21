@@ -10,18 +10,22 @@ absolutePanel2 <- function(
     width = NULL,
     height = NULL,
     cursor = "default",
-    draggable = TRUE
+    draggable = TRUE,
+    transparency = 0.6
     )
 {
   restore_btn_style <-
     "display: none; position: fixed; bottom: 10px; right: 10px; z-index: 11;"
-  absolute_panel_style <-
-    "z-index: 10; background-color: #ffffff; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"
+  absolute_panel_style <- sprintf(
+    "z-index: 10; background-color: rgba(255, 255, 255, %f); padding: 10px; border: 1px solid #ccc; border-radius: 5px;",
+    transparency)
+  minimize_btn_style <-
+    "border-radius: 5px; width: 30px; height: 30px; padding: 0; font-size: 18px; border: none; text-align: center; line-height: 1.2;"
 
   minimize_js <- "
     $(document).ready(function() {
 
-      $('#<ID>-close').click(function() {
+      $('#<ID>-minimize').click(function() {
         $('#<ID>').hide();
         $('#<ID>-restore').show();
       });
@@ -43,7 +47,7 @@ absolutePanel2 <- function(
       style = restore_btn_style
       ),
 
-    absolutePanel(
+    shiny::absolutePanel(
       id = id,
       top = top,
       right = right,
@@ -56,9 +60,10 @@ absolutePanel2 <- function(
       style = absolute_panel_style,
 
       shiny::div(style = "text-align: right;",
-                 shiny::tags$button("X",
-                                    id = paste0(id, "-close"),
-                                    class = "btn btn-danger btn-sm"
+                 shiny::tags$button(id = paste0(id, "-minimize"),
+                                    class = "btn btn-primary btn-sm",
+                                    style = minimize_btn_style,
+                                    HTML("&lowbar;")
                                     )
                  ),
 
