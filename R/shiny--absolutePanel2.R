@@ -1,4 +1,4 @@
-#' Customized shiny::absolutePanel() with minimization capability
+# Customized shiny::absolutePanel() with minimization capability
 absolutePanel2 <- function(
     id,
     ...,
