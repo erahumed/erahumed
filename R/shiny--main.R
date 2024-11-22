@@ -18,31 +18,68 @@ shiny_ui <- function() {
   favicon_tag <- shiny::tags$head(
     shiny::tags$link(rel = "icon", type = "image/x-icon", href = favicon)
     )
+  sidebar_width <- 400
 
-  mp_w <- 400
-  mp_h <- 600
-  mapPanel <- absolutePanel2(
-    id = "floating-map",
-    leaflet::leafletOutput("map", width = mp_w * 0.9, height = mp_h * 0.85) |>
-      shinycssloaders::withSpinner(),
-    width = mp_w,
-    height = mp_h
+  map_output <- leaflet::leafletOutput("map", width = 0.99 * sidebar_width) |>
+    shinycssloaders::withSpinner()
+
+  body <- shinydashboard::dashboardBody(
+    favicon_tag,
+    shinydashboard::tabItems(
+      shinydashboard::tabItem("inp", inpUI("inp")),
+      shinydashboard::tabItem("hba", hbaUI("hba")),
+      shinydashboard::tabItem("hbp", hbpUI("hbp")),
+      shinydashboard::tabItem("ca", caUI("ca")),
+      shinydashboard::tabItem("ct", ctUI("ct"))
+    )
   )
 
-  shiny::navbarPage(
-    title = app_title,
-    windowTitle = app_title,
-    header = shiny::tagList(
-      favicon_tag,
-      mapPanel
-      ),
+  sidebar <- shinydashboard::dashboardSidebar(
+    shinydashboard::sidebarMenu(
+      shinydashboard::menuItem(
+        "Simulation",
+        shinydashboard::menuSubItem("INPut data", "inp"),
+        shinydashboard::menuSubItem("Hydrological Balance (Albufera)", "hba"),
+        shinydashboard::menuSubItem("Hydrological Balance (Paddies)", "hbp"),
+        shinydashboard::menuSubItem("Chemical Applications", "ca"),
+        shinydashboard::menuSubItem("Chemical Transport", "ct"),
+        startExpanded = TRUE
+      )
+    ),
 
-    shiny::tabPanel("INP: Input Data", inpUI("inp")),
-    shiny::tabPanel("HBA: Hydrological Balance (Albufera)", hbaUI("hba")),
-    shiny::tabPanel("HBP: Hydrological Balance (rice Paddies)", hbpUI("hbp")),
-    shiny::tabPanel("CA: Chemical Applications", caUI("ca")),
-    shiny::tabPanel("CT: Chemical Transport", ctUI("ct")),
-    )
+
+    shinydashboard::sidebarMenu(
+      shinydashboard::menuItem("Map of the Albufera", map_output)
+    ),
+
+    shinydashboard::sidebarMenu(
+      shinydashboard::menuItem(
+        "Help", icon = shiny::icon("question-circle"),
+        shinydashboard::menuSubItem(
+          "ERAHUMED Website", icon = shiny::icon("globe"),
+          href = "https://erahumed.com",
+          newtab = TRUE
+        ),
+        shinydashboard::menuSubItem(
+          "R Package Website", icon = shiny::icon("r-project"),
+          href = "https://erahumed.github.io/erahumed",
+          newtab = TRUE
+        ),
+        shinydashboard::menuSubItem(
+          "Report a bug", icon = shiny::icon("github"),
+          href = "https://github.com/erahumed/erahumed/issues/new",
+          newtab = TRUE
+        )
+      )
+    ),
+    width = sidebar_width
+  )
+
+  header <- shinydashboard::dashboardHeader(title = app_title,
+                                            titleWidth = sidebar_width)
+
+
+  shinydashboard::dashboardPage(header, sidebar, body)
 }
 
 shiny_server <- function(input, output, session) {

@@ -6280,17 +6280,8 @@
     "inp-outflows-rows": 10,
     "inp-weather-file": null,
     "inp-weather-rows": 10,
-    "map_bounds": {
-      "north": 39.44838925972837,
-      "east": -0.199127197265625,
-      "south": 39.16147907903488,
-      "west": -0.4463195800781251
-    },
-    "map_center": {
-      "lng": -0.3230529000000183,
-      "lat": 39.30514790694603
-    },
-    "map_zoom": 11
+    "sidebarCollapsed": false,
+    "sidebarItemExpanded": "Simulation"
   },
   "output": {
     "inp-outflows-contents": {

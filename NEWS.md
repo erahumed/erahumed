@@ -2,20 +2,14 @@
 
 ### GUI
 
-* The map of the Albufera Map is now located in a floating panel that interacts
-with the various modules of the Shiny app (PR #198, closing issues #183 and 
-#195).
-
+The app has a brand new GUI based on `{shinydashboard}`. The refactor is 
+partially based on work from PR #198, which was proposing a tentative layout
+with a "floating" map, in an attempt to address #183 and #195. The final 
+version closes issues #183, #195 and #197.
 
 ### Documentation
 
 * New vignette showing the simulation pipeline as DAG (#182).
-
-### Under the hoods
-
-* (Changes from the already mentioned PR #198) The shiny app now operates with a 
-single leaflet map object, which simplifies server logic and improves 
-performance (besides providing an automatic fix for #183). 
 
 # erahumed 0.12.0
 
