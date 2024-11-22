@@ -6,7 +6,7 @@ csvInputUI <- function(id) {
     shiny::sidebarLayout(
       shiny::sidebarPanel(
         shiny::fileInput(ns("file"), "Upload CSV File", accept = file_accept),
-        shiny::numericInput(ns("rows"), "Rows per page", 10, min = 1),
+        shiny::numericInput(ns("rows"), "Rows per page", 5, min = 1),
         shiny::downloadButton(ns("downloadData"), "Download Data")
       ),
       shiny::mainPanel(DT::DTOutput(ns("contents")))
