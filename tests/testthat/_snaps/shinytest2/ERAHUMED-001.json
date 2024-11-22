@@ -1,7 +1,7 @@
 {
   "input": {
     "ca-ca_schedules-file": null,
-    "ca-ca_schedules-rows": 10,
+    "ca-ca_schedules-rows": 5,
     "ca-cluster_id": "02_Carrera_del_Saler0-2_0",
     "ct-SNK": 0,
     "ct-bd_g_cm3": 1.5,
@@ -20,8 +20,9 @@
     "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
     "hbp-ideal_flow_rate_cm": 5,
     "hbp-management-file": null,
-    "hbp-management-rows": 10,
+    "hbp-management-rows": 5,
     "hbp-seed": 840,
+    "help": "inp",
     "inp-date_range": [
       "2020-01-01",
       "2020-12-31"
@@ -6180,18 +6181,13 @@
       2,
       3,
       4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
+      5
     ],
     "inp-outflows-contents_rows_selected": null,
     "inp-outflows-contents_search": "",
     "inp-outflows-contents_state": {
       "start": 0,
-      "length": 10,
+      "length": 5,
       "order": [
 
       ],
@@ -6277,9 +6273,9 @@
       ]
     },
     "inp-outflows-file": null,
-    "inp-outflows-rows": 10,
+    "inp-outflows-rows": 5,
     "inp-weather-file": null,
-    "inp-weather-rows": 10,
+    "inp-weather-rows": 5,
     "sidebarCollapsed": false,
     "sidebarItemExpanded": "Simulation"
   },
@@ -6290,7 +6286,7 @@
         "vertical": false,
         "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>date<\/th>\n      <th>level<\/th>\n      <th>outflow_pujol<\/th>\n      <th>outflow_perellonet<\/th>\n      <th>outflow_perello<\/th>\n      <th>is_imputed_level<\/th>\n      <th>is_imputed_outflow<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
         "options": {
-          "pageLength": 10,
+          "pageLength": 5,
           "columnDefs": [
             {
               "targets": 2,
@@ -6359,6 +6355,13 @@
           ],
           "autoWidth": false,
           "orderClasses": false,
+          "lengthMenu": [
+            5,
+            10,
+            25,
+            50,
+            100
+          ],
           "ajax": {
             "type": "POST",
             "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = true;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"

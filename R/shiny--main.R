@@ -18,6 +18,20 @@ shiny_ui <- function() {
   favicon_tag <- shiny::tags$head(
     shiny::tags$link(rel = "icon", type = "image/x-icon", href = favicon)
     )
+  footer_style <-
+    "position: fixed; bottom: 5px; right: 10px; font-size: 14px; color: gray; background-color: transparent;"
+  footer <- shiny::tags$div(
+    style = footer_style,
+    shiny::p(paste0("ERAHUMED v", utils::packageVersion("erahumed")),
+    "was developed with ", shiny::icon("r-project"), "and Shiny,",
+    "by Valerio Gherardi.",
+    "License:", shiny::a("GPL-3.0",
+                         href = "https://www.gnu.org/licenses/gpl-3.0.html",
+                         target = "_blank")
+    )
+  )
+
+
   sidebar_width <- 400
 
   map_output <- leaflet::leafletOutput("map", width = 0.99 * sidebar_width) |>
@@ -25,6 +39,7 @@ shiny_ui <- function() {
 
   body <- shinydashboard::dashboardBody(
     favicon_tag,
+    footer,
     shinydashboard::tabItems(
       shinydashboard::tabItem("inp", inpUI("inp")),
       shinydashboard::tabItem("hba", hbaUI("hba")),
@@ -53,6 +68,7 @@ shiny_ui <- function() {
     ),
 
     shinydashboard::sidebarMenu(
+      id = "help",
       shinydashboard::menuItem(
         "Help", icon = shiny::icon("question-circle"),
         shinydashboard::menuSubItem(
