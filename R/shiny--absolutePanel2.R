@@ -63,7 +63,7 @@ absolutePanel2 <- function(
                  shiny::tags$button(id = paste0(id, "-minimize"),
                                     class = "btn btn-primary btn-sm",
                                     style = minimize_btn_style,
-                                    HTML("&lowbar;")
+                                    shiny::HTML("&lowbar;")
                                     )
                  ),
 
