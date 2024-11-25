@@ -39,6 +39,22 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<div class="section level4">
+<h4 id="api-changes-development-version">API changes<a class="anchor" aria-label="anchor" href="#api-changes-development-version"></a></h4>
+<ul><li>The <code>'seed'</code> parameter moves from <code><a href="../reference/hbp.html">setup_hbp()</a></code> to <code><a href="../reference/inp.html">setup_inp()</a></code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-changes-development-version">GUI changes<a class="anchor" aria-label="anchor" href="#gui-changes-development-version"></a></h4>
+<ul><li>The Albufera map in the UI is again showing the (randomly generated9 cluster variety (<a href="https://github.com/erahumed/erahumed/issues/191" class="external-link">#191</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
+<ul><li><p>Important simplifications in the logic of layer computation functions. Former <code>compute_*_bare()</code> functions no longer exist, in favor of new <code>compute_*()</code> functions returning simulation-type objects. Function lookup by name (formerly performed by internal helper <code>get_erahumed_fun()</code>) is now avoided, in favor of more transparent and simpler R code in <code>compute_layer()</code>that employs a switch statement.</p></li>
+<li><p>Refactor of layer objects internal structure: now layer S3 objects have an <code>aux</code> element that stores intermediate results of layer computations.</p></li>
+<li><p>Cluster varieties are now stored in the <code>aux</code> list of the INP layer.</p></li>
+<li><p><code>plot_albufera_clusters()</code> gets a new <code>cluster_variety_map</code> argument.</p></li>
+<li><p><code>test_sim_small()</code> and <code>test_sim_large()</code> helpers get new arguments <code>seed</code> (seed for simulation) and <code>force</code> (whether to force recomputation of object).</p></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.1" id="erahumed-0121">erahumed 0.12.1<a class="anchor" aria-label="anchor" href="#erahumed-0121"></a></h2>

@@ -60,7 +60,8 @@ any upstream dependence.</p>
 <span>  <span class="va">simulation</span>,</span>
 <span>  outflows_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_outflows.html">albufera_outflows</a></span>,</span>
 <span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span>,</span>
-<span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.8</span>, Bomba <span class="op">=</span> <span class="fl">0.1</span>, Clearfield <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
+<span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.8</span>, Bomba <span class="op">=</span> <span class="fl">0.1</span>, Clearfield <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">840</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -86,6 +87,11 @@ template of <a href="albufera_outflows.html">albufera_outflows</a>; See details.
 <dd><p>Numeric vector of length <code>3</code> with positive entries.
 Proportions of rice clusters of varieties <code>"J.Sendra"</code>, <code>"Bomba"</code> and
 <code>"Clearfield"</code>, respectively; see details.</p></dd>
+
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>A number. Seed for random number generation used by the
+simulation algorithms.</p></dd>
 
 </dl></div>
     <div class="section level2">
