@@ -105,7 +105,7 @@ setup_hbp <- function(
 
 
 
-compute_hbp_bare <- function(simulation)
+compute_hbp <- function(simulation)
 {
   management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
   clusters_df <- albufera_clusters
@@ -122,8 +122,14 @@ compute_hbp_bare <- function(simulation)
                                 height_thresh_cm = height_thresh_cm,
                                 variety_prop = variety_prop)
 
-    do.call(.hbp, .hbp_args)
+    output <- do.call(.hbp, .hbp_args)
     })
+
+  validate_hbp_output(output)
+
+  simulation [["hbp"]] [["output"]] <- output
+
+  return(simulation)
 }
 
 

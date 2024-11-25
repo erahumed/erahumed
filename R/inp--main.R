@@ -63,12 +63,17 @@ setup_inp <- function(simulation,
               )
 }
 
-compute_inp_bare <- function(simulation)
+compute_inp <- function(simulation)
 {
   outflows_df <- get_layer_parameters(simulation, "inp")[["outflows_df"]]
   weather_df <- get_layer_parameters(simulation, "inp")[["weather_df"]]
+  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
 
-  merge(outflows_df, weather_df, by = "date", sort = TRUE)
+  simulation [["inp"]] [["aux"]] <-
+    list( cluster_variety_map = generate_clusters_variety(variety_prop) )
+
+
+  return(simulation)
 }
 
 validate_inp_params <- function(outflows_df, weather_df, variety_prop)
