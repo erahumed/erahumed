@@ -25,6 +25,8 @@ statement.
 
 * `plot_albufera_clusters()` gets a new `cluster_variety_map` argument.
 
+* `test_sim_small()` and `test_sim_large()` helpers get new arguments `seed` 
+(seed for simulation) and `force` (whether to force recomputation of object).
 
 # erahumed 0.12.1
 
