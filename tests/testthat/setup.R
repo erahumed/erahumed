@@ -8,7 +8,7 @@ test_sim_small <- function(seed = 840, force = FALSE) {
   .test_sim_small
 }
 
-test_sim_large <- function(seed = 840) {
+test_sim_large <- function(seed = 840, force = FALSE) {
   if (force || is.null(.test_sim_large))
     .test_sim_large <<- test_simulation("2010-01-01", "2011-12-31", seed = seed)
 
