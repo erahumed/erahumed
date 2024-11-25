@@ -19,6 +19,8 @@
 #' @param variety_prop Numeric vector of length `3` with positive entries.
 #' Proportions of rice clusters of varieties `"J.Sendra"`, `"Bomba"` and
 #' `"Clearfield"`, respectively; see details.
+#' @param seed A number. Seed for random number generation used by the
+#' simulation algorithms.
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
@@ -51,7 +53,8 @@ setup_inp <- function(simulation,
                       weather_df = erahumed::albufera_weather,
                       variety_prop = c("J.Sendra" = 0.8,
                                        "Bomba" = 0.1,
-                                       "Clearfield" = 0.1)
+                                       "Clearfield" = 0.1),
+                      seed = 840
                       )
 {
   setup_layer(simulation = simulation,
@@ -59,19 +62,28 @@ setup_inp <- function(simulation,
               outflows_df = outflows_df,
               weather_df = weather_df,
               variety_prop = variety_prop,
+              seed = seed,
               validate_params = validate_inp_params
               )
 }
 
-compute_inp_bare <- function(simulation)
+compute_inp <- function(simulation)
 {
   outflows_df <- get_layer_parameters(simulation, "inp")[["outflows_df"]]
   weather_df <- get_layer_parameters(simulation, "inp")[["weather_df"]]
+  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
+  seed <- get_layer_parameters(simulation, "inp")[["seed"]]
 
-  merge(outflows_df, weather_df, by = "date", sort = TRUE)
+  cv_map <- withr::with_seed(seed, generate_clusters_variety(variety_prop))
+  simulation [["inp"]] [["aux"]] <- list( cluster_variety_map = cv_map )
+
+  simulation [["inp"]] [["output"]] <-
+    merge(outflows_df, weather_df, by = "date", sort = TRUE)
+
+  return(simulation)
 }
 
-validate_inp_params <- function(outflows_df, weather_df, variety_prop)
+validate_inp_params <- function(outflows_df, weather_df, variety_prop, seed)
 {
   tryCatch(
     {

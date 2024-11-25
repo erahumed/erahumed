@@ -1,12 +1,13 @@
 new_simulation_layer <- function(
     output = NULL,
     params = list(),
+    aux = list(),
     layer_name = ""
     )
 {
-  new_simulation_layer_argcheck(output, params, layer_name)
+  new_simulation_layer_argcheck(output, params, aux, layer_name)
 
-  res <- list(output = output, params = params)
+  res <- list(output = output, params = params, aux = aux)
 
   base_class <- paste0("erahumed_", layer_name)
   class(res) <- c(base_class, "erahumed_simulation_layer")
@@ -14,12 +15,13 @@ new_simulation_layer <- function(
   return(res)
 }
 
-new_simulation_layer_argcheck <- function(output, params, layer_name)
+new_simulation_layer_argcheck <- function(output, params, aux, layer_name)
 {
   tryCatch({
     if(!is.null(output))
       assert_data.frame(output)
     assert_list(params)
+    assert_list(aux)
     assert_string(layer_name)
   },
   error = function(e) {

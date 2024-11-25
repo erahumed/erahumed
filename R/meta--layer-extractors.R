@@ -103,3 +103,19 @@ get_layer_parameters.erahumed_simulation <- function(object, layer, ...) {
   comp_obj <- get_layer(object, layer)
   get_layer_parameters(comp_obj)
 }
+
+
+get_layer_aux <- function(object, ...) {
+  UseMethod("get_layer_aux", object)
+}
+
+#' @exportS3Method
+get_layer_aux.erahumed_simulation_layer <- function(object, ...) {
+  return(object$aux)
+}
+
+#' @exportS3Method
+get_layer_aux.erahumed_simulation <- function(object, layer, ...) {
+  comp_obj <- get_layer(object, layer)
+  get_layer_aux(comp_obj)
+}

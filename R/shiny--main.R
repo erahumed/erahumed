@@ -110,7 +110,10 @@ shiny_server <- function(input, output, session) {
   ca_res <- caServer("ca", hbp_res, shared)
   ct_res <- ctServer("ct", ca_res, shared)
 
-  output$map <- plot_albufera_clusters() |>
+  output$map <- plot_albufera_clusters(
+    cluster_variety_map =
+      get_layer_aux(inp_res(), "inp")[["cluster_variety_map"]]
+    ) |>
     leaflet::renderLeaflet() |>
     shiny::snapshotExclude()
 

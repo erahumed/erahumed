@@ -91,7 +91,7 @@ validate_ct_params <- function(
 
 
 
-compute_ct_bare <- function(simulation)
+compute_ct <- function(simulation)
 {
   drift <- get_layer_parameters(simulation, "ct")[["drift"]]
   covmax <- get_layer_parameters(simulation, "ct")[["covmax"]]
@@ -133,6 +133,12 @@ compute_ct_bare <- function(simulation)
            ) |>
     data.table::rbindlist() |>
     as.data.frame()
+
+  validate_ct_output(output)
+
+  simulation [["ct"]] [["output"]] <- output
+
+  return(simulation)
 
   return(output)
 

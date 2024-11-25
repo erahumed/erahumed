@@ -33,7 +33,7 @@ setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedul
 }
 
 
-compute_ca_bare <- function(simulation)
+compute_ca <- function(simulation)
 {
   ca_schedules_df <- get_layer_parameters(simulation, "ca")[["ca_schedules_df"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
@@ -55,7 +55,12 @@ compute_ca_bare <- function(simulation)
     data.table::rbindlist() |>
     as.data.frame()
 
-  return(output)
+  validate_ca_output(output)
+
+
+  simulation [["ca"]] [["output"]] <- output
+
+  return(simulation)
 }
 
 

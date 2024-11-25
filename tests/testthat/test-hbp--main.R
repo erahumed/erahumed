@@ -58,15 +58,15 @@ test_that("setup_hbp() error for invalid 'management_df'", {
 })
 
 test_that("HBP results depend on seed", {
-  s1 <- setup_hbp(test_sim_small(), seed = 1) |> run_simulation("hbp")
-  s2 <- setup_hbp(test_sim_small(), seed = 2) |> run_simulation("hbp")
+  s1 <- test_sim_small(seed = 1, force = TRUE) |> run_simulation("hbp")
+  s2 <- test_sim_small(seed = 2, force = TRUE) |> run_simulation("hbp")
 
   expect_false( identical(s1, s2) )
 })
 
 test_that("HBP results are reproducible by fixing seed", {
-  s1 <- setup_hbp(test_sim_small(), seed = 1) |> run_simulation("hbp")
-  s2 <- setup_hbp(test_sim_small(), seed = 1) |> run_simulation("hbp")
+  s1 <- test_sim_small(seed = 1, force = TRUE) |> run_simulation("hbp")
+  s1bis <- test_sim_small(seed = 1, force = TRUE) |> run_simulation("hbp")
 
-  expect_identical(s1, s2)
+  expect_identical(s1, s1bis)
 })

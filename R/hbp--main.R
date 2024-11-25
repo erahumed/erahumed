@@ -30,8 +30,6 @@
 #' per day.
 #' @param height_thresh_cm A positive number. Height threshold for water levels,
 #' below which a cluster is considered to be emptied.
-#' @param seed A number. Seed for random number generation used by the
-#' algorithm.
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
@@ -89,8 +87,7 @@ setup_hbp <- function(
     simulation,
     management_df = erahumed::albufera_management,
     ideal_flow_rate_cm = 5,
-    height_thresh_cm = 2,
-    seed = 840
+    height_thresh_cm = 2
 )
 {
   setup_layer(simulation = simulation,
@@ -98,21 +95,20 @@ setup_hbp <- function(
               management_df = management_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm,
-              seed = seed,
               validate_params = validate_hbp_params
               )
 }
 
 
 
-compute_hbp_bare <- function(simulation)
+compute_hbp <- function(simulation)
 {
   management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
   clusters_df <- albufera_clusters
   ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
-  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
-  seed <- get_layer_parameters(simulation, "hbp")[["seed"]]
+  cv_map <- get_layer_aux(simulation, "inp")[["cluster_variety_map"]]
+  seed <- get_layer_parameters(simulation, "inp")[["seed"]]
 
   withr::with_seed(seed, {
     .hbp_args <- .hbp_data_prep(simulation = simulation,
@@ -120,26 +116,29 @@ compute_hbp_bare <- function(simulation)
                                 clusters_df = clusters_df,
                                 ideal_flow_rate_cm = ideal_flow_rate_cm,
                                 height_thresh_cm = height_thresh_cm,
-                                variety_prop = variety_prop)
+                                cv_map = cv_map)
 
-    do.call(.hbp, .hbp_args)
+    output <- do.call(.hbp, .hbp_args)
     })
+
+  validate_hbp_output(output)
+
+  simulation [["hbp"]] [["output"]] <- output
+
+  return(simulation)
 }
 
 
 
 validate_hbp_params <- function(management_df,
                                 ideal_flow_rate_cm,
-                                height_thresh_cm,
-                                seed)
+                                height_thresh_cm)
 {
   tryCatch(
     {
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_positive_number(ideal_flow_rate_cm)
       assert_positive_number(height_thresh_cm)
-      assert_numeric_vector(seed)
-      assert_length_one(seed)
     },
     error = function(e) {
       class(e) <- c("validate_hbp_params_error", class(e))

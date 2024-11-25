@@ -64,24 +64,29 @@ setup_hba <- function(
 }
 
 
-compute_hba_bare <- function(simulation)
+compute_hba <- function(simulation)
 {
   storage_curve <- get_layer_parameters(simulation, "hba")[["storage_curve"]]
   petp_function <- get_layer_parameters(simulation, "hba")[["petp_function"]]
-
   inp_df <- get_layer_output(simulation, "inp")
-  output <- .hba(
-    level = inp_df$level,
-    precipitation_mm = inp_df$precipitation_mm,
-    evapotranspiration_mm = inp_df$evapotranspiration_mm,
-    outflows = inp_df[, grepl("^outflow_", colnames(inp_df))],
-    date = inp_df$date,
-    is_imputed_level = inp_df$is_imputed_level,
-    is_imputed_outflow = inp_df$is_imputed_outflow,
-    storage_curve = storage_curve,
-    petp_function = petp_function
+
+  output <-
+    .hba(
+      level = inp_df$level,
+      precipitation_mm = inp_df$precipitation_mm,
+      evapotranspiration_mm = inp_df$evapotranspiration_mm,
+      outflows = inp_df[, grepl("^outflow_", colnames(inp_df))],
+      date = inp_df$date,
+      is_imputed_level = inp_df$is_imputed_level,
+      is_imputed_outflow = inp_df$is_imputed_outflow,
+      storage_curve = storage_curve,
+      petp_function = petp_function
     )
-  return(output)
+
+  validate_hba_output(output)
+
+  simulation [["hba"]] [["output"]] <- output
+  return(simulation)
 }
 
 
