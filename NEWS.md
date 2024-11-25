@@ -1,5 +1,31 @@
 # erahumed (development version)
 
+### API changes
+
+* The `'seed'` parameter moves from `setup_hbp()` to `setup_inp()`.
+
+### GUI changes
+
+* The Albufera map in the UI is again showing the (randomly generated9 cluster 
+variety (#191).
+
+### Under the hoods
+
+* Important simplifications in the logic of layer computation functions. Former 
+`compute_*_bare()` functions no longer exist, in favor of new `compute_*()` 
+functions returning simulation-type objects. Function lookup by name (formerly
+performed by internal helper `get_erahumed_fun()`) is now avoided, in favor of
+more transparent and simpler R code in `compute_layer() `that employs a switch 
+statement.
+
+* Refactor of layer objects internal structure: now layer S3 objects have an 
+`aux` element that stores intermediate results of layer computations.
+
+* Cluster varieties are now stored in the `aux` list of the INP layer.
+
+* `plot_albufera_clusters()` gets a new `cluster_variety_map` argument.
+
+
 # erahumed 0.12.1
 
 ### GUI
