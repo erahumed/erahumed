@@ -21,6 +21,7 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
       cluster_variety_map,
       template = data.frame(cluster_id = character(), variety = character())
       )
+    cluster_variety_map <- cluster_variety_map[, c("cluster_id", "variety")]
     clusters_df <- merge(clusters_df, cluster_variety_map, by = "cluster_id")
   } else {
     clusters_df$variety = "N/A"
