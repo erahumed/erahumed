@@ -95,7 +95,6 @@ setup_hbp <- function(
               management_df = management_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm,
-              seed = seed,
               validate_params = validate_hbp_params
               )
 }
@@ -133,16 +132,13 @@ compute_hbp <- function(simulation)
 
 validate_hbp_params <- function(management_df,
                                 ideal_flow_rate_cm,
-                                height_thresh_cm,
-                                seed)
+                                height_thresh_cm)
 {
   tryCatch(
     {
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_positive_number(ideal_flow_rate_cm)
       assert_positive_number(height_thresh_cm)
-      assert_numeric_vector(seed)
-      assert_length_one(seed)
     },
     error = function(e) {
       class(e) <- c("validate_hbp_params_error", class(e))
