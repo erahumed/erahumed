@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   erahumed-workflow: erahumed-workflow.html
   pipeline-scheme: pipeline-scheme.html
-last_built: 2024-11-25T07:51Z
+last_built: 2024-11-25T07:56Z
 urls:
   reference: https://erahumed.github.io/erahumed/reference
   article: https://erahumed.github.io/erahumed/articles
