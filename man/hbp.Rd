@@ -9,8 +9,7 @@ setup_hbp(
   simulation,
   management_df = erahumed::albufera_management,
   ideal_flow_rate_cm = 5,
-  height_thresh_cm = 2,
-  seed = 840
+  height_thresh_cm = 2
 )
 }
 \arguments{
