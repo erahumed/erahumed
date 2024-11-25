@@ -7,6 +7,13 @@ inpUI <- function(id) {
   shiny::tabsetPanel(
     shiny::tabPanel(outflows_tab_title, csvInputUI(ns("outflows"))),
     shiny::tabPanel(weather_tab_title, csvInputUI(ns("weather"))),
+    shiny::tabPanel("Setup",
+                    shiny::numericInput(ns("seed"),
+                                        "Seed for simulation",
+                                        value = 840,
+                                        step = 1
+                    )
+                    ),
     shiny::tabPanel("Filters",
                     shiny::dateRangeInput(inputId = ns("date_range"),
                                           label = "Date Range",
@@ -33,7 +40,10 @@ inpServer <- function(id, simulation, shared) {
 
     res <- shiny::reactive({
       simulation() |>
-        setup_inp(outflows_df = outflows_df(), weather_df = weather_df()) |>
+        setup_inp(outflows_df = outflows_df(),
+                  weather_df = weather_df(),
+                  seed = input$seed
+                  ) |>
         run_simulation(layer = "inp")
     })
 

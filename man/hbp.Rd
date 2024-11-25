@@ -27,9 +27,6 @@ per day.}
 
 \item{height_thresh_cm}{A positive number. Height threshold for water levels,
 below which a cluster is considered to be emptied.}
-
-\item{seed}{A number. Seed for random number generation used by the
-algorithm.}
 }
 \value{
 An object of class \link{erahumed_simulation}.

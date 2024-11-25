@@ -34,12 +34,7 @@ hbpUI <- function(id) {
                                         min = 0,
                                         max = 20,
                                         step = 0.5
-                                        ),
-                    shiny::numericInput(ns("seed"),
-                                        "Seed for simulation",
-                                        value = 840,
-                                        step = 1
-                                        ),
+                                        )
                     )
   )
 
@@ -56,8 +51,7 @@ hbpServer <- function(id, simulation, shared) {
 
         simulation() |>
           setup_hbp(management_df = management_df(),
-                    ideal_flow_rate_cm = input$ideal_flow_rate_cm,
-                    seed = input$seed
+                    ideal_flow_rate_cm = input$ideal_flow_rate_cm
                     ) |>
           run_simulation(layer = "hbp")
 

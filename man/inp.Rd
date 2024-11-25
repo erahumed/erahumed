@@ -9,7 +9,8 @@ setup_inp(
   simulation,
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
-  variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1)
+  variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
+  seed = 840
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ template of \link{albufera_outflows}; See details.}
 \item{variety_prop}{Numeric vector of length \code{3} with positive entries.
 Proportions of rice clusters of varieties \code{"J.Sendra"}, \code{"Bomba"} and
 \code{"Clearfield"}, respectively; see details.}
+
+\item{seed}{A number. Seed for random number generation used by the
+simulation algorithms.}
 }
 \value{
 An object of class \link{erahumed_simulation}.

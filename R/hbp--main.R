@@ -30,8 +30,6 @@
 #' per day.
 #' @param height_thresh_cm A positive number. Height threshold for water levels,
 #' below which a cluster is considered to be emptied.
-#' @param seed A number. Seed for random number generation used by the
-#' algorithm.
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
@@ -111,8 +109,8 @@ compute_hbp <- function(simulation)
   clusters_df <- albufera_clusters
   ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
   height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
-  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
-  seed <- get_layer_parameters(simulation, "hbp")[["seed"]]
+  cv_map <- get_layer_aux(simulation, "inp")[["cluster_variety_map"]]
+  seed <- get_layer_parameters(simulation, "inp")[["seed"]]
 
   withr::with_seed(seed, {
     .hbp_args <- .hbp_data_prep(simulation = simulation,
@@ -120,7 +118,7 @@ compute_hbp <- function(simulation)
                                 clusters_df = clusters_df,
                                 ideal_flow_rate_cm = ideal_flow_rate_cm,
                                 height_thresh_cm = height_thresh_cm,
-                                variety_prop = variety_prop)
+                                cv_map = cv_map)
 
     output <- do.call(.hbp, .hbp_args)
     })

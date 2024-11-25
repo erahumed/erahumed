@@ -115,7 +115,7 @@
                           clusters_df,
                           ideal_flow_rate_cm,
                           height_thresh_cm,
-                          variety_prop)
+                          cv_map)
 {
   res <- data.table::as.data.table( get_layer_output(simulation, "hba") )
 
@@ -123,11 +123,9 @@
   res$mm <- get_mm(as.POSIXlt(res$date))
   res$dd <- get_dd(as.POSIXlt(res$date))
 
-  clusters_df$variety <- hbp_cluster_variety(area = clusters_df$area,
-                                             ditch = clusters_df$ditch,
-                                             tancat = clusters_df$tancat,
-                                             variety_prop
-                                             )
+  clusters_df <- merge(clusters_df,
+                       cv_map[, c("cluster_id", "variety")],
+                       by = "cluster_id")
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
