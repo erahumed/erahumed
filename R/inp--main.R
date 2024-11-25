@@ -72,6 +72,8 @@ compute_inp <- function(simulation)
   simulation [["inp"]] [["aux"]] <-
     list( cluster_variety_map = generate_clusters_variety(variety_prop) )
 
+  simulation [["inp"]] [["output"]] <-
+    merge(outflows_df, weather_df, by = "date", sort = TRUE)
 
   return(simulation)
 }

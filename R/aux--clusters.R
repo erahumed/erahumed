@@ -34,3 +34,41 @@ clusters <- function(include_geometry = FALSE) {
   return(res)
 }
 
+generate_clusters_variety <- function(variety_prop) {
+  res <- clusters(include_geometry = FALSE)
+  res$variety <- NA
+
+  n_clusters <- nrow(res)
+
+  variety_prop <- variety_prop / sum(variety_prop)
+
+  area_tot <- sum(res$area)
+  area_bomba_target <- variety_prop[[2]] * area_tot
+  area_clearfield_target <- variety_prop[[3]] * area_tot
+
+  ditches_clearfield <- paste0("d", 1:19)
+
+  area_bomba <- 0
+  while(area_bomba < area_bomba_target) {
+    i <- sample(n_clusters, 1)
+    eligible <- res$tancat[i] && is.na(res$variety[i])
+    if (!eligible)
+      next
+    res$variety[i] <- "Bomba"
+    area_bomba <- area_bomba + res$area[i]
+  }
+
+  area_clearfield <- 0
+  while(area_clearfield < area_clearfield_target) {
+    i <- sample(n_clusters, 1)
+    eligible <- res$ditch[i] %in% ditches_clearfield && is.na(res$variety[i])
+    if (!eligible)
+      next
+    res$variety[i] <- "Clearfield"
+    area_clearfield <- area_clearfield + res$area[i]
+  }
+
+  res$variety[is.na(res$variety)] <- "J.Sendra"
+
+  return(res)
+}
