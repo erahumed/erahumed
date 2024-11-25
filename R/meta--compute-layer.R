@@ -11,7 +11,6 @@ compute_layer <- function(simulation, layer = erahumed_layers())
   compute_bare_fun <- get_compute_bare_fun(layer)
   validate_output <- get_validate_output_fun(layer)
 
-  args
   output <- compute_bare_fun(simulation)
   validate_output(output)
 
