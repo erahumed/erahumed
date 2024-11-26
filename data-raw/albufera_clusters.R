@@ -32,18 +32,24 @@ renv::use(
 
 library(dplyr)
 
-clusters_raw <- sf::st_read("data-raw/raw/paddysdef.shp") |>
+remove_non_ascii <- function(geometry) {
+  # Remove non-ASCII string (degree symbol) from metadata of {sf} object
+  crs <- sf::st_crs(geometry)
+  crs$wkt <- iconv(crs$wkt, from = "UTF-8", to = "ASCII//TRANSLIT")
+  sf::st_crs(geometry) <- crs
+  return(geometry)
+}
+
+folder <- "data-raw/raw/gis/"
+
+
+# Clusters
+clusters_raw <- sf::st_read(paste0(folder, "clusters.shp")) |>
   rename(cluster_id = line_ids) |>
-  as_tibble()
+  as_tibble() |>
+  mutate(across(geometry, remove_non_ascii))
 
-albufera_cluster_geometries <- clusters_raw |>
-  select(cluster_id, geometry)
-
-# Remove non-ASCII string (degree symbol) from metadata
-crs <- sf::st_crs(albufera_cluster_geometries$geometry)
-crs$wkt <- iconv(crs$wkt, from = "UTF-8", to = "ASCII//TRANSLIT")
-sf::st_crs(albufera_cluster_geometries$geometry) <- crs
-
+albufera_cluster_geometries <- clusters_raw |> select(cluster_id, geometry)
 albufera_clusters <- sf::st_drop_geometry(clusters_raw) |>
   transmute(
     cluster_id,
@@ -52,6 +58,23 @@ albufera_clusters <- sf::st_drop_geometry(clusters_raw) |>
     tancat = tancat == "1"
     )
 
+
+# Ditches
+ditches_raw <- sf::st_read(paste0(folder, "ditches.shp")) |>
+  as_tibble() |>
+  mutate(across(geometry, remove_non_ascii))
+
+albufera_ditches_geometries <- ditches_raw |> select(ditch, geometry)
+albufera_ditches <- sf::st_drop_geometry(ditches_raw)
+
+
+# Basins
+basins_raw <- sf::st_read(paste0(folder, "basins.shp")) |>
+  as_tibble() |>
+  mutate(across(geometry, remove_non_ascii))
+
+albufera_basins_geometries <- basins_raw |> select(ditch, geometry)
+albufera_basins <- sf::st_drop_geometry(basins_raw)
 
 
 
