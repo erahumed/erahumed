@@ -10,6 +10,7 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/erahumed/erahumed/graph/badge.svg?token=72POLBUEUR)](https://codecov.io/gh/erahumed/erahumed)
+[![Website](https://img.shields.io/badge/Website-here-blue)](https://erahumed.github.io/erahumed/)
 <!-- badges: end -->
 
 The `{erahumed}` R package provides the infrastructure for the [ERAHUMED
@@ -121,11 +122,11 @@ get_layer(simulation, "hba")
 get_layer_parameters(simulation, "hba")
 #> $storage_curve
 #> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x00000270bbb6e920>
+#> <environment: 0x0000029f70db3c30>
 #> 
 #> $petp_function
 #> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x00000270bbb6e920>
+#> <environment: 0x0000029f70db3c30>
 get_layer_output(simulation, "hba") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
