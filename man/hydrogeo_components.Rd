@@ -23,7 +23,7 @@ of the various elements (as a column of class \code{sfc_MULTIPOLYGON} from the
 \code{{sf}} package).}
 }
 \value{
-All \code{data.frame}.
+A \code{data.frame}.
 }
 \description{
 These helpers return \code{data.frame}s that contain information on the

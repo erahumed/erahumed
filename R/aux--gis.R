@@ -14,7 +14,7 @@
 #' `{sf}` package).
 #'
 #' @return
-#' All `data.frame`.
+#' A `data.frame`.
 #'
 #' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
 #' Rico, A. (2023). Influence of climate change and pesticide use practices on
