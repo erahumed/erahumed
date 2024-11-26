@@ -56,9 +56,9 @@ info_ditches <- function(include_geometry = FALSE) {
 }
 
 
-plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
+plot_albufera_clusters <- function(cluster_variety_map = NULL)
 {
-  tryCatch(.plot_albufera_clusters(cluster_variety_map, seed),
+  tryCatch(.plot_albufera_clusters(cluster_variety_map),
            error = function(cnd) {
              warning("Error while loading Albufera Leaflet map.")
              return(NULL)
@@ -66,7 +66,7 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
            )
 }
 
-.plot_albufera_clusters <- function(cluster_variety_map, seed)
+.plot_albufera_clusters <- function(cluster_variety_map)
 {
   clusters_df <- info_clusters(include_geometry = TRUE)
   basins_df <- albufera_basins_geometries
