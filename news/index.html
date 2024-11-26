@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,22 +38,22 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.12.2" id="erahumed-0122">erahumed 0.12.2<a class="anchor" aria-label="anchor" href="#erahumed-0122"></a></h2>
 <div class="section level4">
-<h4 id="api-changes-development-version">API changes<a class="anchor" aria-label="anchor" href="#api-changes-development-version"></a></h4>
+<h4 id="api-changes-0-12-2">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-12-2"></a></h4>
 <ul><li><p>The <code>'seed'</code> parameter moves from <code><a href="../reference/hbp.html">setup_hbp()</a></code> to <code><a href="../reference/inp.html">setup_inp()</a></code>.</p></li>
 <li><p>Former informative function <code>clusters()</code> was renamed <code><a href="../reference/info_clusters.html">info_clusters()</a></code> <a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a>.</p></li>
 <li><p>Former informative functions <code>chemicals()</code> and <code>chemical_properties()</code><br>
 were replaced by a single function <code><a href="../reference/info_chemicals.html">info_chemicals()</a></code>, that returns a named list (<a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a> and <a href="https://github.com/erahumed/erahumed/issues/190" class="external-link">#190</a>).</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="gui-changes-development-version">GUI changes<a class="anchor" aria-label="anchor" href="#gui-changes-development-version"></a></h4>
+<h4 id="gui-changes-0-12-2">GUI changes<a class="anchor" aria-label="anchor" href="#gui-changes-0-12-2"></a></h4>
 <ul><li><p>The Albufera map in the UI is again showing the (randomly generated9 cluster variety (<a href="https://github.com/erahumed/erahumed/issues/191" class="external-link">#191</a>).</p></li>
 <li><p>The “Setup” panel of the INP layer gets three new numeric inputs to setup <code>variety_prop</code> (<a href="https://github.com/erahumed/erahumed/issues/199" class="external-link">#199</a>).</p></li>
 <li><p>The “Setup” panel of the HBA layer gets four new numeric inputs to setup the <code>storage_curve</code> and <code>petp_function</code> parameters (<a href="https://github.com/erahumed/erahumed/issues/203" class="external-link">#203</a>).</p></li>
 </ul></div>
 <div class="section level4">
-<h4 id="under-the-hoods-development-version">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-development-version"></a></h4>
+<h4 id="under-the-hoods-0-12-2">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-12-2"></a></h4>
 <ul><li><p>Important simplifications in the logic of layer computation functions. Former <code>compute_*_bare()</code> functions no longer exist, in favor of new <code>compute_*()</code> functions returning simulation-type objects. Function lookup by name (formerly performed by internal helper <code>get_erahumed_fun()</code>) is now avoided, in favor of more transparent and simpler R code in <code>compute_layer()</code>that employs a switch statement.</p></li>
 <li><p>Refactor of layer objects internal structure: now layer S3 objects have an <code>aux</code> element that stores intermediate results of layer computations.</p></li>
 <li><p>Cluster varieties are now stored in the <code>aux</code> list of the INP layer.</p></li>
