@@ -1,5 +1,18 @@
 # erahumed (development version)
 
+### Visualization
+
+* Graphical improvements to the Albufera map visualization (#104).
+
+### New features
+
+* New function `info_ditches()` that returns information on the ditches of the
+Albufera Natural Park considered in modeling.
+
+### Documentation
+
+* Added website badge to README.
+
 # erahumed 0.12.2
 
 ### API changes
