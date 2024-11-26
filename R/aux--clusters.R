@@ -20,7 +20,7 @@
 #' 163018. <https://doi.org/10.1016/j.scitotenv.2023.163018>
 #'
 #' @export
-clusters <- function(include_geometry = FALSE) {
+info_clusters <- function(include_geometry = FALSE) {
   stopifnot(is.logical(include_geometry))
   assert_length_one(include_geometry)
 
@@ -35,7 +35,7 @@ clusters <- function(include_geometry = FALSE) {
 }
 
 generate_clusters_variety <- function(variety_prop) {
-  res <- clusters(include_geometry = FALSE)
+  res <- info_clusters(include_geometry = FALSE)
   res$variety <- NA
 
   n_clusters <- nrow(res)

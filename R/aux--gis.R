@@ -10,7 +10,7 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
 
 .plot_albufera_clusters <- function(cluster_variety_map, seed)
 {
-  clusters_df <- clusters(include_geometry = TRUE)
+  clusters_df <- info_clusters(include_geometry = TRUE)
 
   if (!is.null(cluster_variety_map)) {
     assert_data.frame(
