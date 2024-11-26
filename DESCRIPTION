@@ -41,7 +41,6 @@ Imports:
     DT,
     leaflet,
     plotly,
-    randomcoloR,
     readr,
     sf,
     shiny,

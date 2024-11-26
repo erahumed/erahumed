@@ -13,6 +13,10 @@ Albufera Natural Park considered in modeling.
 
 * Added website badge to README.
 
+### Dependencies
+
+* Dropped dependency from `{randomcoloR}` after the fixes of #104.
+
 # erahumed 0.12.2
 
 ### API changes
