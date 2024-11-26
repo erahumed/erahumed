@@ -4,10 +4,22 @@
 
 * The `'seed'` parameter moves from `setup_hbp()` to `setup_inp()`.
 
+* Former informative function `clusters()` was renamed `info_clusters()` #189.
+
+* Former informative functions `chemicals()` and `chemical_properties()`  
+were replaced by a single function `info_chemicals()`, that returns a named
+list (#189 and #190).
+
 ### GUI changes
 
 * The Albufera map in the UI is again showing the (randomly generated9 cluster 
 variety (#191).
+
+* The "Setup" panel of the INP layer gets three new numeric inputs to setup 
+`variety_prop` (#199).
+
+* The "Setup" panel of the HBA layer gets four new numeric inputs to setup 
+the `storage_curve` and `petp_function` parameters (#203).
 
 ### Under the hoods
 
