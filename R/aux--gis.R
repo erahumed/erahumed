@@ -69,6 +69,7 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
 .plot_albufera_clusters <- function(cluster_variety_map, seed)
 {
   clusters_df <- info_clusters(include_geometry = TRUE)
+  basins_df <- albufera_basins_geometries
 
   if (!is.null(cluster_variety_map)) {
     assert_data.frame(
@@ -77,25 +78,29 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
       )
     cluster_variety_map <- cluster_variety_map[, c("cluster_id", "variety")]
     clusters_df <- merge(clusters_df, cluster_variety_map, by = "cluster_id")
+
+    palette_domain <- c("J.Sendra", "Bomba", "Clearfield")
+    palette <- c("#f5e7c1", "#735600", "#b484b8")
   } else {
-    clusters_df$variety = "N/A"
+    clusters_df$variety <- "N/A"
+    palette_domain <- "N/A"
   }
 
-  unique_ditch <- unique(clusters_df$ditch)
-  n_ditches <- length(unique_ditch)
-  withr::with_seed(seed, {
-    palette <- randomcoloR::distinctColorPalette(n_ditches)
-    color_map <- leaflet::colorFactor(palette = palette, domain = unique_ditch)
-  })
+  color_map <- leaflet::colorFactor(palette = palette,
+                                    domain = palette_domain,
+                                    ordered = TRUE)
 
-  clusters_df |>
-    sf::st_as_sf() |>
-    sf::st_transform(crs = 4326) |>
-    sf::st_make_valid() |>
-    leaflet::leaflet() |>
+  leaflet::leaflet() |>
     leaflet::addProviderTiles("CartoDB.Positron") |>
     leaflet::addPolygons(
-      color = ~color_map(ditch),
+      data = plot_prepare_sf(basins_df),
+      fillOpacity = 0,
+      weight = 1,
+      color = "black"
+      ) |>
+    leaflet::addPolygons(
+      data = plot_prepare_sf(clusters_df),
+      color = ~color_map(variety),
       fillOpacity = 0.25,
       weight = 1,
       popup = ~paste("Cluster ID:", cluster_id, "<br>",
@@ -106,5 +111,12 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
                      ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
       layerId = ~cluster_id
-    )
+      )
+}
+
+plot_prepare_sf <- function(df) {
+  df |>
+    sf::st_as_sf() |>
+    sf::st_transform(crs = 4326) |>
+    sf::st_make_valid()
 }

@@ -17,6 +17,7 @@ test_that("info_ditches(include_geometry = TRUE) succeeds", {
 
 
 
-test_that("plot_albufera_clusters(): no error with default args", {
+test_that("plot_albufera_clusters(): no error or warning with default args", {
   expect_no_error(plot_albufera_clusters())
+  expect_no_warning(plot_albufera_clusters())
 })
