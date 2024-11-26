@@ -12,7 +12,10 @@ args <- list(
 
 shiny::testServer(inpServer, args = args, {
   session$setInputs(date_range = as.Date(c("2020-01-01", "2020-12-31")),
-                    seed = 840)
+                    seed = 840,
+                    prop_jsendra = 8,
+                    prop_bomba = 1,
+                    prop_clearfield = 1)
 
   # Test that server returns an object of class erahumed_simulation()
   expect_no_error(session$returned())

@@ -11,8 +11,29 @@ inpUI <- function(id) {
                     shiny::numericInput(ns("seed"),
                                         "Seed for simulation",
                                         value = 840,
-                                        step = 1
+                                        step = 1),
+                    shiny::numericInput(ns("prop_bomba"),
+                                        "Proportion of 'Bomba' variety",
+                                        value = 1,
+                                        min = 0,
+                                        max = 10,
+                                        step = 0.01
+                                        ),
+                    shiny::numericInput(ns("prop_clearfield"),
+                                        "Proportion of 'Clearfield' variety",
+                                        value = 1,
+                                        min = 0,
+                                        max = 10,
+                                        step = 0.01
+                                        ),
+                    shiny::numericInput(ns("prop_jsendra"),
+                                        "Proportion of 'jsendra' variety",
+                                        value = 8,
+                                        min = 0,
+                                        max = 10,
+                                        step = 0.01
                     )
+
                     ),
     shiny::tabPanel("Filters",
                     shiny::dateRangeInput(inputId = ns("date_range"),
@@ -42,7 +63,10 @@ inpServer <- function(id, simulation, shared) {
       simulation() |>
         setup_inp(outflows_df = outflows_df(),
                   weather_df = weather_df(),
-                  seed = input$seed
+                  seed = input$seed,
+                  variety_prop = c(input$prop_jsendra,
+                                   input$prop_bomba,
+                                   input$prop_clearfield)
                   ) |>
         run_simulation(layer = "inp")
     })
