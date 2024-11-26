@@ -44,9 +44,9 @@
 #'   \item{cluster_id}{Cluster identifier.}
 #'   \item{area_m2}{Surface area (in squared meters) of cluster.}
 #'   \item{tancat}{`TRUE` or `FALSE`, whether the cluster is a *tancat*
-#'   (*cf.* \link{clusters}).}
-#'   \item{variety}{Variety of rice planted in the cluster.
-#'   (*cf.* \link{clusters}).}
+#'   (*cf.* \link{info_clusters}).}
+#'   \item{variety}{Rice variety cultivated in this cluster, simulated according
+#'   to the `variety_prop` parameter of \link{setup_inp}.}
 #'   \item{area_m2}{Surface area (in squared meters) of cluster.}
 #'   \item{ditch}{Ditch to which the cluster pertains (*cf.*
 #'   \link{clusters}).}
