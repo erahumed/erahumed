@@ -18,7 +18,7 @@
 #' expected water levels of a cluster for each day of the year.
 #'
 #' The data for the second input is stored internally in `{erahumed}`, and can
-#' be examined through the \link{clusters} helper.
+#' be examined through the \link{info_clusters} helper.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
 #' @param management_df A `data.frame` that provides the yearly schedule for
@@ -49,7 +49,7 @@
 #'   to the `variety_prop` parameter of \link{setup_inp}.}
 #'   \item{area_m2}{Surface area (in squared meters) of cluster.}
 #'   \item{ditch}{Ditch to which the cluster pertains (*cf.*
-#'   \link{clusters}).}
+#'   \link{info_clusters}).}
 #'   \item{capacity_m3_s}{Outflow (to the Albufera Lake) of ditch.}
 #'   \item{seed_day}{Whether `date` corresponds to the sowing day of the year.}
 #'   \item{petp_cm}{Precipitation minus evapotranspiration per unit area, in

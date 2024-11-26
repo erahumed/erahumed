@@ -47,7 +47,7 @@ expected water levels of a cluster for each day of the year.
 }
 
 The data for the second input is stored internally in \code{{erahumed}}, and can
-be examined through the \link{clusters} helper.
+be examined through the \link{info_clusters} helper.
 }
 \details{
 The output \code{data.frame} for this model layer, retrieved through
@@ -65,7 +65,7 @@ data-set has the following columns:
 to the \code{variety_prop} parameter of \link{setup_inp}.}
 \item{area_m2}{Surface area (in squared meters) of cluster.}
 \item{ditch}{Ditch to which the cluster pertains (\emph{cf.}
-\link{clusters}).}
+\link{info_clusters}).}
 \item{capacity_m3_s}{Outflow (to the Albufera Lake) of ditch.}
 \item{seed_day}{Whether \code{date} corresponds to the sowing day of the year.}
 \item{petp_cm}{Precipitation minus evapotranspiration per unit area, in
