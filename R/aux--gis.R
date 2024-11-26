@@ -83,7 +83,9 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL)
     palette <- c("#f5e7c1", "#735600", "#b484b8")
   } else {
     clusters_df$variety <- "N/A"
+
     palette_domain <- "N/A"
+    palette <- c("#f5e7c1")
   }
 
   color_map <- leaflet::colorFactor(palette = palette,
