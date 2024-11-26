@@ -4,10 +4,6 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL, seed = 840)
            error = function(cnd) {
              warning("Error while loading Albufera Leaflet map.")
              return(NULL)
-             },
-           warning = function(cnd) {
-             warning("Warnings while loading Albufera Leaflet map.")
-             return(NULL)
              }
            )
 }

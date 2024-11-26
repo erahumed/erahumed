@@ -27,7 +27,7 @@ inpUI <- function(id) {
                                         step = 0.01
                                         ),
                     shiny::numericInput(ns("prop_jsendra"),
-                                        "Proportion of 'jsendra' variety",
+                                        "Proportion of 'J.Sendra' variety",
                                         value = 8,
                                         min = 0,
                                         max = 10,
