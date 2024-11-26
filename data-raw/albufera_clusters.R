@@ -65,7 +65,8 @@ ditches_raw <- sf::st_read(paste0(folder, "ditches.shp")) |>
   mutate(across(geometry, remove_non_ascii))
 
 albufera_ditches_geometries <- ditches_raw |> select(ditch, geometry)
-albufera_ditches <- sf::st_drop_geometry(ditches_raw)
+albufera_ditches <- sf::st_drop_geometry(ditches_raw) |>
+  select(ditch, width, length, surface)
 
 
 # Basins
@@ -74,7 +75,8 @@ basins_raw <- sf::st_read(paste0(folder, "basins.shp")) |>
   mutate(across(geometry, remove_non_ascii))
 
 albufera_basins_geometries <- basins_raw |> select(ditch, geometry)
-albufera_basins <- sf::st_drop_geometry(basins_raw)
+albufera_basins <- sf::st_drop_geometry(basins_raw) |>
+  select(-geometry)
 
 
 
