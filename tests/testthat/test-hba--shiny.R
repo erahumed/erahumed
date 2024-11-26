@@ -11,6 +11,13 @@ args <- list(
 )
 
 shiny::testServer(hbaServer, args = args, {
+  session$setInputs(
+    sc_intercept = 16.7459,
+    sc_slope = 23.6577,
+    p_surface = 114.226,
+    etp_surface = 79.361
+  )
+
   # Test that server returns an object of class erahumed_simulation()
   expect_no_error(session$returned())
   expect_s3_class(session$returned(), class(erahumed_simulation()))
