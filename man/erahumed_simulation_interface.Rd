@@ -10,7 +10,11 @@ structure of the ERAHUMED simulation chain. Each step of the sequence is
 referred across this documentation as a simulation "layer".
 This documentation page focuses on describing the set of abstractions
 provided by \code{{erahumed}} to deal with simulation layers. For further
-information, you can consult \href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{the main package vignette}.
+information, you can consult
+\href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{the main package vignette}.
+A schematic view of the various layers of the simulation pipeline, described
+below, is also available
+\href{https://erahumed.github.io/erahumed/articles/pipeline-scheme.html}{on the package website}.
 
 The first abstraction is provided by \link{erahumed_simulation} objects.
 These objects, technically implemented as S3 classes, are simple containers
@@ -26,7 +30,9 @@ layer has associated a \verb{setup_*()} function that allows to modify
 layer-specific configurations. In order to run (\emph{i.e} compute the actual
 results) of a simulation, one would use \link{run_simulation}.
 
-We define the following layers, whose technical implementation is discussed
+We define the following layers (see also
+\href{https://erahumed.github.io/erahumed/articles/pipeline-scheme.html}{here}
+for a schematic view), whose technical implementation is discussed
 extensively in the linked documentation pages:
 \itemize{
 \item \link{inp}: INPut data.

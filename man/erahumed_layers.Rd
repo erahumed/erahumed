@@ -12,7 +12,8 @@ A character vector.
 \description{
 Enumerates the ERAHUMED simulation layers
 (\emph{cf.} \link{erahumed_simulation_interface}), in dependency order (from
-upstream to downstream).
+upstream to downstream). A schematic view is available
+\href{https://erahumed.github.io/erahumed/articles/pipeline-scheme.html}{on the package website}.
 }
 \details{
 For further information on the various layers, see \verb{?<layer_name>}.

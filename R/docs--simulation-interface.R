@@ -39,7 +39,11 @@
 #' referred across this documentation as a simulation "layer".
 #' This documentation page focuses on describing the set of abstractions
 #' provided by `{erahumed}` to deal with simulation layers. For further
-#' information, you can consult [the main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+#' information, you can consult
+#' [the main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+#' A schematic view of the various layers of the simulation pipeline, described
+#' below, is also available
+#' [on the package website](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html).
 #'
 #' The first abstraction is provided by \link{erahumed_simulation} objects.
 #' These objects, technically implemented as S3 classes, are simple containers
@@ -55,7 +59,9 @@
 #' layer-specific configurations. In order to run (*i.e* compute the actual
 #' results) of a simulation, one would use \link{run_simulation}.
 #'
-#' We define the following layers, whose technical implementation is discussed
+#' We define the following layers (see also
+#' [here](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html)
+#' for a schematic view), whose technical implementation is discussed
 #' extensively in the linked documentation pages:
 #' * \link{inp}: INPut data.
 #' * \link{hba}: Hydrological Balance of the Albufera lake.
