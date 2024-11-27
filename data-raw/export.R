@@ -46,4 +46,5 @@ usethis::use_data(albufera_ca_schedules, overwrite = TRUE)
 
 usethis::use_data(
   albufera_clusters, albufera_cluster_geometries, albufera_ct_parameters,
+  albufera_ditches, albufera_ditches_geometries, albufera_basins_geometries,
   internal = TRUE, overwrite = TRUE)

@@ -1,3 +1,26 @@
+# erahumed 0.12.3
+
+### Visualization
+
+* Graphical improvements to the Albufera map visualization (#104).
+
+### New features
+
+* New function `info_ditches()` that returns information on the ditches of the
+Albufera Natural Park considered in modeling.
+
+### Documentation
+
+* Added website badge and other minor improvements to README. (#204)
+
+* Added links to the 
+[`pipeline-scheme` vignette](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html)
+in various places of the documentation (#193).
+
+### Dependencies
+
+* Dropped dependency from `{randomcoloR}` after the fixes of #104.
+
 # erahumed 0.12.2
 
 ### API changes

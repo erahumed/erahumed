@@ -85,6 +85,12 @@ shiny_ui <- function() {
           "Report a bug", icon = shiny::icon("github"),
           href = "https://github.com/erahumed/erahumed/issues/new",
           newtab = TRUE
+        ),
+        shiny::hr(style = "border-top: 1px solid #000000;"),
+        shinydashboard::menuSubItem(
+          "Bird's eye view on simulation layers",
+          href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
+          newtab = TRUE
         )
       )
     ),

@@ -10,6 +10,7 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/erahumed/erahumed/graph/badge.svg?token=72POLBUEUR)](https://codecov.io/gh/erahumed/erahumed)
+[![Website](https://img.shields.io/badge/Website-here-blue)](https://erahumed.github.io/erahumed/)
 <!-- badges: end -->
 
 The `{erahumed}` R package provides the infrastructure for the [ERAHUMED
@@ -21,11 +22,16 @@ consists of:
   imported with `{erahumed}`.
 - **Analysis**. The entire simulation pipeline is implemented by R
   functions.
-- **Visualization**. All simulation outputs are R objects with methods
-  for data exploration and visualization.
+- **Visualization**. Simulation outputs are R objects with methods for
+  data exploration and visualization.
 - **Interactive Interface**. All of the above has a graphical interface
   implemented as a Shiny application, which is also bundled with the
   package.
+
+More information on the ERAHUMED project can be found on the [main
+project’s website](https://www.erahumed.com/). The full documentation of
+the `{erahumed}` R package is hosted at
+[erahumed.github.io/erahumed](https://erahumed.github.io/erahumed/).
 
 ## Installation
 
@@ -65,8 +71,11 @@ library(erahumed)
 
 The following example illustrates the workflow for manually running the
 ERAHUMED simulation chain, and extracting the outputs of the various
-simulation layers. For further information, see the [main package
+simulation layers. For more detailed information, see the [main package
 vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+A bird’s eye view on the various simulation pipeline components is also
+available,
+[here](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html).
 
 The pipeline always starts by initializing an ERAHUMED simulation, via:
 
@@ -121,11 +130,11 @@ get_layer(simulation, "hba")
 get_layer_parameters(simulation, "hba")
 #> $storage_curve
 #> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x00000270bbb6e920>
+#> <environment: 0x000001e53a97a5d8>
 #> 
 #> $petp_function
 #> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x00000270bbb6e920>
+#> <environment: 0x000001e53a97a5d8>
 get_layer_output(simulation, "hba") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
@@ -161,6 +170,9 @@ For more information on the simulation interface, you can consult
 `?erahumed_simulation_interface`.
 
 ## Getting help
+
+The full documentation of the `{erahumed}` R package is hosted at
+[erahumed.github.io/erahumed](https://erahumed.github.io/erahumed/).
 
 If you have issues running `{erahumed}` or want to suggest an
 improvement, please [file an issue on

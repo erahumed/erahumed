@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/erahumed/erahumed/graph/badge.svg?token=72POLBUEUR)](https://codecov.io/gh/erahumed/erahumed)
+[![Website](https://img.shields.io/badge/Website-here-blue)](https://erahumed.github.io/erahumed/)
 <!-- badges: end -->
 
 The `{erahumed}` R package provides the infrastructure for the 
@@ -28,10 +29,13 @@ The `{erahumed}` R package provides the infrastructure for the
 * **Data**. The inputs for the DSS are packaged as R `data.frame`s imported 
 with `{erahumed}`.
 * **Analysis**. The entire simulation pipeline is implemented by R functions.
-* **Visualization**. All simulation outputs are R objects with methods for data 
+* **Visualization**. Simulation outputs are R objects with methods for data 
 exploration and visualization.
 * **Interactive Interface**. All of the above has a graphical interface 
 implemented as a Shiny application, which is also bundled with the package.
+
+More information on the ERAHUMED project can be found on the [main project's website](https://www.erahumed.com/). The full documentation of the `{erahumed}` 
+R package is hosted at [erahumed.github.io/erahumed](https://erahumed.github.io/erahumed/).
 
 ## Installation
 
@@ -69,8 +73,10 @@ library(erahumed)
 
 
 The following example illustrates the workflow for manually running the ERAHUMED
-simulation chain, and extracting the outputs of the various simulation layers. For further information, see the 
-[main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+simulation chain, and extracting the outputs of the various simulation layers. For more detailed information, see the 
+[main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html). A bird's eye view on the various simulation pipeline components is 
+also available, [here](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html).
+
 
 The pipeline always starts by initializing an ERAHUMED simulation, via:
 
@@ -121,6 +127,8 @@ get_layer_output(simulation, "hba") |> head()
 For more information on the simulation interface, you can consult `?erahumed_simulation_interface`.
 
 ## Getting help
+
+The full documentation of the `{erahumed}` R package is hosted at [erahumed.github.io/erahumed](https://erahumed.github.io/erahumed/).
 
 If you have issues running `{erahumed}` or want to suggest an improvement, 
 please [file an issue on Github](https://github.com/erahumed/erahumed/issues).

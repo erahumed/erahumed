@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.12.2
+Version: 0.12.3
 Authors@R: c(
     person("Valerio", "Gherardi",
            email = "vgherard840@gmail.com", 
@@ -41,7 +41,6 @@ Imports:
     DT,
     leaflet,
     plotly,
-    randomcoloR,
     readr,
     sf,
     shiny,
