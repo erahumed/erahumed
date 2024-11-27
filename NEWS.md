@@ -11,7 +11,11 @@ Albufera Natural Park considered in modeling.
 
 ### Documentation
 
-* Added website badge to README.
+* Added website badge and other minor improvements to README. (#204)
+
+* Added links to the 
+[`pipeline-scheme` vignette](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html)
+in various places of the documentation (#193).
 
 ### Dependencies
 
