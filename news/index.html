@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,15 +34,35 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.2/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.12.3" id="erahumed-0123">erahumed 0.12.3<a class="anchor" aria-label="anchor" href="#erahumed-0123"></a></h2>
+<div class="section level4">
+<h4 id="visualization-0-12-3">Visualization<a class="anchor" aria-label="anchor" href="#visualization-0-12-3"></a></h4>
+<ul><li>Graphical improvements to the Albufera map visualization (<a href="https://github.com/erahumed/erahumed/issues/104" class="external-link">#104</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-features-0-12-3">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-3"></a></h4>
+<ul><li>New function <code><a href="../reference/hydrogeo_components.html">info_ditches()</a></code> that returns information on the ditches of the Albufera Natural Park considered in modeling.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-12-3">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-12-3"></a></h4>
+<ul><li><p>Added website badge and other minor improvements to README. (<a href="https://github.com/erahumed/erahumed/issues/204" class="external-link">#204</a>)</p></li>
+<li><p>Added links to the <a href="https://erahumed.github.io/erahumed/articles/pipeline-scheme.html"><code>pipeline-scheme</code> vignette</a> in various places of the documentation (<a href="https://github.com/erahumed/erahumed/issues/193" class="external-link">#193</a>).</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="dependencies-0-12-3">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-0-12-3"></a></h4>
+<ul><li>Dropped dependency from <code>{randomcoloR}</code> after the fixes of <a href="https://github.com/erahumed/erahumed/issues/104" class="external-link">#104</a>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.2" id="erahumed-0122">erahumed 0.12.2<a class="anchor" aria-label="anchor" href="#erahumed-0122"></a></h2>
 <div class="section level4">
 <h4 id="api-changes-0-12-2">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-12-2"></a></h4>
 <ul><li><p>The <code>'seed'</code> parameter moves from <code><a href="../reference/hbp.html">setup_hbp()</a></code> to <code><a href="../reference/inp.html">setup_inp()</a></code>.</p></li>
-<li><p>Former informative function <code>clusters()</code> was renamed <code><a href="../reference/info_clusters.html">info_clusters()</a></code> <a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a>.</p></li>
+<li><p>Former informative function <code>clusters()</code> was renamed <code><a href="../reference/hydrogeo_components.html">info_clusters()</a></code> <a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a>.</p></li>
 <li><p>Former informative functions <code>chemicals()</code> and <code>chemical_properties()</code><br>
 were replaced by a single function <code><a href="../reference/info_chemicals.html">info_chemicals()</a></code>, that returns a named list (<a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a> and <a href="https://github.com/erahumed/erahumed/issues/190" class="external-link">#190</a>).</p></li>
 </ul></div>
