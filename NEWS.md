@@ -1,5 +1,15 @@
 # erahumed (development version)
 
+### Visualization
+
+* Switched to the `{dygraphs}` plotting library for all built-in time-series 
+plots, in particular those featured in the Shiny app (#181).
+
+### GUI
+
+* CSV file upload now triggers informative errors when the uploaded file does 
+not have the expected format (#208).
+
 # erahumed 0.12.3
 
 ### Visualization
