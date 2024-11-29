@@ -31,7 +31,7 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
                  title = shiny::p(
                    shiny::icon("ban"), "Error reading the uploaded file"
                    ),
-                 csv_input_error(),
+                 csv_reading_error(),
                  easyClose = TRUE
                ))
                )
