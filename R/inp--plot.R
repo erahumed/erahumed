@@ -9,7 +9,7 @@
 #' @details
 #' **Not yet implemented.**
 #'
-#' @return A plotly plot.
+#' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
 plot.erahumed_inp <- function(x, ...) {

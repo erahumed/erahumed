@@ -20,7 +20,7 @@ hbpUI <- function(id) {
                       )
         ),
 
-      plotly::plotlyOutput(ns("plot")) |> shinycssloaders::withSpinner()
+      dygraphs::dygraphOutput(ns("plot")) |> shinycssloaders::withSpinner()
 
       ),
 
@@ -69,7 +69,7 @@ hbpServer <- function(id, simulation, shared) {
     })
 
 
-    output$plot <- plotly::renderPlotly({
+    output$plot <- dygraphs::renderDygraph({
       shiny::req(input$cluster_id)
 
       res() |>

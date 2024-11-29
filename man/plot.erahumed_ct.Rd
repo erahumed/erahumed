@@ -17,7 +17,7 @@
 \item{...}{Further plotting parameters.}
 }
 \value{
-A plotly plot.
+A \link[dygraphs]{dygraph} plot.
 }
 \description{
 Plot method for \link{ct} simulation layers.

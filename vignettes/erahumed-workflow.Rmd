@@ -183,14 +183,7 @@ accessing the relevant model layer through `get_layer()`, for example:
 
 ```{r}
 get_layer(s, "hba") |>
-  plot(variable = "volume") |>
-  plotly::layout(
-    legend = list(orientation = "h", 
-                  xanchor = "center", x = 0.5,
-                  yanchor = "top", y = -0.3
-                  ),
-    width = "100%"
-    )
+  plot(variable = "volume")
 
 ```
 

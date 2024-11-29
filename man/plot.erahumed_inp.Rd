@@ -12,7 +12,7 @@
 \item{...}{Further plotting parameters; see details.}
 }
 \value{
-A plotly plot.
+A \link[dygraphs]{dygraph} plot.
 }
 \description{
 \strong{Not yet implemented.} Plot method for \link{inp} simulation layers.
