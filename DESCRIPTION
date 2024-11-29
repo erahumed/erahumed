@@ -48,7 +48,8 @@ Imports:
     shinydashboard,
     stats,
     utils,
-    withr
+    withr,
+    xts
 Depends: 
     R (>= 4.1.0)
 LazyData: true
