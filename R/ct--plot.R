@@ -45,23 +45,27 @@ plot_ct_cluster_view_mass <- function(x, ...) {
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-  df <- get_layer_output(x)
-  df <- df[df$cluster_id == args$cluster_id, ]
+  df_raw <- get_layer_output(x) |>
+    (\(.) .[.$cluster_id == args$cluster_id, ])()
 
-  chemicals <- unique(df$chemical)
+  dates <- unique(df_raw$da)
+  chemicals <- unique(df_raw$chemical)
 
-  df <- df |>
-    dplyr::select(date, chemical, mw, mf, ms) |>
-    tidyr::pivot_longer(c(mw, mf, ms), names_to = "Compartment") |>
-    tidyr::pivot_wider(id_cols = date, names_from = c(chemical, Compartment)) |>
+  df <- df_raw |>
+    (\(.) .[, c("date", "chemical", "mw", "mf", "ms")])() |>
+    stats::reshape(idvar = "date",
+                   timevar = "chemical",
+                   direction = "wide",
+                   sep = "."
+                   ) |>
     xts::as.xts()
 
   p <- dygraphs::dygraph(df, main = "Chemical Masses in Compartments")
 
   cols <- c(
-    paste(chemicals, "mw", sep = "_"),
-    paste(chemicals, "mf", sep = "_"),
-    paste(chemicals, "ms", sep = "_")
+    paste("mw", chemicals, sep = "."),
+    paste("mf", chemicals, sep = "."),
+    paste("ms", chemicals, sep = ".")
   )
   colors <- c(
     rep("blue", length(chemicals)),
@@ -87,17 +91,20 @@ plot_ct_cluster_view_density <- function(x, ...) {
   chemicals <- unique(df$chemical)
 
   df <- df |>
-    dplyr::select(date, chemical, cs, cw, cw_outflow) |>
-    tidyr::pivot_longer(c(cs, cw, cw_outflow), names_to = "Compartment") |>
-    tidyr::pivot_wider(id_cols = date, names_from = c(chemical, Compartment)) |>
+    (\(.) .[, c("date", "chemical", "cs", "cw", "cw_outflow")])() |>
+    stats::reshape(idvar = "date",
+                   timevar = "chemical",
+                   direction = "wide",
+                   sep = "."
+                   ) |>
     xts::as.xts()
 
   p <- dygraphs::dygraph(df, main = "Chemical Densities in Compartments")
 
   cols <- c(
-    paste(chemicals, "cs", sep = "_"),
-    paste(chemicals, "cw", sep = "_"),
-    paste(chemicals, "cw_outflow", sep = "_")
+    paste("cs", chemicals, sep = "."),
+    paste("cw", chemicals, sep = "."),
+    paste("cw_outflow", chemicals, sep = ".")
   )
   colors <- c(
     rep("#773333", length(chemicals)),
