@@ -28,7 +28,9 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
 
       tryCatch(new_data <- readr::read_csv(file),
                error = \(cnd) shiny::showModal(shiny::modalDialog(
-                 title = "🚫 Error reading the uploaded file",
+                 title = shiny::p(
+                   shiny::icon("ban"), "Error reading the uploaded file"
+                   ),
                  csv_input_error(),
                  easyClose = TRUE
                ))
@@ -36,7 +38,9 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
 
       tryCatch(assert_data.frame(new_data, template = initial_df),
                error = \(cnd) shiny::showModal(shiny::modalDialog(
-                 title = "🚫 Invalid data format",
+                 title = shiny::p(
+                   shiny::icon("ban"), "Invalid data format"
+                   ),
                  csv_format_error(),
                  easyClose = TRUE
                ))
