@@ -28,8 +28,6 @@ plot.erahumed_hbp <- function(x, type = c("cluster_view", "map_view"), ...) {
 }
 
 plot_erahumed_hbp_cluster_view <- function(x, ...) {
-  library(dygraphs)
-
   args <- list(...)
   data <- get_layer_output(x)
 
