@@ -76,6 +76,10 @@ plot_ct_cluster_view_mass <- function(x, ...) {
   for (i in seq_along(cols))
     p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
+  p <- p |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
+
   return(p)
 }
 
@@ -114,6 +118,11 @@ plot_ct_cluster_view_density <- function(x, ...) {
 
   for (i in seq_along(cols))
     p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
+
+  p <- p |>
+    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]") |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 
   return(p)
 }

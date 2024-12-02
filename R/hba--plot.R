@@ -33,7 +33,9 @@ plot.erahumed_hba <- function(x, variable, ...) {
     dygraphs::dySeries("Imputed", color = "red", strokePattern = "dashed") |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y", label = var_lab, axisLabelWidth = 80) |>
-    dygraphs::dyLegend(show = "always")
+    dygraphs::dyLegend(show = "always") |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 }
 
 plot_hba_argcheck <- function(x, variable, ...) {

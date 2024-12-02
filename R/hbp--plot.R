@@ -58,7 +58,9 @@ plot_erahumed_hbp_cluster_view <- function(x, ...) {
     dygraphs::dySeries("P-ETP", stepPlot = TRUE, color = "blue") |>
     dygraphs::dyAxis("y", label = "Water Level / Flow [cm]", independentTicks = TRUE) |>
     dygraphs::dyLegend(show = "always", width = 800) |>
-    dygraphs::dyOptions(axisLabelWidth = 80) # Adjust spacing to prevent overlapping
+    dygraphs::dyOptions(axisLabelWidth = 80) |>  # Adjust to prevent overlap
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 }
 
 plot_erahumed_hbp_map_view <- function(x, ...) {

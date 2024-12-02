@@ -60,6 +60,10 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
                            strokePattern = "dotted")
   }
 
+  p <- p |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
+
   return(p)
 }
 
