@@ -18,7 +18,7 @@
 #' method, the user must provide an additional `cluster_id` argument, a string
 #' specifying the identifier of the cluster whose levels are to be plotted.
 #'
-#' @return A plotly plot.
+#' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
 plot.erahumed_ct <- function(
@@ -45,44 +45,41 @@ plot_ct_cluster_view_mass <- function(x, ...) {
   if ( !("cluster_id" %in% names(args)) )
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
 
-  df <- get_layer_output(x)
-  df <- df[df$cluster_id == args$cluster_id, ]
+  df_raw <- get_layer_output(x) |>
+    (\(.) .[.$cluster_id == args$cluster_id, ])()
 
-  p <- plotly::plot_ly()
+  dates <- unique(df_raw$da)
+  chemicals <- unique(df_raw$chemical)
 
-  chemicals <- unique(df$chemical)  # Exclude 'date' and 'cluster_id' columns
-  for (chemical in chemicals) {
-    chem_df <- df[df$chemical == chemical, ]
-    p <- p |>
-      plotly::add_lines(
-        data = chem_df,
-        x = ~date,
-        y = ~mf,
-        line = list(width = 1.5, color = "darkgreen"),
-        name = paste(chemical, "(Foliage)")
-        ) |>
-      plotly::add_lines(
-        data = chem_df,
-        x = ~date,
-        y = ~mw,
-        line = list(width = 1.5, color = "darkblue"),
-        name = paste(chemical, "(Water)")
-        ) |>
-      plotly::add_lines(
-        data = chem_df,
-        x = ~date,
-        y = ~ms,
-        line = list(width = 1.5, color = "#AA5500"),
-        name = paste(chemical, "(Sediment)")
-        )
-  }
+  df <- df_raw |>
+    (\(.) .[, c("date", "chemical", "mw", "mf", "ms")])() |>
+    stats::reshape(idvar = "date",
+                   timevar = "chemical",
+                   direction = "wide",
+                   sep = "."
+                   ) |>
+    xts::as.xts()
 
+  p <- dygraphs::dygraph(df, main = "Chemical Masses in Compartments")
+
+  cols <- c(
+    paste("mw", chemicals, sep = "."),
+    paste("mf", chemicals, sep = "."),
+    paste("ms", chemicals, sep = ".")
+  )
+  colors <- c(
+    rep("blue", length(chemicals)),
+    rep("green", length(chemicals)),
+    rep("brown", length(chemicals))
+  )
+
+  for (i in seq_along(cols))
+    p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
   p <- p |>
-    plotly::layout(title = paste("Time Series of chemical masses [Kg]"),
-                   xaxis = list(title = "Date"),
-                   yaxis = list(title = "Mass [kg]")
-                   )
+    dygraphs::dyAxis("y", label = "Mass [Kg]") |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 
   return(p)
 }
@@ -96,41 +93,37 @@ plot_ct_cluster_view_density <- function(x, ...) {
   df <- get_layer_output(x)
   df <- df[df$cluster_id == args$cluster_id, ]
 
-  p <- plotly::plot_ly()
+  chemicals <- unique(df$chemical)
 
-  chemicals <- unique(df$chemical)  # Exclude 'date' and 'cluster_id' columns
-  for (chemical in chemicals) {
-    chem_df <- df[df$chemical == chemical, ]
-    p <- p |>
-      plotly::add_lines(
-        data = chem_df,
-        x = ~date,
-        y = ~cw_outflow,
-        line = list(width = 1.5, color = "#0099FF"),
-        name = paste(chemical, "(Outflow)")
-      ) |>
-      plotly::add_lines(
-        data = chem_df,
-        x = ~date,
-        y = ~cw,
-        line = list(width = 1.5, color = "darkblue"),
-        name = paste(chemical, "(Water)")
-      ) |>
-      plotly::add_lines(
-        data = chem_df,
-        x = ~date,
-        y = ~cs,
-        line = list(width = 1.5, color = "#AA5500"),
-        name = paste(chemical, "(Sediment)")
-      )
-  }
+  df <- df |>
+    (\(.) .[, c("date", "chemical", "cs", "cw", "cw_outflow")])() |>
+    stats::reshape(idvar = "date",
+                   timevar = "chemical",
+                   direction = "wide",
+                   sep = "."
+                   ) |>
+    xts::as.xts()
 
+  p <- dygraphs::dygraph(df, main = "Chemical Densities in Compartments")
+
+  cols <- c(
+    paste("cs", chemicals, sep = "."),
+    paste("cw", chemicals, sep = "."),
+    paste("cw_outflow", chemicals, sep = ".")
+  )
+  colors <- c(
+    rep("#773333", length(chemicals)),
+    rep("blue", length(chemicals)),
+    rep("lightblue", length(chemicals))
+  )
+
+  for (i in seq_along(cols))
+    p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
   p <- p |>
-    plotly::layout(title = paste("Time Series of chemical masses [Kg]"),
-                   xaxis = list(title = "Date"),
-                   yaxis = list(title = "Mass [kg]")
-    )
+    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]") |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 
   return(p)
 }

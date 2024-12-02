@@ -19,7 +19,7 @@ hbaUI <- function(id) {
                       )
         ),
 
-      plotly::plotlyOutput(ns("plot"))
+      dygraphs::dygraphOutput(ns("plot"))
 
       ),
 
@@ -77,7 +77,7 @@ hbaServer <- function(id, simulation, shared) {
         run_simulation(layer = "hba")
       })
 
-    output$plot <- plotly::renderPlotly({
+    output$plot <- dygraphs::renderDygraph({
       res() |>
         get_layer("hba") |>
         plot(input$variable)

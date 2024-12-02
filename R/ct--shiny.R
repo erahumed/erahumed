@@ -28,7 +28,7 @@ ctUI <- function(id) {
 
       ),
 
-      plotly::plotlyOutput(ns("plot")) |> shinycssloaders::withSpinner()
+      dygraphs::dygraphOutput(ns("plot")) |> shinycssloaders::withSpinner()
 
     ),
 
@@ -139,7 +139,7 @@ ctServer <- function(id, simulation, shared) {
                                  selected = shared$selected_cluster_id)
     })
 
-    output$plot <- plotly::renderPlotly({
+    output$plot <- dygraphs::renderDygraph({
       shiny::req(input$cluster_id)
 
       res() |>

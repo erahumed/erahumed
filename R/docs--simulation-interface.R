@@ -29,7 +29,7 @@
 #' get_layer_output(s, "hba") |> head()
 #'
 #' \dontrun{
-#' # Returns an interactive plotly plot, run manually.
+#' # Returns an interactive dygraphs plot, run manually.
 #' s |> get_layer("hba") |> plot(variable = "outflow_total")
 #' }
 #'

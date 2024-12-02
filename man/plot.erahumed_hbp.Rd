@@ -16,7 +16,7 @@
 specified by \code{type}; See details.}
 }
 \value{
-A plotly plot.
+A \link[dygraphs]{dygraph} plot.
 }
 \description{
 Plot method for \link{hbp} simulation layers.

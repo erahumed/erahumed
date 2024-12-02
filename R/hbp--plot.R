@@ -15,7 +15,7 @@
 #' method, the user must provide an additional `cluster_id` argument, a string
 #' specifying the identifier of the cluster whose levels are to be plotted.
 #'
-#' @return A plotly plot.
+#' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
 plot.erahumed_hbp <- function(x, type = c("cluster_view", "map_view"), ...) {
@@ -24,75 +24,43 @@ plot.erahumed_hbp <- function(x, type = c("cluster_view", "map_view"), ...) {
   switch(type,
          cluster_view = plot_erahumed_hbp_cluster_view(x, ...),
          map_view = plot_erahumed_hbp_map_view(x, ...)
-         )
+  )
 }
 
-plot_erahumed_hbp_cluster_view <- function(x, ...)
-{
+plot_erahumed_hbp_cluster_view <- function(x, ...) {
   args <- list(...)
-
   data <- get_layer_output(x)
 
-  if ( !("cluster_id" %in% names(args)) )
+  if (!("cluster_id" %in% names(args))) {
     stop("Please specify cluster to plot through the 'cluster_id' argument.")
+  }
 
   cluster_id <- args$cluster_id
-
   data_cluster <- data[data$cluster_id == cluster_id, ]
 
-  top_plot <- plotly::plot_ly(data = data_cluster, x = ~date) |>
-    plotly::add_trace(
-      y = ~lag(ideal_height_eod_cm),
-      hoverinfo = "skip",
-      type = "scatter",
-      mode = "lines",
-      line = list(width = 1.5, color = "black", dash = "dash"),
-      name = "Water Level (ideal)"
-    ) |>
-    plotly::add_trace(
-      y = ~height_sod_cm,
-      text = ~paste0("Date: ", date,
-                     "<br>Height [cm]: ", height_sod_cm,
-                     "<br>Ideal Height [cm]: ", ideal_height_eod_cm,
-                     "<br>Ideal Irrigation: ", ideal_irrigation,
-                     "<br>Ideal Draining: ", ideal_draining,
-                     "<br>Real Irrigation: ", irrigation,
-                     "<br>Real Draining: ", draining,
-                     "<br>Plan Delay: ", plan_delay
-      ),
-      hoverinfo = "text",
-      type = "scatter",
-      mode = "lines",
-      line = list(width = 2, color = "black"),
-      name = "Water Level (simulated)"
-    )
+  # Prepare time series data
+  data_to_plot <- data_cluster[, c("date", "ideal_height_eod_cm", "height_sod_cm",
+                                   "inflow_cm", "outflow_cm", "petp_cm")]
 
-  bottom_plot <- plotly::plot_ly(data = data_cluster, x = ~date) |>
-    plotly::add_trace(
-      y = ~inflow_cm,
-      hoverinfo = "skip",
-      type = "bar", marker = list(width = 3, color = "red"),
-      name = "Inflow"
-    ) |>
-    plotly::add_trace(
-      y = ~ I(-outflow_cm),
-      hoverinfo = "skip",
-      type = "bar", marker = list(width = 3, color = "red"),
-      name = "Outflow"
-    ) |>
-    plotly::add_trace(
-      y = ~petp_cm,
-      hoverinfo = "skip",
-      type = "bar", marker = list(width = 1, color = "blue"),
-      name = "P - ETP"
-    )
+  # Adjust for outflows (negative values)
+  data_to_plot$outflow_cm <- -data_to_plot$outflow_cm
 
-  plotly::subplot(top_plot, bottom_plot, nrows = 2, shareX = TRUE) |>
-    plotly::layout(
-      title = paste("Time Series of Height [cm]"),
-      xaxis = list(title = "Date"),
-      yaxis = list(title = "Height [cm]")
-    )
+  # Rename columns for clarity
+  colnames(data_to_plot) <- c("Date", "Ideal Height", "Simulated Height",
+                              "Inflow", "Outflow", "P-ETP")
+
+  # Create dygraph
+  dygraphs::dygraph(data_to_plot, main = paste("Time Series for Cluster", cluster_id)) |>
+    dygraphs::dySeries("Ideal Height", color = "black", strokePattern = "dashed", strokeWidth = 2) |>
+    dygraphs::dySeries("Simulated Height", color = "black", strokePattern = "solid", strokeWidth = 2) |>
+    dygraphs::dySeries("Inflow", stepPlot = TRUE, color = "red") |>
+    dygraphs::dySeries("Outflow", stepPlot = TRUE, color = "red") |>
+    dygraphs::dySeries("P-ETP", stepPlot = TRUE, color = "blue") |>
+    dygraphs::dyAxis("y", label = "Water Level / Flow [cm]", independentTicks = TRUE) |>
+    dygraphs::dyLegend(show = "always", width = 800) |>
+    dygraphs::dyOptions(axisLabelWidth = 80) |>  # Adjust to prevent overlap
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 }
 
 plot_erahumed_hbp_map_view <- function(x, ...) {

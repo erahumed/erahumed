@@ -15,7 +15,7 @@
 \item{...}{Not used.}
 }
 \value{
-A plotly plot.
+A \link[dygraphs]{dygraph} plot.
 }
 \description{
 Plot method for \link{hba} simulation layers.

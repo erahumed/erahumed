@@ -25,10 +25,28 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
     shiny::observe({
       shiny::req(input$file)
       file <- input$file$datapath
-      new_data <- readr::read_csv(file)
+
+      tryCatch(new_data <- readr::read_csv(file),
+               error = \(cnd) shiny::showModal(shiny::modalDialog(
+                 title = shiny::p(
+                   shiny::icon("ban"), "Error reading the uploaded file"
+                   ),
+                 csv_reading_error(),
+                 easyClose = TRUE
+               ))
+               )
 
       tryCatch(assert_data.frame(new_data, template = initial_df),
-               error = \(cnd) shiny::req(FALSE))
+               error = \(cnd) shiny::showModal(shiny::modalDialog(
+                 title = shiny::p(
+                   shiny::icon("ban"), "Invalid data format"
+                   ),
+                 csv_format_error(),
+                 easyClose = TRUE
+               ))
+               )
+
+      shiny::req(FALSE)
 
       df(new_data)
     })
@@ -48,3 +66,25 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
     return(df)
   })
 }
+
+csv_reading_error <- function()
+  shiny::markdown(
+    "The file could not be read as a valid CSV. Please ensure that the file:
+
+    * Is in CSV format (e.g., .csv extension).
+    * Is not empty or corrupted.
+    * Uses a supported encoding (e.g., UTF-8).
+
+    Try re-uploading the file or using a different one."
+  )
+
+csv_format_error <- function()
+  shiny::markdown(
+    "The uploaded file does not match the expected structure. Please ensure that:
+
+    * The file contains the required columns: <list of expected column names> (case-sensitive).
+    * Each column has the correct data type: <column name> should be <expected type>.
+    * There are no missing or unexpected columns.
+
+    Check the file and upload it again."
+  )

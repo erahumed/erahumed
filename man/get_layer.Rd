@@ -24,7 +24,7 @@ the predefined plotting methods of \code{{erahumed}} (see example below).
 }
 \examples{
 \dontrun{
-# Generate a plotly plot of the volume time-series
+# Generate a dygraphs plot of the volume time-series
 erahumed_simulation() |>
   run_simulation("hba") |>
   get_layer("hba") |>

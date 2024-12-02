@@ -16,7 +16,7 @@
 #' method, the user must provide an additional `cluster_id` argument, a string
 #' specifying the identifier of the cluster whose levels are to be plotted.
 #'
-#' @return A plotly plot.
+#' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
 plot.erahumed_ca <- function(x, type = c("cluster_view", "timeline_view"), ...) {
@@ -45,21 +45,24 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
   colors <- grDevices::rainbow(length(chemicals))
   names(colors) <- chemicals
 
-  for (chemical in chemicals) {
-    idx <- cluster_data[[chemical]] != 0
-    data <- cluster_data[idx, ]
-    p <- plotly::add_segments(p,
-                              data = cluster_data[idx, ],
-                              x = ~date,
-                              xend = ~date,
-                              y = ~min(cluster_data$height_eod_cm),
-                              yend = ~max(cluster_data$height_eod_cm),
-                              line = list(color = colors[chemical],
-                                          width = 1,
-                                          dash = "dot"
-                                          ),
-                              name = chemical)
+  application_days_idx <- sapply(chemicals, \(x) cluster_data[[x]]) |>
+    rowSums() |>
+    (\(x) x > 0)() |>
+    which()
+
+  for (idx in application_days_idx) {
+    date <- cluster_data$date[idx]
+    applied_chems <- chemicals[sapply(chemicals, \(x) cluster_data[idx, x] > 0)]
+    p <- dygraphs::dyEvent(p,
+                           x = date,
+                           label = paste0(applied_chems, collapse = "; "),
+                           labelLoc = "bottom",
+                           strokePattern = "dotted")
   }
+
+  p <- p |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 
   return(p)
 }

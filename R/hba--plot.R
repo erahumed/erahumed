@@ -8,7 +8,7 @@
 #' `get_layer_output(x)`.
 #' @param ... Not used.
 #'
-#' @return A plotly plot.
+#' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
 plot.erahumed_hba <- function(x, variable, ...) {
@@ -16,7 +16,7 @@ plot.erahumed_hba <- function(x, variable, ...) {
 
   plot_hba_argcheck(df, variable, ...)
 
-  var_lab <- hba_var_labs()[variable]
+  var_lab <- hba_var_labs()[variable] |> unname()
 
   is_imputed <- df[[hba_is_imputed_var(variable)]]
 
@@ -24,24 +24,18 @@ plot.erahumed_hba <- function(x, variable, ...) {
   df_obs[[variable]][is_imputed] <- NA
   df_imp[[variable]][!is_imputed] <- NA
 
-  plotly::plot_ly() |>
-    plotly::add_trace(
-      data = df_obs, x = ~date, y = ~get(variable),
-      type = "scatter", mode = "lines",
-      line = list(color = "blue", width = 2, dash = "solid"),
-      name = "Source: Observed Outflow Data"
-    ) |>
-    plotly::add_trace(
-      data = df_imp, x = ~date, y = ~get(variable),
-      type = "scatter", mode = "lines",
-      line = list(color = "red", width = 2, dash = "dash"),
-      name = "Source: Imputed Outflow Data"
-    ) |>
-    plotly::layout(
-      title = paste("Time Series of", var_lab),
-      xaxis = list(title = "Date"),
-      yaxis = list(title = var_lab)
-    )
+  time_series_obs <- xts::xts(df_obs[[variable]], order.by = df_obs$date)
+  time_series_imp <- xts::xts(df_imp[[variable]], order.by = df_imp$date)
+  combined_ts <- cbind(Observed = time_series_obs, Imputed = time_series_imp)
+
+  dygraphs::dygraph(combined_ts, main = paste("Time Series of", var_lab)) |>
+    dygraphs::dySeries("Observed", color = "blue", strokePattern = "solid") |>
+    dygraphs::dySeries("Imputed", color = "red", strokePattern = "dashed") |>
+    dygraphs::dyAxis("x", label = "Date") |>
+    dygraphs::dyAxis("y", label = var_lab, axisLabelWidth = 80) |>
+    dygraphs::dyLegend(show = "always") |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 }
 
 plot_hba_argcheck <- function(x, variable, ...) {
