@@ -77,6 +77,7 @@ plot_ct_cluster_view_mass <- function(x, ...) {
     p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
   p <- p |>
+    dygraphs::dyAxis("y", label = "Mass [Kg]") |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
