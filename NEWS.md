@@ -2,7 +2,10 @@
 
 ### GUI
 
-* Improved error messages of CSV input modules when the uploaded file does not
+* Data input modules are now able to handle Excel as well as CSV input and 
+output (#215).
+
+* Improved error messages of data input modules when the uploaded file does not
 have the correct column structure.
 
 # erahumed 0.12.4

@@ -1,13 +1,23 @@
 csvInputUI <- function(id) {
   ns <- shiny::NS(id)
-  file_accept <- c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+  file_accept <- c("text/csv",
+                   "text/comma-separated-values,text/plain",
+                   ".csv",
+                   ".xls", ".xlsx")
+  upload_label <- "Upload dataset in CSV or Excel format"
 
   shiny::fluidPage(
     shiny::sidebarLayout(
       shiny::sidebarPanel(
-        shiny::fileInput(ns("file"), "Upload CSV File", accept = file_accept),
-        shiny::numericInput(ns("rows"), "Rows per page", 5, min = 1),
-        shiny::downloadButton(ns("downloadData"), "Download Data")
+        shiny::fileInput(ns("file"), upload_label, accept = file_accept),
+        shiny::downloadButton(ns("downloadDataCSV"),
+                              "Download as .csv",
+                              icon = shiny::icon("file-csv")
+                              ),
+        shiny::downloadButton(ns("downloadDataExcel"),
+                              "Download as .xlsx",
+                              icon = shiny::icon("file-excel")
+                              )
       ),
       shiny::mainPanel(DT::DTOutput(ns("contents")))
     )
@@ -15,7 +25,7 @@ csvInputUI <- function(id) {
 
 }
 
-csvInputServer <- function(id, initial_df, sig_digits = 4) {
+csvInputServer <- function(id, initial_df, sig_digits = 4, initial_rows = 5) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -34,14 +44,20 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
 
     # Output the data frame as a paginated table
     output$contents <- DT::renderDT({
-      DT::datatable(df(), options = list(pageLength = input$rows)) |>
+      DT::datatable(df(), options = list(pageLength = initial_rows)) |>
         DT::formatSignif(which(sapply(df(), is.numeric)), digits = sig_digits)
     })
 
     # Downloadable csv of the data frame
-    output$downloadData <- shiny::downloadHandler(
+    output$downloadDataCSV <- shiny::downloadHandler(
       filename = function() paste0("data-", Sys.Date(), ".csv"),
       content = function(file) readr::write_csv(df(), file)
+    )
+
+    # Downloadable Excel of the data frame
+    output$downloadDataExcel <- shiny::downloadHandler(
+      filename = function() paste0("data-", Sys.Date(), ".xlsx"),
+      content = function(file) writexl::write_xlsx(df(), file)
     )
 
     return(df)
@@ -49,6 +65,9 @@ csvInputServer <- function(id, initial_df, sig_digits = 4) {
 }
 
 csv_try_read <- function(file) {
+  is_excel <- !is.na(readxl::excel_format(file))
+  read_fun <- if (is_excel) readxl::read_excel else readr::read_csv
+
   err_title <- shiny::p(shiny::icon("ban"), "Error reading the uploaded file")
   err_msg <-   shiny::markdown(
     "The file could not be read as a valid CSV. Please ensure that the file:
@@ -60,12 +79,12 @@ csv_try_read <- function(file) {
     Try re-uploading the file or using a different one."
   )
   err_modal <- shiny::modalDialog(title = err_title, err_msg, easyClose = TRUE)
-  err_fn <- function(cnd) {
+  err_fun <- function(cnd) {
     shiny::showModal(err_modal)
     shiny::req(FALSE)
   }
 
-  tryCatch(readr::read_csv(file), error = err_fn)
+  tryCatch(read_fun(file), error = err_fun)
 }
 
 csv_try_assert_df <- function(df, template) {
@@ -85,12 +104,12 @@ csv_try_assert_df <- function(df, template) {
     ))
 
   err_modal <- shiny::modalDialog(title = err_title, err_msg, easyClose = TRUE)
-  err_fn <- function(cnd) {
+  err_fun <- function(cnd) {
     shiny::showModal(err_modal)
     shiny::req(FALSE)
   }
 
-  tryCatch(assert_data.frame(df, template = template), error = err_fn)
+  tryCatch(assert_data.frame(df, template = template), error = err_fun)
 }
 
 
