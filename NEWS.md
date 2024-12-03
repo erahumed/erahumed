@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### GUI
+
+* Improved error messages of CSV input modules when the uploaded file does not
+have the correct column structure.
+
 # erahumed 0.12.4
 
 ### Visualization
