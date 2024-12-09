@@ -42,6 +42,7 @@ Imports:
     dygraphs,
     leaflet,
     readr,
+    readxl,
     sf,
     shiny,
     shinycssloaders,
@@ -49,6 +50,7 @@ Imports:
     stats,
     utils,
     withr,
+    writexl,
     xts
 Depends: 
     R (>= 4.1.0)
