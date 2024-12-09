@@ -105,26 +105,28 @@ shiny_ui <- function() {
 }
 
 shiny_server <- function(input, output, session) {
+
   shared <- shiny::reactiveValues(
     selected_cluster_id = albufera_clusters$cluster_id[1]
   )
 
-  simulation <- shiny::reactiveVal(erahumed_simulation())
-  inp_res <- inpServer("inp", simulation, shared)
-  hba_res <- hbaServer("hba", inp_res, shared)
-  hbp_res <- hbpServer("hbp", hba_res, shared)
-  ca_res <- caServer("ca", hbp_res, shared)
-  ct_res <- ctServer("ct", ca_res, shared)
+  inp <- inpServer("inp", shared)
+  hba <- hbaServer("hba", inp = inp, shared)
+  hbp <- hbpServer("hbp", inp = inp, hba = hba, shared)
+  ca <- caServer("ca", inp = inp, hba = hba, hbp = hbp, shared)
+  ct <- ctServer("ct", inp = inp, hba = hba, hbp = hbp, ca = ca, shared)
 
-  output$map <- plot_albufera_clusters(
-    cluster_variety_map =
-      get_layer_aux(inp_res(), "inp")[["cluster_variety_map"]]
-    ) |>
-    leaflet::renderLeaflet() |>
-    shiny::snapshotExclude()
+  vmap <- shiny::reactive({ get_layer_aux(inp())[["cluster_variety_map"]] })
+
+  output$map <- leaflet::renderLeaflet({
+    plot_albufera_clusters(cluster_variety_map = vmap())
+    }) |>
+    # shiny::snapshotExclude() |>
+    identity()
 
   shiny::observeEvent(input$map_shape_click, {
     shared$selected_cluster_id <- input$map_shape_click$id
   })
 
+  return(0)
 }

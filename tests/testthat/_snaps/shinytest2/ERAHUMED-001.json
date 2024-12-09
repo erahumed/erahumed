@@ -1,7 +1,6 @@
 {
   "input": {
     "ca-ca_schedules-file": null,
-    "ca-ca_schedules-rows": 5,
     "ca-cluster_id": "02_Carrera_del_Saler0-2_0",
     "ct-SNK": 0,
     "ct-bd_g_cm3": 1.5,
@@ -24,7 +23,6 @@
     "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
     "hbp-ideal_flow_rate_cm": 5,
     "hbp-management-file": null,
-    "hbp-management-rows": 5,
     "help": "inp",
     "inp-date_range": [
       "2020-01-01",
@@ -6276,13 +6274,11 @@
       ]
     },
     "inp-outflows-file": null,
-    "inp-outflows-rows": 5,
     "inp-prop_bomba": 1,
     "inp-prop_clearfield": 1,
     "inp-prop_jsendra": 8,
     "inp-seed": 840,
     "inp-weather-file": null,
-    "inp-weather-rows": 5,
     "sidebarCollapsed": false,
     "sidebarItemExpanded": "Simulation"
   },

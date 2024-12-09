@@ -35,7 +35,7 @@ caUI <- function(id) {
 
 }
 
-caServer <- function(id, simulation, shared) {
+caServer <- function(id, inp, hba, hbp, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -43,9 +43,10 @@ caServer <- function(id, simulation, shared) {
       csvInputServer("ca_schedules", erahumed::albufera_ca_schedules)
 
     res <- shiny::reactive({
-      simulation() |>
+      simulation_from_layers(inp = inp(), hba = hba(), hbp = hbp()) |>
         setup_ca(ca_schedules_df = ca_schedules_df()) |>
-        run_simulation(layer = "ca")
+        run_simulation(layer = "ca") |>
+        get_layer("ca")
       })
 
     shiny::observeEvent(input$cluster_id, {
@@ -61,15 +62,12 @@ caServer <- function(id, simulation, shared) {
 
     output$plot <- dygraphs::renderDygraph({
       shiny::req(input$cluster_id)
-
-      res() |>
-        get_layer("ca") |>
-        plot(cluster_id = input$cluster_id)
+      plot(res(), cluster_id = input$cluster_id)
     })
 
     output$downloadData <- shiny::downloadHandler(
       filename = function() paste0("output-ca-", Sys.Date(), ".csv"),
-      content = \(file) readr::write_csv(get_layer_output(res(), "ca"), file)
+      content = \(file) readr::write_csv(get_layer_output(res()), file)
     )
 
     return(res)

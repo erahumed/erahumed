@@ -2,8 +2,10 @@ test_that("UI succeeds", {
   expect_no_error(hbpUI("ui"))
 })
 
+s <- test_sim_small()
 args <- list(
-  simulation = shiny::reactive(test_sim_small()),
+  inp = shiny::reactiveVal(get_layer(s, "inp")),
+  hba = shiny::reactiveVal(get_layer(s, "hba")),
   shared = shiny::reactiveValues(
     selected_cluster_id = albufera_clusters$cluster_id[1]
   )
@@ -15,7 +17,7 @@ shiny::testServer(hbpServer, args = args, {
 
   # Test that server returns an object of class erahumed_simulation()
   expect_no_error(session$returned())
-  expect_s3_class(session$returned(), class(erahumed_simulation()))
+  expect_s3_class(session$returned(), "erahumed_hbp")
 
   # Expect that plot is created correctly
   expect_no_error(output$plot)

@@ -107,12 +107,12 @@ ctUI <- function(id) {
 
 }
 
-ctServer <- function(id, simulation, shared) {
+ctServer <- function(id, inp, hba, hbp, ca, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     res <- shiny::reactive({
-      simulation() |>
+      simulation_from_layers(inp = inp(), hba = hba(), hbp = hbp(),ca = ca()) |>
         setup_ct(drift = input$drift,
                  covmax = input$covmax,
                  jgrow = input$jgrow,
@@ -125,7 +125,8 @@ ctServer <- function(id, simulation, shared) {
                  wilting = input$wilting,
                  fc = input$fc
                  ) |>
-        run_simulation(layer = "ct")
+        run_simulation(layer = "ct") |>
+        get_layer("ct")
       })
 
     shiny::observeEvent(input$cluster_id, {
@@ -142,14 +143,12 @@ ctServer <- function(id, simulation, shared) {
     output$plot <- dygraphs::renderDygraph({
       shiny::req(input$cluster_id)
 
-      res() |>
-        get_layer("ct") |>
-        plot(cluster_id = input$cluster_id, variable = input$variable)
+      plot(res(), cluster_id = input$cluster_id, variable = input$variable)
     })
 
     output$downloadData <- shiny::downloadHandler(
       filename = function() paste0("output-ct-", Sys.Date(), ".csv"),
-      content = \(file) readr::write_csv(get_layer_output(res(), "ct"), file)
+      content = \(file) readr::write_csv(get_layer_output(res()), file)
     )
 
     return(res)
