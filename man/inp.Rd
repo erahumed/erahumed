@@ -16,13 +16,13 @@ setup_inp(
 \arguments{
 \item{simulation}{An object of class \link{erahumed_simulation}.}
 
-\item{outflows_df}{A \code{data.frame} that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
+\item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \code{albufera_outflows} (the default value).}
 
-\item{weather_df}{A \code{data.frame} that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
+\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \code{albufera_weather} (the default value).}
 
-\item{variety_prop}{Numeric vector of length \code{3} with positive entries. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
+\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
 
-\item{seed}{A number. Seed for random number generation used by the simulation algorithms.}
+\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 }
 \value{
 An object of class \link{erahumed_simulation}.

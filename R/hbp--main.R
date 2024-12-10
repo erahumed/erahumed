@@ -21,9 +21,9 @@
 #' be examined through the \link{info_clusters} helper.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param management_df `r erahumed_param_docs("management_df")`
-#' @param ideal_flow_rate_cm `r erahumed_param_docs("ideal_flow_rate_cm")`
-#' @param height_thresh_cm `r erahumed_param_docs("height_thresh_cm")`
+#' @param management_df `r erahumed_param_roxy("management_df")`
+#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm")`
+#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

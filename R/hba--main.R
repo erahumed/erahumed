@@ -10,8 +10,8 @@
 #' attributed to *tancats* that suck water from the lake.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param storage_curve `r erahumed_param_docs("storage_curve")`
-#' @param petp_function `r erahumed_param_docs("petp_function")`
+#' @param storage_curve `r erahumed_param_roxy("storage_curve")`
+#' @param petp_function `r erahumed_param_roxy("petp_function")`
 #'
 #' @details
 #'

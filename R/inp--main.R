@@ -12,10 +12,10 @@
 #' any upstream dependence.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param outflows_df `r erahumed_param_docs("outflows_df")`
-#' @param weather_df `r erahumed_param_docs("weather_df")`
-#' @param variety_prop `r erahumed_param_docs("variety_prop")`
-#' @param seed `r erahumed_param_docs("seed")`
+#' @param outflows_df `r erahumed_param_roxy("outflows_df")`
+#' @param weather_df `r erahumed_param_roxy("weather_df")`
+#' @param variety_prop `r erahumed_param_roxy("variety_prop")`
+#' @param seed `r erahumed_param_roxy("seed")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

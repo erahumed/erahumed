@@ -10,7 +10,7 @@
 #' applied chemical.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param ca_schedules_df `r erahumed_param_docs("ca_schedules_df")`
+#' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df")`
 #'
 #' @return An objects of class \link{erahumed_simulation}.
 #'

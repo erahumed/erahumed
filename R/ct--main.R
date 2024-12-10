@@ -13,17 +13,17 @@
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
 #'
-#' @param drift `r erahumed_param_docs("drift")`
-#' @param covmax `r erahumed_param_docs("covmax")`
-#' @param jgrow `r erahumed_param_docs("jgrow")`
-#' @param SNK `r erahumed_param_docs("SNK")`
-#' @param dact_m `r erahumed_param_docs("dact_m")`
-#' @param css_ppm `r erahumed_param_docs("css_ppm")`
-#' @param foc `r erahumed_param_docs("foc")`
-#' @param bd_g_cm3 `r erahumed_param_docs("bd_g_cm3")`
-#' @param qseep_m_day `r erahumed_param_docs("qseep_m_day")`
-#' @param wilting `r erahumed_param_docs("wilting")`
-#' @param fc `r erahumed_param_docs("fc")`
+#' @param drift `r erahumed_param_roxy("drift")`
+#' @param covmax `r erahumed_param_roxy("covmax")`
+#' @param jgrow `r erahumed_param_roxy("jgrow")`
+#' @param SNK `r erahumed_param_roxy("SNK")`
+#' @param dact_m `r erahumed_param_roxy("dact_m")`
+#' @param css_ppm `r erahumed_param_roxy("css_ppm")`
+#' @param foc `r erahumed_param_roxy("foc")`
+#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3")`
+#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day")`
+#' @param wilting `r erahumed_param_roxy("wilting")`
+#' @param fc `r erahumed_param_roxy("fc")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
