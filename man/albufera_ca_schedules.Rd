@@ -7,18 +7,7 @@
 \format{
 \subsection{\code{albufera_ca_schedules}}{
 
-The dataset has one row per chemical scheduled application to a given rice
-variety, and the following columns:
-\describe{
-\item{day}{numeric. Scheduled day, counted starting from the sowing day,
-for the application under consideration.}
-\item{rice_variety}{character. Rice variety for this specific application.}
-\item{chemical}{character. Name of applied chemical.}
-\item{kg_per_ha}{numeric. Amount of chemical applied, in kilograms per
-hectare.}
-\item{application_type}{either \code{"ground"} or \code{"aerial"}. Application
-mode of the chemical to rice paddies.}
-}
+The cardinality of data is given by: one row per scheduled application.The dataset features the following columns:\describe{\item{day}{numeric. Scheduled day, counted starting from the sowing day, for the application under consideration.}\item{rice_variety}{character. Rice variety for this specific application.}\item{chemical}{character. Name of applied chemical.}\item{kg_per_ha}{numeric. Amount of chemical applied, in kilograms per hectare.}\item{application_type}{either \code{"ground"} or \code{"aerial"}. Application mode of the chemical to rice paddies.}}
 }
 }
 \source{

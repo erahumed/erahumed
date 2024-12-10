@@ -23,36 +23,30 @@ setup_ct(
 \arguments{
 \item{simulation}{An object of class \link{erahumed_simulation}.}
 
-\item{drift}{A number between \code{0} and \code{1}. Percentage of chemical
-applications lost to drift.}
+\item{drift}{A number between \code{0} and \code{1}. Percentage of chemical applications lost to drift.}
 
-\item{covmax}{A number between \code{0} and \code{1}. Interception potential of
-foliage at crop maturation.}
+\item{covmax}{A number between \code{0} and \code{1}. Interception potential of foliage at crop maturation.}
 
 \item{jgrow}{A positive integer. Length (in days) of crop maturation cycle.}
 
 \item{SNK}{A number between \code{0} and \code{1}. (TODO).}
 
-\item{dact_m}{A positive number. Active sediment layer depth, expressed in
-meters.}
+\item{dact_m}{A positive number. Active sediment layer depth, expressed in meters.}
 
-\item{css_ppm}{A positive number. Suspended sediment concentration, expressed
-in parts per million.}
+\item{css_ppm}{A positive number. Suspended sediment concentration, expressed in parts per million.}
 
 \item{foc}{A number between \code{0} and \code{1}. Fraction of organic content.}
 
-\item{bd_g_cm3}{A positive number. Bulk density of the sediment, expressed in
-grams per cubic centimeter.}
+\item{bd_g_cm3}{A positive number. Bulk density of the sediment, expressed in grams per cubic centimeter.}
 
-\item{qseep_m_day}{A positive number. Seepage rate, expressed in meters per
-day.}
+\item{qseep_m_day}{A positive number. Seepage rate, expressed in meters per day.}
 
 \item{wilting}{A number between \code{0} and \code{1}. Wilting point.}
 
 \item{fc}{A number between \code{0} and \code{1}. Field capacity.}
 }
 \value{
-An objects of class \link{erahumed_simulation}.
+An object of class \link{erahumed_simulation}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

@@ -51,7 +51,8 @@ Imports:
     utils,
     withr,
     writexl,
-    xts
+    xts,
+    yaml
 Depends: 
     R (>= 4.1.0)
 LazyData: true

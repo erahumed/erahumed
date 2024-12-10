@@ -7,15 +7,7 @@
 \format{
 \subsection{\code{albufera_weather}}{
 
-A data frame with 8552 rows and 3 columns:
-\describe{
-\item{date}{Date of measurement}
-\item{temperature_ave}{Average temperature.}
-\item{temperature_min}{Minimum temperature.}
-\item{temperature_max}{Maximum temperature.}
-\item{precipitation_mm}{Daily precipitation in millimiters.}
-\item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}
-}
+The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{temperature_ave}{Average temperature.}\item{temperature_min}{Minimum temperature.}\item{temperature_max}{Maximum temperature.}\item{precipitation_mm}{Daily precipitation in millimiters.}\item{evapotranspiration_mm}{Daily evapotranspiration in millimiters.}}
 }
 }
 \source{

@@ -12,40 +12,20 @@
 #' any upstream dependence.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param outflows_df A `data.frame`, whose structure follows the
-#' template of \link{albufera_outflows}; See details.
-#' @param weather_df A `data.frame`, whose structure follows the template of
-#' \link{albufera_weather}; See details.
-#' @param variety_prop Numeric vector of length `3` with positive entries.
-#' Proportions of rice clusters of varieties `"J.Sendra"`, `"Bomba"` and
-#' `"Clearfield"`, respectively; see details.
-#' @param seed A number. Seed for random number generation used by the
-#' simulation algorithms.
+#' @param outflows_df `r erahumed_param_docs("outflows_df")`
+#' @param weather_df `r erahumed_param_docs("weather_df")`
+#' @param variety_prop `r erahumed_param_docs("variety_prop")`
+#' @param seed `r erahumed_param_docs("seed")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
 #' @details
-#' The `outflows_df` input data.frame is meant to capture the observational
-#' hydrological data on the Albufera lake. This consists of a `level` column,
-#' that is the daily measured lake water level in meters, plus any number of
-#' columns named as `outflow_*` (*e.g.* `outflow_pujol`), that give the daily
-#' measured outflows in cube meters per second.
-#' The `weather_df` captures the relevant weather data for simulation:
-#' * Precipitation and evapotranspiration, relevant for simulation the
-#' hydrological balance, corresponding to the
-#' `precipitation_mm` and `evapotranspiration_mm` columns, respectively.
-#' * Temperature, relevant because it affects chemical reaction speeds.
 #'
-#' Both `data.frame`s should have a `date` column (of class \link{Date}), and
-#' the corresponding date domain should be an interval (*i.e.* no missing data
-#' between the maximum and minimum of `date` is allowed). The subsequent
+#' Both input `data.frame`s should have a `date` column (of class \link{Date}),
+#' and the corresponding date domain should be an interval (*i.e.* no missing
+#' data between the maximum and minimum of `date` is allowed). The subsequent
 #' simulation will only be performed on the largest date interval in which both
 #' hydrological and weather input data is available.
-#'
-#' The `variety_prop` parameters controls the proportions of rice paddies
-#' allocated to the cultivation of the J. Sendra, Bomba, and Clearfield
-#' varieties, respectively (`sum(variety_prop) != 1` is allowed, with the
-#' entries of `variety_prop` understood as relative proportions).
 #'
 #' @export
 setup_inp <- function(simulation,

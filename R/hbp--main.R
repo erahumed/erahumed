@@ -21,15 +21,9 @@
 #' be examined through the \link{info_clusters} helper.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param management_df A `data.frame` that provides the yearly schedule for
-#' irrigation and draining, that strictly follows the template of
-#' \link{albufera_management}.
-#' @param ideal_flow_rate_cm A positive number. Ideal inflow/outflow of a
-#' cluster, for days in which the cluster is scheduled to be in flux (*i.e.*
-#' when being simultaneously irrigated and drained) Expressed in centimeters
-#' per day.
-#' @param height_thresh_cm A positive number. Height threshold for water levels,
-#' below which a cluster is considered to be emptied.
+#' @param management_df `r erahumed_param_docs("management_df")`
+#' @param ideal_flow_rate_cm `r erahumed_param_docs("ideal_flow_rate_cm")`
+#' @param height_thresh_cm `r erahumed_param_docs("height_thresh_cm")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

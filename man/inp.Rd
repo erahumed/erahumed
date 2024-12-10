@@ -16,18 +16,13 @@ setup_inp(
 \arguments{
 \item{simulation}{An object of class \link{erahumed_simulation}.}
 
-\item{outflows_df}{A \code{data.frame}, whose structure follows the
-template of \link{albufera_outflows}; See details.}
+\item{outflows_df}{A \code{data.frame} that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
 
-\item{weather_df}{A \code{data.frame}, whose structure follows the template of
-\link{albufera_weather}; See details.}
+\item{weather_df}{A \code{data.frame} that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
 
-\item{variety_prop}{Numeric vector of length \code{3} with positive entries.
-Proportions of rice clusters of varieties \code{"J.Sendra"}, \code{"Bomba"} and
-\code{"Clearfield"}, respectively; see details.}
+\item{variety_prop}{Numeric vector of length \code{3} with positive entries. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
 
-\item{seed}{A number. Seed for random number generation used by the
-simulation algorithms.}
+\item{seed}{A number. Seed for random number generation used by the simulation algorithms.}
 }
 \value{
 An object of class \link{erahumed_simulation}.
@@ -41,29 +36,11 @@ This is the first layer of the simulation chain and does not have
 any upstream dependence.
 }
 \details{
-The \code{outflows_df} input data.frame is meant to capture the observational
-hydrological data on the Albufera lake. This consists of a \code{level} column,
-that is the daily measured lake water level in meters, plus any number of
-columns named as \verb{outflow_*} (\emph{e.g.} \code{outflow_pujol}), that give the daily
-measured outflows in cube meters per second.
-The \code{weather_df} captures the relevant weather data for simulation:
-\itemize{
-\item Precipitation and evapotranspiration, relevant for simulation the
-hydrological balance, corresponding to the
-\code{precipitation_mm} and \code{evapotranspiration_mm} columns, respectively.
-\item Temperature, relevant because it affects chemical reaction speeds.
-}
-
-Both \code{data.frame}s should have a \code{date} column (of class \link{Date}), and
-the corresponding date domain should be an interval (\emph{i.e.} no missing data
-between the maximum and minimum of \code{date} is allowed). The subsequent
+Both input \code{data.frame}s should have a \code{date} column (of class \link{Date}),
+and the corresponding date domain should be an interval (\emph{i.e.} no missing
+data between the maximum and minimum of \code{date} is allowed). The subsequent
 simulation will only be performed on the largest date interval in which both
 hydrological and weather input data is available.
-
-The \code{variety_prop} parameters controls the proportions of rice paddies
-allocated to the cultivation of the J. Sendra, Bomba, and Clearfield
-varieties, respectively (\code{sum(variety_prop) != 1} is allowed, with the
-entries of \code{variety_prop} understood as relative proportions).
 }
 \seealso{
 Other simulation layers: 

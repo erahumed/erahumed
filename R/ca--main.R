@@ -10,10 +10,7 @@
 #' applied chemical.
 #'
 #' @param simulation An object of class \link{erahumed_simulation}.
-#' @param ca_schedules_df a `data.frame` following the template of
-#' \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
-#' scheduled application. The semantics of columns are the same as in
-#' \link{albufera_ca_schedules}.
+#' @param ca_schedules_df `r erahumed_param_docs("ca_schedules_df")`
 #'
 #' @return An objects of class \link{erahumed_simulation}.
 #'
