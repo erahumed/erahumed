@@ -2,17 +2,21 @@
 % Please edit documentation in R/docs--parse-yml-documentation.R
 \name{erahumed_docs}
 \alias{erahumed_docs}
-\title{Parameters documentation}
+\title{ERAHUMED documentation as an R object}
 \usage{
-erahumed_docs(...)
+erahumed_docs(..., strip_roxy_links = TRUE)
 }
 \arguments{
-\item{param}{string. Parameter name.}
+\item{...}{strings, keys of the documentation YAML tree.}
+
+\item{strip_roxy_links}{\code{TRUE} or \code{FALSE}. Whether to substitute roxygen2
+\verb{\link{}} macros with regular text.}
 }
 \value{
-A list.
+A list or a character vector, depending on whether the keys passed through
+the \code{...} argument identify a leaf or an internal node of the YAML tree.
 }
 \description{
-Extracts the documentation for a specific ERAHUMED parameter as an R string.
+Allows to interact with parts of the package documentation as an R object.
 For internal use only.
 }

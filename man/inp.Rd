@@ -17,9 +17,9 @@ setup_inp(
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
 The simulation object being modified.}
 
-\item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \code{albufera_outflows} (the default value).}
+\item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
 
-\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \code{albufera_weather} (the default value).}
+\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
 
 \item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
 

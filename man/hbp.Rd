@@ -16,7 +16,7 @@ setup_hbp(
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
 The simulation object being modified.}
 
-\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \code{albufera_management} (the default value).}
+\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
 
 \item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters per day.}
 

@@ -1,16 +1,19 @@
-#' Parameters documentation
+#' ERAHUMED documentation as an R object
 #'
 #' @description
-#' Extracts the documentation for a specific ERAHUMED parameter as an R string.
+#' Allows to interact with parts of the package documentation as an R object.
 #' For internal use only.
 #'
-#' @param param string. Parameter name.
+#' @param ... strings, keys of the documentation YAML tree.
+#' @param strip_roxy_links `TRUE` or `FALSE`. Whether to substitute roxygen2
+#' `\link{}` macros with regular text.
 #'
 #' @return
-#' A list.
+#' A list or a character vector, depending on whether the keys passed through
+#' the `...` argument identify a leaf or an internal node of the YAML tree.
 #'
 #' @export
-erahumed_docs <- function(...)
+erahumed_docs <- function(..., strip_roxy_links = TRUE)
 {
   args <- list(...)
 
@@ -35,7 +38,7 @@ erahumed_docs <- function(...)
 }
 
 erahumed_param_roxy <- function(param, layer) {
-  docs <- erahumed_docs(layer, "parameters", param)
+  docs <- erahumed_docs("layers", layer, "parameters", param, strip_roxy_links = TRUE)
 
   if (is.null(docs[["description"]])) {
     docs[["description"]] <- paste(
@@ -51,13 +54,11 @@ erahumed_param_roxy <- function(param, layer) {
 
   res <- paste0("`[", docs[["type"]], "]` \\cr ", docs[["description"]])
 
-  res <- gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", res)
-
   return(res)
 }
 
 erahumed_dataset_format <- function(dataset, layer){
-  docs <- erahumed_docs(layer, "parameters", dataset)
+  docs <- erahumed_docs("layers", layer, "parameters", dataset)
 
   if (is.null(docs)) {
     res <- paste(
@@ -85,3 +86,6 @@ erahumed_dataset_format <- function(dataset, layer){
 
   return(res)
 }
+
+strip_roxy_links <- function(txt)
+  gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", txt)
