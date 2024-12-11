@@ -8,12 +8,21 @@ output (#215).
 * Improved error messages of data input modules when the uploaded file does not
 have the correct column structure.
 
+### Documentation
+
+* Added tooltips with parameters descriptions to the 
+[pipeline-scheme vignette](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html).
+ 
+
 ### Under the hoods
 
 * Shiny modules associated with the various model layers no longer receive 
 `erahumed_simulation` objects, but rather directly operate with `erahumed_layer` 
 objects. This makes code logic more transparent, both for the modules themselves
 as well as for the main application.
+
+* The documentation of layer parameters is now generated programmatically and
+can be read at run-time through the new helper `erahumed_docs()`.
 
 # erahumed 0.12.4
 
