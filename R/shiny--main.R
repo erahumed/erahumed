@@ -124,7 +124,7 @@ shiny_server_internal <- function(input, output, session) {
   output$map <- leaflet::renderLeaflet({
     plot_albufera_clusters(cluster_variety_map = vmap())
     }) |>
-    # shiny::snapshotExclude() |>
+    shiny::snapshotExclude() |>
     identity()
 
   shiny::observeEvent(input$map_shape_click, {
