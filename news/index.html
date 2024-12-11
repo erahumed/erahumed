@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,9 +34,30 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.12.5" id="erahumed-0125">erahumed 0.12.5<a class="anchor" aria-label="anchor" href="#erahumed-0125"></a></h2>
+<div class="section level4">
+<h4 id="new-features-0-12-5">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-5"></a></h4>
+<ul><li>New function <code><a href="../reference/erahumed_docs.html">erahumed_docs()</a></code> to interact with the ERAHUMED documentation as an R object. Although this is part of the exported namespace, it is mainly added for future internal use.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-0-12-5">GUI<a class="anchor" aria-label="anchor" href="#gui-0-12-5"></a></h4>
+<ul><li><p>Data input modules are now able to handle Excel as well as CSV input and output (<a href="https://github.com/erahumed/erahumed/issues/215" class="external-link">#215</a>).</p></li>
+<li><p>Improved error messages of data input modules when the uploaded file does not have the correct column structure.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-12-5">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-12-5"></a></h4>
+<ul><li>Added tooltips with parameters descriptions to the <a href="https://erahumed.github.io/erahumed/articles/pipeline-scheme.html">pipeline-scheme vignette</a>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-12-5">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-12-5"></a></h4>
+<ul><li><p>Shiny modules associated with the various model layers no longer receive <code>erahumed_simulation</code> objects, but rather directly operate with <code>erahumed_layer</code> objects. This makes code logic more transparent, both for the modules themselves as well as for the main application.</p></li>
+<li><p>The documentation of layer parameters is now generated programmatically and can be read at run-time through the new helper <code><a href="../reference/erahumed_docs.html">erahumed_docs()</a></code>.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.4" id="erahumed-0124">erahumed 0.12.4<a class="anchor" aria-label="anchor" href="#erahumed-0124"></a></h2>
 <div class="section level4">

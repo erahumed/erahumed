@@ -17,7 +17,7 @@ applied chemical and for the three compartments: foliage, water and sediment."><
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@ applied chemical and for the three compartments: foliage, water and sediment."><
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>CT: Chemical Transport</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/ct--main.R" class="external-link"><code>R/ct--main.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/ct--main.R" class="external-link"><code>R/ct--main.R</code></a></small>
       <div class="d-none name"><code>ct.Rd</code></div>
     </div>
 
@@ -80,62 +80,57 @@ applied chemical and for the three compartments: foliage, water and sediment.</p
 
 
 <dl><dt id="arg-simulation">simulation<a class="anchor" aria-label="anchor" href="#arg-simulation"></a></dt>
-<dd><p>An object of class <a href="erahumed_simulation.html">erahumed_simulation</a>.</p></dd>
+<dd><p><code>[</code><a href="erahumed_simulation.html">erahumed_simulation</a><code>]</code> <br>
+The simulation object being modified.</p></dd>
 
 
 <dt id="arg-drift">drift<a class="anchor" aria-label="anchor" href="#arg-drift"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. Percentage of chemical
-applications lost to drift.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Percentage of chemical applications lost to drift.</p></dd>
 
 
 <dt id="arg-covmax">covmax<a class="anchor" aria-label="anchor" href="#arg-covmax"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. Interception potential of
-foliage at crop maturation.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Interception potential of foliage at crop maturation.</p></dd>
 
 
 <dt id="arg-jgrow">jgrow<a class="anchor" aria-label="anchor" href="#arg-jgrow"></a></dt>
-<dd><p>A positive integer. Length (in days) of crop maturation cycle.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive integer. Length (in days) of crop maturation cycle.</p></dd>
 
 
 <dt id="arg-snk">SNK<a class="anchor" aria-label="anchor" href="#arg-snk"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. (TODO).</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. (TODO).</p></dd>
 
 
 <dt id="arg-dact-m">dact_m<a class="anchor" aria-label="anchor" href="#arg-dact-m"></a></dt>
-<dd><p>A positive number. Active sediment layer depth, expressed in
-meters.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Active sediment layer depth, expressed in meters.</p></dd>
 
 
 <dt id="arg-css-ppm">css_ppm<a class="anchor" aria-label="anchor" href="#arg-css-ppm"></a></dt>
-<dd><p>A positive number. Suspended sediment concentration, expressed
-in parts per million.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Suspended sediment concentration, expressed in parts per million.</p></dd>
 
 
 <dt id="arg-foc">foc<a class="anchor" aria-label="anchor" href="#arg-foc"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. Fraction of organic content.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Fraction of organic content.</p></dd>
 
 
 <dt id="arg-bd-g-cm-">bd_g_cm3<a class="anchor" aria-label="anchor" href="#arg-bd-g-cm-"></a></dt>
-<dd><p>A positive number. Bulk density of the sediment, expressed in
-grams per cubic centimeter.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Bulk density of the sediment, expressed in grams per cubic centimeter.</p></dd>
 
 
 <dt id="arg-qseep-m-day">qseep_m_day<a class="anchor" aria-label="anchor" href="#arg-qseep-m-day"></a></dt>
-<dd><p>A positive number. Seepage rate, expressed in meters per
-day.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Seepage rate, expressed in meters per day.</p></dd>
 
 
 <dt id="arg-wilting">wilting<a class="anchor" aria-label="anchor" href="#arg-wilting"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. Wilting point.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Wilting point.</p></dd>
 
 
 <dt id="arg-fc">fc<a class="anchor" aria-label="anchor" href="#arg-fc"></a></dt>
-<dd><p>A number between <code>0</code> and <code>1</code>. Field capacity.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Field capacity.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An objects of class <a href="erahumed_simulation.html">erahumed_simulation</a>.</p>
+    <p>An object of class <a href="erahumed_simulation.html">erahumed_simulation</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

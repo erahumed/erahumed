@@ -11,7 +11,7 @@ simulation workflow."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ simulation workflow."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run an ERAHUMED simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/meta--run-simulation.R" class="external-link"><code>R/meta--run-simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--run-simulation.R" class="external-link"><code>R/meta--run-simulation.R</code></a></small>
       <div class="d-none name"><code>run_simulation.Rd</code></div>
     </div>
 
@@ -58,13 +58,14 @@ simulation workflow.</p>
 
 
 <dl><dt id="arg-simulation">simulation<a class="anchor" aria-label="anchor" href="#arg-simulation"></a></dt>
-<dd><p>An <a href="erahumed_simulation.html">erahumed_simulation</a>.</p></dd>
+<dd><p><code>[</code><a href="erahumed_simulation.html">erahumed_simulation</a><code>]</code> <br>
+The simulation object containing the layers to be computed.</p></dd>
 
 
 <dt id="arg-layer">layer<a class="anchor" aria-label="anchor" href="#arg-layer"></a></dt>
-<dd><p>Either <code>NULL</code> or a string. Instructs <code>run_simulation()</code> to
-compute all simulation layers until <code>layer</code>. The default (<code>NULL</code>) means to
-compute all layers.</p></dd>
+<dd><p><code>[character(1)|NULL]</code> <br>
+Instructs <code>run_simulation()</code> to compute all simulation layers until <code>layer</code>.
+The default (<code>NULL</code>) means to compute all layers.</p></dd>
 
 </dl></div>
     <div class="section level2">

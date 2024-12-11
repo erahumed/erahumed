@@ -15,7 +15,7 @@ any upstream dependence."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ any upstream dependence."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>INP: Input data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/inp--main.R" class="external-link"><code>R/inp--main.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/inp--main.R" class="external-link"><code>R/inp--main.R</code></a></small>
       <div class="d-none name"><code>inp.Rd</code></div>
     </div>
 
@@ -70,28 +70,24 @@ any upstream dependence.</p>
 
 
 <dl><dt id="arg-simulation">simulation<a class="anchor" aria-label="anchor" href="#arg-simulation"></a></dt>
-<dd><p>An object of class <a href="erahumed_simulation.html">erahumed_simulation</a>.</p></dd>
+<dd><p><code>[</code><a href="erahumed_simulation.html">erahumed_simulation</a><code>]</code> <br>
+The simulation object being modified.</p></dd>
 
 
 <dt id="arg-outflows-df">outflows_df<a class="anchor" aria-label="anchor" href="#arg-outflows-df"></a></dt>
-<dd><p>A <code>data.frame</code>, whose structure follows the
-template of <a href="albufera_outflows.html">albufera_outflows</a>; See details.</p></dd>
+<dd><p><code>[data.frame]</code> <br> Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of <a href="albufera_outflows.html">albufera_outflows</a> (the default value).</p></dd>
 
 
 <dt id="arg-weather-df">weather_df<a class="anchor" aria-label="anchor" href="#arg-weather-df"></a></dt>
-<dd><p>A <code>data.frame</code>, whose structure follows the template of
-<a href="albufera_weather.html">albufera_weather</a>; See details.</p></dd>
+<dd><p><code>[data.frame]</code> <br> A dataset that provides the relevant metereological time series, along the template of <a href="albufera_weather.html">albufera_weather</a> (the default value).</p></dd>
 
 
 <dt id="arg-variety-prop">variety_prop<a class="anchor" aria-label="anchor" href="#arg-variety-prop"></a></dt>
-<dd><p>Numeric vector of length <code>3</code> with positive entries.
-Proportions of rice clusters of varieties <code>"J.Sendra"</code>, <code>"Bomba"</code> and
-<code>"Clearfield"</code>, respectively; see details.</p></dd>
+<dd><p><code>[numeric(3)]</code> <br> Vector of <code>3</code> positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>A number. Seed for random number generation used by the
-simulation algorithms.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Seed for random number generation used by the simulation algorithms.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -100,24 +96,11 @@ simulation algorithms.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The <code>outflows_df</code> input data.frame is meant to capture the observational
-hydrological data on the Albufera lake. This consists of a <code>level</code> column,
-that is the daily measured lake water level in meters, plus any number of
-columns named as <code>outflow_*</code> (<em>e.g.</em> <code>outflow_pujol</code>), that give the daily
-measured outflows in cube meters per second.
-The <code>weather_df</code> captures the relevant weather data for simulation:</p><ul><li><p>Precipitation and evapotranspiration, relevant for simulation the
-hydrological balance, corresponding to the
-<code>precipitation_mm</code> and <code>evapotranspiration_mm</code> columns, respectively.</p></li>
-<li><p>Temperature, relevant because it affects chemical reaction speeds.</p></li>
-</ul><p>Both <code>data.frame</code>s should have a <code>date</code> column (of class <a href="https://rdrr.io/r/base/Dates.html" class="external-link">Date</a>), and
-the corresponding date domain should be an interval (<em>i.e.</em> no missing data
-between the maximum and minimum of <code>date</code> is allowed). The subsequent
+    <p>Both input <code>data.frame</code>s should have a <code>date</code> column (of class <a href="https://rdrr.io/r/base/Dates.html" class="external-link">Date</a>),
+and the corresponding date domain should be an interval (<em>i.e.</em> no missing
+data between the maximum and minimum of <code>date</code> is allowed). The subsequent
 simulation will only be performed on the largest date interval in which both
 hydrological and weather input data is available.</p>
-<p>The <code>variety_prop</code> parameters controls the proportions of rice paddies
-allocated to the cultivation of the J. Sendra, Bomba, and Clearfield
-varieties, respectively (<code>sum(variety_prop) != 1</code> is allowed, with the
-entries of <code>variety_prop</code> understood as relative proportions).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

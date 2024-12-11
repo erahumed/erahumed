@@ -15,7 +15,7 @@ TODO: Document imputation approach used here. #51'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ TODO: Document imputation approach used here. #51'></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Albufera Outflows Daily Data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/docs--data.R" class="external-link"><code>R/docs--data.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/docs--data.R" class="external-link"><code>R/docs--data.R</code></a></small>
       <div class="d-none name"><code>albufera_outflows.Rd</code></div>
     </div>
 
@@ -66,27 +66,18 @@ based on GAMs.</p>
 <h3 id="albufera-outflows"><code>albufera_outflows</code><a class="anchor" aria-label="anchor" href="#albufera-outflows"></a></h3>
 
 
-<p>The dataframes have the following columns:</p><dl><dt>date</dt>
-<dd><p>Date of measurement</p></dd>
-
-<dt>level</dt>
+<p>The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:</p><dl><dt>level</dt>
 <dd><p>Lake level (in meters above sea level)</p></dd>
-
 <dt>outflow_pujol</dt>
 <dd><p>Outflow at Pujol (meters cube per second)</p></dd>
-
 <dt>outflow_perellonet</dt>
 <dd><p>Outflow at Perellonet (meters cube per second)</p></dd>
-
 <dt>outflow_perello</dt>
 <dd><p>Outflow at Perello (meters cube per second)</p></dd>
-
 <dt>is_imputed_level</dt>
 <dd><p>Whether the <code>level</code> value was imputed.</p></dd>
-
 <dt>is_imputed_outflow</dt>
 <dd><p>Whether (any of) the outflows were imputed.</p></dd>
-
 
 </dl></div>
 

@@ -13,7 +13,7 @@ Martínez-Megías et al. (2023)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ Martínez-Megías et al. (2023)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Albufera Chemical Application Schedules</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/docs--data.R" class="external-link"><code>R/docs--data.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/docs--data.R" class="external-link"><code>R/docs--data.R</code></a></small>
       <div class="d-none name"><code>albufera_ca_schedules.Rd</code></div>
     </div>
 
@@ -63,25 +63,14 @@ the original source
 <h3 id="albufera-ca-schedules"><code>albufera_ca_schedules</code><a class="anchor" aria-label="anchor" href="#albufera-ca-schedules"></a></h3>
 
 
-<p>The dataset has one row per chemical scheduled application to a given rice
-variety, and the following columns:</p><dl><dt>day</dt>
-<dd><p>numeric. Scheduled day, counted starting from the sowing day,
-for the application under consideration.</p></dd>
-
-<dt>rice_variety</dt>
+<p>The cardinality of data is given by: one row per scheduled application.The dataset features the following columns:</p><dl><dt>rice_variety</dt>
 <dd><p>character. Rice variety for this specific application.</p></dd>
-
 <dt>chemical</dt>
 <dd><p>character. Name of applied chemical.</p></dd>
-
 <dt>kg_per_ha</dt>
-<dd><p>numeric. Amount of chemical applied, in kilograms per
-hectare.</p></dd>
-
+<dd><p>numeric. Amount of chemical applied, in kilograms per hectare.</p></dd>
 <dt>application_type</dt>
-<dd><p>either <code>"ground"</code> or <code>"aerial"</code>. Application
-mode of the chemical to rice paddies.</p></dd>
-
+<dd><p>either <code>"ground"</code> or <code>"aerial"</code>. Application mode of the chemical to rice paddies.</p></dd>
 
 </dl></div>
 

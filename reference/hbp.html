@@ -35,7 +35,7 @@ be examined through the info_clusters helper.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@ be examined through the info_clusters helper.'></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>HBP: Hydrological Balance of rice Paddies</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/hbp--main.R" class="external-link"><code>R/hbp--main.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/hbp--main.R" class="external-link"><code>R/hbp--main.R</code></a></small>
       <div class="d-none name"><code>hbp.Rd</code></div>
     </div>
 
@@ -96,25 +96,20 @@ be examined through the <a href="hydrogeo_components.html">info_clusters</a> hel
 
 
 <dl><dt id="arg-simulation">simulation<a class="anchor" aria-label="anchor" href="#arg-simulation"></a></dt>
-<dd><p>An object of class <a href="erahumed_simulation.html">erahumed_simulation</a>.</p></dd>
+<dd><p><code>[</code><a href="erahumed_simulation.html">erahumed_simulation</a><code>]</code> <br>
+The simulation object being modified.</p></dd>
 
 
 <dt id="arg-management-df">management_df<a class="anchor" aria-label="anchor" href="#arg-management-df"></a></dt>
-<dd><p>A <code>data.frame</code> that provides the yearly schedule for
-irrigation and draining, that strictly follows the template of
-<a href="albufera_management.html">albufera_management</a>.</p></dd>
+<dd><p><code>[data.frame]</code> <br> Dataset that provides the yearly schedule for irrigation and draining, along the template of <a href="albufera_management.html">albufera_management</a> (the default value).</p></dd>
 
 
 <dt id="arg-ideal-flow-rate-cm">ideal_flow_rate_cm<a class="anchor" aria-label="anchor" href="#arg-ideal-flow-rate-cm"></a></dt>
-<dd><p>A positive number. Ideal inflow/outflow of a
-cluster, for days in which the cluster is scheduled to be in flux (<em>i.e.</em>
-when being simultaneously irrigated and drained) Expressed in centimeters
-per day.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (<em>i.e.</em> when being simultaneously irrigated and drained). Expressed in centimeters per day.</p></dd>
 
 
 <dt id="arg-height-thresh-cm">height_thresh_cm<a class="anchor" aria-label="anchor" href="#arg-height-thresh-cm"></a></dt>
-<dd><p>A positive number. Height threshold for water levels,
-below which a cluster is considered to be emptied.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.</p></dd>
 
 </dl></div>
     <div class="section level2">

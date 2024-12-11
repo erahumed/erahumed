@@ -13,7 +13,7 @@ attributed to tancats that suck water from the lake."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ attributed to tancats that suck water from the lake."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>HBA: Hydrological Balance of the Albufera Lake</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/hba--main.R" class="external-link"><code>R/hba--main.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/hba--main.R" class="external-link"><code>R/hba--main.R</code></a></small>
       <div class="d-none name"><code>hba.Rd</code></div>
     </div>
 
@@ -65,21 +65,16 @@ attributed to <em>tancats</em> that suck water from the lake.</p>
 
 
 <dl><dt id="arg-simulation">simulation<a class="anchor" aria-label="anchor" href="#arg-simulation"></a></dt>
-<dd><p>An object of class <a href="erahumed_simulation.html">erahumed_simulation</a>.</p></dd>
+<dd><p><code>[</code><a href="erahumed_simulation.html">erahumed_simulation</a><code>]</code> <br>
+The simulation object being modified.</p></dd>
 
 
 <dt id="arg-storage-curve">storage_curve<a class="anchor" aria-label="anchor" href="#arg-storage-curve"></a></dt>
-<dd><p>a function that takes a numeric vector as input, and
-returns a numeric vector of the same length. Function that converts lake
-levels into lake <em>volumes</em>.</p></dd>
+<dd><p><code>[function]</code> <br> A function that converts lake levels into lake <em>volumes</em>. The function should take a single numeric vector as input, and should return a numeric vector of the same length as output. The numeric values for the default (linear) storage curve are taken from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
 
 
 <dt id="arg-petp-function">petp_function<a class="anchor" aria-label="anchor" href="#arg-petp-function"></a></dt>
-<dd><p>a function that takes two numeric vectors of common
-length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values (assumed to be
-expressed in millimiters) into an overall volume change (in  cube meters
-when the inputs are given in the expected units).</p></dd>
+<dd><p><code>[function]</code> <br> A function that converts values of precipitation and evapotranspiration per unit area (assumed to be expressed in millimiters) into volume changes for the Albufera lake (in cube meters when the inputs are given in the expected units). This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -88,12 +83,7 @@ when the inputs are given in the expected units).</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The numeric inputs for the linear storage curve are taken from the CHJ report
-<a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link">modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.</a>.
-The values used as the arguments of <code>petp_function()</code> were calculated by the
-package authors, and correspond to the total study area (<code>surface_P</code>) and
-the flooded surface (<code>surface_ETP</code>).</p>
-<p>The output data.frame of the calculated HBA layer contains a copy of the
+    <p>The output data.frame of the calculated HBA layer contains a copy of the
 input data, as well as the following additional columns:</p><ul><li><p><code>volume</code> Volume time series, obtained from the storage curve.</p></li>
 <li><p><code>volume_change</code> Differenced time series of volume. The \(n\)-th is given
 by \(\Delta V _n \equiv V_{n+1}-V_n\), where \(V_n\) is volume at time

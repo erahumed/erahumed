@@ -15,7 +15,7 @@ Martínez-Megías et al. (2023)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ Martínez-Megías et al. (2023)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Albufera Management Data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.4/R/docs--data.R" class="external-link"><code>R/docs--data.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/docs--data.R" class="external-link"><code>R/docs--data.R</code></a></small>
       <div class="d-none name"><code>albufera_management.Rd</code></div>
     </div>
 
@@ -66,35 +66,20 @@ the original source
 <h3 id="albufera-management"><code>albufera_management</code><a class="anchor" aria-label="anchor" href="#albufera-management"></a></h3>
 
 
-<p>The dataset has one row per day of year for all combinations of the
-categorical variables <code>tancat</code> and <code>variety</code>. The columns are the following:</p><dl><dt>mm</dt>
-<dd><p>numeric. Month of year (1 = January, 2 = February, <em>etc.</em>).</p></dd>
-
-<dt>dd</dt>
+<p>The cardinality of data is given by: one row per day of year (29th of Feb. included) and per combination of the categorical variables <code>tancat</code> and <code>variety</code>.The dataset features the following columns:</p><dl><dt>dd</dt>
 <dd><p>numeric. Day of month.</p></dd>
-
 <dt>tancat</dt>
-<dd><p>logical. Whether the paddy is a "tancat" or not.</p></dd>
-
+<dd><p>logical. Whether the paddy is a tancat or not.</p></dd>
 <dt>variety</dt>
-<dd><p>character. Variety of rice planted in the paddy under
-consideration.</p></dd>
-
+<dd><p>character. Rice variety of the paddy under consideration.</p></dd>
 <dt>sowing</dt>
 <dd><p>logical. Whether <code>mm</code> and <code>dd</code> correspond to the sowing day.</p></dd>
-
 <dt>ideal_irrigation</dt>
-<dd><p>logical. Whether the paddy is scheduled to be irrigated
-on this day.</p></dd>
-
+<dd><p>logical. Whether the paddy is scheduled to be irrigated on this day.</p></dd>
 <dt>ideal_draining</dt>
-<dd><p>logical. Whether the paddy is scheduled to be drained on
-this day.</p></dd>
-
+<dd><p>logical. Whether the paddy is scheduled to be drained on this day.</p></dd>
 <dt>ideal_height_eod_cm</dt>
-<dd><p>numeric. Scheduled water level of the paddy
-<em>at the end of the day</em> (that is, after irrigation and draining).</p></dd>
-
+<dd><p>numeric. Scheduled water level of the paddy <em>at the end of the day</em> (that is, after irrigation and draining).</p></dd>
 
 </dl></div>
 
