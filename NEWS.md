@@ -1,5 +1,11 @@
 # erahumed (development version)
 
+### New features
+
+* New function `erahumed_docs()` to interact with the ERAHUMED documentation as 
+an R object. Although this is part of the exported namespace, it is mainly added
+for future internal use.
+
 ### GUI
 
 * Data input modules are now able to handle Excel as well as CSV input and 
