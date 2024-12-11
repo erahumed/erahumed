@@ -26,30 +26,17 @@ layer_deps <- function(layer) {
   map[[layer]]
 }
 
-layer_desc <- function(layer) {
-  c(
-    inp = "INPut data",
-    hba = "Hydrological Balance of the Albufera lake",
-    hbp = "Hydrological Balance of rice Paddy clusters",
-    ca = "Chemical Applications",
-    ct = "Chemical Transport"
-  )[[layer]]
-}
-
 layer_title <- function(layer) {
 
   title <- paste0('<p>',
                   '<a href="https://erahumed.github.io/erahumed/reference/',
                   layer, '.html" target="_blank">', toupper(layer), '</a>',
-                  ': ', layer_desc(layer), '</p>'
+                  ': ', erahumed_docs("layers", layer, "title"), '</p>'
                   )
 }
 
 layer_params <- function(layer) {
-  fun_name <- paste0("setup_", layer)
-  fun <- get(fun_name, envir = asNamespace("erahumed"))
-  res <- names(formals(fun))
-  res[res != "simulation"]
+  erahumed_docs("layers", layer, "parameters") |> names()
 }
 
 # Node and edge customization
