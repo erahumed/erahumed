@@ -14,7 +14,8 @@ setup_inp(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}.}
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
 
 \item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \code{albufera_outflows} (the default value).}
 

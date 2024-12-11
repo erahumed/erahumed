@@ -5,10 +5,11 @@
 #' \link{erahumed_simulation_interface} for a detailed description of the
 #' simulation workflow.
 #'
-#' @param simulation An \link{erahumed_simulation}.
-#' @param layer Either `NULL` or a string. Instructs `run_simulation()` to
-#' compute all simulation layers until `layer`. The default (`NULL`) means to
-#' compute all layers.
+#' @param simulation `[`\link{erahumed_simulation}`]` \cr
+#' The simulation object containing the layers to be computed.
+#' @param layer `[character(1)|NULL]` \cr
+#' Instructs `run_simulation()` to compute all simulation layers until `layer`.
+#' The default (`NULL`) means to compute all layers.
 #'
 #' @return An \link{erahumed_simulation}.
 #'

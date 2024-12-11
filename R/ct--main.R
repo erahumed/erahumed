@@ -11,19 +11,18 @@
 #' The result is a set of time series of chemical masses, one for each
 #' applied chemical and for the three compartments: foliage, water and sediment.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#'
-#' @param drift `r erahumed_param_roxy("drift")`
-#' @param covmax `r erahumed_param_roxy("covmax")`
-#' @param jgrow `r erahumed_param_roxy("jgrow")`
-#' @param SNK `r erahumed_param_roxy("SNK")`
-#' @param dact_m `r erahumed_param_roxy("dact_m")`
-#' @param css_ppm `r erahumed_param_roxy("css_ppm")`
-#' @param foc `r erahumed_param_roxy("foc")`
-#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3")`
-#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day")`
-#' @param wilting `r erahumed_param_roxy("wilting")`
-#' @param fc `r erahumed_param_roxy("fc")`
+#' @inheritParams inp
+#' @param drift `r erahumed_param_roxy("drift", "ct")`
+#' @param covmax `r erahumed_param_roxy("covmax", "ct")`
+#' @param jgrow `r erahumed_param_roxy("jgrow", "ct")`
+#' @param SNK `r erahumed_param_roxy("SNK", "ct")`
+#' @param dact_m `r erahumed_param_roxy("dact_m", "ct")`
+#' @param css_ppm `r erahumed_param_roxy("css_ppm", "ct")`
+#' @param foc `r erahumed_param_roxy("foc", "ct")`
+#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3", "ct")`
+#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day", "ct")`
+#' @param wilting `r erahumed_param_roxy("wilting", "ct")`
+#' @param fc `r erahumed_param_roxy("fc", "ct")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

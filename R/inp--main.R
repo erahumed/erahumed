@@ -11,11 +11,12 @@
 #' This is the first layer of the simulation chain and does not have
 #' any upstream dependence.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#' @param outflows_df `r erahumed_param_roxy("outflows_df")`
-#' @param weather_df `r erahumed_param_roxy("weather_df")`
-#' @param variety_prop `r erahumed_param_roxy("variety_prop")`
-#' @param seed `r erahumed_param_roxy("seed")`
+#' @param simulation `[`\link{erahumed_simulation}`]` \cr
+#' The simulation object being modified.
+#' @param outflows_df `r erahumed_param_roxy("outflows_df", "inp")`
+#' @param weather_df `r erahumed_param_roxy("weather_df", "inp")`
+#' @param variety_prop `r erahumed_param_roxy("variety_prop", "inp")`
+#' @param seed `r erahumed_param_roxy("seed", "inp")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

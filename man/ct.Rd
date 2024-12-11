@@ -21,7 +21,8 @@ setup_ct(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}.}
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
 
 \item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Percentage of chemical applications lost to drift.}
 

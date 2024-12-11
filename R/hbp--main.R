@@ -20,10 +20,10 @@
 #' The data for the second input is stored internally in `{erahumed}`, and can
 #' be examined through the \link{info_clusters} helper.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#' @param management_df `r erahumed_param_roxy("management_df")`
-#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm")`
-#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm")`
+#' @inheritParams inp
+#' @param management_df `r erahumed_param_roxy("management_df", "hbp")`
+#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbp")`
+#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbp")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

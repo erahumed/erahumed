@@ -10,32 +10,44 @@
 #' A list.
 #'
 #' @export
-erahumed_param_docs <- function(param)
+erahumed_docs <- function(...)
 {
-  assert_string(param)
+  args <- list(...)
 
-  yml_path <- system.file("docs", "params.yml", package = "erahumed")
+  sapply(args, assert_string)
+
+  tags <- as.character(args)
+
+  yml_path <- system.file("docs", "docs.yml", package = "erahumed")
   docs <- yaml::read_yaml(yml_path)
 
-  res <- docs[[param]]
+  res <- docs
+  for (tag in tags) {
+    res <- res[[tag]]
+  }
 
-  if (is.null(res))
-    warning(paste0(
-      "No YML entry for parameter '", param, "' found at ", yml_path, "."
-      ))
+  if (is.null(res)) {
+    obj <- paste(tags, collapse = "/")
+    warning( paste0("No entry found for '", obj, "' found in ", yml_path, ".") )
+  }
 
   return(res)
 }
 
-erahumed_param_roxy <- function(param) {
-  docs <- erahumed_param_docs(param)
+erahumed_param_roxy <- function(param, layer) {
+  docs <- erahumed_docs(layer, "parameters", param)
 
-  if (is.null(docs))
-    return(paste(
+  if (is.null(docs[["description"]])) {
+    docs[["description"]] <- paste(
       "No description available.",
       "If you think this is a bug, please reach out to us by filing an issue",
       "[on Github](https://github.com/erahumed/erahumed/issues)."
-      ))
+    )
+  }
+
+  if (is.null(docs[["type"]])) {
+    docs[["type"]] <- "N.D."
+  }
 
   res <- paste0("`[", docs[["type"]], "]` \\cr ", docs[["description"]])
 
@@ -44,17 +56,10 @@ erahumed_param_roxy <- function(param) {
   return(res)
 }
 
-erahumed_dataset_format <- function(dataset){
-  yml_path <- system.file("docs", "params.yml", package = "erahumed")
-  docs <- yaml::read_yaml(yml_path)
-
-  docs <- docs[[dataset]]
+erahumed_dataset_format <- function(dataset, layer){
+  docs <- erahumed_docs(layer, "parameters", dataset)
 
   if (is.null(docs)) {
-    msg <- paste0(
-      "No YML entry for dataset '", dataset, "' found at ", yml_path, "."
-    )
-    warning(msg)
     res <- paste(
       "No format description available.",
       "If you think this is a bug, please reach out to us by filing an issue",

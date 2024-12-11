@@ -9,9 +9,9 @@
 #' as well as, if relevant, the amount of unaccounted outflow - usually
 #' attributed to *tancats* that suck water from the lake.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#' @param storage_curve `r erahumed_param_roxy("storage_curve")`
-#' @param petp_function `r erahumed_param_roxy("petp_function")`
+#' @inheritParams inp
+#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hba")`
+#' @param petp_function `r erahumed_param_roxy("petp_function", "hba")`
 #'
 #' @details
 #'

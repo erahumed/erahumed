@@ -12,7 +12,8 @@ setup_hba(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}.}
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
 
 \item{storage_curve}{\verb{[function]} \cr A function that converts lake levels into lake \emph{volumes}. The function should take a single numeric vector as input, and should return a numeric vector of the same length as output. The numeric values for the default (linear) storage curve are taken from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
