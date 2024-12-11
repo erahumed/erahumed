@@ -3,15 +3,18 @@
 #' Launches the ERAHUMED Decision Support System dashboard Shiny app.
 #'
 #' @export
-launch_app <- function() {
-  shiny::runApp(shiny_app(), launch.browser = TRUE)
+launch_app <- function() launch_app_internal()
+
+# Old dashboard, for internal use only
+launch_app_internal <- function() {
+  shiny::runApp(shiny_app_internal(), launch.browser = TRUE)
 }
 
-shiny_app <- function() {
-  shiny::shinyApp(ui = shiny_ui, server = shiny_server)
+shiny_app_internal <- function() {
+  shiny::shinyApp(ui = shiny_ui_internal, server = shiny_server_internal)
 }
 
-shiny_ui <- function() {
+shiny_ui_internal <- function() {
   app_title <- paste0("ERAHUMED v", utils::packageVersion("erahumed"))
   favicon_path <- system.file("app/www/favicon.ico", package = "erahumed")
   favicon <- base64enc::dataURI(file = favicon_path, mime = "image/x-icon")
@@ -104,7 +107,7 @@ shiny_ui <- function() {
   shinydashboard::dashboardPage(header, sidebar, body)
 }
 
-shiny_server <- function(input, output, session) {
+shiny_server_internal <- function(input, output, session) {
 
   shared <- shiny::reactiveValues(
     selected_cluster_id = albufera_clusters$cluster_id[1]
