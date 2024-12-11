@@ -1,0 +1,231 @@
+layers:
+  inp:
+    title: "INPut data"
+    parameters:
+
+      outflows_df:
+        type: "data.frame"
+        description: >-
+          Time-series dataset that provides the observational hydrological data
+          on the Albufera lake, along the template of \link{albufera_outflows}
+          (the default value).
+        cardinality: >-
+          one row per day in the desired study frame.
+        columns:
+          date: >-
+            Date of measurement
+          level: >-
+            Lake level (in meters above sea level)
+          outflow_pujol: >-
+            Outflow at Pujol (meters cube per second)
+          outflow_perellonet: >-
+            Outflow at Perellonet (meters cube per second)
+          outflow_perello: >-
+            Outflow at Perello (meters cube per second)
+          is_imputed_level: >-
+            Whether the `level` value was imputed.
+          is_imputed_outflow: >-
+            Whether (any of) the outflows were imputed.
+
+      weather_df:
+        type: "data.frame"
+        description: >-
+          A dataset that provides the relevant metereological time series, along
+          the template of \link{albufera_weather} (the default value).
+        cardinality: >-
+          one row per day in the desired study frame.
+        columns:
+          date: >-
+            Date of measurement
+          temperature_ave: >-
+            Average temperature.
+          temperature_min: >-
+            Minimum temperature.
+          temperature_max: >-
+            Maximum temperature.
+          precipitation_mm: >-
+            Daily precipitation in millimiters.
+          evapotranspiration_mm: >-
+            Daily evapotranspiration in millimiters.
+
+      variety_prop:
+        type: "numeric(3)"
+        description: >-
+          Vector of `3` positive values. Controls the proportions
+          of field surface allocated to the cultivation of the J. Sendra, Bomba,
+          and Clearfield varieties, respectively (positive vectors that do not
+          sum to one are allowed, with entries being understood as relative
+          proportions).
+
+      seed:
+        type: "numeric(1)"
+        description: >-
+          Seed for random number generation used by the simulation algorithms.
+
+
+
+  hba:
+    title: "Hydrological Balance of the Albufera lake"
+    parameters:
+
+      storage_curve:
+        type: "function"
+        description: >-
+          A function that converts lake levels into lake *volumes*.
+          The function should take a single numeric vector as input, and should
+          return a numeric vector of the same length as output. The numeric
+          values for the default (linear) storage curve are taken from the CHJ
+          report [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+
+      petp_function:
+        type: "function"
+        description: >-
+          A function that converts values of precipitation and
+          evapotranspiration per unit area (assumed to be expressed in
+          millimiters) into volume changes for the Albufera lake (in cube
+          meters when the inputs are given in the expected units). This
+          function should take two numeric vectors of common length as inputs
+          (representing the precipitation and evapotranspiration time series,
+          respectively), and should return a numeric vector of the same length.
+          The numeric values used in the default (linear) function were
+          computed by the package authors, and correspond to the total study
+          area (consisting of the lake and irrigation ditches) and the flooded
+          fraction, that are relevant for precipitation and evapotranspiration
+          volume changes, respectively.
+
+
+
+  hbp:
+    title: "Hydrological Balance of rice Paddy clusters"
+    parameters:
+
+      management_df:
+        type: "data.frame"
+        description: >-
+          Dataset that provides the yearly schedule for irrigation and
+          draining, along the template of \link{albufera_management} (the
+          default value).
+        cardinality: >-
+          one row per day of year (29th of Feb. included) and per combination
+          of the categorical variables `tancat` and `variety`.
+        columns:
+          mm: >-
+            numeric. Month of year (1 = January, 2 = February, *etc.*).
+          dd: >-
+            numeric. Day of month.
+          tancat: >-
+            logical. Whether the paddy is a tancat or not.
+          variety: >-
+            character. Rice variety of the paddy under consideration.
+          sowing: >-
+            logical. Whether `mm` and `dd` correspond to the sowing day.
+          ideal_irrigation: >-
+            logical. Whether the paddy is scheduled to be irrigated on this day.
+          ideal_draining: >-
+            logical. Whether the paddy is scheduled to be drained on this day.
+          ideal_height_eod_cm: >-
+            numeric. Scheduled water level of the paddy *at the end of the day*
+            (that is, after irrigation and draining).
+
+      ideal_flow_rate_cm:
+        type: "numeric(1)"
+        description: >-
+          Ideal inflow/outflow of a cluster, for days in which the
+          cluster is scheduled to be in flux (*i.e.* when being simultaneously
+          irrigated and drained). Expressed in centimeters per day.
+
+      height_thresh_cm:
+        type: "numeric(1)"
+        description: >-
+          A positive number. Height threshold for water levels, below which a
+          cluster is considered to be emptied.
+
+
+
+  ca:
+    title: "Chemical Applications"
+    parameters:
+      ca_schedules_df:
+        type: "data.frame"
+        description: >-
+          A `data.frame` following the template of \link{albufera_ca_schedules}.
+        cardinality: >-
+          one row per scheduled application.
+        columns:
+          day: >-
+            numeric. Scheduled day, counted starting from the sowing day, for
+            the application under consideration.
+          rice_variety: >-
+            character. Rice variety for this specific application.
+          chemical: >-
+            character. Name of applied chemical.
+          kg_per_ha: >-
+            numeric. Amount of chemical applied, in kilograms per hectare.
+          application_type: >-
+            either `"ground"` or `"aerial"`. Application mode of the chemical
+            to rice paddies.
+
+
+
+  ct:
+    title: "Chemical Transport"
+    parameters:
+
+      drift:
+        type: "numeric(1)"
+        description: >-
+          A number between `0` and `1`. Percentage of chemical applications lost
+          to drift.
+
+      covmax:
+        type: "numeric(1)"
+        description: >-
+          A number between `0` and `1`. Interception potential of foliage at
+          crop maturation.
+
+      jgrow:
+        type: "numeric(1)"
+        description: >-
+          A positive integer. Length (in days) of crop maturation cycle.
+
+      SNK:
+        type: "numeric(1)"
+        description: >-
+          A number between `0` and `1`. (TODO).
+
+      dact_m:
+        type: "numeric(1)"
+        description: >-
+          A positive number. Active sediment layer depth, expressed in meters.
+
+      css_ppm:
+        type: "numeric(1)"
+        description: >-
+          A positive number. Suspended sediment concentration, expressed in
+          parts per million.
+
+      foc:
+        type: "numeric(1)"
+        description: >-
+          A number between `0` and `1`. Fraction of organic content.
+
+      bd_g_cm3:
+        type: "numeric(1)"
+        description: >-
+          A positive number. Bulk density of the sediment, expressed in grams
+          per cubic centimeter.
+
+      qseep_m_day:
+        type: "numeric(1)"
+        description: >-
+          A positive number. Seepage rate, expressed in meters per day.
+
+      wilting:
+        type: "numeric(1)"
+        description: >-
+          A number between `0` and `1`. Wilting point.
+
+      fc:
+        type: "numeric(1)"
+        description: >-
+          A number between `0` and `1`. Field capacity.

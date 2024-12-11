@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.12.4
+Version: 0.12.5
 Authors@R: c(
     person("Valerio", "Gherardi",
            email = "vgherard840@gmail.com", 
@@ -42,6 +42,7 @@ Imports:
     dygraphs,
     leaflet,
     readr,
+    readxl,
     sf,
     shiny,
     shinycssloaders,
@@ -49,7 +50,9 @@ Imports:
     stats,
     utils,
     withr,
-    xts
+    writexl,
+    xts,
+    yaml
 Depends: 
     R (>= 4.1.0)
 LazyData: true

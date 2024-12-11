@@ -45,10 +45,8 @@ inpUI <- function(id) {
     )
 }
 
-inpServer <- function(id, simulation, shared) {
+inpServer <- function(id, layers, shared) {
   shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
-
     weather_df <- csvInputServer("weather", erahumed::albufera_weather)
 
     outflows_df_raw <- csvInputServer("outflows", erahumed::albufera_outflows)
@@ -60,7 +58,7 @@ inpServer <- function(id, simulation, shared) {
     })
 
     res <- shiny::reactive({
-      simulation() |>
+      simulation_from_layers() |>
         setup_inp(outflows_df = outflows_df(),
                   weather_df = weather_df(),
                   seed = input$seed,
@@ -68,7 +66,8 @@ inpServer <- function(id, simulation, shared) {
                                    input$prop_bomba,
                                    input$prop_clearfield)
                   ) |>
-        run_simulation(layer = "inp")
+        run_simulation(layer = "inp") |>
+        get_layer("inp")
     })
 
     return(res)

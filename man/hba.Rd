@@ -12,17 +12,12 @@ setup_hba(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}.}
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
 
-\item{storage_curve}{a function that takes a numeric vector as input, and
-returns a numeric vector of the same length. Function that converts lake
-levels into lake \emph{volumes}.}
+\item{storage_curve}{\verb{[function]} \cr A function that converts lake levels into lake \emph{volumes}. The function should take a single numeric vector as input, and should return a numeric vector of the same length as output. The numeric values for the default (linear) storage curve are taken from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
-\item{petp_function}{a function that takes two numeric vectors of common
-length as inputs, and returns a numeric vector of the same length. Function
-that converts precipitation and evapotranspiration values (assumed to be
-expressed in millimiters) into an overall volume change (in  cube meters
-when the inputs are given in the expected units).}
+\item{petp_function}{\verb{[function]} \cr A function that converts values of precipitation and evapotranspiration per unit area (assumed to be expressed in millimiters) into volume changes for the Albufera lake (in cube meters when the inputs are given in the expected units). This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.}
 }
 \value{
 An objects of class \link{erahumed_simulation}.
@@ -34,12 +29,6 @@ as well as, if relevant, the amount of unaccounted outflow - usually
 attributed to \emph{tancats} that suck water from the lake.
 }
 \details{
-The numeric inputs for the linear storage curve are taken from the CHJ report
-\href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.}.
-The values used as the arguments of \code{petp_function()} were calculated by the
-package authors, and correspond to the total study area (\code{surface_P}) and
-the flooded surface (\code{surface_ETP}).
-
 The output data.frame of the calculated HBA layer contains a copy of the
 input data, as well as the following additional columns:
 \itemize{

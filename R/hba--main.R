@@ -9,22 +9,11 @@
 #' as well as, if relevant, the amount of unaccounted outflow - usually
 #' attributed to *tancats* that suck water from the lake.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#' @param storage_curve a function that takes a numeric vector as input, and
-#' returns a numeric vector of the same length. Function that converts lake
-#' levels into lake *volumes*.
-#' @param petp_function a function that takes two numeric vectors of common
-#' length as inputs, and returns a numeric vector of the same length. Function
-#' that converts precipitation and evapotranspiration values (assumed to be
-#' expressed in millimiters) into an overall volume change (in  cube meters
-#' when the inputs are given in the expected units).
+#' @inheritParams inp
+#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hba")`
+#' @param petp_function `r erahumed_param_roxy("petp_function", "hba")`
 #'
 #' @details
-#' The numeric inputs for the linear storage curve are taken from the CHJ report
-#' [modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA.](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
-#' The values used as the arguments of `petp_function()` were calculated by the
-#' package authors, and correspond to the total study area (`surface_P`) and
-#' the flooded surface (`surface_ETP`).
 #'
 #' The output data.frame of the calculated HBA layer contains a copy of the
 #' input data, as well as the following additional columns:

@@ -20,16 +20,10 @@
 #' The data for the second input is stored internally in `{erahumed}`, and can
 #' be examined through the \link{info_clusters} helper.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#' @param management_df A `data.frame` that provides the yearly schedule for
-#' irrigation and draining, that strictly follows the template of
-#' \link{albufera_management}.
-#' @param ideal_flow_rate_cm A positive number. Ideal inflow/outflow of a
-#' cluster, for days in which the cluster is scheduled to be in flux (*i.e.*
-#' when being simultaneously irrigated and drained) Expressed in centimeters
-#' per day.
-#' @param height_thresh_cm A positive number. Height threshold for water levels,
-#' below which a cluster is considered to be emptied.
+#' @inheritParams inp
+#' @param management_df `r erahumed_param_roxy("management_df", "hbp")`
+#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbp")`
+#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbp")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'

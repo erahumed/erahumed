@@ -8,12 +8,10 @@
 setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}.}
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
 
-\item{ca_schedules_df}{a \code{data.frame} following the template of
-\link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
-scheduled application. The semantics of columns are the same as in
-\link{albufera_ca_schedules}.}
+\item{ca_schedules_df}{\verb{[data.frame]} \cr A \code{data.frame} following the template of \link{albufera_ca_schedules}.}
 }
 \value{
 An objects of class \link{erahumed_simulation}.

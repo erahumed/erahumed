@@ -13,19 +13,14 @@ setup_hbp(
 )
 }
 \arguments{
-\item{simulation}{An object of class \link{erahumed_simulation}.}
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
 
-\item{management_df}{A \code{data.frame} that provides the yearly schedule for
-irrigation and draining, that strictly follows the template of
-\link{albufera_management}.}
+\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
 
-\item{ideal_flow_rate_cm}{A positive number. Ideal inflow/outflow of a
-cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.}
-when being simultaneously irrigated and drained) Expressed in centimeters
-per day.}
+\item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters per day.}
 
-\item{height_thresh_cm}{A positive number. Height threshold for water levels,
-below which a cluster is considered to be emptied.}
+\item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 }
 \value{
 An object of class \link{erahumed_simulation}.

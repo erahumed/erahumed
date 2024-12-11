@@ -11,27 +11,20 @@
 #' The result is a set of time series of chemical masses, one for each
 #' applied chemical and for the three compartments: foliage, water and sediment.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
+#' @inheritParams inp
+#' @param drift `r erahumed_param_roxy("drift", "ct")`
+#' @param covmax `r erahumed_param_roxy("covmax", "ct")`
+#' @param jgrow `r erahumed_param_roxy("jgrow", "ct")`
+#' @param SNK `r erahumed_param_roxy("SNK", "ct")`
+#' @param dact_m `r erahumed_param_roxy("dact_m", "ct")`
+#' @param css_ppm `r erahumed_param_roxy("css_ppm", "ct")`
+#' @param foc `r erahumed_param_roxy("foc", "ct")`
+#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3", "ct")`
+#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day", "ct")`
+#' @param wilting `r erahumed_param_roxy("wilting", "ct")`
+#' @param fc `r erahumed_param_roxy("fc", "ct")`
 #'
-#' @param drift A number between `0` and `1`. Percentage of chemical
-#' applications lost to drift.
-#' @param covmax A number between `0` and `1`. Interception potential of
-#' foliage at crop maturation.
-#' @param jgrow A positive integer. Length (in days) of crop maturation cycle.
-#' @param SNK A number between `0` and `1`. (TODO).
-#' @param dact_m A positive number. Active sediment layer depth, expressed in
-#' meters.
-#' @param css_ppm A positive number. Suspended sediment concentration, expressed
-#' in parts per million.
-#' @param foc A number between `0` and `1`. Fraction of organic content.
-#' @param bd_g_cm3 A positive number. Bulk density of the sediment, expressed in
-#' grams per cubic centimeter.
-#' @param qseep_m_day A positive number. Seepage rate, expressed in meters per
-#' day.
-#' @param wilting A number between `0` and `1`. Wilting point.
-#' @param fc A number between `0` and `1`. Field capacity.
-#'
-#' @return An objects of class \link{erahumed_simulation}.
+#' @return An object of class \link{erahumed_simulation}.
 #'
 #' @export
 setup_ct <- function(

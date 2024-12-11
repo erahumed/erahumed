@@ -13,7 +13,7 @@
 #'
 #' @export
 erahumed_layers <- function() {
-  c("inp", "hba", "hbp", "ca", "ct")
+  names(erahumed_docs("layers"))
 }
 
 upstream_layers <- function(layer) {

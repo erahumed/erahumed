@@ -1,3 +1,35 @@
+# erahumed 0.12.5
+
+### New features
+
+* New function `erahumed_docs()` to interact with the ERAHUMED documentation as 
+an R object. Although this is part of the exported namespace, it is mainly added
+for future internal use.
+
+### GUI
+
+* Data input modules are now able to handle Excel as well as CSV input and 
+output (#215).
+
+* Improved error messages of data input modules when the uploaded file does not
+have the correct column structure.
+
+### Documentation
+
+* Added tooltips with parameters descriptions to the 
+[pipeline-scheme vignette](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html).
+ 
+
+### Under the hoods
+
+* Shiny modules associated with the various model layers no longer receive 
+`erahumed_simulation` objects, but rather directly operate with `erahumed_layer` 
+objects. This makes code logic more transparent, both for the modules themselves
+as well as for the main application.
+
+* The documentation of layer parameters is now generated programmatically and
+can be read at run-time through the new helper `erahumed_docs()`.
+
 # erahumed 0.12.4
 
 ### Visualization

@@ -19,7 +19,7 @@ hbaUI <- function(id) {
                       )
         ),
 
-      dygraphs::dygraphOutput(ns("plot"))
+      dygraphs::dygraphOutput(ns("plot")) |> shinycssloaders::withSpinner()
 
       ),
 
@@ -57,36 +57,29 @@ hbaUI <- function(id) {
 
 }
 
-hbaServer <- function(id, simulation, shared) {
+hbaServer <- function(id, inp, shared) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Read setup stuff
-    #
     res <- shiny::reactive({
-      storage_curve <- function(level) {
+      storage_curve <- function(level)
         1e6 * input$sc_intercept + 1e6 * input$sc_slope * level
-      }
 
-      petp_function <- function(p, etp) {
+      petp_function <- function(p, etp)
         1e3 * input$p_surface * p - 1e3 * input$etp_surface * etp
-      }
 
-      simulation() |>
+      simulation_from_layers(inp = inp()) |>
         setup_hba(storage_curve = storage_curve, petp_function = petp_function) |>
-        run_simulation(layer = "hba")
+        run_simulation(layer = "hba") |>
+        get_layer("hba")
       })
 
-    output$plot <- dygraphs::renderDygraph({
-      res() |>
-        get_layer("hba") |>
-        plot(input$variable)
-      })
+    output$plot <- dygraphs::renderDygraph({ plot(res(), input$variable) })
 
     output$downloadData <- shiny::downloadHandler(
       filename = function() paste0("output-hba-", Sys.Date(), ".csv"),
-      content = \(file) readr::write_csv(get_layer_output(res(), "hba"), file)
-    )
+      content = \(file) readr::write_csv(get_layer_output(res()), file)
+      )
 
     return(res)
   })

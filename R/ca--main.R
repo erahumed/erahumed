@@ -9,11 +9,8 @@
 #' balance. The result is a set of time series of applied doses, one for each
 #' applied chemical.
 #'
-#' @param simulation An object of class \link{erahumed_simulation}.
-#' @param ca_schedules_df a `data.frame` following the template of
-#' \link{albufera_ca_schedules}. Each row of this data.frame corresponds to a
-#' scheduled application. The semantics of columns are the same as in
-#' \link{albufera_ca_schedules}.
+#' @inheritParams inp
+#' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df", "ca")`
 #'
 #' @return An objects of class \link{erahumed_simulation}.
 #'

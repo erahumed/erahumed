@@ -19,7 +19,6 @@ erahumed_simulation <- function() {
     setup_ct()
 }
 
-
 is_erahumed_simulation <- function(obj) {
   if (!is.list(obj))
     return(FALSE)

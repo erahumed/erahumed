@@ -7,22 +7,7 @@
 \format{
 \subsection{\code{albufera_management}}{
 
-The dataset has one row per day of year for all combinations of the
-categorical variables \code{tancat} and \code{variety}. The columns are the following:
-\describe{
-\item{mm}{numeric. Month of year (1 = January, 2 = February, \emph{etc.}).}
-\item{dd}{numeric. Day of month.}
-\item{tancat}{logical. Whether the paddy is a "tancat" or not.}
-\item{variety}{character. Variety of rice planted in the paddy under
-consideration.}
-\item{sowing}{logical. Whether \code{mm} and \code{dd} correspond to the sowing day.}
-\item{ideal_irrigation}{logical. Whether the paddy is scheduled to be irrigated
-on this day.}
-\item{ideal_draining}{logical. Whether the paddy is scheduled to be drained on
-this day.}
-\item{ideal_height_eod_cm}{numeric. Scheduled water level of the paddy
-\emph{at the end of the day} (that is, after irrigation and draining).}
-}
+The cardinality of data is given by: one row per day of year (29th of Feb. included) and per combination of the categorical variables \code{tancat} and \code{variety}.The dataset features the following columns:\describe{\item{mm}{numeric. Month of year (1 = January, 2 = February, \emph{etc.}).}\item{dd}{numeric. Day of month.}\item{tancat}{logical. Whether the paddy is a tancat or not.}\item{variety}{character. Rice variety of the paddy under consideration.}\item{sowing}{logical. Whether \code{mm} and \code{dd} correspond to the sowing day.}\item{ideal_irrigation}{logical. Whether the paddy is scheduled to be irrigated on this day.}\item{ideal_draining}{logical. Whether the paddy is scheduled to be drained on this day.}\item{ideal_height_eod_cm}{numeric. Scheduled water level of the paddy \emph{at the end of the day} (that is, after irrigation and draining).}}
 }
 }
 \source{
