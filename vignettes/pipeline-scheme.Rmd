@@ -18,36 +18,13 @@ knitr::opts_chunk$set(
 library(erahumed)
 library(visNetwork)
 
-# Layer info
-layer_deps <- function(layer) {
-  map <- list(
-    inp = character(), hba = "inp", hbp = "hba", ca = "hbp", ct = "ca"
-  )
-  map[[layer]]
-}
-
-layer_title <- function(layer) {
-
-  title <- paste0('<p>',
-                  '<a href="https://erahumed.github.io/erahumed/reference/',
-                  layer, '.html" target="_blank">', toupper(layer), '</a>',
-                  ': ', erahumed_docs("layers", layer, "title"), '</p>'
-                  )
-}
-
-layer_params <- function(layer) {
-  erahumed_docs("layers", layer, "parameters") |> names()
-}
-
-# Node and edge customization
-layer_color <- "#2222AA"
-param_color <- "#AA2222"
+layers_docs <- erahumed_docs("layers")
 
 add_node <- function(
     nodes_df,
     id,
     label,
-    group = c("layer", "param"),
+    group = c("layer", "parameter"),
     shape = "box",
     font = list(size = 14),
     x = NA,
@@ -60,79 +37,72 @@ add_node <- function(
   rbind(nodes_df, new_node)
 }
 
-add_layer_node <- function(
-    nodes_df,
-    id,
-    label,
-    y_step = 100
-    )
-{
-  y <-
-    if (nrow(nodes_df) == 0 || all(is.na(nodes_df$y)))
-      0
-    else
-      max(nodes_df$y, na.rm = TRUE) + y_step
-
-  nodes_df |>
-    add_node(id = id,
-             label = label,
-             group = "layer",
-             title = layer_title(label),
-             x = 0,
-             y = y,
-             font = list(size = 18),
-             fixed = TRUE
-             )
-}
-
-add_param_node <- function(
-    nodes_df,
-    id,
-    label
-)
-{
-  nodes_df |>
-    add_node(id = id,
-             label = label,
-             group = "param",
-             fixed = FALSE
-             )
-}
 
 add_edge <- function(edges_df, from, to, arrows) {
   rbind(edges_df, data.frame(from = from, to = to, arrows = arrows))
 }
 
-add_layer_edge <- function(edges_df, from, to) {
-  add_edge(edges_df, from = from, to = to, arrows = "to")
-}
-
-add_param_edge <- function(edges_df, from, to) {
-  add_edge(edges_df, from = from, to = to, arrows = "none")
-}
 
 # Create ERAHUMED graph
 create_erahumed_graph <- function() {
+  layers_docs <- erahumed_docs("layers")
+  
   nodes_df <- data.frame()
   edges_df <- data.frame()
-  current_node_id <- 1
-  for (layer in erahumed_layers()) {
+  
+  for (i in seq_along(layers_docs)) {
+    layer_id <- layer_name <- names(layers_docs)[[i]]
+    layer_web_url <- paste0("https://erahumed.github.io/erahumed/reference/", 
+                            layer_name, ".html")
+    
+    layer_title <- paste0('<p>',
+                          '<a href="', layer_web_url, '" target="_blank">', 
+                          toupper(layer_name), '</a>',
+                          ': ', layers_docs [[ i ]] [["title"]], '</p>'
+                          )
+    
+    y <- 100 * (i - 1)
+    
     # Add layer node
-    nodes_df <- nodes_df |> add_layer_node(current_node_id, layer)
-    layer_id <- current_node_id
-    current_node_id <- current_node_id + 1
-
-    # Add layer dependencies
-    for (dep in layer_deps(layer)) {
-      dep_id <- nodes_df$id[nodes_df$label == dep]
-      edges_df <- edges_df |> add_layer_edge(from = dep_id, to = layer_id)
+    nodes_df <- nodes_df |> add_node(id = layer_id,
+                                     label = toupper(layer_name),
+                                     group = "layer",
+                                     x = 0,
+                                     y = 100 * (i - 1),
+                                     fixed = TRUE,
+                                     title = layer_title
+                                     )
+    
+    # Add link to previous layer
+    if (i > 1) {
+      dep_id <- names(layers_docs)[[i - 1]]
+      edges_df <- edges_df |> add_edge(from = dep_id, 
+                                       to = layer_id, 
+                                       arrows = "to")
     }
-
-    # Add parameter nodes and edges
-    for (param in layer_params(layer)) {
-      nodes_df <- nodes_df |> add_param_node(current_node_id, param)
-      edges_df <- edges_df |> add_param_edge(from = current_node_id, to = layer_id)
-      current_node_id <- current_node_id + 1
+    
+    params_docs <- layers_docs[[i]][["parameters"]]
+    for (j in seq_along(params_docs)) {
+      param_name <- names(params_docs)[[j]]
+      param_id <- paste(layer_name, param_name, sep = "-")
+      param_title <- paste0("**`[", params_docs[[j]] [["type"]], "]`**:\n",
+                            params_docs [[j]] [["description"]]
+                            ) |>   
+        gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", x = _) |>
+        shiny::markdown()
+      
+      nodes_df <- nodes_df |> add_node(id = param_id,
+                                       label = param_name,
+                                       group = "parameter",
+                                       shape = "box",
+                                       font = list(size = 14),
+                                       x = NA,
+                                       y = NA,
+                                       fixed = FALSE,
+                                       title = param_title)
+      edges_df <- edges_df |> add_edge(from = param_id, 
+                                       to = layer_name, 
+                                       arrows = "none")
     }
   }
 

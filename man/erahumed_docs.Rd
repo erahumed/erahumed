@@ -4,13 +4,10 @@
 \alias{erahumed_docs}
 \title{ERAHUMED documentation as an R object}
 \usage{
-erahumed_docs(..., strip_roxy_links = TRUE)
+erahumed_docs(...)
 }
 \arguments{
 \item{...}{strings, keys of the documentation YAML tree.}
-
-\item{strip_roxy_links}{\code{TRUE} or \code{FALSE}. Whether to substitute roxygen2
-\verb{\link{}} macros with regular text.}
 }
 \value{
 A list or a character vector, depending on whether the keys passed through
