@@ -1,3 +1,108 @@
 dss_ui <- function() {
-  dss_ui_v0()
+
+
+  shinydashboard::menuSubItem(
+    "Bird's eye view on simulation layers",
+    href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
+    newtab = TRUE)
+
+
+  bslib::page_navbar(
+    title = dss_title(),
+    header = dss_header(),
+    footer = dss_footer(),
+    bslib::nav_panel(icon = shiny::icon("sliders"),
+                     title = "Input",
+                     shiny::p("Input content.")
+                     ),
+    bslib::nav_panel(icon = shiny::icon("chart-line"),
+                     title = "Output",
+                     shiny::p("Output content.")
+                     ),
+    bslib::nav_spacer(),
+    bslib::nav_menu(
+      icon = shiny::icon("question-circle"),
+      title = "Help",
+      align = "right",
+
+      bslib::nav_item(shiny::tags$a(
+        shiny::icon("globe"), "ERAHUMED Project Website",
+        href = "https://erahumed.com",
+        target = "_blank"
+        )),
+      bslib::nav_item(shiny::tags$hr(class = "nav-menu-hr")),
+      bslib::nav_item(shiny::tags$a(
+        shiny::icon("r-project"), "{erahumed} R Package Website",
+        href = "https://erahumed.github.io/erahumed",
+        target = "_blank")),
+      bslib::nav_item(shiny::tags$a(
+        shiny::icon("github"), "Report a bug",
+        href = "https://github.com/erahumed/erahumed/issues/new",
+        target = "_blank"
+        )),
+      bslib::nav_item(shiny::tags$hr(class = "nav-menu-hr")),
+      bslib::nav_item(shiny::tags$a(
+        "Bird's eye view on simulation layers",
+        href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
+        target = "_blank"
+      ))
+
+    )
+
+  )
+
+
+
+}
+
+
+
+dss_title <- function() {
+  paste0("ERAHUMED v", utils::packageVersion("erahumed"))
+}
+
+dss_favicon <- function() {
+  favicon_path <- system.file("app/www/favicon.ico", package = "erahumed")
+  favicon <- base64enc::dataURI(file = favicon_path, mime = "image/x-icon")
+  favicon_tag <- shiny::tags$head(
+    shiny::tags$link(rel = "icon", type = "image/x-icon", href = favicon)
+  )
+}
+
+dss_header <- function() {
+  shiny::tagList(
+    dss_favicon(),
+    shiny::tags$style(shiny::HTML("
+    .nav-menu-hr {
+      margin: 0.25rem 0;
+      border: 0;
+      border-top: 1px solid #666;
+    }
+  "))
+  )
+}
+
+dss_footer <- function() {
+  footer_style <- paste(
+    "position: fixed",
+    "bottom: 5px",
+    "right: 10px",
+    "font-size: 14px",
+    "color: gray",
+    "background-color: transparent",
+    sep = "; "
+  )
+
+  gpl3_hl <- shiny::a("GPL-3.0",
+                      href = "https://www.gnu.org/licenses/gpl-3.0.html",
+                      target = "_blank")
+
+  res <- shiny::tags$div(
+    shiny::p(dss_title(),
+             "was developed with ", shiny::icon("r-project"), "and Shiny,",
+             "by Valerio Gherardi.",
+             "License:", gpl3_hl
+             ),
+    style = footer_style
+    )
 }
