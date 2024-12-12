@@ -1,5 +1,6 @@
 dss_server <- function(input, output, session) {
-  output$map <- leaflet::renderLeaflet(plot_albufera_clusters())
+  output$map <- leaflet::renderLeaflet(plot_albufera_clusters()) |>
+    shiny::snapshotExclude()
 
   shiny::observeEvent(input$hide_map_card, {
     shinyjs::hide("map_card")
