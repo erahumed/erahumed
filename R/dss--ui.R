@@ -30,7 +30,7 @@ dss_ui <- function() {
         href = "https://erahumed.com",
         target = "_blank"
         )),
-      bslib::nav_item(shiny::tags$hr(class = "nav-menu-hr")),
+      nav_menu_hr(),
       bslib::nav_item(shiny::tags$a(
         shiny::icon("r-project"), "{erahumed} R Package Website",
         href = "https://erahumed.github.io/erahumed",
@@ -40,7 +40,7 @@ dss_ui <- function() {
         href = "https://github.com/erahumed/erahumed/issues/new",
         target = "_blank"
         )),
-      bslib::nav_item(shiny::tags$hr(class = "nav-menu-hr")),
+      nav_menu_hr(),
       bslib::nav_item(shiny::tags$a(
         "Bird's eye view on simulation layers",
         href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
@@ -55,7 +55,11 @@ dss_ui <- function() {
 
 }
 
-
+nav_menu_hr <- function() {
+  bslib::nav_item(shiny::tags$hr(
+    style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
+    ))
+}
 
 dss_title <- function() {
   paste0("ERAHUMED v", utils::packageVersion("erahumed"))
@@ -71,25 +75,16 @@ dss_favicon <- function() {
 
 dss_header <- function() {
   shiny::tagList(
-    dss_favicon(),
-    shiny::tags$style(shiny::HTML("
-    .nav-menu-hr {
-      margin: 0.25rem 0;
-      border: 0;
-      border-top: 1px solid #666;
-    }
-  "))
+    dss_favicon()
   )
 }
 
 dss_footer <- function() {
   footer_style <- paste(
-    "position: fixed",
-    "bottom: 5px",
-    "right: 10px",
+    "text-align: right",
+    "padding-right: 10px",
     "font-size: 14px",
     "color: gray",
-    "background-color: transparent",
     sep = "; "
   )
 
@@ -97,12 +92,14 @@ dss_footer <- function() {
                       href = "https://www.gnu.org/licenses/gpl-3.0.html",
                       target = "_blank")
 
-  res <- shiny::tags$div(
-    shiny::p(dss_title(),
-             "was developed with ", shiny::icon("r-project"), "and Shiny,",
-             "by Valerio Gherardi.",
-             "License:", gpl3_hl
-             ),
-    style = footer_style
+  r_icon <- shiny::icon("r-project")
+
+  shiny::tagList(
+    shiny::p(
+      dss_title(),
+      "was developed with ", r_icon, "and Shiny by Valerio Gherardi.",
+      "License:", gpl3_hl,
+      style = footer_style
     )
+  )
 }
