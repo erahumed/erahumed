@@ -47,26 +47,26 @@ dss_ui <- function() {
       title = "Help",
       align = "right",
 
-      bslib::nav_item(shiny::tags$a(
-        shiny::icon("globe"), "ERAHUMED Project Website",
+      bslib::nav_item(shiny_a(
+        text = "ERAHUMED Project Website",
         href = "https://erahumed.com",
-        target = "_blank"
+        icon = "globe"
         )),
       nav_menu_hr(),
-      bslib::nav_item(shiny::tags$a(
-        shiny::icon("r-project"), "{erahumed} R Package Website",
+      bslib::nav_item(shiny_a(
+        text = "{erahumed} R Package Website",
         href = "https://erahumed.github.io/erahumed",
-        target = "_blank")),
-      bslib::nav_item(shiny::tags$a(
-        shiny::icon("github"), "Report a bug",
+        icon = "r-project"
+        )),
+      bslib::nav_item(shiny_a(
+        text = "Report a bug",
         href = "https://github.com/erahumed/erahumed/issues/new",
-        target = "_blank"
+        icon = "github"
         )),
       nav_menu_hr(),
-      bslib::nav_item(shiny::tags$a(
-        "Bird's eye view on simulation layers",
-        href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
-        target = "_blank"
+      bslib::nav_item(shiny_a(
+        text = "Bird's eye view on simulation layers",
+        href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html"
       ))
 
     )
@@ -112,45 +112,18 @@ dss_footer <- function() {
     sep = "; "
   )
 
-  gpl3_hl <- shiny::a("GPL-3.0",
-                      href = "https://www.gnu.org/licenses/gpl-3.0.html",
-                      target = "_blank")
+  gpl3_hl <- shiny_a("GPL-3.0", "https://www.gnu.org/licenses/gpl-3.0.html")
 
   r_icon <- shiny::icon("r-project")
 
-  map_card <- bslib::card(
+  map_card <- close_card(
     full_screen = TRUE,
-    bslib::card_body(leaflet::leafletOutput("map"),
-                     shiny::actionButton("hide_map_card",
-                                         label = shiny::icon("times"),
-                                         class = "hide-map-btn",
-                                         title = "Close"),
-                     ),
+    leaflet::leafletOutput("map"),
     id = "map_card",
     style = "position: absolute; bottom: 50px; left: 50px; width: 300px;"
     )
 
   shiny::tagList(
-    shiny::tags$style(shiny::HTML("
-                                  .hide-map-btn {
-                                    position: absolute;
-                                    top: 5px;
-                                    right: 5px;
-                                    width: 30px; height: 30px;
-                                    border-radius: 50%;
-                                    border: none;
-                                    background-color: #ffffff;
-                                    color: #666;
-                                    font-size: 18px;
-                                    text-align: center;
-                                    padding: 0;
-                                    cursor: pointer;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    opacity: 0.6;
-                                    }
-                                  .hide-map-btn:hover { opacity: 1; }")),
     shiny::p(
       dss_title(),
       "was developed with ", r_icon, "and Shiny by Valerio Gherardi.",
