@@ -35,7 +35,8 @@ close_card <- function(...,
                                  display: flex;
                                  align-items: center;
                                  justify-content: center;
-                                 opacity: 0.6;",
+                                 opacity: 0.6;
+                                 z-index: 9999;",
                         onmouseover = "this.style.opacity=1;",
                         onmouseout = "this.style.opacity=0.6;",
                         title = "Hide")
