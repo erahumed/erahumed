@@ -36,6 +36,7 @@ URL: https://github.com/erahumed/erahumed, https://erahumed.github.io/erahumed/
 BugReports: https://github.com/erahumed/erahumed/issues
 Imports: 
     base64enc,
+    bslib,
     collapse,
     data.table,
     DT,
