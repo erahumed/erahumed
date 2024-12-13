@@ -1,8 +1,12 @@
-shiny_a <- function(text, href, icon = NULL, target = "_blank") {
-  if (!is.null(icon)) {
+shiny_icon <- function(icon) {
+  if (!is.null(icon))
     icon <- shiny::icon(icon)
-  }
-  shiny::a(icon, text, href = href, target = target)
+  return(icon)
+}
+
+
+shiny_a <- function(text, href, icon = NULL, target = "_blank") {
+  shiny::a(shiny_icon(icon), text, href = href, target = target)
 }
 
 close_card <- function(...,
@@ -52,4 +56,23 @@ close_card <- function(...,
               wrapper = wrapper,
               id = id
               )
+}
+
+
+# Helpers for bslib::page_navbar()-based UI.
+nav_action_link <- function(id, label, icon)
+  nav_item(shiny::actionLink(inputId = id,
+                             label = label,
+                             icon = shiny_icon(icon)
+                             ))
+
+nav_hyperlink <- function(text, href, icon = NULL)
+  nav_item(shiny_a(text = text,
+                   href = href,
+                   icon = icon))
+
+nav_menu_hr <- function() {
+  bslib::nav_item(shiny::tags$hr(
+    style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
+  ))
 }

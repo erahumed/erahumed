@@ -1,4 +1,7 @@
 dss_server <- function(input, output, session) {
+  dss_input_server("dss_input")
+  dss_output_server("dss_output")
+
   output$map <- leaflet::renderLeaflet(plot_albufera_clusters()) |>
     shiny::snapshotExclude()
 

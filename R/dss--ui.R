@@ -1,88 +1,40 @@
-dss_ui <- function() {
+#' @importFrom bslib nav_panel nav_item nav_menu nav_spacer page_navbar
+#' @importFrom shiny icon
 
+dss_ui <- function() page_navbar(
+  title = dss_title(),
+  header = dss_header(),
+  footer = dss_footer(),
 
-  shinydashboard::menuSubItem(
-    "Bird's eye view on simulation layers",
-    href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
-    newtab = TRUE)
+  nav_panel("Input", dss_input_ui("dss_input"), icon = icon("sliders")),
 
+  nav_panel("Output", dss_output_ui("dss_output"), icon = icon("chart-line")),
 
-  bslib::page_navbar(
-    title = dss_title(),
-    header = dss_header(),
-    footer = dss_footer(),
+  nav_spacer(),
 
-    bslib::nav_panel(
-      icon = shiny::icon("sliders"),
-      title = "Input",
-      shiny::p("Input content.")
-      ),
-
-    bslib::nav_panel(
-      icon = shiny::icon("chart-line"),
-      title = "Output",
-      shiny::p("Output content.")
+  nav_menu(icon = icon("wrench"), title = "Tools", align = "right",
+    nav_action_link("show_map_card", "Show map", icon = "map"),
+    nav_action_link("take_screenshot", "Screenshot", icon = "camera")
     ),
 
-    bslib::nav_spacer(),
+  nav_menu(icon = icon("question-circle"), title = "Help", align = "right",
 
-    bslib::nav_menu(
-      icon = shiny::icon("wrench"),
-      title = "Tools",
-      align = "right",
-      bslib::nav_item(
-        shiny::actionLink("show_map_card",
-                          "Show map",
-                          icon = shiny::icon("map") )
-        ),
-      bslib::nav_item(
-        shiny::actionLink("take_screenshot",
-                          "Screenshot",
-                          icon = shiny::icon("camera") )
-        )
-      ),
-
-    bslib::nav_menu(
-      icon = shiny::icon("question-circle"),
-      title = "Help",
-      align = "right",
-
-      bslib::nav_item(shiny_a(
-        text = "ERAHUMED Project Website",
-        href = "https://erahumed.com",
-        icon = "globe"
-        )),
-      nav_menu_hr(),
-      bslib::nav_item(shiny_a(
-        text = "{erahumed} R Package Website",
-        href = "https://erahumed.github.io/erahumed",
-        icon = "r-project"
-        )),
-      bslib::nav_item(shiny_a(
-        text = "Report a bug",
-        href = "https://github.com/erahumed/erahumed/issues/new",
-        icon = "github"
-        )),
-      nav_menu_hr(),
-      bslib::nav_item(shiny_a(
-        text = "Bird's eye view on simulation layers",
-        href = "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html"
-      ))
+    nav_hyperlink("ERAHUMED Project Website", "https://erahumed.com", icon = "globe"),
+    nav_menu_hr(),  # ---------------------------------
+    nav_hyperlink("{erahumed} R Package Website", "https://erahumed.github.io/erahumed", icon = "r-project"),
+    nav_hyperlink("Report a bug", "https://github.com/erahumed/erahumed/issues/new", icon = "github"),
+    nav_menu_hr(),  # ---------------------------------
+    nav_hyperlink("Bird's eye view on simulation layers",
+      "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
+      icon = NULL
+      )
 
     )
 
-  )
+)
 
 
 
-
-  }
-
-nav_menu_hr <- function() {
-  bslib::nav_item(shiny::tags$hr(
-    style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
-    ))
-}
 
 dss_title <- function() {
   paste0("ERAHUMED v", utils::packageVersion("erahumed"))
