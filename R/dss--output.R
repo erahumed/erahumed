@@ -4,7 +4,7 @@ dss_output_ui <- function(id) {
   shiny::p("Output content.")
 }
 
-dss_output_server <- function(id) {
+dss_output_server <- function(id, layers) {
   shiny::moduleServer(id, function(input, output, session) {
 
   })

@@ -1,5 +1,4 @@
 #' @importFrom bslib card card_header card_body card_footer
-#' @importFrom shiny column
 dss_input_ui <- function(id) {
   ns <- shiny::NS(id)
 
