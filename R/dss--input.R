@@ -31,11 +31,12 @@ dss_input_ui <- function(id) {
 
 dss_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    inp <- inp_input_server("inp")
-    hba <- hba_input_server("hba")
-    hbp <- hbp_input_server("hbp")
-    ca <- ca_input_server("ca")
-    ct <- ct_input_server("ct")
-
+    list(
+      inp = inp_input_server("inp"),
+      hba = hba_input_server("hba"),
+      hbp = hbp_input_server("hbp"),
+      ca = ca_input_server("ca"),
+      ct = ct_input_server("ct")
+      )
   })
 }
