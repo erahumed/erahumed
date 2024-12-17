@@ -1,10 +1,11 @@
-#' @importFrom bslib nav_panel nav_item nav_menu nav_spacer page_navbar
+#' @importFrom bslib nav_panel nav_item nav_menu nav_spacer
 #' @importFrom shiny icon
 
-dss_ui <- function() page_navbar(
+dss_ui <- function() bslib::page_navbar(
   title = dss_title(),
   header = dss_header(),
   footer = dss_footer(),
+  theme = bslib::bs_theme(),
 
   nav_panel("Input", dss_input_ui("dss_input"), icon = icon("sliders")),
 

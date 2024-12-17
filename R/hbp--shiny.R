@@ -1,3 +1,49 @@
+hbp_input_ui <- function(id) {
+  ns <- shiny::NS(id)
+
+  shiny::tagList(
+    shiny::numericInput(ns("ideal_flow_rate_cm"),
+                        "Ideal Flow Rate [cm]",
+                        value = 5,
+                        min = 0,
+                        max = 20,
+                        step = 0.5
+                        ),
+    shiny::numericInput(ns("height_thresh_cm"),
+                        "Height Threshold [cm]",
+                        value = 2,
+                        min = 0,
+                        max = 10,
+                        step = 0.1
+                        ),
+    shiny::actionButton(ns("open_management_df_modal"), "Setup Management DF")
+    )
+}
+
+hbp_input_server <- function(id) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    management_df <- csvInputServer("management", erahumed::albufera_management)
+    shiny::observeEvent(input$open_management_df_modal, {
+      shiny::showModal(shiny::modalDialog(
+        csvInputUI(ns("management")),
+        title = "Setup Management Dataset"
+      ))
+    })
+
+    shiny::reactive({
+      list(
+        ideal_flow_rate_cm = input$ideal_flow_rate_cm,
+        height_thresh_cm = input$height_thresh_cm,
+        management_df = management_df()
+      )
+    })
+
+
+  })
+}
+
 hbpUI <- function(id) {
   ns <- shiny::NS(id)
 

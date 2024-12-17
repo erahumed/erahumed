@@ -1,3 +1,69 @@
+inp_input_ui <- function(id) {
+  ns <- shiny::NS(id)
+
+  shiny::tagList(
+    shiny::numericInput(ns("seed"),
+                        "Seed for simulation",
+                        value = 840,
+                        step = 1),
+    shiny::numericInput(ns("prop_jsendra"),
+                        "Proportion of 'J.Sendra' variety",
+                        value = 8,
+                        min = 0,
+                        max = 10,
+                        step = 0.01),
+    shiny::numericInput(ns("prop_bomba"),
+                        "Proportion of 'Bomba' variety",
+                        value = 1,
+                        min = 0,
+                        max = 10,
+                        step = 0.01),
+    shiny::numericInput(ns("prop_clearfield"),
+                        "Proportion of 'Clearfield' variety",
+                        value = 1,
+                        min = 0,
+                        max = 10,
+                        step = 0.01),
+    shiny::actionButton(ns("open_outflows_df_modal"), "Setup Outflows DF"),
+    shiny::actionButton(ns("open_weather_df_modal"), "Setup Weather DF")
+
+  )
+}
+
+inp_input_server <- function(id) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    outflows_df <- csvInputServer("outflows", erahumed::albufera_outflows)
+    shiny::observeEvent(input$open_outflows_df_modal, {
+      shiny::showModal(shiny::modalDialog(
+        csvInputUI(ns("outflows")),
+        title = "Setup Outflows Dataset"
+      ))
+    })
+
+    weather_df <- csvInputServer("weather", erahumed::albufera_weather)
+    shiny::observeEvent(input$open_weather_df_modal, {
+      shiny::showModal(shiny::modalDialog(
+        csvInputUI(ns("weather")),
+        title = "Setup Weather Dataset"
+      ))
+    })
+
+    res <- shiny::reactive({
+      list(
+        variety_prop =
+          c(input$prop_jsendra, input$prop_bomba, input$prop_clearfield),
+        seed = input$seed,
+        outflows_df = outflows_df(),
+        weather_df = weather_df()
+      )
+    })
+
+    return(res)
+  })
+}
+
 inpUI <- function(id) {
   ns <- shiny::NS(id)
 
