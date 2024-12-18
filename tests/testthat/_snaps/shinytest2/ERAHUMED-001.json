@@ -19,6 +19,10 @@
     "dss_input-hbp-height_thresh_cm": 2,
     "dss_input-hbp-ideal_flow_rate_cm": 5,
     "dss_input-hbp-open_management_df_modal": 0,
+    "dss_input-inp-date_range": [
+      "2020-01-01",
+      "2020-12-31"
+    ],
     "dss_input-inp-open_outflows_df_modal": 0,
     "dss_input-inp-open_weather_df_modal": 0,
     "dss_input-inp-prop_bomba": 1,
