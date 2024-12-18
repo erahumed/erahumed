@@ -24,6 +24,10 @@ inp_input_ui <- function(id) {
                         min = 0,
                         max = 10,
                         step = 0.01),
+    shiny::dateRangeInput(inputId = ns("date_range"),
+                          label = "Date Range",
+                          start = as.Date("2020-01-01"),
+                          end = as.Date("2020-12-31")),
     shiny::actionButton(ns("open_outflows_df_modal"), "Setup Outflows DF"),
     shiny::actionButton(ns("open_weather_df_modal"), "Setup Weather DF")
 
@@ -34,7 +38,13 @@ inp_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    outflows_df <- csvInputServer("outflows", erahumed::albufera_outflows)
+    outflows_df_raw <- csvInputServer("outflows", erahumed::albufera_outflows)
+    outflows_df <- shiny::reactive({
+      res <- outflows_df_raw()
+      res <- res[res$date >= input$date_range[1], ]
+      res <- res[res$date <= input$date_range[2], ]
+      res
+      })
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("outflows")),
