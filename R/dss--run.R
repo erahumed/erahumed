@@ -1,8 +1,10 @@
 dss_run_server <- function(id, parameters) {
   shiny::moduleServer(id, function(input, output, session) {
 
-    inp <- shiny::reactive({
-      dss_run_layer(
+    res <- shiny::reactiveValues()
+
+    shiny::observe({
+      res$inp <- dss_run_layer(
         layers = list(),
         parameters = parameters$inp(),
         setup_fn = setup_inp,
@@ -10,43 +12,43 @@ dss_run_server <- function(id, parameters) {
         )
       })
 
-    hba <- shiny::reactive({
-      dss_run_layer(
-        layers = list(inp = inp()),
+    shiny::observe({
+      res$hba <- dss_run_layer(
+        layers = list(inp = res$inp),
         parameters = parameters$hba(),
         setup_fn = setup_hba,
         get = "hba"
         )
       })
 
-    hbp <- shiny::reactive({
-      dss_run_layer(
-        layers = list(inp = inp(), hba = hba()),
+    shiny::observe({
+      res$hbp <- dss_run_layer(
+        layers = list(inp = res$inp, hba = res$hba),
         parameters = parameters$hbp(),
         setup_fn = setup_hbp,
         get = "hbp"
         )
       })
 
-    ca <- shiny::reactive({
-      dss_run_layer(
-        layers = list(inp = inp(), hba = hba(), hbp = hbp()),
+    shiny::observe({
+      res$ca <- dss_run_layer(
+        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp),
         parameters = parameters$ca(),
         setup_fn = setup_ca,
         get = "ca"
       )
     })
 
-    ct <- shiny::reactive({
-      dss_run_layer(
-        layers = list(inp = inp(), hba = hba(), hbp = hbp(), ca = ca()),
+    shiny::observe({
+      res$ct <- dss_run_layer(
+        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp, ca = res$ca),
         parameters = parameters$ct(),
         setup_fn = setup_ct,
         get = "ct"
       )
     })
 
-    return( list(inp = inp, hba = hba, hbp = hbp, ca = ca, ct = ct) )
+    return( res )
 
   })
 }
