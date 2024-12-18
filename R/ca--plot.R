@@ -35,7 +35,16 @@ plot_erahumed_ca_cluster_view <- function(x, ...) {
 
   df <- get_layer_output(x)
 
-  cluster_data <- df[df$cluster_id == args$cluster_id, ]
+  cluster_id <- args$cluster_id
+  if (is.null(cluster_id)) {
+    cluster_id <- df$cluster_id[[1]]
+    warning(paste0(
+      "No cluster specified through the 'cluster_id' argument. ",
+      "Plotting cluster '", cluster_id, "'."
+    ))
+  }
+
+  cluster_data <- df[df$cluster_id == cluster_id, ]
 
   chemicals <- erahumed::albufera_ca_schedules |>
     (\(.) .[.$rice_variety == cluster_data$variety[[1]], ])() |>

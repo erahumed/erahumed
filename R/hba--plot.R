@@ -11,7 +11,7 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
-plot.erahumed_hba <- function(x, variable, ...) {
+plot.erahumed_hba <- function(x, variable = "inflow_total", ...) {
   df <- get_layer_output(x)
 
   plot_hba_argcheck(df, variable, ...)
