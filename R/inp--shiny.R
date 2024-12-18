@@ -48,7 +48,8 @@ inp_input_server <- function(id) {
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("outflows")),
-        title = "Setup Outflows Dataset"
+        title = "Setup Outflows Dataset",
+        size = "xl"
       ))
     })
 
@@ -56,7 +57,8 @@ inp_input_server <- function(id) {
     shiny::observeEvent(input$open_weather_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("weather")),
-        title = "Setup Weather Dataset"
+        title = "Setup Weather Dataset",
+        size = "xl"
       ))
     })
 

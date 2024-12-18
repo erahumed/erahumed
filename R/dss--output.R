@@ -6,13 +6,12 @@ dss_output_ui <- function(id) {
     bslib::layout_column_wrap(
       card(card_header("Hidrology"), card_body(
         dygraphs::dygraphOutput(ns("hba_plot")),
-        dygraphs::dygraphOutput(ns("hbp_plot"))
+        dygraphs::dygraphOutput(ns("ca_plot"))
         )),
       card(card_header("Chemicals"), card_body(
-        dygraphs::dygraphOutput(ns("ca_plot")),
         dygraphs::dygraphOutput(ns("ct_plot"))
         )),
-      card(card_header("Other things"), card_body( "Things." ))
+      card(card_header("Effects"), card_body( "Not yet implemented." ))
     )
   )
 }

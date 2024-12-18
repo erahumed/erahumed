@@ -28,7 +28,8 @@ hbp_input_server <- function(id) {
     shiny::observeEvent(input$open_management_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("management")),
-        title = "Setup Management Dataset"
+        title = "Setup Management Dataset",
+        size = "xl"
       ))
     })
 

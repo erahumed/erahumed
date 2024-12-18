@@ -15,7 +15,8 @@ ca_input_server <- function(id) {
     shiny::observeEvent(input$open_ca_schedules_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("applications")),
-        title = "Setup Applications Dataset"
+        title = "Setup Applications Dataset",
+        size = "xl"
       ))
     })
 
