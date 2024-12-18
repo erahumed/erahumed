@@ -1,6 +1,11 @@
 layers:
   inp:
     title: "INPut data"
+    description: >-
+      This layer sets up basic inputs for an ERAHUMED simulation, including
+      weather data, as well as essential information on the hydrology of the
+      Natural Park (Albufera lake levels and outflows).
+
     parameters:
 
       outflows_df:
@@ -66,6 +71,11 @@ layers:
 
   hba:
     title: "Hydrological Balance of the Albufera lake"
+    description: >-
+      This layer computes the hydrological balance of the Albufera lake,
+      complementing the input information on lake outflows and levels with an
+      estimate of the total inflow from irrigation ditches.
+
     parameters:
 
       storage_curve:
@@ -97,6 +107,12 @@ layers:
 
   hbp:
     title: "Hydrological Balance of rice Paddy clusters"
+    description: >-
+      This layer simulates the local hydrology (water depths, inflows and
+      outflows) of rice field clusters of the Albufera Natural Park, based on an
+      ideal yearly management plan for the irrigation and draining of rice
+      paddies.
+
     parameters:
 
       management_df:
@@ -144,6 +160,9 @@ layers:
 
   ca:
     title: "Chemical Applications"
+    description: >-
+      This layer computes the application days of chemicals to rice fields, in
+      agreement with the simulated hydrological balance of the latters.
     parameters:
       ca_schedules_df:
         type: "data.frame"
@@ -169,6 +188,10 @@ layers:
 
   ct:
     title: "Chemical Transport"
+    description: >-
+      This layer computes the temporal dynamics of chemicals' masses in rice
+      fields, in the three compartments of foliage, water and sediment.
+
     parameters:
 
       drift:
