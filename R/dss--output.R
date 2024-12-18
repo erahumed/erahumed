@@ -26,7 +26,3 @@ dss_output_server <- function(id, layers) {
   })
 }
 
-my_plot <- function(x) {
-  x <- cat("The class of", deparse(substitute(x)), "is", class(x))
-  plot(x)
-}
