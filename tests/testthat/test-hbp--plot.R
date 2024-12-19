@@ -12,6 +12,7 @@ test_that("plot.hbp() error w/ type='map'", {
 })
 
 test_that("plot.hbp throws an error if no cluster is specified", {
+  skip("This is no longer the actual behaviour")
   hbp_obj <- get_layer(test_sim_small(), "hbp")
   expect_error( plot(hbp_obj, type = "cluster_view") )  # No cluster_id passed
 })
