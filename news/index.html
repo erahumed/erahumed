@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.12.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.13.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,9 +34,28 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.12.5/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.13.0" id="erahumed-0130">erahumed 0.13.0<a class="anchor" aria-label="anchor" href="#erahumed-0130"></a></h2>
+<p>This release comes with a whole new Shiny GUI, modeled after the ideas discussed in <a href="https://github.com/erahumed/erahumed/issues/214" class="external-link">#214</a>. The GUI is still largely work in progress, but the various required improvements will be diluted in following releases to better organize work. The new app moves away from <a href="http://rstudio.github.io/shinydashboard/" class="external-link">shinydashboard</a>, instead using the layouts provided by the active <a href="https://rstudio.github.io/bslib/" class="external-link">bslib</a>, addressing <a href="https://github.com/erahumed/erahumed/issues/211" class="external-link">#211</a>.</p>
+<p>Specific changes are discussed below.</p>
+<div class="section level4">
+<h4 id="new-features-0-13-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-13-0"></a></h4>
+<ul><li>New Shiny app providing the GUI modeled after <a href="https://github.com/erahumed/erahumed/issues/214" class="external-link">#214</a>. This can be accessed via <code><a href="../reference/launch_dss.html">launch_dss()</a></code>.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="breaking-changes-0-13-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-13-0"></a></h4>
+<ul><li>
+<code>launch_app()</code> was replaced by <code>erahumed:::launch_dss_v0()</code>, which gives access to the old GUI (this is a provisional measure which is not guaranteed to be maintained in future).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="other-api-changes-0-13-0">Other API changes<a class="anchor" aria-label="anchor" href="#other-api-changes-0-13-0"></a></h4>
+<ul><li>
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> methods now always succeed with their default argument. Methods that require the specification of a cluster now choose the first one available in the output <code>data.frame</code>, whenever the <code>cluster_id</code> argument is missing.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.5" id="erahumed-0125">erahumed 0.12.5<a class="anchor" aria-label="anchor" href="#erahumed-0125"></a></h2>
 <div class="section level4">
@@ -497,7 +516,7 @@ corresponding functions of the HBP component. This ensures, in particular, that 
 </ul></div>
 <div class="section level4">
 <h4 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h4>
-<ul><li>Package data is prefixed everywhere in the code by the <code>erahumed::</code> NAMESPACE, so that executing this code without having the package attached does not lead to errors. In particular, calling <code><a href="../reference/launch_app.html">erahumed::launch_app()</a></code> without attaching <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> does no longer lead to an error.</li>
+<ul><li>Package data is prefixed everywhere in the code by the <code>erahumed::</code> NAMESPACE, so that executing this code without having the package attached does not lead to errors. In particular, calling <code>erahumed::launch_app()</code> without attaching <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> does no longer lead to an error.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-0-3-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-3-1"></a></h4>
@@ -666,7 +685,7 @@ corresponding functions of the HBP component. This ensures, in particular, that 
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1" id="erahumed-001">erahumed 0.0.1<a class="anchor" aria-label="anchor" href="#erahumed-001"></a></h2>
-<p>First release. Contains a draft of the utilities for hydrological balance data analysis, and a skeleton of the visualization app (currently invoked with <code><a href="../reference/launch_app.html">launch_app()</a></code>).</p>
+<p>First release. Contains a draft of the utilities for hydrological balance data analysis, and a skeleton of the visualization app (currently invoked with <code>launch_app()</code>).</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
