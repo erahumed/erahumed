@@ -4,7 +4,7 @@
 \alias{plot.erahumed_hba}
 \title{Plot HBA simulation layer output}
 \usage{
-\method{plot}{erahumed_hba}(x, variable, ...)
+\method{plot}{erahumed_hba}(x, variable = "inflow_total", ...)
 }
 \arguments{
 \item{x}{An object of class \code{hba}.}

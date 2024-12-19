@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.12.5
+Version: 0.13.0
 Authors@R: c(
     person("Valerio", "Gherardi",
            email = "vgherard840@gmail.com", 
@@ -36,6 +36,7 @@ URL: https://github.com/erahumed/erahumed, https://erahumed.github.io/erahumed/
 BugReports: https://github.com/erahumed/erahumed/issues
 Imports: 
     base64enc,
+    bslib,
     collapse,
     data.table,
     DT,
@@ -47,6 +48,7 @@ Imports:
     shiny,
     shinycssloaders,
     shinydashboard,
+    shinyjs,
     stats,
     utils,
     withr,

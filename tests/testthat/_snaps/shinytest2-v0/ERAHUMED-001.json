@@ -1,0 +1,43 @@
+{
+  "input": {
+    "ca-ca_schedules-file": null,
+    "ca-cluster_id": "02_Carrera_del_Saler0-2_0",
+    "ct-SNK": 0,
+    "ct-bd_g_cm3": 1.5,
+    "ct-cluster_id": "02_Carrera_del_Saler0-2_0",
+    "ct-covmax": 0.5,
+    "ct-css_ppm": 50,
+    "ct-dact_m": 0.1,
+    "ct-drift": 0,
+    "ct-fc": 0.35,
+    "ct-foc": 0.17,
+    "ct-jgrow": 152,
+    "ct-qseep_m_day": 0,
+    "ct-variable": "mass",
+    "ct-wilting": 0.24,
+    "hba-etp_surface": 79.361,
+    "hba-p_surface": 114.226,
+    "hba-sc_intercept": 16.7459,
+    "hba-sc_slope": 23.6577,
+    "hba-variable": "volume",
+    "hbp-cluster_id": "02_Carrera_del_Saler0-2_0",
+    "hbp-ideal_flow_rate_cm": 5,
+    "hbp-management-file": null,
+    "inp-date_range": [
+      "2020-01-01",
+      "2020-12-31"
+    ],
+    "inp-outflows-file": null,
+    "inp-prop_bomba": 1,
+    "inp-prop_clearfield": 1,
+    "inp-prop_jsendra": 8,
+    "inp-seed": 840,
+    "inp-weather-file": null
+  },
+  "output": {
+
+  },
+  "export": {
+
+  }
+}

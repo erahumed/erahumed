@@ -1,3 +1,30 @@
+# erahumed 0.13.0
+
+This release comes with a whole new Shiny GUI, modeled after the ideas 
+discussed in #214. The GUI is still largely work in progress, but the various
+required improvements will be diluted in following releases to better organize 
+work. The new app moves away from `{shinydashboard}`, instead using the layouts 
+provided by the active `{bslib}`, addressing #211.
+
+Specific changes are discussed below.
+
+### New features
+
+* New Shiny app providing the GUI modeled after #214. This can be accessed via
+`launch_dss()`.
+
+### Breaking changes
+
+* `launch_app()` was replaced by `erahumed:::launch_dss_v0()`, which gives 
+access to the old GUI (this is a provisional measure which is not guaranteed to
+be maintained in future).
+
+### Other API changes
+
+* `plot()` methods now always succeed with their default argument. Methods that
+require the specification of a cluster now choose the first one available in the 
+output `data.frame`, whenever the `cluster_id` argument is missing.
+ 
 # erahumed 0.12.5
 
 ### New features
