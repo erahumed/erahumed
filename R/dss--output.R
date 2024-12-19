@@ -19,7 +19,6 @@ dss_output_ui <- function(id) {
 dss_output_server <- function(id, layers) {
   shiny::moduleServer(id, function(input, output, session) {
     output$hba_plot <- dygraphs::renderDygraph(plot(layers$hba))
-    output$hbp_plot <- dygraphs::renderDygraph(plot(layers$hbp))
     output$ca_plot <- dygraphs::renderDygraph(plot(layers$ca))
     output$ct_plot <- dygraphs::renderDygraph(plot(layers$ct))
   })
