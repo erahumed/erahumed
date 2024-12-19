@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.13.0
 
 This release comes with a whole new Shiny GUI, modeled after the ideas 
 discussed in #214. The GUI is still largely work in progress, but the various
