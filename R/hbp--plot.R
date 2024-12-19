@@ -31,11 +31,17 @@ plot_erahumed_hbp_cluster_view <- function(x, ...) {
   args <- list(...)
   data <- get_layer_output(x)
 
-  if (!("cluster_id" %in% names(args))) {
-    stop("Please specify cluster to plot through the 'cluster_id' argument.")
+  cluster_id <- args$cluster_id
+
+  if (is.null(cluster_id)) {
+    cluster_id <- data$cluster_id[[1]]
+    warning(paste0(
+      "No cluster specified through the 'cluster_id' argument. ",
+      "Plotting cluster '", cluster_id, "'."
+      ))
   }
 
-  cluster_id <- args$cluster_id
+
   data_cluster <- data[data$cluster_id == cluster_id, ]
 
   # Prepare time series data

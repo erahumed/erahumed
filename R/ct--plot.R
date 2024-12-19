@@ -42,13 +42,20 @@ plot.erahumed_ct <- function(
 plot_ct_cluster_view_mass <- function(x, ...) {
   args <- list(...)
 
-  if ( !("cluster_id" %in% names(args)) )
-    stop("Please specify cluster to plot through the 'cluster_id' argument.")
+  df_raw <- get_layer_output(x)
 
-  df_raw <- get_layer_output(x) |>
-    (\(.) .[.$cluster_id == args$cluster_id, ])()
+  cluster_id <- args$cluster_id
+  if (is.null(cluster_id)) {
+    cluster_id <- df_raw$cluster_id[[1]]
+    warning(paste0(
+      "No cluster specified through the 'cluster_id' argument. ",
+      "Plotting cluster '", cluster_id, "'."
+    ))
+  }
 
-  dates <- unique(df_raw$da)
+  df_raw <- df_raw |>
+    (\(.) .[.$cluster_id == cluster_id, ])()
+
   chemicals <- unique(df_raw$chemical)
 
   df <- df_raw |>
@@ -85,13 +92,20 @@ plot_ct_cluster_view_mass <- function(x, ...) {
 }
 
 plot_ct_cluster_view_density <- function(x, ...) {
+  df <- get_layer_output(x)
   args <- list(...)
 
-  if ( !("cluster_id" %in% names(args)) )
-    stop("Please specify cluster to plot through the 'cluster_id' argument.")
+  cluster_id <- args$cluster_id
 
-  df <- get_layer_output(x)
-  df <- df[df$cluster_id == args$cluster_id, ]
+  if (is.null(cluster_id)) {
+    cluster_id <- df$cluster_id[[1]]
+    warning(paste0(
+      "No cluster specified through the 'cluster_id' argument. ",
+      "Plotting cluster '", cluster_id, "'."
+    ))
+  }
+
+  df <- df[df$cluster_id == cluster_id, ]
 
   chemicals <- unique(df$chemical)
 

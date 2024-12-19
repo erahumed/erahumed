@@ -1,33 +1,29 @@
-#' ERAHUMED Decision Support System dashboard
-#'
-#' Launches the ERAHUMED Decision Support System dashboard Shiny app.
-#'
-#' @export
-launch_app <- function() {
-  shiny::runApp(shiny_app(), launch.browser = TRUE)
+# Old dashboard, for internal use only
+launch_dss_v0 <- function() {
+  shiny::runApp(dss_v0(), launch.browser = TRUE)
 }
 
-shiny_app <- function() {
-  shiny::shinyApp(ui = shiny_ui, server = shiny_server)
+dss_v0 <- function() {
+  shiny::shinyApp(ui = dss_ui_v0, server = dss_server_v0)
 }
 
-shiny_ui <- function() {
+dss_ui_v0 <- function() {
   app_title <- paste0("ERAHUMED v", utils::packageVersion("erahumed"))
   favicon_path <- system.file("app/www/favicon.ico", package = "erahumed")
   favicon <- base64enc::dataURI(file = favicon_path, mime = "image/x-icon")
   favicon_tag <- shiny::tags$head(
     shiny::tags$link(rel = "icon", type = "image/x-icon", href = favicon)
-    )
+  )
   footer_style <-
     "position: fixed; bottom: 5px; right: 10px; font-size: 14px; color: gray; background-color: transparent;"
   footer <- shiny::tags$div(
     style = footer_style,
     shiny::p(paste0("ERAHUMED v", utils::packageVersion("erahumed")),
-    "was developed with ", shiny::icon("r-project"), "and Shiny,",
-    "by Valerio Gherardi.",
-    "License:", shiny::a("GPL-3.0",
-                         href = "https://www.gnu.org/licenses/gpl-3.0.html",
-                         target = "_blank")
+             "was developed with ", shiny::icon("r-project"), "and Shiny,",
+             "by Valerio Gherardi.",
+             "License:", shiny::a("GPL-3.0",
+                                  href = "https://www.gnu.org/licenses/gpl-3.0.html",
+                                  target = "_blank")
     )
   )
 
@@ -104,7 +100,7 @@ shiny_ui <- function() {
   shinydashboard::dashboardPage(header, sidebar, body)
 }
 
-shiny_server <- function(input, output, session) {
+dss_server_v0 <- function(input, output, session) {
 
   shared <- shiny::reactiveValues(
     selected_cluster_id = albufera_clusters$cluster_id[1]
@@ -120,8 +116,8 @@ shiny_server <- function(input, output, session) {
 
   output$map <- leaflet::renderLeaflet({
     plot_albufera_clusters(cluster_variety_map = vmap())
-    }) |>
-    # shiny::snapshotExclude() |>
+  }) |>
+    shiny::snapshotExclude() |>
     identity()
 
   shiny::observeEvent(input$map_shape_click, {

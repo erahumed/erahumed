@@ -6,9 +6,9 @@ csvInputUI <- function(id) {
                    ".xls", ".xlsx")
   upload_label <- "Upload dataset in CSV or Excel format"
 
-  shiny::fluidPage(
-    shiny::sidebarLayout(
-      shiny::sidebarPanel(
+  bslib::page_fluid(
+    bslib::layout_sidebar(
+      sidebar = bslib::sidebar(
         shiny::fileInput(ns("file"), upload_label, accept = file_accept),
         shiny::downloadButton(ns("downloadDataCSV"),
                               "Download as .csv",
@@ -18,8 +18,8 @@ csvInputUI <- function(id) {
                               "Download as .xlsx",
                               icon = shiny::icon("file-excel")
                               )
-      ),
-      shiny::mainPanel(DT::DTOutput(ns("contents")))
+        ),
+      DT::DTOutput(ns("contents"))
     )
   )
 
