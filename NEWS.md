@@ -6,7 +6,8 @@
 
 ### GUI Improvements
 
-* UI elements that take long to compute now show a spinner (#227)
+* UI elements that take long to compute now show a spinner (#227).
+* Restored selection of cluster from the Albufera interactive map (#229).
 
 ### Documentation
 

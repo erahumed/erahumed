@@ -4,7 +4,7 @@ dss_output_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::page_fillable(
     title = "Input",
-    shiny::selectInput("selected_cluster_id",
+    shiny::selectInput(ns("selected_cluster_id"),
                        label = "Select cluster",
                        choices = info_clusters()$cluster_id,
                        selected = info_clusters()$cluster_id[[1]]
@@ -22,8 +22,15 @@ dss_output_ui <- function(id) {
   )
 }
 
-dss_output_server <- function(id, layers) {
+dss_output_server <- function(id, layers, clicked_cluster_id) {
   shiny::moduleServer(id, function(input, output, session) {
+
+    shiny::observeEvent(clicked_cluster_id(), {
+      shiny::updateSelectInput(session,
+                               "selected_cluster_id",
+                               selected = clicked_cluster_id())
+    })
+
     output$hba_plot <- dygraphs::renderDygraph(plot(layers$hba))
     output$ca_plot <- dygraphs::renderDygraph(
       plot(layers$ca, cluster_id = input$selected_cluster_id)
