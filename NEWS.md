@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### New features
+
+* New screenshot feature in Shiny app (#230).
+
 # erahumed 0.13.0
 
 This release comes with a whole new Shiny GUI, modeled after the ideas 

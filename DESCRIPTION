@@ -49,6 +49,7 @@ Imports:
     shinycssloaders,
     shinydashboard,
     shinyjs,
+    shinyscreenshot,
     stats,
     utils,
     withr,

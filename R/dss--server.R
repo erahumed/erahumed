@@ -15,9 +15,8 @@ dss_server <- function(input, output, session) {
   })
 
   shiny::observeEvent(input$take_screenshot, {
-    shiny::showModal(shiny::modalDialog(
-      "This feature has not been implemented yet.",
-      title = shiny::p(shiny::icon("ban"), "Not implemented")
-      ))
+    timestr <- Sys.time() |> format() |> gsub("[^0-9]", "", x = _)
+    filename <- paste0("erahumed-screenshot-", timestr)
+    shinyscreenshot::screenshot(filename = filename)
     })
 }
