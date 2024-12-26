@@ -53,6 +53,7 @@ dss_favicon <- function() {
 dss_header <- function() {
   shiny::tagList(
     shinyjs::useShinyjs(),
+    sever::useSever(),
     dss_favicon()
   )
 }

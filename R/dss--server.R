@@ -31,4 +31,17 @@ dss_server <- function(input, output, session) {
     filename <- paste0("erahumed-screenshot-", timestr)
     shinyscreenshot::screenshot(filename = filename)
     })
+
+  sever::sever(
+    opacity = 0.8,
+    bg_color = "black",
+    html = sever::sever_default(
+      title = "Session Ended",
+      subtitle = paste0("You have been disconnected from the server. ",
+                        "Please check your internet connection and click ",
+                        "the button below to attempt to reconnect. If the ",
+                        "issue persists, please contact the administrators."),
+      button = "Reconnect",
+      button_class = "info"
+  ))
 }
