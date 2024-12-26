@@ -4,7 +4,6 @@
 #' @family simulation layers
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #' This simulation layer computes the evolution of chemicals applied to rice
 #' paddy clusters, based on the previously computed simulations for
 #' hydrological balance and chemicals application.
