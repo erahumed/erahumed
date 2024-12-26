@@ -7,7 +7,11 @@ dss_server <- function(input, output, session) {
                     layers = layers,
                     clicked_cluster_id = clicked_cluster_id)
 
-  output$map <- leaflet::renderLeaflet(plot_albufera_clusters()) |>
+  vmap <- shiny::reactive( get_layer_aux(layers$inp)[["cluster_variety_map"]] )
+
+  output$map <- leaflet::renderLeaflet(
+    plot_albufera_clusters(cluster_variety_map = vmap())
+    ) |>
     shiny::snapshotExclude()
 
   shiny::observeEvent(input$hide_map_card, {
