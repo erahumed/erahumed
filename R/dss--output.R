@@ -1,4 +1,5 @@
 #' @importFrom bslib card card_header card_body card_footer
+#' @importFrom shinycssloaders withSpinner
 dss_output_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::page_fillable(
@@ -10,11 +11,11 @@ dss_output_ui <- function(id) {
                        ),
     bslib::layout_column_wrap(
       card(card_header("Hidrology"), full_screen = TRUE,
-        dygraphs::dygraphOutput(ns("hba_plot")),
-        dygraphs::dygraphOutput(ns("ca_plot")),
+        dygraphs::dygraphOutput(ns("hba_plot")) |> withSpinner(),
+        dygraphs::dygraphOutput(ns("ca_plot")) |> withSpinner(),
         ),
       card(card_header("Chemicals"), full_screen = TRUE,
-        dygraphs::dygraphOutput(ns("ct_plot"))
+        dygraphs::dygraphOutput(ns("ct_plot")) |> withSpinner()
         ),
       card(card_header("Effects"), full_screen = TRUE, "Not yet implemented.")
     )

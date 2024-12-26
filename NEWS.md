@@ -4,6 +4,11 @@
 
 * New screenshot feature in Shiny app (#230).
 
+### GUI Improvements
+
+* UI elements that take long to compute now show a spinner (#227)
+
+
 # erahumed 0.13.0
 
 This release comes with a whole new Shiny GUI, modeled after the ideas 
