@@ -8,6 +8,10 @@
 
 * UI elements that take long to compute now show a spinner (#227)
 
+### Documentation
+
+* New "About" modal in Shiny app (#171).
+
 
 # erahumed 0.13.0
 

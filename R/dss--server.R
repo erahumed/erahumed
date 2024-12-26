@@ -14,6 +14,10 @@ dss_server <- function(input, output, session) {
     shinyjs::show("map_card")
   })
 
+  shiny::observeEvent(input$show_about_modal, {
+    shiny::showModal(dss_about_modal())
+  })
+
   shiny::observeEvent(input$take_screenshot, {
     timestr <- Sys.time() |> format() |> gsub("[^0-9]", "", x = _)
     filename <- paste0("erahumed-screenshot-", timestr)

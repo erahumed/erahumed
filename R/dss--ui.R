@@ -19,7 +19,8 @@ dss_ui <- function() bslib::page_navbar(
     ),
 
   nav_menu(icon = icon("question-circle"), title = "Help", align = "right",
-
+    nav_action_link("show_about_modal", "About this app", icon = "info"),
+    nav_menu_hr(),  # ---------------------------------
     nav_hyperlink("ERAHUMED Project Website", "https://erahumed.com", icon = "globe"),
     nav_menu_hr(),  # ---------------------------------
     nav_hyperlink("{erahumed} R Package Website", "https://erahumed.github.io/erahumed", icon = "r-project"),
