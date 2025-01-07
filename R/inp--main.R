@@ -38,27 +38,6 @@ setup_inp <- function(simulation,
                       seed = 840
                       )
 {
-  setup_layer(layer = "inp", validate_params = validate_inp_params)
-}
-
-compute_inp <- function(simulation)
-{
-  outflows_df <- get_layer_parameters(simulation, "inp")[["outflows_df"]]
-  weather_df <- get_layer_parameters(simulation, "inp")[["weather_df"]]
-  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
-  seed <- get_layer_parameters(simulation, "inp")[["seed"]]
-
-  cv_map <- withr::with_seed(seed, generate_clusters_variety(variety_prop))
-  simulation [["inp"]] [["aux"]] <- list( cluster_variety_map = cv_map )
-
-  simulation [["inp"]] [["output"]] <-
-    merge(outflows_df, weather_df, by = "date", sort = TRUE)
-
-  return(simulation)
-}
-
-validate_inp_params <- function(outflows_df, weather_df, variety_prop, seed)
-{
   tryCatch(
     {
       outflow_required_cols <- c("date",
@@ -89,4 +68,25 @@ validate_inp_params <- function(outflows_df, weather_df, variety_prop, seed)
       class(e) <- c("validate_inp_params_error", class(e))
       stop(e)
     })
+
+  setup_layer(layer = "inp")
 }
+
+
+
+compute_inp <- function(simulation)
+{
+  outflows_df <- get_layer_parameters(simulation, "inp")[["outflows_df"]]
+  weather_df <- get_layer_parameters(simulation, "inp")[["weather_df"]]
+  variety_prop <- get_layer_parameters(simulation, "inp")[["variety_prop"]]
+  seed <- get_layer_parameters(simulation, "inp")[["seed"]]
+
+  cv_map <- withr::with_seed(seed, generate_clusters_variety(variety_prop))
+  simulation [["inp"]] [["aux"]] <- list( cluster_variety_map = cv_map )
+
+  simulation [["inp"]] [["output"]] <-
+    merge(outflows_df, weather_df, by = "date", sort = TRUE)
+
+  return(simulation)
+}
+

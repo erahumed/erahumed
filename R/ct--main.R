@@ -41,24 +41,6 @@ setup_ct <- function(
     fc = 0.35
 )
 {
-  setup_layer(layer = "ct", validate_params = validate_ct_params)
-}
-
-
-validate_ct_params <- function(
-    drift,
-    covmax,
-    jgrow,
-    SNK,
-    dact_m,
-    css_ppm,
-    foc,
-    bd_g_cm3,
-    qseep_m_day,
-    wilting,
-    fc
-)
-{
   tryCatch({
     TRUE
   },
@@ -66,6 +48,8 @@ validate_ct_params <- function(
     class(e) <- c("validate_ct_params_error", class(e))
     stop(e)
   })
+
+  setup_layer(layer = "ct")
 }
 
 

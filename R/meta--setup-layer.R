@@ -1,13 +1,10 @@
-setup_layer <- function(layer = erahumed_layers(),
-                        validate_params = function(...) TRUE)
+setup_layer <- function(layer = erahumed_layers())
 {
   layer <- match.arg(layer)
 
   lst <- unpack_setup_call()
   simulation <- lst$simulation
   params <- lst$params
-
-  do.call(validate_params, params)
 
   simulation[[layer]] <-
     new_simulation_layer(params = params, layer_name = layer)

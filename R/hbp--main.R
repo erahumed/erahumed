@@ -84,7 +84,19 @@ setup_hbp <- function(
     height_thresh_cm = 2
 )
 {
-  setup_layer(layer = "hbp", validate_params = validate_hbp_params)
+  tryCatch(
+    {
+      assert_data.frame(management_df, template = erahumed::albufera_management)
+      assert_positive_number(ideal_flow_rate_cm)
+      assert_positive_number(height_thresh_cm)
+    },
+    error = function(e) {
+      class(e) <- c("validate_hbp_params_error", class(e))
+      stop(e)
+    }
+  )
+
+  setup_layer(layer = "hbp")
 }
 
 
@@ -114,25 +126,6 @@ compute_hbp <- function(simulation)
   simulation [["hbp"]] [["output"]] <- output
 
   return(simulation)
-}
-
-
-
-validate_hbp_params <- function(management_df,
-                                ideal_flow_rate_cm,
-                                height_thresh_cm)
-{
-  tryCatch(
-    {
-      assert_data.frame(management_df, template = erahumed::albufera_management)
-      assert_positive_number(ideal_flow_rate_cm)
-      assert_positive_number(height_thresh_cm)
-    },
-    error = function(e) {
-      class(e) <- c("validate_hbp_params_error", class(e))
-      stop(e)
-    }
-  )
 }
 
 

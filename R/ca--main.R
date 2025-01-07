@@ -23,8 +23,18 @@
 #' @export
 setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 {
-  setup_layer(layer = "ca", validate_params = validate_ca_params)
+  tryCatch({
+    assert_data.frame(ca_schedules_df,
+                      template = erahumed::albufera_ca_schedules)
+  },
+  error = function(e) {
+    class(e) <- c("validate_ca_params_error", class(e))
+    stop(e)
+  })
+
+  setup_layer(layer = "ca")
 }
+
 
 
 compute_ca <- function(simulation)
@@ -55,21 +65,6 @@ compute_ca <- function(simulation)
   simulation [["ca"]] [["output"]] <- output
 
   return(simulation)
-}
-
-
-
-
-validate_ca_params <- function(ca_schedules_df)
-{
-  tryCatch({
-    assert_data.frame(ca_schedules_df,
-                      template = erahumed::albufera_ca_schedules)
-  },
-  error = function(e) {
-    class(e) <- c("validate_ca_params_error", class(e))
-    stop(e)
-  })
 }
 
 
