@@ -38,14 +38,7 @@ setup_inp <- function(simulation,
                       seed = 840
                       )
 {
-  setup_layer(simulation = simulation,
-              layer = "inp",
-              outflows_df = outflows_df,
-              weather_df = weather_df,
-              variety_prop = variety_prop,
-              seed = seed,
-              validate_params = validate_inp_params
-              )
+  setup_layer(layer = "inp", validate_params = validate_inp_params)
 }
 
 compute_inp <- function(simulation)

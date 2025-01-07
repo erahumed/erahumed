@@ -41,20 +41,7 @@ setup_ct <- function(
     fc = 0.35
 )
 {
-  setup_layer(simulation = simulation,
-              layer = "ct",
-              drift = drift,
-              covmax = covmax,
-              jgrow = jgrow,
-              SNK = SNK,
-              dact_m = dact_m,
-              css_ppm = css_ppm,
-              foc = foc,
-              bd_g_cm3 = bd_g_cm3,
-              qseep_m_day = qseep_m_day,
-              wilting = wilting,
-              fc = fc,
-              validate_params = validate_ct_params)
+  setup_layer(layer = "ct", validate_params = validate_ct_params)
 }
 
 

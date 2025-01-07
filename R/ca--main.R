@@ -23,10 +23,7 @@
 #' @export
 setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 {
-  setup_layer(simulation = simulation,
-              layer = "ca",
-              ca_schedules_df = ca_schedules_df,
-              validate_params = validate_ca_params)
+  setup_layer(layer = "ca", validate_params = validate_ca_params)
 }
 
 

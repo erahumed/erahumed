@@ -44,12 +44,7 @@ setup_hba <- function(
     petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
 )
 {
-  setup_layer(simulation = simulation,
-              layer = "hba",
-              storage_curve = storage_curve,
-              petp_function = petp_function,
-              validate_params = validate_hba_params
-  )
+  setup_layer(layer = "hba", validate_params = validate_hba_params)
 }
 
 

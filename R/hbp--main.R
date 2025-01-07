@@ -84,13 +84,7 @@ setup_hbp <- function(
     height_thresh_cm = 2
 )
 {
-  setup_layer(simulation = simulation,
-              layer = "hbp",
-              management_df = management_df,
-              ideal_flow_rate_cm = ideal_flow_rate_cm,
-              height_thresh_cm = height_thresh_cm,
-              validate_params = validate_hbp_params
-              )
+  setup_layer(layer = "hbp", validate_params = validate_hbp_params)
 }
 
 
