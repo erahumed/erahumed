@@ -18,7 +18,7 @@ setup_layer <- function(layer = erahumed_layers(),
   return(simulation)
 }
 
-unpack_setup_call <- function(call) {
+unpack_setup_call <- function() {
   # This assumes unpack_setup_call() is always called by setup_layer(), which,
   # in turn, is always called by some actual layer's setup_*() function.
   pos <- -2
