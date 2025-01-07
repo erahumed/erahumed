@@ -40,6 +40,8 @@ setup_inp <- function(simulation,
 {
   tryCatch(
     {
+      assert_erahumed_simulation(simulation)
+
       outflow_required_cols <- c("date",
                                  "level",
                                  "is_imputed_level",

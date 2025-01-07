@@ -24,6 +24,7 @@
 setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 {
   tryCatch({
+    assert_erahumed_simulation(simulation)
     assert_data.frame(ca_schedules_df,
                       template = erahumed::albufera_ca_schedules)
   },

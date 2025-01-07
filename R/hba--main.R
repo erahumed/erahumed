@@ -46,6 +46,7 @@ setup_hba <- function(
 {
   tryCatch(
     {
+      assert_erahumed_simulation(simulation)
       assert_function(storage_curve, check = list(rep(0, 10)) )
       assert_function(petp_function, check = list(1:10, rep(3, 10)) )
     },

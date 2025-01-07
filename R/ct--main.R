@@ -42,7 +42,7 @@ setup_ct <- function(
 )
 {
   tryCatch({
-    TRUE
+    assert_erahumed_simulation(simulation)
   },
   error = function(e) {
     class(e) <- c("validate_ct_params_error", class(e))

@@ -86,6 +86,7 @@ setup_hbp <- function(
 {
   tryCatch(
     {
+      assert_erahumed_simulation(simulation)
       assert_data.frame(management_df, template = erahumed::albufera_management)
       assert_positive_number(ideal_flow_rate_cm)
       assert_positive_number(height_thresh_cm)
