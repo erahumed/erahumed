@@ -81,10 +81,10 @@ nav_menu_hr <- function() {
 
 # UI elements for erahumed parameters and dataset columns
 param_tooltip <- function(layer, param) {
-  desc <- erahumed_docs("layers", layer, "parameters", param, "description")
+  desc <- erahumed_docs("layers", layer, "parameters", param, "description") |>
+    strip_roxy_macros()
 
-  param_md <- desc |>
-    gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", x = _)
-
-  bslib::tooltip(shiny_icon("question-circle"), param_md, placement = "right")
+  bslib::tooltip(shiny_icon("question-circle"), desc, placement = "right")
 }
+
+
