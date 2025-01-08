@@ -1,0 +1,26 @@
+---
+title: "Hydrological model of the Albufera Natural Park"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{hydrology-scheme}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This schematic diagram represents the simplified hydrological model of the Albufera Natural Park employed by `{erahumed}`. The model highlights water flows across 
+three primary landscape elements: rice clusters, ditches, and the Albufera lake, 
+as depicted by the directional arrows. Key simplifying assumptions embedded in 
+the model and visually summarized in the diagram are as follows:
+
+* **Rice Clusters** Clusters are irrigated by external water sources and drain exclusively into the ditches. There is no direct hydrological interaction or 
+exchange between individual clusters.
+
+* **Ditches** Ditches collect water from the clusters and, potentially, from 
+additional external sources. They channel all inflows directly into the Albufera 
+lake.
+
+* **The Albufera Lake**
+The lake receives water exclusively from the ditches. While two types of outflow are considered, namely direct discharge to the sea and water recirculation to the rice fields, the latter is typically negligible^[Further details on this will be provided elsewhere.].
+
+
+ <img src='..\man\figures\hydrology_scheme.jpg' align="center" style="max-width: 100%; height: auto;"/>
