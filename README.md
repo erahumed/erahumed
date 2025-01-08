@@ -57,7 +57,7 @@ The graphical interface to the ERAHUMED DSS can be accessed through the
 following R command:
 
 ``` r
-erahumed::launch_app()
+erahumed::launch_dss()
 ```
 
 This will open the DSS dashboard in your default browser, from where you
@@ -130,11 +130,11 @@ get_layer(simulation, "hba")
 get_layer_parameters(simulation, "hba")
 #> $storage_curve
 #> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x000001e53a97a5d8>
+#> <environment: 0x0000028ee5a0c3e8>
 #> 
 #> $petp_function
 #> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x000001e53a97a5d8>
+#> <environment: 0x0000028ee5a0c3e8>
 get_layer_output(simulation, "hba") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
