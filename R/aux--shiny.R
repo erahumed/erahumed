@@ -76,3 +76,15 @@ nav_menu_hr <- function() {
     style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
   ))
 }
+
+
+
+# UI elements for erahumed parameters and dataset columns
+param_tooltip <- function(layer, param) {
+  desc <- erahumed_docs("layers", layer, "parameters", param, "description")
+
+  param_md <- desc |>
+    gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", x = _)
+
+  bslib::tooltip(shiny_icon("question-circle"), param_md, placement = "right")
+}

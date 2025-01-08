@@ -1,33 +1,50 @@
 inp_input_ui <- function(id) {
   ns <- shiny::NS(id)
 
+  tltp <- function(param) param_tooltip(layer = "inp", param = param)
+
+  date_range_tooltip <- bslib::tooltip(
+    shiny_icon("question-circle"),
+    "Date range constraining subsequent calculations and analyses.",
+    placement = "right"
+    )
+
   shiny::tagList(
     shiny::numericInput(ns("seed"),
-                        "Seed for simulation",
+                        shiny::p("Seed for simulation", tltp("seed")),
                         value = 840,
                         step = 1),
-    shiny::numericInput(ns("prop_jsendra"),
-                        "Proportion of 'J.Sendra' variety",
-                        value = 8,
-                        min = 0,
-                        max = 10,
-                        step = 0.01),
-    shiny::numericInput(ns("prop_bomba"),
-                        "Proportion of 'Bomba' variety",
-                        value = 1,
-                        min = 0,
-                        max = 10,
-                        step = 0.01),
-    shiny::numericInput(ns("prop_clearfield"),
-                        "Proportion of 'Clearfield' variety",
-                        value = 1,
-                        min = 0,
-                        max = 10,
-                        step = 0.01),
+
     shiny::dateRangeInput(inputId = ns("date_range"),
-                          label = "Date Range",
+                          label = shiny::p("Date Range", date_range_tooltip),
+
                           start = as.Date("2020-01-01"),
                           end = as.Date("2020-12-31")),
+
+    shiny::div(
+      shiny::p(shiny::strong("Rice variety proportions"), tltp("variety_prop")),
+      shiny::numericInput(ns("prop_jsendra"),
+                          "Proportion of 'J.Sendra'",
+                          value = 8,
+                          min = 0,
+                          max = 10,
+                          step = 0.01),
+      shiny::numericInput(ns("prop_bomba"),
+                          "Proportion of 'Bomba' variety",
+                          value = 1,
+                          min = 0,
+                          max = 10,
+                          step = 0.01),
+      shiny::numericInput(ns("prop_clearfield"),
+                          "Proportion of 'Clearfield' variety",
+                          value = 1,
+                          min = 0,
+                          max = 10,
+                          step = 0.01),
+      style = "border: 1px solid lightgray; padding: 10px; margin: 5px;",
+      ),
+
+
     shiny::actionButton(ns("open_outflows_df_modal"), "Setup Outflows DF"),
     shiny::actionButton(ns("open_weather_df_modal"), "Setup Weather DF")
 

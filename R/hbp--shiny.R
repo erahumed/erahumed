@@ -1,16 +1,19 @@
 hbp_input_ui <- function(id) {
   ns <- shiny::NS(id)
 
+  tltp <- function(param) param_tooltip(layer = "hbp", param = param)
+
+
   shiny::tagList(
     shiny::numericInput(ns("ideal_flow_rate_cm"),
-                        "Ideal Flow Rate [cm]",
+                        shiny::p("Ideal Flow Rate [cm]", tltp("ideal_flow_rate_cm")),
                         value = 5,
                         min = 0,
                         max = 20,
                         step = 0.5
                         ),
     shiny::numericInput(ns("height_thresh_cm"),
-                        "Height Threshold [cm]",
+                        shiny::p("Height Threshold [cm]", tltp("height_thresh_cm")),
                         value = 2,
                         min = 0,
                         max = 10,
