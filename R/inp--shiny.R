@@ -60,6 +60,8 @@ inp_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    tltp <- function(param) param_tooltip(layer = "inp", param = param)
+
     outflows_df_raw <- csvInputServer("outflows", erahumed::albufera_outflows)
     outflows_df <- shiny::reactive({
       res <- outflows_df_raw()
@@ -70,7 +72,7 @@ inp_input_server <- function(id) {
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("outflows")),
-        title = "Setup Outflows Dataset",
+        title = shiny::p("Setup Outflows Dataset", tltp("outflows_df")),
         size = "xl"
       ))
     })
@@ -79,7 +81,7 @@ inp_input_server <- function(id) {
     shiny::observeEvent(input$open_weather_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("weather")),
-        title = "Setup Weather Dataset",
+        title = shiny::p("Setup Weather Dataset", tltp("weather_df")),
         size = "xl"
       ))
     })

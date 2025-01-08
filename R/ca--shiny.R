@@ -14,12 +14,14 @@ ca_input_ui <- function(id) {
 ca_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    tltp <- function(param) param_tooltip(layer = "ca", param = param)
+
 
     ca_schedules_df <- csvInputServer("applications", erahumed::albufera_ca_schedules)
     shiny::observeEvent(input$open_ca_schedules_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("applications")),
-        title = "Setup Applications Dataset",
+        title = shiny::p("Setup Applications Dataset", tltp("ca_schedules_df")),
         size = "xl"
       ))
     })

@@ -28,12 +28,13 @@ hbp_input_ui <- function(id) {
 hbp_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    tltp <- function(param) param_tooltip(layer = "hbp", param = param)
 
     management_df <- csvInputServer("management", erahumed::albufera_management)
     shiny::observeEvent(input$open_management_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(ns("management")),
-        title = "Setup Management Dataset",
+        title = shiny::p("Setup Management Dataset", tltp("management_df")),
         size = "xl"
       ))
     })
