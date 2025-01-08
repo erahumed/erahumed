@@ -162,9 +162,11 @@ plot_ct_max_boxplot <- function(x, ...) {
       idvar = c("cluster_id", "chemical"),
       direction = "long"
     ) |>
-    ggplot2::ggplot(ggplot2::aes(x = variable, y = value)) +
+    ggplot2::ggplot(ggplot2::aes(x = .data$variable, y = .data$value)) +
       ggplot2::geom_violin() +
       ggplot2::geom_boxplot(alpha = 0.5) +
       ggplot2::facet_wrap("chemical", scales = "free_y") +
+      ggplot2::xlab(NULL) +v
+      ggplot2::ylab("Density [Kg / m\u{00B3}]") +
       NULL
 }
