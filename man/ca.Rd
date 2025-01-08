@@ -11,7 +11,7 @@ setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
 The simulation object being modified.}
 
-\item{ca_schedules_df}{\verb{[data.frame]} \cr A \code{data.frame} following the template of \link{albufera_ca_schedules}.}
+\item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
 }
 \value{
 An objects of class \link{erahumed_simulation}.

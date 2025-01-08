@@ -167,7 +167,8 @@ layers:
       ca_schedules_df:
         type: "data.frame"
         description: >-
-          A `data.frame` following the template of \link{albufera_ca_schedules}.
+          A dataset that provides the list of scheduled chemical applications,
+          along the template of \link{albufera_ca_schedules}.
         cardinality: >-
           one row per scheduled application.
         columns:
