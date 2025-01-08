@@ -166,7 +166,7 @@ plot_ct_max_boxplot <- function(x, ...) {
       ggplot2::geom_violin() +
       ggplot2::geom_boxplot(alpha = 0.5) +
       ggplot2::facet_wrap("chemical", scales = "free_y") +
-      ggplot2::xlab(NULL) +v
+      ggplot2::xlab(NULL) +
       ggplot2::ylab("Density [Kg / m\u{00B3}]") +
       NULL
 }
