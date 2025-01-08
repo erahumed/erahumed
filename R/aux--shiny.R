@@ -81,8 +81,7 @@ nav_menu_hr <- function() {
 
 # UI elements for erahumed parameters and dataset columns
 param_tooltip <- function(layer, param) {
-  desc <- erahumed_docs("layers", layer, "parameters", param, "description") |>
-    strip_roxy_macros()
+  desc <- erahumed_param_desc(layer = layer, param = param, strip_roxy = TRUE)
 
   bslib::tooltip(shiny_icon("question-circle"), desc, placement = "right")
 }

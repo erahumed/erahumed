@@ -9,6 +9,9 @@ inp_input_ui <- function(id) {
     placement = "right"
     )
 
+  outflows_df_desc <- erahumed_param_desc("outflows_df", "inp", strip_roxy = T)
+  weather_df_desc <- erahumed_param_desc("weather_df", "inp", strip_roxy = T)
+
   shiny::tagList(
     shiny::numericInput(ns("seed"),
                         shiny::p("Seed for simulation", tltp("seed")),
@@ -45,9 +48,11 @@ inp_input_ui <- function(id) {
       ),
 
 
-    shiny::actionButton(ns("open_outflows_df_modal"), "Setup Outflows DF"),
-    shiny::actionButton(ns("open_weather_df_modal"), "Setup Weather DF")
 
+    shiny::actionButton(ns("open_outflows_df_modal"), "Setup Outflows DF") |>
+      bslib::tooltip(outflows_df_desc),
+    shiny::actionButton(ns("open_weather_df_modal"), "Setup Weather DF") |>
+      bslib::tooltip(weather_df_desc)
   )
 }
 

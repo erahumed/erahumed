@@ -3,6 +3,7 @@ hbp_input_ui <- function(id) {
 
   tltp <- function(param) param_tooltip(layer = "hbp", param = param)
 
+  management_df_desc <- erahumed_param_desc("management_df", "hbp", strip_roxy = T)
 
   shiny::tagList(
     shiny::numericInput(ns("ideal_flow_rate_cm"),
@@ -19,7 +20,8 @@ hbp_input_ui <- function(id) {
                         max = 10,
                         step = 0.1
                         ),
-    shiny::actionButton(ns("open_management_df_modal"), "Setup Management DF")
+    shiny::actionButton(ns("open_management_df_modal"), "Setup Management DF") |>
+      bslib::tooltip(management_df_desc)
     )
 }
 

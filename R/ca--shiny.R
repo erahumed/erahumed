@@ -1,8 +1,12 @@
 ca_input_ui <- function(id) {
   ns <- shiny::NS(id)
 
+  ca_schedules_df_desc <- erahumed_param_desc("ca_schedules_df", "ca", strip_roxy = T)
+
+
   shiny::tagList(
-    shiny::actionButton(ns("open_ca_schedules_df_modal"), "Setup Applications DF")
+    shiny::actionButton(ns("open_ca_schedules_df_modal"), "Setup Applications DF") |>
+      bslib::tooltip(ca_schedules_df_desc)
 
   )
 }

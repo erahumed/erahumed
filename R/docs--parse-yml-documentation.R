@@ -55,6 +55,15 @@ erahumed_param_roxy <- function(param, layer) {
   return(res)
 }
 
+erahumed_param_desc <- function(param, layer, strip_roxy = TRUE) {
+  res <- erahumed_docs("layers", layer, "parameters", param, "description")
+
+  if (strip_roxy)
+    res <- strip_roxy_macros(res)
+
+  return(res)
+}
+
 erahumed_dataset_format <- function(dataset, layer){
   docs <- erahumed_docs("layers", layer, "parameters", dataset)
 
