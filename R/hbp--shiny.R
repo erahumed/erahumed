@@ -33,7 +33,10 @@ hbp_input_server <- function(id) {
     management_df <- csvInputServer("management", erahumed::albufera_management)
     shiny::observeEvent(input$open_management_df_modal, {
       shiny::showModal(shiny::modalDialog(
-        csvInputUI(ns("management")),
+        csvInputUI(
+          ns("management"),
+          columns = erahumed_docs("layers", "hbp", "parameters", "management_df", "columns")
+        ),
         title = shiny::p("Setup Management Dataset", tltp("management_df")),
         size = "xl"
       ))

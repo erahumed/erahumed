@@ -71,7 +71,10 @@ inp_input_server <- function(id) {
       })
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
-        csvInputUI(ns("outflows")),
+        csvInputUI(
+          ns("outflows"),
+          columns = erahumed_docs("layers", "inp", "parameters", "outflows_df", "columns")
+          ),
         title = shiny::p("Setup Outflows Dataset", tltp("outflows_df")),
         size = "xl"
       ))
@@ -80,7 +83,10 @@ inp_input_server <- function(id) {
     weather_df <- csvInputServer("weather", erahumed::albufera_weather)
     shiny::observeEvent(input$open_weather_df_modal, {
       shiny::showModal(shiny::modalDialog(
-        csvInputUI(ns("weather")),
+        csvInputUI(
+          ns("weather"),
+          columns = erahumed_docs("layers", "inp", "parameters", "weather_df", "columns")
+          ),
         title = shiny::p("Setup Weather Dataset", tltp("weather_df")),
         size = "xl"
       ))
