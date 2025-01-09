@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.13.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.13.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/pipeline-scheme.html">Scheme of the simulation pipeline</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -34,7 +35,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Plot CT simulation layer output</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.13.0/R/ct--plot.R" class="external-link"><code>R/ct--plot.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/ct--plot.R" class="external-link"><code>R/ct--plot.R</code></a></small>
       <div class="d-none name"><code>plot.erahumed_ct.Rd</code></div>
     </div>
 
@@ -45,7 +46,12 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'erahumed_ct'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cluster_view"</span><span class="op">)</span>, variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mass"</span>, <span class="st">"density"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cluster_view"</span>, <span class="st">"max_boxplot"</span><span class="op">)</span>,</span>
+<span>  variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mass"</span>, <span class="st">"density"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,7 +68,8 @@
 
 
 <dt id="arg-variable">variable<a class="anchor" aria-label="anchor" href="#arg-variable"></a></dt>
-<dd><p>Variable to plot. Either "mass" or "density".</p></dd>
+<dd><p>Variable to plot for <code>"cluster_view"</code> type plots, either
+<code>"mass"</code> or <code>"density"</code>; ignored for other types of plots.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -76,10 +83,12 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The <code>"cluster_view"</code> plot produces a time series plot of the daily
-amounts of chemical (in Kg) present in the three compartments (foliage,
-water and sediment) of an individual cluster. In order to use this plotting
-method, the user must provide an additional <code>cluster_id</code> argument, a string
-specifying the identifier of the cluster whose levels are to be plotted.</p>
+total amounts or densities of chemical (in Kg) for an individual cluster.
+In order to use this plotting method, the user must provide an additional
+<code>cluster_id</code> argument, a string specifying the identifier of the cluster
+whose levels are to be plotted.</p>
+<p>The <code>"max_boxplot"</code> type plot produces a box plot of the maximum chemical
+densities (in Kg per cube meter) present in sediment, water and outflow.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
