@@ -1,3 +1,40 @@
+# erahumed (development version)
+
+### New features
+
+* New screenshot feature in Shiny app (#230).
+* New plot type for CT simulation outputs accessible via 
+`plot.erahumed_ct(type = "max_boxplot")`, which provides a visualization of the
+distribution of maximum pesticide concentration across clusters (#212). 
+
+### API improvements
+
+* Stricter argument validation for `management_df` of `setup_hbp()` (#216).
+
+### GUI Improvements
+
+* UI elements that take long to compute now show a spinner (#227).
+* Restored selection of cluster from the Albufera interactive map (#229).
+* Clusters in the Albufera interactive map are now color-coded by rice variety.
+* Added informative 'disconnected' screen using `{sever}` (#179).
+* Albufera map UI element is hidden on app startup (#226).
+
+### Documentation
+
+* Added informative tooltips for all model parameters in the Shiny app (#223).
+* Added column descriptions in the CSV input UI (#224).
+* New "About" modal in Shiny app (#171).
+* Add new vignette with the scheme of the model's hydrology.
+* Removed "experimental" badge from `?ct` documentation (#192).
+* Corrected typo in `launch_dss()` command in README (#241).
+* Improved description of `ca_schedules_df` parameter in `?ca`.
+
+### Under the hoods
+
+* Reduced code redundancy in `setup_*()` functions by capturing arguments of 
+function call and passing down directly to underlying `setup_layer()` (#179).
+* Moved argument validation of `setup_*()` functions to main body (close #205).
+
 # erahumed 0.13.0
 
 This release comes with a whole new Shiny GUI, modeled after the ideas 

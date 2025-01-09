@@ -4,7 +4,6 @@
 #' @family simulation layers
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #' This simulation layer computes the evolution of chemicals applied to rice
 #' paddy clusters, based on the previously computed simulations for
 #' hydrological balance and chemicals application.
@@ -42,44 +41,15 @@ setup_ct <- function(
     fc = 0.35
 )
 {
-  setup_layer(simulation = simulation,
-              layer = "ct",
-              drift = drift,
-              covmax = covmax,
-              jgrow = jgrow,
-              SNK = SNK,
-              dact_m = dact_m,
-              css_ppm = css_ppm,
-              foc = foc,
-              bd_g_cm3 = bd_g_cm3,
-              qseep_m_day = qseep_m_day,
-              wilting = wilting,
-              fc = fc,
-              validate_params = validate_ct_params)
-}
-
-
-validate_ct_params <- function(
-    drift,
-    covmax,
-    jgrow,
-    SNK,
-    dact_m,
-    css_ppm,
-    foc,
-    bd_g_cm3,
-    qseep_m_day,
-    wilting,
-    fc
-)
-{
   tryCatch({
-    TRUE
+    assert_erahumed_simulation(simulation)
   },
   error = function(e) {
     class(e) <- c("validate_ct_params_error", class(e))
     stop(e)
   })
+
+  setup_layer(layer = "ct")
 }
 
 

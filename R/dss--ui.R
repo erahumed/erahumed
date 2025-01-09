@@ -19,7 +19,8 @@ dss_ui <- function() bslib::page_navbar(
     ),
 
   nav_menu(icon = icon("question-circle"), title = "Help", align = "right",
-
+    nav_action_link("show_about_modal", "About this app", icon = "info"),
+    nav_menu_hr(),  # ---------------------------------
     nav_hyperlink("ERAHUMED Project Website", "https://erahumed.com", icon = "globe"),
     nav_menu_hr(),  # ---------------------------------
     nav_hyperlink("{erahumed} R Package Website", "https://erahumed.github.io/erahumed", icon = "r-project"),
@@ -52,6 +53,7 @@ dss_favicon <- function() {
 dss_header <- function() {
   shiny::tagList(
     shinyjs::useShinyjs(),
+    sever::useSever(),
     dss_favicon()
   )
 }
@@ -71,7 +73,7 @@ dss_footer <- function() {
 
   map_card <- close_card(
     full_screen = TRUE,
-    leaflet::leafletOutput("map"),
+    leaflet::leafletOutput("map") |> shinycssloaders::withSpinner(),
     id = "map_card",
     style = "position: absolute; bottom: 50px; left: 50px; width: 300px;"
     )
@@ -83,6 +85,9 @@ dss_footer <- function() {
       "License:", gpl3_hl,
       style = footer_style
     ),
-    map_card
+    map_card,
+    shiny::tags$head(shiny::tags$style(
+      shiny::HTML("#map_card { display: none; }")
+      ))
   )
 }

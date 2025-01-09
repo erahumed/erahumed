@@ -49,12 +49,19 @@ test_that("setup_hbp() error if invalid height_thresh_cm", {
 })
 
 test_that("setup_hbp() error for invalid 'management_df'", {
-  expect_error(
-    setup_hbp(test_sim_small(),
-              management_df = erahumed::albufera_management[,-1]
-              ),
-    class = "validate_hbp_params_error"
-    )
+  management_df <- erahumed::albufera_management[,-1]  # missing 'date' col
+
+  expect_error(setup_hbp(test_sim_small(), management_df = management_df),
+               class = "validate_hbp_params_error"
+               )
+})
+
+test_that("setup_hbp() error for invalid 'management_df' date interval", {
+  management_df <- erahumed::albufera_management[-(18:26),]  # missing days
+
+  expect_error(setup_hbp(test_sim_small(), management_df = management_df),
+               class = "validate_hbp_params_error"
+               )
 })
 
 test_that("HBP results depend on seed", {

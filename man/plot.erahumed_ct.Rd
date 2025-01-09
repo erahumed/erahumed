@@ -4,7 +4,12 @@
 \alias{plot.erahumed_ct}
 \title{Plot CT simulation layer output}
 \usage{
-\method{plot}{erahumed_ct}(x, type = c("cluster_view"), variable = c("mass", "density"), ...)
+\method{plot}{erahumed_ct}(
+  x,
+  type = c("cluster_view", "max_boxplot"),
+  variable = c("mass", "density"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{ct}.}
@@ -12,7 +17,8 @@
 \item{type}{Type of plot to be generated. Currently, only the
 \code{"cluster_view"} plot type is implemented.}
 
-\item{variable}{Variable to plot. Either "mass" or "density".}
+\item{variable}{Variable to plot for \code{"cluster_view"} type plots, either
+\code{"mass"} or \code{"density"}; ignored for other types of plots.}
 
 \item{...}{Further plotting parameters.}
 }
@@ -24,8 +30,11 @@ Plot method for \link{ct} simulation layers.
 }
 \details{
 The \code{"cluster_view"} plot produces a time series plot of the daily
-amounts of chemical (in Kg) present in the three compartments (foliage,
-water and sediment) of an individual cluster. In order to use this plotting
-method, the user must provide an additional \code{cluster_id} argument, a string
-specifying the identifier of the cluster whose levels are to be plotted.
+total amounts or densities of chemical (in Kg) for an individual cluster.
+In order to use this plotting method, the user must provide an additional
+\code{cluster_id} argument, a string specifying the identifier of the cluster
+whose levels are to be plotted.
+
+The \code{"max_boxplot"} type plot produces a box plot of the maximum chemical
+densities (in Kg per cube meter) present in sediment, water and outflow.
 }

@@ -1,4 +1,4 @@
-csvInputUI <- function(id) {
+csvInputUI <- function(id, columns = NULL) {
   ns <- shiny::NS(id)
   file_accept <- c("text/csv",
                    "text/comma-separated-values,text/plain",
@@ -6,7 +6,10 @@ csvInputUI <- function(id) {
                    ".xls", ".xlsx")
   upload_label <- "Upload dataset in CSV or Excel format"
 
+  page_header <- if (is.null(columns)) NULL else csv_input_header(columns)
+
   bslib::page_fluid(
+    page_header,
     bslib::layout_sidebar(
       sidebar = bslib::sidebar(
         shiny::fileInput(ns("file"), upload_label, accept = file_accept),
@@ -114,3 +117,16 @@ csv_try_assert_df <- function(df, template) {
 
 
 
+csv_input_header <- function(columns) {
+  assert_list(columns)
+
+  markdown_text <- paste0("* **", names(columns), "**: ", columns,
+                          collapse = "\n"
+                          ) |>
+    shiny::markdown()
+
+  shiny::tags$details(
+    shiny::tags$summary("See columns description"),
+    markdown_text
+  )
+}

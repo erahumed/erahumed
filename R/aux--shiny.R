@@ -54,7 +54,8 @@ close_card <- function(...,
               fill = fill,
               class = class,
               wrapper = wrapper,
-              id = id
+              id = id,
+              style = "z-index: 9999"
               )
 }
 
@@ -76,3 +77,14 @@ nav_menu_hr <- function() {
     style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
   ))
 }
+
+
+
+# UI elements for erahumed parameters and dataset columns
+param_tooltip <- function(layer, param) {
+  desc <- erahumed_param_desc(layer = layer, param = param, strip_roxy = TRUE)
+
+  bslib::tooltip(shiny_icon("question-circle"), desc, placement = "right")
+}
+
+

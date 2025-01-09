@@ -44,12 +44,19 @@ setup_hba <- function(
     petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
 )
 {
-  setup_layer(simulation = simulation,
-              layer = "hba",
-              storage_curve = storage_curve,
-              petp_function = petp_function,
-              validate_params = validate_hba_params
+  tryCatch(
+    {
+      assert_erahumed_simulation(simulation)
+      assert_function(storage_curve, check = list(rep(0, 10)) )
+      assert_function(petp_function, check = list(1:10, rep(3, 10)) )
+    },
+    error = function(e) {
+      class(e) <- c("validate_hba_params_error", class(e))
+      stop(e)
+    }
   )
+
+  setup_layer(layer = "hba")
 }
 
 
@@ -76,21 +83,6 @@ compute_hba <- function(simulation)
 
   simulation [["hba"]] [["output"]] <- output
   return(simulation)
-}
-
-
-
-validate_hba_params <- function(storage_curve, petp_function) {
-  tryCatch(
-    {
-      assert_function(storage_curve, check = list(rep(0, 10)) )
-      assert_function(petp_function, check = list(1:10, rep(3, 10)) )
-    },
-    error = function(e) {
-      class(e) <- c("validate_hba_params_error", class(e))
-      stop(e)
-    }
-  )
 }
 
 

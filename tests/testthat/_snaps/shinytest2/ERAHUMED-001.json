@@ -29,20 +29,10 @@
     "dss_input-inp-prop_clearfield": 1,
     "dss_input-inp-prop_jsendra": 8,
     "dss_input-inp-seed": 840,
+    "dss_output-selected_cluster_id": "02_Carrera_del_Saler0-2_0",
     "hide_map_card": 0,
-    "map_bounds": {
-      "north": 39.51781418588606,
-      "east": -0.14007568359375,
-      "south": 39.09276546806873,
-      "west": -0.5053710937500001
-    },
     "map_card_full_screen": false,
-    "map_center": {
-      "lng": -0.3232276500000087,
-      "lat": 39.30510777792975
-    },
-    "map_zoom": 10,
-    "selected_cluster_id": "02_Carrera_del_Saler0-2_0",
+    "show_about_modal": 0,
     "show_map_card": 0,
     "take_screenshot": 0
   },

@@ -1,9 +1,17 @@
 dss_server <- function(input, output, session) {
+  clicked_cluster_id <- shiny::reactive({ input$map_shape_click$id })
+
   parameters <- dss_input_server("dss_input")
   layers <- dss_run_server("dss_output", parameters = parameters)
-  dss_output_server("dss_output", layers = layers)
+  dss_output_server("dss_output",
+                    layers = layers,
+                    clicked_cluster_id = clicked_cluster_id)
 
-  output$map <- leaflet::renderLeaflet(plot_albufera_clusters()) |>
+  vmap <- shiny::reactive( get_layer_aux(layers$inp)[["cluster_variety_map"]] )
+
+  output$map <- leaflet::renderLeaflet(
+    plot_albufera_clusters(cluster_variety_map = vmap())
+    ) |>
     shiny::snapshotExclude()
 
   shiny::observeEvent(input$hide_map_card, {
@@ -14,10 +22,26 @@ dss_server <- function(input, output, session) {
     shinyjs::show("map_card")
   })
 
+  shiny::observeEvent(input$show_about_modal, {
+    shiny::showModal(dss_about_modal())
+  })
+
   shiny::observeEvent(input$take_screenshot, {
-    shiny::showModal(shiny::modalDialog(
-      "This feature has not been implemented yet.",
-      title = shiny::p(shiny::icon("ban"), "Not implemented")
-      ))
+    timestr <- Sys.time() |> format() |> gsub("[^0-9]", "", x = _)
+    filename <- paste0("erahumed-screenshot-", timestr)
+    shinyscreenshot::screenshot(filename = filename)
     })
+
+  sever::sever(
+    opacity = 0.8,
+    bg_color = "black",
+    html = sever::sever_default(
+      title = "Session Ended",
+      subtitle = paste0("You have been disconnected from the server. ",
+                        "Please check your internet connection and click ",
+                        "the button below to attempt to reconnect. If the ",
+                        "issue persists, please contact the administrators."),
+      button = "Reconnect",
+      button_class = "info"
+  ))
 }

@@ -50,7 +50,6 @@ The simulation object being modified.}
 An object of class \link{erahumed_simulation}.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 This simulation layer computes the evolution of chemicals applied to rice
 paddy clusters, based on the previously computed simulations for
 hydrological balance and chemicals application.

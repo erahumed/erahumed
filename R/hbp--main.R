@@ -84,13 +84,33 @@ setup_hbp <- function(
     height_thresh_cm = 2
 )
 {
-  setup_layer(simulation = simulation,
-              layer = "hbp",
-              management_df = management_df,
-              ideal_flow_rate_cm = ideal_flow_rate_cm,
-              height_thresh_cm = height_thresh_cm,
-              validate_params = validate_hbp_params
-              )
+  tryCatch(
+    {
+      assert_erahumed_simulation(simulation)
+
+      management_df_temp <- erahumed::albufera_management
+      assert_data.frame(management_df, template = management_df_temp)
+      dates <- paste(management_df$mm, management_df$dd)
+      dates_expected <- paste(management_df_temp$mm, management_df_temp$dd)
+      if (!setequal(unique(dates), unique(dates_expected))) {
+        msg <- paste(
+          "Provided 'management_df' has unexpected 'date' values.",
+          "Values should coincide with 'erahumed::albufera_management$date'"
+          )
+        stop(msg)
+      }
+
+      assert_positive_number(ideal_flow_rate_cm)
+      assert_positive_number(height_thresh_cm)
+
+    },
+    error = function(e) {
+      class(e) <- c("validate_hbp_params_error", class(e))
+      stop(e)
+    }
+  )
+
+  setup_layer(layer = "hbp")
 }
 
 
@@ -120,25 +140,6 @@ compute_hbp <- function(simulation)
   simulation [["hbp"]] [["output"]] <- output
 
   return(simulation)
-}
-
-
-
-validate_hbp_params <- function(management_df,
-                                ideal_flow_rate_cm,
-                                height_thresh_cm)
-{
-  tryCatch(
-    {
-      assert_data.frame(management_df, template = erahumed::albufera_management)
-      assert_positive_number(ideal_flow_rate_cm)
-      assert_positive_number(height_thresh_cm)
-    },
-    error = function(e) {
-      class(e) <- c("validate_hbp_params_error", class(e))
-      stop(e)
-    }
-  )
 }
 
 

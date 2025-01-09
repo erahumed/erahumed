@@ -59,7 +59,7 @@ The graphical interface to the ERAHUMED DSS can be accessed through the
 following R command:
 
 ```{r eval=FALSE, include=TRUE}
-erahumed::launch_app()
+erahumed::launch_dss()
 ```
 
 This will open the DSS dashboard in your default browser, from where you can 
