@@ -23,4 +23,4 @@ lake.
 The lake receives water exclusively from the ditches. While two types of outflow are considered, namely direct discharge to the sea and water recirculation to the rice fields, the latter is typically negligible^[Further details on this will be provided elsewhere.].
 
 
- <img src='..\man\figures\hydrology_scheme.jpg' align="center" style="max-width: 100%; height: auto;"/>
+ <img src='hydrology_scheme.jpg' align="center" style="max-width: 100%; height: auto;"/>
