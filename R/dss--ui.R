@@ -85,6 +85,9 @@ dss_footer <- function() {
       "License:", gpl3_hl,
       style = footer_style
     ),
-    map_card
+    map_card,
+    shiny::tags$head(shiny::tags$style(
+      shiny::HTML("#map_card { display: none; }")
+      ))
   )
 }
