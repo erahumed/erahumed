@@ -54,7 +54,8 @@ close_card <- function(...,
               fill = fill,
               class = class,
               wrapper = wrapper,
-              id = id
+              id = id,
+              style = "z-index: 9999"
               )
 }
 
