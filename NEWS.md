@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Documentation
+
+* Add `ct-diagram`: "Diagram of physical processes for chemical transport".
+
 ### Dependencies
 
 * Dropped `{shinydashboard}` Imports dependency.
