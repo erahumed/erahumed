@@ -49,7 +49,6 @@ Imports:
     sf,
     shiny,
     shinycssloaders,
-    shinydashboard,
     shinyjs,
     shinyscreenshot,
     stats,
