@@ -12,10 +12,11 @@ inp_input_ui <- function(id) {
   outflows_df_desc <- erahumed_param_desc("outflows_df", "inp", strip_roxy = T)
   weather_df_desc <- erahumed_param_desc("weather_df", "inp", strip_roxy = T)
 
+
   shiny::tagList(
     shiny::numericInput(ns("seed"),
                         shiny::p("Seed for simulation", tltp("seed")),
-                        value = formals(setup_inp)$seed,
+                        value = eval(formals(setup_inp)$seed),
                         step = 1),
 
     shiny::dateRangeInput(inputId = ns("date_range"),
@@ -28,19 +29,19 @@ inp_input_ui <- function(id) {
       shiny::p(shiny::strong("Rice variety proportions"), tltp("variety_prop")),
       shiny::numericInput(ns("prop_jsendra"),
                           "Proportion of 'J.Sendra'",
-                          value = formals(setup_inp)$variety_prop[[1]],
+                          value = eval(formals(setup_inp)$variety_prop)[[1]],
                           min = 0,
                           max = 10,
                           step = 0.01),
       shiny::numericInput(ns("prop_bomba"),
                           "Proportion of 'Bomba' variety",
-                          value = formals(setup_inp)$variety_prop[[2]],
+                          value = eval(formals(setup_inp)$variety_prop)[[2]],
                           min = 0,
                           max = 10,
                           step = 0.01),
       shiny::numericInput(ns("prop_clearfield"),
                           "Proportion of 'Clearfield' variety",
-                          value = formals(setup_inp)$variety_prop[[3]],
+                          value = eval(formals(setup_inp)$variety_prop)[[3]],
                           min = 0,
                           max = 10,
                           step = 0.01),
