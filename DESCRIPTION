@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.14.0
+Version: 0.14.1
 Authors@R: c(
     person("Valerio", "Gherardi",
            email = "vgherard840@gmail.com", 
@@ -49,7 +49,6 @@ Imports:
     sf,
     shiny,
     shinycssloaders,
-    shinydashboard,
     shinyjs,
     shinyscreenshot,
     stats,

@@ -1,3 +1,25 @@
+# erahumed 0.14.1
+
+### API changes
+
+* Changed `height_thresh_cm` default value to '0.5' (#242)
+
+### Documentation
+
+* Add `ct-diagram`: "Diagram of physical processes for chemical transport".
+
+### Dependencies
+
+* Dropped `{shinydashboard}` Imports dependency.
+
+### Under the hoods
+
+* Removed old DSS-v0 app and related server functions
+
+### Testing
+
+* Updated server tests for `<layer>_input_server()` servers
+
 # erahumed 0.14.0
 
 ### New features
