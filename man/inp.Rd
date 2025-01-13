@@ -43,6 +43,7 @@ Other simulation layers:
 \code{\link{ca}},
 \code{\link{ct}},
 \code{\link{hba}},
+\code{\link{hbd}},
 \code{\link{hbp}}
 }
 \concept{simulation layers}

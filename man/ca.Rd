@@ -29,6 +29,7 @@ provide the time series of applied doses, expressed in kilograms.
 Other simulation layers: 
 \code{\link{ct}},
 \code{\link{hba}},
+\code{\link{hbd}},
 \code{\link{hbp}},
 \code{\link{inp}}
 }

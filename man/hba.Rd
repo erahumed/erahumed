@@ -52,6 +52,7 @@ This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Del
 Other simulation layers: 
 \code{\link{ca}},
 \code{\link{ct}},
+\code{\link{hbd}},
 \code{\link{hbp}},
 \code{\link{inp}}
 }
