@@ -2,10 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  ct-diagram: ct-diagram.html
   erahumed-workflow: erahumed-workflow.html
   hydrology-scheme: hydrology-scheme.html
   pipeline-scheme: pipeline-scheme.html
-last_built: 2025-01-09T13:21Z
+last_built: 2025-01-13T07:33Z
 urls:
   reference: https://erahumed.github.io/erahumed/reference
   article: https://erahumed.github.io/erahumed/articles
