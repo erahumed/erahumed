@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.14.1
 
 ### API changes
 
