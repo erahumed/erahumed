@@ -3,7 +3,7 @@
 \name{inp}
 \alias{inp}
 \alias{setup_inp}
-\title{INP: Input data}
+\title{INPut data}
 \usage{
 setup_inp(
   simulation,
@@ -29,12 +29,7 @@ The simulation object being modified.}
 An object of class \link{erahumed_simulation}.
 }
 \description{
-This simulation layer has the only purpose to collect the observational (or,
-potentially, synthetic) data used by the algorithms of the ERAHUMED decision
-support system.
-
-This is the first layer of the simulation chain and does not have
-any upstream dependence.
+This layer sets up basic inputs for an ERAHUMED simulation, including weather data, as well as essential information on the hydrology of the Natural Park (Albufera lake levels and outflows).
 }
 \details{
 Both input \code{data.frame}s should have a \code{date} column (of class \link{Date}),

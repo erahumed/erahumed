@@ -3,7 +3,7 @@
 \name{hba}
 \alias{hba}
 \alias{setup_hba}
-\title{HBA: Hydrological Balance of the Albufera Lake}
+\title{Hydrological Balance of the Albufera lake}
 \usage{
 setup_hba(
   simulation,
@@ -23,10 +23,7 @@ The simulation object being modified.}
 An objects of class \link{erahumed_simulation}.
 }
 \description{
-This simulation layer completes the partial hydrological balance information
-provided as input data, by computing the total inflow to the Albufera lake,
-as well as, if relevant, the amount of unaccounted outflow - usually
-attributed to \emph{tancats} that suck water from the lake.
+This layer computes the hydrological balance of the Albufera lake, complementing the input information on lake outflows and levels with an estimate of the total inflow from irrigation ditches.
 }
 \details{
 The output data.frame of the calculated HBA layer contains a copy of the

@@ -1,15 +1,9 @@
-#' @title INP: Input data
+#' @title `r erahumed_docs("layers", "inp", "title")`
 #' @name inp
 #'
 #' @family simulation layers
 #'
-#' @description
-#' This simulation layer has the only purpose to collect the observational (or,
-#' potentially, synthetic) data used by the algorithms of the ERAHUMED decision
-#' support system.
-#'
-#' This is the first layer of the simulation chain and does not have
-#' any upstream dependence.
+#' @description `r erahumed_docs("layers", "inp", "description")`
 #'
 #' @param simulation `[`\link{erahumed_simulation}`]` \cr
 #' The simulation object being modified.

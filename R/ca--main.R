@@ -1,13 +1,9 @@
-#' @title CA: Chemical Applications
+#' @title `r erahumed_docs("layers", "ca", "title")`
 #' @name ca
 #'
 #' @family simulation layers
 #'
-#' @description
-#' This simulation layer simulates the application of chemicals to rice paddy
-#' clusters, based on a previously computed simulation of local hydrological
-#' balance. The result is a set of time series of applied doses, one for each
-#' applied chemical.
+#' @description `r erahumed_docs("layers", "ca", "description")`
 #'
 #' @inheritParams inp
 #' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df", "ca")`

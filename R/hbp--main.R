@@ -1,24 +1,9 @@
-#' @title HBP: Hydrological Balance of rice Paddies
+#' @title `r erahumed_docs("layers", "hbp", "title")`
 #' @name hbp
 #'
 #' @family simulation layers
 #'
-#' @description
-#' This simulation layer performs a simulation of hydrological balance
-#' daily data for the rice paddies of the Albufera National Park, that provides
-#' a synthetic dataset of daily inflows, outflows and average water levels for
-#' each rice paddy.
-#'
-#' The inputs to this simulation are:
-#' 1. The previously calculated hydrological balance for the Albufera lake.
-#' 1. A geographical subdivision of the Albufera National Park into "clusters"
-#' of rice paddies, of a definite rice variety, and whose waters flow into the
-#' same ditch.
-#' 1. An yearly ideal schedule for irrigation and draining, with corresponding
-#' expected water levels of a cluster for each day of the year.
-#'
-#' The data for the second input is stored internally in `{erahumed}`, and can
-#' be examined through the \link{info_clusters} helper.
+#' @description `r erahumed_docs("layers", "hbp", "description")`
 #'
 #' @inheritParams inp
 #' @param management_df `r erahumed_param_roxy("management_df", "hbp")`

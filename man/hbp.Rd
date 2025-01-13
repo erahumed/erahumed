@@ -3,7 +3,7 @@
 \name{hbp}
 \alias{hbp}
 \alias{setup_hbp}
-\title{HBP: Hydrological Balance of rice Paddies}
+\title{Hydrological Balance of rice Paddy clusters}
 \usage{
 setup_hbp(
   simulation,
@@ -26,23 +26,7 @@ The simulation object being modified.}
 An object of class \link{erahumed_simulation}.
 }
 \description{
-This simulation layer performs a simulation of hydrological balance
-daily data for the rice paddies of the Albufera National Park, that provides
-a synthetic dataset of daily inflows, outflows and average water levels for
-each rice paddy.
-
-The inputs to this simulation are:
-\enumerate{
-\item The previously calculated hydrological balance for the Albufera lake.
-\item A geographical subdivision of the Albufera National Park into "clusters"
-of rice paddies, of a definite rice variety, and whose waters flow into the
-same ditch.
-\item An yearly ideal schedule for irrigation and draining, with corresponding
-expected water levels of a cluster for each day of the year.
-}
-
-The data for the second input is stored internally in \code{{erahumed}}, and can
-be examined through the \link{info_clusters} helper.
+This layer simulates the local hydrology (water depths, inflows and outflows) of rice field clusters of the Albufera Natural Park, based on an ideal yearly management plan for the irrigation and draining of rice paddies.
 }
 \details{
 The output \code{data.frame} for this model layer, retrieved through

@@ -1,3 +1,9 @@
+# erahumed (development version)
+
+### Documentation
+
+* Unified description and title of layers across Shiny app and R documentation. 
+
 # erahumed 0.14.1
 
 ### API changes

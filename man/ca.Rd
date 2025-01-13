@@ -3,7 +3,7 @@
 \name{ca}
 \alias{ca}
 \alias{setup_ca}
-\title{CA: Chemical Applications}
+\title{Chemical Applications}
 \usage{
 setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
 }
@@ -17,10 +17,7 @@ The simulation object being modified.}
 An objects of class \link{erahumed_simulation}.
 }
 \description{
-This simulation layer simulates the application of chemicals to rice paddy
-clusters, based on a previously computed simulation of local hydrological
-balance. The result is a set of time series of applied doses, one for each
-applied chemical.
+This layer computes the application days of chemicals to rice fields, in agreement with the simulated hydrological balance of the latters.
 }
 \details{
 The output \code{data.frame} extends the output of the underlying \link{hbp}
