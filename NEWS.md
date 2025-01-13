@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### API changes
+
+* Changed `height_thresh_cm` default value to '0.5' (#242)
+
 ### Documentation
 
 * Add `ct-diagram`: "Diagram of physical processes for chemical transport".
