@@ -1,4 +1,4 @@
-layers:
+layers:  # ERAHUMED layers, in dependency order.
   inp:
     title: "INPut data"
     description: >-
@@ -156,6 +156,16 @@ layers:
           A positive number. Height threshold for water levels, below which a
           cluster is considered to be emptied.
 
+  hbd:
+    title: "Hydrological Balance of ditches"
+    description: >-
+      This layer simulates the hydrology of ditches of the Albufera lake.
+
+    parameters:
+      ditch_level_m:
+        type: "numeric(1)"
+        description: >-
+          Constant water depth in ditches.
 
 
   ca:

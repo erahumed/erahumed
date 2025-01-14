@@ -31,8 +31,17 @@ dss_run_server <- function(id, parameters) {
       })
 
     shiny::observe({
-      res$ca <- dss_run_layer(
+      res$hbd <- dss_run_layer(
         layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp),
+        parameters = parameters$hbd(),
+        setup_fn = setup_hbd,
+        get = "hbd"
+      )
+    })
+
+    shiny::observe({
+      res$ca <- dss_run_layer(
+        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp, hbd = res$hbd),
         parameters = parameters$ca(),
         setup_fn = setup_ca,
         get = "ca"
@@ -41,7 +50,7 @@ dss_run_server <- function(id, parameters) {
 
     shiny::observe({
       res$ct <- dss_run_layer(
-        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp, ca = res$ca),
+        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp, hbd = res$hbd, ca = res$ca),
         parameters = parameters$ct(),
         setup_fn = setup_ct,
         get = "ct"

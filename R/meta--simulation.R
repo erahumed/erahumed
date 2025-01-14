@@ -15,6 +15,7 @@ erahumed_simulation <- function() {
     setup_inp() |>
     setup_hba() |>
     setup_hbp() |>
+    setup_hbd() |>
     setup_ca() |>
     setup_ct()
 }

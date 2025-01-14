@@ -11,6 +11,7 @@ compute_layer <- function(simulation, layer = erahumed_layers())
     inp = compute_inp,
     hba = compute_hba,
     hbp = compute_hbp,
+    hbd = compute_hbd,
     ca = compute_ca,
     ct = compute_ct
   )

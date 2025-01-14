@@ -1,14 +1,9 @@
-#' @title CT: Chemical Transport
+#' @title `r erahumed_docs("layers", "ct", "title")`
 #' @name ct
 #'
 #' @family simulation layers
 #'
-#' @description
-#' This simulation layer computes the evolution of chemicals applied to rice
-#' paddy clusters, based on the previously computed simulations for
-#' hydrological balance and chemicals application.
-#' The result is a set of time series of chemical masses, one for each
-#' applied chemical and for the three compartments: foliage, water and sediment.
+#' @description `r erahumed_docs("layers", "ct", "description")`
 #'
 #' @inheritParams inp
 #' @param drift `r erahumed_param_roxy("drift", "ct")`

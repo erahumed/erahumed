@@ -1,13 +1,9 @@
-#' @title HBA: Hydrological Balance of the Albufera Lake
+#' @title `r erahumed_docs("layers", "hba", "title")`
 #' @name hba
 #'
 #' @family simulation layers
 #'
-#' @description
-#' This simulation layer completes the partial hydrological balance information
-#' provided as input data, by computing the total inflow to the Albufera lake,
-#' as well as, if relevant, the amount of unaccounted outflow - usually
-#' attributed to *tancats* that suck water from the lake.
+#' @description `r erahumed_docs("layers", "hba", "description")`
 #'
 #' @inheritParams inp
 #' @param storage_curve `r erahumed_param_roxy("storage_curve", "hba")`

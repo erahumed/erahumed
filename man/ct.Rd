@@ -3,7 +3,7 @@
 \name{ct}
 \alias{ct}
 \alias{setup_ct}
-\title{CT: Chemical Transport}
+\title{Chemical Transport}
 \usage{
 setup_ct(
   simulation,
@@ -50,16 +50,13 @@ The simulation object being modified.}
 An object of class \link{erahumed_simulation}.
 }
 \description{
-This simulation layer computes the evolution of chemicals applied to rice
-paddy clusters, based on the previously computed simulations for
-hydrological balance and chemicals application.
-The result is a set of time series of chemical masses, one for each
-applied chemical and for the three compartments: foliage, water and sediment.
+This layer computes the temporal dynamics of chemicals' masses in rice fields, in the three compartments of foliage, water and sediment.
 }
 \seealso{
 Other simulation layers: 
 \code{\link{ca}},
 \code{\link{hba}},
+\code{\link{hbd}},
 \code{\link{hbp}},
 \code{\link{inp}}
 }
