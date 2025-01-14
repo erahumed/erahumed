@@ -4,10 +4,13 @@
 \alias{plot.erahumed_hbd}
 \title{Plot HBD simulation layer output}
 \usage{
-\method{plot}{erahumed_hbd}(x, ditch, ...)
+\method{plot}{erahumed_hbd}(x, ditch = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{hbd}.}
+
+\item{ditch}{string. Ditch to be plotted, one of the values of the \code{ditch }
+column in the \code{info_ditches()} output.}
 
 \item{...}{Not used}
 }

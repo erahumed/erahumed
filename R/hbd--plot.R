@@ -4,12 +4,14 @@
 #' Plot method for \link{hbd} simulation layers.
 #'
 #' @param x An object of class `hbd`.
+#' @param ditch string. Ditch to be plotted, one of the values of the `ditch `
+#' column in the `info_ditches()` output.
 #' @param ... Not used
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
-plot.erahumed_hbd <- function(x, ditch, ...) {
+plot.erahumed_hbd <- function(x, ditch = NULL, ...) {
 
   data <- get_layer_output(x)
 
@@ -17,7 +19,7 @@ plot.erahumed_hbd <- function(x, ditch, ...) {
     ditch <- data$ditch[[1]]
     warning(paste0(
       "No ditch specified through the 'ditch' argument. ",
-      "Plotting cluster '", ditch, "'."
+      "Plotting ditch '", ditch, "'."
     ))
   }
 
