@@ -1,6 +1,7 @@
 simulation_from_layers <- function(inp = NULL,
                                    hba = NULL,
                                    hbp = NULL,
+                                   hbd = NULL,
                                    ca = NULL,
                                    ct = NULL)
 {
@@ -8,6 +9,7 @@ simulation_from_layers <- function(inp = NULL,
     sim_replace_layer("inp", inp) |>
     sim_replace_layer("hba", hba) |>
     sim_replace_layer("hbp", hbp) |>
+    sim_replace_layer("hbd", hbd) |>
     sim_replace_layer("ca", ca) |>
     sim_replace_layer("ct", ct)
 
