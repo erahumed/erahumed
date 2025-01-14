@@ -1,5 +1,11 @@
 # erahumed (development version)
 
+### Modeling advances
+
+* New simulation layer HBD ("Hydrological Balance of Ditches"), with 
+corresponding setup function `setup_hbd()` and `plot.erahumed_hbd()` method. 
+The results from the layer are also included in the Shiny GUI.
+
 ### Documentation
 
 * Unified description and title of layers across Shiny app and R documentation. 
