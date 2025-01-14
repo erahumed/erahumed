@@ -16,6 +16,7 @@
     "dss_input-hba-p_surface": 114.226,
     "dss_input-hba-sc_intercept": 16.7459,
     "dss_input-hba-sc_slope": 23.6577,
+    "dss_input-hbd-ditch_level_m": 1,
     "dss_input-hbp-height_thresh_cm": 0.5,
     "dss_input-hbp-ideal_flow_rate_cm": 5,
     "dss_input-hbp-open_management_df_modal": 0,
