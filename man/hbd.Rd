@@ -5,16 +5,13 @@
 \alias{setup_hbd}
 \title{Hydrological Balance of ditches}
 \usage{
-setup_hbd(simulation)
+setup_hbd(simulation, ditch_level_m = 1)
 }
 \value{
 An object of class \link{erahumed_simulation}.
 }
 \description{
 This layer simulates the hydrology of ditches of the Albufera lake.
-}
-\details{
-No details
 }
 \seealso{
 Other simulation layers: 

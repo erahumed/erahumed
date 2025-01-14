@@ -162,6 +162,10 @@ layers:  # ERAHUMED layers, in dependency order.
       This layer simulates the hydrology of ditches of the Albufera lake.
 
     parameters:
+      ditch_level_m:
+        type: "numeric(1)"
+        description: >-
+          Constant water depth in ditches.
 
 
   ca:
