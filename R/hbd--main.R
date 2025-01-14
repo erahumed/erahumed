@@ -5,6 +5,9 @@
 #'
 #' @description `r erahumed_docs("layers", "hbd", "description")`
 #'
+#' @inheritParams inp
+#' @param ditch_level_m `r erahumed_param_roxy("ditch_level_m", "hbd")`
+#'
 #' @return An object of class \link{erahumed_simulation}.
 #'
 #' @export

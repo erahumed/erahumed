@@ -7,6 +7,12 @@
 \usage{
 setup_hbd(simulation, ditch_level_m = 1)
 }
+\arguments{
+\item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
+The simulation object being modified.}
+
+\item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
+}
 \value{
 An object of class \link{erahumed_simulation}.
 }
