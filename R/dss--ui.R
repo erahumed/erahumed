@@ -6,6 +6,7 @@ dss_ui <- function() bslib::page_navbar(
   header = dss_header(),
   footer = dss_footer(),
   theme = bslib::bs_theme(),
+  selected = "Output",
 
   nav_panel("Input", dss_input_ui("dss_input"), icon = icon("sliders")),
 
