@@ -13,10 +13,8 @@ dss_ui <- function() bslib::page_navbar(
       border-color: #adb5bd !important;    /* Subtle border */
       opacity: 1 !important;               /* Ensure it's not too transparent */
       cursor: not-allowed !important;      /* Show 'not-allowed' cursor */
-    }
-    "
-    )
-  ,
+    }"
+    ),
   selected = "Output",
 
   nav_panel("Input", dss_input_ui("dss_input"), icon = icon("sliders")),
