@@ -1,5 +1,12 @@
 # erahumed (development version)
 
+### GUI
+
+* The tab initially selected upon app initialization is now the "Output" tab 
+(#169).
+* Added a "Run simulation" button that allows to update the outputs when 
+parameters are modified (first step towards addressing #194).
+
 # erahumed 0.14.2
 
 ### Modeling advances
