@@ -3,7 +3,8 @@
 dss_output_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::page_fillable(
-    title = "Input",
+    title = "Output",
+
     shiny::selectInput(ns("selected_cluster_id"),
                        label = "Select cluster",
                        choices = info_clusters()$cluster_id,
