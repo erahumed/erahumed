@@ -5,7 +5,18 @@ dss_ui <- function() bslib::page_navbar(
   title = dss_title(),
   header = dss_header(),
   footer = dss_footer(),
-  theme = bslib::bs_theme(),
+  theme = bslib::bs_theme() |>
+    bslib::bs_add_rules("
+    .btn:disabled {
+      background-color: #d3d3d3 !important; /* Light gray */
+      color: #6c757d !important;           /* Dimmed text */
+      border-color: #adb5bd !important;    /* Subtle border */
+      opacity: 1 !important;               /* Ensure it's not too transparent */
+      cursor: not-allowed !important;      /* Show 'not-allowed' cursor */
+    }
+    "
+    )
+  ,
   selected = "Output",
 
   nav_panel("Input", dss_input_ui("dss_input"), icon = icon("sliders")),
