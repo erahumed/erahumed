@@ -2,7 +2,19 @@ dss_server <- function(input, output, session) {
   clicked_cluster_id <- shiny::reactive({ input$map_shape_click$id })
 
   parameters <- dss_input_server("dss_input")
+  param_hash <- shiny::reactive( digest::digest(lapply(parameters, \(r) r())) )
+  shiny::observe(shiny::updateActionButton(session, "run", disabled = FALSE)) |>
+    shiny::bindEvent(param_hash())
+
   layers <- dss_run_server("dss_run", parameters = parameters, run = input$run)
+  layers_hash <- shiny::reactive({
+    shiny::reactiveValuesToList(layers) |>
+      lapply(identity) |>
+      digest::digest()
+    })
+  shiny::observe(shiny::updateActionButton(session, "run", disabled = TRUE)) |>
+    shiny::bindEvent(layers_hash())
+
   dss_output_server("dss_output",
                     layers = layers,
                     clicked_cluster_id = clicked_cluster_id)
