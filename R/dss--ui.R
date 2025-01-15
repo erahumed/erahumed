@@ -12,8 +12,6 @@ dss_ui <- function() bslib::page_navbar(
 
   nav_panel("Output", dss_output_ui("dss_output"), icon = icon("chart-line")),
 
-  nav_spacer(),
-
   nav_menu(icon = icon("wrench"), title = "Tools", align = "right",
     nav_action_link("show_map_card", "Show map", icon = "map"),
     nav_action_link("take_screenshot", "Screenshot", icon = "camera")
@@ -32,6 +30,17 @@ dss_ui <- function() bslib::page_navbar(
       icon = NULL
       )
 
+    ),
+
+  nav_spacer(),
+
+  bslib::nav_item(
+    shiny::actionButton("run",
+                        "Run simulation",
+                        width = "100%",
+                        icon = shiny_icon("play"),
+                        class = "btn btn-primary"
+                        )
     )
 
 )

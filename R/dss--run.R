@@ -1,63 +1,54 @@
-dss_run_server <- function(id, parameters) {
+dss_run_server <- function(id, parameters, run) {
   shiny::moduleServer(id, function(input, output, session) {
 
-    res <- shiny::reactiveValues()
+    layers <- shiny::reactiveValues()
 
     shiny::observe({
-      res$inp <- dss_run_layer(
+      layers$inp <- dss_run_layer(
         layers = list(),
         parameters = parameters$inp(),
         setup_fn = setup_inp,
         get = "inp"
-        )
-      })
+      )
 
-    shiny::observe({
-      res$hba <- dss_run_layer(
-        layers = list(inp = res$inp),
+      layers$hba <- dss_run_layer(
+        layers = list(inp = layers$inp),
         parameters = parameters$hba(),
         setup_fn = setup_hba,
         get = "hba"
-        )
-      })
+      )
 
-    shiny::observe({
-      res$hbp <- dss_run_layer(
-        layers = list(inp = res$inp, hba = res$hba),
+      layers$hbp <- dss_run_layer(
+        layers = list(inp = layers$inp, hba = layers$hba),
         parameters = parameters$hbp(),
         setup_fn = setup_hbp,
         get = "hbp"
-        )
-      })
+      )
 
-    shiny::observe({
-      res$hbd <- dss_run_layer(
-        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp),
+      layers$hbd <- dss_run_layer(
+        layers = list(inp = layers$inp, hba = layers$hba, hbp = layers$hbp),
         parameters = parameters$hbd(),
         setup_fn = setup_hbd,
         get = "hbd"
       )
-    })
 
-    shiny::observe({
-      res$ca <- dss_run_layer(
-        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp, hbd = res$hbd),
+      layers$ca <- dss_run_layer(
+        layers = list(inp = layers$inp, hba = layers$hba, hbp = layers$hbp, hbd = layers$hbd),
         parameters = parameters$ca(),
         setup_fn = setup_ca,
         get = "ca"
       )
-    })
 
-    shiny::observe({
-      res$ct <- dss_run_layer(
-        layers = list(inp = res$inp, hba = res$hba, hbp = res$hbp, hbd = res$hbd, ca = res$ca),
+      layers$ct <- dss_run_layer(
+        layers = list(inp = layers$inp, hba = layers$hba, hbp = layers$hbp, hbd = layers$hbd, ca = layers$ca),
         parameters = parameters$ct(),
         setup_fn = setup_ct,
         get = "ct"
       )
-    })
+    }) |>
+      shiny::bindEvent(run, ignoreNULL = FALSE)
 
-    return( res )
+    return( layers )
 
   })
 }
