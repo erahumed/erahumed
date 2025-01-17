@@ -6,8 +6,7 @@
 #' @description `r erahumed_docs("layers", "hba", "description")`
 #'
 #' @inheritParams inp
-#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hba")`
-#' @param petp_function `r erahumed_param_roxy("petp_function", "hba")`
+
 #'
 #' @details
 #'
@@ -33,12 +32,8 @@
 #'
 #' @return An objects of class \link{erahumed_simulation}.
 #'
-#' @export
-setup_hba <- function(
-    simulation,
-    storage_curve = \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6,
-    petp_function = \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-)
+#' @noRd
+setup_hba <- function(simulation, storage_curve, petp_function)
 {
   tryCatch(
     {

@@ -2,11 +2,17 @@
 #' @name hydrology
 #'
 #' @description These functions are used to setup the parameters and run the
-#' calculations relevant for the hydrology of the Albufera Natural Park system.
+#' calculations relevant for simulating the hydrology of the Albufera Natural
+#' Park system.
 #'
-#' @inheritParams hba
-#' @inheritParams hbp
-#' @inheritParams hbd
+#' @param simulation `[`\link{erahumed_simulation}`]` \cr
+#' The simulation object being modified.
+#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hba")`
+#' @param petp_function `r erahumed_param_roxy("petp_function", "hba")`
+#' @param management_df `r erahumed_param_roxy("management_df", "hbp")`
+#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbp")`
+#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbp")`
+#' @param ditch_level_m `r erahumed_param_roxy("ditch_level_m", "hbd")`
 #'
 #' @return An \link{erahumed_simulation}.
 #'

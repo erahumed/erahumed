@@ -10,8 +10,8 @@
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
-#' @export
-setup_hbd <- function(simulation, ditch_level_m = 1)
+#' @noRd
+setup_hbd <- function(simulation, ditch_level_m)
 {
   tryCatch(
     {

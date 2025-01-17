@@ -61,13 +61,10 @@
 #'   See (TODO #46) for a detailed description.}
 #' }
 #'
-#' @export
+#' @noRd
 setup_hbp <- function(
-    simulation,
-    management_df = erahumed::albufera_management,
-    ideal_flow_rate_cm = 5,
-    height_thresh_cm = 0.5
-)
+    simulation, management_df, ideal_flow_rate_cm, height_thresh_cm
+    )
 {
   tryCatch(
     {

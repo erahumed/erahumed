@@ -39,5 +39,6 @@ An \link{erahumed_simulation}.
 }
 \description{
 These functions are used to setup the parameters and run the
-calculations relevant for the hydrology of the Albufera Natural Park system.
+calculations relevant for simulating the hydrology of the Albufera Natural
+Park system.
 }

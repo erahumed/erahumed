@@ -41,9 +41,6 @@ hydrological and weather input data is available.
 \seealso{
 Other simulation layers: 
 \code{\link{ca}},
-\code{\link{ct}},
-\code{\link{hba}},
-\code{\link{hbd}},
-\code{\link{hbp}}
+\code{\link{ct}}
 }
 \concept{simulation layers}
