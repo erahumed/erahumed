@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Data
+
+* Updated observational input data `albufera_outflows` and `albufera_weather` 
+with data until 2024 (included).
+
 # erahumed 0.14.3
 
 ### GUI

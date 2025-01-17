@@ -45,11 +45,13 @@ library(dplyr)
 ### Meteorological data ########################################################
 
 albufera_weather <-
-  readxl::read_excel("data-raw/raw/meteo_beni_2023.xlsx",
-                     range = cellranger::cell_cols("A:I")
-  ) |>
+  readxl::read_excel("data-raw/raw/meteo_beni.xlsx",
+                     range = cellranger::cell_cols("A:I"),
+                     col_types = c("date", rep("text", 8)),
+                     ) |>
   rename(date = FECHA) |>
-  mutate(date = as.Date(date))
+  mutate(across(date, as.Date), across(-date, as.numeric))
+
 
 albufera_weather_gam_input <- albufera_weather
 
@@ -66,10 +68,10 @@ albufera_weather <- albufera_weather |>
 
 ### CHJ data ###################################################################
 
-CHJ <- readr::read_delim("data-raw/raw/CHJ.csv",
-                         delim = ";",
-                         escape_double = FALSE,
-                         trim_ws = TRUE)
+CHJ <- readxl::read_excel("data-raw/raw/CHJ.xlsx",
+                          range = cellranger::cell_cols("A:F"),
+                          col_types = c("text", "date", "numeric", "numeric", "numeric", "logical")
+                          )
 
 chj_stations <- c("08A01" = "Level",
                   "08A02" = "Pujol",
