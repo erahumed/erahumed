@@ -13,9 +13,7 @@
 erahumed_simulation <- function() {
   structure(list(), class = "erahumed_simulation") |>
     setup_inp() |>
-    setup_hba() |>
-    setup_hbp() |>
-    setup_hbd() |>
+    setup_hydrology() |>
     setup_ca() |>
     setup_ct()
 }
