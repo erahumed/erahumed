@@ -22,15 +22,8 @@
 #' simulation will only be performed on the largest date interval in which both
 #' hydrological and weather input data is available.
 #'
-#' @export
-setup_inp <- function(simulation,
-                      outflows_df = erahumed::albufera_outflows,
-                      weather_df = erahumed::albufera_weather,
-                      variety_prop = c("J.Sendra" = 0.8,
-                                       "Bomba" = 0.1,
-                                       "Clearfield" = 0.1),
-                      seed = 840
-                      )
+#' @noRd
+setup_inp <- function(simulation, outflows_df, weather_df, variety_prop, seed)
 {
   tryCatch(
     {

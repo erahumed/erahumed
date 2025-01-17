@@ -5,7 +5,8 @@
 #'
 #' @description `r erahumed_docs("layers", "ca", "description")`
 #'
-#' @inheritParams inp
+#' @param simulation `[`\link{erahumed_simulation}`]` \cr
+#' The simulation object being modified.
 #' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df", "ca")`
 #'
 #' @return An objects of class \link{erahumed_simulation}.

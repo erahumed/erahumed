@@ -5,7 +5,8 @@
 #'
 #' @description `r erahumed_docs("layers", "ct", "description")`
 #'
-#' @inheritParams inp
+#' @param simulation `[`\link{erahumed_simulation}`]` \cr
+#' The simulation object being modified.
 #' @param drift `r erahumed_param_roxy("drift", "ct")`
 #' @param covmax `r erahumed_param_roxy("covmax", "ct")`
 #' @param jgrow `r erahumed_param_roxy("jgrow", "ct")`

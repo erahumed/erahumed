@@ -54,7 +54,6 @@ This layer computes the temporal dynamics of chemicals' masses in rice fields, i
 }
 \seealso{
 Other simulation layers: 
-\code{\link{ca}},
-\code{\link{inp}}
+\code{\link{ca}}
 }
 \concept{simulation layers}
