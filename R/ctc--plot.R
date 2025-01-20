@@ -1,9 +1,9 @@
-#' Plot CT simulation layer output
+#' Plot ctc simulation layer output
 #'
 #' @description
-#' Plot method for \link{ct} simulation layers.
+#' Plot method for \link{ctc} simulation layers.
 #'
-#' @param x An object of class `ct`.
+#' @param x An object of class `ctc`.
 #' @param type Type of plot to be generated. Currently, only the
 #' `"cluster_view"` plot type is implemented.
 #' @param variable Variable to plot for `"cluster_view"` type plots, either
@@ -25,7 +25,7 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
-plot.erahumed_ct <- function(
+plot.erahumed_ctc <- function(
     x,
     type = c("cluster_view", "max_boxplot"),
     variable = c("mass", "density"),

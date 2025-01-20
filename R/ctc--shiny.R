@@ -1,7 +1,7 @@
-ct_input_ui <- function(id) {
+ctc_input_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  tltp <- function(param) param_tooltip(layer = "ct", param = param)
+  tltp <- function(param) param_tooltip(layer = "ctc", param = param)
 
 
   shiny::tagList(

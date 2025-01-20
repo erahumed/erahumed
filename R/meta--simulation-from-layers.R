@@ -3,7 +3,7 @@ simulation_from_layers <- function(inp = NULL,
                                    hbc = NULL,
                                    hbd = NULL,
                                    ca = NULL,
-                                   ct = NULL)
+                                   ctc = NULL)
 {
   s <- erahumed_simulation() |>
     sim_replace_layer("inp", inp) |>
@@ -11,7 +11,7 @@ simulation_from_layers <- function(inp = NULL,
     sim_replace_layer("hbc", hbc) |>
     sim_replace_layer("hbd", hbd) |>
     sim_replace_layer("ca", ca) |>
-    sim_replace_layer("ct", ct)
+    sim_replace_layer("ctc", ctc)
 
   assert_erahumed_simulation(s)
 

@@ -39,7 +39,7 @@ extensively in the linked documentation pages:
 \item \link{hbl}: Hydrological Balance of the Albufera lake.
 \item \link{hbc}: Hydrological Balance of rice Paddy clusters.
 \item \link{ca}: Chemical Applications.
-\item \link{ct}: Chemical Transport.
+\item \link{ctc}: Chemical Transport.
 }
 
 The order of simulation layers in the list above is the logical one. Each
@@ -59,7 +59,7 @@ s <- erahumed_simulation()
 ### Fine-tune layers
 s <- s |>
   setup_hbc(ideal_flow_rate_cm = 2.5) |>
-  setup_ct(dact_m = 0.1)
+  setup_ctc(dact_m = 0.1)
 
 ### Run simulation until a given layer
 s <- run_simulation(s, layer = "hbl")

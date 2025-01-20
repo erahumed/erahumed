@@ -197,7 +197,7 @@ layers:  # ERAHUMED layers, in dependency order.
 
 
 
-  ct:
+  ctc:
     title: "Chemical Transport"
     description: >-
       This layer computes the temporal dynamics of chemicals' masses in rice

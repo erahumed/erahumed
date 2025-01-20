@@ -1,5 +1,5 @@
 test_that("UI succeeds", {
-  expect_no_error(ct_input_ui("ui"))
+  expect_no_error(ctc_input_ui("ui"))
 })
 
 shiny::testServer(ct_input_server, {

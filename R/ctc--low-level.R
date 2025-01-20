@@ -1,4 +1,4 @@
-ct_to_cluster_wrap <- function(cluster_ca_df,
+ctc_to_cluster_wrap <- function(cluster_ca_df,
                                drift,
                                covmax,
                                jgrow,
@@ -18,7 +18,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
   )
 
   compute_masses <- function(chemical) {
-    ct_to_cluster(
+    ctc_to_cluster(
       application_kg = cluster_ca_df[[chemical]],
       precipitation_mm = cluster_ca_df[["precipitation_mm"]],
       etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
@@ -55,7 +55,7 @@ ct_to_cluster_wrap <- function(cluster_ca_df,
     as.data.frame()
 }
 
-ct_to_cluster <- function(application_kg,
+ctc_to_cluster <- function(application_kg,
                           precipitation_mm,
                           etp_mm,
                           temperature_ave,
@@ -83,10 +83,10 @@ ct_to_cluster <- function(application_kg,
   volume_eps <- 1e-6 # Threshold below which densities are reported as NA
 
   # Magic:
-  # * Pass down all arguments to ct_compute_system_terms()
+  # * Pass down all arguments to ctc_compute_system_terms()
   # * Export all the elements of the returned list to execution env
 
-  terms <- ct_compute_system_terms(application_kg = application_kg,
+  terms <- ctc_compute_system_terms(application_kg = application_kg,
                                     precipitation_mm = precipitation_mm,
                                     etp_mm = etp_mm,
                                     temperature_ave = temperature_ave,
@@ -153,7 +153,7 @@ ct_to_cluster <- function(application_kg,
   return(list(mf = mf, mw = mw, ms = ms, cw = cw, cs = cs, cw_outflow = cw_outflow))
 }
 
-ct_compute_system_terms <- function(application_kg,
+ctc_compute_system_terms <- function(application_kg,
                                     precipitation_mm,
                                     etp_mm,
                                     temperature_ave,
@@ -182,31 +182,31 @@ ct_compute_system_terms <- function(application_kg,
   dt <- 1
 
   # Chemicals parameters
-  kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
-  kf_day <- ct_get_param(chemical, "kf_day")
-  kw_day <- ct_get_param(chemical, "kw_day")
-  Q10_kw <- ct_get_param(chemical, "Q10_kw")
-  kw_temp <- ct_get_param(chemical, "kw_temp")
-  ks_sat_day <- ct_get_param(chemical, "ks_sat_day")
-  Q10_ks_sat <- ct_get_param(chemical, "Q10_ks_sat")
-  ks_sat_temp <- ct_get_param(chemical, "ks_sat_temp")
-  ks_unsat_day <- ct_get_param(chemical, "ks_unsat_day")
-  Q10_ks_unsat <- ct_get_param(chemical, "Q10_ks_unsat")
-  ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
-  sol_ppm <- ct_get_param(chemical, "sol_ppm")
-  dinc_m <- ct_get_param(chemical, "dinc_m")
-  ksetl_m_day <- ct_get_param(chemical, "ksetl_m_day")
-  kvolat_m_day <- ct_get_param(chemical, "kvolat_m_day")
-  MW <- ct_get_param(chemical, "MW")
-  fet_cm <- ct_get_param(chemical, "fet_cm")
+  kd_cm3_g <- foc * ctc_get_param(chemical, "koc_cm3_g")
+  kf_day <- ctc_get_param(chemical, "kf_day")
+  kw_day <- ctc_get_param(chemical, "kw_day")
+  Q10_kw <- ctc_get_param(chemical, "Q10_kw")
+  kw_temp <- ctc_get_param(chemical, "kw_temp")
+  ks_sat_day <- ctc_get_param(chemical, "ks_sat_day")
+  Q10_ks_sat <- ctc_get_param(chemical, "Q10_ks_sat")
+  ks_sat_temp <- ctc_get_param(chemical, "ks_sat_temp")
+  ks_unsat_day <- ctc_get_param(chemical, "ks_unsat_day")
+  Q10_ks_unsat <- ctc_get_param(chemical, "Q10_ks_unsat")
+  ks_unsat_temp <- ctc_get_param(chemical, "ks_unsat_temp")
+  sol_ppm <- ctc_get_param(chemical, "sol_ppm")
+  dinc_m <- ctc_get_param(chemical, "dinc_m")
+  ksetl_m_day <- ctc_get_param(chemical, "ksetl_m_day")
+  kvolat_m_day <- ctc_get_param(chemical, "kvolat_m_day")
+  MW <- ctc_get_param(chemical, "MW")
+  fet_cm <- ctc_get_param(chemical, "fet_cm")
 
   # Derived parameters
-  pos <- ct_porosity(fc = fc, wilting = wilting)
-  fds <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
-  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
+  pos <- ctc_porosity(fc = fc, wilting = wilting)
+  fds <- ctc_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
+  fdw <- ctc_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
-  kdifus_m_day <- ct_kdifus_m_day(pos = pos, MW = MW)
-  temp_arr <- ct_temperature_arrhenius(temperature_ave,
+  kdifus_m_day <- ctc_kdifus_m_day(pos = pos, MW = MW)
+  temp_arr <- ctc_temperature_arrhenius(temperature_ave,
                                        temperature_min,
                                        temperature_max)
 
@@ -222,40 +222,40 @@ ct_compute_system_terms <- function(application_kg,
   height_sod_m <- volume_sod_m3 / area_m2
 
   # Precomputed time series
-  cover <- ct_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
-  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
+  cover <- ctc_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
+  is_empty <- ctc_is_empty(height_m = height_eod_m, thresh_m = 0)
 
 
   ### Settlement
-  Sw <- ct_setl(ksetl_m_day = ksetl_m_day, fpw = fpw, height_sod_m = height_sod_m)
+  Sw <- ctc_setl(ksetl_m_day = ksetl_m_day, fpw = fpw, height_sod_m = height_sod_m)
 
   ### Diffusion
-  Ds <- ct_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = pos, dact_m = dact_m)
-  Dw <- ct_diff_w(kdifus_m_day = kdifus_m_day, fdw = fdw, height_sod_m = height_sod_m)
+  Ds <- ctc_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = pos, dact_m = dact_m)
+  Dw <- ctc_diff_w(kdifus_m_day = kdifus_m_day, fdw = fdw, height_sod_m = height_sod_m)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
   kf <- kf_day
-  kw <- ct_deg_k(kw_day, Q10_kw, temp_arr, kw_temp)
+  kw <- ctc_deg_k(kw_day, Q10_kw, temp_arr, kw_temp)
 
-  ks_sat <- ct_deg_k(ks_sat_day, Q10_ks_sat, temp_arr, ks_sat_temp)
-  ks_unsat <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temp_arr, ks_unsat_temp)
+  ks_sat <- ctc_deg_k(ks_sat_day, Q10_ks_sat, temp_arr, ks_sat_temp)
+  ks_unsat <- ctc_deg_k(ks_unsat_day, Q10_ks_unsat, temp_arr, ks_unsat_temp)
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
 
   ### Washout
-  w <- ct_washout(fet_cm = fet_cm, rain_cm = rain_cm)
+  w <- ctc_washout(fet_cm = fet_cm, rain_cm = rain_cm)
 
   # ### Inflow, not implemented ATM
   # inflow_mw <- inflow_m3 * 0
 
   ### Outflow
-  outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
+  outflow_fac <- ctc_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
 
   ### Application
-  mfapp <- ct_mfapp(application_kg, drift, cover)
-  mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty)
-  msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
+  mfapp <- ctc_mfapp(application_kg, drift, cover)
+  mwapp <- ctc_mwapp(application_kg, drift, cover, SNK, is_empty)
+  msapp <- ctc_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
 
-  mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
+  mw_max <- ctc_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
   a <- -(kw + Sw + Dw)
   b <- Ds

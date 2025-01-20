@@ -39,7 +39,7 @@ are composed of the following layers:
 * hbl: Hydrological Balance of the Albufera lake.
 * hbc: Hydrological Balance of rice Paddy clusters.
 * CA: Chemical Applications. 
-* CT: Chemical Transport.
+* ctc: Chemical Transport.
 
 Each layer depends on the previous ones and is a dependency of the subsequent
 ones (in the order above). The goal of the following sections is to teach you
@@ -102,7 +102,7 @@ correspond to the defaults of the `setup_*()` arguments. The current layer
 parameters of a simulation can be obtained through:
 
 ```{r}
-get_layer_parameters(s, "ct")  # Get parameters of CT layer
+get_layer_parameters(s, "ctc")  # Get parameters of ctc layer
 ```
 
 ### Run

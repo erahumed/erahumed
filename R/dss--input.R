@@ -12,7 +12,7 @@ dss_input_ui <- function(id) {
       card(layer_card_header("hbc"), card_body(hbc_input_ui( ns("hbc") ))),
       card(layer_card_header("hbd"), card_body(hbd_input_ui( ns("hbd") ))),
       card(layer_card_header("ca"), card_body(ca_input_ui( ns("ca") ))),
-      card(layer_card_header("ct"), card_body(ct_input_ui( ns("ct") )))
+      card(layer_card_header("ctc"), card_body(ctc_input_ui( ns("ctc") )))
       )
     )
 
@@ -26,7 +26,7 @@ dss_input_server <- function(id) {
       hbc = hbc_input_server("hbc"),
       hbd = hbd_input_server("hbd"),
       ca = ca_input_server("ca"),
-      ct = ct_input_server("ct")
+      ctc = ct_input_server("ctc")
       )
   })
 }

@@ -91,7 +91,7 @@ various layers involved in the simulation chain of the DSS, namely:
 
 ``` r
 erahumed_layers()
-#> [1] "inp" "hbl" "hbp" "hbd" "ca"  "ct"
+#> [1] "inp" "hbl" "hbp" "hbd" "ca"  "ctc"
 ```
 
 As the output above shows, the layers of `simulation` are initialized
@@ -118,7 +118,7 @@ from upstream to downstream):
 - hbl \[`setup_hbl()`\]: Hydrological Balance of the Albufera lake.
 - hbc \[`setup_hbc()`\]: Hydrological Balance of rice Paddy clusters.
 - CA \[`setup_ca()`\]: Chemical Applications.
-- CT \[`setup_ct()`\]: Chemical Transport.
+- ctc \[`setup_ctc()`\]: Chemical Transport.
 
 In order to inspect the results of a given layer, we use:
 

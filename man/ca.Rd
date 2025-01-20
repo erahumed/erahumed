@@ -27,6 +27,6 @@ provide the time series of applied doses, expressed in kilograms.
 }
 \seealso{
 Other simulation layers: 
-\code{\link{ct}}
+\code{\link{ctc}}
 }
 \concept{simulation layers}

@@ -11,7 +11,7 @@
 #' ### Fine-tune layers
 #' s <- s |>
 #'   setup_hbc(ideal_flow_rate_cm = 2.5) |>
-#'   setup_ct(dact_m = 0.1)
+#'   setup_ctc(dact_m = 0.1)
 #'
 #' ### Run simulation until a given layer
 #' s <- run_simulation(s, layer = "hbl")
@@ -67,7 +67,7 @@
 #' * \link{hbl}: Hydrological Balance of the Albufera lake.
 #' * \link{hbc}: Hydrological Balance of rice Paddy clusters.
 #' * \link{ca}: Chemical Applications.
-#' * \link{ct}: Chemical Transport.
+#' * \link{ctc}: Chemical Transport.
 #'
 #' The order of simulation layers in the list above is the logical one. Each
 #' layer depends on the previous ones (referred to as "upstream"),

@@ -5,17 +5,17 @@
 #' results for pesticide exposure in the Albufera Natural Park system.
 #'
 #' @inheritParams hydrology
-#' @param drift `r erahumed_param_roxy("drift", "ct")`
-#' @param covmax `r erahumed_param_roxy("covmax", "ct")`
-#' @param jgrow `r erahumed_param_roxy("jgrow", "ct")`
-#' @param SNK `r erahumed_param_roxy("SNK", "ct")`
-#' @param dact_m `r erahumed_param_roxy("dact_m", "ct")`
-#' @param css_ppm `r erahumed_param_roxy("css_ppm", "ct")`
-#' @param foc `r erahumed_param_roxy("foc", "ct")`
-#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3", "ct")`
-#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day", "ct")`
-#' @param wilting `r erahumed_param_roxy("wilting", "ct")`
-#' @param fc `r erahumed_param_roxy("fc", "ct")`
+#' @param drift `r erahumed_param_roxy("drift", "ctc")`
+#' @param covmax `r erahumed_param_roxy("covmax", "ctc")`
+#' @param jgrow `r erahumed_param_roxy("jgrow", "ctc")`
+#' @param SNK `r erahumed_param_roxy("SNK", "ctc")`
+#' @param dact_m `r erahumed_param_roxy("dact_m", "ctc")`
+#' @param css_ppm `r erahumed_param_roxy("css_ppm", "ctc")`
+#' @param foc `r erahumed_param_roxy("foc", "ctc")`
+#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3", "ctc")`
+#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day", "ctc")`
+#' @param wilting `r erahumed_param_roxy("wilting", "ctc")`
+#' @param fc `r erahumed_param_roxy("fc", "ctc")`
 #'
 #' @inherit hydrology return
 #'
@@ -38,7 +38,7 @@ setup_exposure <- function(
 {
   simulation |>
     setup_ca(ca_schedules_df = ca_schedules_df) |>
-    setup_ct(drift = drift,
+    setup_ctc(drift = drift,
              covmax = covmax,
              jgrow = jgrow,
              SNK = SNK,
@@ -59,7 +59,7 @@ compute_exposure <- function(simulation) {
 
   simulation |>
     compute_ca() |>
-    compute_ct()
+    compute_ctc()
 }
 
 #' @rdname exposure
@@ -74,6 +74,6 @@ extract_exposure <- function(simulation,
   switch(element,
          lake = stop("To be implemented."),  # TODO
          ditch = stop("To be implemented."),  # TODO
-         cluster =  get_layer_output(simulation, "ct")
+         cluster =  get_layer_output(simulation, "ctc")
   )
 }

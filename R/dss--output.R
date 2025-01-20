@@ -43,7 +43,7 @@ dss_output_server <- function(id, layers, clicked_cluster_id) {
       plot(layers$ca, cluster_id = input$selected_cluster_id)
       )
     output$ct_plot <- dygraphs::renderDygraph(
-      plot(layers$ct, cluster_id = input$selected_cluster_id)
+      plot(layers$ctc, cluster_id = input$selected_cluster_id)
       )
   })
 }

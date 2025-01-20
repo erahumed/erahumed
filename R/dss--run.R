@@ -39,11 +39,11 @@ dss_run_server <- function(id, parameters, run) {
         get = "ca"
       )
 
-      layers$ct <- dss_run_layer(
+      layers$ctc <- dss_run_layer(
         layers = list(inp = layers$inp, hbl = layers$hbl, hbc = layers$hbc, hbd = layers$hbd, ca = layers$ca),
-        parameters = parameters$ct(),
-        setup_fn = setup_ct,
-        get = "ct"
+        parameters = parameters$ctc(),
+        setup_fn = setup_ctc,
+        get = "ctc"
       )
     }) |>
       shiny::bindEvent(run, ignoreNULL = FALSE)
