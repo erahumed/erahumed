@@ -1,7 +1,7 @@
-hba_input_ui <- function(id) {
+hbl_input_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  tltp <- function(param) param_tooltip(layer = "hba", param = param)
+  tltp <- function(param) param_tooltip(layer = "hbl", param = param)
 
 
   shiny::tagList(
@@ -41,7 +41,7 @@ hba_input_ui <- function(id) {
 }
 
 
-hba_input_server <- function(id) {
+hbl_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::reactive({
       list(

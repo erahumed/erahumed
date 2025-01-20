@@ -69,7 +69,7 @@ layers:  # ERAHUMED layers, in dependency order.
 
 
 
-  hba:
+  hbl:
     title: "Hydrological Balance of the Albufera lake"
     description: >-
       This layer computes the hydrological balance of the Albufera lake,

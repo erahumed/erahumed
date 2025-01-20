@@ -91,7 +91,7 @@ various layers involved in the simulation chain of the DSS, namely:
 
 ``` r
 erahumed_layers()
-#> [1] "inp" "hba" "hbp" "ca"  "ct"
+#> [1] "inp" "hbl" "hbp" "hbd" "ca"  "ct"
 ```
 
 As the output above shows, the layers of `simulation` are initialized
@@ -100,22 +100,22 @@ through the `setup_*()` functions, for instance:
 
 ``` r
 simulation <- simulation |>
-  setup_hbp(ideal_flow_rate_cm = 2.5) |>
-  setup_ct(dact_m = 0.2)
+  setup_hydrology(ideal_flow_rate_cm = 2.5) |>
+  setup_exposure(dact_m = 0.2)
 ```
 
 In order to actually compute the layers, we use `run_simulation()`:
 
 ``` r
 simulation <- simulation |>
-  run_simulation(layer = "hba")  # Run simulation until the HBA layer
+  run_simulation(layer = "hbl")  # Run simulation until the hbl layer
 ```
 
 Simulations are composed of the following layers (in dependency order,
 from upstream to downstream):
 
 - INP \[`setup_inp()`\]: INPut data.
-- HBA \[`setup_hba()`\]: Hydrological Balance of the Albufera lake.
+- hbl \[`setup_hbl()`\]: Hydrological Balance of the Albufera lake.
 - HBP \[`setup_hbp()`\]: Hydrological Balance of rice Paddy clusters.
 - CA \[`setup_ca()`\]: Chemical Applications.
 - CT \[`setup_ct()`\]: Chemical Transport.
@@ -123,19 +123,19 @@ from upstream to downstream):
 In order to inspect the results of a given layer, we use:
 
 ``` r
-get_layer(simulation, "hba")
-#> A ERAHUMED HBA simulation layer.
+get_layer(simulation, "hbl")
+#> A ERAHUMED HBL simulation layer.
 #> 
 #> Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_recirculation, outflow_total, inflow_total, residence_time_days
-get_layer_parameters(simulation, "hba")
+get_layer_parameters(simulation, "hbl")
 #> $storage_curve
-#> \(level) 16.7459 * 1e6 + level * 23.6577 * 1e6
-#> <environment: 0x0000028ee5a0c3e8>
+#> \(level) 25.58 * 1e6 + level * 63.086 * 1e6
+#> <environment: 0x00000253a559e848>
 #> 
 #> $petp_function
-#> \(p, etp) 114.226 * 1e3 * p - 79.361 * 1e3 * etp
-#> <environment: 0x0000028ee5a0c3e8>
-get_layer_output(simulation, "hba") |> head()
+#> \(p, etp) 53.9 * 1e3 * (p - etp)
+#> <environment: 0x00000253a559e848>
+get_layer_output(simulation, "hbl") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE
 #> 2 0.3726458              0.2                  0.65 2005-12-21            FALSE
@@ -144,12 +144,12 @@ get_layer_output(simulation, "hba") |> head()
 #> 5 0.3667417              0.0                  0.59 2005-12-24            FALSE
 #> 6 0.3634917              0.2                  0.86 2005-12-25            FALSE
 #>   is_imputed_outflow   volume volume_change volume_change_petp outflow_pujol
-#> 1               TRUE 25558393      3450.081          893798.26      5.739292
-#> 2               TRUE 25561843   -100840.946          -28739.45      5.901080
-#> 3               TRUE 25461002    -50765.481          -26358.62      3.877427
-#> 4               TRUE 25410237     11927.424          -58103.02      5.410336
-#> 5               TRUE 25422164    -76887.525          -46822.99      1.055759
-#> 6               TRUE 25345277   -157323.705          -45405.26      6.922879
+#> 1               TRUE 49079535      9200.042             412874      5.739292
+#> 2               TRUE 49088735   -268904.075             -24255      5.901080
+#> 3               TRUE 48819831   -135372.042             -22638      3.877427
+#> 4               TRUE 48684459     31805.858             -44198      5.410336
+#> 5               TRUE 48716265   -205029.500             -31801      1.055759
+#> 6               TRUE 48511235   -419521.900             -35574      6.922879
 #>   outflow_perellonet outflow_perello outflow_recirculation outflow_total
 #> 1           2.919471        2.785127                     0     11.443889
 #> 2           3.140746        2.919733                     0     11.961558
@@ -158,12 +158,12 @@ get_layer_output(simulation, "hba") |> head()
 #> 5           1.578490        1.226585                     0      3.860835
 #> 6           3.786494        3.249450                     0     13.958823
 #>   inflow_total residence_time_days
-#> 1     1.138934            21.01039
-#> 2    11.127050            20.97162
-#> 3     8.170538            20.97415
-#> 4    12.165665            20.92734
-#> 5     3.512866            20.92254
-#> 6    12.663471            20.86514
+#> 1     6.771737            41.64606
+#> 2     9.129972            41.52984
+#> 3     7.148233            41.50109
+#> 4    12.234802            41.36962
+#> 5     1.855875            41.21872
+#> 6     9.514982            41.05920
 ```
 
 For more information on the simulation interface, you can consult

@@ -1,9 +1,9 @@
-#' Plot HBA simulation layer output
+#' Plot hbl simulation layer output
 #'
 #' @description
-#' Plot method for \link{hba} simulation layers.
+#' Plot method for \link{hbl} simulation layers.
 #'
-#' @param x An object of class `hba`.
+#' @param x An object of class `hbl`.
 #' @param variable The variable to be plotted. Can be any numeric column of
 #' `get_layer_output(x)`.
 #' @param ... Not used.
@@ -11,14 +11,14 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
-plot.erahumed_hba <- function(x, variable = "inflow_total", ...) {
+plot.erahumed_hbl <- function(x, variable = "inflow_total", ...) {
   df <- get_layer_output(x)
 
-  plot_hba_argcheck(df, variable, ...)
+  plot_hbl_argcheck(df, variable, ...)
 
-  var_lab <- hba_var_labs()[variable] |> unname()
+  var_lab <- hbl_var_labs()[variable] |> unname()
 
-  is_imputed <- df[[hba_is_imputed_var(variable)]]
+  is_imputed <- df[[hbl_is_imputed_var(variable)]]
 
   df_obs <- df_imp <- df[, ]
   df_obs[[variable]][is_imputed] <- NA
@@ -38,7 +38,7 @@ plot.erahumed_hba <- function(x, variable = "inflow_total", ...) {
     dygraphs::dyUnzoom()
 }
 
-plot_hba_argcheck <- function(x, variable, ...) {
+plot_hbl_argcheck <- function(x, variable, ...) {
 
   tryCatch(
     {
@@ -51,17 +51,17 @@ plot_hba_argcheck <- function(x, variable, ...) {
       }
     },
     error = function(cnd) {
-      class(cnd) <- c("plot.hba_error", class(cnd))
+      class(cnd) <- c("plot.hbl_error", class(cnd))
       stop(cnd)
     },
     warning = function(cnd) {
-      class(cnd) <- c("plot.hba_warning", class(cnd))
+      class(cnd) <- c("plot.hbl_warning", class(cnd))
       warning(cnd)
     })
 
 }
 
-hba_var_labs <- function(invert = FALSE) {
+hbl_var_labs <- function(invert = FALSE) {
   res <- c(
     level = "Lake Level [m]",
     volume = "Lake Volume [m\u{00B3}]",
@@ -83,7 +83,7 @@ hba_var_labs <- function(invert = FALSE) {
   return(res_inv)
 }
 
-hba_is_imputed_var <- function(variable) {
+hbl_is_imputed_var <- function(variable) {
   imp_var <- if (variable %in% c("level", "volume")) {
     "is_imputed_level"
   } else {

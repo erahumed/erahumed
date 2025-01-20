@@ -18,8 +18,8 @@
 #' \dontrun{
 #' # Generate a dygraphs plot of the volume time-series
 #' erahumed_simulation() |>
-#'   run_simulation("hba") |>
-#'   get_layer("hba") |>
+#'   run_simulation("hbl") |>
+#'   get_layer("hbl") |>
 #'   plot("volume")
 #' }
 #' @export

@@ -36,7 +36,7 @@ for a schematic view), whose technical implementation is discussed
 extensively in the linked documentation pages:
 \itemize{
 \item \link{inp}: INPut data.
-\item \link{hba}: Hydrological Balance of the Albufera lake.
+\item \link{hbl}: Hydrological Balance of the Albufera lake.
 \item \link{hbp}: Hydrological Balance of rice Paddy clusters.
 \item \link{ca}: Chemical Applications.
 \item \link{ct}: Chemical Transport.
@@ -62,23 +62,23 @@ s <- s |>
   setup_ct(dact_m = 0.1)
 
 ### Run simulation until a given layer
-s <- run_simulation(s, layer = "hba")
+s <- run_simulation(s, layer = "hbl")
 
 ### Extract layers
 get_layer(s, "inp")
-get_layer_output(s, "hba") |> head()
+get_layer_output(s, "hbl") |> head()
 get_layer_output(s, "hbp")  # NULL because not yet computed
 get_layer_parameters(s, "ca")  # Layer parameters set during initialization
 
 ### Reconfigure a layer
-s <- s |> setup_hba(storage_curve = \(level) level + 1)
-get_layer_output(s, "hba")  # NULL because invalidated by previous line...
-s <- run_simulation(s, layer = "hba")  # ... which requires to re-run layer
-get_layer_output(s, "hba") |> head()
+s <- s |> setup_hbl(storage_curve = \(level) level + 1)
+get_layer_output(s, "hbl")  # NULL because invalidated by previous line...
+s <- run_simulation(s, layer = "hbl")  # ... which requires to re-run layer
+get_layer_output(s, "hbl") |> head()
 
 \dontrun{
 # Returns an interactive dygraphs plot, run manually.
-s |> get_layer("hba") |> plot(variable = "outflow_total")
+s |> get_layer("hbl") |> plot(variable = "outflow_total")
 }
 
 }

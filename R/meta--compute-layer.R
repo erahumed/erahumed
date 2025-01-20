@@ -9,7 +9,7 @@ compute_layer <- function(simulation, layer = erahumed_layers())
 
   compute_fun <- switch(layer,
     inp = compute_inp,
-    hba = compute_hba,
+    hbl = compute_hbl,
     hbp = compute_hbp,
     hbd = compute_hbd,
     ca = compute_ca,

@@ -1,7 +1,7 @@
 #' Residence Time
 #'
 #' @description
-#' **N.B.:**: This function is the one used internally by \link{hba} to
+#' **N.B.:**: This function is the one used internally by \link{hbl} to
 #' compute residence times, and is not directly exported by `{erahumed}`.
 #'
 #' Computes residence times as
@@ -20,7 +20,7 @@
 #' @return A numeric vector. Time series of residence times, in the units of
 #' measure specified by the \code{units} argument (assuming \code{volume} and
 #' \code{total_inflow} are provided in the correct units).
-hba_residence_time <- function(
+hbl_residence_time <- function(
     volume, outflow_total, k = 61, units = c("days", "seconds")
 )
 {
@@ -42,11 +42,11 @@ hba_residence_time <- function(
 
 
 
-hba_volume_change <- function(volume, fill_last = NA) {
+hbl_volume_change <- function(volume, fill_last = NA) {
   c(diff(volume), fill_last)
 }
 
-hba_flow_balance <- function(outflows, volume_change, volume_change_petp) {
+hbl_flow_balance <- function(outflows, volume_change, volume_change_petp) {
 
   outflow_total <- Reduce("+", outflows)
   net_flow_total <- (volume_change - volume_change_petp) / s_per_day()

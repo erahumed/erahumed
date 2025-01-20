@@ -6,8 +6,8 @@
 #'
 #' @param simulation `[`\link{erahumed_simulation}`]` \cr
 #' The simulation object being modified.
-#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hba")`
-#' @param petp_function `r erahumed_param_roxy("petp_function", "hba")`
+#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hbl")`
+#' @param petp_function `r erahumed_param_roxy("petp_function", "hbl")`
 #' @param management_df `r erahumed_param_roxy("management_df", "hbp")`
 #' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbp")`
 #' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbp")`
@@ -31,7 +31,7 @@ setup_hydrology <- function(
   )
 {
   simulation |>
-    setup_hba(storage_curve = storage_curve, petp_function = petp_function) |>
+    setup_hbl(storage_curve = storage_curve, petp_function = petp_function) |>
     setup_hbp(management_df = management_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm
@@ -45,7 +45,7 @@ compute_hydrology <- function(simulation) {
   assert_erahumed_simulation(simulation)
 
   simulation |>
-    compute_hba() |>
+    compute_hbl() |>
     compute_hbp() |>
     compute_hbd()
 }
@@ -60,7 +60,7 @@ extract_hydrology <- function(simulation,
   element <- match.arg(element)
 
   switch(element,
-         lake = get_layer_output(simulation, "hba"),
+         lake = get_layer_output(simulation, "hbl"),
          ditch = get_layer_output(simulation, "hbd"),
          cluster = get_layer_output(simulation, "hbp")
          )

@@ -4,8 +4,8 @@
 #' Computes the global hydrological balance of a water basin from the
 #' measurements of water level, outflows, and precipitation/evapotranspiration.
 #' For analyzing Albufera data, you should not need to directly run this
-#' function, and you can instead use the \link{hba} wrapper, that
-#' calls `hba()` with the right arguments, extracted from the built-in
+#' function, and you can instead use the \link{hbl} wrapper, that
+#' calls `hbl()` with the right arguments, extracted from the built-in
 #' datasets.
 #'
 #' @param level numeric vector. Time series of lake levels, in meters.
@@ -25,9 +25,9 @@
 #' that converts precipitation and evapotranspiration values (passed through
 #' the `precipitation_mm` and `evapotranspiration_mm` arguments) into an overall volume change.
 #'
-#' @return An object of class `hba`, a lightweight wrapper of `data.frame`
+#' @return An object of class `hbl`, a lightweight wrapper of `data.frame`
 #' with a few additional visualization methods (most prominently
-#' \link{plot.hba}). The underlying data-frame contains as columns the
+#' \link{plot.hbl}). The underlying data-frame contains as columns the
 #' input time series, as well as the following calculated columns:
 #' * `volume` Volume time series, obtained from the storage curve.
 #' * `volume_change` Differenced time series of volume. The \eqn{n}-th is given
@@ -48,10 +48,10 @@
 #' described above.
 #' * `inflow_total` Time serie of total inflows, in cube meters per second.
 #' This is computed as \eqn{I = \sum _{i} O_i + \delta O + \frac{\Delta V _n - \Delta V _n ^\text{P-ETP}}{24 \times 60 \times 60}}.
-#' * `residence_time_days`. Residence time, as simulationed by \link{hba_residence_time}.
+#' * `residence_time_days`. Residence time, as simulationed by \link{hbl_residence_time}.
 #'
 #' @noRd
-.hba <- function(
+.hbl <- function(
     level,
     precipitation_mm,
     evapotranspiration_mm,
@@ -61,7 +61,7 @@
     petp_function = \(P, ETP) P - ETP
 )
 {
-  .hba_argcheck(
+  .hbl_argcheck(
     level = level,
     precipitation_mm = precipitation_mm,
     evapotranspiration_mm = evapotranspiration_mm,
@@ -74,24 +74,24 @@
   res <- data.frame(level, precipitation_mm, evapotranspiration_mm, ...)
 
   res$volume <- storage_curve(level)
-  res$volume_change <- hba_volume_change(res$volume, fill_last = NA)
+  res$volume_change <- hbl_volume_change(res$volume, fill_last = NA)
   res$volume_change_petp <- petp_function(precipitation_mm, evapotranspiration_mm)
 
-  flow_balance_df <- hba_flow_balance(outflows = outflows,
+  flow_balance_df <- hbl_flow_balance(outflows = outflows,
                                       volume_change = res$volume_change,
                                       volume_change_petp = res$volume_change_petp)
   res <- cbind(res, flow_balance_df)
 
   res <- res[-nrow(res), ]  # Drop last row: NA propagates from 'volume_change'
 
-  res$residence_time_days <- hba_residence_time(res$volume,
+  res$residence_time_days <- hbl_residence_time(res$volume,
                                                 res$outflow_total,
                                                 units = "days")
 
   return(res)
 }
 
-.hba_argcheck <- function(
+.hbl_argcheck <- function(
     level,
     precipitation_mm,
     evapotranspiration_mm,
@@ -120,13 +120,13 @@
                           ),
                         length)
       if (length(unique(lengths)) > 1)
-        stop("Time series inputs must have equal lengths, see ?hba.")
+        stop("Time series inputs must have equal lengths, see ?hbl.")
 
       assert_function(storage_curve, check = list(rep(0, 10)) )
       assert_function(petp_function, check = list(1:10, rep(3, 10)) )
     },
     error = function(e) {
-      class(e) <- c(".hba_argcheck_error", class(e))
+      class(e) <- c(".hbl_argcheck_error", class(e))
       stop(e)
     })
 }

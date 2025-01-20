@@ -7,13 +7,13 @@ test_that("run_simulation() succeeds with default layer argument", {
 test_that("run_simulation() succeeds with valid layer argument", {
   s <- test_sim_small() |> setup_hydrology()  # drop simulation outputs
 
-  expect_no_error(run_simulation(s, layer = "hba"))
+  expect_no_error(run_simulation(s, layer = "hbl"))
 })
 
 test_that("run_simulation(layer) does not run downstream deps of 'layer'", {
   s <- test_sim_small() |>
     setup_hydrology()  |> # drop simulation outputs
-    run_simulation(layer = "hba")
+    run_simulation(layer = "hbl")
 
   expect_null(get_layer_output(s, "hbp"))
 })

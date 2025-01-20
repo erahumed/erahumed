@@ -25,6 +25,6 @@ simulation workflow.
 \examples{
 s <- erahumed_simulation()
 s
-run_simulation(s, layer = "hba")
+run_simulation(s, layer = "hbl")
 
 }

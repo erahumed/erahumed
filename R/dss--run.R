@@ -11,36 +11,36 @@ dss_run_server <- function(id, parameters, run) {
         get = "inp"
       )
 
-      layers$hba <- dss_run_layer(
+      layers$hbl <- dss_run_layer(
         layers = list(inp = layers$inp),
-        parameters = parameters$hba(),
-        setup_fn = setup_hba,
-        get = "hba"
+        parameters = parameters$hbl(),
+        setup_fn = setup_hbl,
+        get = "hbl"
       )
 
       layers$hbp <- dss_run_layer(
-        layers = list(inp = layers$inp, hba = layers$hba),
+        layers = list(inp = layers$inp, hbl = layers$hbl),
         parameters = parameters$hbp(),
         setup_fn = setup_hbp,
         get = "hbp"
       )
 
       layers$hbd <- dss_run_layer(
-        layers = list(inp = layers$inp, hba = layers$hba, hbp = layers$hbp),
+        layers = list(inp = layers$inp, hbl = layers$hbl, hbp = layers$hbp),
         parameters = parameters$hbd(),
         setup_fn = setup_hbd,
         get = "hbd"
       )
 
       layers$ca <- dss_run_layer(
-        layers = list(inp = layers$inp, hba = layers$hba, hbp = layers$hbp, hbd = layers$hbd),
+        layers = list(inp = layers$inp, hbl = layers$hbl, hbp = layers$hbp, hbd = layers$hbd),
         parameters = parameters$ca(),
         setup_fn = setup_ca,
         get = "ca"
       )
 
       layers$ct <- dss_run_layer(
-        layers = list(inp = layers$inp, hba = layers$hba, hbp = layers$hbp, hbd = layers$hbd, ca = layers$ca),
+        layers = list(inp = layers$inp, hbl = layers$hbl, hbp = layers$hbp, hbd = layers$hbd, ca = layers$ca),
         parameters = parameters$ct(),
         setup_fn = setup_ct,
         get = "ct"

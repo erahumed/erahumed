@@ -36,7 +36,7 @@ formalize through the concept of simulation *layers*. Concretely, simulations
 are composed of the following layers:
 
 * INP: INPut data.
-* HBA: Hydrological Balance of the Albufera lake.
+* hbl: Hydrological Balance of the Albufera lake.
 * HBP: Hydrological Balance of rice Paddy clusters.
 * CA: Chemical Applications. 
 * CT: Chemical Transport.
@@ -64,7 +64,7 @@ erahumed_layers()
 We can extract individual layers as follows:
 
 ```{r}
-get_layer(s, "hba")  # Extract the HBA layer
+get_layer(s, "hbl")  # Extract the hbl layer
 ```
 
 As revealed by the outputs above, the layers of the simulation are not yet 
@@ -117,14 +117,14 @@ s <- run_simulation(s, layer = "hbp")
 s
 ```
 
-would compute only the INP, HBA and HBP layers. If you simply want to compute 
+would compute only the INP, hbl and HBP layers. If you simply want to compute 
 all layers, you can just call:
 
 ```{r}
 s <- run_simulation(s)
 s
 ```
-(notice that this will not recompute the INP, HBA and HBP layers, since these 
+(notice that this will not recompute the INP, hbl and HBP layers, since these 
 results are already stored in the input simulation object).
 
 ### Analyse
@@ -182,13 +182,13 @@ interactive visualizations of the various model layers. These can be used by
 accessing the relevant model layer through `get_layer()`, for example:
 
 ```{r}
-get_layer(s, "hba") |>
+get_layer(s, "hbl") |>
   plot(variable = "volume")
 
 ```
 
 The documentation of the various plotting methods can be found under 
-`?plot.erahumed_<layer_name>`, *e.g.* `?plot.erahumed_hba`.
+`?plot.erahumed_<layer_name>`, *e.g.* `?plot.erahumed_hbl`.
 
 ## Further information
 

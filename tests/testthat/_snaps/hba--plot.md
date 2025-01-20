@@ -1,4 +1,4 @@
-# plot.hba snapshot is constant
+# plot.hbl snapshot is constant
 
     Code
       plot_obj

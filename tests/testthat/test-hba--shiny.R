@@ -1,8 +1,8 @@
 test_that("UI succeeds", {
-  expect_no_error(hba_input_ui("ui"))
+  expect_no_error(hbl_input_ui("ui"))
 })
 
-shiny::testServer(hba_input_server, {
+shiny::testServer(hbl_input_server, {
 
   expect_no_error(session$returned())
   expect_vector(session$returned(), list())
