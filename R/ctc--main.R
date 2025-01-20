@@ -21,7 +21,7 @@
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
-#' @export
+#' @noRd
 setup_ctc <- function(
     simulation,
     drift,

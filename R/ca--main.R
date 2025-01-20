@@ -17,7 +17,7 @@
 #' additional columns, named as the chemicals appearing in `ca_schedules_df`,
 #' provide the time series of applied doses, expressed in kilograms.
 #'
-#' @export
+#' @noRd
 setup_ca <- function(simulation, ca_schedules_df)
 {
   tryCatch({
