@@ -1,23 +1,11 @@
-#' @title Hydrology of the Albufera Natural Park
-#' @name hydrology
+#' @rdname erahumed_parameters
 #'
-#' @description These functions are used to setup, run and extract simulation
-#' results for the hydrology of the Albufera Natural Park system.
-#'
-#' @param simulation `[`\link{erahumed_simulation}`]` \cr
-#' The simulation object being modified.
 #' @param storage_curve `r erahumed_param_roxy("storage_curve", "hbl")`
 #' @param petp_function `r erahumed_param_roxy("petp_function", "hbl")`
 #' @param management_df `r erahumed_param_roxy("management_df", "hbc")`
 #' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbc")`
 #' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbc")`
 #' @param ditch_level_m `r erahumed_param_roxy("ditch_level_m", "hbd")`
-#' @param element `[character(1)]` \cr
-#' String specifying the landscape element for which simulation results are
-#' requested. Either `"lake"`, `"ditch"`, or `"cluster"`.
-#'
-#' @return Functions `setup_*()` and `compute_*()` return a
-#' \link{erahumed_simulation}, while `extract_*()` returns a `data.frame`.
 #'
 #' @export
 setup_hydrology <- function(
@@ -39,8 +27,6 @@ setup_hydrology <- function(
     setup_hbd(ditch_level_m = ditch_level_m)
 }
 
-#' @rdname hydrology
-#' @export
 compute_hydrology <- function(simulation) {
   assert_erahumed_simulation(simulation)
 
@@ -50,8 +36,6 @@ compute_hydrology <- function(simulation) {
     compute_hbd()
 }
 
-#' @rdname hydrology
-#' @export
 extract_hydrology <- function(simulation,
                               element = c("lake", "ditch", "cluster")
                               )

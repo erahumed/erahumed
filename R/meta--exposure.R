@@ -1,10 +1,5 @@
-#' @title Pesticide exposure in the Albufera Natural Park
-#' @name exposure
+#' @rdname erahumed_parameters
 #'
-#' @description These functions are used to setup, run and extract simulation
-#' results for pesticide exposure in the Albufera Natural Park system.
-#'
-#' @inheritParams hydrology
 #' @param drift `r erahumed_param_roxy("drift", "ctc")`
 #' @param covmax `r erahumed_param_roxy("covmax", "ctc")`
 #' @param jgrow `r erahumed_param_roxy("jgrow", "ctc")`
@@ -16,8 +11,6 @@
 #' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day", "ctc")`
 #' @param wilting `r erahumed_param_roxy("wilting", "ctc")`
 #' @param fc `r erahumed_param_roxy("fc", "ctc")`
-#'
-#' @inherit hydrology return
 #'
 #' @export
 setup_exposure <- function(
@@ -52,8 +45,6 @@ setup_exposure <- function(
              )
 }
 
-#' @rdname exposure
-#' @export
 compute_exposure <- function(simulation) {
   assert_erahumed_simulation(simulation)
 
@@ -62,8 +53,6 @@ compute_exposure <- function(simulation) {
     compute_ctc()
 }
 
-#' @rdname exposure
-#' @export
 extract_exposure <- function(simulation,
                              element = c("lake", "ditch", "cluster")
                              )
