@@ -1,9 +1,8 @@
 #' @title Hydrology of the Albufera Natural Park
 #' @name hydrology
 #'
-#' @description These functions are used to setup the parameters and run the
-#' calculations relevant for simulating the hydrology of the Albufera Natural
-#' Park system.
+#' @description These functions are used to setup, run and extract simulation
+#' results for the hydrology of the Albufera Natural Park system.
 #'
 #' @param simulation `[`\link{erahumed_simulation}`]` \cr
 #' The simulation object being modified.
@@ -13,8 +12,12 @@
 #' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbp")`
 #' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbp")`
 #' @param ditch_level_m `r erahumed_param_roxy("ditch_level_m", "hbd")`
+#' @param element `[character(1)]` \cr
+#' String specifying the landscape element for which simulation results are
+#' requested. Either `"lake"`, `"ditch"`, or `"cluster"`.
 #'
-#' @return An \link{erahumed_simulation}.
+#' @return Functions `setup_*()` and `compute_*()` return a
+#' \link{erahumed_simulation}, while `extract_*()` returns a `data.frame`.
 #'
 #' @export
 setup_hydrology <- function(
@@ -28,9 +31,7 @@ setup_hydrology <- function(
   )
 {
   simulation |>
-    setup_hba(storage_curve = storage_curve,
-              petp_function = petp_function
-              ) |>
+    setup_hba(storage_curve = storage_curve, petp_function = petp_function) |>
     setup_hbp(management_df = management_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm
@@ -41,8 +42,26 @@ setup_hydrology <- function(
 #' @rdname hydrology
 #' @export
 compute_hydrology <- function(simulation) {
+  assert_erahumed_simulation(simulation)
+
   simulation |>
     compute_hba() |>
     compute_hbp() |>
     compute_hbd()
+}
+
+#' @rdname hydrology
+#' @export
+extract_hydrology <- function(simulation,
+                              element = c("lake", "ditch", "cluster")
+                              )
+{
+  assert_erahumed_simulation(simulation)
+  element <- match.arg(element)
+
+  switch(element,
+         lake = get_layer_output(simulation, "hba"),
+         ditch = get_layer_output(simulation, "hbd"),
+         cluster = get_layer_output(simulation, "hbp")
+         )
 }

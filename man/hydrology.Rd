@@ -4,6 +4,7 @@
 \alias{hydrology}
 \alias{setup_hydrology}
 \alias{compute_hydrology}
+\alias{extract_hydrology}
 \title{Hydrology of the Albufera Natural Park}
 \usage{
 setup_hydrology(
@@ -17,6 +18,8 @@ setup_hydrology(
 )
 
 compute_hydrology(simulation)
+
+extract_hydrology(simulation, element = c("lake", "ditch", "cluster"))
 }
 \arguments{
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
@@ -33,12 +36,16 @@ The simulation object being modified.}
 \item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 
 \item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
+
+\item{element}{\verb{[character(1)]} \cr
+String specifying the landscape element for which simulation results are
+requested. Either \code{"lake"}, \code{"ditch"}, or \code{"cluster"}.}
 }
 \value{
-An \link{erahumed_simulation}.
+Functions \verb{setup_*()} and \verb{compute_*()} return a
+\link{erahumed_simulation}, while \verb{extract_*()} returns a \code{data.frame}.
 }
 \description{
-These functions are used to setup the parameters and run the
-calculations relevant for simulating the hydrology of the Albufera Natural
-Park system.
+These functions are used to setup, run and extract simulation
+results for the hydrology of the Albufera Natural Park system.
 }
