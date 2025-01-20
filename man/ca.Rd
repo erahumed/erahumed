@@ -5,7 +5,7 @@
 \alias{setup_ca}
 \title{Chemical Applications}
 \usage{
-setup_ca(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
+setup_ca(simulation, ca_schedules_df)
 }
 \arguments{
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr

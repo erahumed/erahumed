@@ -24,17 +24,17 @@
 #' @export
 setup_ct <- function(
     simulation,
-    drift = 0,
-    covmax = 0.5,
-    jgrow = 152,
-    SNK = 0,
-    dact_m = 0.1,
-    css_ppm = 50,
-    foc = 0.17,
-    bd_g_cm3 = 1.5,
-    qseep_m_day = 0,
-    wilting = 0.24,
-    fc = 0.35
+    drift,
+    covmax,
+    jgrow,
+    SNK,
+    dact_m,
+    css_ppm,
+    foc,
+    bd_g_cm3,
+    qseep_m_day,
+    wilting,
+    fc
 )
 {
   tryCatch({

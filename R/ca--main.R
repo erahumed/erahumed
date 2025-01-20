@@ -18,7 +18,7 @@
 #' provide the time series of applied doses, expressed in kilograms.
 #'
 #' @export
-setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
+setup_ca <- function(simulation, ca_schedules_df)
 {
   tryCatch({
     assert_erahumed_simulation(simulation)

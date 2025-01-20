@@ -29,8 +29,8 @@ erahumed_simulation <- function(
               seed = seed
               ) |>
     setup_hydrology() |>
-    setup_ca() |>
-    setup_ct()
+    setup_exposure() |>
+    setup_risk()
 }
 
 is_erahumed_simulation <- function(obj) {
