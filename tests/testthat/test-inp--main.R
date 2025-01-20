@@ -1,10 +1,10 @@
 test_that("setup_inp(): execution succeeds with valid input", {
 
   simulation <- erahumed_simulation()
-  outflows_df <- eval(formals(erahumed_simulation)$outflows_df)
-  weather_df <- eval(formals(erahumed_simulation)$weather_df)
-  variety_prop <- eval(formals(erahumed_simulation)$variety_prop)
-  seed <- eval(formals(erahumed_simulation)$seed)
+  outflows_df <- eval(formals(setup_hydrology)$outflows_df)
+  weather_df <- eval(formals(setup_hydrology)$weather_df)
+  variety_prop <- eval(formals(setup_hydrology)$variety_prop)
+  seed <- eval(formals(setup_hydrology)$seed)
 
 
   expect_no_error( setup_inp(simulation = simulation,
@@ -17,10 +17,10 @@ test_that("setup_inp(): execution succeeds with valid input", {
 
 test_that("setup_inp(): no error with simplified outflows_df", {
   simulation <- erahumed_simulation()
-  outflows_df <- eval(formals(erahumed_simulation)$outflows_df)
-  weather_df <- eval(formals(erahumed_simulation)$weather_df)
-  variety_prop <- eval(formals(erahumed_simulation)$variety_prop)
-  seed <- eval(formals(erahumed_simulation)$seed)
+  outflows_df <- eval(formals(setup_hydrology)$outflows_df)
+  weather_df <- eval(formals(setup_hydrology)$weather_df)
+  variety_prop <- eval(formals(setup_hydrology)$variety_prop)
+  seed <- eval(formals(setup_hydrology)$seed)
 
   cols <- c("date",
             "level",
@@ -41,10 +41,10 @@ test_that("setup_inp(): no error with simplified outflows_df", {
 
 test_that("setup_inp(): errors if provided with invalid input data", {
   simulation <- erahumed_simulation()
-  outflows_df <- eval(formals(erahumed_simulation)$outflows_df)
-  weather_df <- eval(formals(erahumed_simulation)$weather_df)
-  variety_prop <- eval(formals(erahumed_simulation)$variety_prop)
-  seed <- eval(formals(erahumed_simulation)$seed)
+  outflows_df <- eval(formals(setup_hydrology)$outflows_df)
+  weather_df <- eval(formals(setup_hydrology)$weather_df)
+  variety_prop <- eval(formals(setup_hydrology)$variety_prop)
+  seed <- eval(formals(setup_hydrology)$seed)
 
   expect_error(
     setup_inp(
@@ -70,10 +70,10 @@ test_that("setup_inp(): errors if provided with invalid input data", {
 
 test_that("setup_inp(): error if 'date' cols of input dfs are not intervals", {
   simulation <- erahumed_simulation()
-  outflows_df <- eval(formals(erahumed_simulation)$outflows_df)
-  weather_df <- eval(formals(erahumed_simulation)$weather_df)
-  variety_prop <- eval(formals(erahumed_simulation)$variety_prop)
-  seed <- eval(formals(erahumed_simulation)$seed)
+  outflows_df <- eval(formals(setup_hydrology)$outflows_df)
+  weather_df <- eval(formals(setup_hydrology)$weather_df)
+  variety_prop <- eval(formals(setup_hydrology)$variety_prop)
+  seed <- eval(formals(setup_hydrology)$seed)
 
   expect_error(
     setup_inp(
@@ -98,10 +98,10 @@ test_that("setup_inp(): error if 'date' cols of input dfs are not intervals", {
 
 test_that("setup_inp(): no error with modified variety proportions", {
   simulation <- erahumed_simulation()
-  outflows_df <- eval(formals(erahumed_simulation)$outflows_df)
-  weather_df <- eval(formals(erahumed_simulation)$weather_df)
+  outflows_df <- eval(formals(setup_hydrology)$outflows_df)
+  weather_df <- eval(formals(setup_hydrology)$weather_df)
   variety_prop <- c(6,2,2)
-  seed <- eval(formals(erahumed_simulation)$seed)
+  seed <- eval(formals(setup_hydrology)$seed)
 
 
   expect_no_error( setup_inp(simulation = simulation,
@@ -114,9 +114,9 @@ test_that("setup_inp(): no error with modified variety proportions", {
 
 test_that("setup_inp(): error with invalid variety proportions", {
   simulation <- erahumed_simulation()
-  outflows_df <- eval(formals(erahumed_simulation)$outflows_df)
-  weather_df <- eval(formals(erahumed_simulation)$weather_df)
-  seed <- eval(formals(erahumed_simulation)$seed)
+  outflows_df <- eval(formals(setup_hydrology)$outflows_df)
+  weather_df <- eval(formals(setup_hydrology)$weather_df)
+  seed <- eval(formals(setup_hydrology)$seed)
 
   expect_error(
     setup_inp(

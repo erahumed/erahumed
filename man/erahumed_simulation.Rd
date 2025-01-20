@@ -4,21 +4,7 @@
 \alias{erahumed_simulation}
 \title{Initialize an ERAHUMED simulation}
 \usage{
-erahumed_simulation(
-  outflows_df = erahumed::albufera_outflows,
-  weather_df = erahumed::albufera_weather,
-  variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
-  seed = 840
-)
-}
-\arguments{
-\item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
-
-\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
-
-\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
-
-\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
+erahumed_simulation()
 }
 \value{
 An object of class \code{erahumed_simulation}.

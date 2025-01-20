@@ -4,10 +4,6 @@
 #' Initializes an ERAHUMED simulation. See \link{erahumed_simulation_interface}
 #' for a detailed description of the simulation workflow.
 #'
-#' @param outflows_df `r erahumed_param_roxy("outflows_df", "inp")`
-#' @param weather_df `r erahumed_param_roxy("weather_df", "inp")`
-#' @param variety_prop `r erahumed_param_roxy("variety_prop", "inp")`
-#' @param seed `r erahumed_param_roxy("seed", "inp")`
 #'
 #' @return An object of class `erahumed_simulation`.
 #'
@@ -15,19 +11,10 @@
 #' erahumed_simulation()
 #'
 #' @export
-erahumed_simulation <- function(
-    outflows_df = erahumed::albufera_outflows,
-    weather_df = erahumed::albufera_weather,
-    variety_prop = c("J.Sendra" = 0.8, "Bomba" = 0.1, "Clearfield" = 0.1),
-    seed = 840
-    )
+erahumed_simulation <- function()
 {
+
   structure(list(), class = "erahumed_simulation") |>
-    setup_inp(outflows_df = outflows_df,
-              weather_df = weather_df,
-              variety_prop = variety_prop,
-              seed = seed
-              ) |>
     setup_hydrology() |>
     setup_exposure() |>
     setup_risk()
