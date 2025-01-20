@@ -1,6 +1,6 @@
 simulation_from_layers <- function(inp = NULL,
                                    hbl = NULL,
-                                   hbp = NULL,
+                                   hbc = NULL,
                                    hbd = NULL,
                                    ca = NULL,
                                    ct = NULL)
@@ -8,7 +8,7 @@ simulation_from_layers <- function(inp = NULL,
   s <- erahumed_simulation() |>
     sim_replace_layer("inp", inp) |>
     sim_replace_layer("hbl", hbl) |>
-    sim_replace_layer("hbp", hbp) |>
+    sim_replace_layer("hbc", hbc) |>
     sim_replace_layer("hbd", hbd) |>
     sim_replace_layer("ca", ca) |>
     sim_replace_layer("ct", ct)

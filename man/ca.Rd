@@ -20,7 +20,7 @@ An objects of class \link{erahumed_simulation}.
 This layer computes the application days of chemicals to rice fields, in agreement with the simulated hydrological balance of the latters.
 }
 \details{
-The output \code{data.frame} extends the output of the underlying \link{hbp}
+The output \code{data.frame} extends the output of the underlying \link{hbc}
 layer, preserving its cardinality (one row per cluster per day). The
 additional columns, named as the chemicals appearing in \code{ca_schedules_df},
 provide the time series of applied doses, expressed in kilograms.

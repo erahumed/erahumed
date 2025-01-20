@@ -37,7 +37,7 @@ are composed of the following layers:
 
 * INP: INPut data.
 * hbl: Hydrological Balance of the Albufera lake.
-* HBP: Hydrological Balance of rice Paddy clusters.
+* hbc: Hydrological Balance of rice Paddy clusters.
 * CA: Chemical Applications. 
 * CT: Chemical Transport.
 
@@ -80,11 +80,11 @@ Setup of individual layers is achieved through the family of `setup_*()`
 functions, that receive a simulation as input, and return a simulation with the 
 updated setup. 
 
-For instance, to configure the height threshold parameter used in HBP layer 
-computations (see `?setup_hbp`), we would use:
+For instance, to configure the height threshold parameter used in hbc layer 
+computations (see `?setup_hbc`), we would use:
 
 ```{r}
-s <- setup_hbp(s, height_thresh_cm = 1) 
+s <- setup_hbc(s, height_thresh_cm = 1) 
 ```
 
 Similarly, to limit the date range of the simulation, we can provide a filtered  
@@ -113,18 +113,18 @@ using the `run_simulation()` function. In order to speed up iterations,
 upstream dependencies. For example:
 
 ```{r}
-s <- run_simulation(s, layer = "hbp")
+s <- run_simulation(s, layer = "hbc")
 s
 ```
 
-would compute only the INP, hbl and HBP layers. If you simply want to compute 
+would compute only the INP, hbl and hbc layers. If you simply want to compute 
 all layers, you can just call:
 
 ```{r}
 s <- run_simulation(s)
 s
 ```
-(notice that this will not recompute the INP, hbl and HBP layers, since these 
+(notice that this will not recompute the INP, hbl and hbc layers, since these 
 results are already stored in the input simulation object).
 
 ### Analyse
@@ -136,8 +136,8 @@ identified by a `cluster_id`).
 You can extract the output (a `data.frame`) of a given layer as follows:
 
 ```{r}
-hbp_df <- get_layer_output(s, "hbp")  # Get output data.frame of HBP layer
-head(hbp_df)
+hbc_df <- get_layer_output(s, "hbc")  # Get output data.frame of hbc layer
+head(hbc_df)
 ```
 
 From here on, the analysis may proceed in the way you find more convenient. 
@@ -152,7 +152,7 @@ ditch <- "d4"
 tancat <- FALSE
 variety <- "Clearfield"
 
-clusters_df <- hbp_df |>
+clusters_df <- hbc_df |>
   filter(ditch == !!ditch, tancat == !!tancat, variety == !!variety)
 
 avg_df <- clusters_df |>

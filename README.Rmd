@@ -112,7 +112,7 @@ upstream to downstream):
 
 * INP [`setup_inp()`]: INPut data.
 * hbl [`setup_hbl()`]: Hydrological Balance of the Albufera lake.
-* HBP [`setup_hbp()`]: Hydrological Balance of rice Paddy clusters.
+* hbc [`setup_hbc()`]: Hydrological Balance of rice Paddy clusters.
 * CA [`setup_ca()`]: Chemical Applications. 
 * CT [`setup_ct()`]: Chemical Transport.
 

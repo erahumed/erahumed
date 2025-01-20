@@ -15,8 +15,8 @@
 #' at TODO #46.
 #'
 #' For analyzing Albufera data, you should not need to directly run this
-#' function, and you can instead use the \link{hbp} wrapper, that
-#' calls `hbp()` with the right arguments, extracted from the built-in
+#' function, and you can instead use the \link{hbc} wrapper, that
+#' calls `hbc()` with the right arguments, extracted from the built-in
 #' datasets.
 #'
 #'
@@ -54,12 +54,12 @@
 #' among `cluster_id`; `petp_cm` should be consistent among `date`; *etc.etc.*.
 #'
 #' @return
-#' An object of class `hbp`, a lightweight wrapper of `data.frame`
+#' An object of class `hbc`, a lightweight wrapper of `data.frame`
 #' with a few additional visualization methods (most prominently
-#' \link{plot.hbp}).
+#' \link{plot.hbc}).
 #'
 #' @noRd
-.hbp <- function(
+.hbc <- function(
     date,
     cluster_id,
     ditch,
@@ -74,7 +74,7 @@
     height_thresh_cm
     ) {
 
-  pcts <- hbp_ditch_inflow_pct(ditch, area_m2)
+  pcts <- hbc_ditch_inflow_pct(ditch, area_m2)
 
   capacity_m3_s <- total_inflow_lake * pcts$inflow_pct[match(ditch, pcts$ditch)]
 
@@ -98,7 +98,7 @@
         lapply(list(...), \(x) x[idx])
         )
 
-      do.call(hbp_simulate_ditch, args)
+      do.call(hbc_simulate_ditch, args)
       }
     ) |>
     do.call(c, args = _) |>  # flatten to single list of data-frames
@@ -110,7 +110,7 @@
 
 
 
-.hbp_data_prep <- function(simulation,
+.hbc_data_prep <- function(simulation,
                           management_df,
                           clusters_df,
                           ideal_flow_rate_cm,

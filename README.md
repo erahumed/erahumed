@@ -116,7 +116,7 @@ from upstream to downstream):
 
 - INP \[`setup_inp()`\]: INPut data.
 - hbl \[`setup_hbl()`\]: Hydrological Balance of the Albufera lake.
-- HBP \[`setup_hbp()`\]: Hydrological Balance of rice Paddy clusters.
+- hbc \[`setup_hbc()`\]: Hydrological Balance of rice Paddy clusters.
 - CA \[`setup_ca()`\]: Chemical Applications.
 - CT \[`setup_ct()`\]: Chemical Transport.
 
@@ -130,11 +130,11 @@ get_layer(simulation, "hbl")
 get_layer_parameters(simulation, "hbl")
 #> $storage_curve
 #> \(level) 25.58 * 1e6 + level * 63.086 * 1e6
-#> <environment: 0x00000253a559e848>
+#> <environment: 0x000001f8a9f9c848>
 #> 
 #> $petp_function
 #> \(p, etp) 53.9 * 1e3 * (p - etp)
-#> <environment: 0x00000253a559e848>
+#> <environment: 0x000001f8a9f9c848>
 get_layer_output(simulation, "hbl") |> head()
 #>       level precipitation_mm evapotranspiration_mm       date is_imputed_level
 #> 1 0.3725000              8.2                  0.54 2005-12-20            FALSE

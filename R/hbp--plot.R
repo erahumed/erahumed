@@ -1,9 +1,9 @@
-#' Plot HBP simulation layer output
+#' Plot hbc simulation layer output
 #'
 #' @description
-#' Plot method for \link{hbp} simulation layers.
+#' Plot method for \link{hbc} simulation layers.
 #'
-#' @param x An object of class `hbp`.
+#' @param x An object of class `hbc`.
 #' @param type Type of plot to be generated. Currently, only the
 #' `"cluster_view"` plot type is implemented.
 #' @param ... Further plotting parameters, associated with the plot type
@@ -18,16 +18,16 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @export
-plot.erahumed_hbp <- function(x, type = c("cluster_view", "map_view"), ...) {
+plot.erahumed_hbc <- function(x, type = c("cluster_view", "map_view"), ...) {
   type <- match.arg(type)
 
   switch(type,
-         cluster_view = plot_erahumed_hbp_cluster_view(x, ...),
-         map_view = plot_erahumed_hbp_map_view(x, ...)
+         cluster_view = plot_erahumed_hbc_cluster_view(x, ...),
+         map_view = plot_erahumed_hbc_map_view(x, ...)
   )
 }
 
-plot_erahumed_hbp_cluster_view <- function(x, ...) {
+plot_erahumed_hbc_cluster_view <- function(x, ...) {
   args <- list(...)
   data <- get_layer_output(x)
 
@@ -69,6 +69,6 @@ plot_erahumed_hbp_cluster_view <- function(x, ...) {
     dygraphs::dyUnzoom()
 }
 
-plot_erahumed_hbp_map_view <- function(x, ...) {
+plot_erahumed_hbc_map_view <- function(x, ...) {
   stop("Not yet implemented.")
 }

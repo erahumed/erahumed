@@ -10,8 +10,8 @@ outflows_df <- albufera_outflows |>
 
 df <- erahumed_simulation() |>
   setup_inp(outflows_df = outflows_df) |>
-  run_simulation("hbp") |>
-  get_layer_output("hbp") |>
+  run_simulation("hbc") |>
+  get_layer_output("hbc") |>
   select(cluster_id, variety, area_m2, tancat, ditch) |>
   unique()
 

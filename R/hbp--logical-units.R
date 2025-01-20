@@ -4,7 +4,7 @@
 #' @details `ditch` and `area` must have the same cardinality, equal to the
 #' total number of clusters.
 #' @noRd
-hbp_ditch_inflow_pct <- function(ditch, area)
+hbc_ditch_inflow_pct <- function(ditch, area)
 {
   res <- stats::aggregate(area ~ ditch, FUN = sum)
   res$area <- res$area / sum(res$area)
@@ -13,7 +13,7 @@ hbp_ditch_inflow_pct <- function(ditch, area)
   return(res)
 }
 
-hbp_cluster_variety <- function(area, ditch, tancat, variety_prop) {
+hbc_cluster_variety <- function(area, ditch, tancat, variety_prop) {
   n_clusters <- length(area)
 
   variety_prop <- variety_prop / sum(variety_prop)
@@ -52,7 +52,7 @@ hbp_cluster_variety <- function(area, ditch, tancat, variety_prop) {
   return(res)
 }
 
-hbp_simulate_ditch <- function(
+hbc_simulate_ditch <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
@@ -67,7 +67,7 @@ hbp_simulate_ditch <- function(
     )
 {
   df_list <-
-    hbp_make_df_list(
+    hbc_make_df_list(
       ideal_height_eod_cm = ideal_height_eod_cm,
       ideal_irrigation = ideal_irrigation,
       ideal_draining = ideal_draining,
@@ -84,13 +84,13 @@ hbp_simulate_ditch <- function(
     as.logical()
 
   for (j in seq_along(df_list)) {
-    args <- hbp_extract_daily_inputs(df_list, j)
+    args <- hbc_extract_daily_inputs(df_list, j)
     args <- c(args,
               list(ideal_flow_rate_cm = ideal_flow_rate_cm,
                    height_thresh_cm = height_thresh_cm,
                    randomize_clusters = randomize_clusters)
     )
-    update_j <- do.call(hbp_daily_step, args)
+    update_j <- do.call(hbc_daily_step, args)
 
     df_list[[j]][names(df_list[[j]]) %in% names(update_j)] <- NULL
     df_list[[j]] <- c(df_list[[j]], update_j)
@@ -101,7 +101,7 @@ hbp_simulate_ditch <- function(
   return(df_list)
 }
 
-hbp_make_df_list <- function(
+hbc_make_df_list <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
@@ -136,7 +136,7 @@ hbp_make_df_list <- function(
     )
 }
 
-hbp_extract_daily_inputs <- function(df_list, j) {
+hbc_extract_daily_inputs <- function(df_list, j) {
   current <- df_list[[j]]
   previous <- if (j > 1) df_list[[j - 1]] else current
 
@@ -173,7 +173,7 @@ hbp_extract_daily_inputs <- function(df_list, j) {
   )
 }
 
-hbp_daily_step <- function(
+hbc_daily_step <- function(
     height_sod_cm,
     date,
     plan_delay_lag,
@@ -194,35 +194,35 @@ hbp_daily_step <- function(
             irrigation = irrigation,
             draining = draining)
 
-  l <- c(l, hbp_ideal_diff_flow_cm(ideal_height_eod_cm = ideal_height_eod_cm,
+  l <- c(l, hbc_ideal_diff_flow_cm(ideal_height_eod_cm = ideal_height_eod_cm,
                                    height_sod_cm = height_sod_cm,
                                    petp_cm = petp_cm))
 
-  l <- c(l, hbp_ideal_flows_cm(ideal_diff_flow_cm = l$ideal_diff_flow_cm,
+  l <- c(l, hbc_ideal_flows_cm(ideal_diff_flow_cm = l$ideal_diff_flow_cm,
                                irrigation = irrigation,
                                draining = draining,
                                ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  l <- c(l, hbp_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
+  l <- c(l, hbc_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
                                   area_m2 = area_m2,
                                   capacity_m3_s = capacity_m3_s,
                                   randomize_clusters = randomize_clusters))
 
-  l <- c(l, hbp_outflow_cm(outflow_m3_s = l$outflow_m3_s,
+  l <- c(l, hbc_outflow_cm(outflow_m3_s = l$outflow_m3_s,
                                 area_m2 = area_m2))
 
-  l <- c(l, hbp_inflow_cm(outflow_cm = l$outflow_cm,
+  l <- c(l, hbc_inflow_cm(outflow_cm = l$outflow_cm,
                                ideal_diff_flow_cm = l$ideal_diff_flow_cm))
 
-  l <- c(l, hbp_inflow_m3_s(inflow_cm = l$inflow_cm,
+  l <- c(l, hbc_inflow_m3_s(inflow_cm = l$inflow_cm,
                                  area_m2 = area_m2))
 
-  l <- c(l, hbp_height_eod_cm(height_sod_cm = height_sod_cm,
+  l <- c(l, hbc_height_eod_cm(height_sod_cm = height_sod_cm,
                                petp_cm = petp_cm,
                                inflow_cm = l$inflow_cm,
                                outflow_cm = l$outflow_cm))
 
-  l <- c(l, hbp_plan_delay(plan_delay_lag = plan_delay_lag,
+  l <- c(l, hbc_plan_delay(plan_delay_lag = plan_delay_lag,
                            ideal_height_eod_cm = ideal_height_eod_cm,
                            height_eod_cm = l$height_eod_cm,
                            date = date,
@@ -233,7 +233,7 @@ hbp_daily_step <- function(
 }
 
 
-hbp_ideal_diff_flow_cm <- function(
+hbc_ideal_diff_flow_cm <- function(
     ideal_height_eod_cm,
     height_sod_cm,
     petp_cm
@@ -243,7 +243,7 @@ hbp_ideal_diff_flow_cm <- function(
   return( list(ideal_diff_flow_cm = res) )
 }
 
-hbp_ideal_flows_cm <- function(
+hbc_ideal_flows_cm <- function(
     ideal_diff_flow_cm,
     irrigation,
     draining,
@@ -263,7 +263,7 @@ hbp_ideal_flows_cm <- function(
                ideal_outflow_cm = ideal_outflow_cm) )
 }
 
-hbp_outflow_m3_s <- function(
+hbc_outflow_m3_s <- function(
     ideal_outflow_cm,
     area_m2,
     capacity_m3_s,
@@ -292,19 +292,19 @@ hbp_outflow_m3_s <- function(
   return( list(outflow_m3_s = outflow_m3_s) )
 }
 
-hbp_outflow_cm <- function(outflow_m3_s, area_m2) {
+hbc_outflow_cm <- function(outflow_m3_s, area_m2) {
   list( outflow_cm = m3_s_to_cm_day(outflow_m3_s, area_m2) )
 }
 
-hbp_inflow_cm <- function(outflow_cm, ideal_diff_flow_cm) {
+hbc_inflow_cm <- function(outflow_cm, ideal_diff_flow_cm) {
   list( inflow_cm = pmax2(outflow_cm + ideal_diff_flow_cm, 0) )
 }
 
-hbp_inflow_m3_s <- function(inflow_cm, area_m2) {
+hbc_inflow_m3_s <- function(inflow_cm, area_m2) {
   list(inflow_m3_s = cm_day_to_m3_s(inflow_cm, area_m2))
 }
 
-hbp_height_eod_cm <- function(
+hbc_height_eod_cm <- function(
     height_sod_cm,
     petp_cm,
     inflow_cm,
@@ -316,7 +316,7 @@ hbp_height_eod_cm <- function(
   return( list(height_eod_cm = res) )
 }
 
-hbp_plan_delay <- function(
+hbc_plan_delay <- function(
     plan_delay_lag,
     ideal_height_eod_cm,
     height_eod_cm,

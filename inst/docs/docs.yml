@@ -105,7 +105,7 @@ layers:  # ERAHUMED layers, in dependency order.
 
 
 
-  hbp:
+  hbc:
     title: "Hydrological Balance of rice Paddy clusters"
     description: >-
       This layer simulates the local hydrology (water depths, inflows and

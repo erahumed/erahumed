@@ -1,20 +1,20 @@
-#' @title `r erahumed_docs("layers", "hbp", "title")`
-#' @name hbp
+#' @title `r erahumed_docs("layers", "hbc", "title")`
+#' @name hbc
 #'
 #' @family simulation layers
 #'
-#' @description `r erahumed_docs("layers", "hbp", "description")`
+#' @description `r erahumed_docs("layers", "hbc", "description")`
 #'
 #' @inheritParams inp
-#' @param management_df `r erahumed_param_roxy("management_df", "hbp")`
-#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbp")`
-#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbp")`
+#' @param management_df `r erahumed_param_roxy("management_df", "hbc")`
+#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbc")`
+#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbc")`
 #'
 #' @return An object of class \link{erahumed_simulation}.
 #'
 #' @details
 #' The output `data.frame` for this model layer, retrieved through
-#' `get_layer_output(layer = "hbp")` has one row per cluster and per day,
+#' `get_layer_output(layer = "hbc")` has one row per cluster and per day,
 #' providing the simulated hydrological times-series for all paddy clusters. The
 #' data-set has the following columns:
 #'
@@ -37,9 +37,9 @@
 #'   be drained on this day of the year.}
 #'   \item{ideal_irrigation}{`TRUE` or `FALSE`, whether the cluster is supposed
 #'   to be irrigated on this day of the year.}
-#'   \item{ideal_inflow_cm}{Ideal inflow computed by the HBP algorithm
+#'   \item{ideal_inflow_cm}{Ideal inflow computed by the hbc algorithm
 #'   (see TODO #46).}
-#'   \item{ideal_outflow_cm}{Ideal outflow computed by the HBP algorithm
+#'   \item{ideal_outflow_cm}{Ideal outflow computed by the hbc algorithm
 #'   (see TODO #46).}
 #'   \item{ideal_diff_flow_cm}{Ideal inflow minus ideal outflow.}
 #'   \item{ideal_height_eod_cm}{Ideal water level of cluster at the end of day
@@ -62,7 +62,7 @@
 #' }
 #'
 #' @noRd
-setup_hbp <- function(
+setup_hbc <- function(
     simulation, management_df, ideal_flow_rate_cm, height_thresh_cm
     )
 {
@@ -87,46 +87,46 @@ setup_hbp <- function(
 
     },
     error = function(e) {
-      class(e) <- c("validate_hbp_params_error", class(e))
+      class(e) <- c("validate_hbc_params_error", class(e))
       stop(e)
     }
   )
 
-  setup_layer(layer = "hbp")
+  setup_layer(layer = "hbc")
 }
 
 
 
-compute_hbp <- function(simulation)
+compute_hbc <- function(simulation)
 {
-  management_df <- get_layer_parameters(simulation, "hbp")[["management_df"]]
+  management_df <- get_layer_parameters(simulation, "hbc")[["management_df"]]
   clusters_df <- albufera_clusters
-  ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbp")[["ideal_flow_rate_cm"]]
-  height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+  ideal_flow_rate_cm <- get_layer_parameters(simulation, "hbc")[["ideal_flow_rate_cm"]]
+  height_thresh_cm <- get_layer_parameters(simulation, "hbc")[["height_thresh_cm"]]
   cv_map <- get_layer_aux(simulation, "inp")[["cluster_variety_map"]]
   seed <- get_layer_parameters(simulation, "inp")[["seed"]]
 
   withr::with_seed(seed, {
-    .hbp_args <- .hbp_data_prep(simulation = simulation,
+    .hbc_args <- .hbc_data_prep(simulation = simulation,
                                 management_df = management_df,
                                 clusters_df = clusters_df,
                                 ideal_flow_rate_cm = ideal_flow_rate_cm,
                                 height_thresh_cm = height_thresh_cm,
                                 cv_map = cv_map)
 
-    output <- do.call(.hbp, .hbp_args)
+    output <- do.call(.hbc, .hbc_args)
     })
 
-  validate_hbp_output(output)
+  validate_hbc_output(output)
 
-  simulation [["hbp"]] [["output"]] <- output
+  simulation [["hbc"]] [["output"]] <- output
 
   return(simulation)
 }
 
 
 
-validate_hbp_output <- function(output) {
+validate_hbc_output <- function(output) {
   assert_data.frame(output,
                     template =   data.frame(ideal_height_eod_cm = numeric(),
                                             height_eod_cm = numeric(),

@@ -1,5 +1,5 @@
 
-ca_to_cluster_wrap <- function(cluster_hbp_df,
+ca_to_cluster_wrap <- function(cluster_hbc_df,
                                ca_schedules_df,
                                height_thresh_cm)
 {
@@ -10,11 +10,11 @@ ca_to_cluster_wrap <- function(cluster_hbp_df,
     previous_applications
   )
   {
-    ca_to_cluster(height_eod_cm = cluster_hbp_df$height_eod_cm,
-                  seed_day = cluster_hbp_df$seed_day,
-                  irrigation = cluster_hbp_df$irrigation,
-                  draining = cluster_hbp_df$draining,
-                  plan_delay = cluster_hbp_df$plan_delay,
+    ca_to_cluster(height_eod_cm = cluster_hbc_df$height_eod_cm,
+                  seed_day = cluster_hbc_df$seed_day,
+                  irrigation = cluster_hbc_df$irrigation,
+                  draining = cluster_hbc_df$draining,
+                  plan_delay = cluster_hbc_df$plan_delay,
                   application_day = application_day,
                   amount_kg = amount_kg,
                   application_type = application_type,
@@ -23,11 +23,11 @@ ca_to_cluster_wrap <- function(cluster_hbp_df,
 
   }
 
-  variety <- cluster_hbp_df$variety[[1]]
-  area_ha <- cluster_hbp_df$area_m2[[1]] * 1e-4
+  variety <- cluster_hbc_df$variety[[1]]
+  area_ha <- cluster_hbc_df$area_m2[[1]] * 1e-4
   applications_df <- ca_schedules_df |> (\(.) .[.$rice_variety == variety, ])()
 
-  res <- cluster_hbp_df
+  res <- cluster_hbc_df
   for (chemical in unique(ca_schedules_df$chemical))
     res[[chemical]] <- 0
 

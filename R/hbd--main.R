@@ -29,9 +29,9 @@ setup_hbd <- function(simulation, ditch_level_m)
 compute_hbd <- function(simulation)
 {
   ditch_level_m <- get_layer_parameters(simulation, "hbd")[["ditch_level_m"]]
-  hbp_res <- get_layer_output(simulation, "hbp")
+  hbc_res <- get_layer_output(simulation, "hbc")
 
-  inflow_clusters_df <- hbp_res |>
+  inflow_clusters_df <- hbc_res |>
     stats::aggregate(outflow_m3_s ~ ditch + date, FUN = sum) |>
     (function(df) {
       df$inflow_clusters_m3 <- df$outflow_m3_s * s_per_day()
@@ -39,7 +39,7 @@ compute_hbd <- function(simulation)
       return(df)
       })()
 
-  outflow_lake_df <- hbp_res |>
+  outflow_lake_df <- hbc_res |>
     stats::aggregate(capacity_m3_s ~ ditch + date, FUN = \(x) x[[1]]) |>
     (function(df) {
       df$outflow_lake_m3 <- df$capacity_m3_s * s_per_day()

@@ -12,11 +12,11 @@ s0 <-
             )
 
 bench_hbl <- bench::mark(s1 <- run_simulation(s0, "hbl"))
-bench_hbp <- bench::mark(s2 <- run_simulation(s1, "hbp"))
+bench_hbc <- bench::mark(s2 <- run_simulation(s1, "hbc"))
 bench_ca <- bench::mark(s3 <- run_simulation(s2, "ca"))
 bench_ct <- bench::mark(s4 <- run_simulation(s3, "ct"))
 
-bench <- bind_rows(bench_hbl, bench_hbp, bench_ca, bench_ct) |>
-  mutate(layer = c("hbl", "hbp", "ca", "ct")) |>
+bench <- bind_rows(bench_hbl, bench_hbc, bench_ca, bench_ct) |>
+  mutate(layer = c("hbl", "hbc", "ca", "ct")) |>
   transmute(layer, t = median, t_pct = as.numeric(t / sum(t)))
 

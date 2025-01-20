@@ -15,7 +15,7 @@ test_that("run_simulation(layer) does not run downstream deps of 'layer'", {
     setup_hydrology()  |> # drop simulation outputs
     run_simulation(layer = "hbl")
 
-  expect_null(get_layer_output(s, "hbp"))
+  expect_null(get_layer_output(s, "hbc"))
 })
 
 test_that("run_simulation() throws an error for invalid layer argument", {
