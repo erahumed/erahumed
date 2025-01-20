@@ -22,7 +22,7 @@
 #'   get_layer("hbl") |>
 #'   plot("volume")
 #' }
-#' @export
+#' @noRd
 get_layer <- function(simulation, layer) {
   assert_erahumed_simulation(simulation)
   layer <- match.arg(layer, erahumed_layers())
@@ -44,19 +44,19 @@ get_layer <- function(simulation, layer) {
 #' @return
 #' A `data.frame`.
 #'
-#' @export
+#' @noRd
 get_layer_output <- function(object, ...) {
   UseMethod("get_layer_output", object)
 }
 
 #' @rdname get_layer_output
-#' @export
+#' @noRd
 get_layer_output.erahumed_simulation_layer <- function(object, ...) {
   return(object[["output"]])
 }
 
 #' @rdname get_layer_output
-#' @export
+#' @noRd
 get_layer_output.erahumed_simulation <- function(object, layer, ...) {
   layer_obj <- get_layer(object, layer)
   get_layer_output(layer_obj)
@@ -86,19 +86,19 @@ reset_layer_output <- function(simulation, layer = erahumed_layers())
 #' @return
 #' A `list`.
 #'
-#' @export
+#' @noRd
 get_layer_parameters <- function(object, ...) {
   UseMethod("get_layer_parameters", object)
 }
 
 #' @rdname get_layer_parameters
-#' @export
+#' @noRd
 get_layer_parameters.erahumed_simulation_layer <- function(object, ...) {
   return(object$params)
 }
 
 #' @rdname get_layer_parameters
-#' @export
+#' @noRd
 get_layer_parameters.erahumed_simulation <- function(object, layer, ...) {
   comp_obj <- get_layer(object, layer)
   get_layer_parameters(comp_obj)
@@ -109,12 +109,12 @@ get_layer_aux <- function(object, ...) {
   UseMethod("get_layer_aux", object)
 }
 
-#' @exportS3Method
+#' @noRd
 get_layer_aux.erahumed_simulation_layer <- function(object, ...) {
   return(object$aux)
 }
 
-#' @exportS3Method
+#' @noRd
 get_layer_aux.erahumed_simulation <- function(object, layer, ...) {
   comp_obj <- get_layer(object, layer)
   get_layer_aux(comp_obj)
