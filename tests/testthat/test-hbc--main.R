@@ -126,15 +126,15 @@ test_that("setup_hbc() error for invalid 'management_df' date interval", {
 })
 
 test_that("hbc results depend on seed", {
-  s1 <- test_sim_small(seed = 1, force = TRUE) |> run_simulation("hbc")
-  s2 <- test_sim_small(seed = 2, force = TRUE) |> run_simulation("hbc")
+  s1 <- test_sim_small(seed = 1, force = TRUE) |> run_simulation()
+  s2 <- test_sim_small(seed = 2, force = TRUE) |> run_simulation()
 
   expect_false( identical(s1, s2) )
 })
 
 test_that("hbc results are reproducible by fixing seed", {
-  s1 <- test_sim_small(seed = 1, force = TRUE) |> run_simulation("hbc")
-  s1bis <- test_sim_small(seed = 1, force = TRUE) |> run_simulation("hbc")
+  s1 <- test_sim_small(seed = 1, force = TRUE) |> run_simulation()
+  s1bis <- test_sim_small(seed = 1, force = TRUE) |> run_simulation()
 
   expect_identical(s1, s1bis)
 })

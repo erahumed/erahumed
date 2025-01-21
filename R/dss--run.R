@@ -4,47 +4,22 @@ dss_run_server <- function(id, parameters, run) {
     layers <- shiny::reactiveValues()
 
     shiny::observe({
-      layers$inp <- dss_run_layer(
-        layers = list(),
-        parameters = parameters$inp(),
-        setup_fn = setup_inp,
-        get = "inp"
-      )
+      sim <- erahumed_simulation() |>
+        setup_from_par_list(parameters$inp(), setup_inp) |>
+        setup_from_par_list(parameters$hbl(), setup_hbl) |>
+        setup_from_par_list(parameters$hbc(), setup_hbc) |>
+        setup_from_par_list(parameters$hbd(), setup_hbd) |>
+        setup_from_par_list(parameters$ca(), setup_ca) |>
+        setup_from_par_list(parameters$ctc(), setup_ctc) |>
+        run_simulation()
 
-      layers$hbl <- dss_run_layer(
-        layers = list(inp = layers$inp),
-        parameters = parameters$hbl(),
-        setup_fn = setup_hbl,
-        get = "hbl"
-      )
+      layers$inp <- get_layer(sim, "inp")
+      layers$hbl <- get_layer(sim, "hbl")
+      layers$hbc <- get_layer(sim, "hbc")
+      layers$hbd <- get_layer(sim, "hbd")
+      layers$ca <- get_layer(sim, "ca")
+      layers$ctc <- get_layer(sim, "ctc")
 
-      layers$hbc <- dss_run_layer(
-        layers = list(inp = layers$inp, hbl = layers$hbl),
-        parameters = parameters$hbc(),
-        setup_fn = setup_hbc,
-        get = "hbc"
-      )
-
-      layers$hbd <- dss_run_layer(
-        layers = list(inp = layers$inp, hbl = layers$hbl, hbc = layers$hbc),
-        parameters = parameters$hbd(),
-        setup_fn = setup_hbd,
-        get = "hbd"
-      )
-
-      layers$ca <- dss_run_layer(
-        layers = list(inp = layers$inp, hbl = layers$hbl, hbc = layers$hbc, hbd = layers$hbd),
-        parameters = parameters$ca(),
-        setup_fn = setup_ca,
-        get = "ca"
-      )
-
-      layers$ctc <- dss_run_layer(
-        layers = list(inp = layers$inp, hbl = layers$hbl, hbc = layers$hbc, hbd = layers$hbd, ca = layers$ca),
-        parameters = parameters$ctc(),
-        setup_fn = setup_ctc,
-        get = "ctc"
-      )
     }) |>
       shiny::bindEvent(run, ignoreNULL = FALSE)
 
@@ -53,10 +28,8 @@ dss_run_server <- function(id, parameters, run) {
   })
 }
 
-dss_run_layer <- function(layers, parameters, setup_fn, get) {
-  sim <- do.call(simulation_from_layers, layers)
-  setup_fn_args <- c(list(simulation = sim), parameters)
-  do.call(setup_fn, setup_fn_args) |>
-    run_simulation(layer = get) |>
-    get_layer(get)
+setup_from_par_list <- function(simulation, parameters, setup_fun) {
+  args <- c(list(simulation = simulation), parameters)
+  do.call(setup_fun, args)
 }
+

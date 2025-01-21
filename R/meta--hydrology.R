@@ -43,6 +43,7 @@ compute_hydrology <- function(simulation) {
   assert_erahumed_simulation(simulation)
 
   simulation |>
+    compute_inp() |>
     compute_hbl() |>
     compute_hbc() |>
     compute_hbd()

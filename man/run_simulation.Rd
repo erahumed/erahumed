@@ -4,15 +4,11 @@
 \alias{run_simulation}
 \title{Run an ERAHUMED simulation}
 \usage{
-run_simulation(simulation, layer = NULL)
+run_simulation(simulation)
 }
 \arguments{
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
 The simulation object containing the layers to be computed.}
-
-\item{layer}{\verb{[character(1)|NULL]} \cr
-Instructs \code{run_simulation()} to compute all simulation layers until \code{layer}.
-The default (\code{NULL}) means to compute all layers.}
 }
 \value{
 An \link{erahumed_simulation}.
