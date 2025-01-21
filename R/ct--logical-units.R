@@ -1,81 +1,81 @@
-ctc_get_param <- function(chemical, parameter) {
+ct_get_param <- function(chemical, parameter) {
   albufera_ct_parameters [[ chemical ]] [[ parameter ]]
 }
 
-ctc_porosity <- function(fc, wilting) {
+ct_porosity <- function(fc, wilting) {
   return(fc - wilting)
 }
 
-ctc_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
+ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
   # Fraction of chemical residues in dissolved form and within voids in the
   # sediment
   return( pos / (pos + (kd_cm3_g * bd_g_cm3)) )
 }
 
-ctc_fdw <- function(kd_cm3_g, css_ppm) {
+ct_fdw <- function(kd_cm3_g, css_ppm) {
   # Fraction of chemical dissolved in water
   return( 1 / (1 + ppm_to_g_cm3(css_ppm) * kd_cm3_g) )
 }
 
-ctc_kdifus_m_day <- function(pos, MW) {
+ct_kdifus_m_day <- function(pos, MW) {
   69.35 / 365 - pos * ((MW)^(-2/3))
 }
 
-ctc_cover <- function(seed_day, jgrow, covmax) {
+ct_cover <- function(seed_day, jgrow, covmax) {
   igrow <- seed_day |> pmax2(0) |> pmin2(jgrow)
   cover <- covmax * (igrow / jgrow)
 }
 
-ctc_is_empty <- function(height_m, thresh_m) {
+ct_is_empty <- function(height_m, thresh_m) {
   height_m < thresh_m
 }
 
-ctc_setl <- function(ksetl_m_day, fpw, height_sod_m) {
+ct_setl <- function(ksetl_m_day, fpw, height_sod_m) {
   tol <- 1e-4  # 0.1mm to trigger settlement
   ifelse(height_sod_m > tol, ksetl_m_day * fpw / height_sod_m, 0)
 }
 
-ctc_diff_s <- function(kdifus_m_day, fds, pos, dact_m) {
+ct_diff_s <- function(kdifus_m_day, fds, pos, dact_m) {
   kdifus_m_day * (fds / pos) / dact_m
 }
 
-ctc_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
+ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
   tol <- 1e-4  # 0.1mm to trigger diffusion
   ifelse(height_sod_m > tol, kdifus_m_day * fdw / height_sod_m, 0)
 }
 
-ctc_temperature_arrhenius <- function(temperature_ave,
+ct_temperature_arrhenius <- function(temperature_ave,
                                      temperature_min,
                                      temperature_max) {
   return(temperature_ave)  # TODO #132
 }
 
-ctc_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
+ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
   exp <- (temperature - temperature_ref) / 10
   fac <- Q10 ^ exp
   return(k_ref * fac)
 }
 
-ctc_washout <- function(fet_cm, rain_cm) {
+ct_washout <- function(fet_cm, rain_cm) {
   fet_cm * rain_cm
 }
 
-ctc_outflow_fac <- function(volume_eod_m3, outflow_m3) {
+ct_outflow_fac <- function(volume_eod_m3, outflow_m3) {
   tol <- 1e-4 # 0.1mm to trigger outflow
   ifelse(outflow_m3 + volume_eod_m3 > tol,
          outflow_m3 / (outflow_m3 + volume_eod_m3),
          0)
 }
 
-ctc_mfapp <- function(application_kg, drift, cover) {
+ct_mfapp <- function(application_kg, drift, cover) {
   application_kg * (1 - drift) * cover
 }
 
-ctc_mwapp <- function(application_kg, drift, cover, SNK, is_empty) {
+ct_mwapp <- function(application_kg, drift, cover, SNK, is_empty) {
   application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (!is_empty)
 }
 
-ctc_msapp <- function(
+ct_msapp <- function(
     application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m
     )
 {
@@ -83,6 +83,16 @@ ctc_msapp <- function(
     is_empty
 }
 
-ctc_mw_max <- function(sol_ppm, volume_eod_m3) {
+ct_mw_max <- function(sol_ppm, volume_eod_m3) {
   ppm_to_kg_m3(sol_ppm) * volume_eod_m3
+}
+
+ct_total_inflow_m3_s <- function(inflows_m3_s_kg) {
+  lapply(inflows_m3_s_kg, \(pair) pair[[1]]) |>
+    Reduce("+", x = _, init = 0)
+}
+
+ct_mw_inflow_kg_s <- function(inflows_m3_s_kg) {
+  lapply(inflows_m3_s_kg, \(pair) pair[[1]] * pair[[2]]) |>
+    Reduce("+", x = _, init = 0)
 }

@@ -6,7 +6,7 @@ ct_time_series <- function(application_kg,
                            temperature_max,
                            height_eod_cm,
                            outflow_m3_s,
-                           inflow_m3_s,
+                           inflows_m3_s_kg, # list(list(double(n), double(n))) see below
                            area_m2,
                            seed_day,
                            chemical,
@@ -26,28 +26,28 @@ ct_time_series <- function(application_kg,
   volume_eps <- 1e-6 # Threshold below which densities are reported as NA
 
   terms <- ct_ts_step_terms(application_kg = application_kg,
-                                    precipitation_mm = precipitation_mm,
-                                    etp_mm = etp_mm,
-                                    temperature_ave = temperature_ave,
-                                    temperature_min = temperature_min,
-                                    temperature_max = temperature_max,
-                                    height_eod_cm = height_eod_cm,
-                                    outflow_m3_s = outflow_m3_s,
-                                    inflow_m3_s = inflow_m3_s,
-                                    area_m2 = area_m2,
-                                    seed_day = seed_day,
-                                    chemical = chemical,
-                                    drift = drift,
-                                    covmax = covmax,
-                                    jgrow = jgrow,
-                                    SNK = SNK,
-                                    dact_m = dact_m,
-                                    css_ppm = css_ppm,
-                                    foc = foc,
-                                    bd_g_cm3 = bd_g_cm3,
-                                    qseep_m_day = qseep_m_day,
-                                    wilting = wilting,
-                                    fc = fc)
+                            precipitation_mm = precipitation_mm,
+                            etp_mm = etp_mm,
+                            temperature_ave = temperature_ave,
+                            temperature_min = temperature_min,
+                            temperature_max = temperature_max,
+                            height_eod_cm = height_eod_cm,
+                            outflow_m3_s = outflow_m3_s,
+                            inflows_m3_s_kg = inflows_m3_s_kg,
+                            area_m2 = area_m2,
+                            seed_day = seed_day,
+                            chemical = chemical,
+                            drift = drift,
+                            covmax = covmax,
+                            jgrow = jgrow,
+                            SNK = SNK,
+                            dact_m = dact_m,
+                            css_ppm = css_ppm,
+                            foc = foc,
+                            bd_g_cm3 = bd_g_cm3,
+                            qseep_m_day = qseep_m_day,
+                            wilting = wilting,
+                            fc = fc)
 
   eAww <- terms[["eAww"]]
   eAws <- terms[["eAws"]]
@@ -93,59 +93,59 @@ ct_time_series <- function(application_kg,
 }
 
 ct_ts_step_terms <- function(application_kg,
-                                     precipitation_mm,
-                                     etp_mm,
-                                     temperature_ave,
-                                     temperature_min,
-                                     temperature_max,
-                                     height_eod_cm,
-                                     outflow_m3_s,
-                                     inflow_m3_s,
-                                     area_m2,
-                                     seed_day,
-                                     chemical,
-                                     drift,
-                                     covmax,
-                                     jgrow,
-                                     SNK,
-                                     dact_m,
-                                     css_ppm,
-                                     foc,
-                                     bd_g_cm3,
-                                     qseep_m_day,
-                                     wilting,
-                                     fc
-)
+                             precipitation_mm,
+                             etp_mm,
+                             temperature_ave,
+                             temperature_min,
+                             temperature_max,
+                             height_eod_cm,
+                             outflow_m3_s,
+                             inflows_m3_s_kg,
+                             area_m2,
+                             seed_day,
+                             chemical,
+                             drift,
+                             covmax,
+                             jgrow,
+                             SNK,
+                             dact_m,
+                             css_ppm,
+                             foc,
+                             bd_g_cm3,
+                             qseep_m_day,
+                             wilting,
+                             fc
+                             )
 {
   n_time_steps <- length(application_kg)
   dt <- 1
 
   # Chemicals parameters
-  kd_cm3_g <- foc * ctc_get_param(chemical, "koc_cm3_g")
-  kf_day <- ctc_get_param(chemical, "kf_day")
-  kw_day <- ctc_get_param(chemical, "kw_day")
-  Q10_kw <- ctc_get_param(chemical, "Q10_kw")
-  kw_temp <- ctc_get_param(chemical, "kw_temp")
-  ks_sat_day <- ctc_get_param(chemical, "ks_sat_day")
-  Q10_ks_sat <- ctc_get_param(chemical, "Q10_ks_sat")
-  ks_sat_temp <- ctc_get_param(chemical, "ks_sat_temp")
-  ks_unsat_day <- ctc_get_param(chemical, "ks_unsat_day")
-  Q10_ks_unsat <- ctc_get_param(chemical, "Q10_ks_unsat")
-  ks_unsat_temp <- ctc_get_param(chemical, "ks_unsat_temp")
-  sol_ppm <- ctc_get_param(chemical, "sol_ppm")
-  dinc_m <- ctc_get_param(chemical, "dinc_m")
-  ksetl_m_day <- ctc_get_param(chemical, "ksetl_m_day")
-  kvolat_m_day <- ctc_get_param(chemical, "kvolat_m_day")
-  MW <- ctc_get_param(chemical, "MW")
-  fet_cm <- ctc_get_param(chemical, "fet_cm")
+  kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
+  kf_day <- ct_get_param(chemical, "kf_day")
+  kw_day <- ct_get_param(chemical, "kw_day")
+  Q10_kw <- ct_get_param(chemical, "Q10_kw")
+  kw_temp <- ct_get_param(chemical, "kw_temp")
+  ks_sat_day <- ct_get_param(chemical, "ks_sat_day")
+  Q10_ks_sat <- ct_get_param(chemical, "Q10_ks_sat")
+  ks_sat_temp <- ct_get_param(chemical, "ks_sat_temp")
+  ks_unsat_day <- ct_get_param(chemical, "ks_unsat_day")
+  Q10_ks_unsat <- ct_get_param(chemical, "Q10_ks_unsat")
+  ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
+  sol_ppm <- ct_get_param(chemical, "sol_ppm")
+  dinc_m <- ct_get_param(chemical, "dinc_m")
+  ksetl_m_day <- ct_get_param(chemical, "ksetl_m_day")
+  kvolat_m_day <- ct_get_param(chemical, "kvolat_m_day")
+  MW <- ct_get_param(chemical, "MW")
+  fet_cm <- ct_get_param(chemical, "fet_cm")
 
   # Derived parameters
-  pos <- ctc_porosity(fc = fc, wilting = wilting)
-  fds <- ctc_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
-  fdw <- ctc_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
+  pos <- ct_porosity(fc = fc, wilting = wilting)
+  fds <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
+  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
-  kdifus_m_day <- ctc_kdifus_m_day(pos = pos, MW = MW)
-  temp_arr <- ctc_temperature_arrhenius(temperature_ave,
+  kdifus_m_day <- ct_kdifus_m_day(pos = pos, MW = MW)
+  temp_arr <- ct_temperature_arrhenius(temperature_ave,
                                         temperature_min,
                                         temperature_max)
 
@@ -153,7 +153,7 @@ ct_ts_step_terms <- function(application_kg,
   height_eod_m <- height_eod_cm / 100
   volume_eod_m3 <- height_eod_m * area_m2
   outflow_m3 <- outflow_m3_s * s_per_day()
-  inflow_m3 <- inflow_m3_s * s_per_day()
+  inflow_m3 <- ct_total_inflow_m3_s(inflows_m3_s_kg) * s_per_day()
   rain_cm <- precipitation_mm / 10
   rain_m3 <- (precipitation_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
@@ -161,40 +161,41 @@ ct_ts_step_terms <- function(application_kg,
   height_sod_m <- volume_sod_m3 / area_m2
 
   # Precomputed time series
-  cover <- ctc_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
-  is_empty <- ctc_is_empty(height_m = height_eod_m, thresh_m = 0)
+  cover <- ct_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
+  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
 
 
   ### Settlement
-  Sw <- ctc_setl(ksetl_m_day = ksetl_m_day, fpw = fpw, height_sod_m = height_sod_m)
+  Sw <- ct_setl(ksetl_m_day = ksetl_m_day, fpw = fpw, height_sod_m = height_sod_m)
 
   ### Diffusion
-  Ds <- ctc_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = pos, dact_m = dact_m)
-  Dw <- ctc_diff_w(kdifus_m_day = kdifus_m_day, fdw = fdw, height_sod_m = height_sod_m)
+  Ds <- ct_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = pos, dact_m = dact_m)
+  Dw <- ct_diff_w(kdifus_m_day = kdifus_m_day, fdw = fdw, height_sod_m = height_sod_m)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)
   kf <- kf_day
-  kw <- ctc_deg_k(kw_day, Q10_kw, temp_arr, kw_temp)
+  kw <- ct_deg_k(kw_day, Q10_kw, temp_arr, kw_temp)
 
-  ks_sat <- ctc_deg_k(ks_sat_day, Q10_ks_sat, temp_arr, ks_sat_temp)
-  ks_unsat <- ctc_deg_k(ks_unsat_day, Q10_ks_unsat, temp_arr, ks_unsat_temp)
+  ks_sat <- ct_deg_k(ks_sat_day, Q10_ks_sat, temp_arr, ks_sat_temp)
+  ks_unsat <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temp_arr, ks_unsat_temp)
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
 
   ### Washout
-  w <- ctc_washout(fet_cm = fet_cm, rain_cm = rain_cm)
-
-  # ### Inflow, not implemented ATM
-  # inflow_mw <- inflow_m3 * 0
+  w <- ct_washout(fet_cm = fet_cm, rain_cm = rain_cm)
 
   ### Outflow
-  outflow_fac <- ctc_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
+  outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
+
+  ### Inflow
+  mw_inflow_kg <- ct_mw_inflow_kg_s(inflows_m3_s_kg) * s_per_day()
 
   ### Application
-  mfapp <- ctc_mfapp(application_kg, drift, cover)
-  mwapp <- ctc_mwapp(application_kg, drift, cover, SNK, is_empty)
-  msapp <- ctc_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
+  mfapp <- ct_mfapp(application_kg, drift, cover)
+  mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty) + mw_inflow_kg
+  msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
 
-  mw_max <- ctc_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
+
+  mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
 
   a <- -(kw + Sw + Dw)
   b <- Ds
