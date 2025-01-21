@@ -11,15 +11,15 @@ dss_output_ui <- function(id) {
                        selected = info_clusters()$cluster_id[[1]]
                        ),
     bslib::layout_column_wrap(
-      card(card_header("Hidrology"), full_screen = TRUE,
+      card(card_header("Hydrology"), full_screen = TRUE,
         dygraphs::dygraphOutput(ns("hbl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("hbd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ca_plot")) |> withSpinner(),
         ),
-      card(card_header("Chemicals"), full_screen = TRUE,
+      card(card_header("Exposure"), full_screen = TRUE,
         dygraphs::dygraphOutput(ns("ct_plot")) |> withSpinner()
         ),
-      card(card_header("Effects"), full_screen = TRUE, "Not yet implemented.")
+      card(card_header("Risk"), full_screen = TRUE, "Not yet implemented.")
     )
   )
 }
