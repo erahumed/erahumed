@@ -24,27 +24,31 @@ dss_output_ui <- function(id) {
   )
 }
 
-dss_output_server <- function(id, layers, clicked_cluster_id) {
+dss_output_server <- function(id, simulation, clicked_cluster_id) {
   shiny::moduleServer(id, function(input, output, session) {
 
     shiny::observeEvent(clicked_cluster_id(), {
       shiny::updateSelectInput(session,
                                "selected_cluster_id",
                                selected = clicked_cluster_id())
-    })
+      })
 
     ditch <- shiny::reactive({
       info_clusters() ->.; .[.$cluster_id == input$selected_cluster_id, ]$ditch
       })
 
-    output$hbl_plot <- dygraphs::renderDygraph(plot(layers$hbl))
-    output$hbd_plot <- dygraphs::renderDygraph(plot(layers$hbd, ditch = ditch()))
+    output$hbl_plot <- dygraphs::renderDygraph(
+      plot(get_layer(simulation(), "hbl"))
+      )
+    output$hbd_plot <- dygraphs::renderDygraph(
+      plot(get_layer(simulation(), "hbd"), ditch = ditch())
+      )
     output$ca_plot <- dygraphs::renderDygraph(
-      plot(layers$ca, cluster_id = input$selected_cluster_id)
+      plot(get_layer(simulation(), "ca"), cluster_id = input$selected_cluster_id)
       )
     output$ct_plot <- dygraphs::renderDygraph(
-      plot(layers$ctc, cluster_id = input$selected_cluster_id)
-      )
+      plot(get_layer(simulation(), "ctc"), cluster_id = input$selected_cluster_id)
+    )
   })
 }
 

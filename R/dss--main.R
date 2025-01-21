@@ -27,7 +27,7 @@ dss_ui <- function() { bslib::page_navbar(
   ),
 
   nav_menu(icon = icon("question-circle"), title = "Help", align = "right",
-           nav_action_link("show_about_modal", "About this app", icon = "info"),
+           nav_action_link("show_about", "About this app", icon = "info"),
            nav_menu_hr(),  # ---------------------------------
            nav_hyperlink("ERAHUMED Project Website", "https://erahumed.com", icon = "globe"),
            nav_menu_hr(),  # ---------------------------------
@@ -63,37 +63,28 @@ dss_server <- function(input, output, session) {
   shiny::observe(shiny::updateActionButton(session, "run", disabled = FALSE)) |>
     shiny::bindEvent(param_hash())
 
-  layers <- dss_run_server("dss_run", parameters = parameters, run = input$run)
-  layers_hash <- shiny::reactive({
-    shiny::reactiveValuesToList(layers) |>
-      lapply(identity) |>
-      digest::digest()
-    })
+  sim <- dss_run_server("dss_run", parameters = parameters, run = input$run)
   shiny::observe(shiny::updateActionButton(session, "run", disabled = TRUE)) |>
-    shiny::bindEvent(layers_hash())
+    shiny::bindEvent(sim())
 
   dss_output_server("dss_output",
-                    layers = layers,
+                    simulation = sim,
                     clicked_cluster_id = clicked_cluster_id)
 
-  vmap <- shiny::reactive( get_layer_aux(layers$inp)[["cluster_variety_map"]] )
+  vmap <- shiny::reactive(
+    get_layer_aux(sim(), "inp")[["cluster_variety_map"]]
+    )
 
   output$map <- leaflet::renderLeaflet(
     plot_albufera_clusters(cluster_variety_map = vmap())
     ) |>
     shiny::snapshotExclude()
 
-  shiny::observeEvent(input$hide_map_card, {
-    shinyjs::hide("map_card")
-  })
+  shiny::observeEvent(input$hide_map_card, shinyjs::hide("map_card"))
 
-  shiny::observeEvent(input$show_map_card, {
-    shinyjs::show("map_card")
-  })
+  shiny::observeEvent(input$show_map_card, shinyjs::show("map_card"))
 
-  shiny::observeEvent(input$show_about_modal, {
-    shiny::showModal(dss_about_modal())
-  })
+  shiny::observeEvent(input$show_about, shiny::showModal(dss_about_modal()))
 
   shiny::observeEvent(input$take_screenshot, {
     timestr <- Sys.time() |> format() |> gsub("[^0-9]", "", x = _)

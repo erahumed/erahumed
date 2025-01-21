@@ -74,7 +74,7 @@ ctc_input_ui <- function(id) {
   )
 }
 
-ct_input_server <- function(id) {
+ctc_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::reactive({
       list(drift = input$drift,
