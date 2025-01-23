@@ -10,7 +10,7 @@
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
-#' @export
+#' @noRd
 plot.erahumed_hbd <- function(x, ditch = NULL, ...) {
 
   data <- get_layer_output(x)

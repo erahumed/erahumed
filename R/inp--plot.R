@@ -11,7 +11,7 @@
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
-#' @export
+#' @noRd
 plot.erahumed_inp <- function(x, ...) {
   stop("Not yet implemented.")
 }

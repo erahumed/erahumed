@@ -18,7 +18,7 @@
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
-#' @export
+#' @noRd
 plot.erahumed_ca <- function(x, type = c("cluster_view", "timeline_view"), ...) {
   type <- match.arg(type)
   switch(type,

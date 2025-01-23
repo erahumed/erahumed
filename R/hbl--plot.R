@@ -10,7 +10,7 @@
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
-#' @export
+#' @noRd
 plot.erahumed_hbl <- function(x, variable = "inflow_total", ...) {
   df <- get_layer_output(x)
 

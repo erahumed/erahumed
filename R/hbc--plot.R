@@ -17,7 +17,7 @@
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
-#' @export
+#' @noRd
 plot.erahumed_hbc <- function(x, type = c("cluster_view", "map_view"), ...) {
   type <- match.arg(type)
 

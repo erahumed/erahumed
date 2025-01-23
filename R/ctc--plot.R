@@ -24,7 +24,7 @@
 #'
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
-#' @export
+#' @noRd
 plot.erahumed_ctc <- function(
     x,
     type = c("cluster_view", "max_boxplot"),
