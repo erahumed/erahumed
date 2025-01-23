@@ -41,7 +41,7 @@ setup_ctc <- function(
     assert_erahumed_simulation(simulation)
   },
   error = function(e) {
-    class(e) <- c("validate_ct_params_error", class(e))
+    class(e) <- c("validate_ctc_params_error", class(e))
     stop(e)
   })
 
