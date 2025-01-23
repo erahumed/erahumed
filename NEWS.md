@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.15.0
 
 This release comes with a fresh new (simplified) API that drastically reduces 
 the number of functions exported by the package. The old concept of 
