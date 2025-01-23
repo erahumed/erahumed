@@ -10,7 +10,8 @@ erahumed_simulation()
 An object of class \code{erahumed_simulation}.
 }
 \description{
-Initializes an ERAHUMED simulation. See \link{erahumed_simulation_interface}
+Initializes an ERAHUMED simulation. Check the
+\href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{main package vignette}
 for a detailed description of the simulation workflow.
 }
 \examples{

@@ -1,9 +1,9 @@
 #' Initialize an ERAHUMED simulation
 #'
 #' @description
-#' Initializes an ERAHUMED simulation. See \link{erahumed_simulation_interface}
+#' Initializes an ERAHUMED simulation. Check the
+#' [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
 #' for a detailed description of the simulation workflow.
-#'
 #'
 #' @return An object of class `erahumed_simulation`.
 #'

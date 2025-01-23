@@ -14,7 +14,7 @@ The simulation object containing the layers to be computed.}
 An \link{erahumed_simulation}.
 }
 \description{
-Computes the layers of a ERAHUMED simulation. See
-\link{erahumed_simulation_interface} for a detailed description of the
-simulation workflow.
+Computes the layers of a ERAHUMED simulation. Check the
+\href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{main package vignette}
+for a detailed description of the simulation workflow.
 }
