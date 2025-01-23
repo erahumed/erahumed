@@ -1,9 +1,46 @@
 # erahumed (development version)
 
+This release comes with a fresh new (simplified) API that drastically reduces 
+the number of functions exported by the package. The old concept of 
+"simulation layer" is no longer exposed to the end user, which only has to deal 
+with much more intuitive concepts such as: 
+
+* Simulation components: *hydrology*, *exposure* and *risk*.
+* Landscape elements: *lake*, *ditch*, and *cluster*.
+
+The usage of the new API is exemplified in the updated
+[main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+Below are listed specific changes:
+
+### API changes
+
+* Removed `setup_inp()`, `setup_hba()`, `setup_hbp()`, `setup_hbd()`, 
+`setup_ca()`, `setup_ct()` functions, in favor of `setup_hydrology()`, 
+`setup_exposure()` and `setup_risk()` (#272).
+
+* Removed `erahumed_layers()` helper.
+
+* `run_simulation()` loses its `layer` argument: simulation can only be run 
+all at once (#279).
+
+* Removed `get_layer_output()` helper in favor of `get_results()`.
+
+* Removed `get_layer_parameters()`, `get_layer_aux()` and `get_layer()` from 
+public API, with no function replacing their functionality (considered 
+unnecessary at the moment).
+
+* Removed old layers' `plot()` S3 methods.
+
 ### Data
 
 * Updated observational input data `albufera_outflows` and `albufera_weather` 
 with data until 2024 (included).
+
+### Under the hoods
+
+* Defined a single helper to compute the time series of pesticides in clusters,
+ditches and in the lake, the latter two functionalities still to be implemented
+(#275).
 
 # erahumed 0.14.3
 
