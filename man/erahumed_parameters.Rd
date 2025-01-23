@@ -45,6 +45,8 @@ setup_risk(simulation)
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
 The simulation object being modified.}
 
+\item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
+
 \item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Percentage of chemical applications lost to drift.}
 
 \item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Interception potential of foliage at crop maturation.}

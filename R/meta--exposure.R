@@ -1,5 +1,6 @@
 #' @rdname erahumed_parameters
 #'
+#' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df", "ca")`
 #' @param drift `r erahumed_param_roxy("drift", "ctc")`
 #' @param covmax `r erahumed_param_roxy("covmax", "ctc")`
 #' @param jgrow `r erahumed_param_roxy("jgrow", "ctc")`
