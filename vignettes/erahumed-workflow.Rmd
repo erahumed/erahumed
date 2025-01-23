@@ -14,8 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Introduction
-
 This document illustrates the simulation workflow of ERAHUMED. Specifically, we 
 will cover:
 
@@ -29,115 +27,48 @@ interface of `{erahumed}`.
 library(erahumed)
 ```
 
-## Bird's eye view
-
-Running a ERAHUMED simulation involves several layers of computation, which we 
-formalize through the concept of simulation *layers*. Concretely, simulations
-are composed of the following layers:
-
-* INP: INPut data.
-* hbl: Hydrological Balance of the Albufera lake.
-* hbc: Hydrological Balance of rice Paddy clusters.
-* CA: Chemical Applications. 
-* ctc: Chemical Transport.
-
-Each layer depends on the previous ones and is a dependency of the subsequent
-ones (in the order above). The goal of the following sections is to teach you
-how to operate with simulations and layers in `{erahumed}`.
-
-## The simulation workflow
-
-We can create a new simulation with:
+We initialize a new ERAHUMED simulation with:
 
 ```{r}
-s <- erahumed_simulation()
-s
+sim <- erahumed_simulation()
+sim
 ```
-
-The object `s` is, behind the scenes, an R list that contains simulation layers.
-The list of ERAHUMED layers can be obtained through:
-
-```{r}
-erahumed_layers()
-```
-
-We can extract individual layers as follows:
-
-```{r}
-get_layer(s, "hbl")  # Extract the hbl layer
-```
-
-As revealed by the outputs above, the layers of the simulation are not yet 
-computed at this stage. This is so because the only result of 
-`erahumed_simulation()` is to *initialize* a simulation, using default values
-for the parameters required by the various simulation layers. We show in the
-following how to setup individual layers, run the simulation and extract 
-results.
-
-### Setup
-
-Setup of individual layers is achieved through the family of `setup_*()` 
-functions, that receive a simulation as input, and return a simulation with the 
-updated setup. 
-
-For instance, to configure the height threshold parameter used in hbc layer 
-computations (see `?setup_hbc`), we would use:
-
-```{r}
-s <- setup_hbc(s, height_thresh_cm = 1) 
-```
-
-Similarly, to limit the date range of the simulation, we can provide a filtered  
-`outflows_df` data-set to the INP layer:
+At this stage, `sim` is simply a list of simulation parameters, all initialized 
+to their default values. To customize these parameters, we use 
+`setup_hydrology()`, `setup_exposure()`, and `setup_risk()`. These functions 
+provide access to the specific subset of parameters associated with 
+the hydrology, exposure, or risk components of the simulation, respectively.
+For instance, the following command modifies the "height threshold" numeric 
+parameter and provides a custom `outflows_df` input data-set with a reduced 
+date range (see `?setup_hydrology` for the detailed documentation of these 
+parameters):
 
 ```{r}
 outflows_df <- albufera_outflows |>
   (\(.) .["2020-01-01" <= .$date & .$date <= "2020-12-31", ])()
-s <- setup_inp(s, outflows_df = outflows_df)
+sim <- sim |> 
+  setup_hydrology(height_thresh_cm = 1, outflows_df = outflows_df)
 ```
 
-The available parameters for each layer are the arguments of the corresponding
-`setup_*()` function, and the default values set by `erahumed_simulation()` 
-correspond to the defaults of the `setup_*()` arguments. The current layer 
-parameters of a simulation can be obtained through:
+Once we are ready with our simulation setup, in order to actually run the 
+simulation we use:
 
 ```{r}
-get_layer_parameters(s, "ctc")  # Get parameters of ctc layer
+sim <- sim |> 
+  run_simulation()
+sim
 ```
-
-### Run
-
-Once we are ready with our simulation setup, we can compute the various layers,
-using the `run_simulation()` function. In order to speed up iterations,  
-`{erahumed}` gives you the option to compute just a specific layer with all its 
-upstream dependencies. For example:
+In order to extract simulation results we use:
 
 ```{r}
-s <- run_simulation(s, layer = "hbc")
-s
+lake_hydrology_df <- get_results(sim, component = "hydrology", element = "lake")
+cluster_hydrology_df <- get_results(sim, component = "hydrology", element = "cluster")
+cluster_exposure_df <- get_results(sim, component = "exposure", element = "cluster")
 ```
-
-would compute only the INP, hbl and hbc layers. If you simply want to compute 
-all layers, you can just call:
+These are provided in the form of `data.frame`s, for instance:
 
 ```{r}
-s <- run_simulation(s)
-s
-```
-(notice that this will not recompute the INP, hbl and hbc layers, since these 
-results are already stored in the input simulation object).
-
-### Analyse
-
-Once we have setup and ran a simulation, we want to analyse its result, which 
-will be essentially time-series data-sets (possibly with a spatial component
-identified by a `cluster_id`).
-
-You can extract the output (a `data.frame`) of a given layer as follows:
-
-```{r}
-hbc_df <- get_layer_output(s, "hbc")  # Get output data.frame of hbc layer
-head(hbc_df)
+head(cluster_hydrology_df)
 ```
 
 From here on, the analysis may proceed in the way you find more convenient. 
@@ -152,7 +83,7 @@ ditch <- "d4"
 tancat <- FALSE
 variety <- "Clearfield"
 
-clusters_df <- hbc_df |>
+clusters_df <- cluster_hydrology_df |>
   filter(ditch == !!ditch, tancat == !!tancat, variety == !!variety)
 
 avg_df <- clusters_df |>
@@ -174,21 +105,6 @@ ggplot() +
           paste("Ditch:", ditch, "- Tancat:", tancat, "- Variety:", variety)
           )
 ```
-
-## Predefined plotting methods
-
-`{erahumed}` comes equipped with a few basic plotting methods that return 
-interactive visualizations of the various model layers. These can be used by 
-accessing the relevant model layer through `get_layer()`, for example:
-
-```{r}
-get_layer(s, "hbl") |>
-  plot(variable = "volume")
-
-```
-
-The documentation of the various plotting methods can be found under 
-`?plot.erahumed_<layer_name>`, *e.g.* `?plot.erahumed_hbl`.
 
 ## Further information
 
