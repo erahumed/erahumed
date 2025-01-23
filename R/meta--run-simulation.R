@@ -10,11 +10,6 @@
 #'
 #' @return An \link{erahumed_simulation}.
 #'
-#' @examples
-#' s <- erahumed_simulation()
-#' s
-#' run_simulation(s, layer = "hbl")
-#'
 #' @export
 run_simulation <- function(simulation)
 {

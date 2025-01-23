@@ -18,9 +18,3 @@ Computes the layers of a ERAHUMED simulation. See
 \link{erahumed_simulation_interface} for a detailed description of the
 simulation workflow.
 }
-\examples{
-s <- erahumed_simulation()
-s
-run_simulation(s, layer = "hbl")
-
-}
