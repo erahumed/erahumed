@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.14.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,9 +55,8 @@
 
 
 
-<link href="erahumed-workflow_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
-<script src="erahumed-workflow_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="erahumed-workflow_files/dygraphs-1.1.1/dygraph.css" rel="stylesheet">
-<script src="erahumed-workflow_files/dygraphs-1.1.1/dygraph-combined.js"></script><script src="erahumed-workflow_files/dygraphs-1.1.1/shapes.js"></script><script src="erahumed-workflow_files/moment-2.8.4/moment.js"></script><script src="erahumed-workflow_files/moment-timezone-0.2.5/moment-timezone-with-data.js"></script><script src="erahumed-workflow_files/moment-fquarter-1.0.0/moment-fquarter.min.js"></script><script src="erahumed-workflow_files/dygraphs-binding-1.1.1.6/dygraphs.js"></script><script src="erahumed-workflow_files/Dygraph.Plugins.Unzoom-1.0/unzoom.js"></script><div class="row">
+
+<div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Simulation workflow</h1>
@@ -69,9 +68,6 @@
 
     
     
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
 <p>This document illustrates the simulation workflow of ERAHUMED.
 Specifically, we will cover:</p>
 <ul>
@@ -82,142 +78,45 @@ Specifically, we will cover:</p>
 (<em>i.e.</em> R) interface of <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a></span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="birds-eye-view">Bird’s eye view<a class="anchor" aria-label="anchor" href="#birds-eye-view"></a>
-</h2>
-<p>Running a ERAHUMED simulation involves several layers of computation,
-which we formalize through the concept of simulation <em>layers</em>.
-Concretely, simulations are composed of the following layers:</p>
-<ul>
-<li>INP: INPut data.</li>
-<li>HBA: Hydrological Balance of the Albufera lake.</li>
-<li>HBP: Hydrological Balance of rice Paddy clusters.</li>
-<li>CA: Chemical Applications.</li>
-<li>CT: Chemical Transport.</li>
-</ul>
-<p>Each layer depends on the previous ones and is a dependency of the
-subsequent ones (in the order above). The goal of the following sections
-is to teach you how to operate with simulations and layers in
-<a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</p>
-</div>
-<div class="section level2">
-<h2 id="the-simulation-workflow">The simulation workflow<a class="anchor" aria-label="anchor" href="#the-simulation-workflow"></a>
-</h2>
-<p>We can create a new simulation with:</p>
+<p>We initialize a new ERAHUMED simulation with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">s</span></span>
+<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">sim</span></span>
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
 <span><span class="co">#&gt; Computed layers: None</span></span></code></pre></div>
-<p>The object <code>s</code> is, behind the scenes, an R list that
-contains simulation layers. The list of ERAHUMED layers can be obtained
-through:</p>
+<p>At this stage, <code>sim</code> is simply a list of simulation
+parameters, all initialized to their default values. To customize these
+parameters, we use <code><a href="../reference/erahumed_parameters.html">setup_hydrology()</a></code>,
+<code><a href="../reference/erahumed_parameters.html">setup_exposure()</a></code>, and <code><a href="../reference/erahumed_parameters.html">setup_risk()</a></code>. These
+functions provide access to the specific subset of parameters associated
+with the hydrology, exposure, or risk components of the simulation,
+respectively. For instance, the following command modifies the “height
+threshold” numeric parameter and provides a custom
+<code>outflows_df</code> input data-set with a reduced date range (see
+<code><a href="../reference/erahumed_parameters.html">?setup_hydrology</a></code> for the detailed documentation of these
+parameters):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/erahumed_layers.html">erahumed_layers</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "inp" "hba" "hbp" "hbd" "ca"  "ct"</span></span></code></pre></div>
-<p>We can extract individual layers as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_layer.html">get_layer</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"hba"</span><span class="op">)</span>  <span class="co"># Extract the HBA layer</span></span>
-<span><span class="co">#&gt; A ERAHUMED HBA simulation layer.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Output columns:</span></span></code></pre></div>
-<p>As revealed by the outputs above, the layers of the simulation are
-not yet computed at this stage. This is so because the only result of
-<code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> is to <em>initialize</em> a
-simulation, using default values for the parameters required by the
-various simulation layers. We show in the following how to setup
-individual layers, run the simulation and extract results.</p>
-<div class="section level3">
-<h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
-</h3>
-<p>Setup of individual layers is achieved through the family of
-<code>setup_*()</code> functions, that receive a simulation as input,
-and return a simulation with the updated setup.</p>
-<p>For instance, to configure the height threshold parameter used in HBP
-layer computations (see <code><a href="../reference/hbp.html">?setup_hbp</a></code>), we would use:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hbp.html">setup_hbp</a></span><span class="op">(</span><span class="va">s</span>, height_thresh_cm <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> </span></code></pre></div>
-<p>Similarly, to limit the date range of the simulation, we can provide
-a filtered<br><code>outflows_df</code> data-set to the INP layer:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outflows_df</span> <span class="op">&lt;-</span> <span class="va">albufera_outflows</span> <span class="op">|&gt;</span></span>
 <span>  <span class="op">(</span>\<span class="op">(</span><span class="va">.</span><span class="op">)</span> <span class="va">.</span><span class="op">[</span><span class="st">"2020-01-01"</span> <span class="op">&lt;=</span> <span class="va">.</span><span class="op">$</span><span class="va">date</span> <span class="op">&amp;</span> <span class="va">.</span><span class="op">$</span><span class="va">date</span> <span class="op">&lt;=</span> <span class="st">"2020-12-31"</span>, <span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inp.html">setup_inp</a></span><span class="op">(</span><span class="va">s</span>, outflows_df <span class="op">=</span> <span class="va">outflows_df</span><span class="op">)</span></span></code></pre></div>
-<p>The available parameters for each layer are the arguments of the
-corresponding <code>setup_*()</code> function, and the default values
-set by <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> correspond to the defaults of
-the <code>setup_*()</code> arguments. The current layer parameters of a
-simulation can be obtained through:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_layer_parameters.html">get_layer_parameters</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"ct"</span><span class="op">)</span>  <span class="co"># Get parameters of CT layer</span></span>
-<span><span class="co">#&gt; $drift</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $covmax</span></span>
-<span><span class="co">#&gt; [1] 0.5</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $jgrow</span></span>
-<span><span class="co">#&gt; [1] 152</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $SNK</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $dact_m</span></span>
-<span><span class="co">#&gt; [1] 0.1</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $css_ppm</span></span>
-<span><span class="co">#&gt; [1] 50</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $foc</span></span>
-<span><span class="co">#&gt; [1] 0.17</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bd_g_cm3</span></span>
-<span><span class="co">#&gt; [1] 1.5</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $qseep_m_day</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $wilting</span></span>
-<span><span class="co">#&gt; [1] 0.24</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $fc</span></span>
-<span><span class="co">#&gt; [1] 0.35</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="run">Run<a class="anchor" aria-label="anchor" href="#run"></a>
-</h3>
-<p>Once we are ready with our simulation setup, we can compute the
-various layers, using the <code><a href="../reference/run_simulation.html">run_simulation()</a></code> function. In
-order to speed up iterations,<br><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> gives you the option to compute just a specific
-layer with all its upstream dependencies. For example:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_simulation.html">run_simulation</a></span><span class="op">(</span><span class="va">s</span>, layer <span class="op">=</span> <span class="st">"hbp"</span><span class="op">)</span></span>
-<span><span class="va">s</span></span>
+<span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">sim</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/erahumed_parameters.html">setup_hydrology</a></span><span class="op">(</span>height_thresh_cm <span class="op">=</span> <span class="fl">1</span>, outflows_df <span class="op">=</span> <span class="va">outflows_df</span><span class="op">)</span></span></code></pre></div>
+<p>Once we are ready with our simulation setup, in order to actually run
+the simulation we use:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="va">sim</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/run_simulation.html">run_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">sim</span></span>
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
-<span><span class="co">#&gt; Computed layers: inp, hba, hbp</span></span></code></pre></div>
-<p>would compute only the INP, HBA and HBP layers. If you simply want to
-compute all layers, you can just call:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_simulation.html">run_simulation</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
-<span><span class="va">s</span></span>
-<span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
-<span><span class="co">#&gt; Computed layers: inp, hba, hbp, hbd, ca, ct</span></span></code></pre></div>
-<p>(notice that this will not recompute the INP, HBA and HBP layers,
-since these results are already stored in the input simulation
-object).</p>
-</div>
-<div class="section level3">
-<h3 id="analyse">Analyse<a class="anchor" aria-label="anchor" href="#analyse"></a>
-</h3>
-<p>Once we have setup and ran a simulation, we want to analyse its
-result, which will be essentially time-series data-sets (possibly with a
-spatial component identified by a <code>cluster_id</code>).</p>
-<p>You can extract the output (a <code>data.frame</code>) of a given
-layer as follows:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hbp_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_layer_output.html">get_layer_output</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"hbp"</span><span class="op">)</span>  <span class="co"># Get output data.frame of HBP layer</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hbp_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Computed layers: inp, hbl, hbc, hbd, ca, ctc</span></span></code></pre></div>
+<p>In order to extract simulation results we use:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lake_hydrology_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">sim</span>, component <span class="op">=</span> <span class="st">"hydrology"</span>, element <span class="op">=</span> <span class="st">"lake"</span><span class="op">)</span></span>
+<span><span class="va">cluster_hydrology_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">sim</span>, component <span class="op">=</span> <span class="st">"hydrology"</span>, element <span class="op">=</span> <span class="st">"cluster"</span><span class="op">)</span></span>
+<span><span class="va">cluster_exposure_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">sim</span>, component <span class="op">=</span> <span class="st">"exposure"</span>, element <span class="op">=</span> <span class="st">"cluster"</span><span class="op">)</span></span></code></pre></div>
+<p>These are provided in the form of <code>data.frame</code>s, for
+instance:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cluster_hydrology_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   ideal_height_eod_cm ideal_irrigation ideal_draining petp_cm   area_m2</span></span>
 <span><span class="co">#&gt; 1                  20             TRUE           TRUE  -0.058 114881.78</span></span>
 <span><span class="co">#&gt; 2                  20             TRUE           TRUE  -0.058 116539.90</span></span>
@@ -226,12 +125,12 @@ layer as follows:</p>
 <span><span class="co">#&gt; 5                  20             TRUE           TRUE  -0.058  83016.51</span></span>
 <span><span class="co">#&gt; 6                  20             TRUE           TRUE  -0.058 106260.07</span></span>
 <span><span class="co">#&gt;   capacity_m3_s       date                cluster_id ditch seed_day tancat</span></span>
-<span><span class="co">#&gt; 1    0.06004514 2020-01-01 02_Carrera_del_Saler0-2_0    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 2    0.06004514 2020-01-01          03_Petxinar0-3_2    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 3    0.06004514 2020-01-01          03_Petxinar0-3_3    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 4    0.06004514 2020-01-01          03_Petxinar1-3_1    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 5    0.06004514 2020-01-01          03_Petxinar1-3_2    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 6    0.06004514 2020-01-01          03_Petxinar1-3_3    d2     -110   TRUE</span></span>
+<span><span class="co">#&gt; 1    0.03448408 2020-01-01 02_Carrera_del_Saler0-2_0    d2     -110   TRUE</span></span>
+<span><span class="co">#&gt; 2    0.03448408 2020-01-01          03_Petxinar0-3_2    d2     -110   TRUE</span></span>
+<span><span class="co">#&gt; 3    0.03448408 2020-01-01          03_Petxinar0-3_3    d2     -110   TRUE</span></span>
+<span><span class="co">#&gt; 4    0.03448408 2020-01-01          03_Petxinar1-3_1    d2     -110   TRUE</span></span>
+<span><span class="co">#&gt; 5    0.03448408 2020-01-01          03_Petxinar1-3_2    d2     -110   TRUE</span></span>
+<span><span class="co">#&gt; 6    0.03448408 2020-01-01          03_Petxinar1-3_3    d2     -110   TRUE</span></span>
 <span><span class="co">#&gt;      variety height_sod_cm irrigation draining ideal_diff_flow_cm</span></span>
 <span><span class="co">#&gt; 1      Bomba            20       TRUE     TRUE              0.058</span></span>
 <span><span class="co">#&gt; 2 Clearfield            20       TRUE     TRUE              0.058</span></span>
@@ -257,7 +156,7 @@ layer as follows:</p>
 convenient. For instance, in the chunk below I create a plot of water
 levels for a set of clusters with similar features, using
 <code>dplyr</code> and <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
@@ -265,7 +164,7 @@ levels for a set of clusters with similar features, using
 <span><span class="va">tancat</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
 <span><span class="va">variety</span> <span class="op">&lt;-</span> <span class="st">"Clearfield"</span></span>
 <span></span>
-<span><span class="va">clusters_df</span> <span class="op">&lt;-</span> <span class="va">hbp_df</span> <span class="op">|&gt;</span></span>
+<span><span class="va">clusters_df</span> <span class="op">&lt;-</span> <span class="va">cluster_hydrology_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ditch</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">ditch</span>, <span class="va">tancat</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">tancat</span>, <span class="va">variety</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">variety</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">avg_df</span> <span class="op">&lt;-</span> <span class="va">clusters_df</span> <span class="op">|&gt;</span></span>
@@ -286,24 +185,7 @@ levels for a set of clusters with similar features, using
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Cluster simulated water levels"</span>,</span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Ditch:"</span>, <span class="va">ditch</span>, <span class="st">"- Tancat:"</span>, <span class="va">tancat</span>, <span class="st">"- Variety:"</span>, <span class="va">variety</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="predefined-plotting-methods">Predefined plotting methods<a class="anchor" aria-label="anchor" href="#predefined-plotting-methods"></a>
-</h2>
-<p><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> comes equipped with a few basic plotting
-methods that return interactive visualizations of the various model
-layers. These can be used by accessing the relevant model layer through
-<code><a href="../reference/get_layer.html">get_layer()</a></code>, for example:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_layer.html">get_layer</a></span><span class="op">(</span><span class="va">s</span>, <span class="st">"hba"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>variable <span class="op">=</span> <span class="st">"volume"</span><span class="op">)</span></span></code></pre></div>
-<div class="dygraphs html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60},"y":{"axisLabelWidth":80}},"series":{"Observed":{"axis":"y","strokePattern":[1,0]},"Imputed":{"axis":"y","strokePattern":[7,3]}},"title":"Time Series of Lake Volume [m³]","labels":["day","Observed","Imputed"],"retainDateWindow":false,"colors":["blue","red"],"xlabel":"Date","ylabel":"Lake Volume [m³]","legend":"always","labelsDivWidth":250,"labelsShowZeroValues":true,"labelsSeparateLines":false,"hideOverlayOnMouseOut":true,"showRangeSelector":true,"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel"},"scale":"daily","annotations":[],"shadings":[],"events":[],"format":"date","data":[["2020-01-01T00:00:00.000Z","2020-01-02T00:00:00.000Z","2020-01-03T00:00:00.000Z","2020-01-04T00:00:00.000Z","2020-01-05T00:00:00.000Z","2020-01-06T00:00:00.000Z","2020-01-07T00:00:00.000Z","2020-01-08T00:00:00.000Z","2020-01-09T00:00:00.000Z","2020-01-10T00:00:00.000Z","2020-01-11T00:00:00.000Z","2020-01-12T00:00:00.000Z","2020-01-13T00:00:00.000Z","2020-01-14T00:00:00.000Z","2020-01-15T00:00:00.000Z","2020-01-16T00:00:00.000Z","2020-01-17T00:00:00.000Z","2020-01-18T00:00:00.000Z","2020-01-19T00:00:00.000Z","2020-01-20T00:00:00.000Z","2020-01-21T00:00:00.000Z","2020-01-22T00:00:00.000Z","2020-01-23T00:00:00.000Z","2020-01-24T00:00:00.000Z","2020-01-25T00:00:00.000Z","2020-01-26T00:00:00.000Z","2020-01-27T00:00:00.000Z","2020-01-28T00:00:00.000Z","2020-01-29T00:00:00.000Z","2020-01-30T00:00:00.000Z","2020-01-31T00:00:00.000Z","2020-02-01T00:00:00.000Z","2020-02-02T00:00:00.000Z","2020-02-03T00:00:00.000Z","2020-02-04T00:00:00.000Z","2020-02-05T00:00:00.000Z","2020-02-06T00:00:00.000Z","2020-02-07T00:00:00.000Z","2020-02-08T00:00:00.000Z","2020-02-09T00:00:00.000Z","2020-02-10T00:00:00.000Z","2020-02-11T00:00:00.000Z","2020-02-12T00:00:00.000Z","2020-02-13T00:00:00.000Z","2020-02-14T00:00:00.000Z","2020-02-15T00:00:00.000Z","2020-02-16T00:00:00.000Z","2020-02-17T00:00:00.000Z","2020-02-18T00:00:00.000Z","2020-02-19T00:00:00.000Z","2020-02-20T00:00:00.000Z","2020-02-21T00:00:00.000Z","2020-02-22T00:00:00.000Z","2020-02-23T00:00:00.000Z","2020-02-24T00:00:00.000Z","2020-02-25T00:00:00.000Z","2020-02-26T00:00:00.000Z","2020-02-27T00:00:00.000Z","2020-02-28T00:00:00.000Z","2020-02-29T00:00:00.000Z","2020-03-01T00:00:00.000Z","2020-03-02T00:00:00.000Z","2020-03-03T00:00:00.000Z","2020-03-04T00:00:00.000Z","2020-03-05T00:00:00.000Z","2020-03-06T00:00:00.000Z","2020-03-07T00:00:00.000Z","2020-03-08T00:00:00.000Z","2020-03-09T00:00:00.000Z","2020-03-10T00:00:00.000Z","2020-03-11T00:00:00.000Z","2020-03-12T00:00:00.000Z","2020-03-13T00:00:00.000Z","2020-03-14T00:00:00.000Z","2020-03-15T00:00:00.000Z","2020-03-16T00:00:00.000Z","2020-03-17T00:00:00.000Z","2020-03-18T00:00:00.000Z","2020-03-19T00:00:00.000Z","2020-03-20T00:00:00.000Z","2020-03-21T00:00:00.000Z","2020-03-22T00:00:00.000Z","2020-03-23T00:00:00.000Z","2020-03-24T00:00:00.000Z","2020-03-25T00:00:00.000Z","2020-03-26T00:00:00.000Z","2020-03-27T00:00:00.000Z","2020-03-28T00:00:00.000Z","2020-03-29T00:00:00.000Z","2020-03-30T00:00:00.000Z","2020-03-31T00:00:00.000Z","2020-04-01T00:00:00.000Z","2020-04-02T00:00:00.000Z","2020-04-03T00:00:00.000Z","2020-04-04T00:00:00.000Z","2020-04-05T00:00:00.000Z","2020-04-06T00:00:00.000Z","2020-04-07T00:00:00.000Z","2020-04-08T00:00:00.000Z","2020-04-09T00:00:00.000Z","2020-04-10T00:00:00.000Z","2020-04-11T00:00:00.000Z","2020-04-12T00:00:00.000Z","2020-04-13T00:00:00.000Z","2020-04-14T00:00:00.000Z","2020-04-15T00:00:00.000Z","2020-04-16T00:00:00.000Z","2020-04-17T00:00:00.000Z","2020-04-18T00:00:00.000Z","2020-04-19T00:00:00.000Z","2020-04-20T00:00:00.000Z","2020-04-21T00:00:00.000Z","2020-04-22T00:00:00.000Z","2020-04-23T00:00:00.000Z","2020-04-24T00:00:00.000Z","2020-04-25T00:00:00.000Z","2020-04-26T00:00:00.000Z","2020-04-27T00:00:00.000Z","2020-04-28T00:00:00.000Z","2020-04-29T00:00:00.000Z","2020-04-30T00:00:00.000Z","2020-05-01T00:00:00.000Z","2020-05-02T00:00:00.000Z","2020-05-03T00:00:00.000Z","2020-05-04T00:00:00.000Z","2020-05-05T00:00:00.000Z","2020-05-06T00:00:00.000Z","2020-05-07T00:00:00.000Z","2020-05-08T00:00:00.000Z","2020-05-09T00:00:00.000Z","2020-05-10T00:00:00.000Z","2020-05-11T00:00:00.000Z","2020-05-12T00:00:00.000Z","2020-05-13T00:00:00.000Z","2020-05-14T00:00:00.000Z","2020-05-15T00:00:00.000Z","2020-05-16T00:00:00.000Z","2020-05-17T00:00:00.000Z","2020-05-18T00:00:00.000Z","2020-05-19T00:00:00.000Z","2020-05-20T00:00:00.000Z","2020-05-21T00:00:00.000Z","2020-05-22T00:00:00.000Z","2020-05-23T00:00:00.000Z","2020-05-24T00:00:00.000Z","2020-05-25T00:00:00.000Z","2020-05-26T00:00:00.000Z","2020-05-27T00:00:00.000Z","2020-05-28T00:00:00.000Z","2020-05-29T00:00:00.000Z","2020-05-30T00:00:00.000Z","2020-05-31T00:00:00.000Z","2020-06-01T00:00:00.000Z","2020-06-02T00:00:00.000Z","2020-06-03T00:00:00.000Z","2020-06-04T00:00:00.000Z","2020-06-05T00:00:00.000Z","2020-06-06T00:00:00.000Z","2020-06-07T00:00:00.000Z","2020-06-08T00:00:00.000Z","2020-06-09T00:00:00.000Z","2020-06-10T00:00:00.000Z","2020-06-11T00:00:00.000Z","2020-06-12T00:00:00.000Z","2020-06-13T00:00:00.000Z","2020-06-14T00:00:00.000Z","2020-06-15T00:00:00.000Z","2020-06-16T00:00:00.000Z","2020-06-17T00:00:00.000Z","2020-06-18T00:00:00.000Z","2020-06-19T00:00:00.000Z","2020-06-20T00:00:00.000Z","2020-06-21T00:00:00.000Z","2020-06-22T00:00:00.000Z","2020-06-23T00:00:00.000Z","2020-06-24T00:00:00.000Z","2020-06-25T00:00:00.000Z","2020-06-26T00:00:00.000Z","2020-06-27T00:00:00.000Z","2020-06-28T00:00:00.000Z","2020-06-29T00:00:00.000Z","2020-06-30T00:00:00.000Z","2020-07-01T00:00:00.000Z","2020-07-02T00:00:00.000Z","2020-07-03T00:00:00.000Z","2020-07-04T00:00:00.000Z","2020-07-05T00:00:00.000Z","2020-07-06T00:00:00.000Z","2020-07-07T00:00:00.000Z","2020-07-08T00:00:00.000Z","2020-07-09T00:00:00.000Z","2020-07-10T00:00:00.000Z","2020-07-11T00:00:00.000Z","2020-07-12T00:00:00.000Z","2020-07-13T00:00:00.000Z","2020-07-14T00:00:00.000Z","2020-07-15T00:00:00.000Z","2020-07-16T00:00:00.000Z","2020-07-17T00:00:00.000Z","2020-07-18T00:00:00.000Z","2020-07-19T00:00:00.000Z","2020-07-20T00:00:00.000Z","2020-07-21T00:00:00.000Z","2020-07-22T00:00:00.000Z","2020-07-23T00:00:00.000Z","2020-07-24T00:00:00.000Z","2020-07-25T00:00:00.000Z","2020-07-26T00:00:00.000Z","2020-07-27T00:00:00.000Z","2020-07-28T00:00:00.000Z","2020-07-29T00:00:00.000Z","2020-07-30T00:00:00.000Z","2020-07-31T00:00:00.000Z","2020-08-01T00:00:00.000Z","2020-08-02T00:00:00.000Z","2020-08-03T00:00:00.000Z","2020-08-04T00:00:00.000Z","2020-08-05T00:00:00.000Z","2020-08-06T00:00:00.000Z","2020-08-07T00:00:00.000Z","2020-08-08T00:00:00.000Z","2020-08-09T00:00:00.000Z","2020-08-10T00:00:00.000Z","2020-08-11T00:00:00.000Z","2020-08-12T00:00:00.000Z","2020-08-13T00:00:00.000Z","2020-08-14T00:00:00.000Z","2020-08-15T00:00:00.000Z","2020-08-16T00:00:00.000Z","2020-08-17T00:00:00.000Z","2020-08-18T00:00:00.000Z","2020-08-19T00:00:00.000Z","2020-08-20T00:00:00.000Z","2020-08-21T00:00:00.000Z","2020-08-22T00:00:00.000Z","2020-08-23T00:00:00.000Z","2020-08-24T00:00:00.000Z","2020-08-25T00:00:00.000Z","2020-08-26T00:00:00.000Z","2020-08-27T00:00:00.000Z","2020-08-28T00:00:00.000Z","2020-08-29T00:00:00.000Z","2020-08-30T00:00:00.000Z","2020-08-31T00:00:00.000Z","2020-09-01T00:00:00.000Z","2020-09-02T00:00:00.000Z","2020-09-03T00:00:00.000Z","2020-09-04T00:00:00.000Z","2020-09-05T00:00:00.000Z","2020-09-06T00:00:00.000Z","2020-09-07T00:00:00.000Z","2020-09-08T00:00:00.000Z","2020-09-09T00:00:00.000Z","2020-09-10T00:00:00.000Z","2020-09-11T00:00:00.000Z","2020-09-12T00:00:00.000Z","2020-09-13T00:00:00.000Z","2020-09-14T00:00:00.000Z","2020-09-15T00:00:00.000Z","2020-09-16T00:00:00.000Z","2020-09-17T00:00:00.000Z","2020-09-18T00:00:00.000Z","2020-09-19T00:00:00.000Z","2020-09-20T00:00:00.000Z","2020-09-21T00:00:00.000Z","2020-09-22T00:00:00.000Z","2020-09-23T00:00:00.000Z","2020-09-24T00:00:00.000Z","2020-09-25T00:00:00.000Z","2020-09-26T00:00:00.000Z","2020-09-27T00:00:00.000Z","2020-09-28T00:00:00.000Z","2020-09-29T00:00:00.000Z","2020-09-30T00:00:00.000Z","2020-10-01T00:00:00.000Z","2020-10-02T00:00:00.000Z","2020-10-03T00:00:00.000Z","2020-10-04T00:00:00.000Z","2020-10-05T00:00:00.000Z","2020-10-06T00:00:00.000Z","2020-10-07T00:00:00.000Z","2020-10-08T00:00:00.000Z","2020-10-09T00:00:00.000Z","2020-10-10T00:00:00.000Z","2020-10-11T00:00:00.000Z","2020-10-12T00:00:00.000Z","2020-10-13T00:00:00.000Z","2020-10-14T00:00:00.000Z","2020-10-15T00:00:00.000Z","2020-10-16T00:00:00.000Z","2020-10-17T00:00:00.000Z","2020-10-18T00:00:00.000Z","2020-10-19T00:00:00.000Z","2020-10-20T00:00:00.000Z","2020-10-21T00:00:00.000Z","2020-10-22T00:00:00.000Z","2020-10-23T00:00:00.000Z","2020-10-24T00:00:00.000Z","2020-10-25T00:00:00.000Z","2020-10-26T00:00:00.000Z","2020-10-27T00:00:00.000Z","2020-10-28T00:00:00.000Z","2020-10-29T00:00:00.000Z","2020-10-30T00:00:00.000Z","2020-10-31T00:00:00.000Z","2020-11-01T00:00:00.000Z","2020-11-02T00:00:00.000Z","2020-11-03T00:00:00.000Z","2020-11-04T00:00:00.000Z","2020-11-05T00:00:00.000Z","2020-11-06T00:00:00.000Z","2020-11-07T00:00:00.000Z","2020-11-08T00:00:00.000Z","2020-11-09T00:00:00.000Z","2020-11-10T00:00:00.000Z","2020-11-11T00:00:00.000Z","2020-11-12T00:00:00.000Z","2020-11-13T00:00:00.000Z","2020-11-14T00:00:00.000Z","2020-11-15T00:00:00.000Z","2020-11-16T00:00:00.000Z","2020-11-17T00:00:00.000Z","2020-11-18T00:00:00.000Z","2020-11-19T00:00:00.000Z","2020-11-20T00:00:00.000Z","2020-11-21T00:00:00.000Z","2020-11-22T00:00:00.000Z","2020-11-23T00:00:00.000Z","2020-11-24T00:00:00.000Z","2020-11-25T00:00:00.000Z","2020-11-26T00:00:00.000Z","2020-11-27T00:00:00.000Z","2020-11-28T00:00:00.000Z","2020-11-29T00:00:00.000Z","2020-11-30T00:00:00.000Z","2020-12-01T00:00:00.000Z","2020-12-02T00:00:00.000Z","2020-12-03T00:00:00.000Z","2020-12-04T00:00:00.000Z","2020-12-05T00:00:00.000Z","2020-12-06T00:00:00.000Z","2020-12-07T00:00:00.000Z","2020-12-08T00:00:00.000Z","2020-12-09T00:00:00.000Z","2020-12-10T00:00:00.000Z","2020-12-11T00:00:00.000Z","2020-12-12T00:00:00.000Z","2020-12-13T00:00:00.000Z","2020-12-14T00:00:00.000Z","2020-12-15T00:00:00.000Z","2020-12-16T00:00:00.000Z","2020-12-17T00:00:00.000Z","2020-12-18T00:00:00.000Z","2020-12-19T00:00:00.000Z","2020-12-20T00:00:00.000Z","2020-12-21T00:00:00.000Z","2020-12-22T00:00:00.000Z","2020-12-23T00:00:00.000Z","2020-12-24T00:00:00.000Z","2020-12-25T00:00:00.000Z","2020-12-26T00:00:00.000Z","2020-12-27T00:00:00.000Z","2020-12-28T00:00:00.000Z","2020-12-29T00:00:00.000Z","2020-12-30T00:00:00.000Z"],[27398436.58333336,27339292.33333334,27391865.00000002,27451009.25000002,27474009.79166668,27391865.00000002,27396793.68750001,27403365.27083335,27474009.79166668,27391865,27630084.89583334,27667871.50000001,27705658.10416666,27518367.97916671,27255504.64583333,27007427.375,24513511.49999999,24324249.89999999,24182303.69999999,24048243.40000001,23953612.60000001,24205961.40000001,24166531.90000001,24608142.29999999,23985156.19999997,23772236.89999997,23141364.89999999,23165022.59999999,23212337.99999999,22959989.20000001,22794385.3,24966950.75,24428080.91666668,23724921.5,23516273.72916668,23263267.77083333,23286268.31250001,23465343.95833334,23619776.16666665,23673991.72916666,23815280.77083332,23629633.54166666,23524488.20833334,23373341.79166666,23207409.31250002,23483415.81249998,23926997.68749998,23501487.66666668,23197551.93750001,23345412.56250001,23135121.89583334,23015190.5,22919902.54166668,23186051.66666666,23287911.20833334,23455486.58333333,23535988.47916669,23700278.06249999,23021762.08333334,23516273.72916665,23690420.6875,24879877.27083334,23784065.75,23373341.79166666,23838281.31250001,23407842.60416666,22719469.25,22382675.60416667,22420462.20833333,22440176.95833332,22586394.6875,22727683.72916666,22744112.68750001,22793399.5625,22726040.83333334,23123621.62500001,23414414.1875,23894139.77083334,23501487.66666668,22795042.45833334,22721112.14583334,22783542.18749999,22768756.12499999,21996595.08333332,21231399.92,21941130.92,21714017.00000002,21411198.43999998,23147817.00000001,22520678.85416666,23205766.41666668,23981213.24999999,24497082.54166666,24960379.16666668,24753374.29166666,23997499.34782609,23215623.79166666,22546965.18749999,22336674.52083332,22201957.0625,22349817.6875,22379389.8125,22441819.85416664,22634038.66666667,22717826.35416668,23212337.99999999,23534345.58333334,23310911.75000002,22929759.91666667,23085823.20143886,23904422.23076922,24513511.49999999,24401794.58333333,24393580.10416664,22946188.87499999,22620895.49999999,22576537.31249999,22882115.9375,23005333.12499999,22558465.45833332,22788470.87500001,22867329.875,22474677.77083331,22576537.31249999,22919902.54166668,23204123.52083333,23437414.72916666,23650991.18749997,23831709.72916667,24345936.125,25446676.33333334,25579750.89583334,24525011.77083332,25068810.29166668,25571536.41666667,25638895.14583331,25175598.52083334,25137811.91666668,24830590.39583333,24564441.27083333,24364007.97916667,24150431.52083333,24017356.95833331,23608275.89583334,23388127.85416666,23669063.04166664,23889211.08333334,23987784.83333333,23954926.91666666,24010785.37499999,23550774.54166669,23248481.70833335,23389770.75000001,23570489.29166666,23624704.85416667,24166860.47916668,23761065.20833334,23496558.97916666,23406199.70833334,23802137.60416664,23739707.5625,23695349.375,23877710.81249999,24439581.18749999,23953284.02083331,23428343.08695652,23233695.64583335,23163051.125,23297768.58333334,23468629.75000001,23606632.99999997,23828423.93749997,23716707.02083331,23457129.47916668,23416057.08333334,23396342.33333333,23494916.08333334,23547488.75,23775851.27083331,23825138.14583333,23738064.66666665,23588561.14583333,23529416.89583333,23552417.43749999,23343769.66666667,23701920.95833331,23609918.79166667,23503130.5625,23338840.97916668,23641133.81249999,23861281.85416664,23936855.06249999,23910568.72916666,23954926.91666666,23887568.1875,23621419.0625,23508059.24999999,23517916.625,23483415.8125,23600061.41666666,23782422.85416665,24017356.95833333,23940140.85416666,23782422.85416665,23696992.27083332,23499844.77083333,23476844.22916667,23353627.04166668,23411128.39583335,23526131.10416666,23519559.52083332,23802137.60416667,23775851.27083331,23703563.85416666,23696992.27083332,23803780.49999999,23912211.62500001,23828423.9375,23777494.16666666,23708492.54166665,23611561.68749999,23427557.35416668,23563917.70833332,23632919.33333333,24084715.68749999,24165217.58333333,24161931.79166666,24219433.14583334,24180003.64583333,24056786.45833334,23854710.27083333,23716707.02083331,23857996.0625,23936855.06249999,23979570.35416667,23772565.47916667,23815280.77083332,23853067.37499998,23677277.52083333,23558989.02083333,23774208.37499999,24418223.54166668,24888091.75000001,24713944.79166665,24318006.89583334,24050214.875,23872782.125,23468629.75000001,23514630.83333333,23550774.54166667,23353627.04166665,24663015.02083336,24955450.47916669,24659729.22916664,24055143.56249999,23756136.52083334,23629633.54166666,23366770.20833335,23310911.75,23286268.31250001,23498201.875,23825138.14583333,24191503.91666666,23979570.35416664,23696992.27083332,24060072.25,24349221.91666667,24176717.85416666,23646062.50000001,23432486.04166667,23499844.77083333,23721635.70833333,23941783.75,24069929.62499999,24442866.97916666,25017880.52083334,24830590.39583333,24641657.375,24201361.29166667,24176717.85416668,24120859.39583333,24046929.08333333,24176717.85416668,24025571.43749999,23963141.39583332,23958212.70833333,24046929.08333333,24084715.68749999,24295006.35416666,24258862.64583334,24249005.27083334,24171789.16666667,24125788.08333334,24025571.43749999,23958212.70833333,23716707.02083331,23790637.33333334,23013547.60416668,22665253.68749999,22422105.10416668,21515226.60416666,20951713.33333334,20770994.79166667,20552489.64583334,20371771.10416667,20197624.14583334,20051406.41666666,19975833.20833334,19353175.68749999,26128478.10416666,37370814.29166667,36237216.16666666,33281646.56250001,30404935.95833333,28688109.81249998,28182097.89583334,28162383.14583332,27700729.41666668,27625156.20833335,27786160.00000001,27602155.66666667,27593941.18750003,27631727.79166667,27584083.81250002,27240718.58333331,27129001.66666664,27170074.06249997,27235789.89583334,27367221.56250001,27290005.45833332,27120787.18750001,27142144.83333332,29064332.95833334,29263123.35416666,28628965.56250001,27723729.95833334,27487152.95833334,27616941.72916666,27855161.62499999,28017808.31249999,28303672.18750001,28047380.43749999,28011236.72916665,27736873.12499999,27782874.20833334,27784517.10416666,27722087.06249999,27630084.89583334,27483867.16666669,27633370.68749999,27409936.85416669,27391865.00000002,27391865.00000002,27423080.02083334,27342578.12500001,27199646.18749997,27152002.2083333,27189788.81249999,27033713.70833333,27092857.95833333,26994284.20833332,27363935.77083332,27495367.4375,27336006.54166666,27071500.31249999],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]],"plugins":{"Unzoom":"{}"}},"evals":["attrs.interactionModel","plugins.Unzoom"],"jsHooks":[]}</script><p>The documentation of the various plotting methods can be found under
-<code>?plot.erahumed_&lt;layer_name&gt;</code>, <em>e.g.</em>
-<code><a href="../reference/plot.erahumed_hba.html">?plot.erahumed_hba</a></code>.</p>
-</div>
+<p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <div class="section level2">
 <h2 id="further-information">Further information<a class="anchor" aria-label="anchor" href="#further-information"></a>
 </h2>
@@ -311,8 +193,7 @@ layers. These can be used by accessing the relevant model layer through
 specific problems, you can <a href="https://github.com/erahumed/erahumed/issues" class="external-link">file an issue on
 Github</a>.</p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside>
+  </main>
 </div>
 
 

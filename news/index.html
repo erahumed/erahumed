@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.14.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,10 +40,27 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="erahumed-development-version">erahumed (development version)<a class="anchor" aria-label="anchor" href="#erahumed-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.15.0" id="erahumed-0150">erahumed 0.15.0<a class="anchor" aria-label="anchor" href="#erahumed-0150"></a></h2>
+<p>This release comes with a fresh new (simplified) API that drastically reduces the number of functions exported by the package. The old concept of “simulation layer” is no longer exposed to the end user, which only has to deal with much more intuitive concepts such as:</p>
+<ul><li>Simulation components: <em>hydrology</em>, <em>exposure</em> and <em>risk</em>.</li>
+<li>Landscape elements: <em>lake</em>, <em>ditch</em>, and <em>cluster</em>.</li>
+</ul><p>The usage of the new API is exemplified in the updated <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>. Below are listed specific changes:</p>
 <div class="section level4">
-<h4 id="data-development-version">Data<a class="anchor" aria-label="anchor" href="#data-development-version"></a></h4>
+<h4 id="api-changes-0-15-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-15-0"></a></h4>
+<ul><li><p>Removed <code>setup_inp()</code>, <code>setup_hba()</code>, <code>setup_hbp()</code>, <code>setup_hbd()</code>, <code>setup_ca()</code>, <code>setup_ct()</code> functions, in favor of <code><a href="../reference/erahumed_parameters.html">setup_hydrology()</a></code>, <code><a href="../reference/erahumed_parameters.html">setup_exposure()</a></code> and <code><a href="../reference/erahumed_parameters.html">setup_risk()</a></code> (<a href="https://github.com/erahumed/erahumed/issues/272" class="external-link">#272</a>).</p></li>
+<li><p>Removed <code>erahumed_layers()</code> helper.</p></li>
+<li><p><code><a href="../reference/run_simulation.html">run_simulation()</a></code> loses its <code>layer</code> argument: simulation can only be run all at once (<a href="https://github.com/erahumed/erahumed/issues/279" class="external-link">#279</a>).</p></li>
+<li><p>Removed <code>get_layer_output()</code> helper in favor of <code><a href="../reference/get_results.html">get_results()</a></code>.</p></li>
+<li><p>Removed <code>get_layer_parameters()</code>, <code>get_layer_aux()</code> and <code>get_layer()</code> from public API, with no function replacing their functionality (considered unnecessary at the moment).</p></li>
+<li><p>Removed old layers’ <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> S3 methods.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="data-0-15-0">Data<a class="anchor" aria-label="anchor" href="#data-0-15-0"></a></h4>
 <ul><li>Updated observational input data <code>albufera_outflows</code> and <code>albufera_weather</code> with data until 2024 (included).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-15-0">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-15-0"></a></h4>
+<ul><li>Defined a single helper to compute the time series of pesticides in clusters, ditches and in the lake, the latter two functionalities still to be implemented (<a href="https://github.com/erahumed/erahumed/issues/275" class="external-link">#275</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -58,7 +75,7 @@
 <h2 class="pkg-version" data-toc-text="0.14.2" id="erahumed-0142">erahumed 0.14.2<a class="anchor" aria-label="anchor" href="#erahumed-0142"></a></h2>
 <div class="section level4">
 <h4 id="modeling-advances-0-14-2">Modeling advances<a class="anchor" aria-label="anchor" href="#modeling-advances-0-14-2"></a></h4>
-<ul><li>New simulation layer HBD (“Hydrological Balance of Ditches”), with corresponding setup function <code><a href="../reference/hbd.html">setup_hbd()</a></code> and <code><a href="../reference/plot.erahumed_hbd.html">plot.erahumed_hbd()</a></code> method. The results from the layer are also included in the Shiny GUI.</li>
+<ul><li>New simulation layer HBD (“Hydrological Balance of Ditches”), with corresponding setup function <code>setup_hbd()</code> and <code>plot.erahumed_hbd()</code> method. The results from the layer are also included in the Shiny GUI.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-0-14-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-14-2"></a></h4>
@@ -97,7 +114,7 @@
 </ul></div>
 <div class="section level4">
 <h4 id="api-improvements-0-14-0">API improvements<a class="anchor" aria-label="anchor" href="#api-improvements-0-14-0"></a></h4>
-<ul><li>Stricter argument validation for <code>management_df</code> of <code><a href="../reference/hbp.html">setup_hbp()</a></code> (<a href="https://github.com/erahumed/erahumed/issues/216" class="external-link">#216</a>).</li>
+<ul><li>Stricter argument validation for <code>management_df</code> of <code>setup_hbp()</code> (<a href="https://github.com/erahumed/erahumed/issues/216" class="external-link">#216</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="gui-improvements-0-14-0">GUI Improvements<a class="anchor" aria-label="anchor" href="#gui-improvements-0-14-0"></a></h4>
@@ -113,9 +130,9 @@
 <li>Added column descriptions in the CSV input UI (<a href="https://github.com/erahumed/erahumed/issues/224" class="external-link">#224</a>).</li>
 <li>New “About” modal in Shiny app (<a href="https://github.com/erahumed/erahumed/issues/171" class="external-link">#171</a>).</li>
 <li>Add new vignette with the scheme of the model’s hydrology.</li>
-<li>Removed “experimental” badge from <code><a href="../reference/ct.html">?ct</a></code> documentation (<a href="https://github.com/erahumed/erahumed/issues/192" class="external-link">#192</a>).</li>
+<li>Removed “experimental” badge from <code>?ct</code> documentation (<a href="https://github.com/erahumed/erahumed/issues/192" class="external-link">#192</a>).</li>
 <li>Corrected typo in <code><a href="../reference/launch_dss.html">launch_dss()</a></code> command in README (<a href="https://github.com/erahumed/erahumed/issues/241" class="external-link">#241</a>).</li>
-<li>Improved description of <code>ca_schedules_df</code> parameter in <code><a href="../reference/ca.html">?ca</a></code>.</li>
+<li>Improved description of <code>ca_schedules_df</code> parameter in <code>?ca</code>.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-0-14-0">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-14-0"></a></h4>
@@ -198,7 +215,7 @@
 <h2 class="pkg-version" data-toc-text="0.12.2" id="erahumed-0122">erahumed 0.12.2<a class="anchor" aria-label="anchor" href="#erahumed-0122"></a></h2>
 <div class="section level4">
 <h4 id="api-changes-0-12-2">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-12-2"></a></h4>
-<ul><li><p>The <code>'seed'</code> parameter moves from <code><a href="../reference/hbp.html">setup_hbp()</a></code> to <code><a href="../reference/inp.html">setup_inp()</a></code>.</p></li>
+<ul><li><p>The <code>'seed'</code> parameter moves from <code>setup_hbp()</code> to <code>setup_inp()</code>.</p></li>
 <li><p>Former informative function <code>clusters()</code> was renamed <code><a href="../reference/hydrogeo_components.html">info_clusters()</a></code> <a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a>.</p></li>
 <li><p>Former informative functions <code>chemicals()</code> and <code>chemical_properties()</code><br>
 were replaced by a single function <code><a href="../reference/info_chemicals.html">info_chemicals()</a></code>, that returns a named list (<a href="https://github.com/erahumed/erahumed/issues/189" class="external-link">#189</a> and <a href="https://github.com/erahumed/erahumed/issues/190" class="external-link">#190</a>).</p></li>
@@ -233,13 +250,13 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <h2 class="pkg-version" data-toc-text="0.12.0" id="erahumed-0120">erahumed 0.12.0<a class="anchor" aria-label="anchor" href="#erahumed-0120"></a></h2>
 <div class="section level4">
 <h4 id="algorithms-changes-0-12-0">Algorithms changes<a class="anchor" aria-label="anchor" href="#algorithms-changes-0-12-0"></a></h4>
-<ul><li>The variety of clusters is no longer fixed data, but is rather generated randomly in each simulation, with a fixed proportion of the Albufera’s total surface allocated to Bomba/Sendra/Clearfield varieties. The relevant parameter is the new <code>variety_prop</code> argument of <code><a href="../reference/inp.html">setup_inp()</a></code> (see below), while the actual computation currently happens at the level of the HBP layer.</li>
+<ul><li>The variety of clusters is no longer fixed data, but is rather generated randomly in each simulation, with a fixed proportion of the Albufera’s total surface allocated to Bomba/Sendra/Clearfield varieties. The relevant parameter is the new <code>variety_prop</code> argument of <code>setup_inp()</code> (see below), while the actual computation currently happens at the level of the HBP layer.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="api-changes-0-12-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-12-0"></a></h4>
 <ul><li>Removed <code>albufera_clusters</code> and <code>albufera_cluster_geometries</code> data-sets (<a href="https://github.com/erahumed/erahumed/issues/47" class="external-link">#47</a>).</li>
-<li>Removed <code>clusters_df</code> argument from <code><a href="../reference/hbp.html">setup_hbp()</a></code>.</li>
-<li>New argument <code>variety_prop</code> in <code><a href="../reference/inp.html">setup_inp()</a></code>, to set the proportion of the Albufera’s Natural Park surface allocated for the three rice varieties (J. Sendra, Bomba, and Clearfield) (<a href="https://github.com/erahumed/erahumed/issues/185" class="external-link">#185</a>).</li>
+<li>Removed <code>clusters_df</code> argument from <code>setup_hbp()</code>.</li>
+<li>New argument <code>variety_prop</code> in <code>setup_inp()</code>, to set the proportion of the Albufera’s Natural Park surface allocated for the three rice varieties (J. Sendra, Bomba, and Clearfield) (<a href="https://github.com/erahumed/erahumed/issues/185" class="external-link">#185</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="gui-0-12-0">GUI<a class="anchor" aria-label="anchor" href="#gui-0-12-0"></a></h4>
@@ -298,7 +315,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <li>Added basic server tests for all shiny modules (<a href="https://github.com/erahumed/erahumed/issues/150" class="external-link">#150</a>).</li>
 <li>Added basic UI no-error tests for all shiny modules.</li>
 <li>Testing of <code><a href="../reference/run_simulation.html">run_simulation()</a></code>.</li>
-<li>Test that setting seed in <code><a href="../reference/hbp.html">setup_hbp()</a></code> ensures reproducibility, and that different seeds give rise to different outputs.</li>
+<li>Test that setting seed in <code>setup_hbp()</code> ensures reproducibility, and that different seeds give rise to different outputs.</li>
 <li>Testing corner cases of assertions.</li>
 <li>Testing of <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> S3 methods for <code>erahumed_simulation</code> and <code>erahumed_simulation_layer</code> S3 classes.</li>
 </ul></div>
@@ -308,7 +325,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <div class="section level4">
 <h4 id="new-features-0-11-2">New features<a class="anchor" aria-label="anchor" href="#new-features-0-11-2"></a></h4>
 <ul><li>
-<code><a href="../reference/hbp.html">setup_hbp()</a></code> receives an additional <code>seed</code> argument, which sets the seed used by the underlying algorithm (default to <code>840</code>). (<a href="https://github.com/erahumed/erahumed/issues/153" class="external-link">#153</a>)</li>
+<code>setup_hbp()</code> receives an additional <code>seed</code> argument, which sets the seed used by the underlying algorithm (default to <code>840</code>). (<a href="https://github.com/erahumed/erahumed/issues/153" class="external-link">#153</a>)</li>
 </ul></div>
 <div class="section level4">
 <h4 id="minor-apigui-changes-0-11-2">Minor API/GUI changes<a class="anchor" aria-label="anchor" href="#minor-apigui-changes-0-11-2"></a></h4>
@@ -318,7 +335,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-0-11-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-11-2"></a></h4>
-<ul><li><p><code><a href="../reference/hbp.html">?hbp</a></code> now documents the columns of the output data.frame of the HBP layer.</p></li>
+<ul><li><p><code>?hbp</code> now documents the columns of the output data.frame of the HBP layer.</p></li>
 <li><p>The main package vignette, as well as the <code>?get_layer()</code> documentation page now mention the built-in plotting methods of <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> (<a href="https://github.com/erahumed/erahumed/issues/159" class="external-link">#159</a>).</p></li>
 </ul></div>
 </div>
@@ -326,17 +343,17 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <h2 class="pkg-version" data-toc-text="0.11.1" id="erahumed-0111">erahumed 0.11.1<a class="anchor" aria-label="anchor" href="#erahumed-0111"></a></h2>
 <div class="section level4">
 <h4 id="algorithm-0-11-1">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-0-11-1"></a></h4>
-<ul><li><p>The water-sediment partition coefficient of chemicals is now computed as <code>kd = koc * foc</code>, where <code>koc</code> is the carbon-water partition coefficient, and <code>foc</code> is the fraction of organic content in soil (<a href="https://github.com/erahumed/erahumed/issues/105" class="external-link">#105</a>). Correspondingly, <code><a href="../reference/ct.html">setup_ct()</a></code> gets a new argument <code>foc</code>, with default value <code>foc = 0.17</code>.</p></li>
+<ul><li><p>The water-sediment partition coefficient of chemicals is now computed as <code>kd = koc * foc</code>, where <code>koc</code> is the carbon-water partition coefficient, and <code>foc</code> is the fraction of organic content in soil (<a href="https://github.com/erahumed/erahumed/issues/105" class="external-link">#105</a>). Correspondingly, <code>setup_ct()</code> gets a new argument <code>foc</code>, with default value <code>foc = 0.17</code>.</p></li>
 <li><p>The internal data-set of physico-chemical parameters used by the CT layer was thoroughly reviewed (<a href="https://github.com/erahumed/erahumed/issues/123" class="external-link">#123</a>), with sizable corrections to some parameters. In particular, <code>kd</code> values have been substituted by <code>koc</code> values (see previous point).</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="api-changes-0-11-1">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-11-1"></a></h4>
 <ul><li>
-<code><a href="../reference/get_layer.html">get_layer()</a></code> now throws an error if the <code>layer</code> argument is not specified, whereas it would previously return the <code>"inp"</code> layer.</li>
+<code>get_layer()</code> now throws an error if the <code>layer</code> argument is not specified, whereas it would previously return the <code>"inp"</code> layer.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="new-features-0-11-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-11-1"></a></h4>
-<ul><li>New helper <code><a href="../reference/erahumed_layers.html">erahumed_layers()</a></code> that returns the list of ERAHUMED simulation layers.</li>
+<ul><li>New helper <code>erahumed_layers()</code> that returns the list of ERAHUMED simulation layers.</li>
 <li>New helpers <code>chemicals()</code> and <code>chemical_properties()</code> providing information on supported chemicals.</li>
 </ul></div>
 </div>
@@ -350,11 +367,11 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <ul><li>
 <strong>Datasets.</strong> No changes.</li>
 <li>
-<strong>Layer extractors.</strong> <code><a href="../reference/get_layer.html">get_layer()</a></code>, <code><a href="../reference/get_layer_output.html">get_layer_output()</a></code>, <code><a href="../reference/get_layer_parameters.html">get_layer_parameters()</a></code>.</li>
+<strong>Layer extractors.</strong> <code>get_layer()</code>, <code>get_layer_output()</code>, <code>get_layer_parameters()</code>.</li>
 <li>
 <strong>Simulation initialization.</strong> <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>.</li>
 <li>
-<strong>Simulation setup.</strong> <code><a href="../reference/inp.html">setup_inp()</a></code>, <code><a href="../reference/hba.html">setup_hba()</a></code>, <code><a href="../reference/hbp.html">setup_hbp()</a></code>, <code><a href="../reference/ca.html">setup_ca()</a></code>, <code><a href="../reference/ct.html">setup_ct()</a></code>.</li>
+<strong>Simulation setup.</strong> <code>setup_inp()</code>, <code>setup_hba()</code>, <code>setup_hbp()</code>, <code>setup_ca()</code>, <code>setup_ct()</code>.</li>
 <li>
 <strong>Simulation execution.</strong> <code><a href="../reference/run_simulation.html">run_simulation()</a></code>.</li>
 <li>
@@ -438,7 +455,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <li><p>Introduced simplified temperature dependence in the algorithm for the CT model component (we simply plug in the average daily temperature in the Arrhenius equation for the degradation constant).</p></li>
 <li><p>HBP: improved plotting method (<code>plot.erahumed_hbp</code>), which now provides a double plot of cluster water levels (on top) and water flows (on bottom).</p></li>
 <li><p>CA: added a minimalistic Shiny interface to display the results of chemical applications in the form of time series for individual clusters.</p></li>
-<li><p>CT: added plotting method (see <code><a href="../reference/plot.erahumed_ct.html">?plot.erahumed_ct</a></code>) and corresponding Shiny interface.</p></li>
+<li><p>CT: added plotting method (see <code>?plot.erahumed_ct</code>) and corresponding Shiny interface.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -480,7 +497,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <h2 class="pkg-version" data-toc-text="0.7.0" id="erahumed-070">erahumed 0.7.0<a class="anchor" aria-label="anchor" href="#erahumed-070"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-7-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-7-0"></a></h4>
-<ul><li>Experimental release of CT model component, with new functions <code>compute_ct()</code> and <code><a href="../reference/ct.html">ct()</a></code> (close <a href="https://github.com/erahumed/erahumed/issues/92" class="external-link">#92</a>).</li>
+<ul><li>Experimental release of CT model component, with new functions <code>compute_ct()</code> and <code>ct()</code> (close <a href="https://github.com/erahumed/erahumed/issues/92" class="external-link">#92</a>).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="breaking-changes-0-7-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-7-0"></a></h4>
@@ -504,7 +521,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <ul><li>Essential refactor of modeling API, as mentioned above.</li>
 <li>The HBP model component (formerly known as “local hydrological balance”) does not allow anymore the specification of <code>date_min/max</code> arguments; the date range is univocally determined by the data fed to the INP model component.</li>
 <li>Removed bold from printing methods, which was not correctly rendering in Github flavored markdown.</li>
-<li>Renamed the HBP admissible plot types (value of <code>type</code> parameter to <code><a href="../reference/plot.erahumed_hbp.html">plot.erahumed_hbp()</a></code>), from <code>"cluster_levels"</code> and <code>"map"</code> to <code>"cluster_view"</code> and <code>"map_view"</code>.</li>
+<li>Renamed the HBP admissible plot types (value of <code>type</code> parameter to <code>plot.erahumed_hbp()</code>), from <code>"cluster_levels"</code> and <code>"map"</code> to <code>"cluster_view"</code> and <code>"map_view"</code>.</li>
 <li>Removed <code>height_thresh_cm</code> argument from arguments of CA component high level functions (<code>compute_ca()</code> in the present version), to move it down to the<br>
 corresponding functions of the HBP component. This ensures, in particular, that a common value is used across the two different model components.</li>
 </ul></div>
@@ -539,7 +556,7 @@ corresponding functions of the HBP component. This ensures, in particular, that 
 <div class="section level4">
 <h4 id="bug-fixes-0-5-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-5-0"></a></h4>
 <ul><li>Fixed broken functionality of ‘height_thresh_cm’ argument (<a href="https://github.com/erahumed/erahumed/issues/85" class="external-link">#85</a>).</li>
-<li>Correct bug that was causing the wrong delay being applied to <code>seed_day</code> in the <code>ca_choose_application_day_index()</code> helper, building block of <code><a href="../reference/ca.html">ca()</a></code>.</li>
+<li>Correct bug that was causing the wrong delay being applied to <code>seed_day</code> in the <code>ca_choose_application_day_index()</code> helper, building block of <code>ca()</code>.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-0-5-0">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-5-0"></a></h4>
@@ -550,18 +567,18 @@ corresponding functions of the HBP component. This ensures, in particular, that 
 <h2 class="pkg-version" data-toc-text="0.4.1" id="erahumed-041">erahumed 0.4.1<a class="anchor" aria-label="anchor" href="#erahumed-041"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-4-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-1"></a></h4>
-<ul><li>First draft of <code><a href="../reference/plot.erahumed_ca.html">plot.erahumed_ca()</a></code> (“cluster view”).</li>
+<ul><li>First draft of <code>plot.erahumed_ca()</code> (“cluster view”).</li>
 </ul></div>
 <div class="section level4">
 <h4 id="user-visible-changes-0-4-1">User visible changes<a class="anchor" aria-label="anchor" href="#user-visible-changes-0-4-1"></a></h4>
-<ul><li><p>The default for the <code>height_thresh_cm</code> parameter of <code><a href="../reference/ca.html">ca()</a></code> has been changed from <code>2.5</code> to <code>2</code>.</p></li>
+<ul><li><p>The default for the <code>height_thresh_cm</code> parameter of <code>ca()</code> has been changed from <code>2.5</code> to <code>2</code>.</p></li>
 <li><p>The <code>albufera_management</code> data-set has a new column <code>seed_day</code>, which counts the number of day elapsed from the sowing day. This is also returned in the output data.frame of <code>albufera_hb_local()</code>.</p></li>
 <li><p><code>erahumed_ca</code> S3 class now inherits from <code>hb_local</code>.</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="under-the-hoods-0-4-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-4-1"></a></h4>
 <ul><li><p>Improvement in data.frame validity checks. The <code>assert_data.frame()</code> helper is now able to check column types. Noteworthy, this allows for much stricter tests in the <code>"hb_local"</code> and <code>"hb_global"</code> functions.</p></li>
-<li><p>Important performance improvements in the function <code><a href="../reference/ca.html">ca()</a></code>. These were mainly achieved by (i) removing validity checks in the low level function <code>ca_to_cluster()</code>, supplanted by less costly checks at the level of the <code>hb_local()</code> output; and (ii) bypassing computation using <code>Date</code> objects, thanks to the introduced <code>seed_day</code> column in the output of <code>albufera_hb_local()</code> (see above).</p></li>
+<li><p>Important performance improvements in the function <code>ca()</code>. These were mainly achieved by (i) removing validity checks in the low level function <code>ca_to_cluster()</code>, supplanted by less costly checks at the level of the <code>hb_local()</code> output; and (ii) bypassing computation using <code>Date</code> objects, thanks to the introduced <code>seed_day</code> column in the output of <code>albufera_hb_local()</code> (see above).</p></li>
 </ul></div>
 <div class="section level4">
 <h4 id="documentation-0-4-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-4-1"></a></h4>
@@ -573,8 +590,8 @@ corresponding functions of the HBP component. This ensures, in particular, that 
 <div class="section level4">
 <h4 id="new-features-0-4-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-4-0"></a></h4>
 <p>This version introduces a first draft for the new Chemicals Applications (CA) model block, which is meant to simulate the application of chemicals (fertilizers and pesticides), according to the previously obtained simulation of local water levels and water flows, which is the output of the hydrological balance (HB) block.</p>
-<p>The basic <code><a href="../reference/ca.html">ca()</a></code> function is provided, which takes as input an object of S3 class <code>"hb_local"</code> (plus a few other optional input parameters), and returns a similar data-frame, with additional columns that provide the time series of chemical applications.</p>
-<p>The accompanying dataset <code>albufera_ca_schedules</code> provides the schedules for chemical applications in the Albufera lake, and is one of the customizable inputs to <code><a href="../reference/ca.html">ca()</a></code>.</p>
+<p>The basic <code>ca()</code> function is provided, which takes as input an object of S3 class <code>"hb_local"</code> (plus a few other optional input parameters), and returns a similar data-frame, with additional columns that provide the time series of chemical applications.</p>
+<p>The accompanying dataset <code>albufera_ca_schedules</code> provides the schedules for chemical applications in the Albufera lake, and is one of the customizable inputs to <code>ca()</code>.</p>
 </div>
 </div>
     <div class="section level2">
