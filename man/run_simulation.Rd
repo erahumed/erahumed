@@ -4,27 +4,17 @@
 \alias{run_simulation}
 \title{Run an ERAHUMED simulation}
 \usage{
-run_simulation(simulation, layer = NULL)
+run_simulation(simulation)
 }
 \arguments{
 \item{simulation}{\code{[}\link{erahumed_simulation}\verb{]} \cr
 The simulation object containing the layers to be computed.}
-
-\item{layer}{\verb{[character(1)|NULL]} \cr
-Instructs \code{run_simulation()} to compute all simulation layers until \code{layer}.
-The default (\code{NULL}) means to compute all layers.}
 }
 \value{
 An \link{erahumed_simulation}.
 }
 \description{
-Computes the layers of a ERAHUMED simulation. See
-\link{erahumed_simulation_interface} for a detailed description of the
-simulation workflow.
-}
-\examples{
-s <- erahumed_simulation()
-s
-run_simulation(s, layer = "hba")
-
+Computes the layers of a ERAHUMED simulation. Check the
+\href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{main package vignette}
+for a detailed description of the simulation workflow.
 }

@@ -86,3 +86,13 @@ ct_msapp <- function(
 ct_mw_max <- function(sol_ppm, volume_eod_m3) {
   ppm_to_kg_m3(sol_ppm) * volume_eod_m3
 }
+
+ct_total_inflow_m3_s <- function(inflows_m3_s_kg) {
+  lapply(inflows_m3_s_kg, \(pair) pair[[1]]) |>
+    Reduce("+", x = _, init = 0)
+}
+
+ct_mw_inflow_kg_s <- function(inflows_m3_s_kg) {
+  lapply(inflows_m3_s_kg, \(pair) pair[[1]] * pair[[2]]) |>
+    Reduce("+", x = _, init = 0)
+}

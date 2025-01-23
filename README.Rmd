@@ -96,32 +96,32 @@ As the output above shows, the layers of `simulation` are initialized but not co
 
 ```{r}
 simulation <- simulation |>
-  setup_hbp(ideal_flow_rate_cm = 2.5) |>
-  setup_ct(dact_m = 0.2)
+  setup_hydrology(ideal_flow_rate_cm = 2.5) |>
+  setup_exposure(dact_m = 0.2)
 ```
 
 In order to actually compute the layers, we use `run_simulation()`:
 
 ```{r}
 simulation <- simulation |>
-  run_simulation(layer = "hba")  # Run simulation until the HBA layer
+  run_simulation(layer = "hbl")  # Run simulation until the hbl layer
 ```
 
 Simulations are composed of the following layers (in dependency order, from 
 upstream to downstream):
 
 * INP [`setup_inp()`]: INPut data.
-* HBA [`setup_hba()`]: Hydrological Balance of the Albufera lake.
-* HBP [`setup_hbp()`]: Hydrological Balance of rice Paddy clusters.
+* hbl [`setup_hbl()`]: Hydrological Balance of the Albufera lake.
+* hbc [`setup_hbc()`]: Hydrological Balance of rice Paddy clusters.
 * CA [`setup_ca()`]: Chemical Applications. 
-* CT [`setup_ct()`]: Chemical Transport.
+* ctc [`setup_ctc()`]: Chemical Transport.
 
 In order to inspect the results of a given layer, we use:
 
 ```{r}
-get_layer(simulation, "hba")
-get_layer_parameters(simulation, "hba")
-get_layer_output(simulation, "hba") |> head()
+get_layer(simulation, "hbl")
+get_layer_parameters(simulation, "hbl")
+get_layer_output(simulation, "hbl") |> head()
 ```
 
 For more information on the simulation interface, you can consult `?erahumed_simulation_interface`.

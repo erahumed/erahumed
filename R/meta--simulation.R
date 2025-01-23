@@ -1,7 +1,8 @@
 #' Initialize an ERAHUMED simulation
 #'
 #' @description
-#' Initializes an ERAHUMED simulation. See \link{erahumed_simulation_interface}
+#' Initializes an ERAHUMED simulation. Check the
+#' [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
 #' for a detailed description of the simulation workflow.
 #'
 #' @return An object of class `erahumed_simulation`.
@@ -10,14 +11,13 @@
 #' erahumed_simulation()
 #'
 #' @export
-erahumed_simulation <- function() {
+erahumed_simulation <- function()
+{
+
   structure(list(), class = "erahumed_simulation") |>
-    setup_inp() |>
-    setup_hba() |>
-    setup_hbp() |>
-    setup_hbd() |>
-    setup_ca() |>
-    setup_ct()
+    setup_hydrology() |>
+    setup_exposure() |>
+    setup_risk()
 }
 
 is_erahumed_simulation <- function(obj) {

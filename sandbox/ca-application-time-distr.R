@@ -5,7 +5,7 @@ library(erahumed)
 library(dplyr)
 library(ggplot2)
 
-hbl <- hbp(date_min = "2014-01-01", date_max = "2014-12-31")
+hbl <- hbc(date_min = "2014-01-01", date_max = "2014-12-31")
 ca_df <- ca(hbl)
 
 ca_df |>

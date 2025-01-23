@@ -45,7 +45,7 @@
 #'
 #'
 #' @format ## `albufera_management`
-#' `r erahumed_dataset_format("management_df", "hbp")`
+#' `r erahumed_dataset_format("management_df", "hbc")`
 #' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
 #' Rico, A. (2023). Influence of climate change and pesticide use practices on
 #' the ecological risks of pesticides in a protected Mediterranean wetland: A

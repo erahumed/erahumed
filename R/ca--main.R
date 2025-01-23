@@ -5,19 +5,20 @@
 #'
 #' @description `r erahumed_docs("layers", "ca", "description")`
 #'
-#' @inheritParams inp
+#' @param simulation `[`\link{erahumed_simulation}`]` \cr
+#' The simulation object being modified.
 #' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df", "ca")`
 #'
 #' @return An objects of class \link{erahumed_simulation}.
 #'
 #' @details
-#' The output `data.frame` extends the output of the underlying \link{hbp}
+#' The output `data.frame` extends the output of the underlying \link{hbc}
 #' layer, preserving its cardinality (one row per cluster per day). The
 #' additional columns, named as the chemicals appearing in `ca_schedules_df`,
 #' provide the time series of applied doses, expressed in kilograms.
 #'
-#' @export
-setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedules)
+#' @noRd
+setup_ca <- function(simulation, ca_schedules_df)
 {
   tryCatch({
     assert_erahumed_simulation(simulation)
@@ -37,12 +38,12 @@ setup_ca <- function(simulation, ca_schedules_df = erahumed::albufera_ca_schedul
 compute_ca <- function(simulation)
 {
   ca_schedules_df <- get_layer_parameters(simulation, "ca")[["ca_schedules_df"]]
-  height_thresh_cm <- get_layer_parameters(simulation, "hbp")[["height_thresh_cm"]]
+  height_thresh_cm <- get_layer_parameters(simulation, "hbc")[["height_thresh_cm"]]
 
-  hbp_res <- get_layer_output(simulation, "hbp")
-  hbp_res$year <- format(hbp_res$date, "%Y") |> as.numeric()
+  hbc_res <- get_layer_output(simulation, "hbc")
+  hbc_res$year <- format(hbc_res$date, "%Y") |> as.numeric()
 
-  output <- hbp_res |>
+  output <- hbc_res |>
     collapse::rsplit(
       by = ~ cluster_id + year,
       flatten = TRUE,

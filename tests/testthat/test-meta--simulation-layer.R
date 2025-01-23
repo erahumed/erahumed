@@ -17,17 +17,17 @@ test_that("Constructor throws an error if 'params' is not a list", {
 })
 
 test_that("print() method succeeds", {
-  obj <- erahumed_simulation() |> get_layer("hba")
+  obj <- erahumed_simulation() |> get_layer("hbl")
   expect_no_error(capture.output(print(obj)))
 })
 
 test_that("print() method returns invisibly", {
-  obj <- erahumed_simulation() |> get_layer("hba")
+  obj <- erahumed_simulation() |> get_layer("hbl")
   print_res <- expect_output(print(obj))
   expect_identical(print_res, obj)
 })
 
 test_that("summary() method succeeds", {
-  obj <- erahumed_simulation() |> get_layer("hba")
+  obj <- erahumed_simulation() |> get_layer("hbl")
   expect_no_error( capture.output(summary(obj)) )
 })

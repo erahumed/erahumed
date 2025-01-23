@@ -1,5 +1,5 @@
 test_that("setup_hbd() does not raise an error with valid inputs", {
-  expect_no_error( setup_hbd(test_sim_small()) )
+  expect_no_error( setup_hbd(test_sim_small(), ditch_level_m = 1) )
 })
 
 test_that("setup_hbd() error if invalid ditch_level_m", {

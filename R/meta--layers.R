@@ -11,7 +11,7 @@
 #'
 #' @details For further information on the various layers, see `?<layer_name>`.
 #'
-#' @export
+#' @noRd
 erahumed_layers <- function() {
   names(erahumed_docs("layers"))
 }

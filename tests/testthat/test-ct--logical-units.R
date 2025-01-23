@@ -1,6 +1,6 @@
 test_that("ct_porosity(): result is a percentage with the standard inputs", {
   arg_names <- names(formals(ct_porosity))
-  args <- formals(setup_ct)[arg_names]
+  args <- formals(setup_exposure)[arg_names]
   res <- do.call(ct_porosity, args)
 
   expect_gte(res, 0)
@@ -19,7 +19,7 @@ test_that("ct_porosity(): result is a percentage with random inputs", {
 
 
 test_that("ct_fds(): result is a percentage with the standard inputs", {
-  global_params <- formals(setup_ct)
+  global_params <- formals(setup_exposure)
 
   bd_g_cm3 <- global_params$bd_g_cm3
 
@@ -53,7 +53,7 @@ test_that("ct_fds(): result is a percentage with random inputs", {
 
 
 test_that("ct_fdw(): result is a percentage with the standard inputs", {
-  css_ppm <- formals(setup_ct)$css_ppm
+  css_ppm <- formals(setup_exposure)$css_ppm
 
   chemicals <- unique(albufera_ca_schedules$chemical)
   for (chemical in chemicals) {
@@ -80,7 +80,7 @@ test_that("ct_fdw(): result is a percentage with random inputs", {
 
 
 test_that("ct_kdifus_m_day(): is always positive with the standard inputs", {
-  global_params <- formals(setup_ct)
+  global_params <- formals(setup_exposure)
 
   fc <- global_params$fc
   wilting <- global_params$wilting
@@ -101,7 +101,7 @@ test_that("ct_kdifus_m_day(): is always positive", {
 })
 
 test_that("ct_cover(): is a percentage series with the standard inputs", {
-  global_params <- formals(setup_ct)
+  global_params <- formals(setup_exposure)
 
   jgrow <- global_params$jgrow
   covmax <- global_params$covmax
@@ -125,7 +125,7 @@ test_that("ct_msapp(): result is always a fraction of application",{
       SNK = 0,
       is_empty = TRUE,
       dinc_m = ct_get_param(chemical, "dinc_m"),
-      dact_m = formals(setup_ct)$dact_m
+      dact_m = formals(setup_exposure)$dact_m
       )
     expect_true(all( 0 <= res & res <= 1 ))
   }

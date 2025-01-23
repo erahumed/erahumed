@@ -20,6 +20,6 @@ test_simulation <- function(date_min, date_max, seed) {
     dplyr::filter(date_min <= date, date <= date_max)
 
   erahumed_simulation() |>
-    setup_inp(outflows_df = outflows_df, seed = seed) |>
+    setup_hydrology(outflows_df = outflows_df, seed = seed) |>
     run_simulation()
 }

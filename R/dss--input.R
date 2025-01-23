@@ -7,12 +7,18 @@ dss_input_ui <- function(id) {
   bslib::page_fillable(
     title = "Input",
     bslib::layout_column_wrap(
-      card(layer_card_header("inp"), card_body(inp_input_ui( ns("inp") ))),
-      card(layer_card_header("hba"), card_body(hba_input_ui( ns("hba") ))),
-      card(layer_card_header("hbp"), card_body(hbp_input_ui( ns("hbp") ))),
-      card(layer_card_header("hbd"), card_body(hbd_input_ui( ns("hbd") ))),
-      card(layer_card_header("ca"), card_body(ca_input_ui( ns("ca") ))),
-      card(layer_card_header("ct"), card_body(ct_input_ui( ns("ct") )))
+      card(card_header("Hydrology", class = "bg-dark"),
+           card_body( dss_input_hydrology_ui(ns("hydrology")) ),
+           full_screen = TRUE
+           ),
+      card(card_header("Exposure", class = "bg-dark"),
+           card_body( dss_input_exposure_ui(ns("exposure")) ),
+           full_screen = TRUE
+           ),
+      card(card_header("Risk", class = "bg-dark"),
+           card_body( dss_input_risk_ui(ns("risk")) ),
+           full_screen = TRUE
+           )
       )
     )
 
@@ -21,12 +27,9 @@ dss_input_ui <- function(id) {
 dss_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     list(
-      inp = inp_input_server("inp"),
-      hba = hba_input_server("hba"),
-      hbp = hbp_input_server("hbp"),
-      hbd = hbd_input_server("hbd"),
-      ca = ca_input_server("ca"),
-      ct = ct_input_server("ct")
+      hydrology = dss_input_hydrology_server("hydrology"),
+      exposure = dss_input_exposure_server("exposure"),
+      risk = dss_input_risk_server("risk")
       )
   })
 }
