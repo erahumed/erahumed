@@ -198,12 +198,12 @@ layers:  # ERAHUMED layers, in dependency order.
 
 
   ctc:
-    title: "Chemical Transport"
+    title: "Chemical Transport in Clusters"
     description: >-
       This layer computes the temporal dynamics of chemicals' masses in rice
       fields, in the three compartments of foliage, water and sediment.
 
-    parameters:
+    parameters: &ct-parameters
 
       drift:
         type: "numeric(1)"
@@ -263,3 +263,23 @@ layers:  # ERAHUMED layers, in dependency order.
         type: "numeric(1)"
         description: >-
           A number between `0` and `1`. Field capacity.
+
+
+
+  ctd:
+    title: "Chemical Transport in Ditches"
+    description: >-
+      This layer computes the temporal dynamics of chemicals' masses in
+      irrigation ditches, in the two compartments of water and sediment.
+
+    parameters: *ct-parameters
+
+
+
+  ctl:
+    title: "Chemical Transport in the Albufera Lake"
+    description: >-
+      This layer computes the temporal dynamics of chemicals' masses in
+      the Albufera Lake, in the two compartments of water and sediment.
+
+    parameters: *ct-parameters
