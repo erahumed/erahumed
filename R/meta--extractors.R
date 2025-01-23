@@ -30,6 +30,4 @@ get_results  <- function(simulation,
                 )
 
   FUN(simulation = simulation, element = element)
-
-  return(res)
 }
