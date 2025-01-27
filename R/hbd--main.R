@@ -59,6 +59,8 @@ compute_hbd <- function(simulation)
 
   out <- merge(out, volume_df, by = "ditch")
 
+  out$height_eod_cm <- ditch_level_m * 100
+
   validate_hbd_output(out)
 
   simulation [["hbd"]] [["output"]] <- out
