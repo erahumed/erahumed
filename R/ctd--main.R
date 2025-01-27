@@ -28,36 +28,16 @@ setup_ctd <- function(
 
 compute_ctd <- function(simulation)
 {
-  drift <- get_layer_parameters(simulation, "ctd")[["drift"]]
-  covmax <- get_layer_parameters(simulation, "ctd")[["covmax"]]
-  jgrow <- get_layer_parameters(simulation, "ctd")[["jgrow"]]
-  SNK <- get_layer_parameters(simulation, "ctd")[["SNK"]]
-  dact_m <- get_layer_parameters(simulation, "ctd")[["dact_m"]]
-  css_ppm <- get_layer_parameters(simulation, "ctd")[["css_ppm"]]
-  foc <- get_layer_parameters(simulation, "ctd")[["foc"]]
-  bd_g_cm3 <- get_layer_parameters(simulation, "ctd")[["bd_g_cm3"]]
-  qseep_m_day <- get_layer_parameters(simulation, "ctd")[["qseep_m_day"]]
-  wilting <- get_layer_parameters(simulation, "ctd")[["wilting"]]
-  fc <- get_layer_parameters(simulation, "ctd")[["fc"]]
-
-  output <- get_layer_output(simulation, "ctc") |>
-    data.table::as.data.table() |>
-    merge(
-      info_clusters() |> data.table::as.data.table(),
-      by = "cluster_id") |>
-    merge(
-      get_layer_output(simulation, "hbd") |> data.table::as.data.table(),
-      by = c("date", "ditch"),
-      sort = TRUE
-    ) |>
-    collapse::rsplit(
-      by = ~ ditch,
-      flatten = TRUE,
-      use.names = FALSE,
-      simplify = FALSE,
-      keep.by = TRUE
-    ) |>
-    # TODO
+  output <-
+    lapply(
+      ctd_data_prep(
+        hbd_output = get_layer_output(simulation, "ctc"),
+        ctc_output = get_layer_output(simulation, "hbd"),
+        inp_output = get_layer_output(simulation, "inp")
+        ),
+      ctd_to_ditch_wrap,
+      ctd_params = get_layer_parameters(simulation, "ctd")
+      ) |>
     data.table::rbindlist() |>
     as.data.frame()
 
