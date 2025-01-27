@@ -98,9 +98,6 @@ compute_ctc <- function(simulation)
   simulation [["ctc"]] [["output"]] <- output
 
   return(simulation)
-
-  return(output)
-
 }
 
 
