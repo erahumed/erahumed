@@ -34,14 +34,14 @@ plot.erahumed_ctc <- function(
 {
   switch(match.arg(type),
          cluster_view = switch(match.arg(variable),
-                               mass = plot_ct_cluster_view_mass(x, ...),
-                               density = plot_ct_cluster_view_density(x, ...)
+                               mass = plot_ctc_cluster_view_mass(x, ...),
+                               density = plot_ctc_cluster_view_density(x, ...)
                                ),
-         max_boxplot = plot_ct_max_boxplot(x, ...)
+         max_boxplot = plot_ctc_max_boxplot(x, ...)
          )
 }
 
-plot_ct_cluster_view_mass <- function(x, ...) {
+plot_ctc_cluster_view_mass <- function(x, ...) {
   args <- list(...)
 
   df_raw <- get_layer_output(x)
@@ -93,7 +93,7 @@ plot_ct_cluster_view_mass <- function(x, ...) {
   return(p)
 }
 
-plot_ct_cluster_view_density <- function(x, ...) {
+plot_ctc_cluster_view_density <- function(x, ...) {
   df <- get_layer_output(x)
   args <- list(...)
 
@@ -144,7 +144,7 @@ plot_ct_cluster_view_density <- function(x, ...) {
   return(p)
 }
 
-plot_ct_max_boxplot <- function(x, ...) {
+plot_ctc_max_boxplot <- function(x, ...) {
   density_variables <- c("cs", "cw", "cw_outflow")
 
   get_layer_output(x) |>
