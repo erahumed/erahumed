@@ -6,7 +6,8 @@ ct_time_series <- function(application_kg,
                            temperature_max,
                            height_eod_cm,
                            outflow_m3_s,
-                           inflows_m3_s_kg, # list(list(double(n), double(n))) see below
+                           inflows_m3_s, # list(list(double(n), double(n))) see below
+                           inflows_densities_kg_m3,
                            area_m2,
                            seed_day,
                            chemical,
@@ -33,7 +34,8 @@ ct_time_series <- function(application_kg,
                             temperature_max = temperature_max,
                             height_eod_cm = height_eod_cm,
                             outflow_m3_s = outflow_m3_s,
-                            inflows_m3_s_kg = inflows_m3_s_kg,
+                            inflows_m3_s = inflows_m3_s,
+                            inflows_densities_kg_m3 = inflows_densities_kg_m3,
                             area_m2 = area_m2,
                             seed_day = seed_day,
                             chemical = chemical,
@@ -65,7 +67,7 @@ ct_time_series <- function(application_kg,
   outflow_m3 <- terms[["outflow_m3"]]
   outflow_fac <- terms[["outflow_fac"]]
 
-  n_time_steps <- length(application_kg)
+  n_time_steps <- length(outflow_m3_s)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
     mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1]
@@ -100,7 +102,8 @@ ct_ts_step_terms <- function(application_kg,
                              temperature_max,
                              height_eod_cm,
                              outflow_m3_s,
-                             inflows_m3_s_kg,
+                             inflows_m3_s,
+                             inflows_densities_kg_m3,
                              area_m2,
                              seed_day,
                              chemical,
@@ -117,7 +120,7 @@ ct_ts_step_terms <- function(application_kg,
                              fc
                              )
 {
-  n_time_steps <- length(application_kg)
+  n_time_steps <- length(outflow_m3_s)
   dt <- 1
 
   # Chemicals parameters
@@ -153,7 +156,7 @@ ct_ts_step_terms <- function(application_kg,
   height_eod_m <- height_eod_cm / 100
   volume_eod_m3 <- height_eod_m * area_m2
   outflow_m3 <- outflow_m3_s * s_per_day()
-  inflow_m3 <- ct_total_inflow_m3_s(inflows_m3_s_kg) * s_per_day()
+  inflow_m3 <- ct_total_inflow_m3_s(inflows_m3_s) * s_per_day()
   rain_cm <- precipitation_mm / 10
   rain_m3 <- (precipitation_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
@@ -179,7 +182,6 @@ ct_ts_step_terms <- function(application_kg,
   ks_sat <- ct_deg_k(ks_sat_day, Q10_ks_sat, temp_arr, ks_sat_temp)
   ks_unsat <- ct_deg_k(ks_unsat_day, Q10_ks_unsat, temp_arr, ks_unsat_temp)
   ks <- (1-is_empty) * ks_sat + is_empty * ks_unsat
-
   ### Washout
   w <- ct_washout(fet_cm = fet_cm, rain_cm = rain_cm)
 
@@ -187,7 +189,7 @@ ct_ts_step_terms <- function(application_kg,
   outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
 
   ### Inflow
-  mw_inflow_kg <- ct_mw_inflow_kg_s(inflows_m3_s_kg) * s_per_day()
+  mw_inflow_kg <- ct_mw_inflow_kg(inflows_m3_s, inflows_densities_kg_m3)
 
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)

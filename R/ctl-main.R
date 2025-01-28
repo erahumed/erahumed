@@ -40,25 +40,7 @@ compute_ctl <- function(simulation)
   wilting <- get_layer_parameters(simulation, "ctl")[["wilting"]]
   fc <- get_layer_parameters(simulation, "ctl")[["fc"]]
 
-  output <- get_layer_output(simulation, "ctc") |>
-    data.table::as.data.table() |>
-    merge(
-      info_clusters() |> data.table::as.data.table(),
-      by = "cluster_id") |>
-    merge(
-      get_layer_output(simulation, "hbd") |> data.table::as.data.table(),
-      by = c("date", "ditch"),
-      sort = TRUE
-    ) |>
-    collapse::rsplit(
-      by = ~ ditch,
-      flatten = TRUE,
-      use.names = FALSE,
-      simplify = FALSE,
-      keep.by = TRUE
-    ) |>
-    # TODO
-    data.table::rbindlist() |>
+  output <- NULL |>
     as.data.frame()
 
   validate_ctl_output(output)

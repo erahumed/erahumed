@@ -30,11 +30,7 @@ compute_ctd <- function(simulation)
 {
   output <-
     lapply(
-      ctd_data_prep(
-        hbd_output = get_layer_output(simulation, "ctc"),
-        ctc_output = get_layer_output(simulation, "hbd"),
-        inp_output = get_layer_output(simulation, "inp")
-        ),
+      ctd_data_prep(simulation),
       ctd_to_ditch_wrap,
       ctd_params = get_layer_parameters(simulation, "ctd")
       ) |>
