@@ -28,19 +28,10 @@ setup_ctl <- function(
 
 compute_ctl <- function(simulation)
 {
-  drift <- get_layer_parameters(simulation, "ctl")[["drift"]]
-  covmax <- get_layer_parameters(simulation, "ctl")[["covmax"]]
-  jgrow <- get_layer_parameters(simulation, "ctl")[["jgrow"]]
-  SNK <- get_layer_parameters(simulation, "ctl")[["SNK"]]
-  dact_m <- get_layer_parameters(simulation, "ctl")[["dact_m"]]
-  css_ppm <- get_layer_parameters(simulation, "ctl")[["css_ppm"]]
-  foc <- get_layer_parameters(simulation, "ctl")[["foc"]]
-  bd_g_cm3 <- get_layer_parameters(simulation, "ctl")[["bd_g_cm3"]]
-  qseep_m_day <- get_layer_parameters(simulation, "ctl")[["qseep_m_day"]]
-  wilting <- get_layer_parameters(simulation, "ctl")[["wilting"]]
-  fc <- get_layer_parameters(simulation, "ctl")[["fc"]]
-
-  output <- NULL |>
+  output <- ctl_wrap(
+      ctl_data_prep(simulation),
+      ctl_params = get_layer_parameters(simulation, "ctl")
+    ) |>
     as.data.frame()
 
   validate_ctl_output(output)
