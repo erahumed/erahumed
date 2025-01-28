@@ -66,6 +66,7 @@ ctd_data_prep <- function(simulation)
   cluster_inflows_m3_s <-
     get_layer_output(simulation, "hbc") |>
     data.table::as.data.table() |>
+    data.table::setorderv(c("date", "cluster_id")) |>
     collapse::rsplit(by = outflow_m3_s ~ ditch + cluster_id,
                      flatten = FALSE,
                      use.names = TRUE,
@@ -76,6 +77,7 @@ ctd_data_prep <- function(simulation)
     get_layer_output(simulation, "ctc") |>
     data.table::as.data.table() |>
     merge(info_clusters(), by = "cluster_id") |>
+    data.table::setorderv(c("date", "cluster_id")) |>
     collapse::rsplit(by = cw_outflow ~ ditch + chemical + cluster_id,
                      flatten = FALSE,
                      use.names = TRUE,
