@@ -96,7 +96,7 @@ ct_mw_inflow_kg <- function(inflows_m3_s, inflows_densities_kg_m3) {
     vol <- inflows_m3_s[[i]]
     dens <- inflows_densities_kg_m3[[i]]
     dens <- ifelse(!is.na(dens), dens, 0)
-    vol * dens
+    vol * dens * s_per_day()
     }) |>
     Reduce("+", x = _, init = 0)
 }
