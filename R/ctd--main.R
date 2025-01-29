@@ -28,14 +28,8 @@ setup_ctd <- function(
 
 compute_ctd <- function(simulation)
 {
-  output <-
-    lapply(
-      ctd_data_prep(simulation),
-      ctd_to_ditch_wrap,
-      ctd_params = get_layer_parameters(simulation, "ctd")
-      ) |>
-    data.table::rbindlist() |>
-    as.data.frame()
+
+  output <- .compute_ctd(simulation)
 
   validate_ctd_output(output)
 
