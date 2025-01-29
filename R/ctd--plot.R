@@ -8,7 +8,7 @@ plot.erahumed_ctd <- function(
 )
 {
   switch(match.arg(type),
-         cluster_view = plot_ctd_ditch_view(x, variable = variable, ...),
+         ditch_view = plot_ctd_ditch_view(x, variable = variable, ...),
          max_boxplot = plot_ctd_max_boxplot(x, ...)
          )
 }
@@ -22,8 +22,8 @@ plot_ctd_ditch_view <- function(x, variable = c("mass", "density"), ...) {
   if (is.null(ditch)) {
     ditch <- ct_output_df$ditch[[1]]
     warning(paste0(
-      "No cluster specified through the 'cluster_id' argument. ",
-      "Plotting cluster '", ditch, "'."
+      "No ditch specified through the 'ditch' argument. ",
+      "Plotting ditch '", ditch, "'."
     ))
   }
 
