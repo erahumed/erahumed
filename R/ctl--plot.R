@@ -95,7 +95,7 @@ plot_ctl_lake_view_density <- function(x, ...) {
   return(p)
 }
 
-plot_ctd_max_boxplot <- function(x, ...) {
+plot_ctl_max_boxplot <- function(x, ...) {
   density_variables <- c("cs", "cw", "cw_outflow")
 
   get_layer_output(x) |>
