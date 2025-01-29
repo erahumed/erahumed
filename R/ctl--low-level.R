@@ -13,7 +13,7 @@
       ls <- get_layer_parameters(simulation, "hbl")[["petp_function"]](1e3, 0)
 
       masses <- ct_time_series(
-        application_kg = 0,
+        application_kg = 0,  # Pesticide is applied only to rice field clusters
         precipitation_mm = ctl_preproc_data[["hbl"]][["precipitation_mm"]],
         etp_mm = ctl_preproc_data[["inp"]][["evapotranspiration_mm"]],
         temperature_ave = ctl_preproc_data[["inp"]][["temperature_ave"]],
@@ -21,11 +21,11 @@
         temperature_max = ctl_preproc_data[["inp"]][["temperature_max"]],
         volume_eod_m3 = ctl_preproc_data[["hbl"]][["volume_eod"]],
         outflow_m3_s = ctl_preproc_data[["hbl"]][["outflow_total"]],
-        inflows_m3_s = ctl_preproc_data[["ditch_inflows_m3_s"]],
+        inflows_m3_s = ctl_preproc_data[["ditch_inflows_m3_s"]],  # Lake Inflow = ditches outflows
         inflows_densities_kg_m3 =
           ctl_preproc_data[["ditch_inflows_densities_kg_m3"]][[chemical]],
         area_m2 = ls,
-        seed_day = 150,  # Irrelevant since application_kg = 0
+        seed_day = 840,  # Ignored, only relevant for application interception (in clusters)
         chemical = chemical,
         drift = ctl_params[["drift"]],
         covmax = ctl_params[["covmax"]],
@@ -54,8 +54,6 @@ ctl_data_prep <- function(simulation)
     data.table::as.data.table() |>
     data.table::setorderv(c("date", "ditch")) |>
     collapse::rsplit(by = outflow_lake_m3 ~ ditch,
-                     flatten = FALSE,
-                     use.names = TRUE,
                      simplify = TRUE,
                      keep.by = FALSE) |>
     lapply(\(x) x / s_per_day())
@@ -66,7 +64,6 @@ ctl_data_prep <- function(simulation)
     data.table::setorderv(c("date", "ditch")) |>
     collapse::rsplit(by = cw_outflow ~ chemical + ditch,
                      flatten = FALSE,
-                     use.names = TRUE,
                      simplify = TRUE,
                      keep.by = FALSE)
 
@@ -74,10 +71,12 @@ ctl_data_prep <- function(simulation)
     data.table::as.data.table() |>
     data.table::setorderv("date")
 
-  inp_output <- get_layer_output(simulation, "inp") |>
+  inp_output <- get_layer_output(simulation, "inp") |>  # Used to recover weather data
     data.table::as.data.table() |>
     data.table::setorderv("date")
-  inp_output <- inp_output[-nrow(inp_output),]  # Drop last row to make dates coincide with other dfs
+  # This data-set has 1 more row (last day), so we drop it here to make
+  # time-series lengths match
+  inp_output <- inp_output[-nrow(inp_output),]
 
   list(hbl = hbl_output,
        ditch_inflows_m3_s = ditch_inflows_m3_s,

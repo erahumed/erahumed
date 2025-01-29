@@ -20,24 +20,24 @@
 
   lapply(chemicals, function(chemical) {
       masses <- ct_time_series(
-        application_kg = 0,
-        precipitation_mm = 0,
-        etp_mm = 0,
+        application_kg = 0,  # Pesticide is applied only to rice field clusters
+        precipitation_mm = 0,  # In our hydrology model, ditches are enclosed ..
+        etp_mm = 0,  # .. in pipes, no volume changes from precipitation or ETP!
         temperature_ave = ctd_preproc_data[["inp"]][["temperature_ave"]],
         temperature_min = ctd_preproc_data[["inp"]][["temperature_min"]],
         temperature_max = ctd_preproc_data[["inp"]][["temperature_max"]],
         volume_eod_m3 = ctd_preproc_data[["hbd"]][["volume_m3"]],
         outflow_m3_s = ctd_preproc_data[["hbd"]][["outflow_lake_m3"]] / s_per_day(),
-        inflows_m3_s =
+        inflows_m3_s =  # Ditch inflow waters come from clusters as well as from outside...
           c(ctd_preproc_data[["cluster_inflows_m3_s"]],
             list(ctd_preproc_data[["hbd"]][["inflow_external_m3"]] / s_per_day())
           ),
-        inflows_densities_kg_m3 =
+        inflows_densities_kg_m3 =  # ... the latters are assumed to be free of pesticide.
           c(ctd_preproc_data[["cluster_inflows_densities_kg_m3"]][[chemical]],
             list(0)
           ),
         area_m2 = ctd_preproc_data[["hbd"]][["surface"]][[1]],
-        seed_day = 150,  # Irrelevant since application_kg = 0
+        seed_day = 840,  # Ignored, only relevant for application interception (in clusters)
         chemical = chemical,
         drift = ctd_params[["drift"]],
         covmax = ctd_params[["covmax"]],
@@ -105,6 +105,8 @@ ctd_data_prep <- function(simulation)
   inp_output <- get_layer_output(simulation, "inp") |>
     data.table::as.data.table() |>
     data.table::setorderv("date")
+  # This data-set has 1 more row (last day), so we drop it here to make
+  # time-series lengths match
   inp_output <- inp_output[-nrow(inp_output),]  # Drop last row to make dates coincide with other dfs
 
   ditches <- names(hbd_output_split)

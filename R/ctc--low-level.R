@@ -3,7 +3,7 @@
 
   get_layer_output(simulation, "ca") |>
     data.table::as.data.table() |>
-    merge(get_layer_output(simulation, "inp"), by = "date", sort = TRUE) |>
+    merge(get_layer_output(simulation, "inp"), by = "date", sort = TRUE) |>  # to recover weather data
     collapse::rsplit(by = ~ cluster_id,
                      flatten = TRUE,
                      use.names = FALSE,
@@ -50,7 +50,7 @@
 
   lapply(chemicals, function(chemical) {
       masses <- ct_time_series(
-        application_kg = cluster_ca_df[[chemical]],
+        application_kg = cluster_ca_df[[chemical]],  # Chemicals are columns in the CA output
         precipitation_mm = cluster_ca_df[["precipitation_mm"]],
         etp_mm = cluster_ca_df[["evapotranspiration_mm"]],
         temperature_ave = cluster_ca_df[["temperature_ave"]],
@@ -58,10 +58,10 @@
         temperature_max = cluster_ca_df[["temperature_max"]],
         volume_eod_m3 = area_m2 * cluster_ca_df[["height_eod_cm"]] / 100,
         outflow_m3_s = cluster_ca_df[["outflow_m3_s"]],
-        inflows_m3_s = list(cluster_ca_df[["inflow_m3_s"]]),
-        inflows_densities_kg_m3 = list(0),
+        inflows_m3_s = list(cluster_ca_df[["inflow_m3_s"]]),  # Clusters have a single source of inflow...
+        inflows_densities_kg_m3 = list(0),  # ... which is assumed to be free of pesticide.
         area_m2 = area_m2,
-        seed_day = cluster_ca_df[["seed_day"]],
+        seed_day = cluster_ca_df[["seed_day"]],  # Used to estimate foliage surface growth
         chemical = chemical,
         drift = drift,
         covmax = covmax,
