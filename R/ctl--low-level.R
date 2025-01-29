@@ -1,46 +1,44 @@
-ctl_wrap <- function(ctl_preproc_data, ctl_params)
+.compute_ctl <- function(simulation)
 {
+  ctl_preproc_data <- ctl_data_prep(simulation)
+  ctl_params <- get_layer_parameters(simulation, "ctl")
 
-  compute_masses <- function(chemical) {
-    ls <- 53.9 * 1e6  # TODO: lake surface in m2, avoid doing this
-
-    ct_time_series(
-      application_kg = 0,
-      precipitation_mm = ctl_preproc_data[["hbl"]][["precipitation_mm"]],
-      etp_mm = ctl_preproc_data[["inp"]][["evapotranspiration_mm"]],
-      temperature_ave = ctl_preproc_data[["inp"]][["temperature_ave"]],
-      temperature_min = ctl_preproc_data[["inp"]][["temperature_min"]],
-      temperature_max = ctl_preproc_data[["inp"]][["temperature_max"]],
-      height_eod_cm = 100 * ctl_preproc_data[["hbl"]][["volume_eod"]] / ls,
-      outflow_m3_s = ctl_preproc_data[["hbl"]][["outflow_total"]],
-      inflows_m3_s = ctl_preproc_data[["ditch_inflows_m3_s"]],
-      inflows_densities_kg_m3 =
-        ctl_preproc_data[["ditch_inflows_densities_kg_m3"]][[chemical]],
-      area_m2 = ls,
-      seed_day = 150,  # Irrelevant since application_kg = 0
-      chemical = chemical,
-      drift = ctl_params[["drift"]],
-      covmax = ctl_params[["covmax"]],
-      jgrow = ctl_params[["jgrow"]],
-      SNK = ctl_params[["SNK"]],
-      dact_m = ctl_params[["dact_m"]],
-      css_ppm = ctl_params[["css_ppm"]],
-      foc = ctl_params[["foc"]],
-      bd_g_cm3 = ctl_params[["bd_g_cm3"]],
-      qseep_m_day = ctl_params[["qseep_m_day"]],
-      wilting = ctl_params[["wilting"]],
-      fc = ctl_params[["fc"]]
-    )
-  }
+  res_template <- list(date = ctl_preproc_data[["inp"]][["date"]])
 
   chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
 
-  lapply(chemicals, \(chemical)
-         c(list(date = ctl_preproc_data[["inp"]][["date"]]),
-           list(chemical = chemical),
-           compute_masses(chemical)
-           )
-         ) |>
+  lapply(chemicals, function(chemical) {
+      ls <- 53.9 * 1e6  # TODO: lake surface in m2, avoid doing this
+
+      masses <- ct_time_series(
+        application_kg = 0,
+        precipitation_mm = ctl_preproc_data[["hbl"]][["precipitation_mm"]],
+        etp_mm = ctl_preproc_data[["inp"]][["evapotranspiration_mm"]],
+        temperature_ave = ctl_preproc_data[["inp"]][["temperature_ave"]],
+        temperature_min = ctl_preproc_data[["inp"]][["temperature_min"]],
+        temperature_max = ctl_preproc_data[["inp"]][["temperature_max"]],
+        height_eod_cm = 100 * ctl_preproc_data[["hbl"]][["volume_eod"]] / ls,
+        outflow_m3_s = ctl_preproc_data[["hbl"]][["outflow_total"]],
+        inflows_m3_s = ctl_preproc_data[["ditch_inflows_m3_s"]],
+        inflows_densities_kg_m3 =
+          ctl_preproc_data[["ditch_inflows_densities_kg_m3"]][[chemical]],
+        area_m2 = ls,
+        seed_day = 150,  # Irrelevant since application_kg = 0
+        chemical = chemical,
+        drift = ctl_params[["drift"]],
+        covmax = ctl_params[["covmax"]],
+        jgrow = ctl_params[["jgrow"]],
+        SNK = ctl_params[["SNK"]],
+        dact_m = ctl_params[["dact_m"]],
+        css_ppm = ctl_params[["css_ppm"]],
+        foc = ctl_params[["foc"]],
+        bd_g_cm3 = ctl_params[["bd_g_cm3"]],
+        qseep_m_day = ctl_params[["qseep_m_day"]],
+        wilting = ctl_params[["wilting"]],
+        fc = ctl_params[["fc"]]
+        )
+      c(res_template, list(chemical = chemical), masses)
+    }) |>
     data.table::rbindlist() |>
     as.data.frame()
 }

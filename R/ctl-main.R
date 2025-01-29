@@ -28,11 +28,7 @@ setup_ctl <- function(
 
 compute_ctl <- function(simulation)
 {
-  output <- ctl_wrap(
-      ctl_data_prep(simulation),
-      ctl_params = get_layer_parameters(simulation, "ctl")
-    ) |>
-    as.data.frame()
+  output <- .compute_ctl(simulation)
 
   validate_ctl_output(output)
 
