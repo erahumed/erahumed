@@ -10,4 +10,4 @@ outflows_df <- albufera_outflows |>
 sim <- erahumed_simulation() |>
   setup_hydrology(outflows_df = outflows_df)
 
-profvis::profvis(run_simulation(sim))
+profvis::profvis(sim <- run_simulation(sim))
