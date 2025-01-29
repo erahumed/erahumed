@@ -33,122 +33,38 @@ plot.erahumed_ctc <- function(
     )
 {
   switch(match.arg(type),
-         cluster_view = switch(match.arg(variable),
-                               mass = plot_ctc_cluster_view_mass(x, ...),
-                               density = plot_ctc_cluster_view_density(x, ...)
-                               ),
+         cluster_view = plot_ctc_cluster_view(x, variable = variable, ...),
          max_boxplot = plot_ctc_max_boxplot(x, ...)
          )
 }
 
-plot_ctc_cluster_view_mass <- function(x, ...) {
+plot_ctc_cluster_view <- function(x, variable = c("mass", "density"), ...) {
+  variable <- match.arg(variable)
+  ct_output_df <- get_layer_output(x)
+
   args <- list(...)
-
-  df_raw <- get_layer_output(x)
-
   cluster_id <- args$cluster_id
   if (is.null(cluster_id)) {
-    cluster_id <- df_raw$cluster_id[[1]]
+    cluster_id <- ct_output_df$cluster_id[[1]]
     warning(paste0(
       "No cluster specified through the 'cluster_id' argument. ",
       "Plotting cluster '", cluster_id, "'."
     ))
   }
 
-  df_raw <- df_raw |>
+  ct_output_df <- ct_output_df |>
     (\(.) .[.$cluster_id == cluster_id, ])()
 
-  chemicals <- unique(df_raw$chemical)
-
-  df <- df_raw |>
-    (\(.) .[, c("date", "chemical", "mw", "mf", "ms")])() |>
-    stats::reshape(idvar = "date",
-                   timevar = "chemical",
-                   direction = "wide",
-                   sep = "."
-                   ) |>
-    xts::as.xts()
-
-  p <- dygraphs::dygraph(df, main = "Chemical Masses in Compartments")
-
-  cols <- c(
-    paste("mw", chemicals, sep = "."),
-    paste("mf", chemicals, sep = "."),
-    paste("ms", chemicals, sep = ".")
-  )
-  colors <- c(
-    rep("blue", length(chemicals)),
-    rep("green", length(chemicals)),
-    rep("brown", length(chemicals))
-  )
-
-  for (i in seq_along(cols))
-    p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
-
-  p <- p |>
-    dygraphs::dyAxis("y", label = "Mass [Kg]") |>
-    dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
-
-  return(p)
-}
-
-plot_ctc_cluster_view_density <- function(x, ...) {
-  df <- get_layer_output(x)
-  args <- list(...)
-
-  cluster_id <- args$cluster_id
-
-  if (is.null(cluster_id)) {
-    cluster_id <- df$cluster_id[[1]]
-    warning(paste0(
-      "No cluster specified through the 'cluster_id' argument. ",
-      "Plotting cluster '", cluster_id, "'."
-    ))
-  }
-
-  df <- df[df$cluster_id == cluster_id, ]
-
-  chemicals <- unique(df$chemical)
-
-  df <- df |>
-    (\(.) .[, c("date", "chemical", "cs", "cw", "cw_outflow")])() |>
-    stats::reshape(idvar = "date",
-                   timevar = "chemical",
-                   direction = "wide",
-                   sep = "."
-                   ) |>
-    xts::as.xts()
-
-  p <- dygraphs::dygraph(df, main = "Chemical Densities in Compartments")
-
-  cols <- c(
-    paste("cs", chemicals, sep = "."),
-    paste("cw", chemicals, sep = "."),
-    paste("cw_outflow", chemicals, sep = ".")
-  )
-  colors <- c(
-    rep("#773333", length(chemicals)),
-    rep("blue", length(chemicals)),
-    rep("lightblue", length(chemicals))
-  )
-
-  for (i in seq_along(cols))
-    p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
-
-  p <- p |>
-    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]") |>
-    dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
-
-  return(p)
+  switch(variable,
+         mass = ct_plot_mass_time_series(ct_output_df),
+         density = ct_plot_density_time_series(ct_output_df)
+         )
 }
 
 plot_ctc_max_boxplot <- function(x, ...) {
   density_variables <- c("cs", "cw", "cw_outflow")
 
   get_layer_output(x) |>
-    # (\(.) .[.$chemical == chemical, ])() |>
     stats::aggregate(
       by = cbind(cs, cw, cw_outflow) ~ chemical + cluster_id,
       FUN = max,

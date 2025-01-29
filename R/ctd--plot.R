@@ -8,115 +8,32 @@ plot.erahumed_ctd <- function(
 )
 {
   switch(match.arg(type),
-         ditch_view = switch(match.arg(variable),
-                               mass = plot_ctd_ditch_view_mass(x, ...),
-                               density = plot_ctd_ditch_view_density(x, ...)
-         ),
+         cluster_view = plot_ctd_ditch_view(x, variable = variable, ...),
          max_boxplot = plot_ctd_max_boxplot(x, ...)
-  )
+         )
 }
 
-plot_ctd_ditch_view_mass <- function(x, ...) {
+plot_ctd_ditch_view <- function(x, variable = c("mass", "density"), ...) {
+  variable <- match.arg(variable)
+  ct_output_df <- get_layer_output(x)
+
   args <- list(...)
-
-  df_raw <- get_layer_output(x)
-
   ditch <- args$ditch
   if (is.null(ditch)) {
-    ditch <- df_raw$ditch[[1]]
+    ditch <- ct_output_df$ditch[[1]]
     warning(paste0(
-      "No ditch specified through the 'ditch' argument. ",
-      "Plotting ditch '", ditch, "'."
-    ))
-  }
-
-  df_raw <- df_raw |>
-    (\(.) .[.$ditch == ditch, ])()
-
-  chemicals <- unique(df_raw$chemical)
-
-  df <- df_raw |>
-    (\(.) .[, c("date", "chemical", "mw", "mf", "ms")])() |>
-    stats::reshape(idvar = "date",
-                   timevar = "chemical",
-                   direction = "wide",
-                   sep = "."
-    ) |>
-    xts::as.xts()
-
-  p <- dygraphs::dygraph(df, main = "Chemical Masses in Compartments")
-
-  cols <- c(
-    paste("mw", chemicals, sep = "."),
-    paste("mf", chemicals, sep = "."),
-    paste("ms", chemicals, sep = ".")
-  )
-  colors <- c(
-    rep("blue", length(chemicals)),
-    rep("green", length(chemicals)),
-    rep("brown", length(chemicals))
-  )
-
-  for (i in seq_along(cols))
-    p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
-
-  p <- p |>
-    dygraphs::dyAxis("y", label = "Mass [Kg]") |>
-    dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
-
-  return(p)
-}
-
-plot_ctd_ditch_view_density <- function(x, ...) {
-  df <- get_layer_output(x)
-  args <- list(...)
-
-  ditch <- args$ditch
-
-  if (is.null(ditch)) {
-    ditch <- df$ditch[[1]]
-    warning(paste0(
-      "No cluster specified through the 'ditch' argument. ",
+      "No cluster specified through the 'cluster_id' argument. ",
       "Plotting cluster '", ditch, "'."
     ))
   }
 
-  df <- df[df$ditch == ditch, ]
+  ct_output_df <- ct_output_df |>
+    (\(.) .[.$ditch == ditch, ])()
 
-  chemicals <- unique(df$chemical)
-
-  df <- df |>
-    (\(.) .[, c("date", "chemical", "cs", "cw", "cw_outflow")])() |>
-    stats::reshape(idvar = "date",
-                   timevar = "chemical",
-                   direction = "wide",
-                   sep = "."
-    ) |>
-    xts::as.xts()
-
-  p <- dygraphs::dygraph(df, main = "Chemical Densities in Compartments")
-
-  cols <- c(
-    paste("cs", chemicals, sep = "."),
-    paste("cw", chemicals, sep = "."),
-    paste("cw_outflow", chemicals, sep = ".")
+  switch(variable,
+         mass = ct_plot_mass_time_series(ct_output_df),
+         density = ct_plot_density_time_series(ct_output_df)
   )
-  colors <- c(
-    rep("#773333", length(chemicals)),
-    rep("blue", length(chemicals)),
-    rep("lightblue", length(chemicals))
-  )
-
-  for (i in seq_along(cols))
-    p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
-
-  p <- p |>
-    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]") |>
-    dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
-
-  return(p)
 }
 
 plot_ctd_max_boxplot <- function(x, ...) {
