@@ -1,9 +1,17 @@
-ct_plot_time_series <- function(ct_output_df, variable = c("mass", "density"))
+ct_plot_time_series <- function(ct_output_df,
+                                variable = c("mass", "density"),
+                                chemicals = NULL
+                                )
 {
+  if (!is.null(chemicals)) {
+    assert_character(chemicals)
+    ct_output_df <- ct_output_df |> (\(.) .[.$chemical %in% chemicals, ])()
+    }
+
   switch(match.arg(variable),
          mass = ct_plot_time_series_mass(ct_output_df),
          density = ct_plot_time_series_density(ct_output_df)
-  )
+         )
 }
 
 ct_plot_time_series_mass <- function(ct_output_df, chemical = NULL)

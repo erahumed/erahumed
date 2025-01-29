@@ -4,16 +4,20 @@ plot.erahumed_ctd <- function(
     x,
     type = c("ditch_view", "max_boxplot"),
     variable = c("mass", "density"),
+    chemicals = NULL,
     ...
 )
 {
   switch(match.arg(type),
-         ditch_view = plot_ctd_ditch_view(x, variable = match.arg(variable), ...),
+         ditch_view = plot_ctd_ditch_view(x,
+                                          variable = match.arg(variable),
+                                          chemicals = chemicals,
+                                          ...),
          max_boxplot = plot_ctd_max_boxplot(x, ...)
          )
 }
 
-plot_ctd_ditch_view <- function(x, variable, ...) {
+plot_ctd_ditch_view <- function(x, variable, chemicals, ...) {
   ct_output_df <- get_layer_output(x)
 
   args <- list(...)
@@ -29,7 +33,7 @@ plot_ctd_ditch_view <- function(x, variable, ...) {
   ct_output_df <- ct_output_df |>
     (\(.) .[.$ditch == ditch, ])()
 
-  ct_plot_time_series(ct_output_df = ct_output_df, variable = variable)
+  ct_plot_time_series(ct_output_df = ct_output_df, variable = variable, chemicals = chemicals)
 }
 
 plot_ctd_max_boxplot <- function(x, ...) {
