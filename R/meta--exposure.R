@@ -28,7 +28,7 @@ setup_exposure <- function(
     qseep_m_day = 0,
     wilting = 0.24,
     fc = 0.35
-)
+    )
 {
   simulation |>
     setup_ca(ca_schedules_df = ca_schedules_df) |>
