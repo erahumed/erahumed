@@ -12,12 +12,6 @@
   res_template <- as.list(ctd_preproc_data[["hbd"]][, c("ditch", "date")])
   chemicals <- names(ctd_preproc_data[["cluster_inflows_densities_kg_m3"]])
 
-
-  compute_masses <- function(chemical) {
-
-  }
-
-
   lapply(chemicals, function(chemical) {
       masses <- ct_time_series(
         application_kg = 0,  # Pesticide is applied only to rice field clusters
