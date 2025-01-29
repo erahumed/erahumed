@@ -41,6 +41,8 @@
                                      fc
                                      )
 {
+  area_m2 <- cluster_ca_df[["area_m2"]][[1]]
+
   res_template <- as.list(cluster_ca_df[, c("cluster_id", "date")])
 
   chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
@@ -54,11 +56,11 @@
         temperature_ave = cluster_ca_df[["temperature_ave"]],
         temperature_min = cluster_ca_df[["temperature_min"]],
         temperature_max = cluster_ca_df[["temperature_max"]],
-        height_eod_cm = cluster_ca_df[["height_eod_cm"]],
+        volume_eod_m3 = area_m2 * cluster_ca_df[["height_eod_cm"]] / 100,
         outflow_m3_s = cluster_ca_df[["outflow_m3_s"]],
         inflows_m3_s = list(cluster_ca_df[["inflow_m3_s"]]),
         inflows_densities_kg_m3 = list(0),
-        area_m2 = cluster_ca_df[["area_m2"]][[1]],
+        area_m2 = area_m2,
         seed_day = cluster_ca_df[["seed_day"]],
         chemical = chemical,
         drift = drift,

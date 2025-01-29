@@ -8,7 +8,9 @@
   chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
 
   lapply(chemicals, function(chemical) {
-      ls <- 53.9 * 1e6  # TODO: lake surface in m2, avoid doing this
+      # Lake surface used for P-ETP calculations is the relevant one here,
+      # because of the internal logic of ct_time_series()
+      ls <- get_layer_parameters(simulation, "hbl")[["petp_function"]](1e3, 0)
 
       masses <- ct_time_series(
         application_kg = 0,
@@ -17,7 +19,7 @@
         temperature_ave = ctl_preproc_data[["inp"]][["temperature_ave"]],
         temperature_min = ctl_preproc_data[["inp"]][["temperature_min"]],
         temperature_max = ctl_preproc_data[["inp"]][["temperature_max"]],
-        height_eod_cm = 100 * ctl_preproc_data[["hbl"]][["volume_eod"]] / ls,
+        volume_eod_m3 = ctl_preproc_data[["hbl"]][["volume_eod"]],
         outflow_m3_s = ctl_preproc_data[["hbl"]][["outflow_total"]],
         inflows_m3_s = ctl_preproc_data[["ditch_inflows_m3_s"]],
         inflows_densities_kg_m3 =

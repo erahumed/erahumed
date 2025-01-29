@@ -4,10 +4,10 @@ ct_time_series <- function(application_kg,
                            temperature_ave,
                            temperature_min,
                            temperature_max,
-                           height_eod_cm,
+                           volume_eod_m3,
                            outflow_m3_s,
-                           inflows_m3_s, # list(list(double(n), double(n))) see below
-                           inflows_densities_kg_m3,
+                           inflows_m3_s,             # List of inflows time series
+                           inflows_densities_kg_m3,  # List of density time series
                            area_m2,
                            seed_day,
                            chemical,
@@ -32,7 +32,7 @@ ct_time_series <- function(application_kg,
                             temperature_ave = temperature_ave,
                             temperature_min = temperature_min,
                             temperature_max = temperature_max,
-                            height_eod_cm = height_eod_cm,
+                            volume_eod_m3 = volume_eod_m3,
                             outflow_m3_s = outflow_m3_s,
                             inflows_m3_s = inflows_m3_s,
                             inflows_densities_kg_m3 = inflows_densities_kg_m3,
@@ -100,7 +100,7 @@ ct_ts_step_terms <- function(application_kg,
                              temperature_ave,
                              temperature_min,
                              temperature_max,
-                             height_eod_cm,
+                             volume_eod_m3,
                              outflow_m3_s,
                              inflows_m3_s,
                              inflows_densities_kg_m3,
@@ -120,7 +120,7 @@ ct_ts_step_terms <- function(application_kg,
                              fc
                              )
 {
-  n_time_steps <- length(outflow_m3_s)
+  n_time_steps <- length(outflow_m3_s)  # Guaranteed to be of required length
   dt <- 1
 
   # Chemicals parameters
@@ -153,8 +153,8 @@ ct_ts_step_terms <- function(application_kg,
                                         temperature_max)
 
   # Hydro balance time series
-  height_eod_m <- height_eod_cm / 100
-  volume_eod_m3 <- height_eod_m * area_m2
+  height_eod_m <- volume_eod_m3 / area_m2
+  height_eod_cm <- height_eod_m * 100
   outflow_m3 <- outflow_m3_s * s_per_day()
   inflow_m3 <- ct_total_inflow_m3_s(inflows_m3_s) * s_per_day()
   rain_cm <- precipitation_mm / 10

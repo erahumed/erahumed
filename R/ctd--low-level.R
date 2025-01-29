@@ -26,7 +26,7 @@
         temperature_ave = ctd_preproc_data[["inp"]][["temperature_ave"]],
         temperature_min = ctd_preproc_data[["inp"]][["temperature_min"]],
         temperature_max = ctd_preproc_data[["inp"]][["temperature_max"]],
-        height_eod_cm = ctd_preproc_data[["hbd"]][["height_eod_cm"]],
+        volume_eod_m3 = ctd_preproc_data[["hbd"]][["volume_m3"]],
         outflow_m3_s = ctd_preproc_data[["hbd"]][["outflow_lake_m3"]] / s_per_day(),
         inflows_m3_s =
           c(ctd_preproc_data[["cluster_inflows_m3_s"]],
