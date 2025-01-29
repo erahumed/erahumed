@@ -33,13 +33,12 @@ plot.erahumed_ctc <- function(
     )
 {
   switch(match.arg(type),
-         cluster_view = plot_ctc_cluster_view(x, variable = variable, ...),
+         cluster_view = plot_ctc_cluster_view(x, variable = match.arg(variable), ...),
          max_boxplot = plot_ctc_max_boxplot(x, ...)
          )
 }
 
-plot_ctc_cluster_view <- function(x, variable = c("mass", "density"), ...) {
-  variable <- match.arg(variable)
+plot_ctc_cluster_view <- function(x, variable, ...) {
   ct_output_df <- get_layer_output(x)
 
   args <- list(...)
@@ -55,10 +54,7 @@ plot_ctc_cluster_view <- function(x, variable = c("mass", "density"), ...) {
   ct_output_df <- ct_output_df |>
     (\(.) .[.$cluster_id == cluster_id, ])()
 
-  switch(variable,
-         mass = ct_plot_mass_time_series(ct_output_df),
-         density = ct_plot_density_time_series(ct_output_df)
-         )
+  ct_plot_time_series(ct_output_df = ct_output_df, variable = variable)
 }
 
 plot_ctc_max_boxplot <- function(x, ...) {

@@ -1,4 +1,12 @@
-ct_plot_mass_time_series <- function(ct_output_df)
+ct_plot_time_series <- function(ct_output_df, variable = c("mass", "density"))
+{
+  switch(match.arg(variable),
+         mass = ct_plot_time_series_mass(ct_output_df),
+         density = ct_plot_time_series_density(ct_output_df)
+  )
+}
+
+ct_plot_time_series_mass <- function(ct_output_df, chemical = NULL)
 {
 
   plot_df <- ct_output_df |>
@@ -33,7 +41,7 @@ ct_plot_mass_time_series <- function(ct_output_df)
   return(p)
 }
 
-ct_plot_density_time_series <- function(ct_output_df)
+ct_plot_time_series_density <- function(ct_output_df)
 {
   chemicals <- unique(ct_output_df$chemical)
 

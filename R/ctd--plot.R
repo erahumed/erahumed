@@ -8,13 +8,12 @@ plot.erahumed_ctd <- function(
 )
 {
   switch(match.arg(type),
-         ditch_view = plot_ctd_ditch_view(x, variable = variable, ...),
+         ditch_view = plot_ctd_ditch_view(x, variable = match.arg(variable), ...),
          max_boxplot = plot_ctd_max_boxplot(x, ...)
          )
 }
 
-plot_ctd_ditch_view <- function(x, variable = c("mass", "density"), ...) {
-  variable <- match.arg(variable)
+plot_ctd_ditch_view <- function(x, variable, ...) {
   ct_output_df <- get_layer_output(x)
 
   args <- list(...)
@@ -30,10 +29,7 @@ plot_ctd_ditch_view <- function(x, variable = c("mass", "density"), ...) {
   ct_output_df <- ct_output_df |>
     (\(.) .[.$ditch == ditch, ])()
 
-  switch(variable,
-         mass = ct_plot_mass_time_series(ct_output_df),
-         density = ct_plot_density_time_series(ct_output_df)
-  )
+  ct_plot_time_series(ct_output_df = ct_output_df, variable = variable)
 }
 
 plot_ctd_max_boxplot <- function(x, ...) {
