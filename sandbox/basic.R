@@ -8,6 +8,4 @@ outflows_df <- albufera_outflows |>
 sim <- erahumed_simulation() |>
   setup_hydrology(outflows_df = outflows_df)
 
-run_simulation(sim)
-
-debug(erahumed:::compute_hbl)
+sim <- run_simulation(sim)

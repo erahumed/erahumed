@@ -1,3 +1,40 @@
+# erahumed 0.15.1
+
+This version implements the simulation of pesticide concentration dynamics in 
+ditches and in the Albufera lake. 
+
+### Algorithm changes
+
+* Corrected volume calculations in the internal algorithm for computing chemical 
+concentration time series - the new implementation is considerably simpler and 
+entirely relies on the previous calculations performed in the "hydrology" 
+layers. 
+
+### New features
+
+* `get_results(component = "exposure")`, with `element = "ditch"` or 
+`element = "lake"` can now be used to retrieve simulation outputs for exposure.
+
+### GUI
+
+* Pesticide to be plotted in exposure plots in the "Output" tab can now be 
+selected through a selectInput UI element (#293).
+
+### Under the hoods
+
+* Removed `compute_layer()` helper, no longer used.
+
+* Plot methods for CT layers now have a "chemicals" argument, that allows to 
+choose what chemicals to plot.
+
+* Code refactor of chemical transport helpers (#288, #289, #290, #291).
+
+### Testing
+
+* Tests are stopped early if the creation of mock simulation objects fails.
+
+* Various improvements in the testing infrastructure.
+
 # erahumed 0.15.0
 
 This release comes with a fresh new (simplified) API that drastically reduces 

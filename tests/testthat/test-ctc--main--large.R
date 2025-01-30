@@ -53,6 +53,20 @@ test_that("All compartments of all clusters have at least one >0 value", {
   expect_equal(nrow(test_df), 0)
 })
 
+test_that("Calculated volume_sod_m3 coincide with lagged volume_eod_m3", {
+  tol_m3 <- 1e-6
+
+  test_df <- get_layer_output(test_sim_large(), "ctc") |>
+    dplyr::group_by(cluster_id, chemical) |>
+    dplyr::mutate(
+      n = dplyr::n(),
+      diff = c(0, abs(volume_eod_m3[-n] - volume_sod_m3[-1]))
+      ) |>
+    dplyr::filter(diff > tol_m3)
+
+  expect_equal(nrow(test_df), 0)
+})
+
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
 

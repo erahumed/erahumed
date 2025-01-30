@@ -76,6 +76,7 @@
   res$volume <- storage_curve(level)
   res$volume_change <- hbl_volume_change(res$volume, fill_last = NA)
   res$volume_change_petp <- petp_function(precipitation_mm, evapotranspiration_mm)
+  res$volume_eod <- c(res$volume[-1], NA_real_)
 
   flow_balance_df <- hbl_flow_balance(outflows = outflows,
                                       volume_change = res$volume_change,

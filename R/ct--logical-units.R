@@ -87,12 +87,16 @@ ct_mw_max <- function(sol_ppm, volume_eod_m3) {
   ppm_to_kg_m3(sol_ppm) * volume_eod_m3
 }
 
-ct_total_inflow_m3_s <- function(inflows_m3_s_kg) {
-  lapply(inflows_m3_s_kg, \(pair) pair[[1]]) |>
-    Reduce("+", x = _, init = 0)
+ct_total_inflow_m3_s <- function(inflows_m3_s) {
+  Reduce("+", inflows_m3_s, init = 0)
 }
 
-ct_mw_inflow_kg_s <- function(inflows_m3_s_kg) {
-  lapply(inflows_m3_s_kg, \(pair) pair[[1]] * pair[[2]]) |>
+ct_mw_inflow_kg <- function(inflows_m3_s, inflows_densities_kg_m3) {
+  lapply(seq_along(inflows_m3_s), function(i) {
+    vol <- inflows_m3_s[[i]]
+    dens <- inflows_densities_kg_m3[[i]]
+    dens <- ifelse(!is.na(dens), dens, 0)
+    vol * dens * s_per_day()
+    }) |>
     Reduce("+", x = _, init = 0)
 }

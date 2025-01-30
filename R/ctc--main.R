@@ -41,7 +41,7 @@ setup_ctc <- function(
     assert_erahumed_simulation(simulation)
   },
   error = function(e) {
-    class(e) <- c("validate_ct_params_error", class(e))
+    class(e) <- c("validate_ctc_params_error", class(e))
     stop(e)
   })
 
@@ -52,55 +52,13 @@ setup_ctc <- function(
 
 compute_ctc <- function(simulation)
 {
-  drift <- get_layer_parameters(simulation, "ctc")[["drift"]]
-  covmax <- get_layer_parameters(simulation, "ctc")[["covmax"]]
-  jgrow <- get_layer_parameters(simulation, "ctc")[["jgrow"]]
-  SNK <- get_layer_parameters(simulation, "ctc")[["SNK"]]
-  dact_m <- get_layer_parameters(simulation, "ctc")[["dact_m"]]
-  css_ppm <- get_layer_parameters(simulation, "ctc")[["css_ppm"]]
-  foc <- get_layer_parameters(simulation, "ctc")[["foc"]]
-  bd_g_cm3 <- get_layer_parameters(simulation, "ctc")[["bd_g_cm3"]]
-  qseep_m_day <- get_layer_parameters(simulation, "ctc")[["qseep_m_day"]]
-  wilting <- get_layer_parameters(simulation, "ctc")[["wilting"]]
-  fc <- get_layer_parameters(simulation, "ctc")[["fc"]]
-
-  input <- merge(get_layer_output(simulation, "ca") |> data.table::as.data.table(),
-                 get_layer_output(simulation, "inp") |> data.table::as.data.table(),
-                 by = "date",
-                 sort = TRUE)
-
-  output <- input |>
-    collapse::rsplit(
-      by = ~ cluster_id,
-      flatten = TRUE,
-      use.names = FALSE,
-      simplify = FALSE,
-      keep.by = TRUE
-    ) |>
-    lapply(ctc_to_cluster_wrap,
-           drift = drift,
-           covmax = covmax,
-           jgrow = jgrow,
-           SNK = SNK,
-           dact_m = dact_m,
-           css_ppm = css_ppm,
-           foc = foc,
-           bd_g_cm3 = bd_g_cm3,
-           qseep_m_day = qseep_m_day,
-           wilting = wilting,
-           fc = fc
-           ) |>
-    data.table::rbindlist() |>
-    as.data.frame()
+  output <- .compute_ctc(simulation)
 
   validate_ctc_output(output)
 
   simulation [["ctc"]] [["output"]] <- output
 
   return(simulation)
-
-  return(output)
-
 }
 
 

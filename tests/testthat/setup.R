@@ -23,3 +23,5 @@ test_simulation <- function(date_min, date_max, seed) {
     setup_hydrology(outflows_df = outflows_df, seed = seed) |>
     run_simulation()
 }
+
+stopifnot(succeeds(test_sim_small()))
