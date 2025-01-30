@@ -17,6 +17,7 @@ dss_output_ui <- function(id) {
         dygraphs::dygraphOutput(ns("ca_plot")) |> withSpinner(),
         ),
       card(card_header("Exposure"), full_screen = TRUE,
+        shiny::uiOutput(ns("select_chemical")),
         dygraphs::dygraphOutput(ns("ctl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
@@ -28,6 +29,7 @@ dss_output_ui <- function(id) {
 
 dss_output_server <- function(id, simulation, clicked_cluster_id) {
   shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
 
     shiny::observeEvent(clicked_cluster_id(), {
       shiny::updateSelectInput(session,
@@ -39,6 +41,16 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       info_clusters() ->.; .[.$cluster_id == input$selected_cluster_id, ]$ditch
       })
 
+    output$select_chemical <- shiny::renderUI({
+      chemicals <- get_layer_output(simulation(), "ctl")$chemical |> unique()
+      shiny::selectInput(ns("chemical"),
+                         label = "Select chemicals",
+                         choices = chemicals,
+                         multiple = TRUE
+                         )
+    })
+
+
     output$hbl_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "hbl"))
       )
@@ -49,13 +61,17 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       plot(get_layer(simulation(), "ca"), cluster_id = input$selected_cluster_id)
       )
     output$ctc_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctc"), cluster_id = input$selected_cluster_id)
+      plot(get_layer(simulation(), "ctc"),
+           cluster_id = input$selected_cluster_id,
+           chemical = input$chemical)
     )
     output$ctd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctd"), ditch = ditch())
+      plot(get_layer(simulation(), "ctd"),
+           ditch = ditch(),
+           chemical = input$chemical)
     )
     output$ctl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctl"))
+      plot(get_layer(simulation(), "ctl"), chemical = input$chemical)
     )
   })
 }
