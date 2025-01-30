@@ -34,6 +34,7 @@
       "2019-12-31T23:00:00.000Z",
       "2020-12-29T23:00:00.000Z"
     ],
+    "dss_output-chemical": null,
     "dss_output-ctc_plot_date_window": [
       "2019-12-31T23:00:00.000Z",
       "2020-12-29T23:00:00.000Z"
@@ -32977,6 +32978,28 @@
           "attachment": null,
           "package": null,
           "all_files": false
+        }
+      ]
+    },
+    "dss_output-select_chemical": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dss_output-chemical-label\" for=\"dss_output-chemical\">Select chemicals<\/label>\n  <div>\n    <select id=\"dss_output-chemical\" class=\"shiny-input-select\" multiple=\"multiple\"><option value=\"Acetamiprid\">Acetamiprid<\/option>\n<option value=\"Benta\">Benta<\/option>\n<option value=\"MCPA\">MCPA<\/option>\n<option value=\"Penoxulam\">Penoxulam<\/option>\n<option value=\"Cyhalo\">Cyhalo<\/option>\n<option value=\"Cicloxidim\">Cicloxidim<\/option>\n<option value=\"Azoxy\">Azoxy<\/option>\n<option value=\"Difeno\">Difeno<\/option><\/select>\n    <script type=\"application/json\" data-for=\"dss_output-chemical\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.15.2",
+          "src": {
+            "href": "selectize-0.15.2"
+          },
+          "meta": null,
+          "script": [
+            "selectize.min.js",
+            "selectize-plugin-a11y.min.js"
+          ],
+          "stylesheet": "selectize.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
         }
       ]
     }
