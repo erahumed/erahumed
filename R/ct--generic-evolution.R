@@ -168,7 +168,7 @@ ct_ts_step_terms <- function(application_kg,
   rain_cm <- precipitation_mm / 10
   rain_m3 <- (precipitation_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
-  volume_sod_m3 <- volume_eod_m3 - inflow_m3 + outflow_m3 - rain_m3 + etp_m3
+  volume_sod_m3 <- c(NA_real_, volume_eod_m3[-n_time_steps])
   height_sod_m <- volume_sod_m3 / area_m2
 
   # Precomputed time series
