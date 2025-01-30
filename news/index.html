@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,37 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.15.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.15.1" id="erahumed-0151">erahumed 0.15.1<a class="anchor" aria-label="anchor" href="#erahumed-0151"></a></h2>
+<p>This version implements the simulation of pesticide concentration dynamics in ditches and in the Albufera lake.</p>
+<div class="section level4">
+<h4 id="algorithm-changes-0-15-1">Algorithm changes<a class="anchor" aria-label="anchor" href="#algorithm-changes-0-15-1"></a></h4>
+<ul><li>Corrected volume calculations in the internal algorithm for computing chemical concentration time series - the new implementation is considerably simpler and entirely relies on the previous calculations performed in the “hydrology” layers.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-features-0-15-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-15-1"></a></h4>
+<ul><li>
+<code>get_results(component = "exposure")</code>, with <code>element = "ditch"</code> or <code>element = "lake"</code> can now be used to retrieve simulation outputs for exposure.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-0-15-1">GUI<a class="anchor" aria-label="anchor" href="#gui-0-15-1"></a></h4>
+<ul><li>Pesticide to be plotted in exposure plots in the “Output” tab can now be selected through a selectInput UI element (<a href="https://github.com/erahumed/erahumed/issues/293" class="external-link">#293</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-15-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-15-1"></a></h4>
+<ul><li><p>Removed <code>compute_layer()</code> helper, no longer used.</p></li>
+<li><p>Plot methods for CT layers now have a “chemicals” argument, that allows to choose what chemicals to plot.</p></li>
+<li><p>Code refactor of chemical transport helpers (<a href="https://github.com/erahumed/erahumed/issues/288" class="external-link">#288</a>, <a href="https://github.com/erahumed/erahumed/issues/289" class="external-link">#289</a>, <a href="https://github.com/erahumed/erahumed/issues/290" class="external-link">#290</a>, <a href="https://github.com/erahumed/erahumed/issues/291" class="external-link">#291</a>).</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="testing-0-15-1">Testing<a class="anchor" aria-label="anchor" href="#testing-0-15-1"></a></h4>
+<ul><li><p>Tests are stopped early if the creation of mock simulation objects fails.</p></li>
+<li><p>Various improvements in the testing infrastructure.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.15.0" id="erahumed-0150">erahumed 0.15.0<a class="anchor" aria-label="anchor" href="#erahumed-0150"></a></h2>
 <p>This release comes with a fresh new (simplified) API that drastically reduces the number of functions exported by the package. The old concept of “simulation layer” is no longer exposed to the end user, which only has to deal with much more intuitive concepts such as:</p>
