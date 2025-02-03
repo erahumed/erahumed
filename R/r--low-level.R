@@ -25,11 +25,10 @@ risk_from_ssds <- function(ct_output) {
                      keep.by = TRUE
                      ) |>
     lapply(function(df) {  # TODO: Use TMoA approach here
-      paf <- 1 - prod(1 - df$paf)
-      data.table::data.table(element_id = df$element_id[[1]],
-                             date = df$date[[1]],
-                             paf = 1 - prod(1 - df$paf)
-                             )
+      list(element_id = df$element_id[[1]],
+           date = df$date[[1]],
+           paf = 1 - prod(1 - df$paf)
+           )
       }) |>
     data.table::rbindlist() |>
     as.data.frame()
