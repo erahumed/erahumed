@@ -26,7 +26,7 @@ test_that("Water and soil of all ditches have at least one >0 value", {
 
   test_df <- get_layer_output(test_sim_large(), "ctd") |>
     dplyr::filter(!(chemical %in% non_universal_chems)) |>
-    dplyr::group_by(ditch, chemical) |>
+    dplyr::group_by(element_id, chemical) |>
     dplyr::summarise(mw = sum(mw), ms = sum(ms)) |>
     dplyr::filter(mw < tol_kg | ms < tol_kg)
 
@@ -40,7 +40,7 @@ test_that("Foliage mass of all ditches is always =0", {
 
   test_df <- get_layer_output(test_sim_large(), "ctd") |>
     dplyr::filter(!(chemical %in% non_universal_chems)) |>
-    dplyr::group_by(ditch, chemical) |>
+    dplyr::group_by(element_id, chemical) |>
     dplyr::summarise(mf = sum(mf)) |>
     dplyr::filter(mf > tol_kg)
 
