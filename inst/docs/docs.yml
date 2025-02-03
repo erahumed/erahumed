@@ -283,3 +283,27 @@ layers:  # ERAHUMED layers, in dependency order.
       the Albufera Lake, in the two compartments of water and sediment.
 
     parameters: *ct-parameters
+
+  rc:
+    title: "Ecological risk in rice field clusters"
+    description: >-
+      This layer computes the ecological risk due to chemical exposure in
+      rice field clusters.
+
+    parameters:
+
+  rd:
+    title: "Ecological risk in ditches"
+    description: >-
+      This layer computes the ecological risk due to chemical exposure in
+      ditches.
+
+    parameters:
+
+  rl:
+    title: "Ecological risk in the Albufera Lake"
+    description: >-
+      This layer computes the ecological risk due to chemical exposure in
+      the Albufera Lake.
+
+    parameters:
