@@ -11,11 +11,17 @@ risk_from_ssds <- function(ct_output) {
                      ) |>
     lapply(function(df) {
       chemical <- df$chemical[[1]]
-      median_concentration <- exp(info_chemicals()[[chemical]][["ssd_mu"]])
 
-      df$HU <- 1e6 * df$cw / median_concentration  # TODO: clarify units
+      median_acute <- exp(info_chemicals()[[chemical]][["ssd_acute_mu"]])
+      median_chronic <- exp(info_chemicals()[[chemical]][["ssd_chronic_mu"]])
+
+      df$HU_acute <- 1e6 * df$cw / median_acute  # TODO: clarify units
+      df$HU_chronic <- 1e6 * df$cw / median_chronic  # TODO: clarify units
+
+      df$sigma_acute <- info_chemicals()[[chemical]][["ssd_acute_sigma"]]
+      df$sigma_chronic <- info_chemicals()[[chemical]][["ssd_chronic_sigma"]]
+
       df$tmoa <- info_chemicals()[[chemical]][["tmoa"]]
-      df$sigma <- info_chemicals()[[chemical]][["ssd_sigma"]]
 
       df
     }) |>
@@ -30,8 +36,15 @@ risk_from_ssds <- function(ct_output) {
 
       list(element_id = df$element_id[[1]],
            date = df$date[[1]],
-           paf = plnorm(log(sum(df$HU)), meanlog = 0, sdlog = mean(df$sigma))
-        )
+           paf_acute = plnorm(log(sum(df$HU_acute)),
+                              meanlog = 0,
+                              sdlog = mean(df$sigma_acute)
+                              ),
+           paf_chronic = plnorm(log(sum(df$HU_chronic)),
+                              meanlog = 0,
+                              sdlog = mean(df$sigma_chronic)
+                              )
+           )
       }) |>
     data.table::rbindlist() |>
     collapse::rsplit(by = ~ date + element_id,
@@ -43,7 +56,8 @@ risk_from_ssds <- function(ct_output) {
     lapply(function(df) {  # TODO: Use TMoA approach here
       list(element_id = df$element_id[[1]],
            date = df$date[[1]],
-           paf = 1 - prod(1 - df$paf)
+           paf_acute = 1 - prod(1 - df$paf_acute),
+           paf_chronic = 1 - prod(1 - df$paf_chronic)
            )
       }) |>
     data.table::rbindlist() |>
