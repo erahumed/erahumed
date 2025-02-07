@@ -21,9 +21,6 @@ risk_from_ssds <- function(ct_output) {
       df$median_acute <- exp(info_chemicals()[[chemical]][["ssd_acute_mu"]])
       df$median_chronic <- exp(info_chemicals()[[chemical]][["ssd_chronic_mu"]])
 
-      # df$HU_acute <- 1e6 * df$cw / df$median_acute  # TODO: clarify units
-      # df$HU_chronic <- 1e6 * df$cw / df$median_chronic  # TODO: clarify units
-
       df$sigma_acute <- info_chemicals()[[chemical]][["ssd_acute_sigma"]]
       df$sigma_chronic <- info_chemicals()[[chemical]][["ssd_chronic_sigma"]]
 
