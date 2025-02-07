@@ -1,3 +1,4 @@
+#' @import data.table
 risk_from_ssds <- function(ct_output) {
   chemicals <- unique(ct_output$chemical)
 
@@ -9,14 +10,15 @@ risk_from_ssds <- function(ct_output) {
                      simplify = FALSE,
                      keep.by = TRUE
                      ) |>
+
     lapply(function(df) {
       chemical <- df$chemical[[1]]
 
-      median_acute <- exp(info_chemicals()[[chemical]][["ssd_acute_mu"]])
-      median_chronic <- exp(info_chemicals()[[chemical]][["ssd_chronic_mu"]])
+      df$median_acute <- exp(info_chemicals()[[chemical]][["ssd_acute_mu"]])
+      df$median_chronic <- exp(info_chemicals()[[chemical]][["ssd_chronic_mu"]])
 
-      df$HU_acute <- 1e6 * df$cw / median_acute  # TODO: clarify units
-      df$HU_chronic <- 1e6 * df$cw / median_chronic  # TODO: clarify units
+      # df$HU_acute <- 1e6 * df$cw / df$median_acute  # TODO: clarify units
+      # df$HU_chronic <- 1e6 * df$cw / df$median_chronic  # TODO: clarify units
 
       df$sigma_acute <- info_chemicals()[[chemical]][["ssd_acute_sigma"]]
       df$sigma_chronic <- info_chemicals()[[chemical]][["ssd_chronic_sigma"]]
@@ -26,40 +28,34 @@ risk_from_ssds <- function(ct_output) {
       df
     }) |>
     data.table::rbindlist() |>
-    collapse::rsplit(by = ~ date + element_id + tmoa,
-                     flatten = TRUE,
-                     use.names = FALSE,
-                     simplify = FALSE,
-                     keep.by = TRUE
-                     ) |>
-    lapply(function(df) {
+    (\(dt) {
+      dt[,
+         `:=`(
+           sigma_acute = mean(sigma_acute),
+           sigma_chronic = mean(sigma_chronic)
+           ),
+         by = "tmoa"
+      ][,
+        `:=`(
+          HU_acute = 1e6 * cw / median_acute,
+          HU_chronic = 1e6 * rolling_average(cw, 21) / median_chronic
+        ),
+        by = c("element_id", "chemical")
+      ][,
+        .(
+          HU_acute = sum(HU_acute),
+          sigma_acute = sigma_acute[[1]],
+          HU_chronic = sum(HU_chronic),
+          sigma_chronic = sigma_chronic[[1]]
+        ),
+        by = .(element_id, date, tmoa)
+      ][,
+        `:=`(
+          paf_acute = pnorm(log(HU_acute), sd = sigma_acute),
+          paf_chronic = pnorm(log(HU_chronic), sd = sigma_chronic)
+          )
+      ]
+    })() |>
 
-      list(element_id = df$element_id[[1]],
-           date = df$date[[1]],
-           paf_acute = plnorm(log(sum(df$HU_acute)),
-                              meanlog = 0,
-                              sdlog = mean(df$sigma_acute)
-                              ),
-           paf_chronic = plnorm(log(sum(df$HU_chronic)),
-                              meanlog = 0,
-                              sdlog = mean(df$sigma_chronic)
-                              )
-           )
-      }) |>
-    data.table::rbindlist() |>
-    collapse::rsplit(by = ~ date + element_id,
-                     flatten = TRUE,
-                     use.names = FALSE,
-                     simplify = FALSE,
-                     keep.by = TRUE
-                     ) |>
-    lapply(function(df) {  # TODO: Use TMoA approach here
-      list(element_id = df$element_id[[1]],
-           date = df$date[[1]],
-           paf_acute = 1 - prod(1 - df$paf_acute),
-           paf_chronic = 1 - prod(1 - df$paf_chronic)
-           )
-      }) |>
-    data.table::rbindlist() |>
     as.data.frame()
 }
