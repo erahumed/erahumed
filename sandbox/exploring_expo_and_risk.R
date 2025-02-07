@@ -114,3 +114,6 @@ sim$rd$output |>
     sec.axis = sec_axis(~ neg_log_surv_inv(.), name = "msPAF", labels = scales::percent)
   ) +
   NULL
+
+
+erahumed:::plot_risk(sim$rl$output)

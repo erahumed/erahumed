@@ -101,3 +101,13 @@ inv2by2 <- function(a,b,c,d) {
     I21 = -c / det
   )
 }
+
+
+
+neg_log_surv <- function(p) {
+  -log(1-p)
+}
+
+neg_log_surv_inv <- function(l) {
+  1-exp(-l)
+}
