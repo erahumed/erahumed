@@ -52,8 +52,8 @@ risk_from_ssds <- function(ct_output) {
         by = c("element_id", "date", "tmoa")
       ][,
         let(
-          paf_acute = pnorm(log(HU_acute), sd = sigma_acute),
-          paf_chronic = pnorm(log(HU_chronic), sd = sigma_chronic)
+          paf_acute = stats::pnorm(log(HU_acute), sd = sigma_acute),
+          paf_chronic = stats::pnorm(log(HU_chronic), sd = sigma_chronic)
           )
       ]
     })() |>
