@@ -1,3 +1,5 @@
+# erahumed 0.16.0
+
 # erahumed 0.15.1
 
 This version implements the simulation of pesticide concentration dynamics in 
