@@ -1,5 +1,21 @@
 # erahumed (development version)
 
+This version provides the first implementation of risk assessment through SSDs.
+
+### New features
+
+* `get_results(component = "risk")` can now be used to retrieve simulation 
+outputs for risk.
+
+### GUI
+
+* New risk plots available in the Output tab of the app.
+
+### Under the hoods
+
+* `cluster_id` and `ditch` columns of the respective `ctc` and `ctd` layers have
+been renamed to `element_id`.
+
 # erahumed 0.15.1
 
 This version implements the simulation of pesticide concentration dynamics in 
