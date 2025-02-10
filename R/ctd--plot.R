@@ -23,7 +23,7 @@ plot_ctd_ditch_view <- function(x, variable, chemicals, ...) {
   args <- list(...)
   ditch <- args$ditch
   if (is.null(ditch)) {
-    ditch <- ct_output_df$ditch[[1]]
+    ditch <- ct_output_df$element_id[[1]]
     warning(paste0(
       "No ditch specified through the 'ditch' argument. ",
       "Plotting ditch '", ditch, "'."
@@ -31,7 +31,7 @@ plot_ctd_ditch_view <- function(x, variable, chemicals, ...) {
   }
 
   ct_output_df <- ct_output_df |>
-    (\(.) .[.$ditch == ditch, ])()
+    (\(.) .[.$element_id == ditch, ])()
 
   ct_plot_time_series(ct_output_df = ct_output_df, variable = variable, chemicals = chemicals)
 }
@@ -42,7 +42,7 @@ plot_ctd_max_boxplot <- function(x, ...) {
   get_layer_output(x) |>
     # (\(.) .[.$chemical == chemical, ])() |>
     stats::aggregate(
-      by = cbind(cs, cw, cw_outflow) ~ chemical + ditch,
+      by = cbind(cs, cw, cw_outflow) ~ chemical + element_id,
       FUN = max,
       na.rm = TRUE
     ) |>
@@ -51,7 +51,7 @@ plot_ctd_max_boxplot <- function(x, ...) {
       v.names = "value",
       timevar = "variable",
       times = density_variables,
-      idvar = c("ditch", "chemical"),
+      idvar = c("element_id", "chemical"),
       direction = "long"
     ) |>
     ggplot2::ggplot(ggplot2::aes(x = .data$variable, y = .data$value)) +

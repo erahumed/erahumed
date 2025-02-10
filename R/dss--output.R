@@ -22,7 +22,11 @@ dss_output_ui <- function(id) {
         dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
         ),
-      card(card_header("Risk"), full_screen = TRUE, "Not yet implemented.")
+      card(card_header("Risk"), full_screen = TRUE,
+       dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
+       dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
+       dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
+       )
     )
   )
 }
@@ -72,6 +76,15 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     )
     output$ctl_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctl"), chemical = input$chemical)
+    )
+    output$rc_plot <- dygraphs::renderDygraph(
+      plot(get_layer(simulation(), "rc"), cluster_id = input$selected_cluster_id)
+    )
+    output$rd_plot <- dygraphs::renderDygraph(
+      plot(get_layer(simulation(), "rd"), ditch = ditch())
+      )
+    output$rl_plot <- dygraphs::renderDygraph(
+      plot(get_layer(simulation(), "rl"))
     )
   })
 }

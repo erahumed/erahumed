@@ -46,7 +46,7 @@ test_that("All compartments of all clusters have at least one >0 value", {
 
   test_df <- get_layer_output(test_sim_large(), "ctc") |>
     dplyr::filter(!(chemical %in% non_universal_chems)) |>
-    dplyr::group_by(cluster_id, chemical) |>
+    dplyr::group_by(element_id, chemical) |>
     dplyr::summarise(mf = sum(mf), mw = sum(mw), ms = sum(ms)) |>
     dplyr::filter(mf < tol_kg | mw < tol_kg | ms < tol_kg)
 
@@ -57,7 +57,7 @@ test_that("Calculated volume_sod_m3 coincide with lagged volume_eod_m3", {
   tol_m3 <- 1e-6
 
   test_df <- get_layer_output(test_sim_large(), "ctc") |>
-    dplyr::group_by(cluster_id, chemical) |>
+    dplyr::group_by(element_id, chemical) |>
     dplyr::mutate(
       n = dplyr::n(),
       diff = c(0, abs(volume_eod_m3[-n] - volume_sod_m3[-1]))

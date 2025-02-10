@@ -42,7 +42,8 @@
       c(res_template, list(chemical = chemical), masses)
     }) |>
     data.table::rbindlist() |>
-    as.data.frame()
+    as.data.frame() |>
+    (\(.) { .$element_id <- "lake"; . })()
 }
 
 
@@ -61,8 +62,8 @@ ctl_data_prep <- function(simulation)
   ditch_inflows_densities_kg_m3 <-
     get_layer_output(simulation, "ctd") |>
     data.table::as.data.table() |>
-    data.table::setorderv(c("date", "ditch")) |>
-    collapse::rsplit(by = cw_outflow ~ chemical + ditch,
+    data.table::setorderv(c("date", "element_id")) |>
+    collapse::rsplit(by = cw_outflow ~ chemical + element_id,
                      flatten = FALSE,
                      simplify = TRUE,
                      keep.by = FALSE)
