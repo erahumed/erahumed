@@ -1,5 +1,5 @@
 #' @noRd
-plot.erahumed_rd <- function(x, type = c("chronic", "acute"), ditch = NULL)
+plot.erahumed_rd <- function(x, type = c("chronic", "acute"), ditch = NULL, ...)
 {
   type <- match.arg(type)
   r_output <- get_layer_output(x)

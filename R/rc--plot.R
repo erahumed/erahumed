@@ -1,5 +1,5 @@
 #' @noRd
-plot.erahumed_rc <- function(x, type = c("chronic", "acute"), cluster_id = NULL)
+plot.erahumed_rc <- function(x, type = c("chronic", "acute"), cluster_id = NULL, ...)
 {
   type <- match.arg(type)
   r_output <- get_layer_output(x)
