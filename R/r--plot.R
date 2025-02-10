@@ -46,16 +46,16 @@ plot_risk <- function(r_output, type = c("chronic", "acute")) {
                      independentTicks = FALSE) |>
     dygraphs::dyAxis("y",
                      label = "msPAF",
-                     axisLabelFormatter = htmlwidgets::JS("
+                     axisLabelFormatter = "
                        function(value, granularity, opts, dygraph) {
                          return (100*(1 - Math.exp(-value))).toFixed(1) + '%';
                        }
-                     "),
-                     valueFormatter = htmlwidgets::JS("
+                     ",
+                     valueFormatter = "
                        function(value) {
                          return (100*(1 - Math.exp(-value))).toFixed(1) + '% species';
                        }
-                     ")
+                     "
                      ) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
