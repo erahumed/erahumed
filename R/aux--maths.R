@@ -31,6 +31,21 @@ moving_average <- function(x, k) {
 
 
 
+rolling_average <- function(x, k) {
+  assert_numeric_vector(x)
+  assert_positive_integer(k)
+
+  left_pad <- k - 1
+  n <- length(x)
+
+  x <- c(rep(x[1], left_pad), x)
+  y <- stats::filter(x, rep(1 / k, k), sides = 1)
+
+  y[(left_pad + 1):(left_pad + n)]
+}
+
+
+
 lgl_buffer <- function(x, distance = 0) {
   # Create a "logical buffer" around a (supposedly sparse) vector 'x'. Entries
   # within the given distance from non zero values of 'x' are flagged as TRUE.
@@ -85,4 +100,14 @@ inv2by2 <- function(a,b,c,d) {
     I12 = -b / det,
     I21 = -c / det
   )
+}
+
+
+
+neg_log_surv <- function(p) {
+  -log(1-p)
+}
+
+neg_log_surv_inv <- function(l) {
+  1-exp(-l)
 }

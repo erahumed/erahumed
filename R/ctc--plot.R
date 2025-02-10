@@ -48,7 +48,7 @@ plot_ctc_cluster_view <- function(x, variable, chemicals, ...) {
   args <- list(...)
   cluster_id <- args$cluster_id
   if (is.null(cluster_id)) {
-    cluster_id <- ct_output_df$cluster_id[[1]]
+    cluster_id <- ct_output_df$element_id[[1]]
     warning(paste0(
       "No cluster specified through the 'cluster_id' argument. ",
       "Plotting cluster '", cluster_id, "'."
@@ -56,7 +56,7 @@ plot_ctc_cluster_view <- function(x, variable, chemicals, ...) {
   }
 
   ct_output_df <- ct_output_df |>
-    (\(.) .[.$cluster_id == cluster_id, ])()
+    (\(.) .[.$element_id == cluster_id, ])()
 
   ct_plot_time_series(ct_output_df = ct_output_df, variable = variable, chemicals = chemicals)
 }
@@ -66,7 +66,7 @@ plot_ctc_max_boxplot <- function(x, ...) {
 
   get_layer_output(x) |>
     stats::aggregate(
-      by = cbind(cs, cw, cw_outflow) ~ chemical + cluster_id,
+      by = cbind(cs, cw, cw_outflow) ~ chemical + element_id,
       FUN = max,
       na.rm = TRUE
     ) |>
@@ -75,7 +75,7 @@ plot_ctc_max_boxplot <- function(x, ...) {
       v.names = "value",
       timevar = "variable",
       times = density_variables,
-      idvar = c("cluster_id", "chemical"),
+      idvar = c("element_id", "chemical"),
       direction = "long"
     ) |>
     ggplot2::ggplot(ggplot2::aes(x = .data$variable, y = .data$value)) +

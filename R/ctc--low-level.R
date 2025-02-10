@@ -24,7 +24,8 @@
            fc = .par[["fc"]]
            ) |>
       data.table::rbindlist() |>
-      as.data.frame()
+      as.data.frame() |>
+      (\(.) { names(.)[names(.) == "cluster_id"] <- "element_id"; . })()
 }
 
 .compute_ctc_one_cluster <- function(cluster_ca_df,

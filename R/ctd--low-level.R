@@ -4,7 +4,8 @@
                    ctd_params = get_layer_parameters(simulation, "ctd")
                    ) |>
     data.table::rbindlist() |>
-    as.data.frame()
+    as.data.frame() |>
+    (\(.) { names(.)[names(.) == "ditch"] <- "element_id"; . })()
 }
 
 .compute_ctd_one_ditch <- function(ctd_preproc_data, ctd_params)
@@ -55,16 +56,6 @@
 
 ctd_data_prep <- function(simulation)
 {
-  hbc_output <-
-    get_layer_output(simulation, "hbc")[, c("cluster_id", "date", "outflow_m3_s")]
-
-  ctc_output_split <-
-    get_layer_output(simulation, "ctc") |>
-    data.table::as.data.table() |>
-    merge(info_clusters(), by = "cluster_id") |>
-    merge(hbc_output, by = c("cluster_id", "date")) |>
-    data.table::setorderv("date")
-
   cluster_inflows_m3_s <-
     get_layer_output(simulation, "hbc") |>
     data.table::as.data.table() |>
@@ -78,9 +69,9 @@ ctd_data_prep <- function(simulation)
   cluster_inflows_densities_kg_m3 <-
     get_layer_output(simulation, "ctc") |>
     data.table::as.data.table() |>
-    merge(info_clusters(), by = "cluster_id") |>
-    data.table::setorderv(c("date", "cluster_id")) |>
-    collapse::rsplit(by = cw_outflow ~ ditch + chemical + cluster_id,
+    merge(info_clusters(), by.x = "element_id", by.y = "cluster_id") |>
+    data.table::setorderv(c("date", "element_id")) |>
+    collapse::rsplit(by = cw_outflow ~ ditch + chemical + element_id,
                      flatten = FALSE,
                      use.names = TRUE,
                      simplify = TRUE,
