@@ -28,7 +28,7 @@ plot_risk <- function(r_output, type = c("chronic", "acute")) {
 
   ts_data <- xts::xts(r_output[-1], order.by = r_output$date)
 
-  dygraphs::dygraph(ts_data) %>%
+  dygraphs::dygraph(ts_data) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
     dygraphs::dyAxis("y", label = "-log(1-PAF)") |>
     dygraphs::dyRangeSelector() |>

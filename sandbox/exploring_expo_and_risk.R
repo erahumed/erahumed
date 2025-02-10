@@ -116,4 +116,4 @@ sim$rd$output |>
   NULL
 
 
-erahumed:::plot_risk(sim$rl$output)
+erahumed:::plot_risk(sim$rc$output)
