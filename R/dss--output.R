@@ -11,18 +11,18 @@ dss_output_ui <- function(id) {
                        selected = info_clusters()$cluster_id[[1]]
                        ),
     bslib::layout_column_wrap(
-      card(card_header("Hydrology"), full_screen = TRUE,
+      card(card_header("Hydrology", class = "bg-dark"), full_screen = TRUE,
         dygraphs::dygraphOutput(ns("hbl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("hbd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ca_plot")) |> withSpinner(),
         ),
-      card(card_header("Exposure"), full_screen = TRUE,
+      card(card_header("Exposure", class = "bg-dark"), full_screen = TRUE,
         shiny::uiOutput(ns("select_chemical")),
         dygraphs::dygraphOutput(ns("ctl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
         ),
-      card(card_header("Risk"), full_screen = TRUE,
+      card(card_header("Risk", class = "bg-dark"), full_screen = TRUE,
        dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
        dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
        dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
