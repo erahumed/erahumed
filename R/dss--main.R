@@ -2,6 +2,7 @@
 #' @importFrom shiny icon
 
 dss_ui <- function() { bslib::page_navbar(
+  id = "navbar",
   title = dss_title(),
   header = dss_header(),
   footer = dss_footer(),
@@ -60,8 +61,31 @@ dss_server <- function(input, output, session) {
 
   parameters <- dss_input_server("dss_input")
   param_hash <- shiny::reactive( digest::digest(lapply(parameters, \(r) r())) )
-  shiny::observe(shiny::updateActionButton(session, "run", disabled = FALSE)) |>
+  should_notify <- shiny::reactiveVal(FALSE)
+
+  shiny::observe({
+    shiny::updateActionButton(session, "run", disabled = FALSE)
+    should_notify(TRUE)
+    }) |>
     shiny::bindEvent(param_hash())
+
+  shiny::observe({
+    if (input$navbar == "Output" & should_notify()) {
+      shiny::showNotification(
+        "Simulation parameters have changed. Click 'Run simulation' to update results.",
+        duration = NULL,
+        type = "warning",
+        id = "rerun_notif")
+      should_notify(FALSE)
+    }
+  }) |>
+    shiny::bindEvent(input$navbar, ignoreInit = TRUE)
+
+  shiny::observe({
+    should_notify(FALSE)
+    shiny::removeNotification(id = "rerun_notif")
+    }) |>
+    shiny::bindEvent(input$run, ignoreInit = TRUE)
 
   sim <- dss_run_server("dss_run", parameters = parameters, run = input$run)
   shiny::observe(shiny::updateActionButton(session, "run", disabled = TRUE)) |>
