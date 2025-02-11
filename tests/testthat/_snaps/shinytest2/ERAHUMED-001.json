@@ -30,6 +30,43 @@
     "dss_input-hydrology-inp-prop_clearfield": 0.1,
     "dss_input-hydrology-inp-prop_jsendra": 0.8,
     "dss_input-hydrology-inp-seed": 840,
+    "dss_output-ca_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-chemical": null,
+    "dss_output-ctc_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-ctd_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-ctl_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-hbd_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-hbl_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-rc_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-rd_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
+    "dss_output-rl_plot_date_window": [
+      "2019-12-31T23:00:00.000Z",
+      "2020-12-29T23:00:00.000Z"
+    ],
     "dss_output-selected_cluster_id": "02_Carrera_del_Saler0-2_0",
     "hide_map_card": 0,
     "map_card_full_screen": false,
@@ -144,6 +181,7 @@
           "interactionModel": "Dygraph.Interaction.defaultModel"
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -2602,6 +2640,7 @@
           "interactionModel": "Dygraph.Interaction.defaultModel"
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -11966,6 +12005,7 @@
           "interactionModel": "Dygraph.Interaction.defaultModel"
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -21330,6 +21370,7 @@
           "interactionModel": "Dygraph.Interaction.defaultModel"
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -30620,6 +30661,7 @@
           "interactionModel": "Dygraph.Interaction.defaultModel"
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -31790,7 +31832,7 @@
               ]
             }
           },
-          "title": "Time Series of Total Inflow [m³ / s]",
+          "title": "Time Series of Total Inflow [m³ / s] dss",
           "labels": [
             "day",
             "Observed",
@@ -33064,6 +33106,7 @@
           ]
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -36519,6 +36562,7 @@
           ]
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],
@@ -39974,6 +40018,7 @@
           ]
         },
         "scale": "daily",
+        "group": "dss",
         "annotations": [
 
         ],

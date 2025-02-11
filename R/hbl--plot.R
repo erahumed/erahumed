@@ -11,10 +11,14 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @noRd
-plot.erahumed_hbl <- function(x, variable = "inflow_total", ...) {
+plot.erahumed_hbl <- function(x,
+                              variable = "inflow_total",
+                              dygraph_group = NULL,
+                              ...)
+{
   df <- get_layer_output(x)
 
-  plot_hbl_argcheck(df, variable, ...)
+  plot_hbl_argcheck(df, variable, dygraph_group = dygraph_group, ...)
 
   var_lab <- hbl_var_labs()[variable] |> unname()
 
@@ -28,7 +32,9 @@ plot.erahumed_hbl <- function(x, variable = "inflow_total", ...) {
   time_series_imp <- xts::xts(df_imp[[variable]], order.by = df_imp$date)
   combined_ts <- cbind(Observed = time_series_obs, Imputed = time_series_imp)
 
-  dygraphs::dygraph(combined_ts, main = paste("Time Series of", var_lab)) |>
+  dygraphs::dygraph(
+    combined_ts, main = paste("Time Series of", var_lab, group = dygraph_group)
+    ) |>
     dygraphs::dySeries("Observed", color = "blue", strokePattern = "solid") |>
     dygraphs::dySeries("Imputed", color = "red", strokePattern = "dashed") |>
     dygraphs::dyAxis("x", label = "Date") |>
@@ -38,7 +44,7 @@ plot.erahumed_hbl <- function(x, variable = "inflow_total", ...) {
     dygraphs::dyUnzoom()
 }
 
-plot_hbl_argcheck <- function(x, variable, ...) {
+plot_hbl_argcheck <- function(x, variable, dygraph_group, ...) {
 
   tryCatch(
     {
@@ -46,9 +52,14 @@ plot_hbl_argcheck <- function(x, variable, ...) {
       if (!variable %in% colnames(x)) {
         stop(paste(variable, "is not a column of", deparse(substitute(x))))
       }
+
       for (name in names(list(...))) {
         warning(paste0("Argument '", name, "' not used."))
       }
+
+      if (!is.null(dygraph_group))
+        assert_string(dygraph_group)
+
     },
     error = function(cnd) {
       class(cnd) <- c("plot.hbl_error", class(cnd))

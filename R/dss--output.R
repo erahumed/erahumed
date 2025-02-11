@@ -56,35 +56,49 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
 
     output$hbl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "hbl"))
+      plot(get_layer(simulation(), "hbl"),
+           dygraph_group = "dss")
       )
     output$hbd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "hbd"), ditch = ditch())
+      plot(get_layer(simulation(), "hbd"),
+           ditch = ditch(),
+           dygraph_group = "dss")
       )
     output$ca_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ca"), cluster_id = input$selected_cluster_id)
+      plot(get_layer(simulation(), "ca"),
+           cluster_id = input$selected_cluster_id,
+           dygraph_group = "dss")
       )
     output$ctc_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctc"),
            cluster_id = input$selected_cluster_id,
-           chemical = input$chemical)
+           chemical = input$chemical,
+           dygraph_group = "dss")
     )
     output$ctd_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctd"),
            ditch = ditch(),
-           chemical = input$chemical)
+           chemical = input$chemical,
+           dygraph_group = "dss")
     )
     output$ctl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctl"), chemical = input$chemical)
+      plot(get_layer(simulation(), "ctl"),
+           chemical = input$chemical,
+           dygraph_group = "dss")
     )
     output$rc_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rc"), cluster_id = input$selected_cluster_id)
+      plot(get_layer(simulation(), "rc"),
+           cluster_id = input$selected_cluster_id,
+           dygraph_group = "dss")
     )
     output$rd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rd"), ditch = ditch())
+      plot(get_layer(simulation(), "rd"),
+           ditch = ditch(),
+           dygraph_group = "dss")
       )
     output$rl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rl"))
+      plot(get_layer(simulation(), "rl"),
+           dygraph_group = "dss")
     )
   })
 }

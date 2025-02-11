@@ -1,5 +1,9 @@
 #' @noRd
-plot.erahumed_rc <- function(x, type = c("chronic", "acute"), cluster_id = NULL, ...)
+plot.erahumed_rc <- function(x,
+                             type = c("chronic", "acute"),
+                             cluster_id = NULL,
+                             dygraph_group = NULL,
+                             ...)
 {
   type <- match.arg(type)
   r_output <- get_layer_output(x)
@@ -15,5 +19,5 @@ plot.erahumed_rc <- function(x, type = c("chronic", "acute"), cluster_id = NULL,
   r_output <- r_output |>
     (\(.) .[.$element_id == cluster_id, ])()
 
-  plot_risk(r_output, type = type)
+  plot_risk(r_output, type = type, dygraph_group = dygraph_group)
 }

@@ -18,16 +18,26 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @noRd
-plot.erahumed_hbc <- function(x, type = c("cluster_view", "map_view"), ...) {
+plot.erahumed_hbc <- function(x,
+                              type = c("cluster_view", "map_view"),
+                              dygraph_group = NULL,
+                              ...
+                              )
+{
   type <- match.arg(type)
 
   switch(type,
-         cluster_view = plot_erahumed_hbc_cluster_view(x, ...),
+         cluster_view = plot_erahumed_hbc_cluster_view(
+           x, dygraph_group = dygraph_group, ...
+           ),
          map_view = plot_erahumed_hbc_map_view(x, ...)
   )
 }
 
-plot_erahumed_hbc_cluster_view <- function(x, ...) {
+plot_erahumed_hbc_cluster_view <- function(x,
+                                           dygraph_group,
+                                           ...
+                                           ) {
   args <- list(...)
   data <- get_layer_output(x)
 
@@ -56,7 +66,10 @@ plot_erahumed_hbc_cluster_view <- function(x, ...) {
                               "Inflow", "Outflow", "P-ETP")
 
   # Create dygraph
-  dygraphs::dygraph(data_to_plot, main = paste("Time Series for Cluster", cluster_id)) |>
+  dygraphs::dygraph(data_to_plot,
+                    main = paste("Time Series for Cluster", cluster_id),
+                    group = dygraph_group
+                    ) |>
     dygraphs::dySeries("Ideal Height", color = "black", strokePattern = "dashed", strokeWidth = 2) |>
     dygraphs::dySeries("Simulated Height", color = "black", strokePattern = "solid", strokeWidth = 2) |>
     dygraphs::dySeries("Inflow", stepPlot = TRUE, color = "red") |>

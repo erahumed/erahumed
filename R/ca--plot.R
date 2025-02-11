@@ -19,17 +19,25 @@
 #' @return A \link[dygraphs]{dygraph} plot.
 #'
 #' @noRd
-plot.erahumed_ca <- function(x, type = c("cluster_view", "timeline_view"), ...) {
+plot.erahumed_ca <- function(x,
+                             type = c("cluster_view", "timeline_view"),
+                             dygraph_group = NULL,
+                             ...)
+{
   type <- match.arg(type)
   switch(type,
-         cluster_view = plot_erahumed_ca_cluster_view(x, ...),
+         cluster_view =
+           plot_erahumed_ca_cluster_view(x, dygraph_group = dygraph_group, ...),
          timeline_view = plot_erahumed_ca_timeline_view(x, ...)
          )
 
 }
 
-plot_erahumed_ca_cluster_view <- function(x, ...) {
-  p <- plot.erahumed_hbc(x, type = "cluster_view", ...)
+plot_erahumed_ca_cluster_view <- function(x, dygraph_group, ...) {
+  p <- plot.erahumed_hbc(x,
+                         type = "cluster_view",
+                         dygraph_group = dygraph_group,
+                         ...)
 
   args <- list(...)
 

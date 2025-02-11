@@ -1,4 +1,7 @@
-plot_risk <- function(r_output, type = c("chronic", "acute")) {
+plot_risk <- function(r_output,
+                      type = c("chronic", "acute"),
+                      dygraph_group = NULL)
+{
   type <- match.arg(type)
 
   var <- switch(type,
@@ -38,7 +41,7 @@ plot_risk <- function(r_output, type = c("chronic", "acute")) {
 
   ts_data <- xts::xts(r_output[-1], order.by = r_output$date)
 
-  g <- dygraphs::dygraph(ts_data) |>
+  g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dySeries(axis = "y2") |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
     dygraphs::dyAxis("y2",
