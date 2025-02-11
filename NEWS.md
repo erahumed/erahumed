@@ -17,7 +17,6 @@ outputs for risk.
 
 * `cluster_id` and `ditch` columns of the respective `ctc` and `ctd` layers have
 been renamed to `element_id`.
->>>>>>> f6a06c9c485298b85ca58bc590f54785529011ce
 
 # erahumed 0.15.1
 
