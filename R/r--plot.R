@@ -61,6 +61,7 @@ plot_risk <- function(r_output,
                        }
                      "
                      ) |>
+    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 

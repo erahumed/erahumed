@@ -48,6 +48,7 @@ ct_plot_time_series_mass <- function(ct_output_df, dygraph_group)
 
   p <- p |>
     dygraphs::dyAxis("y", label = "Mass [Kg]", axisLabelWidth = 60) |>
+    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
@@ -84,7 +85,9 @@ ct_plot_time_series_density <- function(ct_output_df, dygraph_group)
     p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
   p <- p |>
-    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]", axisLabelWidth = 80) |>
+    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]",
+                     axisLabelWidth = 80) |>
+    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
