@@ -46,6 +46,7 @@ plot_risk <- function(r_output,
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
     dygraphs::dyAxis("y2",
                      label = "Toxicity Contribution [-log(1-PAF\u{1D62})]",
+                     axisLabelWidth = 80,
                      independentTicks = FALSE) |>
     dygraphs::dyAxis("y",
                      label = "msPAF",
