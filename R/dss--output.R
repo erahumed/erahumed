@@ -55,11 +55,16 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     output$select_chemical <- shiny::renderUI({
       chemicals <- get_layer_output(simulation(), "ctl")$chemical |> unique()
-      shiny::selectInput(ns("chemical"),
-                         label = "Select chemicals",
-                         choices = chemicals,
-                         multiple = TRUE
-                         )
+
+      shinyWidgets::checkboxGroupButtons(
+        inputId = ns("chemical"),
+        label = "Chemicals",
+        choices = chemicals,
+        selected = c("Penoxulam", "Difeno"),
+        individual = TRUE,
+        checkIcon = list(yes = icon("ok", lib = "glyphicon"))
+      )
+
     })
 
 
