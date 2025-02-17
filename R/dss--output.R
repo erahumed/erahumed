@@ -18,6 +18,10 @@ dss_output_ui <- function(id) {
         ),
       card(card_header("Exposure", class = "bg-dark"), full_screen = TRUE,
         shiny::uiOutput(ns("select_chemical")),
+        shiny::selectInput(inputId = ns("exposure_plot_type"),
+                           label = "Plot variable",
+                           choices = list(Mass = "mass", Density = "density"),
+                           selected = "density"),
         dygraphs::dygraphOutput(ns("ctl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
@@ -76,17 +80,20 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     output$ctc_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctc"),
            cluster_id = input$selected_cluster_id,
+           variable = input$exposure_plot_type,
            chemical = input$chemical,
            dygraph_group = "dss")
     )
     output$ctd_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctd"),
            ditch = ditch(),
+           variable = input$exposure_plot_type,
            chemical = input$chemical,
            dygraph_group = "dss")
     )
     output$ctl_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctl"),
+           variable = input$exposure_plot_type,
            chemical = input$chemical,
            dygraph_group = "dss")
     )
