@@ -23,9 +23,13 @@ dss_output_ui <- function(id) {
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
         ),
       card(card_header("Risk", class = "bg-dark"), full_screen = TRUE,
-       dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
-       dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
-       dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
+        shiny::selectInput(inputId = ns("risk_type"),
+                           label = "Risk type",
+                           choices = list(Chronic = "chronic", Acute = "acute"),
+                           selected = "chronic"),
+        dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
+        dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
+        dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
        )
     )
   )
@@ -89,15 +93,18 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     output$rc_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "rc"),
            cluster_id = input$selected_cluster_id,
+           type = input$risk_type,
            dygraph_group = "dss")
     )
     output$rd_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "rd"),
            ditch = ditch(),
+           type = input$risk_type,
            dygraph_group = "dss")
       )
     output$rl_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "rl"),
+           type = input$risk_type,
            dygraph_group = "dss")
     )
   })
