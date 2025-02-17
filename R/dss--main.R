@@ -59,53 +59,21 @@ dss_ui <- function() { bslib::page_navbar(
 dss_server <- function(input, output, session) {
   clicked_cluster_id <- shiny::reactive({ input$map_shape_click$id })
 
+  run <- shiny::reactiveVal(1)
+  shiny::observe(run(run() + 1)) |> shiny::bindEvent(input$run)
+
   parameters <- dss_input_server("dss_input")
-  param_hash <- shiny::reactive( digest::digest(lapply(parameters, \(r) r())) )
-  should_notify <- shiny::reactiveVal(FALSE)
-
-  shiny::observe({
-    shiny::updateActionButton(session, "run", disabled = FALSE)
-    should_notify(TRUE)
-    }) |>
-    shiny::bindEvent(param_hash())
-
-  shiny::observe({
-    if (input$navbar == "Output" & should_notify()) {
-      shiny::showNotification(
-        "Simulation parameters have changed. Click 'Run simulation' to update results.",
-        duration = NULL,
-        type = "warning",
-        id = "rerun_notif")
-      should_notify(FALSE)
-    }
-  }) |>
-    shiny::bindEvent(input$navbar, ignoreInit = TRUE)
-
-  shiny::observe({
-    should_notify(FALSE)
-    shiny::removeNotification(id = "rerun_notif")
-    }) |>
-    shiny::bindEvent(input$run, ignoreInit = TRUE)
-
-  sim <- dss_run_server("dss_run", parameters = parameters, run = input$run)
-  shiny::observe(shiny::updateActionButton(session, "run", disabled = TRUE)) |>
-    shiny::bindEvent(sim())
-
+  sim <- dss_run_server("dss_run", parameters = parameters, run = run)
   dss_output_server("dss_output",
                     simulation = sim,
                     clicked_cluster_id = clicked_cluster_id)
 
-  vmap <- shiny::reactive(
-    get_layer_aux(sim(), "inp")[["cluster_variety_map"]]
-    )
-
+  vmap <- shiny::reactive(get_layer_aux(sim(), "inp")[["cluster_variety_map"]])
   output$map <- leaflet::renderLeaflet(
     plot_albufera_clusters(cluster_variety_map = vmap())
     ) |>
     shiny::snapshotExclude()
-
   shiny::observeEvent(input$hide_map_card, shinyjs::hide("map_card"))
-
   shiny::observeEvent(input$show_map_card, shinyjs::show("map_card"))
 
   shiny::observeEvent(input$show_about, shiny::showModal(dss_about_modal()))
