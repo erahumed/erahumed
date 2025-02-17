@@ -33,7 +33,7 @@ plot.erahumed_hbl <- function(x,
   combined_ts <- cbind(Observed = time_series_obs, Imputed = time_series_imp)
 
   dygraphs::dygraph(
-    combined_ts, main = paste("Time Series of", var_lab, group = dygraph_group)
+    combined_ts, main = paste("Time Series of", var_lab), group = dygraph_group
     ) |>
     dygraphs::dySeries("Observed", color = "blue", strokePattern = "solid") |>
     dygraphs::dySeries("Imputed", color = "red", strokePattern = "dashed") |>
