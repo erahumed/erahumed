@@ -18,10 +18,15 @@ dss_output_ui <- function(id) {
         ),
       card(card_header("Exposure", class = "bg-dark"), full_screen = TRUE,
         shiny::uiOutput(ns("select_chemical")),
-        shiny::selectInput(inputId = ns("exposure_plot_type"),
-                           label = "Plot variable",
-                           choices = list(Mass = "mass", Density = "density"),
-                           selected = "density"),
+        shinyWidgets::prettyRadioButtons(
+          inputId = ns("exposure_plot_type"),
+          label = "Plot variable",
+          choices = list(Mass = "mass", Density = "density"),
+          selected = "density",
+          inline = TRUE,
+          status = "danger",
+          fill = TRUE
+          ),
         dygraphs::dygraphOutput(ns("ctl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
