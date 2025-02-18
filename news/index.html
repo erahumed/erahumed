@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,26 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.16.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.16.1" id="erahumed-0161">erahumed 0.16.1<a class="anchor" aria-label="anchor" href="#erahumed-0161"></a></h2>
+<div class="section level4">
+<h4 id="gui-0-16-1">GUI<a class="anchor" aria-label="anchor" href="#gui-0-16-1"></a></h4>
+<ul><li><p>The X ranges of time series plots in the Output section are now synchronized (<a href="https://github.com/erahumed/erahumed/issues/231" class="external-link">#231</a>).</p></li>
+<li><p>Parameter updates trigger a notification that prompts the user to re-run the simulation (<a href="https://github.com/erahumed/erahumed/issues/301" class="external-link">#301</a>).</p></li>
+<li><p>Date range input is now a <code><a href="https://dreamrs.github.io/shinyWidgets/reference/airDatepicker.html" class="external-link">shinyWidgets::airDatepickerInput()</a></code> (<a href="https://github.com/erahumed/erahumed/issues/269" class="external-link">#269</a>).</p></li>
+<li><p>Run button functionality restored (<a href="https://github.com/erahumed/erahumed/issues/309" class="external-link">#309</a>).</p></li>
+<li><p>A new <code>selectInput()</code> allows to choose the type of risk to be plotted (acute <em>vs.</em> chronic).</p></li>
+<li><p>A new radio button allows to choose whether to show mass or density in exposure plots.</p></li>
+<li><p>Card headers in the Output section are now colored in black.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="dependencies-0-16-1">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-0-16-1"></a></h4>
+<ul><li>We start importing <a href="https://github.com/dreamRs/shinyWidgets" class="external-link">shinyWidgets</a>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.16.0" id="erahumed-0160">erahumed 0.16.0<a class="anchor" aria-label="anchor" href="#erahumed-0160"></a></h2>
 <p>This version provides the first implementation of risk assessment through SSDs.</p>
@@ -54,7 +71,7 @@
 <div class="section level4">
 <h4 id="under-the-hoods-0-16-0">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-16-0"></a></h4>
 <ul><li>
-<code>cluster_id</code> and <code>ditch</code> columns of the respective <code>ctc</code> and <code>ctd</code> layers have been renamed to <code>element_id</code>. &gt;&gt;&gt;&gt;&gt;&gt;&gt; f6a06c9c485298b85ca58bc590f54785529011ce</li>
+<code>cluster_id</code> and <code>ditch</code> columns of the respective <code>ctc</code> and <code>ctd</code> layers have been renamed to <code>element_id</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
