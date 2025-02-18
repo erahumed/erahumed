@@ -1,5 +1,29 @@
 # erahumed (development version)
 
+### GUI
+
+* The X ranges of time series plots in the Output section are now synchronized
+(#231).
+
+* Parameter updates trigger a notification that prompts the user to re-run the
+simulation (#301).
+
+* Date range input is now a `shinyWidgets::airDatepickerInput()` (#269).
+
+* Run button functionality restored (#309).
+
+* A new `selectInput()` allows to choose the type of risk to be plotted 
+(acute *vs.* chronic).
+
+* A new radio button allows to choose whether to show mass or density in 
+exposure plots.
+
+* Card headers in the Output section are now colored in black.
+
+### Dependencies
+
+* We start importing `{shinyWidgets}`.
+
 # erahumed 0.16.0
 
 This version provides the first implementation of risk assessment through SSDs.
