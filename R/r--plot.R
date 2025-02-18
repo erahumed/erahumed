@@ -39,17 +39,17 @@ plot_risk <- function(r_output,
   cols <- names(ts_data)
   cols_without_total <- setdiff(cols, "msPAF")
 
-  max_y1 <- max(ts_data$msPAF, na.rm = TRUE)
-  max_y2 <- neg_log_surv_inv(max_y1)
+  max_y <- max(ts_data$msPAF, na.rm = TRUE)
 
   g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
-    dygraphs::dyAxis("y",
+    dygraphs::dyAxis("y2",
                      label = "Toxicity Contribution [-log(1-PAF\u{1D62})]",
                      axisLabelWidth = 80,
-                     valueRange =  c(0, max_y1)
+                     valueRange =  c(0, max_y),
+                     independentTicks = FALSE
                      ) |>
-    dygraphs::dyAxis("y2",
+    dygraphs::dyAxis("y",
                      label = "Total risk [msPAF]",
                      axisLabelFormatter = "
                        function(value, granularity, opts, dygraph) {
@@ -61,19 +61,18 @@ plot_risk <- function(r_output,
                          return (100*(1 - Math.exp(-value))).toFixed(1) + '% species';
                        }
                      ",
-                     independentTicks = FALSE,
-                     valueRange = c(0, max_y1)
+                     valueRange = c(0, max_y)
                      ) |>
     dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
   for (col in cols_without_total) {
-    g <- g |> dygraphs::dySeries(col, axis = "y")
+    g <- g |> dygraphs::dySeries(col, axis = "y2")
   }
 
   g <- g |>
-    dygraphs::dySeries("msPAF", axis = "y2", color = "black", fillGraph = FALSE)
+    dygraphs::dySeries("msPAF", axis = "y", color = "black", fillGraph = FALSE)
 
   g
 }
