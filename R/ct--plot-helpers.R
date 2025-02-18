@@ -1,6 +1,7 @@
 ct_plot_time_series <- function(ct_output_df,
                                 variable = c("mass", "density"),
-                                chemicals = NULL
+                                chemicals = NULL,
+                                dygraph_group = NULL
                                 )
 {
   if (!is.null(chemicals)) {
@@ -9,12 +10,14 @@ ct_plot_time_series <- function(ct_output_df,
     }
 
   switch(match.arg(variable),
-         mass = ct_plot_time_series_mass(ct_output_df),
-         density = ct_plot_time_series_density(ct_output_df)
+         mass = ct_plot_time_series_mass(ct_output_df,
+                                         dygraph_group = dygraph_group),
+         density = ct_plot_time_series_density(ct_output_df,
+                                               dygraph_group = dygraph_group)
          )
 }
 
-ct_plot_time_series_mass <- function(ct_output_df, chemical = NULL)
+ct_plot_time_series_mass <- function(ct_output_df, dygraph_group)
 {
 
   plot_df <- ct_output_df |>
@@ -26,7 +29,9 @@ ct_plot_time_series_mass <- function(ct_output_df, chemical = NULL)
     ) |>
     xts::as.xts()
 
-  p <- dygraphs::dygraph(plot_df, main = "Chemical Masses in Compartments")
+  p <- dygraphs::dygraph(plot_df,
+                         main = "Chemical Masses in Compartments",
+                         group = dygraph_group)
 
   chemicals <- unique(ct_output_df$chemical)
   cols <- c(paste("mw", chemicals, sep = "."),
@@ -42,14 +47,15 @@ ct_plot_time_series_mass <- function(ct_output_df, chemical = NULL)
     p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
   p <- p |>
-    dygraphs::dyAxis("y", label = "Mass [Kg]") |>
+    dygraphs::dyAxis("y", label = "Mass [Kg]", axisLabelWidth = 60) |>
+    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
   return(p)
 }
 
-ct_plot_time_series_density <- function(ct_output_df)
+ct_plot_time_series_density <- function(ct_output_df, dygraph_group)
 {
   chemicals <- unique(ct_output_df$chemical)
 
@@ -62,7 +68,9 @@ ct_plot_time_series_density <- function(ct_output_df)
     ) |>
     xts::as.xts()
 
-  p <- dygraphs::dygraph(plot_df, main = "Chemical Densities in Compartments")
+  p <- dygraphs::dygraph(plot_df,
+                         main = "Chemical Densities in Compartments",
+                         group = dygraph_group)
 
   cols <- c(paste("cs", chemicals, sep = "."),
             paste("cw", chemicals, sep = "."),
@@ -77,7 +85,9 @@ ct_plot_time_series_density <- function(ct_output_df)
     p <- dygraphs::dySeries(p, cols[[i]], cols[[i]], colors[[i]])
 
   p <- p |>
-    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]") |>
+    dygraphs::dyAxis("y", label = "Density [Kg / m\u{00B3}]",
+                     axisLabelWidth = 80) |>
+    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 

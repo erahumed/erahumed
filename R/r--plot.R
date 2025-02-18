@@ -1,4 +1,7 @@
-plot_risk <- function(r_output, type = c("chronic", "acute")) {
+plot_risk <- function(r_output,
+                      type = c("chronic", "acute"),
+                      dygraph_group = NULL)
+{
   type <- match.arg(type)
 
   var <- switch(type,
@@ -36,16 +39,18 @@ plot_risk <- function(r_output, type = c("chronic", "acute")) {
   cols <- names(ts_data)
   cols_without_total <- setdiff(cols, "msPAF")
 
-  ts_data <- xts::xts(r_output[-1], order.by = r_output$date)
+  max_y <- max(ts_data$msPAF, na.rm = TRUE)
 
-  g <- dygraphs::dygraph(ts_data) |>
-    dygraphs::dySeries(axis = "y2") |>
+  g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
     dygraphs::dyAxis("y2",
                      label = "Toxicity Contribution [-log(1-PAF\u{1D62})]",
-                     independentTicks = FALSE) |>
+                     axisLabelWidth = 80,
+                     valueRange =  c(0, max_y),
+                     independentTicks = FALSE
+                     ) |>
     dygraphs::dyAxis("y",
-                     label = "msPAF",
+                     label = "Total risk [msPAF]",
                      axisLabelFormatter = "
                        function(value, granularity, opts, dygraph) {
                          return (100*(1 - Math.exp(-value))).toFixed(1) + '%';
@@ -55,8 +60,10 @@ plot_risk <- function(r_output, type = c("chronic", "acute")) {
                        function(value) {
                          return (100*(1 - Math.exp(-value))).toFixed(1) + '% species';
                        }
-                     "
+                     ",
+                     valueRange = c(0, max_y)
                      ) |>
+    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
@@ -64,8 +71,8 @@ plot_risk <- function(r_output, type = c("chronic", "acute")) {
     g <- g |> dygraphs::dySeries(col, axis = "y2")
   }
 
-  # Map "Total" to y (transformed)
-  g <- g |> dygraphs::dySeries("msPAF", axis = "y", color = "black", fillGraph = FALSE)
+  g <- g |>
+    dygraphs::dySeries("msPAF", axis = "y", color = "black", fillGraph = FALSE)
 
   g
 }

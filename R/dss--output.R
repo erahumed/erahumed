@@ -11,21 +11,34 @@ dss_output_ui <- function(id) {
                        selected = info_clusters()$cluster_id[[1]]
                        ),
     bslib::layout_column_wrap(
-      card(card_header("Hydrology"), full_screen = TRUE,
+      card(card_header("Hydrology", class = "bg-dark"), full_screen = TRUE,
         dygraphs::dygraphOutput(ns("hbl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("hbd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ca_plot")) |> withSpinner(),
         ),
-      card(card_header("Exposure"), full_screen = TRUE,
+      card(card_header("Exposure", class = "bg-dark"), full_screen = TRUE,
         shiny::uiOutput(ns("select_chemical")),
+        shinyWidgets::prettyRadioButtons(
+          inputId = ns("exposure_plot_type"),
+          label = "Plot variable",
+          choices = list(Mass = "mass", Density = "density"),
+          selected = "density",
+          inline = TRUE,
+          status = "danger",
+          fill = TRUE
+          ),
         dygraphs::dygraphOutput(ns("ctl_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
         dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
         ),
-      card(card_header("Risk"), full_screen = TRUE,
-       dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
-       dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
-       dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
+      card(card_header("Risk", class = "bg-dark"), full_screen = TRUE,
+        shiny::selectInput(inputId = ns("risk_type"),
+                           label = "Risk type",
+                           choices = list(Chronic = "chronic", Acute = "acute"),
+                           selected = "chronic"),
+        dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
+        dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
+        dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
        )
     )
   )
@@ -47,44 +60,69 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     output$select_chemical <- shiny::renderUI({
       chemicals <- get_layer_output(simulation(), "ctl")$chemical |> unique()
-      shiny::selectInput(ns("chemical"),
-                         label = "Select chemicals",
-                         choices = chemicals,
-                         multiple = TRUE
-                         )
+
+      shinyWidgets::checkboxGroupButtons(
+        inputId = ns("chemical"),
+        label = "Chemicals",
+        choices = chemicals,
+        selected = c("Penoxulam", "Difeno"),
+        individual = TRUE,
+        checkIcon = list(yes = icon("ok", lib = "glyphicon"))
+      )
+
     })
 
 
     output$hbl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "hbl"))
+      plot(get_layer(simulation(), "hbl"),
+           dygraph_group = "dss")
       )
     output$hbd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "hbd"), ditch = ditch())
+      plot(get_layer(simulation(), "hbd"),
+           ditch = ditch(),
+           dygraph_group = "dss")
       )
     output$ca_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ca"), cluster_id = input$selected_cluster_id)
+      plot(get_layer(simulation(), "ca"),
+           cluster_id = input$selected_cluster_id,
+           dygraph_group = "dss")
       )
     output$ctc_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctc"),
            cluster_id = input$selected_cluster_id,
-           chemical = input$chemical)
+           variable = input$exposure_plot_type,
+           chemical = input$chemical,
+           dygraph_group = "dss")
     )
     output$ctd_plot <- dygraphs::renderDygraph(
       plot(get_layer(simulation(), "ctd"),
            ditch = ditch(),
-           chemical = input$chemical)
+           variable = input$exposure_plot_type,
+           chemical = input$chemical,
+           dygraph_group = "dss")
     )
     output$ctl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctl"), chemical = input$chemical)
+      plot(get_layer(simulation(), "ctl"),
+           variable = input$exposure_plot_type,
+           chemical = input$chemical,
+           dygraph_group = "dss")
     )
     output$rc_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rc"), cluster_id = input$selected_cluster_id)
+      plot(get_layer(simulation(), "rc"),
+           cluster_id = input$selected_cluster_id,
+           type = input$risk_type,
+           dygraph_group = "dss")
     )
     output$rd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rd"), ditch = ditch())
+      plot(get_layer(simulation(), "rd"),
+           ditch = ditch(),
+           type = input$risk_type,
+           dygraph_group = "dss")
       )
     output$rl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rl"))
+      plot(get_layer(simulation(), "rl"),
+           type = input$risk_type,
+           dygraph_group = "dss")
     )
   })
 }

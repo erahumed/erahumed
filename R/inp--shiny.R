@@ -19,11 +19,11 @@ inp_input_ui <- function(id) {
                         value = eval(formals(setup_hydrology)$seed),
                         step = 1),
 
-    shiny::dateRangeInput(inputId = ns("date_range"),
-                          label = shiny::p("Date Range", date_range_tooltip),
-
-                          start = as.Date("2020-01-01"),
-                          end = as.Date("2020-12-31")),
+    shinyWidgets::airDatepickerInput(inputId = ns("date_range"),
+                                     range = TRUE,
+                                     label = shiny::p("Date Range", date_range_tooltip),
+                                     value = c(as.Date("2020-01-01"), as.Date("2020-12-31"))
+                                     ),
 
     shiny::div(
       shiny::p(shiny::strong("Rice variety proportions"), tltp("variety_prop")),

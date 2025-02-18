@@ -30,6 +30,7 @@ plot.erahumed_ctc <- function(
     type = c("cluster_view", "max_boxplot"),
     variable = c("mass", "density"),
     chemicals = NULL,
+    dygraph_group = NULL,
     ...
     )
 {
@@ -37,12 +38,13 @@ plot.erahumed_ctc <- function(
          cluster_view = plot_ctc_cluster_view(x,
                                               variable = match.arg(variable),
                                               chemicals = chemicals,
+                                              dygraph_group = dygraph_group,
                                               ...),
          max_boxplot = plot_ctc_max_boxplot(x, ...)
          )
 }
 
-plot_ctc_cluster_view <- function(x, variable, chemicals, ...) {
+plot_ctc_cluster_view <- function(x, variable, chemicals, dygraph_group, ...) {
   ct_output_df <- get_layer_output(x)
 
   args <- list(...)
@@ -58,7 +60,10 @@ plot_ctc_cluster_view <- function(x, variable, chemicals, ...) {
   ct_output_df <- ct_output_df |>
     (\(.) .[.$element_id == cluster_id, ])()
 
-  ct_plot_time_series(ct_output_df = ct_output_df, variable = variable, chemicals = chemicals)
+  ct_plot_time_series(ct_output_df = ct_output_df,
+                      variable = variable,
+                      chemicals = chemicals,
+                      dygraph_group = dygraph_group)
 }
 
 plot_ctc_max_boxplot <- function(x, ...) {
