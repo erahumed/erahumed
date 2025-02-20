@@ -16,8 +16,11 @@ dss_output_ui <- function(id) {
       ),
 
     bslib::layout_column_wrap(
-      card(card_header("Hydrology", class = "bg-dark"), full_screen = TRUE,
-        dygraphs::dygraphOutput(ns("hb_plot")) |> withSpinner()
+      bslib::navset_card_tab(
+        title = "Hydrology",
+        full_screen = TRUE,
+        bslib::nav_panel("Storage", dygraphs::dygraphOutput(ns("hb_plot_storage")) |> withSpinner()),
+        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows")) |> withSpinner()),
         ),
       card(card_header("Exposure", class = "bg-dark"), full_screen = TRUE,
         shiny::uiOutput(ns("select_chemical")),
@@ -67,13 +70,20 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     })
 
-    output$hb_plot <- dygraphs::renderDygraph({
-      layer <- paste0("hb", element_type())
-      layer_obj <- get_layer(simulation(), layer)
-      plot(layer_obj,
-           cluster_id = input$water_body,
-           ditch = input$water_body,
-           dygraph_group = "dss")
+    output$hb_plot_storage <- dygraphs::renderDygraph({
+      simulation() |>
+        get_layer(paste0("hb", element_type())) |>
+        plot(element_id = input$water_body,
+             type = "storage",
+             dygraph_group = "dss")
+    })
+
+    output$hb_plot_flows <- dygraphs::renderDygraph({
+      simulation() |>
+        get_layer(paste0("hb", element_type())) |>
+        plot(element_id = input$water_body,
+             type = "flows",
+             dygraph_group = "dss")
     })
 
     output$ct_plot <- dygraphs::renderDygraph({

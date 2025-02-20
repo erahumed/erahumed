@@ -1,103 +1,53 @@
-#' Plot hbl simulation layer output
-#'
-#' @description
-#' Plot method for \link{hbl} simulation layers.
-#'
-#' @param x An object of class `hbl`.
-#' @param variable The variable to be plotted. Can be any numeric column of
-#' `get_layer_output(x)`.
-#' @param ... Not used.
-#'
-#' @return A \link[dygraphs]{dygraph} plot.
-#'
 #' @noRd
 plot.erahumed_hbl <- function(x,
-                              variable = "inflow_total",
+                              type = c("storage", "flows"),
                               dygraph_group = NULL,
                               ...)
 {
+  type <- match.arg(type)
+
+  switch(type,
+         storage = plot_erahumed_hbl_storage(x, dygraph_group = dygraph_group),
+         flows = plot_erahumed_hbl_flows(x, dygraph_group = dygraph_group)
+         )
+}
+
+plot_erahumed_hbl_storage <- function(x, dygraph_group) {
   df <- get_layer_output(x)
 
-  plot_hbl_argcheck(df, variable, dygraph_group = dygraph_group, ...)
+  main <- "Time Series of water storage"
 
-  var_lab <- hbl_var_labs()[variable] |> unname()
-
-  is_imputed <- df[[hbl_is_imputed_var(variable)]]
-
-  df_obs <- df_imp <- df[, ]
-  df_obs[[variable]][is_imputed] <- NA
-  df_imp[[variable]][!is_imputed] <- NA
-
-  time_series_obs <- xts::xts(df_obs[[variable]], order.by = df_obs$date)
-  time_series_imp <- xts::xts(df_imp[[variable]], order.by = df_imp$date)
-  combined_ts <- cbind(Observed = time_series_obs, Imputed = time_series_imp)
-
-  dygraphs::dygraph(
-    combined_ts, main = paste("Time Series of", var_lab), group = dygraph_group
-    ) |>
-    dygraphs::dySeries("Observed", color = "blue", strokePattern = "solid") |>
-    dygraphs::dySeries("Imputed", color = "red", strokePattern = "dashed") |>
+  df[, c("date", "volume")] |>
+    dygraphs::dygraph(main = main, group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
-    dygraphs::dyAxis("y", label = var_lab, axisLabelWidth = 80) |>
+    dygraphs::dyAxis("y", label = "Volume [m\u{00B3}]", axisLabelWidth = 80) |>
     dygraphs::dyLegend(show = "always") |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 }
 
-plot_hbl_argcheck <- function(x, variable, dygraph_group, ...) {
+plot_erahumed_hbl_flows <- function(x, dygraph_group) {
+  df <- get_layer_output(x)
 
-  tryCatch(
-    {
-      assert_string(variable)
-      if (!variable %in% colnames(x)) {
-        stop(paste(variable, "is not a column of", deparse(substitute(x))))
-      }
+  df$outflow_m3 <- -df$outflow_total * s_per_day()
+  df$inflow_m3 <- df$inflow_total * s_per_day()
+  df$petp_m3 <- df$volume_change_petp
 
-      for (name in names(list(...))) {
-        warning(paste0("Argument '", name, "' not used."))
-      }
+  ymin <- 1.25 * min(c(df$outflow_m3, df$petp_m3))
+  ymax <- 1.25 * max(c(df$inflow_m3, df$petp_m3))
 
-      if (!is.null(dygraph_group))
-        assert_string(dygraph_group)
+  main <- "Time Series of water flows"
 
-    },
-    error = function(cnd) {
-      class(cnd) <- c("plot.hbl_error", class(cnd))
-      stop(cnd)
-    },
-    warning = function(cnd) {
-      class(cnd) <- c("plot.hbl_warning", class(cnd))
-      warning(cnd)
-    })
-
-}
-
-hbl_var_labs <- function(invert = FALSE) {
-  res <- c(
-    level = "Lake Level [m]",
-    volume = "Lake Volume [m\u{00B3}]",
-    outflow_total = "Total Outflow [m\u{00B3} / s]",
-    outflow_pujol = "Pujol Outflow [m\u{00B3} / s]",
-    outflow_perellonet = "Perellonet Outflow [m\u{00B3} / s]",
-    outflow_perello = "Perello Outflow [m\u{00B3} / s]",
-    outflow_recirculation = "Water Recirculation Outflow [m\u{00B3} / s]",
-    inflow_total = "Total Inflow [m\u{00B3} / s]",
-    residence_time_days = "Residence Time [Days]"
-  )
-
-  if (!invert)
-    return(res)
-
-  res_inv <- names(res)
-  names(res_inv) <- res
-
-  return(res_inv)
-}
-
-hbl_is_imputed_var <- function(variable) {
-  imp_var <- if (variable %in% c("level", "volume")) {
-    "is_imputed_level"
-  } else {
-    "is_imputed_outflow"
-  }
+  df |>
+    (\(.) .[, c("date", "outflow_m3", "inflow_m3", "petp_m3")])() |>
+    (\(.) xts::xts(., order.by = .$date))() |>
+    dygraphs::dygraph(main = main, group = dygraph_group) |>
+    dygraphs::dyBarChart() |>
+    dygraphs::dyAxis("x", label = "Date") |>
+    dygraphs::dyAxis("y", label = "Volume [m\u{00B3}]", axisLabelWidth = 80,
+                     valueRange = c(ymin, ymax)
+                     ) |>
+    dygraphs::dyLegend(show = "always") |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom()
 }
