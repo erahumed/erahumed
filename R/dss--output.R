@@ -29,14 +29,15 @@ dss_output_ui <- function(id) {
         bslib::nav_panel("Water", dygraphs::dygraphOutput(ns("ct_plot_water")) |> withSpinner()),
         bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment")) |> withSpinner()),
       ),
-
-      card(card_header("Risk", class = "bg-dark"), full_screen = TRUE,
-        shiny::selectInput(inputId = ns("risk_type"),
-                           label = "Risk type",
-                           choices = list(Chronic = "chronic", Acute = "acute"),
-                           selected = "chronic"),
-        dygraphs::dygraphOutput(ns("r_plot")) |> withSpinner()
-       )
+      bslib::navset_card_tab(
+        title = "Risk",
+        full_screen = TRUE,
+        header = shiny::selectInput(inputId = ns("risk_type"),
+                                    label = "Risk type",
+                                    choices = list(Chronic = "chronic", Acute = "acute"),
+                                    selected = "chronic"),
+        bslib::nav_panel("Species Sensitivity", dygraphs::dygraphOutput(ns("r_plot")) |> withSpinner()),
+      )
     )
   )
 }
@@ -103,8 +104,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       layer <- paste0("r", element_type())
       layer_obj <- get_layer(simulation(), layer)
       plot(layer_obj,
-           cluster_id = input$water_body,
-           ditch = input$water_body,
+           element_id = input$water_body,
            type = input$risk_type,
            dygraph_group = "dss")
     })
