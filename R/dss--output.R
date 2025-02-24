@@ -19,6 +19,13 @@ dss_output_ui <- function(id) {
       bslib::navset_card_tab(
         title = "Hydrology",
         full_screen = TRUE,
+        header = shiny::tagList(
+          shinyWidgets::radioGroupButtons(ns("hb_variable"),
+                                          label = "Variable",
+                                          choices = list(Volume = "volume",
+                                                         Depth = "depth")
+                                          )
+          ),
         bslib::nav_panel("Storage", dygraphs::dygraphOutput(ns("hb_plot_storage")) |> withSpinner()),
         bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows")) |> withSpinner()),
         ),
@@ -71,6 +78,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
         get_layer(paste0("hb", element_type())) |>
         plot(element_id = input$water_body,
              type = "storage",
+             variable = input$hb_variable,
              dygraph_group = "dss")
     })
 
@@ -79,6 +87,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
         get_layer(paste0("hb", element_type())) |>
         plot(element_id = input$water_body,
              type = "flows",
+             variable = input$hb_variable,
              dygraph_group = "dss")
     })
 
