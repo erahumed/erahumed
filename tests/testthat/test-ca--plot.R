@@ -1,4 +1,5 @@
 test_that("plot.erahumed_ca does not produce an error with valid inputs", {
+  skip("plot.erahumed_ca() no longer used")
   ca_obj <- get_layer(test_sim_small(), "ca")
   cluster_id <- get_layer_output(ca_obj)$cluster_id[1]
 
@@ -6,6 +7,7 @@ test_that("plot.erahumed_ca does not produce an error with valid inputs", {
 })
 
 test_that("plot.ca snapshot is constant", {
+  skip("plot.erahumed_ca() no longer used")
   skip_on_ci()
 
   ca_obj <- get_layer(test_sim_small(), "ca")
