@@ -17,36 +17,47 @@ dss_output_ui <- function(id) {
 
     bslib::layout_column_wrap(
       bslib::navset_card_tab(
-        title = "Hydrology",
-        full_screen = TRUE,
-        header = shiny::tagList(
-          shinyWidgets::radioGroupButtons(ns("hb_variable"),
-                                          label = "Variable",
-                                          choices = list(Depth = "depth",
-                                                         Volume = "volume"
-                                                         ),
-                                          selected = "depth"
-                                          )
+        title = shiny::div(
+          "Hydrology",
+          bslib::popover(
+            shiny_icon("gear"),
+            shinyWidgets::radioGroupButtons(ns("hb_variable"),
+                                            label = "Variable",
+                                            choices = list(Depth = "depth",
+                                                           Volume = "volume"),
+                                            selected = "depth")
+            )
           ),
+        full_screen = TRUE,
         bslib::nav_panel("Storage", dygraphs::dygraphOutput(ns("hb_plot_storage")) |> withSpinner()),
-        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows")) |> withSpinner()),
+        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows")) |> withSpinner())
         ),
       bslib::navset_card_tab(
-        title = "Exposure",
+        title = shiny::div(
+          "Exposure",
+          bslib::popover(
+            shiny_icon("gear"),
+            shiny::uiOutput(ns("select_chemical"))
+            )
+          ),
         full_screen = TRUE,
-        header = shiny::uiOutput(ns("select_chemical")),
         bslib::nav_panel("Water", dygraphs::dygraphOutput(ns("ct_plot_water")) |> withSpinner()),
-        bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment")) |> withSpinner()),
-      ),
+        bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment")) |> withSpinner())
+        ),
       bslib::navset_card_tab(
-        title = "Risk",
+        title = shiny::div(
+          "Risk",
+          bslib::popover(
+            shiny_icon("gear"),
+            shinyWidgets::radioGroupButtons(
+              inputId = ns("risk_type"),
+              label = "Risk type",
+              choices = list(Chronic = "chronic", Acute = "acute"),
+              selected = "chronic")
+            )
+          ),
         full_screen = TRUE,
-        header = shinyWidgets::radioGroupButtons(
-          inputId = ns("risk_type"),
-          label = "Risk type",
-          choices = list(Chronic = "chronic", Acute = "acute"),
-          selected = "chronic"),
-        bslib::nav_panel("Species Sensitivity", dygraphs::dygraphOutput(ns("r_plot")) |> withSpinner()),
+        bslib::nav_panel("Species Sensitivity", dygraphs::dygraphOutput(ns("r_plot")) |> withSpinner())
       )
     )
   )
