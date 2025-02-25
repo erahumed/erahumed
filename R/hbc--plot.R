@@ -2,12 +2,14 @@
 plot.erahumed_hbc <- function(x,
                               element_id = NULL,
                               type = c("storage", "flows"),
+                              variable = c("depth", "volume"),
                               dygraph_group = NULL,
                               ...
                               )
 {
+  variable <- match.arg(variable)
+
   data <- get_layer_output(x)
-  data$volume_m3 <- (data$height_eod_cm / 100) * data$area_m2
   data$outflow_m3 <- -data$outflow_m3_s * s_per_day()
   data$inflow_m3 <- data$inflow_m3_s * s_per_day()
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
@@ -26,41 +28,58 @@ plot.erahumed_hbc <- function(x,
   switch(match.arg(type),
          storage = plot_erahumed_hbc_storage(data,
                                              element_id = element_id,
+                                             variable = variable,
                                              dygraph_group = dygraph_group),
          flows = plot_erahumed_hbc_flows(data,
                                          element_id = element_id,
+                                         variable = variable,
                                          dygraph_group = dygraph_group)
   )
 }
 
-plot_erahumed_hbc_storage <- function(data, element_id, dygraph_group) {
+plot_erahumed_hbc_storage <- function(data, element_id, variable, dygraph_group)
+{
+  data$volume_m3 <- (data$height_eod_cm / 100) * data$area_m2
+  data$depth_cm <- data$height_eod_cm
 
-  data[, c("date", "volume_m3")] |>
+  y_var <- switch(variable, volume = "volume_m3", depth = "depth_cm")
+  y_lab <- switch(variable, volume = "Volume [m\u{00B3}]", depth = "Depth [cm]")
+
+  data[, c("date", y_var)] |>
     dygraphs::dygraph(main = paste("Water storage of cluster", element_id),
-                      group = dygraph_group
-    ) |>
-    dygraphs::dySeries(name = "volume_m3",
-                       label = "Volume [m\u{00B3}]",
-                       axis = "y") |>
+                      group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
-    dygraphs::dyAxis("y", label = "Volume [m\u{00B3}]", axisLabelWidth = 80) |>
+    dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80) |>
     dygraphs::dyLegend(show = "always") |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
+
 }
 
-plot_erahumed_hbc_flows <- function(data, element_id, dygraph_group) {
-  ymin <- 1.25 * min(c(data$outflow_m3, data$petp_m3))
-  ymax <- 1.25 * max(c(data$inflow_m3, data$petp_m3))
+plot_erahumed_hbc_flows <- function(data, element_id, variable, dygraph_group)
+{
+  data$outflow_m3 <- -data$outflow_m3_s * s_per_day()
+  data$outflow_cm <- -data$outflow_cm
+  data$inflow_m3 <- data$inflow_m3_s * s_per_day()
+  data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
+
+  y_vars <- switch(variable,
+                   volume = c("outflow_m3", "inflow_m3"),
+                   depth = c("outflow_cm", "inflow_cm"))
+  y_lab <- switch(variable, depth = "Depth [cm]", volume = "Volume [m\u{00B3}]")
+
+  ymin <- 1.25 * min(c(data[[ y_vars[1] ]], data[[ y_vars[3] ]]))
+  ymax <- 1.25 * max(c(data[[ y_vars[2] ]], data[[ y_vars[3] ]]))
+
+  main <- "Time Series of water flows"
 
   data |>
-    (\(.) .[, c("date", "outflow_m3", "inflow_m3", "petp_m3")])() |>
+    (\(.) .[, c("date", y_vars)])() |>
     (\(.) xts::xts(., order.by = .$date))() |>
-    dygraphs::dygraph(main = paste("Water flows of cluster", element_id),
-                      group = dygraph_group) |>
+    dygraphs::dygraph(main = main, group = dygraph_group) |>
     dygraphs::dyBarChart() |>
     dygraphs::dyAxis("x", label = "Date") |>
-    dygraphs::dyAxis("y", label = "Volume [m\u{00B3}]", axisLabelWidth = 80,
+    dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80,
                      valueRange = c(ymin, ymax)
     ) |>
     dygraphs::dyLegend(show = "always") |>
