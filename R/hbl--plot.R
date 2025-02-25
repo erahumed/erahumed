@@ -22,10 +22,9 @@ plot_erahumed_hbl_storage <- function(x, variable, dygraph_group) {
 
   df_var <- switch(variable, depth = "level_cm", volume = "volume_m3")
   y_lab <- switch(variable, depth = "Depth [cm]", volume = "Volume [m\u{00B3}]")
-  main <- "Time Series of water storage"
 
   df[, c("date", df_var)] |>
-    dygraphs::dygraph(main = main, group = dygraph_group) |>
+    dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80) |>
     dygraphs::dyLegend(show = "always") |>
@@ -53,12 +52,10 @@ plot_erahumed_hbl_flows <- function(x, variable, dygraph_group) {
   ymin <- 1.25 * min(c(df[[ y_vars[1] ]], df[[ y_vars[3] ]]))
   ymax <- 1.25 * max(c(df[[ y_vars[2] ]], df[[ y_vars[3] ]]))
 
-  main <- "Time Series of water flows"
-
   df |>
     (\(.) .[, c("date", y_vars)])() |>
     (\(.) xts::xts(., order.by = .$date))() |>
-    dygraphs::dygraph(main = main, group = dygraph_group) |>
+    dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyBarChart() |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80,

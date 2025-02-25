@@ -46,8 +46,7 @@ plot_erahumed_hbc_storage <- function(data, element_id, variable, dygraph_group)
   y_lab <- switch(variable, volume = "Volume [m\u{00B3}]", depth = "Depth [cm]")
 
   data[, c("date", y_var)] |>
-    dygraphs::dygraph(main = paste("Water storage of cluster", element_id),
-                      group = dygraph_group) |>
+    dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80) |>
     dygraphs::dyLegend(show = "always") |>
@@ -71,12 +70,10 @@ plot_erahumed_hbc_flows <- function(data, element_id, variable, dygraph_group)
   ymin <- 1.25 * min(c(data[[ y_vars[1] ]], data[[ y_vars[3] ]]))
   ymax <- 1.25 * max(c(data[[ y_vars[2] ]], data[[ y_vars[3] ]]))
 
-  main <- "Time Series of water flows"
-
   data |>
     (\(.) .[, c("date", y_vars)])() |>
     (\(.) xts::xts(., order.by = .$date))() |>
-    dygraphs::dygraph(main = main, group = dygraph_group) |>
+    dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyBarChart() |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80,
