@@ -37,10 +37,13 @@ plot_risk <- function(r_output,
   g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
     dygraphs::dyAxis("y", label = "msPAF [fraction of species]", axisLabelWidth = 80) |>
-    dygraphs::dyAxis("y2", drawGrid = FALSE) |>  # Hide ticks and label for y2
+    dygraphs::dyAxis("y2") |>
     dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
+    dygraphs::dyUnzoom() |>
+    dygraphs::dyCSS(textConnection(
+      ".dygraph-axis-label-y2 { display: none; }"
+      )) # Hide ticks and label for y2
 
   # Add each individual series as part of the stacked graph
   for (col in cols_without_total) {
