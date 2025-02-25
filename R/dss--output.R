@@ -41,10 +41,11 @@ dss_output_ui <- function(id) {
       bslib::navset_card_tab(
         title = "Risk",
         full_screen = TRUE,
-        header = shiny::selectInput(inputId = ns("risk_type"),
-                                    label = "Risk type",
-                                    choices = list(Chronic = "chronic", Acute = "acute"),
-                                    selected = "chronic"),
+        header = shinyWidgets::radioGroupButtons(
+          inputId = ns("risk_type"),
+          label = "Risk type",
+          choices = list(Chronic = "chronic", Acute = "acute"),
+          selected = "chronic"),
         bslib::nav_panel("Species Sensitivity", dygraphs::dygraphOutput(ns("r_plot")) |> withSpinner()),
       )
     )
