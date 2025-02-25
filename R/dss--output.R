@@ -82,7 +82,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
         choices = chemicals,
         selected = c("Penoxulam", "Difeno"),
         individual = TRUE,
-        checkIcon = list(yes = icon("ok", lib = "glyphicon"))
+        checkIcon = list(yes = icon("ok", lib = "glyphicon")),
+        size = "sm"
       )
 
     })
