@@ -37,6 +37,8 @@ risk_from_ssds <- function(ct_output) {
            ),
          by = "tmoa"
       ][,
+        let(a = data.table::fifelse(is.na(cw), 0, cw))
+      ][,
         let(
           HU_acute = 1e6 * cw / median_acute,
           HU_chronic = 1e6 * rolling_average(cw, 21) / median_chronic
