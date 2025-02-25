@@ -22,8 +22,10 @@ dss_output_ui <- function(id) {
         header = shiny::tagList(
           shinyWidgets::radioGroupButtons(ns("hb_variable"),
                                           label = "Variable",
-                                          choices = list(Volume = "volume",
-                                                         Depth = "depth")
+                                          choices = list(Depth = "depth",
+                                                         Volume = "volume"
+                                                         ),
+                                          selected = "depth"
                                           )
           ),
         bslib::nav_panel("Storage", dygraphs::dygraphOutput(ns("hb_plot_storage")) |> withSpinner()),
