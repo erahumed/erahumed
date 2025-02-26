@@ -40,6 +40,7 @@ plot_risk <- function(r_output,
 
   g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
+    dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
                      label = "msPAF [% of species]",
                      axisLabelWidth = 80,
