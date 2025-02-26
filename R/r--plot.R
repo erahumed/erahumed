@@ -34,11 +34,22 @@ plot_risk <- function(r_output,
   # Extract column names without "msPAF"
   cols_without_total <- setdiff(colnames(ts_data), "msPAF")
 
+  value_fmt <- "function(d) {return (100*d).toFixed(2) + ' %';}" |>
+    htmlwidgets::JS()
+  axis_fmt <- value_fmt
+
   g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
-    dygraphs::dyAxis("y", label = "msPAF [fraction of species]", axisLabelWidth = 80) |>
-    dygraphs::dyAxis("y2") |>
-    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
+    dygraphs::dyAxis("y",
+                     label = "msPAF [% of species]",
+                     axisLabelWidth = 80,
+                     axisLabelFormatter = axis_fmt,
+                     valueFormatter = value_fmt
+                     ) |>
+    dygraphs::dyAxis("y2", valueFormatter = value_fmt) |>
+    dygraphs::dyLegend(show = "always",
+                       showZeroValues = FALSE,
+                       labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
     dygraphs::dyCSS(textConnection(
