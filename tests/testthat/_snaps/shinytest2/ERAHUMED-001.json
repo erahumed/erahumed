@@ -62,23 +62,25 @@
               "pixelsPerLabel": 60
             },
             "y": {
-              "axisLabelWidth": 80
+              "axisLabelWidth": 80,
+              "valueFormatter": "function(d) { return d.toPrecision(3) + ' μg / L'; }"
             }
           },
           "labels": [
             "day",
-            "density_ug_L.Acetamiprid",
-            "density_ug_L.Benta",
-            "density_ug_L.MCPA",
-            "density_ug_L.Penoxulam",
-            "density_ug_L.Cyhalo",
-            "density_ug_L.Cicloxidim",
-            "density_ug_L.Azoxy",
-            "density_ug_L.Difeno"
+            "Acetamiprid",
+            "Bentazone",
+            "MCPA",
+            "Penoxsulam",
+            "Cyhalofop-butyl",
+            "Cycloxydim",
+            "Azoxystrobin",
+            "Difenoconazole"
           ],
           "retainDateWindow": false,
+          "xlabel": "Date",
           "ylabel": "Density [μg / L]",
-          "legend": "auto",
+          "legend": "always",
           "labelsDivWidth": 250,
           "labelsShowZeroValues": false,
           "labelsSeparateLines": true,
@@ -3411,6 +3413,7 @@
         }
       },
       "evals": [
+        "attrs.axes.y.valueFormatter",
         "attrs.interactionModel",
         "plugins.Unzoom"
       ],
@@ -3442,13 +3445,13 @@
               "pixelsPerLabel": 60
             },
             "y": {
-              "axisLabelWidth": 80
+              "axisLabelWidth": 80,
+              "valueFormatter": "function(d) { return d.toPrecision(3) + ' cm'; }"
             }
           },
-          "title": "Time Series of water storage",
           "labels": [
             "day",
-            "level_cm"
+            "Depth"
           ],
           "retainDateWindow": false,
           "xlabel": "Date",
@@ -3456,13 +3459,18 @@
           "legend": "always",
           "labelsDivWidth": 250,
           "labelsShowZeroValues": true,
-          "labelsSeparateLines": false,
+          "labelsSeparateLines": true,
           "hideOverlayOnMouseOut": true,
           "showRangeSelector": true,
           "rangeSelectorHeight": 40,
           "rangeSelectorPlotFillColor": " #A7B1C4",
           "rangeSelectorPlotStrokeColor": "#808FAB",
-          "interactionModel": "Dygraph.Interaction.defaultModel"
+          "interactionModel": "Dygraph.Interaction.defaultModel",
+          "series": {
+            "Depth": {
+              "axis": "y"
+            }
+          }
         },
         "scale": "daily",
         "group": "dss",
@@ -4217,6 +4225,7 @@
         }
       },
       "evals": [
+        "attrs.axes.y.valueFormatter",
         "attrs.interactionModel",
         "plugins.Unzoom"
       ],
@@ -4250,21 +4259,23 @@
             },
             "y": {
               "drawAxis": true,
-              "axisLabelWidth": 80
+              "axisLabelWidth": 80,
+              "axisLabelFormatter": "function(d) {return (100*d).toFixed(2) + ' %';}",
+              "valueFormatter": "function(d) {return (100*d).toFixed(2) + ' %';}"
             },
             "y2": {
-              "drawGrid": false
+              "valueFormatter": "function(d) {return (100*d).toFixed(2) + ' %';}"
             }
           },
           "labels": [
             "day",
             "Acetamiprid",
-            "Azoxy",
-            "Benta",
-            "Cicloxidim",
-            "Difeno",
+            "Azoxystrobin",
+            "Bentazone",
+            "Cycloxydim",
+            "Difenoconazole",
             "MCPA",
-            "Penoxulam",
+            "Penoxsulam",
             "Total"
           ],
           "retainDateWindow": false,
@@ -4300,8 +4311,8 @@
           "animatedZooms": false,
           "mobileDisableYTouch": true,
           "disableZoom": false,
-          "ylabel": "msPAF [fraction of species]",
-          "legend": "auto",
+          "ylabel": "msPAF [% of species]",
+          "legend": "always",
           "labelsDivWidth": 250,
           "labelsShowZeroValues": false,
           "labelsSeparateLines": true,
@@ -4315,22 +4326,22 @@
             "Acetamiprid": {
               "axis": "y"
             },
-            "Azoxy": {
+            "Azoxystrobin": {
               "axis": "y"
             },
-            "Benta": {
+            "Bentazone": {
               "axis": "y"
             },
-            "Cicloxidim": {
+            "Cycloxydim": {
               "axis": "y"
             },
-            "Difeno": {
+            "Difenoconazole": {
               "axis": "y"
             },
             "MCPA": {
               "axis": "y"
             },
-            "Penoxulam": {
+            "Penoxsulam": {
               "axis": "y"
             },
             "Total": {
@@ -7671,9 +7682,13 @@
         "tzone": "UTC",
         "plugins": {
           "Unzoom": "{}"
-        }
+        },
+        "css": ".dygraph-axis-label-y2 { display: none; }"
       },
       "evals": [
+        "attrs.axes.y.axisLabelFormatter",
+        "attrs.axes.y.valueFormatter",
+        "attrs.axes.y2.valueFormatter",
         "attrs.interactionModel",
         "plugins.Unzoom"
       ],

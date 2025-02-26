@@ -6,13 +6,13 @@ test_that("Total number of applications is equal to expected", {
     dplyr::rename(rice_variety = variety) |>
     dplyr::group_by(cluster_id, rice_variety, year) |>
     dplyr::summarise(Acetamiprid = sum(Acetamiprid > 0),
-                     Benta = sum(Benta > 0),
+                     Bentazone = sum(Bentazone > 0),
                      MCPA = sum(MCPA > 0),
-                     Penoxulam = sum(Penoxulam > 0),
-                     Cyhalo = sum(Cyhalo > 0),
-                     Cicloxidim = sum(Cicloxidim > 0),
-                     Azoxy = sum(Azoxy > 0),
-                     Difeno = sum(Difeno > 0),
+                     Penoxsulam = sum(Penoxsulam > 0),
+                     `Cyhalofop-butyl` = sum(`Cyhalofop-butyl` > 0),
+                     Cycloxydim = sum(Cycloxydim > 0),
+                     Azoxystrobin = sum(Azoxystrobin > 0),
+                     Difenoconazole = sum(Difenoconazole > 0),
                      .groups = "drop"
     )
 
@@ -29,13 +29,13 @@ test_that("Total number of applications is equal to expected", {
     dplyr::anti_join(yearly_amounts_expected,
                      by = dplyr::join_by(rice_variety,
                                          Acetamiprid,
-                                         Benta,
+                                         Bentazone,
                                          MCPA,
-                                         Penoxulam,
-                                         Cyhalo,
-                                         Cicloxidim,
-                                         Azoxy,
-                                         Difeno)
+                                         Penoxsulam,
+                                         `Cyhalofop-butyl`,
+                                         Cycloxydim,
+                                         Azoxystrobin,
+                                         Difenoconazole)
     )
 
   expect_equal(nrow(res), 0)
