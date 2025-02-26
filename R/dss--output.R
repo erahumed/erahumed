@@ -29,8 +29,15 @@ dss_output_ui <- function(id) {
             )
           ),
         full_screen = TRUE,
-        bslib::nav_panel("Storage", dygraphs::dygraphOutput(ns("hb_plot_storage")) |> withSpinner()),
-        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows")) |> withSpinner())
+        bslib::nav_panel("Storage",
+                         dygraphs::dygraphOutput(ns("hb_plot_storage"),
+                                                 height = "600px"
+                                                 ) |> withSpinner()
+                         ),
+        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows"),
+                                                          height = "600px"
+                                                          ) |> withSpinner()
+                         )
         ),
       bslib::navset_card_tab(
         title = shiny::div(
@@ -41,8 +48,16 @@ dss_output_ui <- function(id) {
             )
           ),
         full_screen = TRUE,
-        bslib::nav_panel("Water", dygraphs::dygraphOutput(ns("ct_plot_water")) |> withSpinner()),
-        bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment")) |> withSpinner())
+        bslib::nav_panel(
+          "Water",
+          dygraphs::dygraphOutput(ns("ct_plot_water"), height = "600px") |>
+            withSpinner()
+                         ),
+        bslib::nav_panel(
+          "Sediment",
+          dygraphs::dygraphOutput(ns("ct_plot_sediment"), height = "600px") |>
+            withSpinner()
+          )
         ),
       bslib::navset_card_tab(
         title = shiny::div(
@@ -57,7 +72,11 @@ dss_output_ui <- function(id) {
             )
           ),
         full_screen = TRUE,
-        bslib::nav_panel("Species Sensitivity", dygraphs::dygraphOutput(ns("r_plot")) |> withSpinner())
+        bslib::nav_panel(
+          "Species Sensitivity",
+          dygraphs::dygraphOutput(ns("r_plot"), height = "600px") |>
+            withSpinner()
+          )
       )
     )
   )
