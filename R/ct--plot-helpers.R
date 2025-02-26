@@ -14,30 +14,43 @@ ct_plot_time_series_density <- function(data,
   chemicals <- unique(data$chemical)
 
   if (compartment == "water") {
-    data$density_ug_L <- data$cw * 1e6
-    data <- data[, c("date", "chemical", "density_ug_L")]
+    data$density <- data$cw * 1e6
+    data <- data[, c("date", "chemical", "density")]
+    units <- "\u{03BC}g / L"
+
   } else {
-    data$density_ug_L <- data$cs * 1e6
-    data <- data[, c("date", "chemical", "density_ug_L")]
+    data$density <- data$cs * 1e6
+    data <- data[, c("date", "chemical", "density")]
+    units <- "\u{03BC}g / L"
   }
+
+  value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
+    sprintf(units) |>
+    htmlwidgets::JS()
+
 
   plot_df <- data |>
     stats::reshape(idvar = "date",
                    timevar = "chemical",
                    direction = "wide",
-                   sep = "."
+                   sep = ""
     ) |>
-    xts::as.xts()
+    (function(df) {
+      names(df) <- gsub("density", "", names(df), fixed = TRUE)
+      return(df)
+      })()
 
-  p <- dygraphs::dygraph(plot_df, group = dygraph_group)
-
-  p <- p |>
+  dygraphs::dygraph(plot_df, group = dygraph_group) |>
+    dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
-                     label = "Density [\u{03BC}g / L]",
-                     axisLabelWidth = 80) |>
-    dygraphs::dyLegend(showZeroValues = FALSE, labelsSeparateLines = TRUE) |>
+                     label = paste0("Density [", units, "]"),
+                     axisLabelWidth = 80,
+                     valueFormatter = value_fmt
+                     ) |>
+    dygraphs::dyLegend(show = "always",
+                       showZeroValues = FALSE,
+                       labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom()
 
-  return(p)
 }
