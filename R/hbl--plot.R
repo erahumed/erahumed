@@ -18,19 +18,30 @@ plot_erahumed_hbl_storage <- function(x, variable, dygraph_group) {
   df <- get_layer_output(x)
 
   df$volume_m3 <- df$volume
-  df$level_cm <- df$level * 100
+  df$depth_cm <- df$level * 100
 
-  df_var <- switch(variable, depth = "level_cm", volume = "volume_m3")
-  y_lab <- switch(variable, depth = "Depth [cm]", volume = "Volume [m\u{00B3}]")
+  y_var <- switch(variable, depth = "depth_cm", volume = "volume_m3")
+  var_name <- switch(variable, depth = "Depth", volume = "Volume")
+  var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
+  y_lab <- paste0(var_name, " [", var_units, "]")
+  value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
+    sprintf(var_units) |>
+    htmlwidgets::JS()
 
-  df[, c("date", df_var)] |>
+  df[, c("date", y_var)] |>
     dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
-    dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80) |>
-    dygraphs::dyLegend(show = "always") |>
+    dygraphs::dyAxis("y",
+                     label = y_lab,
+                     axisLabelWidth = 80,
+                     valueFormatter = value_fmt
+                     ) |>
+    dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
+    dygraphs::dyUnzoom() |>
+    dygraphs::dySeries(y_var, label = var_name)
 }
+
 
 plot_erahumed_hbl_flows <- function(x, variable, dygraph_group) {
   df <- get_layer_output(x)
@@ -47,21 +58,31 @@ plot_erahumed_hbl_flows <- function(x, variable, dygraph_group) {
   y_vars <- switch(variable,
                    volume = c("outflow_m3", "inflow_m3", "petp_m3"),
                    depth = c("outflow_cm", "inflow_cm", "petp_cm"))
-  y_lab <- switch(variable, depth = "Depth [cm]", volume = "Volume [m\u{00B3}]")
+  var_name <- switch(variable, depth = "Depth", volume = "Volume")
+  var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
+  y_lab <- paste0(var_name, " [", var_units, "]")
+  value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
+    sprintf(var_units) |>
+    htmlwidgets::JS()
 
   ymin <- 1.25 * min(c(df[[ y_vars[1] ]], df[[ y_vars[3] ]]))
   ymax <- 1.25 * max(c(df[[ y_vars[2] ]], df[[ y_vars[3] ]]))
 
   df |>
     (\(.) .[, c("date", y_vars)])() |>
-    (\(.) xts::xts(., order.by = .$date))() |>
     dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyBarChart() |>
     dygraphs::dyAxis("x", label = "Date") |>
-    dygraphs::dyAxis("y", label = y_lab, axisLabelWidth = 80,
+    dygraphs::dyAxis("y",
+                     label = y_lab,
+                     axisLabelWidth = 80,
+                     valueFormatter = value_fmt,
                      valueRange = c(ymin, ymax)
                      ) |>
-    dygraphs::dyLegend(show = "always") |>
+    dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
+    dygraphs::dyUnzoom() |>
+    dygraphs::dySeries(y_vars[[1]], label = "Outflow") |>
+    dygraphs::dySeries(y_vars[[2]], label = "Inflow") |>
+    dygraphs::dySeries(y_vars[[3]], label = "PET")
 }
