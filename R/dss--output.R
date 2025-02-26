@@ -44,7 +44,15 @@ dss_output_ui <- function(id) {
           "Exposure",
           bslib::popover(
             shiny_icon("gear"),
-            shiny::uiOutput(ns("select_chemical"))
+            shinyWidgets::checkboxGroupButtons(
+              inputId = ns("chemical"),
+              label = "Chemicals",
+              choices = names(info_chemicals()),
+              selected = c("Penoxsulam", "Difenoconazole"),
+              individual = TRUE,
+              checkIcon = list(yes = icon("ok", lib = "glyphicon")),
+              size = "sm"
+            )
             )
           ),
         full_screen = TRUE,
@@ -90,21 +98,6 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       if(!is.na(match(input$water_body, info_clusters()$cluster_id))) "c"
       else if (!is.na(match(input$water_body, info_ditches()$ditch))) "d"
       else "l"
-    })
-
-    output$select_chemical <- shiny::renderUI({
-      chemicals <- get_layer_output(simulation(), "ctl")$chemical |> unique()
-
-      shinyWidgets::checkboxGroupButtons(
-        inputId = ns("chemical"),
-        label = "Chemicals",
-        choices = chemicals,
-        selected = c("Penoxulam", "Difeno"),
-        individual = TRUE,
-        checkIcon = list(yes = icon("ok", lib = "glyphicon")),
-        size = "sm"
-      )
-
     })
 
     output$hb_plot_storage <- dygraphs::renderDygraph({
