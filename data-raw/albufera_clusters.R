@@ -54,7 +54,7 @@ albufera_cluster_geometries <- clusters_raw |> select(cluster_id, geometry)
 albufera_clusters <- sf::st_drop_geometry(clusters_raw) |>
   transmute(
     cluster_id,
-    ditch_number = gsub("acq", "", acq_code),
+    ditch_number = as.numeric(gsub("acq", "", acq_code)),
     ditch = paste0("d", ditch_number),
     area,
     tancat = tancat == "1"

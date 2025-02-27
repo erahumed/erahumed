@@ -5,15 +5,9 @@ dss_output_ui <- function(id) {
   bslib::page_fillable(
     title = "Output",
 
-    shinyWidgets::pickerInput(
-      ns("water_body"),
-      "Water body",
-      choices = list(
-        Lake = c("Albufera Lake"),
-        Ditch = info_ditches()$ditch,
-        Cluster = info_clusters()$cluster_id
-        )
-      ),
+    shinyWidgets::pickerInput(ns("water_body"),
+                              "Water body",
+                              choices = water_body_choices()),
 
     bslib::layout_column_wrap(
       bslib::navset_card_tab(
@@ -148,3 +142,11 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
   })
 }
 
+water_body_choices <- function() {
+  ditches <- info_ditches()$ditch
+  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$ditch_name)
+  clusters <- info_clusters()$cluster_id
+  names(clusters) <- info_clusters()$cluster_name
+
+  list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters)
+}

@@ -68,7 +68,8 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL)
 
 .plot_albufera_clusters <- function(cluster_variety_map)
 {
-  clusters_df <- info_clusters(include_geometry = TRUE)
+  clusters_df <- info_clusters(include_geometry = TRUE) |>
+    merge(info_ditches(), by = "ditch")
   basins_df <- albufera_basins_geometries
 
   if (!is.null(cluster_variety_map)) {
@@ -105,9 +106,9 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL)
       color = ~color_map(variety),
       fillOpacity = 0.25,
       weight = 1,
-      popup = ~paste("Cluster ID:", cluster_id, "<br>",
-                     "Ditch:", ditch, "<br>",
-                     "Tancat:", tancat, "<br>",
+      popup = ~paste("Cluster ID:", cluster_name, "<br>",
+                     "Ditch:", ditch_name, "<br>",
+                     "Tancat:", ifelse(tancat, "Yes", "No"), "<br>",
                      "Variety:", variety, "<br>",
                      "Area:", area, "m\u{00B2}"
                      ),
