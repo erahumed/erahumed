@@ -18,6 +18,7 @@ renv::use(
   R6         = "R6@2.5.1",
   Rcpp       = "Rcpp@1.0.13",
   renv       = "renv@1.0.11",
+  readxl     = "readxl@1.4.3",
   rlang      = "rlang@1.1.4",
   s2         = "s2@1.1.7",
   sf         = "sf@1.0-18",
@@ -53,20 +54,33 @@ albufera_cluster_geometries <- clusters_raw |> select(cluster_id, geometry)
 albufera_clusters <- sf::st_drop_geometry(clusters_raw) |>
   transmute(
     cluster_id,
-    ditch = gsub("acq", "d", acq_code),
+    ditch_number = gsub("acq", "", acq_code),
+    ditch = paste0("d", ditch_number),
     area,
     tancat = tancat == "1"
-    )
+    ) |>
+  mutate(
+    cluster_number = row_number(),
+    cluster_name = paste0(ditch_number, ".", cluster_number),
+    .by = ditch
+  ) |>
+  arrange(ditch_number, cluster_number) |>
+  select(cluster_id, cluster_name, ditch, area, tancat)
 
 
 # Ditches
 ditches_raw <- sf::st_read(paste0(folder, "ditches.shp")) |>
   as_tibble() |>
-  mutate(across(geometry, remove_non_ascii))
+  mutate(across(geometry, remove_non_ascii)) |>
+  inner_join(
+    readxl::read_xlsx("data-raw/raw/ditch_names.xlsx", col_names = TRUE),
+    by = "ditch"
+  ) |>
+  arrange(id)
 
 albufera_ditches_geometries <- ditches_raw |> select(ditch, geometry)
 albufera_ditches <- sf::st_drop_geometry(ditches_raw) |>
-  select(ditch, width, length, surface)
+  select(ditch, ditch_name, width, length, surface)
 
 
 # Basins
