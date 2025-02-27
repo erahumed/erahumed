@@ -1,5 +1,66 @@
 # erahumed (development version)
 
+This version provides an important reshaping of the "Output"" section of the 
+GUI. Plot methods have been harmonized across the various hydrological elements,
+and the interface has been structured in such a way to show at any time the 
+three simulation component (Hydrology, Exposure and Risk) results for an 
+individual element (either a cluster, a ditch or the Albufera lake).
+
+Specific changes are discussed below.
+
+### Algorithm
+
+* `setup_hydrology()` no longer accepts functional inputs for former the 
+storage curve and PETP-function. Arguments `storage_curve` and `petp_function`,
+which used to require function inputs, are now replaced by 
+`storage_curve_slope_m2`, `storage_curve_intercept_m3` and `petp_surface_m2`.
+
+* In all risk calculations, pesticide densities are now regarded to be zero 
+whenever the water volume of an hydrological element is zero (concretely, this 
+only happens for rice cluster at present). The former treatment regarded them as
+`NA`. Notice that this affects, in particular, the definition of chronic risk.
+
+### Visualization
+
+* New implementations for hydrology plots, separating "flow" and "storage" 
+plots, and volume *vs.* depth plots (this latter chosen through a radio button
+in the GUI).
+
+* We start using `PAF / sum(PAF)` to provide a heuristic for relative 
+contributions of individual toxic modes of action to the total `msPAF`.
+
+* Various improvements in plot axes and legends.
+
+* Pesticide names have been corrected (NB: this change is immediately noticed 
+and mostly relevant for visualizations, but it actually also affects the 
+simulation outputs in R).
+
+* Chemical density time-series for sediment and water are now separated. No 
+plotting option is provided for foliage.
+
+* Chemical densities in sediment are now reported in `mg / g` units. 
+
+### GUI
+
+* New `'Download Results'` button (#244).
+
+* Former "cluster" picker input becomes a "water body" element picker.
+
+* Card-specific settings for the "Hydrology", "Exposure" and "Risk" cards of
+the output tab are now placed inside a popover triggered from a gear icon-like
+button (#321).
+
+* Plots were resized to a fixed `600px` size.
+
+* New (much clearer) naming scheme of clusters and ditches.
+
+### Under the hoods
+
+* The list of chemicals available for selection in the GUI is no longer 
+retrieved from simulation outputs, being now simply given by 
+`names(info_chemicals())`. The changes needed for the case of defining custom
+chemicals will be addressed elsewhere.
+
 # erahumed 0.16.1
 
 ### GUI
