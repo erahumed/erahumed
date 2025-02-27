@@ -13,7 +13,7 @@ test_that("Returned dataset has the expected number of rows", {
 test_that("The time series of chemical masses are always positive", {
   lower_thresh <- -1e-9  # -1 microgram looks fair enough
   test_df <- get_layer_output(test_sim_large(), "ctc") |>
-    dplyr::filter(mf < lower_thresh | mw < lower_thresh | ms < lower_thresh)
+    dplyr::filter(mf_kg < lower_thresh | mw_kg < lower_thresh | ms_kg < lower_thresh)
 
   expect_equal(nrow(test_df), 0)
 })
@@ -31,7 +31,7 @@ test_that("Chemical masses do not increase except if directly applied", {
       next
     actual_masses <- test_df |>
       dplyr::filter(chemical == !!chemical) |>
-      dplyr::select(mf, mw, ms) |>
+      dplyr::select(mf_kg, mw_kg, ms_kg) |>
       rowSums()
 
     no_mass_increase <- diff(actual_masses) <= m_applied[-1] + tol_kg
@@ -47,8 +47,8 @@ test_that("All compartments of all clusters have at least one >0 value", {
   test_df <- get_layer_output(test_sim_large(), "ctc") |>
     dplyr::filter(chemical %in% universal_chems) |>
     dplyr::group_by(element_id, chemical) |>
-    dplyr::summarise(mf = sum(mf), mw = sum(mw), ms = sum(ms)) |>
-    dplyr::filter(mf < tol_kg | mw < tol_kg | ms < tol_kg)
+    dplyr::summarise(mf_kg = sum(mf_kg), mw_kg = sum(mw_kg), ms_kg = sum(ms_kg)) |>
+    dplyr::filter(mf_kg < tol_kg | mw_kg < tol_kg | ms_kg < tol_kg)
 
   expect_equal(nrow(test_df), 0)
 })

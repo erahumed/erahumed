@@ -63,7 +63,7 @@ ctl_data_prep <- function(simulation)
     get_layer_output(simulation, "ctd") |>
     data.table::as.data.table() |>
     data.table::setorderv(c("date", "element_id")) |>
-    collapse::rsplit(by = cw_outflow ~ chemical + element_id,
+    collapse::rsplit(by = cw_outflow_kg_m3 ~ chemical + element_id,
                      flatten = FALSE,
                      simplify = TRUE,
                      keep.by = FALSE)

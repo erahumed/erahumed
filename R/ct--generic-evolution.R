@@ -91,12 +91,13 @@ ct_time_series <- function(application_kg,
   cs <- ms / (dact_m * area_m2)
   cw_outflow <- ifelse(outflow_m3 > volume_eps, mw_outflow / outflow_m3, NA)
 
-  return(list(mf = mf,
-              mw = mw,
-              ms = ms,
-              cw = cw,
-              cs = cs,
-              cw_outflow = cw_outflow,
+  return(list(mf_kg = mf,
+              mw_kg = mw,
+              ms_kg = ms,
+              cw_kg_m3 = cw,
+              cw_outflow_kg_m3 = cw_outflow,
+              cs_kg_m3 = cs,
+              cs_g_kg = cs / bd_g_cm3,
               volume_eod_m3 = volume_eod_m3,
               volume_sod_m3 = volume_sod_m3)
          )

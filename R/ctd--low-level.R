@@ -71,7 +71,7 @@ ctd_data_prep <- function(simulation)
     data.table::as.data.table() |>
     merge(info_clusters(), by.x = "element_id", by.y = "cluster_id") |>
     data.table::setorderv(c("date", "element_id")) |>
-    collapse::rsplit(by = cw_outflow ~ ditch + chemical + element_id,
+    collapse::rsplit(by = cw_outflow_kg_m3 ~ ditch + chemical + element_id,
                      flatten = FALSE,
                      use.names = TRUE,
                      simplify = TRUE,
