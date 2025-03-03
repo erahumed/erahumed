@@ -41,6 +41,7 @@ Imports:
     data.table,
     DT,
     dygraphs,
+    htmlwidgets,
     leaflet,
     readr,
     readxl,
@@ -57,7 +58,8 @@ Imports:
     withr,
     writexl,
     xts,
-    yaml
+    yaml,
+    zip
 Depends: 
     R (>= 4.1.0)
 LazyData: true
