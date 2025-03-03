@@ -9,7 +9,7 @@ ERAHUMED simulations."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ ERAHUMED simulations."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Setup parameters of ERAHUMED simulations</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.16.1/R/docs--setup-parameters.R" class="external-link"><code>R/docs--setup-parameters.R</code></a>, <a href="https://github.com/erahumed/erahumed/blob/v0.16.1/R/meta--exposure.R" class="external-link"><code>R/meta--exposure.R</code></a>, <a href="https://github.com/erahumed/erahumed/blob/v0.16.1/R/meta--hydrology.R" class="external-link"><code>R/meta--hydrology.R</code></a>, and 1 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/docs--setup-parameters.R" class="external-link"><code>R/docs--setup-parameters.R</code></a>, <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--exposure.R" class="external-link"><code>R/meta--exposure.R</code></a>, <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--hydrology.R" class="external-link"><code>R/meta--hydrology.R</code></a>, and 1 more</small>
       <div class="d-none name"><code>erahumed_parameters.Rd</code></div>
     </div>
 
@@ -70,8 +70,9 @@ ERAHUMED simulations.</p>
 <span>  outflows_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_outflows.html">albufera_outflows</a></span>,</span>
 <span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span>,</span>
 <span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.8</span>, Bomba <span class="op">=</span> <span class="fl">0.1</span>, Clearfield <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>  storage_curve <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">level</span><span class="op">)</span> <span class="fl">25.58</span> <span class="op">*</span> <span class="fl">1e+06</span> <span class="op">+</span> <span class="va">level</span> <span class="op">*</span> <span class="fl">63.086</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
-<span>  petp_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span>, <span class="va">etp</span><span class="op">)</span> <span class="fl">53.9</span> <span class="op">*</span> <span class="fl">1000</span> <span class="op">*</span> <span class="op">(</span><span class="va">p</span> <span class="op">-</span> <span class="va">etp</span><span class="op">)</span>,</span>
+<span>  storage_curve_slope_m2 <span class="op">=</span> <span class="fl">63.086</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
+<span>  storage_curve_intercept_m3 <span class="op">=</span> <span class="fl">25.58</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
+<span>  petp_surface_m2 <span class="op">=</span> <span class="fl">53.9</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  management_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_management.html">albufera_management</a></span>,</span>
 <span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  height_thresh_cm <span class="op">=</span> <span class="fl">0.5</span>,</span>
@@ -151,12 +152,16 @@ The simulation object being modified.</p></dd>
 <dd><p><code>[numeric(3)]</code> <br> Vector of <code>3</code> positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).</p></dd>
 
 
-<dt id="arg-storage-curve">storage_curve<a class="anchor" aria-label="anchor" href="#arg-storage-curve"></a></dt>
-<dd><p><code>[function]</code> <br> A function that converts lake levels into lake <em>volumes</em>. The function should take a single numeric vector as input, and should return a numeric vector of the same length as output. The numeric values for the default (linear) storage curve are taken from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
+<dt id="arg-storage-curve-slope-m-">storage_curve_slope_m2<a class="anchor" aria-label="anchor" href="#arg-storage-curve-slope-m-"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> Slope of the (linear) storage curve of the Albufera Lake, in square meters. Numeric values for the default are taken from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
 
 
-<dt id="arg-petp-function">petp_function<a class="anchor" aria-label="anchor" href="#arg-petp-function"></a></dt>
-<dd><p><code>[function]</code> <br> A function that converts values of precipitation and evapotranspiration per unit area (assumed to be expressed in millimiters) into volume changes for the Albufera lake (in cube meters when the inputs are given in the expected units). This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.</p></dd>
+<dt id="arg-storage-curve-intercept-m-">storage_curve_intercept_m3<a class="anchor" aria-label="anchor" href="#arg-storage-curve-intercept-m-"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> Intercept of the (linear) storage curve of the Albufera Lake, in cubic meters. Numeric values for the default are taken from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
+
+
+<dt id="arg-petp-surface-m-">petp_surface_m2<a class="anchor" aria-label="anchor" href="#arg-petp-surface-m-"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> The value (in squared meters) of the surface that converts precipitation and evapotranspiration per unit area into volume changes for the Albufera lake. This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.</p></dd>
 
 
 <dt id="arg-management-df">management_df<a class="anchor" aria-label="anchor" href="#arg-management-df"></a></dt>

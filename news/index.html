@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,40 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.16.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.16.2" id="erahumed-0162">erahumed 0.16.2<a class="anchor" aria-label="anchor" href="#erahumed-0162"></a></h2>
+<p>This version provides an important reshaping of the “Output”” section of the GUI. Plot methods have been harmonized across the various hydrological elements, and the interface has been structured in such a way to show at any time the three simulation component (Hydrology, Exposure and Risk) results for an individual element (either a cluster, a ditch or the Albufera lake).</p>
+<p>Specific changes are discussed below.</p>
+<div class="section level4">
+<h4 id="algorithm-0-16-2">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-0-16-2"></a></h4>
+<ul><li><p><code><a href="../reference/erahumed_parameters.html">setup_hydrology()</a></code> no longer accepts functional inputs for former the storage curve and PETP-function. Arguments <code>storage_curve</code> and <code>petp_function</code>, which used to require function inputs, are now replaced by <code>storage_curve_slope_m2</code>, <code>storage_curve_intercept_m3</code> and <code>petp_surface_m2</code>.</p></li>
+<li><p>In all risk calculations, pesticide densities are now regarded to be zero whenever the water volume of an hydrological element is zero (concretely, this only happens for rice cluster at present). The former treatment regarded them as <code>NA</code>. Notice that this affects, in particular, the definition of chronic risk.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="visualization-0-16-2">Visualization<a class="anchor" aria-label="anchor" href="#visualization-0-16-2"></a></h4>
+<ul><li><p>New implementations for hydrology plots, separating “flow” and “storage” plots, and volume <em>vs.</em> depth plots (this latter chosen through a radio button in the GUI).</p></li>
+<li><p>We start using <code>PAF / sum(PAF)</code> to provide a heuristic for relative contributions of individual toxic modes of action to the total <code>msPAF</code>.</p></li>
+<li><p>Various improvements in plot axes and legends.</p></li>
+<li><p>Pesticide names have been corrected (NB: this change is immediately noticed and mostly relevant for visualizations, but it actually also affects the simulation outputs in R).</p></li>
+<li><p>Chemical density time-series for sediment and water are now separated. No plotting option is provided for foliage.</p></li>
+<li><p>Chemical densities in sediment are now reported in <code>mg / g</code> units.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-0-16-2">GUI<a class="anchor" aria-label="anchor" href="#gui-0-16-2"></a></h4>
+<ul><li><p>New <code>'Download Results'</code> button (<a href="https://github.com/erahumed/erahumed/issues/244" class="external-link">#244</a>).</p></li>
+<li><p>Former “cluster” picker input becomes a “water body” element picker.</p></li>
+<li><p>Card-specific settings for the “Hydrology”, “Exposure” and “Risk” cards of the output tab are now placed inside a popover triggered from a gear icon-like button (<a href="https://github.com/erahumed/erahumed/issues/321" class="external-link">#321</a>).</p></li>
+<li><p>Plots were resized to a fixed <code>600px</code> size.</p></li>
+<li><p>New (much clearer) naming scheme of clusters and ditches.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-16-2">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-16-2"></a></h4>
+<ul><li>The list of chemicals available for selection in the GUI is no longer retrieved from simulation outputs, being now simply given by <code>names(info_chemicals())</code>. The changes needed for the case of defining custom chemicals will be addressed elsewhere.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.16.1" id="erahumed-0161">erahumed 0.16.1<a class="anchor" aria-label="anchor" href="#erahumed-0161"></a></h2>
 <div class="section level4">
