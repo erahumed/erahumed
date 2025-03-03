@@ -13,7 +13,7 @@ test_that("Returned dataset has the expected number of rows", {
 test_that("The time series of chemical masses are always positive", {
   lower_thresh <- -1e-9  # -1 microgram looks fair enough
   test_df <- get_layer_output(test_sim_large(), "ctd") |>
-    dplyr::filter(mf < lower_thresh | mw < lower_thresh | ms < lower_thresh)
+    dplyr::filter(mf_kg < lower_thresh | mw_kg < lower_thresh | ms_kg < lower_thresh)
 
   expect_equal(nrow(test_df), 0)
 })
@@ -22,13 +22,13 @@ test_that("The time series of chemical masses are always positive", {
 test_that("Water and soil of all ditches have at least one >0 value", {
   tol_kg <- 1e-10
 
-  non_universal_chems <- c("MCPA", "Benta", "Cyhalo", "Cicloxidim", "Penoxulam")
+  universal_chems <- c("Acetamiprid", "Azoxystrobin", "Difenoconazole")
 
   test_df <- get_layer_output(test_sim_large(), "ctd") |>
-    dplyr::filter(!(chemical %in% non_universal_chems)) |>
+    dplyr::filter(chemical %in% universal_chems) |>
     dplyr::group_by(element_id, chemical) |>
-    dplyr::summarise(mw = sum(mw), ms = sum(ms)) |>
-    dplyr::filter(mw < tol_kg | ms < tol_kg)
+    dplyr::summarise(mw_kg = sum(mw_kg), ms_kg = sum(ms_kg)) |>
+    dplyr::filter(mw_kg < tol_kg | ms_kg < tol_kg)
 
   expect_equal(nrow(test_df), 0)
 })
@@ -36,13 +36,13 @@ test_that("Water and soil of all ditches have at least one >0 value", {
 test_that("Foliage mass of all ditches is always =0", {
   tol_kg <- 1e-10
 
-  non_universal_chems <- c("MCPA", "Benta", "Cyhalo", "Cicloxidim", "Penoxulam")
+  universal_chems <- c("Acetamiprid", "Azoxystrobin", "Difenoconazole")
 
   test_df <- get_layer_output(test_sim_large(), "ctd") |>
-    dplyr::filter(!(chemical %in% non_universal_chems)) |>
+    dplyr::filter(chemical %in% universal_chems) |>
     dplyr::group_by(element_id, chemical) |>
-    dplyr::summarise(mf = sum(mf)) |>
-    dplyr::filter(mf > tol_kg)
+    dplyr::summarise(mf_kg = sum(mf_kg)) |>
+    dplyr::filter(mf_kg > tol_kg)
 
   expect_equal(nrow(test_df), 0)
 })

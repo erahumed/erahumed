@@ -1,103 +1,88 @@
-#' Plot hbl simulation layer output
-#'
-#' @description
-#' Plot method for \link{hbl} simulation layers.
-#'
-#' @param x An object of class `hbl`.
-#' @param variable The variable to be plotted. Can be any numeric column of
-#' `get_layer_output(x)`.
-#' @param ... Not used.
-#'
-#' @return A \link[dygraphs]{dygraph} plot.
-#'
 #' @noRd
 plot.erahumed_hbl <- function(x,
-                              variable = "inflow_total",
+                              type = c("storage", "flows"),
+                              variable = c("depth", "volume"),
                               dygraph_group = NULL,
                               ...)
 {
+  type <- match.arg(type)
+  variable <- match.arg(variable)
+
+  switch(type,
+         storage = plot_erahumed_hbl_storage(x, variable, dygraph_group = dygraph_group),
+         flows = plot_erahumed_hbl_flows(x, variable, dygraph_group = dygraph_group)
+         )
+}
+
+plot_erahumed_hbl_storage <- function(x, variable, dygraph_group) {
   df <- get_layer_output(x)
 
-  plot_hbl_argcheck(df, variable, dygraph_group = dygraph_group, ...)
+  df$volume_m3 <- df$volume
+  df$depth_cm <- df$level * 100
 
-  var_lab <- hbl_var_labs()[variable] |> unname()
+  y_var <- switch(variable, depth = "depth_cm", volume = "volume_m3")
+  var_name <- switch(variable, depth = "Depth", volume = "Volume")
+  var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
+  y_lab <- paste0(var_name, " [", var_units, "]")
+  value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
+    sprintf(var_units) |>
+    htmlwidgets::JS()
 
-  is_imputed <- df[[hbl_is_imputed_var(variable)]]
-
-  df_obs <- df_imp <- df[, ]
-  df_obs[[variable]][is_imputed] <- NA
-  df_imp[[variable]][!is_imputed] <- NA
-
-  time_series_obs <- xts::xts(df_obs[[variable]], order.by = df_obs$date)
-  time_series_imp <- xts::xts(df_imp[[variable]], order.by = df_imp$date)
-  combined_ts <- cbind(Observed = time_series_obs, Imputed = time_series_imp)
-
-  dygraphs::dygraph(
-    combined_ts, main = paste("Time Series of", var_lab), group = dygraph_group
-    ) |>
-    dygraphs::dySeries("Observed", color = "blue", strokePattern = "solid") |>
-    dygraphs::dySeries("Imputed", color = "red", strokePattern = "dashed") |>
+  df[, c("date", y_var)] |>
+    dygraphs::dygraph(group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
-    dygraphs::dyAxis("y", label = var_lab, axisLabelWidth = 80) |>
-    dygraphs::dyLegend(show = "always") |>
+    dygraphs::dyAxis("y",
+                     label = y_lab,
+                     axisLabelWidth = 80,
+                     valueFormatter = value_fmt
+                     ) |>
+    dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
+    dygraphs::dyUnzoom() |>
+    dygraphs::dySeries(y_var, label = var_name)
 }
 
-plot_hbl_argcheck <- function(x, variable, dygraph_group, ...) {
 
-  tryCatch(
-    {
-      assert_string(variable)
-      if (!variable %in% colnames(x)) {
-        stop(paste(variable, "is not a column of", deparse(substitute(x))))
-      }
+plot_erahumed_hbl_flows <- function(x, variable, dygraph_group) {
+  df <- get_layer_output(x)
 
-      for (name in names(list(...))) {
-        warning(paste0("Argument '", name, "' not used."))
-      }
+  df$petp_m3 <- df$volume_change_petp
+  df$petp_cm <- 0.1 * (df$precipitation_mm - df$evapotranspiration_mm)
 
-      if (!is.null(dygraph_group))
-        assert_string(dygraph_group)
+  sc_slope <- df$outflow_cm <- get_layer_parameters(x)[["storage_curve_slope_m2"]]
+  df$outflow_m3 <- -df$outflow_total * s_per_day()
+  df$inflow_m3 <- df$inflow_total * s_per_day()
+  df$outflow_cm <- 100 * df$outflow_m3 / sc_slope
+  df$inflow_cm <- 100 * df$inflow_m3 / sc_slope
 
-    },
-    error = function(cnd) {
-      class(cnd) <- c("plot.hbl_error", class(cnd))
-      stop(cnd)
-    },
-    warning = function(cnd) {
-      class(cnd) <- c("plot.hbl_warning", class(cnd))
-      warning(cnd)
-    })
+  y_vars <- switch(variable,
+                   volume = c("outflow_m3", "inflow_m3", "petp_m3"),
+                   depth = c("outflow_cm", "inflow_cm", "petp_cm"))
+  var_name <- switch(variable, depth = "Depth", volume = "Volume")
+  var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
+  y_lab <- paste0(var_name, " [", var_units, "]")
+  value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
+    sprintf(var_units) |>
+    htmlwidgets::JS()
 
-}
+  ymin <- 1.25 * min(c(df[[ y_vars[1] ]], df[[ y_vars[3] ]]))
+  ymax <- 1.25 * max(c(df[[ y_vars[2] ]], df[[ y_vars[3] ]]))
 
-hbl_var_labs <- function(invert = FALSE) {
-  res <- c(
-    level = "Lake Level [m]",
-    volume = "Lake Volume [m\u{00B3}]",
-    outflow_total = "Total Outflow [m\u{00B3} / s]",
-    outflow_pujol = "Pujol Outflow [m\u{00B3} / s]",
-    outflow_perellonet = "Perellonet Outflow [m\u{00B3} / s]",
-    outflow_perello = "Perello Outflow [m\u{00B3} / s]",
-    outflow_recirculation = "Water Recirculation Outflow [m\u{00B3} / s]",
-    inflow_total = "Total Inflow [m\u{00B3} / s]",
-    residence_time_days = "Residence Time [Days]"
-  )
-
-  if (!invert)
-    return(res)
-
-  res_inv <- names(res)
-  names(res_inv) <- res
-
-  return(res_inv)
-}
-
-hbl_is_imputed_var <- function(variable) {
-  imp_var <- if (variable %in% c("level", "volume")) {
-    "is_imputed_level"
-  } else {
-    "is_imputed_outflow"
-  }
+  df |>
+    (\(.) .[, c("date", y_vars)])() |>
+    dygraphs::dygraph(group = dygraph_group) |>
+    dygraphs::dyBarChart() |>
+    dygraphs::dyAxis("x", label = "Date") |>
+    dygraphs::dyAxis("y",
+                     label = y_lab,
+                     axisLabelWidth = 80,
+                     valueFormatter = value_fmt,
+                     valueRange = c(ymin, ymax)
+                     ) |>
+    dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
+    dygraphs::dyRangeSelector() |>
+    dygraphs::dyUnzoom() |>
+    dygraphs::dySeries(y_vars[[1]], label = "Outflow") |>
+    dygraphs::dySeries(y_vars[[2]], label = "Inflow") |>
+    dygraphs::dySeries(y_vars[[3]], label = "PET")
 }

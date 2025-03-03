@@ -57,10 +57,18 @@
     evapotranspiration_mm,
     outflows,
     ...,
-    storage_curve = \(level) level,
-    petp_function = \(P, ETP) P - ETP
+    storage_curve_slope_m2 = 1,
+    storage_curve_intercept_m3 = 0,
+    petp_surface_m2 = 1
 )
 {
+  storage_curve <- function(level) {
+    level * storage_curve_slope_m2 + storage_curve_intercept_m3
+  }
+  petp_function <- function(precipitation_mm, evapotranspiration_mm) {
+    petp_surface_m2 * (precipitation_mm - evapotranspiration_mm) / 1000
+  }
+
   .hbl_argcheck(
     level = level,
     precipitation_mm = precipitation_mm,
@@ -75,6 +83,7 @@
 
   res$volume <- storage_curve(level)
   res$volume_change <- hbl_volume_change(res$volume, fill_last = NA)
+  res$level_change <- hbl_volume_change(res$level, fill_last = NA)
   res$volume_change_petp <- petp_function(precipitation_mm, evapotranspiration_mm)
   res$volume_eod <- c(res$volume[-1], NA_real_)
 

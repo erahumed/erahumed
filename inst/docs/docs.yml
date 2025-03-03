@@ -78,22 +78,27 @@ layers:  # ERAHUMED layers, in dependency order.
 
     parameters:
 
-      storage_curve:
-        type: "function"
+      storage_curve_slope_m2:
+        type: "numeric(1)"
         description: >-
-          A function that converts lake levels into lake *volumes*.
-          The function should take a single numeric vector as input, and should
-          return a numeric vector of the same length as output. The numeric
-          values for the default (linear) storage curve are taken from the CHJ
+          Slope of the (linear) storage curve of the Albufera Lake, in square
+          meters.
+          Numeric values for the default are taken from the CHJ
+          report [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+      storage_curve_intercept_m3:
+        type: "numeric(1)"
+        description: >-
+          Intercept of the (linear) storage curve of the Albufera Lake, in cubic
+          meters.
+          Numeric values for the default are taken from the CHJ
           report [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
 
-      petp_function:
-        type: "function"
+      petp_surface_m2:
+        type: "numeric(1)"
         description: >-
-          A function that converts values of precipitation and
-          evapotranspiration per unit area (assumed to be expressed in
-          millimiters) into volume changes for the Albufera lake (in cube
-          meters when the inputs are given in the expected units). This
+          The value (in squared meters) of the surface that converts
+          precipitation and evapotranspiration per unit area into volume changes
+          for the Albufera lake. This
           function should take two numeric vectors of common length as inputs
           (representing the precipitation and evapotranspiration time series,
           respectively), and should return a numeric vector of the same length.

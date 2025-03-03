@@ -2,68 +2,29 @@
 #' @noRd
 plot.erahumed_ctd <- function(
     x,
-    type = c("ditch_view", "max_boxplot"),
-    variable = c("mass", "density"),
+    element_id = NULL,
+    compartment = c("water", "sediment"),
     chemicals = NULL,
     dygraph_group = NULL,
     ...
 )
 {
-  switch(match.arg(type),
-         ditch_view = plot_ctd_ditch_view(x,
-                                          variable = match.arg(variable),
-                                          chemicals = chemicals,
-                                          dygraph_group = dygraph_group,
-                                          ...),
-         max_boxplot = plot_ctd_max_boxplot(x, ...)
-         )
-}
+  compartment <- match.arg(compartment)
 
-plot_ctd_ditch_view <- function(x, variable, chemicals, dygraph_group, ...) {
-  ct_output_df <- get_layer_output(x)
+  data <- get_layer_output(x)
 
-  args <- list(...)
-  ditch <- args$ditch
-  if (is.null(ditch)) {
-    ditch <- ct_output_df$element_id[[1]]
+  if (is.null(element_id)) {
+    element_id <- data$element_id[[1]]
     warning(paste0(
-      "No ditch specified through the 'ditch' argument. ",
-      "Plotting ditch '", ditch, "'."
+      "No ditch specified through the 'element_id' argument. ",
+      "Plotting ditch '", element_id, "'."
     ))
   }
 
-  ct_output_df <- ct_output_df |>
-    (\(.) .[.$element_id == ditch, ])()
+  data <- data[data$element_id == element_id, ]
 
-  ct_plot_time_series(ct_output_df = ct_output_df,
-                      variable = variable,
-                      chemicals = chemicals,
-                      dygraph_group = dygraph_group)
-}
-
-plot_ctd_max_boxplot <- function(x, ...) {
-  density_variables <- c("cs", "cw", "cw_outflow")
-
-  get_layer_output(x) |>
-    # (\(.) .[.$chemical == chemical, ])() |>
-    stats::aggregate(
-      by = cbind(cs, cw, cw_outflow) ~ chemical + element_id,
-      FUN = max,
-      na.rm = TRUE
-    ) |>
-    stats::reshape(
-      varying = list(density_variables),
-      v.names = "value",
-      timevar = "variable",
-      times = density_variables,
-      idvar = c("element_id", "chemical"),
-      direction = "long"
-    ) |>
-    ggplot2::ggplot(ggplot2::aes(x = .data$variable, y = .data$value)) +
-    ggplot2::geom_violin() +
-    ggplot2::geom_boxplot(alpha = 0.5) +
-    ggplot2::facet_wrap("chemical", scales = "free_y") +
-    ggplot2::xlab(NULL) +
-    ggplot2::ylab("Density [Kg / m\u{00B3}]") +
-    NULL
+  ct_plot_time_series_density(data,
+                              compartment = compartment,
+                              chemicals = chemicals,
+                              dygraph_group = dygraph_group)
 }

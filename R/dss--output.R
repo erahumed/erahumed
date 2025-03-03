@@ -5,41 +5,81 @@ dss_output_ui <- function(id) {
   bslib::page_fillable(
     title = "Output",
 
-    shiny::selectInput(ns("selected_cluster_id"),
-                       label = "Select cluster",
-                       choices = info_clusters()$cluster_id,
-                       selected = info_clusters()$cluster_id[[1]]
-                       ),
+    shinyWidgets::pickerInput(ns("water_body"),
+                              "Water body",
+                              choices = water_body_choices()),
+
     bslib::layout_column_wrap(
-      card(card_header("Hydrology", class = "bg-dark"), full_screen = TRUE,
-        dygraphs::dygraphOutput(ns("hbl_plot")) |> withSpinner(),
-        dygraphs::dygraphOutput(ns("hbd_plot")) |> withSpinner(),
-        dygraphs::dygraphOutput(ns("ca_plot")) |> withSpinner(),
-        ),
-      card(card_header("Exposure", class = "bg-dark"), full_screen = TRUE,
-        shiny::uiOutput(ns("select_chemical")),
-        shinyWidgets::prettyRadioButtons(
-          inputId = ns("exposure_plot_type"),
-          label = "Plot variable",
-          choices = list(Mass = "mass", Density = "density"),
-          selected = "density",
-          inline = TRUE,
-          status = "danger",
-          fill = TRUE
+      bslib::navset_card_tab(
+        title = shiny::div(
+          "Hydrology",
+          bslib::popover(
+            shiny_icon("gear"),
+            shinyWidgets::radioGroupButtons(ns("hb_variable"),
+                                            label = "Variable",
+                                            choices = list(Depth = "depth",
+                                                           Volume = "volume"),
+                                            selected = "depth")
+            )
           ),
-        dygraphs::dygraphOutput(ns("ctl_plot")) |> withSpinner(),
-        dygraphs::dygraphOutput(ns("ctd_plot")) |> withSpinner(),
-        dygraphs::dygraphOutput(ns("ctc_plot")) |> withSpinner()
+        full_screen = TRUE,
+        bslib::nav_panel("Storage",
+                         dygraphs::dygraphOutput(ns("hb_plot_storage"),
+                                                 height = "600px"
+                                                 ) |> withSpinner()
+                         ),
+        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows"),
+                                                          height = "600px"
+                                                          ) |> withSpinner()
+                         )
         ),
-      card(card_header("Risk", class = "bg-dark"), full_screen = TRUE,
-        shiny::selectInput(inputId = ns("risk_type"),
-                           label = "Risk type",
-                           choices = list(Chronic = "chronic", Acute = "acute"),
-                           selected = "chronic"),
-        dygraphs::dygraphOutput(ns("rl_plot")) |> withSpinner(),
-        dygraphs::dygraphOutput(ns("rd_plot")) |> withSpinner(),
-        dygraphs::dygraphOutput(ns("rc_plot")) |> withSpinner()
-       )
+      bslib::navset_card_tab(
+        title = shiny::div(
+          "Exposure",
+          bslib::popover(
+            shiny_icon("gear"),
+            shinyWidgets::checkboxGroupButtons(
+              inputId = ns("chemical"),
+              label = "Chemicals",
+              choices = names(info_chemicals()),
+              selected = c("Penoxsulam", "Difenoconazole"),
+              individual = TRUE,
+              checkIcon = list(yes = icon("ok", lib = "glyphicon")),
+              size = "sm"
+            )
+            )
+          ),
+        full_screen = TRUE,
+        bslib::nav_panel(
+          "Water",
+          dygraphs::dygraphOutput(ns("ct_plot_water"), height = "600px") |>
+            withSpinner()
+                         ),
+        bslib::nav_panel(
+          "Sediment",
+          dygraphs::dygraphOutput(ns("ct_plot_sediment"), height = "600px") |>
+            withSpinner()
+          )
+        ),
+      bslib::navset_card_tab(
+        title = shiny::div(
+          "Risk",
+          bslib::popover(
+            shiny_icon("gear"),
+            shinyWidgets::radioGroupButtons(
+              inputId = ns("risk_type"),
+              label = "Risk type",
+              choices = list(Chronic = "chronic", Acute = "acute"),
+              selected = "chronic")
+            )
+          ),
+        full_screen = TRUE,
+        bslib::nav_panel(
+          "Species Sensitivity",
+          dygraphs::dygraphOutput(ns("r_plot"), height = "600px") |>
+            withSpinner()
+          )
+      )
     )
   )
 }
@@ -48,82 +88,65 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    shiny::observeEvent(clicked_cluster_id(), {
-      shiny::updateSelectInput(session,
-                               "selected_cluster_id",
-                               selected = clicked_cluster_id())
-      })
-
-    ditch <- shiny::reactive({
-      info_clusters() ->.; .[.$cluster_id == input$selected_cluster_id, ]$ditch
-      })
-
-    output$select_chemical <- shiny::renderUI({
-      chemicals <- get_layer_output(simulation(), "ctl")$chemical |> unique()
-
-      shinyWidgets::checkboxGroupButtons(
-        inputId = ns("chemical"),
-        label = "Chemicals",
-        choices = chemicals,
-        selected = c("Penoxulam", "Difeno"),
-        individual = TRUE,
-        checkIcon = list(yes = icon("ok", lib = "glyphicon"))
-      )
-
+    element_type <- shiny::reactive({
+      if(!is.na(match(input$water_body, info_clusters()$cluster_id))) "c"
+      else if (!is.na(match(input$water_body, info_ditches()$ditch))) "d"
+      else "l"
     })
 
+    output$hb_plot_storage <- dygraphs::renderDygraph({
+      simulation() |>
+        get_layer(paste0("hb", element_type())) |>
+        plot(element_id = input$water_body,
+             type = "storage",
+             variable = input$hb_variable,
+             dygraph_group = "dss")
+    })
 
-    output$hbl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "hbl"),
-           dygraph_group = "dss")
-      )
-    output$hbd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "hbd"),
-           ditch = ditch(),
-           dygraph_group = "dss")
-      )
-    output$ca_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ca"),
-           cluster_id = input$selected_cluster_id,
-           dygraph_group = "dss")
-      )
-    output$ctc_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctc"),
-           cluster_id = input$selected_cluster_id,
-           variable = input$exposure_plot_type,
-           chemical = input$chemical,
-           dygraph_group = "dss")
-    )
-    output$ctd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctd"),
-           ditch = ditch(),
-           variable = input$exposure_plot_type,
-           chemical = input$chemical,
-           dygraph_group = "dss")
-    )
-    output$ctl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "ctl"),
-           variable = input$exposure_plot_type,
-           chemical = input$chemical,
-           dygraph_group = "dss")
-    )
-    output$rc_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rc"),
-           cluster_id = input$selected_cluster_id,
+    output$hb_plot_flows <- dygraphs::renderDygraph({
+      simulation() |>
+        get_layer(paste0("hb", element_type())) |>
+        plot(element_id = input$water_body,
+             type = "flows",
+             variable = input$hb_variable,
+             dygraph_group = "dss")
+    })
+
+    output$ct_plot_water <- dygraphs::renderDygraph({
+      simulation() |>
+        get_layer(paste0("ct", element_type())) |>
+        plot(element_id = input$water_body,
+             compartment = "water",
+             chemicals = input$chemical,
+             dygraph_group = "dss")
+    })
+
+    output$ct_plot_sediment <- dygraphs::renderDygraph({
+      simulation() |>
+        get_layer(paste0("ct", element_type())) |>
+        plot(element_id = input$water_body,
+             compartment = "sediment",
+             chemicals = input$chemical,
+             dygraph_group = "dss")
+    })
+
+    output$r_plot <- dygraphs::renderDygraph({
+      layer <- paste0("r", element_type())
+      layer_obj <- get_layer(simulation(), layer)
+      plot(layer_obj,
+           element_id = input$water_body,
            type = input$risk_type,
            dygraph_group = "dss")
-    )
-    output$rd_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rd"),
-           ditch = ditch(),
-           type = input$risk_type,
-           dygraph_group = "dss")
-      )
-    output$rl_plot <- dygraphs::renderDygraph(
-      plot(get_layer(simulation(), "rl"),
-           type = input$risk_type,
-           dygraph_group = "dss")
-    )
+    })
+
   })
 }
 
+water_body_choices <- function() {
+  ditches <- info_ditches()$ditch
+  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$ditch_name)
+  clusters <- info_clusters()$cluster_id
+  names(clusters) <- info_clusters()$cluster_name
+
+  list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters)
+}

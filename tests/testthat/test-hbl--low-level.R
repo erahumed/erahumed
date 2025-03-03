@@ -47,28 +47,6 @@ test_that(".hbl() raises an error if inputs have wrong type", {
   )
 })
 
-test_that(".hbl() error if storage_curve() has invalid signature", {
-  expect_error(.hbl(level = rep(1, 10),
-                         precipitation_mm = 1:10,
-                         evapotranspiration_mm = rep(1, 10),
-                         outflows = list(a = rep(1, 10), b = rep(2, 10)),
-                         storage_curve = function() 1
-                         ),
-               class = ".hbl_argcheck_error"
-  )
-})
-
-test_that(".hbl() error if petp_function() has invalid signature", {
-  expect_error(.hbl(level = rep(1, 10),
-                         precipitation_mm = 1:10,
-                         evapotranspiration_mm = rep(1, 10),
-                         outflows = list(a = rep(1, 10), b = rep(2, 10)),
-                         petp_function = function(x) x
-  ),
-  class = ".hbl_argcheck_error"
-  )
-})
-
 test_that(".hbl() error if an ellipsis arg has the wrong length", {
   expect_error(.hbl(level = rep(1, 10),
                          precipitation_mm = 1:10,

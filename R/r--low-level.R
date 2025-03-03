@@ -2,7 +2,7 @@
 risk_from_ssds <- function(ct_output) {
   # To avoid R CMD check note due to non-standard evaluation in {data.table}
   sigma_acute <- sigma_chronic <- median_acute <- median_chronic <-
-    HU_acute <- HU_chronic <- element_id <- tmoa <- cw <- NULL
+    HU_acute <- HU_chronic <- element_id <- tmoa <- cw_kg_m3 <- NULL
 
   chemicals <- unique(ct_output$chemical)
 
@@ -37,9 +37,11 @@ risk_from_ssds <- function(ct_output) {
            ),
          by = "tmoa"
       ][,
+        let(a = data.table::fifelse(is.na(cw_kg_m3), 0, cw_kg_m3))
+      ][,
         let(
-          HU_acute = 1e6 * cw / median_acute,
-          HU_chronic = 1e6 * rolling_average(cw, 21) / median_chronic
+          HU_acute = 1e6 * cw_kg_m3 / median_acute,
+          HU_chronic = 1e6 * rolling_average(cw_kg_m3, 21) / median_chronic
         ),
         by = c("element_id", "chemical")
       ][,

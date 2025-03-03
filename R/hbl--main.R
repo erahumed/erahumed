@@ -33,13 +33,17 @@
 #' @return An objects of class \link{erahumed_simulation}.
 #'
 #' @noRd
-setup_hbl <- function(simulation, storage_curve, petp_function)
+setup_hbl <- function(simulation,
+                      storage_curve_slope_m2,
+                      storage_curve_intercept_m3,
+                      petp_surface_m2)
 {
   tryCatch(
     {
       assert_erahumed_simulation(simulation)
-      assert_function(storage_curve, check = list(rep(0, 10)) )
-      assert_function(petp_function, check = list(1:10, rep(3, 10)) )
+      assert_positive_number(storage_curve_slope_m2)
+      assert_positive_number(storage_curve_intercept_m3)
+      assert_positive_number(petp_surface_m2)
     },
     error = function(e) {
       class(e) <- c("validate_hbl_params_error", class(e))
@@ -53,8 +57,12 @@ setup_hbl <- function(simulation, storage_curve, petp_function)
 
 compute_hbl <- function(simulation)
 {
-  storage_curve <- get_layer_parameters(simulation, "hbl")[["storage_curve"]]
-  petp_function <- get_layer_parameters(simulation, "hbl")[["petp_function"]]
+  storage_curve_slope_m2 <-
+    get_layer_parameters(simulation, "hbl")[["storage_curve_slope_m2"]]
+  storage_curve_intercept_m3 <-
+    get_layer_parameters(simulation, "hbl")[["storage_curve_intercept_m3"]]
+  petp_surface_m2 <-
+    get_layer_parameters(simulation, "hbl")[["petp_surface_m2"]]
   inp_df <- get_layer_output(simulation, "inp")
 
   output <-
@@ -66,8 +74,9 @@ compute_hbl <- function(simulation)
       date = inp_df$date,
       is_imputed_level = inp_df$is_imputed_level,
       is_imputed_outflow = inp_df$is_imputed_outflow,
-      storage_curve = storage_curve,
-      petp_function = petp_function
+      storage_curve_slope_m2 = storage_curve_slope_m2,
+      storage_curve_intercept_m3 = storage_curve_intercept_m3,
+      petp_surface_m2 = petp_surface_m2
     )
 
   validate_hbl_output(output)

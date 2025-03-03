@@ -3,8 +3,9 @@
 #' @param outflows_df `r erahumed_param_roxy("outflows_df", "inp")`
 #' @param weather_df `r erahumed_param_roxy("weather_df", "inp")`
 #' @param variety_prop `r erahumed_param_roxy("variety_prop", "inp")`
-#' @param storage_curve `r erahumed_param_roxy("storage_curve", "hbl")`
-#' @param petp_function `r erahumed_param_roxy("petp_function", "hbl")`
+#' @param storage_curve_slope_m2 `r erahumed_param_roxy("storage_curve_slope_m2", "hbl")`
+#' @param storage_curve_intercept_m3 `r erahumed_param_roxy("storage_curve_intercept_m3", "hbl")`
+#' @param petp_surface_m2 `r erahumed_param_roxy("petp_surface_m2", "hbl")`
 #' @param management_df `r erahumed_param_roxy("management_df", "hbc")`
 #' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbc")`
 #' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbc")`
@@ -17,8 +18,9 @@ setup_hydrology <- function(
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c("J.Sendra" = 0.8, "Bomba" = 0.1, "Clearfield" = 0.1),
-  storage_curve = \(level) 25.58 * 1e6 + level * 63.086 * 1e6,
-  petp_function = \(p, etp) 53.9 * 1e3 * (p - etp),
+  storage_curve_slope_m2 = 63.086 * 1e6,
+  storage_curve_intercept_m3 = 25.58 * 1e6,
+  petp_surface_m2 = 53.9 * 1e6,
   management_df = erahumed::albufera_management,
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
@@ -31,8 +33,9 @@ setup_hydrology <- function(
               weather_df = weather_df,
               variety_prop = variety_prop,
               seed = seed) |>
-    setup_hbl(storage_curve = storage_curve,
-              petp_function = petp_function) |>
+    setup_hbl(storage_curve_slope_m2 = storage_curve_slope_m2,
+              storage_curve_intercept_m3 = storage_curve_intercept_m3,
+              petp_surface_m2 = petp_surface_m2) |>
     setup_hbc(management_df = management_df,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm) |>

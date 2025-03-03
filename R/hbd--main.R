@@ -50,7 +50,9 @@ compute_hbd <- function(simulation)
   volume_df <- info_ditches() |>
     (function(df) {
       df$volume_m3 <- df$surface * ditch_level_m
-      df <- df[, c("ditch", "volume_m3")]
+      df$level_m <- df$volume_m3 / df$surface  # Open to generalizations
+      df$area_m2 <- df$surface
+      df <- df[, c("ditch", "volume_m3", "level_m", "area_m2")]
       return(df)
     })()
 

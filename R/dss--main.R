@@ -49,9 +49,15 @@ dss_ui <- function() { bslib::page_navbar(
                         "Run simulation",
                         width = "100%",
                         icon = shiny_icon("play"),
-                        class = "btn btn-primary"
-    )
-  )
+                        class = "btn btn-primary")
+    ),
+  bslib::nav_item(shiny::div(style = "margin-left: auto;",
+    shiny::downloadButton("download",
+                        "Download results",
+                        icon = shiny_icon("download"),
+                        class = "btn btn-outline-secondary"
+                        )
+    ))
 
 )}
 
@@ -67,6 +73,21 @@ dss_server <- function(input, output, session) {
   dss_output_server("dss_output",
                     simulation = sim,
                     clicked_cluster_id = clicked_cluster_id)
+
+  output$download <- shiny::downloadHandler(
+    filename = function() paste0("erahumed-dss-results-", Sys.Date(), ".zip"),
+    content = function(filename) {
+      shinyjs::disable("download")
+      shiny::showNotification("Download will start soon...", type = "message", duration = 5)
+      tryCatch(dss_download(filename, sim()),
+               error = function(e)
+                 shiny::showNotification(paste("Download failed:", e$message),
+                                         type = "error"),
+               finally = shinyjs::enable("download")
+               )
+      }
+
+    )
 
   vmap <- shiny::reactive(get_layer_aux(sim(), "inp")[["cluster_variety_map"]])
   output$map <- leaflet::renderLeaflet(

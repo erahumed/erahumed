@@ -1,23 +1,23 @@
 #' @noRd
 plot.erahumed_rc <- function(x,
                              type = c("chronic", "acute"),
-                             cluster_id = NULL,
+                             element_id = NULL,
                              dygraph_group = NULL,
                              ...)
 {
   type <- match.arg(type)
   r_output <- get_layer_output(x)
 
-  if (is.null(cluster_id)) {
-    cluster_id <- r_output$element_id[[1]]
+  if (is.null(element_id)) {
+    element_id <- r_output$element_id[[1]]
     warning(paste0(
-      "No cluster specified through the 'cluster_id' argument. ",
-      "Plotting cluster '", cluster_id, "'."
+      "No cluster specified through the 'element_id' argument. ",
+      "Plotting cluster '", element_id, "'."
     ))
   }
 
   r_output <- r_output |>
-    (\(.) .[.$element_id == cluster_id, ])()
+    (\(.) .[.$element_id == element_id, ])()
 
   plot_risk(r_output, type = type, dygraph_group = dygraph_group)
 }
