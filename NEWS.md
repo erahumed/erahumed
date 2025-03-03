@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.16.2
 
 This version provides an important reshaping of the "Output"" section of the 
 GUI. Plot methods have been harmonized across the various hydrological elements,
