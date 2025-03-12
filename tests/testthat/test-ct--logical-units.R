@@ -122,7 +122,7 @@ test_that("ct_msapp(): result is always a fraction of application",{
       application_kg = 1,
       drift = 0,
       cover = 0,
-      is_empty = TRUE,
+      is_empty = TRUE
       )
     expect_true(all( 0 <= res & res <= 1 ))
   }
