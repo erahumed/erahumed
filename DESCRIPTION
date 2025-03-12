@@ -24,6 +24,8 @@ Suggests:
     digest,
     dplyr,
     ggplot2,
+    gt,
+    kableExtra,
     knitr,
     lifecycle,
     rmarkdown,
