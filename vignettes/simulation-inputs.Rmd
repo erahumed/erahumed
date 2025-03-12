@@ -1,0 +1,80 @@
+---
+title: "Simulation inputs"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{simulation-inputs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-landscape-params
+#| tbl-cap: "ERAHUMED input parameters"
+
+if (knitr::opts_knit$get("rmarkdown.pandoc.to") == "html") {
+  render_fun <- function(x) {
+    x <- dplyr::arrange(x, Group, Name)
+    grps_rle <- rle(x$Group)
+    pack_rows_idx <- grps_rle$lengths
+    names(pack_rows_idx) <- grps_rle$values
+    x <- dplyr::select(x, -Group)
+    
+    knitr::kable(x, format = "html", escape = FALSE) |> 
+      kableExtra::pack_rows(index = pack_rows_idx)
+    }
+  } else {
+  render_fun <- function(x) {
+    knitr::kable(x, format = "latex")
+    }
+}
+
+docs_layers <- erahumed::erahumed_docs("layers") |>
+  (\(.) .[c("inp", "hbl", "hbc", "hbd", "ca", "ctc", "rc", "rd", "rl")])()
+
+strip_roxy_macros <- function(x) 
+  gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", x = x)
+
+wrap_bcktcks <- function(x) paste0("`", x, "`")
+
+extract_layers_parameters_df <- function(l) {
+  params <- l$parameters
+  
+  if (length(params) == 0) {
+    return(NULL)
+  }
+
+  res <- data.frame(Parameter = names(params) |> 
+                      wrap_bcktcks() |> gt::vec_fmt_markdown(),
+                    Name = NA,
+                    Unit = NA,
+                    Group = NA,
+                    Type = NA, 
+                    Description = NA
+                    )
+  
+  for (i in seq_along(params)) {
+    res[i, "Name"] <- (params[[i]]$name %||% res[i, "Parameter"])
+    res[i, "Unit"] <- (params[[i]]$unit %||% "N/A")
+    res[i, "Type"] <- params[[i]]$type |> 
+      wrap_bcktcks() |> gt::vec_fmt_markdown()
+    res[i, "Group"] <- params[[i]]$group
+    res[i, "Description"] <- params[[i]]$description |> 
+      strip_roxy_macros() |> gt::vec_fmt_markdown()
+      
+  }
+  
+  return(res)
+}
+
+lapply(docs_layers, extract_layers_parameters_df) |>
+  Reduce(rbind, x = _) |>
+  render_fun()
+```
