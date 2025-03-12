@@ -174,7 +174,7 @@ ct_ts_step_terms <- function(application_kg,
 
   # Precomputed time series
   cover <- ct_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
-  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
+  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0.0001)
 
 
   ### Settlement
@@ -203,7 +203,7 @@ ct_ts_step_terms <- function(application_kg,
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)
   mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty) + mw_inflow_kg
-  msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
+  msapp <- ct_msapp(application_kg, drift, cover, is_empty)
 
 
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)

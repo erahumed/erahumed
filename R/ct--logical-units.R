@@ -75,12 +75,9 @@ ct_mwapp <- function(application_kg, drift, cover, SNK, is_empty) {
   application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (!is_empty)
 }
 
-ct_msapp <- function(
-    application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m
-    )
+ct_msapp <- function(application_kg, drift, cover, is_empty)
 {
-  application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (dinc_m / dact_m) *
-    is_empty
+  application_kg * (1 - drift) * (1 - cover) * is_empty
 }
 
 ct_mw_max <- function(sol_ppm, volume_eod_m3) {

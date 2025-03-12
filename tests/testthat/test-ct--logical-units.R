@@ -122,10 +122,7 @@ test_that("ct_msapp(): result is always a fraction of application",{
       application_kg = 1,
       drift = 0,
       cover = 0,
-      SNK = 0,
       is_empty = TRUE,
-      dinc_m = ct_get_param(chemical, "dinc_m"),
-      dact_m = formals(setup_exposure)$dact_m
       )
     expect_true(all( 0 <= res & res <= 1 ))
   }
