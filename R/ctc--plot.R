@@ -1,6 +1,5 @@
-#' @noRd
-plot.erahumed_ctc <- function(
-    x,
+plot_ctc <- function(
+    simulation,
     element_id = NULL,
     compartment = c("water", "sediment"),
     chemicals = NULL,
@@ -8,9 +7,10 @@ plot.erahumed_ctc <- function(
     ...
     )
 {
+  assert_erahumed_simulation(simulation)
   compartment <- match.arg(compartment)
 
-  data <- get_layer_output(x)
+  data <- get_output(simulation, "ctc")
 
   if (is.null(element_id)) {
     element_id <- data$element_id[[1]]

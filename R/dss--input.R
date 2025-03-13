@@ -26,11 +26,11 @@ dss_input_ui <- function(id) {
 
 dss_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    list(
-      hydrology = dss_input_hydrology_server("hydrology"),
-      exposure = dss_input_exposure_server("exposure"),
-      risk = dss_input_risk_server("risk")
-      )
+    hydrology <- dss_input_hydrology_server("hydrology")
+    exposure <- dss_input_exposure_server("exposure")
+    risk <- dss_input_risk_server("risk")
+
+    shiny::reactive( c(hydrology(), exposure(), risk()) )
   })
 }
 

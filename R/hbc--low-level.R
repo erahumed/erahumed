@@ -117,7 +117,7 @@
                           height_thresh_cm,
                           cv_map)
 {
-  res <- data.table::as.data.table( get_layer_output(simulation, "hbl") )
+  res <- data.table::as.data.table( get_output(simulation, "hbl") )
 
   res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))

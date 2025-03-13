@@ -6,7 +6,7 @@ hbd_input_ui <- function(id) {
   shiny::tagList(
     shiny::numericInput(ns("ditch_level_m"),
                         shiny::p("Ditch Level [m]", tltp("ditch_level_m")),
-                        value = eval(formals(setup_hydrology)$ditch_level_m),
+                        value = eval(formals(erahumed_simulation)$ditch_level_m),
                         min = 0,
                         max = 2,
                         step = 0.01

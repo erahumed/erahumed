@@ -95,48 +95,58 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$hb_plot_storage <- dygraphs::renderDygraph({
+      plot_fun <- switch(element_type(),
+                         c = plot_hbc, d = plot_hbd, l = plot_hbl)
+
       simulation() |>
-        get_layer(paste0("hb", element_type())) |>
-        plot(element_id = input$water_body,
-             type = "storage",
-             variable = input$hb_variable,
-             dygraph_group = "dss")
+        plot_fun(element_id = input$water_body,
+                 type = "storage",
+                 variable = input$hb_variable,
+                 dygraph_group = "dss")
     })
 
     output$hb_plot_flows <- dygraphs::renderDygraph({
+      plot_fun <- switch(element_type(),
+                         c = plot_hbc, d = plot_hbd, l = plot_hbl)
+
       simulation() |>
-        get_layer(paste0("hb", element_type())) |>
-        plot(element_id = input$water_body,
-             type = "flows",
-             variable = input$hb_variable,
-             dygraph_group = "dss")
+        plot_fun(element_id = input$water_body,
+                 type = "flows",
+                 variable = input$hb_variable,
+                 dygraph_group = "dss")
     })
 
     output$ct_plot_water <- dygraphs::renderDygraph({
+      plot_fun <- switch(element_type(),
+                         c = plot_ctc, d = plot_ctd, l = plot_ctl)
+
       simulation() |>
-        get_layer(paste0("ct", element_type())) |>
-        plot(element_id = input$water_body,
-             compartment = "water",
-             chemicals = input$chemical,
-             dygraph_group = "dss")
+        plot_fun(
+          element_id = input$water_body,
+          compartment = "water",
+          chemicals = input$chemical,
+          dygraph_group = "dss")
     })
 
     output$ct_plot_sediment <- dygraphs::renderDygraph({
+      plot_fun <- switch(element_type(),
+                         c = plot_ctc, d = plot_ctd, l = plot_ctl)
       simulation() |>
-        get_layer(paste0("ct", element_type())) |>
-        plot(element_id = input$water_body,
-             compartment = "sediment",
-             chemicals = input$chemical,
-             dygraph_group = "dss")
+        plot_fun(element_id = input$water_body,
+                 compartment = "sediment",
+                 chemicals = input$chemical,
+                 dygraph_group = "dss")
     })
 
     output$r_plot <- dygraphs::renderDygraph({
-      layer <- paste0("r", element_type())
-      layer_obj <- get_layer(simulation(), layer)
-      plot(layer_obj,
-           element_id = input$water_body,
-           type = input$risk_type,
-           dygraph_group = "dss")
+      plot_fun <- switch(element_type(),
+                         c = plot_rc, d = plot_rd, l = plot_rl)
+
+      simulation() |>
+        plot_fun(element_id = input$water_body,
+                 type = input$risk_type,
+                 dygraph_group = "dss")
+
     })
 
   })

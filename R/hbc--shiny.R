@@ -8,14 +8,14 @@ hbc_input_ui <- function(id) {
   shiny::tagList(
     shiny::numericInput(ns("ideal_flow_rate_cm"),
                         shiny::p("Ideal Flow Rate [cm]", tltp("ideal_flow_rate_cm")),
-                        value = eval(formals(setup_hydrology)$ideal_flow_rate_cm),
+                        value = eval(formals(erahumed_simulation)$ideal_flow_rate_cm),
                         min = 0,
                         max = 20,
                         step = 0.5
                         ),
     shiny::numericInput(ns("height_thresh_cm"),
                         shiny::p("Height Threshold [cm]", tltp("height_thresh_cm")),
-                        value = eval(formals(setup_hydrology)$height_thresh_cm),
+                        value = eval(formals(erahumed_simulation)$height_thresh_cm),
                         min = 0,
                         max = 10,
                         step = 0.1

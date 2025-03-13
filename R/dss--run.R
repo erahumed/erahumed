@@ -2,7 +2,7 @@ dss_run_server <- function(id, parameters, run) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    param_hash <- shiny::reactive( digest::digest(lapply(parameters, \(r) r())) )
+    param_hash <- shiny::reactive( digest::digest(parameters()) )
 
     shiny::observe({
       shiny::showNotification(
@@ -16,21 +16,10 @@ dss_run_server <- function(id, parameters, run) {
 
     res <- shiny::reactive({
       shiny::removeNotification(id = ns("rerun_notif"))
-
-      erahumed_simulation() |>
-        setup_from_par_list(parameters$hydrology(), setup_hydrology) |>
-        setup_from_par_list(parameters$exposure(), setup_exposure) |>
-        setup_from_par_list(parameters$risk(), setup_risk) |>
-        run_simulation()
+      do.call(erahumed_simulation, parameters())
       }) |>
       shiny::bindEvent(run(), ignoreNULL = FALSE)
 
     return(res)
   })
 }
-
-setup_from_par_list <- function(simulation, parameters, setup_fun) {
-  args <- c(list(simulation = simulation), parameters)
-  do.call(setup_fun, args)
-}
-

@@ -1,5 +1,3 @@
-
-
 generate_clusters_variety <- function(variety_prop) {
   res <- info_clusters(include_geometry = FALSE)
   res$variety <- NA

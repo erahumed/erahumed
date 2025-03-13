@@ -1,15 +1,16 @@
-#' @noRd
-plot.erahumed_hbc <- function(x,
-                              element_id = NULL,
-                              type = c("storage", "flows"),
-                              variable = c("depth", "volume"),
-                              dygraph_group = NULL,
-                              ...
-                              )
+plot_hbc <- function(simulation,
+                     element_id = NULL,
+                     type = c("storage", "flows"),
+                     variable = c("depth", "volume"),
+                     dygraph_group = NULL,
+                     ...
+                     )
 {
+  assert_erahumed_simulation(simulation)
+
   variable <- match.arg(variable)
 
-  data <- get_layer_output(x)
+  data <- get_output(simulation, "hbc")
   data$outflow_m3 <- -data$outflow_m3_s * s_per_day()
   data$inflow_m3 <- data$inflow_m3_s * s_per_day()
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2

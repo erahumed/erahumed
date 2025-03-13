@@ -1,5 +1,5 @@
 test_that("Returned dataset has the expected number of rows", {
-  test_df <- get_layer_output(test_sim_large(), "ctc")
+  test_df <- get_output(test_sim_large(), "ctc")
   n_clusters <- nrow(albufera_clusters)
   n_days <- length( seq.Date(from = min(test_df$date),
                              to = max(test_df$date),
@@ -12,17 +12,17 @@ test_that("Returned dataset has the expected number of rows", {
 
 test_that("The time series of chemical masses are always positive", {
   lower_thresh <- -1e-9  # -1 microgram looks fair enough
-  test_df <- get_layer_output(test_sim_large(), "ctc") |>
+  test_df <- get_output(test_sim_large(), "ctc") |>
     dplyr::filter(mf_kg < lower_thresh | mw_kg < lower_thresh | ms_kg < lower_thresh)
 
   expect_equal(nrow(test_df), 0)
 })
 
 test_that("Chemical masses do not increase except if directly applied", {
-  test_df <- get_layer_output(test_sim_large(), "ctc")
+  test_df <- get_output(test_sim_large(), "ctc")
 
   chemicals <- unique(test_df$chemical)
-  applications_df <- get_layer_output(test_sim_large(), "ca")
+  applications_df <- get_output(test_sim_large(), "ca")
   tol_kg <- 1e-10
 
   for (chemical in chemicals) {
@@ -44,7 +44,7 @@ test_that("All compartments of all clusters have at least one >0 value", {
 
   universal_chems <- c("Acetamiprid", "Azoxystrobin", "Difenoconazole")
 
-  test_df <- get_layer_output(test_sim_large(), "ctc") |>
+  test_df <- get_output(test_sim_large(), "ctc") |>
     dplyr::filter(chemical %in% universal_chems) |>
     dplyr::group_by(element_id, chemical) |>
     dplyr::summarise(mf_kg = sum(mf_kg), mw_kg = sum(mw_kg), ms_kg = sum(ms_kg)) |>
@@ -56,7 +56,7 @@ test_that("All compartments of all clusters have at least one >0 value", {
 test_that("Calculated volume_sod_m3 coincide with lagged volume_eod_m3", {
   tol_m3 <- 1e-6
 
-  test_df <- get_layer_output(test_sim_large(), "ctc") |>
+  test_df <- get_output(test_sim_large(), "ctc") |>
     dplyr::group_by(element_id, chemical) |>
     dplyr::mutate(
       n = dplyr::n(),
@@ -70,7 +70,7 @@ test_that("Calculated volume_sod_m3 coincide with lagged volume_eod_m3", {
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
 
-  test_df <- get_layer_output(test_sim_large(), "ctc")
+  test_df <- get_output(test_sim_large(), "ctc")
   hash <- digest::digest(test_df)
 
   expect_snapshot(hash)

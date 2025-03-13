@@ -1,12 +1,13 @@
-#' @noRd
-plot.erahumed_rc <- function(x,
-                             type = c("chronic", "acute"),
-                             element_id = NULL,
-                             dygraph_group = NULL,
-                             ...)
+plot_rc <- function(simulation,
+                    type = c("chronic", "acute"),
+                    element_id = NULL,
+                    dygraph_group = NULL,
+                    ...)
 {
+  assert_erahumed_simulation(simulation)
   type <- match.arg(type)
-  r_output <- get_layer_output(x)
+
+  r_output <- get_output(simulation, "rc")
 
   if (is.null(element_id)) {
     element_id <- r_output$element_id[[1]]

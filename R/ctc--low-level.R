@@ -1,9 +1,8 @@
 .compute_ctc <- function(simulation) {
-  .par <- get_layer_parameters(simulation, "ctc")
 
-  get_layer_output(simulation, "ca") |>
+  get_output(simulation, "ca") |>
     data.table::as.data.table() |>
-    merge(get_layer_output(simulation, "inp"), by = "date", sort = TRUE) |>  # to recover weather data
+    merge(get_output(simulation, "inp"), by = "date", sort = TRUE) |>  # to recover weather data
     collapse::rsplit(by = ~ cluster_id,
                      flatten = TRUE,
                      use.names = FALSE,
@@ -11,17 +10,17 @@
                      keep.by = TRUE
                      ) |>
     lapply(.compute_ctc_one_cluster,
-           drift = .par[["drift"]],
-           covmax = .par[["covmax"]],
-           jgrow = .par[["jgrow"]],
-           SNK = .par[["SNK"]],
-           dact_m = .par[["dact_m"]],
-           css_ppm = .par[["css_ppm"]],
-           foc = .par[["foc"]],
-           bd_g_cm3 = .par[["bd_g_cm3"]],
-           qseep_m_day = .par[["qseep_m_day"]],
-           wilting = .par[["wilting"]],
-           fc = .par[["fc"]]
+           drift = get_input(simulation, "drift"),
+           covmax = get_input(simulation, "covmax"),
+           jgrow = get_input(simulation, "jgrow"),
+           SNK = get_input(simulation, "SNK"),
+           dact_m = get_input(simulation, "dact_m"),
+           css_ppm = get_input(simulation, "css_ppm"),
+           foc = get_input(simulation, "foc"),
+           bd_g_cm3 = get_input(simulation, "bd_g_cm3"),
+           qseep_m_day = get_input(simulation, "qseep_m_day"),
+           wilting = get_input(simulation, "wilting"),
+           fc = get_input(simulation, "fc")
            ) |>
       data.table::rbindlist() |>
       as.data.frame() |>

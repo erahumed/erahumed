@@ -1,16 +1,16 @@
-#' @noRd
-#' @noRd
-plot.erahumed_hbd <- function(x,
-                              element_id = NULL,
-                              type = c("storage", "flows"),
-                              variable = c("depth", "volume"),
-                              dygraph_group = NULL,
-                              ...)
+plot_hbd <- function(simulation,
+                     element_id = NULL,
+                     type = c("storage", "flows"),
+                     variable = c("depth", "volume"),
+                     dygraph_group = NULL,
+                     ...)
 {
+  assert_erahumed_simulation(simulation)
+
   type <- match.arg(type)
   variable <- match.arg(variable)
 
-  data <- get_layer_output(x)
+  data <- get_output(simulation, "hbd")
 
   if (is.null(element_id)) {
     element_id <- data$ditch[[1]]

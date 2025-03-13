@@ -1,5 +1,5 @@
 test_that("Total number of applications is equal to expected", {
-  test_df <- get_layer_output(test_sim_large(), "ca")
+  test_df <- get_output(test_sim_large(), "ca")
 
   yearly_amounts_clusters <- test_df |>
     dplyr::mutate(year = format(date, "%Y")) |>
@@ -42,9 +42,9 @@ test_that("Total number of applications is equal to expected", {
 })
 
 test_that("Application days have the correct features", {
-  test_df <- get_layer_output(test_sim_large(), "ca")
+  test_df <- get_output(test_sim_large(), "ca")
   height_thresh_cm <-
-    get_layer_parameters(test_sim_large(), "hbc")[["height_thresh_cm"]]
+    get_input(test_sim_large(), "hbc")[["height_thresh_cm"]]
 
   chems <- erahumed::albufera_ca_schedules |>
     dplyr::select(chemical, application_type) |>
@@ -84,7 +84,7 @@ test_that("Application days have the correct features", {
 
 
 test_that("Simple snapshot is constant", {
-  test_df <- get_layer_output(test_sim_large(), "ca")
+  test_df <- get_output(test_sim_large(), "ca")
   hash <- digest::digest(test_df)
 
   expect_snapshot(hash)
