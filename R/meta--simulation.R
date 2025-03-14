@@ -5,29 +5,31 @@
 #' [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
 #' for a detailed description of the simulation workflow.
 #'
-#' @param outflows_df `r erahumed_param_roxy("outflows_df", "inp")`
-#' @param weather_df `r erahumed_param_roxy("weather_df", "inp")`
-#' @param variety_prop `r erahumed_param_roxy("variety_prop", "inp")`
-#' @param storage_curve_slope_m2 `r erahumed_param_roxy("storage_curve_slope_m2", "hbl")`
-#' @param storage_curve_intercept_m3 `r erahumed_param_roxy("storage_curve_intercept_m3", "hbl")`
-#' @param petp_surface_m2 `r erahumed_param_roxy("petp_surface_m2", "hbl")`
-#' @param management_df `r erahumed_param_roxy("management_df", "hbc")`
-#' @param ideal_flow_rate_cm `r erahumed_param_roxy("ideal_flow_rate_cm", "hbc")`
-#' @param height_thresh_cm `r erahumed_param_roxy("height_thresh_cm", "hbc")`
-#' @param ditch_level_m `r erahumed_param_roxy("ditch_level_m", "hbd")`
-#' @param seed `r erahumed_param_roxy("seed", "inp")`
-#' @param ca_schedules_df `r erahumed_param_roxy("ca_schedules_df", "ca")`
-#' @param drift `r erahumed_param_roxy("drift", "ctc")`
-#' @param covmax `r erahumed_param_roxy("covmax", "ctc")`
-#' @param jgrow `r erahumed_param_roxy("jgrow", "ctc")`
-#' @param SNK `r erahumed_param_roxy("SNK", "ctc")`
-#' @param dact_m `r erahumed_param_roxy("dact_m", "ctc")`
-#' @param css_ppm `r erahumed_param_roxy("css_ppm", "ctc")`
-#' @param foc `r erahumed_param_roxy("foc", "ctc")`
-#' @param bd_g_cm3 `r erahumed_param_roxy("bd_g_cm3", "ctc")`
-#' @param qseep_m_day `r erahumed_param_roxy("qseep_m_day", "ctc")`
-#' @param wilting `r erahumed_param_roxy("wilting", "ctc")`
-#' @param fc `r erahumed_param_roxy("fc", "ctc")`
+#' @param date_start `r input_roxy("date_start")`
+#' @param date_end `r input_roxy("date_end")`
+#' @param outflows_df `r input_roxy("outflows_df")`
+#' @param weather_df `r input_roxy("weather_df")`
+#' @param variety_prop `r input_roxy("variety_prop")`
+#' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
+#' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
+#' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
+#' @param management_df `r input_roxy("management_df")`
+#' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
+#' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
+#' @param ditch_level_m `r input_roxy("ditch_level_m")`
+#' @param ca_schedules_df `r input_roxy("ca_schedules_df")`
+#' @param drift `r input_roxy("drift")`
+#' @param covmax `r input_roxy("covmax")`
+#' @param jgrow `r input_roxy("jgrow")`
+#' @param SNK `r input_roxy("SNK")`
+#' @param dact_m `r input_roxy("dact_m")`
+#' @param css_ppm `r input_roxy("css_ppm")`
+#' @param foc `r input_roxy("foc")`
+#' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
+#' @param qseep_m_day `r input_roxy("qseep_m_day")`
+#' @param wilting `r input_roxy("wilting")`
+#' @param fc `r input_roxy("fc")`
+#' @param seed `r input_roxy("seed")`
 #'
 #' @return An object of class `erahumed_simulation`.
 #'

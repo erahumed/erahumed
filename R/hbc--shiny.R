@@ -35,7 +35,7 @@ hbc_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("management"),
-          columns = erahumed_docs("layers", "hbc", "parameters", "management_df", "columns")
+          columns = erahumed_input_docs("layers", "hbc", "parameters", "management_df", "columns")
         ),
         title = shiny::p("Setup Management Dataset", tltp("management_df")),
         size = "xl"

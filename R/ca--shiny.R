@@ -22,7 +22,7 @@ ca_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("applications"),
-          columns = erahumed_docs("layers", "ca", "parameters", "ca_schedules_df", "columns")
+          columns = erahumed_input_docs("layers", "ca", "parameters", "ca_schedules_df", "columns")
         ),
         title = shiny::p("Setup Applications Dataset", tltp("ca_schedules_df")),
         size = "xl"

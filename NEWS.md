@@ -299,7 +299,7 @@ output `data.frame`, whenever the `cluster_id` argument is missing.
 
 ### New features
 
-* New function `erahumed_docs()` to interact with the ERAHUMED documentation as 
+* New function `erahumed_input_docs()` to interact with the ERAHUMED documentation as 
 an R object. Although this is part of the exported namespace, it is mainly added
 for future internal use.
 
@@ -325,7 +325,7 @@ objects. This makes code logic more transparent, both for the modules themselves
 as well as for the main application.
 
 * The documentation of layer parameters is now generated programmatically and
-can be read at run-time through the new helper `erahumed_docs()`.
+can be read at run-time through the new helper `erahumed_input_docs()`.
 
 # erahumed 0.12.4
 

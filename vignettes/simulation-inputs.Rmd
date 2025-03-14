@@ -36,22 +36,15 @@ if (knitr::opts_knit$get("rmarkdown.pandoc.to") == "html") {
     }
 }
 
-docs_layers <- erahumed::erahumed_docs("layers") |>
-  (\(.) .[c("inp", "hbl", "hbc", "hbd", "ca", "ctc", "rc", "rd", "rl")])()
-
 strip_roxy_macros <- function(x) 
   gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", x = x)
 
 wrap_bcktcks <- function(x) paste0("`", x, "`")
 
-extract_layers_parameters_df <- function(l) {
-  params <- l$parameters
-  
-  if (length(params) == 0) {
-    return(NULL)
-  }
+input_docs_df <- function() {
+  docs <- erahumed::erahumed_input_docs()
 
-  res <- data.frame(Parameter = names(params) |> 
+  res <- data.frame(Parameter = names(docs) |> 
                       wrap_bcktcks() |> gt::vec_fmt_markdown(),
                     Name = NA,
                     Unit = NA,
@@ -60,13 +53,13 @@ extract_layers_parameters_df <- function(l) {
                     Description = NA
                     )
   
-  for (i in seq_along(params)) {
-    res[i, "Name"] <- (params[[i]]$name %||% res[i, "Parameter"])
-    res[i, "Unit"] <- (params[[i]]$unit %||% "N/A")
-    res[i, "Type"] <- params[[i]]$type |> 
+  for (i in seq_along(docs)) {
+    res[i, "Name"] <- (docs[[i]]$name %||% res[i, "Parameter"])
+    res[i, "Unit"] <- (docs[[i]]$unit %||% "N/A")
+    res[i, "Type"] <- docs[[i]]$type |> 
       wrap_bcktcks() |> gt::vec_fmt_markdown()
-    res[i, "Group"] <- params[[i]]$group
-    res[i, "Description"] <- params[[i]]$description |> 
+    res[i, "Group"] <- docs[[i]]$group
+    res[i, "Description"] <- docs[[i]]$description |> 
       strip_roxy_macros() |> gt::vec_fmt_markdown()
       
   }
@@ -74,7 +67,6 @@ extract_layers_parameters_df <- function(l) {
   return(res)
 }
 
-lapply(docs_layers, extract_layers_parameters_df) |>
-  Reduce(rbind, x = _) |>
+input_docs_df() |>
   render_fun()
 ```

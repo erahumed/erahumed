@@ -1,6 +1,6 @@
 #' @importFrom bslib card card_header card_body card_footer
 dss_input_ui <- function(id) {
-  layers_docs <- erahumed_docs("layers")
+  layers_docs <- erahumed_input_docs("layers")
 
   ns <- shiny::NS(id)
 
@@ -35,7 +35,7 @@ dss_input_server <- function(id) {
 }
 
 layer_card_header <- function(layer) {
-  docs <- erahumed_docs("layers", layer)
+  docs <- erahumed_input_docs("layers", layer)
 
   title <- docs[["title"]]
   description <- docs[["description"]]

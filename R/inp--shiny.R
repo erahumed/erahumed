@@ -74,7 +74,7 @@ inp_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("outflows"),
-          columns = erahumed_docs("layers", "inp", "parameters", "outflows_df", "columns")
+          columns = erahumed_input_docs("layers", "inp", "parameters", "outflows_df", "columns")
           ),
         title = shiny::p("Setup Outflows Dataset", tltp("outflows_df")),
         size = "xl"
@@ -86,7 +86,7 @@ inp_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("weather"),
-          columns = erahumed_docs("layers", "inp", "parameters", "weather_df", "columns")
+          columns = erahumed_input_docs("layers", "inp", "parameters", "weather_df", "columns")
           ),
         title = shiny::p("Setup Weather Dataset", tltp("weather_df")),
         size = "xl"

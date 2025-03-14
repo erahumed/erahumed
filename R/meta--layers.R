@@ -13,7 +13,7 @@
 #'
 #' @noRd
 erahumed_layers <- function() {
-  names(erahumed_docs("layers"))
+  names(erahumed_input_docs("layers"))
 }
 
 upstream_layers <- function(layer) {

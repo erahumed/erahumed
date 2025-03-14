@@ -33,6 +33,10 @@ erahumed_simulation(
 )
 }
 \arguments{
+\item{date_start}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the starting date of the date interval for the simulation.}
+
+\item{date_end}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the ending date of the date interval for the simulation.}
+
 \item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
 
 \item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}

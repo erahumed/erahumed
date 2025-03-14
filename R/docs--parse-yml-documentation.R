@@ -11,7 +11,7 @@
 #' the `...` argument identify a leaf or an internal node of the YAML tree.
 #'
 #' @export
-erahumed_docs <- function(...)
+erahumed_input_docs <- function(...)
 {
   args <- list(...)
 
@@ -19,7 +19,7 @@ erahumed_docs <- function(...)
 
   tags <- as.character(args)
 
-  yml_path <- system.file("docs", "docs.yml", package = "erahumed")
+  yml_path <- system.file("docs", "inputs.yml", package = "erahumed")
   docs <- yaml::read_yaml(yml_path)
 
   res <- docs
@@ -35,8 +35,8 @@ erahumed_docs <- function(...)
   return(res)
 }
 
-erahumed_param_roxy <- function(param, layer) {
-  docs <- erahumed_docs("layers", layer, "parameters", param)
+input_roxy <- function(name) {
+  docs <- erahumed_input_docs(name)
 
   if (is.null(docs[["description"]])) {
     docs[["description"]] <- paste(
@@ -55,8 +55,8 @@ erahumed_param_roxy <- function(param, layer) {
   return(res)
 }
 
-erahumed_param_desc <- function(param, layer, strip_roxy = TRUE) {
-  res <- erahumed_docs("layers", layer, "parameters", param, "description")
+erahumed_input_desc <- function(name, strip_roxy = TRUE) {
+  res <- erahumed_input_docs(name, "description")
 
   if (strip_roxy)
     res <- strip_roxy_macros(res)
@@ -64,8 +64,8 @@ erahumed_param_desc <- function(param, layer, strip_roxy = TRUE) {
   return(res)
 }
 
-erahumed_dataset_format <- function(dataset, layer){
-  docs <- erahumed_docs("layers", layer, "parameters", dataset)
+erahumed_dataset_format <- function(name){
+  docs <- erahumed_input_docs(name)
 
   if (is.null(docs)) {
     res <- paste(
