@@ -56,7 +56,7 @@ close_card <- function(...,
               wrapper = wrapper,
               id = id,
               style = "z-index: 9999"
-              )
+  )
 }
 
 
@@ -65,7 +65,7 @@ nav_action_link <- function(id, label, icon)
   nav_item(shiny::actionLink(inputId = id,
                              label = label,
                              icon = shiny_icon(icon)
-                             ))
+  ))
 
 nav_hyperlink <- function(text, href, icon = NULL)
   nav_item(shiny_a(text = text,
@@ -77,14 +77,3 @@ nav_menu_hr <- function() {
     style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
   ))
 }
-
-
-
-# UI elements for erahumed parameters and dataset columns
-param_tooltip <- function(layer, param) {
-  desc <- erahumed_param_desc(layer = layer, param = param, strip_roxy = TRUE)
-
-  bslib::tooltip(shiny_icon("question-circle"), desc, placement = "right")
-}
-
-
