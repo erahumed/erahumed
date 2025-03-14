@@ -1,6 +1,5 @@
 test_that("No error with basic valid inputs", {
-  rd_obj <- get_layer(test_sim_small(), "rd")
-  element_id <- get_output(rd_obj)$element_id[[1]]
+  element_id <- info_ditches()$ditch[[1]]
 
-  expect_no_error( plot(rd_obj, element_id = element_id) )
+  expect_no_error( plot_rd(test_sim_small(), element_id = element_id) )
 })

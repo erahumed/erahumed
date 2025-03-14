@@ -8,10 +8,11 @@ plot_hbl <- function(simulation,
   type <- match.arg(type)
   variable <- match.arg(variable)
   data <- get_output(simulation, "hbl")
+  sc_slope <- get_input(simulation, "storage_curve_slope_m2")
 
   switch(type,
          storage = plot_erahumed_hbl_storage(data, variable, dygraph_group = dygraph_group),
-         flows = plot_erahumed_hbl_flows(data, variable, dygraph_group = dygraph_group)
+         flows = plot_erahumed_hbl_flows(data, variable, sc_slope, dygraph_group = dygraph_group)
          )
 }
 
@@ -43,12 +44,11 @@ plot_erahumed_hbl_storage <- function(data, variable, dygraph_group) {
 }
 
 
-plot_erahumed_hbl_flows <- function(data, variable, dygraph_group) {
-
+plot_erahumed_hbl_flows <- function(data, variable, sc_slope, dygraph_group)
+{
   data$petp_m3 <- data$volume_change_petp
   data$petp_cm <- 0.1 * (data$precipitation_mm - data$evapotranspiration_mm)
 
-  sc_slope <- get_input(data, "storage_curve_slope_m2")
   data$outflow_m3 <- -data$outflow_total * s_per_day()
   data$inflow_m3 <- data$inflow_total * s_per_day()
   data$outflow_cm <- 100 * data$outflow_m3 / sc_slope

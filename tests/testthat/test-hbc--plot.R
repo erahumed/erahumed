@@ -1,22 +1,33 @@
-test_that("plot.hbc() succeeds w/ type='cluster_levels' and valid input", {
-  hbc_obj <- get_layer(test_sim_small(), "hbc")
-  element_id <- get_output(hbc_obj)$cluster_id[1]
-  expect_no_error(
-    plot(hbc_obj, type = "storage", element_id = element_id)
-  )
+test_that("No error with basic valid inputs", {
+  plot_hbc(test_sim_small(), element_id = info_clusters()$cluster_id[1]) |>
+    expect_no_error()
 })
 
-test_that("plot.hbc throws a warning if no cluster is specified", {
-  hbc_obj <- get_layer(test_sim_small(), "hbc")
-  expect_warning( plot(hbc_obj, type = "storage") )  # No cluster_id passed
+test_that("No error for all plot types and variables", {
+  common_args <- list(simulation = test_sim_small(),
+                      element_id = info_clusters()$cluster_id[1])
+  args1 <- c(common_args, type = "storage", variable = "volume")
+  args2 <- c(common_args, type = "storage", variable = "depth")
+  args3 <- c(common_args, type = "flows", variable = "volume")
+  args4 <- c(common_args, type = "flows", variable = "depth")
+
+  expect_no_error( do.call(plot_hbc, args1) )
+  expect_no_error( do.call(plot_hbc, args2) )
+  expect_no_error( do.call(plot_hbc, args3) )
+  expect_no_error( do.call(plot_hbc, args4) )
 })
 
-test_that("plot.hbc snapshot is constant", {
-  skip_on_ci()
+test_that("Succeeds but warns if no cluster is specified", {
+  plot_hbc(test_sim_small()) |>
+    expect_no_error() |>
+    expect_warning()
+})
 
-  hbc_obj <- get_layer(test_sim_small(), "hbc")
-  element_id <- get_output(hbc_obj)$cluster_id[1]
-  plot_obj <- plot(hbc_obj, type = "storage", element_id = element_id)
-
-  expect_snapshot(plot_obj)
+test_that("plot_hbc snapshot is constant", {
+  plot_hbc(test_sim_small(),
+           type = "storage",
+           variable = "volume",
+           element_id = info_clusters()$cluster_id[1]
+           ) |>
+    expect_snapshot()
 })

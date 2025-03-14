@@ -120,7 +120,18 @@ erahumed_simulation <- function(
   res$etc$cluster_variety_map <-
     withr::with_seed(seed, generate_clusters_variety(variety_prop))
 
-  run_simulation(res)
+  res |>
+    compute_inp() |>
+    compute_hbl() |>
+    compute_hbc() |>
+    compute_hbd() |>
+    compute_ca() |>
+    compute_ctc() |>
+    compute_ctd() |>
+    compute_ctl() |>
+    compute_rc() |>
+    compute_rd() |>
+    compute_rl()
 }
 
 initialize_erahumed_simulation <- function(inputs)
@@ -142,8 +153,6 @@ is_erahumed_simulation <- function(obj) {
     hasName(obj, "outputs") &&
     is.list(obj[["outputs"]]) &&
     all(sapply(obj[["outputs"]], is.data.frame))
-
-  return(TRUE)
 }
 
 #' @export

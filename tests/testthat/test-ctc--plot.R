@@ -1,23 +1,23 @@
 test_that("No error with basic valid inputs", {
-  ct_obj <- get_layer(test_sim_small(), "ctc")
-  element_id <- get_output(ct_obj)$element_id[[1]]
-
-  expect_no_error( plot(ct_obj, element_id = element_id) )
+  plot_ctc(test_sim_small(), element_id = info_clusters()$cluster_id[1]) |>
+    expect_no_error()
 })
 
-test_that("No error with variable = 'density'", {
-  ct_obj <- get_layer(test_sim_small(), "ctc")
-  element_id <- get_output(ct_obj)$element_id[[1]]
+test_that("No error for all plot types and variables", {
+  common_args <- list(simulation = test_sim_small(),
+                      element_id = info_clusters()$cluster_id[1])
 
-  expect_no_error( plot(ct_obj, variable = "density", element_id = element_id) )
+  expect_no_error( do.call(plot_ctc, c(common_args, compartment = "water")) )
+  expect_no_error( do.call(plot_ctc, c(common_args, compartment = "sediment")) )
 })
 
-test_that("plot.ctc snapshot is constant", {
-  skip_on_ci()
+test_that("Succeeds but warns if no cluster is specified", {
+  plot_ctc(test_sim_small()) |>
+    expect_no_error() |>
+    expect_warning()
+})
 
-  ct_obj <- get_layer(test_sim_small(), "ctc")
-  element_id <- get_output(ct_obj)$element_id[1]
-  plot_obj <- plot(ct_obj, element_id = element_id)
-
-  expect_snapshot(plot_obj)
+test_that("Snapshot is constant", {
+  plot_ctc(test_sim_small(), element_id = info_clusters()$cluster_id[1]) |>
+    expect_snapshot()
 })
