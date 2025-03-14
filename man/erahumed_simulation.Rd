@@ -5,6 +5,8 @@
 \title{Initialize an ERAHUMED simulation}
 \usage{
 erahumed_simulation(
+  date_start = "2020-01-01",
+  date_end = "2020-12-31",
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
@@ -15,7 +17,6 @@ erahumed_simulation(
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
   ditch_level_m = 1,
-  seed = 840,
   ca_schedules_df = erahumed::albufera_ca_schedules,
   drift = 0,
   covmax = 0.5,
@@ -27,7 +28,8 @@ erahumed_simulation(
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   wilting = 0.24,
-  fc = 0.35
+  fc = 0.35,
+  seed = 840
 )
 }
 \arguments{
@@ -50,8 +52,6 @@ erahumed_simulation(
 \item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 
 \item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
-
-\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 
 \item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
 
@@ -76,6 +76,8 @@ erahumed_simulation(
 \item{wilting}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Wilting point.}
 
 \item{fc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Field capacity.}
+
+\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 }
 \value{
 An object of class \code{erahumed_simulation}.

@@ -3,23 +3,20 @@
 
 test_sim_small <- function(seed = 840, force = FALSE) {
   if (force || is.null(.test_sim_small))
-    .test_sim_small <<- test_simulation("2010-01-01", "2010-01-10", seed = seed)
+    .test_sim_small <<- erahumed_simulation(date_start = "2010-01-01",
+                                            date_end = "2010-01-10",
+                                            seed = seed)
 
   .test_sim_small
 }
 
 test_sim_large <- function(seed = 840, force = FALSE) {
   if (force || is.null(.test_sim_large))
-    .test_sim_large <<- test_simulation("2010-01-01", "2011-12-31", seed = seed)
+    .test_sim_large <<- erahumed_simulation(date_start = "2010-01-01",
+                                            date_end = "2011-12-31",
+                                            seed = seed)
 
   .test_sim_large
-}
-
-test_simulation <- function(date_min, date_max, seed) {
-  outflows_df = albufera_outflows |>
-    dplyr::filter(date_min <= date, date <= date_max)
-
-  erahumed_simulation(outflows_df = outflows_df, seed = seed)
 }
 
 stopifnot(succeeds(test_sim_small()))

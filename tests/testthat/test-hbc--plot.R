@@ -28,6 +28,6 @@ test_that("plot_hbc snapshot is constant", {
            type = "storage",
            variable = "volume",
            element_id = info_clusters()$cluster_id[1]
-           ) |>
+  ) |>
     expect_snapshot()
 })

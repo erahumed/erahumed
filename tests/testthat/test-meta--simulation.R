@@ -2,6 +2,24 @@ expect_input_error <- function(object) {
   expect_error(object, class = "erahumed_input_error")
 }
 
+test_that("Error if invalid date parameters", {
+  precipitation_mm <- NULL
+
+  invalid_date_start <- NA
+  invalid_date_end <- "2020"
+
+  expect_input_error( erahumed_simulation(date_start = invalid_date_start) )
+  expect_input_error( erahumed_simulation(date_end = invalid_date_end) )
+})
+
+test_that("Error if 'date_end' precedes 'date_start'", {
+  invalid_date_window <- c("2020-01-01", "2019-01-01")
+
+  expect_input_error( erahumed_simulation(date_start = invalid_date_window[1],
+                                          date_end = invalid_date_window[2]
+                                          ) )
+})
+
 test_that("Error if invalid input data", {
   precipitation_mm <- NULL
 
@@ -19,6 +37,16 @@ test_that("Error if 'date' cols of input dfs are not intervals", {
 
   expect_input_error( erahumed_simulation(outflows_df = invalid_outflows_df) )
   expect_input_error( erahumed_simulation(weather_df = invalid_weather_df) )
+})
+
+test_that("Error if no data for provided date interval", {
+  precipitation_mm <- NULL
+
+  empty_window <- c("1800-01-01", "1800-12-31")
+
+  expect_input_error( erahumed_simulation(date_start = empty_window[1],
+                                          date_end = empty_window[2])
+                      )
 })
 
 test_that("Error if invalid variety proportions", {

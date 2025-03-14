@@ -36,6 +36,8 @@
 #'
 #' @export
 erahumed_simulation <- function(
+  date_start = "2020-01-01",
+  date_end = "2020-12-31",
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c("J.Sendra" = 0.8, "Bomba" = 0.1, "Clearfield" = 0.1),
@@ -46,7 +48,6 @@ erahumed_simulation <- function(
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
   ditch_level_m = 1,
-  seed = 840,
   ca_schedules_df = erahumed::albufera_ca_schedules,
   drift = 0,
   covmax = 0.5,
@@ -58,17 +59,24 @@ erahumed_simulation <- function(
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   wilting = 0.24,
-  fc = 0.35
+  fc = 0.35,
+  seed = 840
   )
 {
   tryCatch(
     {
+      assert_date(date_start)
+      assert_date(date_end)
+      if (as.Date(date_start) > as.Date(date_end)) {
+        stop("'date_start' must be earlier than or equal to 'date_end'.")
+      }
+
       outflows_df_template <- erahumed::albufera_outflows[,
                                                           c("date",
                                                             "level",
                                                             "is_imputed_level",
                                                             "is_imputed_outflow"
-                                                            )]
+                                                          )]
       assert_data.frame(outflows_df, template = outflows_df_template)
 
       assert_data.frame(weather_df, template = erahumed::albufera_weather)
@@ -77,6 +85,22 @@ erahumed_simulation <- function(
       if (any(diff(outflows_df$date) != 1)) {
         stop("Invalid 'date' domain in 'outflows_df' (not an interval).")
       }
+      if (any(diff(weather_df$date) != 1)) {
+        stop("Invalid 'date' domain in 'weather_df' (not an interval)." )
+      }
+
+      if (
+        date_start < min(c(outflows_df$date, weather_df$date)) ||
+        date_end > max(c(outflows_df$date, weather_df$date))
+        ) {
+        msg <- paste(
+          "Input data for the specified date interval is incomplete. ",
+          "Please check the 'date_start'/'date_end' parameters'",
+          "and the 'outflows_df' and 'weather_df' data.frames."
+        )
+        stop(msg)
+      }
+
       if (any(diff(weather_df$date) != 1)) {
         stop("Invalid 'date' domain in 'weather_df' (not an interval)." )
       }
