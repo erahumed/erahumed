@@ -25,31 +25,6 @@ dss_input_ui <- function(id) {
     dss_input_management_df_button(ns("open_management_df_modal"))
   )
 
-  # crop_parameters_ui <- bslib::layout_column_wrap(
-  #   shiny::div(
-  #     shiny::p(shiny::strong("Rice variety proportions"), dss_input_tooltip("variety_prop")),
-  #     shiny::numericInput(ns("prop_jsendra"),
-  #                         "Proportion of 'J.Sendra'",
-  #                         value = eval(formals(erahumed_simulation)$variety_prop)[[1]],
-  #                         min = 0,
-  #                         max = 10,
-  #                         step = 0.01),
-  #     shiny::numericInput(ns("prop_bomba"),
-  #                         "Proportion of 'Bomba' variety",
-  #                         value = eval(formals(erahumed_simulation)$variety_prop)[[2]],
-  #                         min = 0,
-  #                         max = 10,
-  #                         step = 0.01),
-  #     shiny::numericInput(ns("prop_clearfield"),
-  #                         "Proportion of 'Clearfield' variety",
-  #                         value = eval(formals(erahumed_simulation)$variety_prop)[[3]],
-  #                         min = 0,
-  #                         max = 10,
-  #                         step = 0.01),
-  #     style = "border: 1px solid lightgray; padding: 10px; margin: 5px;"
-  #   )
-  # )
-
   crop_parameters_ui <- bslib::layout_column_wrap(
     dss_input_prop_variety_slider(ns("prop_variety_12"))
   )
@@ -73,6 +48,7 @@ dss_input_ui <- function(id) {
     )
 
   bslib::page_fillable(
+    title = "Input",
     bslib::accordion(
       bslib::accordion_panel("Simulation settings", simulation_parameters_ui),
       bslib::accordion_panel("Hydrology", hydrology_parameters_ui),
