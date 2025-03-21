@@ -119,33 +119,35 @@ dss_input_server <- function(id) {
         )
     })
 
-    res <- shiny::reactive(list(
-      date_start = input$date_range[1],
-      date_end = input$date_range[2],
-      outflows_df = outflows_df(),
-      weather_df = weather_df(),
-      variety_prop = variety_prop(),
-      storage_curve_slope_m2 = 1e6 * input$sc_slope,
-      storage_curve_intercept_m3 = 1e6 * input$sc_intercept,
-      petp_surface_m2 = 1e6 * input$petp_surface,
-      management_df = management_df(),
-      ideal_flow_rate_cm = input$ideal_flow_rate_cm,
-      height_thresh_cm = input$height_thresh_cm,
-      ditch_level_m = input$ditch_level_m,
-      ca_schedules_df = ca_schedules_df(),
-      drift = input$drift,
-      covmax = input$covmax,
-      jgrow = input$jgrow,
-      SNK = input$SNK,
-      dact_m = input$dact_m,
-      css_ppm = input$css_ppm,
-      foc = input$foc,
-      bd_g_cm3 = input$bd_g_cm3,
-      qseep_m_day = input$qseep_m_day,
-      wilting = input$wilting,
-      fc = input$fc,
-      seed = input$seed
-      ))
+    res <- shiny::reactive({
+      list(
+        date_start = input$date_range[[1]],
+        date_end = input$date_range[[2]],
+        outflows_df = outflows_df(),
+        weather_df = weather_df(),
+        variety_prop = variety_prop(),
+        storage_curve_slope_m2 = 1e6 * input$sc_slope,
+        storage_curve_intercept_m3 = 1e6 * input$sc_intercept,
+        petp_surface_m2 = 1e6 * input$petp_surface,
+        management_df = management_df(),
+        ideal_flow_rate_cm = input$ideal_flow_rate_cm,
+        height_thresh_cm = input$height_thresh_cm,
+        ditch_level_m = input$ditch_level_m,
+        ca_schedules_df = ca_schedules_df(),
+        drift = input$drift,
+        covmax = input$covmax,
+        jgrow = input$jgrow,
+        SNK = input$SNK,
+        dact_m = input$dact_m,
+        css_ppm = input$css_ppm,
+        foc = input$foc,
+        bd_g_cm3 = input$bd_g_cm3,
+        qseep_m_day = input$qseep_m_day,
+        wilting = input$wilting,
+        fc = input$fc,
+        seed = input$seed
+      )}
+    )
 
     return(res)
 

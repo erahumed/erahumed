@@ -7,7 +7,7 @@ dss_input_seed <- function(id) {
     )
 }
 
-dss_input_date_range <- function(id) {
+dss_input_date_range <- function(id, date_min = NULL, date_max = NULL) {
   tltp <- bslib::tooltip(trigger = shiny_icon("question-circle"),
                          "Date range for simulation.",
                          placement = "right")
@@ -19,7 +19,9 @@ dss_input_date_range <- function(id) {
     value = c(
       eval(formals(erahumed_simulation)$date_start),
       eval(formals(erahumed_simulation)$date_end)
-      )
+      ),
+    minDate = date_min,
+    maxDate = date_max
     )
 }
 

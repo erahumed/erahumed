@@ -2,8 +2,6 @@ dss_run_server <- function(id, parameters, run) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    param_hash <- shiny::reactive( digest::digest(parameters()) )
-
     shiny::observe({
       shiny::showNotification(
         "Simulation parameters have changed. Click 'Run simulation' to update results.",
@@ -12,11 +10,19 @@ dss_run_server <- function(id, parameters, run) {
         id = ns("rerun_notif")
         )
       }) |>
-      shiny::bindEvent(param_hash(), ignoreInit = TRUE)
+      shiny::bindEvent(parameters(), ignoreInit = TRUE)
 
     res <- shiny::reactive({
-      shiny::removeNotification(id = ns("rerun_notif"))
-      do.call(erahumed_simulation, parameters())
+      shiny::req(parameters())
+
+      tryCatch(
+        do.call(erahumed_simulation, parameters()),
+        error = function(e) {
+          shiny::showNotification(paste("Simulation error:", e$message), type = "error")
+          shiny::req(FALSE)
+        },
+        finally = shiny::removeNotification(id = ns("rerun_notif"))
+        )
       }) |>
       shiny::bindEvent(run(), ignoreNULL = FALSE)
 
