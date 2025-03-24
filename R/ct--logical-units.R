@@ -43,7 +43,7 @@ ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
 ct_temperature_arrhenius <- function(temperature_ave,
                                      temperature_min,
                                      temperature_max) {
-  return(temperature_ave)  # TODO #132
+  return(temperature_ave)
 }
 
 ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {

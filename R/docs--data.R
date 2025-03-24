@@ -20,11 +20,7 @@
 #'
 #' @description
 #' Data from continuous measurements of outflow rates and lake levels from
-#' "Confederación Hidrográfica del Júcar" (CHJ). The original data has several
-#' missing entries, which have been imputed in this dataset using an approach
-#' based on GAMs.
-#'
-#' TODO: Document imputation approach used here. #51
+#' "Confederación Hidrográfica del Júcar" (CHJ).
 #'
 #' @name albufera_outflows
 #'
