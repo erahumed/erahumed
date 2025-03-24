@@ -89,7 +89,7 @@ dss_server <- function(input, output, session) {
 
     )
 
-  vmap <- shiny::reactive(get_etc(sim(), "inp")[["cluster_variety_map"]])
+  vmap <- shiny::reactive(get_etc(sim(),"cluster_variety_map"))
   output$map <- leaflet::renderLeaflet(
     plot_albufera_clusters(cluster_variety_map = vmap())
     ) |>
