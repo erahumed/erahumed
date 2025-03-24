@@ -25,7 +25,7 @@ get_results  <- function(simulation,
   element <- match.arg(element)
 
   layer <- paste0(
-    c(hydrology = "hb", exposure = "hb", risk = "r")[[component]],
+    c(hydrology = "hb", exposure = "ct", risk = "r")[[component]],
     c(lake = "l", ditch = "d", cluster = "c")[[element]]
   )
 
