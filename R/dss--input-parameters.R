@@ -124,17 +124,6 @@ dss_input_jgrow <- function(id) {
   )
 }
 
-dss_input_SNK <- function(id) {
-  shiny::numericInput(
-    inputId = id,
-    label = shiny::p("SNK", dss_input_tooltip("SNK")),
-    value = eval(formals(erahumed_simulation)$SNK),
-    step = 1,
-    min = 0,
-    max = 400
-  )
-}
-
 dss_input_dact_m <- function(id) {
   shiny::numericInput(
     inputId = id,
@@ -190,22 +179,11 @@ dss_input_qseep_m_day <- function(id) {
   )
 }
 
-dss_input_wilting <- function(id) {
+dss_input_porosity <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("wilting", dss_input_tooltip("wilting")),
-    value = eval(formals(erahumed_simulation)$wilting),
-    step = 0.01,
-    min = 0,
-    max = 1
-  )
-}
-
-dss_input_fc <- function(id) {
-  shiny::numericInput(
-    inputId = id,
-    label = shiny::p("fc", dss_input_tooltip("fc")),
-    value = eval(formals(erahumed_simulation)$fc),
+    label = shiny::p("porosity", dss_input_tooltip("porosity")),
+    value = eval(formals(erahumed_simulation)$porosity),
     step = 0.01,
     min = 0,
     max = 1

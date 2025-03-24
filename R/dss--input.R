@@ -37,14 +37,12 @@ dss_input_ui <- function(id) {
     dss_input_drift(ns("drift")),
     dss_input_covmax(ns("covmax")),
     dss_input_jgrow(ns("jgrow")),
-    dss_input_SNK(ns("SNK")),
     dss_input_dact_m(ns("dact_m")),
     dss_input_css_ppm(ns("css_ppm")),
     dss_input_foc(ns("foc")),
     dss_input_bd_g_cm3(ns("bd_g_cm3")),
     dss_input_qseep_m_day(ns("qseep_m_day")),
-    dss_input_wilting(ns("wilting")),
-    dss_input_fc(ns("fc"))
+    dss_input_porosity(ns("porosity"))
     )
 
   bslib::page_fillable(
@@ -137,14 +135,12 @@ dss_input_server <- function(id) {
         drift = input$drift,
         covmax = input$covmax,
         jgrow = input$jgrow,
-        SNK = input$SNK,
         dact_m = input$dact_m,
         css_ppm = input$css_ppm,
         foc = input$foc,
         bd_g_cm3 = input$bd_g_cm3,
         qseep_m_day = input$qseep_m_day,
-        wilting = input$wilting,
-        fc = input$fc,
+        porosity = input$porosity,
         seed = input$seed
       )}
     )

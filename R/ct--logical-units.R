@@ -2,10 +2,6 @@ ct_get_param <- function(chemical, parameter) {
   albufera_ct_parameters [[ chemical ]] [[ parameter ]]
 }
 
-ct_porosity <- function(fc, wilting) {
-  return(fc - wilting)
-}
-
 ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
   # Fraction of chemical residues in dissolved form and within voids in the
   # sediment
@@ -71,8 +67,8 @@ ct_mfapp <- function(application_kg, drift, cover) {
   application_kg * (1 - drift) * cover
 }
 
-ct_mwapp <- function(application_kg, drift, cover, SNK, is_empty) {
-  application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (!is_empty)
+ct_mwapp <- function(application_kg, drift, cover,is_empty) {
+  application_kg * (1 - drift) * (1 - cover) * (!is_empty)
 }
 
 ct_msapp <- function(application_kg, drift, cover, is_empty)

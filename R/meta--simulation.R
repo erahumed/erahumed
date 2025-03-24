@@ -21,14 +21,12 @@
 #' @param drift `r input_roxy("drift")`
 #' @param covmax `r input_roxy("covmax")`
 #' @param jgrow `r input_roxy("jgrow")`
-#' @param SNK `r input_roxy("SNK")`
 #' @param dact_m `r input_roxy("dact_m")`
 #' @param css_ppm `r input_roxy("css_ppm")`
 #' @param foc `r input_roxy("foc")`
 #' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
-#' @param wilting `r input_roxy("wilting")`
-#' @param fc `r input_roxy("fc")`
+#' @param porosity `r input_roxy("porosity")`
 #' @param seed `r input_roxy("seed")`
 #'
 #' @return An object of class `erahumed_simulation`.
@@ -54,14 +52,12 @@ erahumed_simulation <- function(
   drift = 0,
   covmax = 0.5,
   jgrow = 152,
-  SNK = 0,
   dact_m = 0.1,
   css_ppm = 50,
   foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
-  wilting = 0.24,
-  fc = 0.35,
+  porosity = 0.11,
   seed = 840
   )
 {

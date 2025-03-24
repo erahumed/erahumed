@@ -13,14 +13,12 @@
            drift = get_input(simulation, "drift"),
            covmax = get_input(simulation, "covmax"),
            jgrow = get_input(simulation, "jgrow"),
-           SNK = get_input(simulation, "SNK"),
            dact_m = get_input(simulation, "dact_m"),
            css_ppm = get_input(simulation, "css_ppm"),
            foc = get_input(simulation, "foc"),
            bd_g_cm3 = get_input(simulation, "bd_g_cm3"),
            qseep_m_day = get_input(simulation, "qseep_m_day"),
-           wilting = get_input(simulation, "wilting"),
-           fc = get_input(simulation, "fc")
+           porosity = get_input(simulation, "porosity")
            ) |>
       data.table::rbindlist() |>
       as.data.frame() |>
@@ -31,14 +29,12 @@
                                      drift,
                                      covmax,
                                      jgrow,
-                                     SNK,
                                      dact_m,
                                      css_ppm,
                                      foc,
                                      bd_g_cm3,
                                      qseep_m_day,
-                                     wilting,
-                                     fc
+                                     porosity
                                      )
 {
   area_m2 <- cluster_ca_df[["area_m2"]][[1]]
@@ -66,14 +62,12 @@
         drift = drift,
         covmax = covmax,
         jgrow = jgrow,
-        SNK = SNK,
         dact_m = dact_m,
         css_ppm = css_ppm,
         foc = foc,
         bd_g_cm3 = bd_g_cm3,
         qseep_m_day = qseep_m_day,
-        wilting = wilting,
-        fc = fc
+        porosity = porosity
         )
       c(res_template, list(chemical = chemical), masses)
     }) |>

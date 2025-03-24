@@ -1,31 +1,9 @@
-test_that("ct_porosity(): result is a percentage with the standard inputs", {
-  arg_names <- names(formals(ct_porosity))
-  args <- formals(erahumed_simulation)[arg_names]
-  res <- do.call(ct_porosity, args)
-
-  expect_gte(res, 0)
-  expect_lte(res, 1)
-})
-test_that("ct_porosity(): result is a percentage with random inputs", {
-  set.seed(840)
-  n <- 1e3
-
-  wilting <- runif(n)
-  fc <- runif(n, min = wilting)
-  res <- ct_porosity(fc = fc, wilting = wilting)
-
-  expect_true(all( 0 <= res & res <= 1 ))
-})
-
-
 test_that("ct_fds(): result is a percentage with the standard inputs", {
   global_params <- formals(erahumed_simulation)
 
   bd_g_cm3 <- global_params$bd_g_cm3
 
-  fc <- global_params$fc
-  wilting <- global_params$wilting
-  pos <- ct_porosity(fc = fc, wilting = wilting)
+  pos <- 0.11
 
   chemicals <- unique(albufera_ca_schedules$chemical)
   for (chemical in chemicals) {
@@ -82,9 +60,7 @@ test_that("ct_fdw(): result is a percentage with random inputs", {
 test_that("ct_kdifus_m_day(): is always positive with the standard inputs", {
   global_params <- formals(erahumed_simulation)
 
-  fc <- global_params$fc
-  wilting <- global_params$wilting
-  pos <- ct_porosity(fc = fc, wilting = wilting)
+  pos <- 0.11
 
   chemicals <- unique(albufera_ca_schedules$chemical)
   for (chemical in chemicals) {

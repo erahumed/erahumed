@@ -37,14 +37,12 @@
         drift = get_input(simulation, "drift"),
         covmax = get_input(simulation, "covmax"),
         jgrow = get_input(simulation, "jgrow"),
-        SNK = get_input(simulation, "SNK"),
         dact_m = get_input(simulation, "dact_m"),
         css_ppm = get_input(simulation, "css_ppm"),
         foc = get_input(simulation, "foc"),
         bd_g_cm3 = get_input(simulation, "bd_g_cm3"),
         qseep_m_day = get_input(simulation, "qseep_m_day"),
-        wilting = get_input(simulation, "wilting"),
-        fc = get_input(simulation, "fc")
+        porosity = get_input(simulation, "porosity")
       )
       c(res_template, list(chemical = chemical), masses)
     }) |>

@@ -21,14 +21,12 @@ erahumed_simulation(
   drift = 0,
   covmax = 0.5,
   jgrow = 152,
-  SNK = 0,
   dact_m = 0.1,
   css_ppm = 50,
   foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
-  wilting = 0.24,
-  fc = 0.35,
+  porosity = 0.11,
   seed = 840
 )
 }
@@ -59,27 +57,23 @@ erahumed_simulation(
 
 \item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
 
-\item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Percentage of chemical applications lost to drift.}
+\item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of applied chemical lost to drift during application.}
 
-\item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Interception potential of foliage at crop maturation.}
+\item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Maximum potential fraction of applied chemicals intercepted by foliage at crop maturation.}
 
 \item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle.}
 
-\item{SNK}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. (TODO).}
+\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 
-\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, expressed in meters.}
+\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of suspended solid, expressed in parts per million.}
 
-\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Suspended sediment concentration, expressed in parts per million.}
+\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic content within suspended solids and sediments.}
 
-\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic content.}
+\item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
 
-\item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment, expressed in grams per cubic centimeter.}
+\item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, \emph{i.e.} the rate at which water seeps through the sediment or soil. Expressed in meters per day.}
 
-\item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, expressed in meters per day.}
-
-\item{wilting}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Wilting point.}
-
-\item{fc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Field capacity.}
+\item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 
 \item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 }

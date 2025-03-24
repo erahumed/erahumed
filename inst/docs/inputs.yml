@@ -61,7 +61,7 @@ weather_df:
 
 variety_prop:
   name: "Rice variety proportion"
-  group: "Environmental Scenario"
+  group: "Crop parameters"
   type: "numeric(3)"
   description: >-
     Vector of `3` positive values. Controls the proportions
@@ -111,7 +111,7 @@ petp_surface_m2:
 
 management_df:
   name: "Rice paddy management data frame"
-  group: "Environmental scenario"
+  group: "Hydrology"
   type: "data.frame"
   description: >-
     Dataset that provides the yearly schedule for irrigation and
@@ -168,7 +168,7 @@ ditch_level_m:
 
 ca_schedules_df:
   name: "Chemical application schedules data frame"
-  group: "Environmental Scenario"
+  group: "Pesticide parameters"
   type: "data.frame"
   description: >-
     A dataset that provides the list of scheduled chemical applications,
@@ -191,95 +191,84 @@ ca_schedules_df:
 
 drift:
   name: "Drift"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
-    A number between `0` and `1`. Percentage of chemical applications lost
-    to drift.
+    A number between `0` and `1`. Fraction of applied chemical lost to drift
+    during application.
 
 covmax:
   name: "Max interception potential"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
-    A number between `0` and `1`. Interception potential of foliage at
-    crop maturation.
+    A number between `0` and `1`. Maximum potential fraction of applied
+    chemicals intercepted by foliage at crop maturation.
 
 jgrow:
   name: "Maturation cycle length"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "day"
   type: "numeric(1)"
   description: >-
     A positive integer. Length (in days) of crop maturation cycle.
 
-SNK:
-  name: "SNK"
-  group: "Environmental Scenario"
-  unit: "1"
-  type: "numeric(1)"
-  description: >-
-    A number between `0` and `1`. (TODO).
-
 dact_m:
   name: "Depth of active sediment"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "m"
   type: "numeric(1)"
   description: >-
-    A positive number. Active sediment layer depth, expressed in meters.
+    A positive number. Active sediment layer depth, where "active""
+    refers to the portion of the sediment that is actually involved
+    in chemical exchange or transport processes. Expressed in meters.
 
 css_ppm:
-  name: "Suspended sediment concentration"
-  group: "Environmental Scenario"
+  name: "Suspended solid concentration"
+  group: "Physico-chemical environmental properties"
   unit: "ppm"
   type: "numeric(1)"
   description: >-
-    A positive number. Suspended sediment concentration, expressed in
-    parts per million.
+    A positive number. Concentration of suspended solid, expressed in parts per
+    million.
 
 foc:
   name: "Fraction of organic content"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
-    A number between `0` and `1`. Fraction of organic content.
+    A number between `0` and `1`. Fraction of organic content within suspended
+    solids and sediments.
 
 bd_g_cm3:
   name: "Bulk density of sediment"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "g\u00B7cm\u207B\u00B2"
   type: "numeric(1)"
   description: >-
-    A positive number. Bulk density of the sediment, expressed in grams
-    per cubic centimeter.
+    A positive number. Bulk density of the sediment (including both the solid
+    material and the pore spaces). Expressed in grams per cubic centimeter.
 
 qseep_m_day:
   name: "Seepage rate"
-  group: "Environmental Scenario"
+  group: "Physico-chemical environmental properties"
   unit: "m\u00B7day\u207B\u00B9"
   type: "numeric(1)"
   description: >-
-    A positive number. Seepage rate, expressed in meters per day.
+    A positive number. Seepage rate, *i.e.* the rate at which water seeps
+    through the sediment or soil. Expressed in meters per day.
 
-wilting:
-  name: "Wilting point"
-  group: "Environmental Scenario"
+porosity:
+  name: "Porosity"
+  group: "Physico-chemical environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
-    A number between `0` and `1`. Wilting point.
-
-fc:
-  name: "Field capacity"
-  group: "Environmental Scenario"
-  unit: "1"
-  type: "numeric(1)"
-  description: >-
-    A number between `0` and `1`. Field capacity.
+    A number between `0` and `1`. The fraction of the total sediment volume
+    that is occupied by pore spaces.
 
 seed:
   name: "Simulation random seed"
