@@ -59,7 +59,9 @@ plot_risk <- function(r_output,
 
   # Add each individual series as part of the stacked graph
   for (col in cols_without_total) {
-    g <- g |> dygraphs::dySeries(col, axis = "y")
+    color <- chemical_color_map()[col]
+    if (is.na(color)) color <- "#888888"
+    g <- g |> dygraphs::dySeries(col, axis = "y", color = color)
   }
 
   # Add the msPAF line separately on a second y-axis
