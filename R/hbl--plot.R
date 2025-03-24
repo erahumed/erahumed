@@ -40,7 +40,7 @@ plot_erahumed_hbl_storage <- function(data, variable, dygraph_group) {
     dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dySeries(y_var, label = var_name)
+    dygraphs::dySeries(y_var, label = var_name, color = "black")
 }
 
 
@@ -81,7 +81,7 @@ plot_erahumed_hbl_flows <- function(data, variable, sc_slope, dygraph_group)
     dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dySeries(y_vars[[1]], label = "Outflow") |>
-    dygraphs::dySeries(y_vars[[2]], label = "Inflow") |>
-    dygraphs::dySeries(y_vars[[3]], label = "PET")
+    dygraphs::dySeries(y_vars[[1]], label = "Outflow", color = "#000099") |>
+    dygraphs::dySeries(y_vars[[2]], label = "Inflow", color = "#000099") |>
+    dygraphs::dySeries(y_vars[[3]], label = "PET", color = "#DD0000")
 }
