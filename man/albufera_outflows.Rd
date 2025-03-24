@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{albufera_outflows}}{
 
-The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{level}{Lake level (in meters above sea level)}\item{outflow_pujol}{Outflow at Pujol (meters cube per second)}\item{outflow_perellonet}{Outflow at Perellonet (meters cube per second)}\item{outflow_perello}{Outflow at Perello (meters cube per second)}\item{is_imputed_level}{Whether the \code{level} value was imputed.}\item{is_imputed_outflow}{Whether (any of) the outflows were imputed.}}
+The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{level}{Lake level (in meters above sea level)}\item{outflow_pujol}{Outflow at Pujol (meters cube per second)}\item{outflow_perellonet}{Outflow at Perellonet (meters cube per second)}\item{outflow_perello}{Outflow at Perello (meters cube per second)}}
 }
 }
 \source{
@@ -17,7 +17,7 @@ The cardinality of data is given by: one row per day in the desired study frame.
 albufera_outflows
 }
 \description{
-Data from continuous measurements of outflow rates and lake level from
+Data from continuous measurements of outflow rates and lake levels from
 "Confederación Hidrográfica del Júcar" (CHJ). The original data has several
 missing entries, which have been imputed in this dataset using an approach
 based on GAMs.

@@ -73,12 +73,7 @@ erahumed_simulation <- function(
         stop("'date_start' must be earlier than or equal to 'date_end'.")
       }
 
-      outflows_df_template <- erahumed::albufera_outflows[,
-                                                          c("date",
-                                                            "level",
-                                                            "is_imputed_level",
-                                                            "is_imputed_outflow"
-                                                          )]
+      outflows_df_template <- erahumed::albufera_outflows
       assert_data.frame(outflows_df, template = outflows_df_template)
 
       assert_data.frame(weather_df, template = erahumed::albufera_weather)

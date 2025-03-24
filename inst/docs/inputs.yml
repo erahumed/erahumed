@@ -35,10 +35,6 @@ outflows_df:
       Outflow at Perellonet (meters cube per second)
     outflow_perello: >-
       Outflow at Perello (meters cube per second)
-    is_imputed_level: >-
-      Whether the `level` value was imputed.
-    is_imputed_outflow: >-
-      Whether (any of) the outflows were imputed.
 
 weather_df:
   name: "Weather data frame"

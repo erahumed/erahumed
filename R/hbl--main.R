@@ -12,8 +12,6 @@ compute_hbl <- function(simulation)
       evapotranspiration_mm = inp_df$evapotranspiration_mm,
       outflows = inp_df[, grepl("^outflow_", colnames(inp_df))],
       date = inp_df$date,
-      is_imputed_level = inp_df$is_imputed_level,
-      is_imputed_outflow = inp_df$is_imputed_outflow,
       storage_curve_slope_m2 = storage_curve_slope_m2,
       storage_curve_intercept_m3 = storage_curve_intercept_m3,
       petp_surface_m2 = petp_surface_m2
