@@ -89,14 +89,6 @@ test_that("Error if invalid 'management_df' date interval", {
   expect_input_error( erahumed_simulation(management_df = invalid_mgmt_df) )
 })
 
-
-
-
-
-
-
-
-
 test_that("Simulation results depend on seed", {
   s1 <- test_sim_small(seed = 1, force = TRUE)
   s2 <- test_sim_small(seed = 2, force = TRUE)
@@ -111,44 +103,32 @@ test_that("Simulation results are reproducible by fixing seed", {
   expect_identical(s1, s2)
 })
 
-
-skip("Temporarily Skipped")
-
-test_that("Constructor succeeds", {
-  expect_no_error( erahumed_simulation() )
-})
-
 test_that("Validator returns TRUE on constructor output", {
-  m <- erahumed_simulation()
-  expect_true( is_erahumed_simulation(m) )
+  expect_true( is_erahumed_simulation(test_sim_small()) )
 })
 
 test_that("Validator: FALSE if object is not a list", {
-  obj <- structure("Not a list", class = class(erahumed_simulation()))
-  expect_false( is_erahumed_simulation(obj) )
-})
-
-test_that("Validator: FALSE if list elements are not of the right S3 class", {
-  obj <- erahumed_simulation()
-  obj[["invalid_element"]] <- list()  # Not of 'simulation_layer' class!
+  obj <- structure("Not a list", class = class(test_sim_small()))
   expect_false( is_erahumed_simulation(obj) )
 })
 
 test_that("Validator: FALSE if object is not of the right S3 class", {
-  expect_false( is_erahumed_simulation(list()) )
+  obj <- unclass(test_sim_small())
+  expect_false( is_erahumed_simulation(obj) )
 })
 
 test_that("print() method succeeds", {
-  obj <- erahumed_simulation()
-  expect_no_error(capture.output(print(obj)))
+  expect_no_error( print(test_sim_small()) ) |>
+    suppressMessages() |>
+    capture.output()
 })
 
 test_that("print() method returns invisibly", {
-  obj <- erahumed_simulation()
-  print_res <- expect_output(print(obj))
-  expect_identical(print_res, obj)
+  print_res <- expect_output(print(test_sim_small()))
+  expect_identical(print_res, test_sim_small())
 })
 
 test_that("summary() method succeeds", {
-  expect_no_error( capture.output(summary(erahumed_simulation())) )
+  expect_no_error( summary(test_sim_small()) ) |>
+    capture.output()
 })
