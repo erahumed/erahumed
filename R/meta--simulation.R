@@ -178,7 +178,15 @@ is_erahumed_simulation <- function(obj) {
 
 #' @export
 print.erahumed_simulation <- function(x, ...) {
-  cat("A ERAHUMED simulation.")
+  cat("A ERAHUMED simulation.\n\n")
+  cat("Start date:", get_input(x, "date_start"), "\n")
+  cat("End date:", get_input(x, "date_end"), "\n")
+  rlang::inform(
+
+    c("", i = "Need help extracting simulation outputs? Check `?get_results`."),
+    .frequency = "once",
+    .frequency_id = "erahumed_get_results"
+    )
 
   return(invisible(x))
 }
