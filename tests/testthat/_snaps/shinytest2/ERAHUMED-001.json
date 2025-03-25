@@ -70,11 +70,13 @@
         "attrs": {
           "axes": {
             "x": {
-              "pixelsPerLabel": 60
+              "pixelsPerLabel": 60,
+              "drawAxis": true
             },
             "y": {
               "axisLabelWidth": 80,
-              "valueFormatter": "function(d) { return d.toPrecision(3) + ' μg / L'; }"
+              "valueFormatter": "function(d) { return d.toPrecision(3) + ' μg / L'; }",
+              "drawAxis": true
             }
           },
           "labels": [
@@ -94,7 +96,43 @@
           "rangeSelectorHeight": 40,
           "rangeSelectorPlotFillColor": " #A7B1C4",
           "rangeSelectorPlotStrokeColor": "#808FAB",
-          "interactionModel": "Dygraph.Interaction.defaultModel"
+          "interactionModel": "Dygraph.Interaction.defaultModel",
+          "stackedGraph": false,
+          "fillGraph": false,
+          "fillAlpha": 0.15,
+          "stepPlot": false,
+          "drawPoints": false,
+          "pointSize": 1,
+          "drawGapEdgePoints": false,
+          "connectSeparatedPoints": false,
+          "strokeWidth": 1,
+          "strokeBorderColor": "white",
+          "colors": [
+            "#CC79A7",
+            "#0072B2"
+          ],
+          "colorValue": 0.5,
+          "colorSaturation": 1,
+          "includeZero": false,
+          "drawAxesAtZero": false,
+          "logscale": false,
+          "axisTickSize": 3,
+          "axisLineColor": "black",
+          "axisLineWidth": 0.3,
+          "axisLabelColor": "black",
+          "axisLabelFontSize": 14,
+          "axisLabelWidth": 60,
+          "drawGrid": true,
+          "gridLineWidth": 0.3,
+          "rightGap": 5,
+          "digitsAfterDecimal": 2,
+          "labelsKMB": false,
+          "labelsKMG2": false,
+          "labelsUTC": false,
+          "maxNumberWidth": 6,
+          "animatedZooms": false,
+          "mobileDisableYTouch": true,
+          "disableZoom": false
         },
         "scale": "daily",
         "group": "dss",
@@ -1213,7 +1251,9 @@
         ],
         "plugins": {
           "Unzoom": "{}"
-        }
+        },
+        "fixedtz": false,
+        "tzone": "UTC"
       },
       "evals": [
         "attrs.axes.y.valueFormatter",
@@ -1269,6 +1309,10 @@
           "rangeSelectorPlotFillColor": " #A7B1C4",
           "rangeSelectorPlotStrokeColor": "#808FAB",
           "interactionModel": "Dygraph.Interaction.defaultModel",
+          "colors": [
+            "black",
+            "black"
+          ],
           "series": {
             "Depth": {
               "axis": "y"
@@ -2126,6 +2170,16 @@
           "rangeSelectorPlotFillColor": " #A7B1C4",
           "rangeSelectorPlotStrokeColor": "#808FAB",
           "interactionModel": "Dygraph.Interaction.defaultModel",
+          "colors": [
+            "#000000",
+            "#E69F00",
+            "#56B4E9",
+            "#009E73",
+            "#0072B2",
+            "#D55E00",
+            "#CC79A7",
+            "black"
+          ],
           "series": {
             "Acetamiprid": {
               "axis": "y"
@@ -2153,17 +2207,7 @@
               "fillGraph": false,
               "strokeWidth": 2
             }
-          },
-          "colors": [
-            "#805500",
-            "#005580",
-            "#558000",
-            "#000080",
-            "#008000",
-            "#550080",
-            "#008055",
-            "black"
-          ]
+          }
         },
         "scale": "daily",
         "group": "dss",

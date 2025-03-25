@@ -42,7 +42,7 @@ strip_roxy_macros <- function(x)
 wrap_bcktcks <- function(x) paste0("`", x, "`")
 
 input_docs_df <- function() {
-  docs <- erahumed::erahumed_input_docs()
+  docs <- erahumed:::erahumed_input_docs()
 
   res <- data.frame(Parameter = names(docs) |> 
                       wrap_bcktcks() |> gt::vec_fmt_markdown(),

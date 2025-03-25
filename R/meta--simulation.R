@@ -161,13 +161,13 @@ is_erahumed_simulation <- function(obj) {
   is.list(obj) &&
     inherits(obj, "erahumed_simulation") &&
 
-    hasName(obj, "inputs") &&
+    utils::hasName(obj, "inputs") &&
     is.list(obj[["inputs"]]) &&
 
-    hasName(obj, "etc") &&
+    utils::hasName(obj, "etc") &&
     is.list(obj[["etc"]]) &&
 
-    hasName(obj, "outputs") &&
+    utils::hasName(obj, "outputs") &&
     is.list(obj[["outputs"]]) &&
     all(sapply(obj[["outputs"]], is.data.frame))
 }

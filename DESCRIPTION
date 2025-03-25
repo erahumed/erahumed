@@ -43,6 +43,7 @@ Imports:
     data.table,
     DT,
     dygraphs,
+    grDevices,
     htmlwidgets,
     leaflet,
     readr,
