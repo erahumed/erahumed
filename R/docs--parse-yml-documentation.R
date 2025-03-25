@@ -10,7 +10,7 @@
 #' A list or a character vector, depending on whether the keys passed through
 #' the `...` argument identify a leaf or an internal node of the YAML tree.
 #'
-#' @export
+#' @noRd
 erahumed_input_docs <- function(...)
 {
   args <- list(...)
