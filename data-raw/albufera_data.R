@@ -176,10 +176,11 @@ albufera_outflows <- albufera_outflows |>
     level,
     outflow_pujol = pujol,
     outflow_perellonet = perellonet,
-    outflow_perello = perello,
-    is_imputed_level = is_imputed_level,
-    is_imputed_outflow =
-      pujol_is_imputed | perello_is_imputed | perellonet_is_imputed
+    outflow_perello = perello
+    # No longer exported:
+    # is_imputed_level = is_imputed_level,
+    # is_imputed_outflow =
+    #   pujol_is_imputed | perello_is_imputed | perellonet_is_imputed
   )
 
 

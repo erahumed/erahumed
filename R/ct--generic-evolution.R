@@ -14,14 +14,12 @@ ct_time_series <- function(application_kg,
                            drift,
                            covmax,
                            jgrow,
-                           SNK,
                            dact_m,
                            css_ppm,
                            foc,
                            bd_g_cm3,
                            qseep_m_day,
-                           wilting,
-                           fc
+                           porosity
                            )
 {
   volume_eps <- 1e-6 # Threshold below which densities are reported as NA
@@ -42,14 +40,12 @@ ct_time_series <- function(application_kg,
                             drift = drift,
                             covmax = covmax,
                             jgrow = jgrow,
-                            SNK = SNK,
                             dact_m = dact_m,
                             css_ppm = css_ppm,
                             foc = foc,
                             bd_g_cm3 = bd_g_cm3,
                             qseep_m_day = qseep_m_day,
-                            wilting = wilting,
-                            fc = fc)
+                            porosity = porosity)
 
   eAww <- terms[["eAww"]]
   eAws <- terms[["eAws"]]
@@ -119,14 +115,12 @@ ct_ts_step_terms <- function(application_kg,
                              drift,
                              covmax,
                              jgrow,
-                             SNK,
                              dact_m,
                              css_ppm,
                              foc,
                              bd_g_cm3,
                              qseep_m_day,
-                             wilting,
-                             fc
+                             porosity
                              )
 {
   n_time_steps <- length(outflow_m3_s)  # Guaranteed to be of required length
@@ -152,7 +146,7 @@ ct_ts_step_terms <- function(application_kg,
   fet_cm <- ct_get_param(chemical, "fet_cm")
 
   # Derived parameters
-  pos <- ct_porosity(fc = fc, wilting = wilting)
+  pos <- porosity
   fds <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
   fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
@@ -174,7 +168,7 @@ ct_ts_step_terms <- function(application_kg,
 
   # Precomputed time series
   cover <- ct_cover(seed_day = seed_day, jgrow = jgrow, covmax = covmax)
-  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0)
+  is_empty <- ct_is_empty(height_m = height_eod_m, thresh_m = 0.0001)
 
 
   ### Settlement
@@ -202,8 +196,8 @@ ct_ts_step_terms <- function(application_kg,
 
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)
-  mwapp <- ct_mwapp(application_kg, drift, cover, SNK, is_empty) + mw_inflow_kg
-  msapp <- ct_msapp(application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m)
+  mwapp <- ct_mwapp(application_kg, drift, cover, is_empty) + mw_inflow_kg
+  msapp <- ct_msapp(application_kg, drift, cover, is_empty)
 
 
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)

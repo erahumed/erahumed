@@ -1,16 +1,16 @@
-#' @noRd
-#' @noRd
-plot.erahumed_hbd <- function(x,
-                              element_id = NULL,
-                              type = c("storage", "flows"),
-                              variable = c("depth", "volume"),
-                              dygraph_group = NULL,
-                              ...)
+plot_hbd <- function(simulation,
+                     element_id = NULL,
+                     type = c("storage", "flows"),
+                     variable = c("depth", "volume"),
+                     dygraph_group = NULL,
+                     ...)
 {
+  assert_erahumed_simulation(simulation)
+
   type <- match.arg(type)
   variable <- match.arg(variable)
 
-  data <- get_layer_output(x)
+  data <- get_output(simulation, "hbd")
 
   if (is.null(element_id)) {
     element_id <- data$ditch[[1]]
@@ -58,7 +58,7 @@ plot_erahumed_hbd_storage <- function(data, element_id, variable, dygraph_group)
     dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dySeries(y_var, label = var_name)
+    dygraphs::dySeries(y_var, label = var_name, color = "black")
 
 }
 
@@ -96,7 +96,7 @@ plot_erahumed_hbd_flows <- function(data, element_id, variable, dygraph_group)
     dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dySeries(y_vars[[1]], label = "Outflow") |>
-    dygraphs::dySeries(y_vars[[2]], label = "Inflow")
+    dygraphs::dySeries(y_vars[[1]], label = "Outflow", color = "#000099") |>
+    dygraphs::dySeries(y_vars[[2]], label = "Inflow", color = "#000099")
 }
 

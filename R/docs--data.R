@@ -8,7 +8,7 @@
 #' Publicly available at <http://riegos.ivia.es/>.
 #'
 #' @format ## `albufera_weather`
-#' `r erahumed_dataset_format("weather_df", "inp")`
+#' `r erahumed_dataset_format("weather_df")`
 #' @source <http://riegos.ivia.es/>
 "albufera_weather"
 
@@ -19,17 +19,13 @@
 #' @family input data
 #'
 #' @description
-#' Data from continuous measurements of outflow rates and lake level from
-#' "Confederación Hidrográfica del Júcar" (CHJ). The original data has several
-#' missing entries, which have been imputed in this dataset using an approach
-#' based on GAMs.
-#'
-#' TODO: Document imputation approach used here. #51
+#' Data from continuous measurements of outflow rates and lake levels from
+#' "Confederación Hidrográfica del Júcar" (CHJ).
 #'
 #' @name albufera_outflows
 #'
 #' @format ## `albufera_outflows`
-#' `r erahumed_dataset_format("outflows_df", "inp")`
+#' `r erahumed_dataset_format("outflows_df")`
 #' @source <https://aps.chj.es/>
 "albufera_outflows"
 
@@ -45,7 +41,7 @@
 #'
 #'
 #' @format ## `albufera_management`
-#' `r erahumed_dataset_format("management_df", "hbc")`
+#' `r erahumed_dataset_format("management_df")`
 #' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
 #' Rico, A. (2023). Influence of climate change and pesticide use practices on
 #' the ecological risks of pesticides in a protected Mediterranean wetland: A
@@ -64,7 +60,7 @@
 #' [Martínez-Megías et al. (2023)](https://doi.org/10.1016/j.scitotenv.2023.163018).
 #'
 #' @format ## `albufera_ca_schedules`
-#' `r erahumed_dataset_format("ca_schedules_df", "ca")`
+#' `r erahumed_dataset_format("ca_schedules_df")`
 #'
 #' @source Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
 #' Rico, A. (2023). Influence of climate change and pesticide use practices on

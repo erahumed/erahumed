@@ -1,5 +1,5 @@
-# plot.hbl snapshot is constant
+# plot_hbl snapshot is constant
 
     Code
-      plot_obj
+      plot_hbl(test_sim_small(), type = "storage", variable = "volume")
 

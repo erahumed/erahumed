@@ -27,38 +27,29 @@ interface of `{erahumed}`.
 library(erahumed)
 ```
 
-We initialize a new ERAHUMED simulation with:
+ERAHUMED simulation can be run with:
 
 ```{r}
 sim <- erahumed_simulation()
 sim
 ```
-At this stage, `sim` is simply a list of simulation parameters, all initialized 
-to their default values. To customize these parameters, we use 
-`setup_hydrology()`, `setup_exposure()`, and `setup_risk()`. These functions 
-provide access to the specific subset of parameters associated with 
-the hydrology, exposure, or risk components of the simulation, respectively.
-For instance, the following command modifies the "height threshold" numeric 
-parameter and provides a custom `outflows_df` input data-set with a reduced 
-date range (see `?setup_hydrology` for the detailed documentation of these 
-parameters):
+The command above runs a simulation with the default model parameters. These can be customized through the arguments of `erahumed_simulation()`, for instance:
 
 ```{r}
-outflows_df <- albufera_outflows |>
-  (\(.) .["2020-01-01" <= .$date & .$date <= "2020-12-31", ])()
-sim <- sim |> 
-  setup_hydrology(height_thresh_cm = 1, outflows_df = outflows_df)
+sim2 <- erahumed_simulation(
+  variety_prop = c(J.Sendra = 0.6, Bomba = 0.2, Clearfield = 0.2),
+  ideal_flow_rate_cm = 10,
+  seed = 841
+)
 ```
+
+The full set of simulation parameters is documented in `?erahumed_simulation` (see [here](https://erahumed.github.io/erahumed/articles/simulation-inputs.html) for
+a table format).
 
 Once we are ready with our simulation setup, in order to actually run the 
 simulation we use:
 
-```{r}
-sim <- sim |> 
-  run_simulation()
-sim
-```
-In order to extract simulation results we use:
+Simulation results are extracted as follows:
 
 ```{r}
 lake_hydrology_df <- get_results(sim, component = "hydrology", element = "lake")

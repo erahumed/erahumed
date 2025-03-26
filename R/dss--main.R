@@ -35,8 +35,8 @@ dss_ui <- function() { bslib::page_navbar(
            nav_hyperlink("{erahumed} R Package Website", "https://erahumed.github.io/erahumed", icon = "r-project"),
            nav_hyperlink("Report a bug", "https://github.com/erahumed/erahumed/issues/new", icon = "github"),
            nav_menu_hr(),  # ---------------------------------
-           nav_hyperlink("Bird's eye view on simulation layers",
-                         "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
+           nav_hyperlink("Table of simulation inputs",
+                         "https://erahumed.github.io/erahumed/articles/simulation-inputs.html",
                          icon = NULL
            )
 
@@ -89,7 +89,7 @@ dss_server <- function(input, output, session) {
 
     )
 
-  vmap <- shiny::reactive(get_layer_aux(sim(), "inp")[["cluster_variety_map"]])
+  vmap <- shiny::reactive(get_etc(sim(),"cluster_variety_map"))
   output$map <- leaflet::renderLeaflet(
     plot_albufera_clusters(cluster_variety_map = vmap())
     ) |>

@@ -1,7 +1,5 @@
-#' Plot ctd simulation layer output
-#' @noRd
-plot.erahumed_ctd <- function(
-    x,
+plot_ctd <- function(
+    simulation,
     element_id = NULL,
     compartment = c("water", "sediment"),
     chemicals = NULL,
@@ -9,9 +7,10 @@ plot.erahumed_ctd <- function(
     ...
 )
 {
+  assert_erahumed_simulation(simulation)
   compartment <- match.arg(compartment)
 
-  data <- get_layer_output(x)
+  data <- get_output(simulation, "ctd")
 
   if (is.null(element_id)) {
     element_id <- data$element_id[[1]]

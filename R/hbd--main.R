@@ -1,35 +1,7 @@
-#' @title `r erahumed_docs("layers", "hbd", "title")`
-#' @name hbd
-#'
-#' @family simulation layers
-#'
-#' @description `r erahumed_docs("layers", "hbd", "description")`
-#'
-#' @inheritParams inp
-#' @param ditch_level_m `r erahumed_param_roxy("ditch_level_m", "hbd")`
-#'
-#' @return An object of class \link{erahumed_simulation}.
-#'
-#' @noRd
-setup_hbd <- function(simulation, ditch_level_m)
-{
-  tryCatch(
-    {
-      assert_erahumed_simulation(simulation)
-      assert_positive_number(ditch_level_m)
-    },
-    error = function(e) {
-      class(e) <- c("validate_hbd_params_error", class(e))
-      stop(e)
-    })
-
-  setup_layer(layer = "hbd")
-}
-
 compute_hbd <- function(simulation)
 {
-  ditch_level_m <- get_layer_parameters(simulation, "hbd")[["ditch_level_m"]]
-  hbc_res <- get_layer_output(simulation, "hbc")
+  ditch_level_m <- get_input(simulation, "ditch_level_m")
+  hbc_res <- get_output(simulation, "hbc")
 
   inflow_clusters_df <- hbc_res |>
     stats::aggregate(outflow_m3_s ~ ditch + date, FUN = sum) |>
@@ -63,7 +35,7 @@ compute_hbd <- function(simulation)
 
   validate_hbd_output(out)
 
-  simulation [["hbd"]] [["output"]] <- out
+  simulation [["outputs"]] [["hbd"]] <- out
 
   return(simulation)
 }

@@ -1,14 +1,14 @@
 .compute_ctd <- function(simulation) {
   output <- lapply(ctd_data_prep(simulation),
                    .compute_ctd_one_ditch,
-                   ctd_params = get_layer_parameters(simulation, "ctd")
+                   simulation = simulation
                    ) |>
     data.table::rbindlist() |>
     as.data.frame() |>
     (\(.) { names(.)[names(.) == "ditch"] <- "element_id"; . })()
 }
 
-.compute_ctd_one_ditch <- function(ctd_preproc_data, ctd_params)
+.compute_ctd_one_ditch <- function(ctd_preproc_data, simulation)
 {
   res_template <- as.list(ctd_preproc_data[["hbd"]][, c("ditch", "date")])
   chemicals <- names(ctd_preproc_data[["cluster_inflows_densities_kg_m3"]])
@@ -34,17 +34,15 @@
         area_m2 = ctd_preproc_data[["hbd"]][["surface"]][[1]],
         seed_day = 840,  # Ignored, only relevant for application interception (in clusters)
         chemical = chemical,
-        drift = ctd_params[["drift"]],
-        covmax = ctd_params[["covmax"]],
-        jgrow = ctd_params[["jgrow"]],
-        SNK = ctd_params[["SNK"]],
-        dact_m = ctd_params[["dact_m"]],
-        css_ppm = ctd_params[["css_ppm"]],
-        foc = ctd_params[["foc"]],
-        bd_g_cm3 = ctd_params[["bd_g_cm3"]],
-        qseep_m_day = ctd_params[["qseep_m_day"]],
-        wilting = ctd_params[["wilting"]],
-        fc = ctd_params[["fc"]]
+        drift = get_input(simulation, "drift"),
+        covmax = get_input(simulation, "covmax"),
+        jgrow = get_input(simulation, "jgrow"),
+        dact_m = get_input(simulation, "dact_m"),
+        css_ppm = get_input(simulation, "css_ppm"),
+        foc = get_input(simulation, "foc"),
+        bd_g_cm3 = get_input(simulation, "bd_g_cm3"),
+        qseep_m_day = get_input(simulation, "qseep_m_day"),
+        porosity = get_input(simulation, "porosity")
       )
       c(res_template, list(chemical = chemical), masses)
     }) |>
@@ -57,7 +55,7 @@
 ctd_data_prep <- function(simulation)
 {
   cluster_inflows_m3_s <-
-    get_layer_output(simulation, "hbc") |>
+    get_output(simulation, "hbc") |>
     data.table::as.data.table() |>
     data.table::setorderv(c("date", "cluster_id")) |>
     collapse::rsplit(by = outflow_m3_s ~ ditch + cluster_id,
@@ -67,7 +65,7 @@ ctd_data_prep <- function(simulation)
                      keep.by = FALSE)
 
   cluster_inflows_densities_kg_m3 <-
-    get_layer_output(simulation, "ctc") |>
+    get_output(simulation, "ctc") |>
     data.table::as.data.table() |>
     merge(info_clusters(), by.x = "element_id", by.y = "cluster_id") |>
     data.table::setorderv(c("date", "element_id")) |>
@@ -77,7 +75,7 @@ ctd_data_prep <- function(simulation)
                      simplify = TRUE,
                      keep.by = FALSE)
 
-  hbd_output_split <- get_layer_output(simulation, "hbd") |>
+  hbd_output_split <- get_output(simulation, "hbd") |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
     merge(info_ditches(), by = "ditch") |>
@@ -87,7 +85,7 @@ ctd_data_prep <- function(simulation)
                      simplify = FALSE,
                      keep.by = TRUE)
 
-  inp_output <- get_layer_output(simulation, "inp") |>
+  inp_output <- get_output(simulation, "inp") |>
     data.table::as.data.table() |>
     data.table::setorderv("date")
   # This data-set has 1 more row (last day), so we drop it here to make

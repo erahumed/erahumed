@@ -1,15 +1,16 @@
-#' @noRd
-plot.erahumed_hbc <- function(x,
-                              element_id = NULL,
-                              type = c("storage", "flows"),
-                              variable = c("depth", "volume"),
-                              dygraph_group = NULL,
-                              ...
-                              )
+plot_hbc <- function(simulation,
+                     element_id = NULL,
+                     type = c("storage", "flows"),
+                     variable = c("depth", "volume"),
+                     dygraph_group = NULL,
+                     ...
+                     )
 {
+  assert_erahumed_simulation(simulation)
+
   variable <- match.arg(variable)
 
-  data <- get_layer_output(x)
+  data <- get_output(simulation, "hbc")
   data$outflow_m3 <- -data$outflow_m3_s * s_per_day()
   data$inflow_m3 <- data$inflow_m3_s * s_per_day()
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
@@ -61,7 +62,7 @@ plot_erahumed_hbc_storage <- function(data, element_id, variable, dygraph_group)
     dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dySeries(y_var, label = var_name)
+    dygraphs::dySeries(y_var, label = var_name, color = "black")
 
 }
 
@@ -99,7 +100,7 @@ plot_erahumed_hbc_flows <- function(data, element_id, variable, dygraph_group)
     dygraphs::dyLegend(show = "always", labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dySeries(y_vars[[1]], label = "Outflow") |>
-    dygraphs::dySeries(y_vars[[2]], label = "Inflow") |>
-    dygraphs::dySeries(y_vars[[3]], label = "PET")
+    dygraphs::dySeries(y_vars[[1]], label = "Outflow", color = "#000099") |>
+    dygraphs::dySeries(y_vars[[2]], label = "Inflow", color = "#000099") |>
+    dygraphs::dySeries(y_vars[[3]], label = "PET", color = "#DD0000")
 }

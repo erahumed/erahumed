@@ -1,25 +1,10 @@
-setup_rc <- function(simulation)
-{
-  tryCatch({
-    assert_erahumed_simulation(simulation)
-  },
-  error = function(e) {
-    class(e) <- c("validate_rc_params_error", class(e))
-    stop(e)
-  })
-
-  setup_layer(layer = "rc")
-}
-
-
-
 compute_rc <- function(simulation)
 {
-  output <- risk_from_ssds(ct_output = get_layer_output(simulation, "ctc"))
+  output <- risk_from_ssds(ct_output = get_output(simulation, "ctc"))
 
   validate_rc_output(output)
 
-  simulation [["rc"]] [["output"]] <- output
+  simulation [["outputs"]] [["rc"]] <- output
 
   return(simulation)
 }

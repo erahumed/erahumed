@@ -4,7 +4,78 @@
 \alias{erahumed_simulation}
 \title{Initialize an ERAHUMED simulation}
 \usage{
-erahumed_simulation()
+erahumed_simulation(
+  date_start = "2020-01-01",
+  date_end = "2020-12-31",
+  outflows_df = erahumed::albufera_outflows,
+  weather_df = erahumed::albufera_weather,
+  variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
+  storage_curve_slope_m2 = 63.086 * 1e+06,
+  storage_curve_intercept_m3 = 25.58 * 1e+06,
+  petp_surface_m2 = 53.9 * 1e+06,
+  management_df = erahumed::albufera_management,
+  ideal_flow_rate_cm = 5,
+  height_thresh_cm = 0.5,
+  ditch_level_m = 1,
+  ca_schedules_df = erahumed::albufera_ca_schedules,
+  drift = 0,
+  covmax = 0.5,
+  jgrow = 152,
+  dact_m = 0.1,
+  css_ppm = 50,
+  foc = 0.17,
+  bd_g_cm3 = 1.5,
+  qseep_m_day = 0,
+  porosity = 0.11,
+  seed = 840
+)
+}
+\arguments{
+\item{date_start}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the starting date of the date interval for the simulation.}
+
+\item{date_end}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the ending date of the date interval for the simulation.}
+
+\item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
+
+\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
+
+\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
+
+\item{storage_curve_slope_m2}{\verb{[numeric(1)]} \cr Slope of the (linear) storage curve of the Albufera Lake, in square meters. Numeric values for the default are taken from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
+
+\item{storage_curve_intercept_m3}{\verb{[numeric(1)]} \cr Intercept of the (linear) storage curve of the Albufera Lake, in cubic meters. Numeric values for the default are taken from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
+
+\item{petp_surface_m2}{\verb{[numeric(1)]} \cr The value (in squared meters) of the surface that converts precipitation and evapotranspiration per unit area into volume changes for the Albufera lake. This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.}
+
+\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
+
+\item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters per day.}
+
+\item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
+
+\item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
+
+\item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
+
+\item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of applied chemical lost to drift during application.}
+
+\item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Maximum potential fraction of applied chemicals intercepted by foliage at crop maturation.}
+
+\item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle.}
+
+\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
+
+\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of suspended solid, expressed in parts per million.}
+
+\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic content within suspended solids and sediments.}
+
+\item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
+
+\item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, \emph{i.e.} the rate at which water seeps through the sediment or soil. Expressed in meters per day.}
+
+\item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
+
+\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 }
 \value{
 An object of class \code{erahumed_simulation}.

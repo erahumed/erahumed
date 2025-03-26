@@ -2,8 +2,6 @@ dss_run_server <- function(id, parameters, run) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    param_hash <- shiny::reactive( digest::digest(lapply(parameters, \(r) r())) )
-
     shiny::observe({
       shiny::showNotification(
         "Simulation parameters have changed. Click 'Run simulation' to update results.",
@@ -12,25 +10,22 @@ dss_run_server <- function(id, parameters, run) {
         id = ns("rerun_notif")
         )
       }) |>
-      shiny::bindEvent(param_hash(), ignoreInit = TRUE)
+      shiny::bindEvent(parameters(), ignoreInit = TRUE)
 
     res <- shiny::reactive({
-      shiny::removeNotification(id = ns("rerun_notif"))
+      shiny::req(parameters())
 
-      erahumed_simulation() |>
-        setup_from_par_list(parameters$hydrology(), setup_hydrology) |>
-        setup_from_par_list(parameters$exposure(), setup_exposure) |>
-        setup_from_par_list(parameters$risk(), setup_risk) |>
-        run_simulation()
+      tryCatch(
+        do.call(erahumed_simulation, parameters()),
+        error = function(e) {
+          shiny::showNotification(paste("Simulation error:", e$message), type = "error")
+          shiny::req(FALSE)
+        },
+        finally = shiny::removeNotification(id = ns("rerun_notif"))
+        )
       }) |>
       shiny::bindEvent(run(), ignoreNULL = FALSE)
 
     return(res)
   })
 }
-
-setup_from_par_list <- function(simulation, parameters, setup_fun) {
-  args <- c(list(simulation = simulation), parameters)
-  do.call(setup_fun, args)
-}
-

@@ -2,10 +2,6 @@ ct_get_param <- function(chemical, parameter) {
   albufera_ct_parameters [[ chemical ]] [[ parameter ]]
 }
 
-ct_porosity <- function(fc, wilting) {
-  return(fc - wilting)
-}
-
 ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {
   # Fraction of chemical residues in dissolved form and within voids in the
   # sediment
@@ -47,7 +43,7 @@ ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
 ct_temperature_arrhenius <- function(temperature_ave,
                                      temperature_min,
                                      temperature_max) {
-  return(temperature_ave)  # TODO #132
+  return(temperature_ave)
 }
 
 ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {
@@ -71,16 +67,13 @@ ct_mfapp <- function(application_kg, drift, cover) {
   application_kg * (1 - drift) * cover
 }
 
-ct_mwapp <- function(application_kg, drift, cover, SNK, is_empty) {
-  application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (!is_empty)
+ct_mwapp <- function(application_kg, drift, cover,is_empty) {
+  application_kg * (1 - drift) * (1 - cover) * (!is_empty)
 }
 
-ct_msapp <- function(
-    application_kg, drift, cover, SNK, is_empty, dinc_m, dact_m
-    )
+ct_msapp <- function(application_kg, drift, cover, is_empty)
 {
-  application_kg * (1 - drift) * (1 - cover) * (1 - SNK) * (dinc_m / dact_m) *
-    is_empty
+  application_kg * (1 - drift) * (1 - cover) * is_empty
 }
 
 ct_mw_max <- function(sol_ppm, volume_eod_m3) {

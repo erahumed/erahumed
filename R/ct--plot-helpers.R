@@ -40,6 +40,9 @@ ct_plot_time_series_density <- function(data,
       return(df)
       })()
 
+  chemical_names <- setdiff(names(plot_df), "date")
+  dy_colors <- chemical_color_map()[chemical_names] |> unname()
+
   dygraphs::dygraph(plot_df, group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
@@ -51,6 +54,7 @@ ct_plot_time_series_density <- function(data,
                        showZeroValues = FALSE,
                        labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
-    dygraphs::dyUnzoom()
+    dygraphs::dyUnzoom() |>
+    dygraphs::dyOptions(colors = dy_colors)
 
 }

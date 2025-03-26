@@ -1,19 +1,5 @@
-#' ERAHUMED simulation layers
-#'
-#' @description
-#' Enumerates the ERAHUMED simulation layers
-#' (*cf.* \link{erahumed_simulation_interface}), in dependency order (from
-#' upstream to downstream). A schematic view is available
-#' [on the package website](https://erahumed.github.io/erahumed/articles/pipeline-scheme.html).
-#'
-#' @return
-#' A character vector.
-#'
-#' @details For further information on the various layers, see `?<layer_name>`.
-#'
-#' @noRd
 erahumed_layers <- function() {
-  names(erahumed_docs("layers"))
+  names(erahumed_input_docs("layers"))
 }
 
 upstream_layers <- function(layer) {
