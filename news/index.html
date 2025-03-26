@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
     <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
-    <li><a class="dropdown-item" href="../articles/pipeline-scheme.html">Scheme of the simulation pipeline</a></li>
+    <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -36,16 +36,52 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.16.2/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.17.0" id="erahumed-0170">erahumed 0.17.0<a class="anchor" aria-label="anchor" href="#erahumed-0170"></a></h2>
+<p>This version serves as a release candidate for v1.0.0. It presents a thorough simplification of the public API of the package, as well as several improvements on the GUI side. Specific changes are discussed below.</p>
+<div class="section level4">
+<h4 id="algorithm-changes-0-17-0">Algorithm changes<a class="anchor" aria-label="anchor" href="#algorithm-changes-0-17-0"></a></h4>
+<ul><li><p>The calculation of soil application rate, which was previously (wrongly) reported as always zero, has been corrected (<a href="https://github.com/erahumed/erahumed/issues/341" class="external-link">#341</a>).</p></li>
+<li><p>Exchanged <code>wilting</code> and <code>fc</code> input parameters for the single <code>porosity</code>.</p></li>
+<li><p>The <code>outflows_df</code> data-frame no longer requires <code>*_is_imputed</code> columns (<a href="https://github.com/erahumed/erahumed/issues/348" class="external-link">#348</a>).</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="api-changes-0-17-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-17-0"></a></h4>
+<ul><li><p>The simulation workflow has been considerably simplified. Full details on the current API are available at <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">the main package vignette.</a> In brief, setting up a simulation and running it (entirely) is now performed with the single command <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>, whose arguments are simulation parameters.</p></li>
+<li><p>The <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> function has additional <code>date_start</code> and <code>date_end</code> parameters.</p></li>
+<li><p>The utility function <code>erahumed_input_docs()</code> is no longer exported (<a href="https://github.com/erahumed/erahumed/issues/357" class="external-link">#357</a>).</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-changes-0-17-0">GUI changes<a class="anchor" aria-label="anchor" href="#gui-changes-0-17-0"></a></h4>
+<ul><li><p>The Input tab has been completely restructured (see also <a href="https://github.com/erahumed/erahumed/issues/233" class="external-link">#233</a>).</p></li>
+<li><p>Fixed coloring of various plots (<a href="https://github.com/erahumed/erahumed/issues/330" class="external-link">#330</a>).</p></li>
+<li><p>Outputs: all chemicals are shown by default in the exposure plots.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-0-17-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-17-0"></a></h4>
+<ul><li><p>Fixed <code><a href="../reference/get_results.html">get_results()</a></code> function which was not returning exposure results.</p></li>
+<li><p>Fixed reading of <code>cluster_variety_map</code>.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-17-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-17-0"></a></h4>
+<ul><li><p>Change pipeline-scheme vignette for simulation-inputs vignette (close <a href="https://github.com/erahumed/erahumed/issues/305" class="external-link">#305</a>).</p></li>
+<li><p>Improved various documentation entries for several parameters.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="dependencies-0-17-0">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies-0-17-0"></a></h4>
+<ul><li>New soft (Suggests) dependencies: <a href="https://gt.rstudio.com" class="external-link">gt</a> and <a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.16.2" id="erahumed-0162">erahumed 0.16.2<a class="anchor" aria-label="anchor" href="#erahumed-0162"></a></h2>
 <p>This version provides an important reshaping of the “Output”” section of the GUI. Plot methods have been harmonized across the various hydrological elements, and the interface has been structured in such a way to show at any time the three simulation component (Hydrology, Exposure and Risk) results for an individual element (either a cluster, a ditch or the Albufera lake).</p>
 <p>Specific changes are discussed below.</p>
 <div class="section level4">
 <h4 id="algorithm-0-16-2">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-0-16-2"></a></h4>
-<ul><li><p><code><a href="../reference/erahumed_parameters.html">setup_hydrology()</a></code> no longer accepts functional inputs for former the storage curve and PETP-function. Arguments <code>storage_curve</code> and <code>petp_function</code>, which used to require function inputs, are now replaced by <code>storage_curve_slope_m2</code>, <code>storage_curve_intercept_m3</code> and <code>petp_surface_m2</code>.</p></li>
+<ul><li><p><code>setup_hydrology()</code> no longer accepts functional inputs for former the storage curve and PETP-function. Arguments <code>storage_curve</code> and <code>petp_function</code>, which used to require function inputs, are now replaced by <code>storage_curve_slope_m2</code>, <code>storage_curve_intercept_m3</code> and <code>petp_surface_m2</code>.</p></li>
 <li><p>In all risk calculations, pesticide densities are now regarded to be zero whenever the water volume of an hydrological element is zero (concretely, this only happens for rice cluster at present). The former treatment regarded them as <code>NA</code>. Notice that this affects, in particular, the definition of chronic risk.</p></li>
 </ul></div>
 <div class="section level4">
@@ -141,9 +177,9 @@
 </ul><p>The usage of the new API is exemplified in the updated <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>. Below are listed specific changes:</p>
 <div class="section level4">
 <h4 id="api-changes-0-15-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-15-0"></a></h4>
-<ul><li><p>Removed <code>setup_inp()</code>, <code>setup_hba()</code>, <code>setup_hbp()</code>, <code>setup_hbd()</code>, <code>setup_ca()</code>, <code>setup_ct()</code> functions, in favor of <code><a href="../reference/erahumed_parameters.html">setup_hydrology()</a></code>, <code><a href="../reference/erahumed_parameters.html">setup_exposure()</a></code> and <code><a href="../reference/erahumed_parameters.html">setup_risk()</a></code> (<a href="https://github.com/erahumed/erahumed/issues/272" class="external-link">#272</a>).</p></li>
+<ul><li><p>Removed <code>setup_inp()</code>, <code>setup_hba()</code>, <code>setup_hbp()</code>, <code>setup_hbd()</code>, <code>setup_ca()</code>, <code>setup_ct()</code> functions, in favor of <code>setup_hydrology()</code>, <code>setup_exposure()</code> and <code>setup_risk()</code> (<a href="https://github.com/erahumed/erahumed/issues/272" class="external-link">#272</a>).</p></li>
 <li><p>Removed <code>erahumed_layers()</code> helper.</p></li>
-<li><p><code><a href="../reference/run_simulation.html">run_simulation()</a></code> loses its <code>layer</code> argument: simulation can only be run all at once (<a href="https://github.com/erahumed/erahumed/issues/279" class="external-link">#279</a>).</p></li>
+<li><p><code>run_simulation()</code> loses its <code>layer</code> argument: simulation can only be run all at once (<a href="https://github.com/erahumed/erahumed/issues/279" class="external-link">#279</a>).</p></li>
 <li><p>Removed <code>get_layer_output()</code> helper in favor of <code><a href="../reference/get_results.html">get_results()</a></code>.</p></li>
 <li><p>Removed <code>get_layer_parameters()</code>, <code>get_layer_aux()</code> and <code>get_layer()</code> from public API, with no function replacing their functionality (considered unnecessary at the moment).</p></li>
 <li><p>Removed old layers’ <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> S3 methods.</p></li>
@@ -257,7 +293,7 @@
 <h2 class="pkg-version" data-toc-text="0.12.5" id="erahumed-0125">erahumed 0.12.5<a class="anchor" aria-label="anchor" href="#erahumed-0125"></a></h2>
 <div class="section level4">
 <h4 id="new-features-0-12-5">New features<a class="anchor" aria-label="anchor" href="#new-features-0-12-5"></a></h4>
-<ul><li>New function <code><a href="../reference/erahumed_docs.html">erahumed_docs()</a></code> to interact with the ERAHUMED documentation as an R object. Although this is part of the exported namespace, it is mainly added for future internal use.</li>
+<ul><li>New function <code>erahumed_input_docs()</code> to interact with the ERAHUMED documentation as an R object. Although this is part of the exported namespace, it is mainly added for future internal use.</li>
 </ul></div>
 <div class="section level4">
 <h4 id="gui-0-12-5">GUI<a class="anchor" aria-label="anchor" href="#gui-0-12-5"></a></h4>
@@ -271,7 +307,7 @@
 <div class="section level4">
 <h4 id="under-the-hoods-0-12-5">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-12-5"></a></h4>
 <ul><li><p>Shiny modules associated with the various model layers no longer receive <code>erahumed_simulation</code> objects, but rather directly operate with <code>erahumed_layer</code> objects. This makes code logic more transparent, both for the modules themselves as well as for the main application.</p></li>
-<li><p>The documentation of layer parameters is now generated programmatically and can be read at run-time through the new helper <code><a href="../reference/erahumed_docs.html">erahumed_docs()</a></code>.</p></li>
+<li><p>The documentation of layer parameters is now generated programmatically and can be read at run-time through the new helper <code>erahumed_input_docs()</code>.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -408,7 +444,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <ul><li>Added snapshot tests for plot methods of ERAHUMED layers (<a href="https://github.com/erahumed/erahumed/issues/149" class="external-link">#149</a>).</li>
 <li>Added basic server tests for all shiny modules (<a href="https://github.com/erahumed/erahumed/issues/150" class="external-link">#150</a>).</li>
 <li>Added basic UI no-error tests for all shiny modules.</li>
-<li>Testing of <code><a href="../reference/run_simulation.html">run_simulation()</a></code>.</li>
+<li>Testing of <code>run_simulation()</code>.</li>
 <li>Test that setting seed in <code>setup_hbp()</code> ensures reproducibility, and that different seeds give rise to different outputs.</li>
 <li>Testing corner cases of assertions.</li>
 <li>Testing of <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> S3 methods for <code>erahumed_simulation</code> and <code>erahumed_simulation_layer</code> S3 classes.</li>
@@ -467,7 +503,7 @@ were replaced by a single function <code><a href="../reference/info_chemicals.ht
 <li>
 <strong>Simulation setup.</strong> <code>setup_inp()</code>, <code>setup_hba()</code>, <code>setup_hbp()</code>, <code>setup_ca()</code>, <code>setup_ct()</code>.</li>
 <li>
-<strong>Simulation execution.</strong> <code><a href="../reference/run_simulation.html">run_simulation()</a></code>.</li>
+<strong>Simulation execution.</strong> <code>run_simulation()</code>.</li>
 <li>
 <strong>Shiny App.</strong> No changes.</li>
 </ul></div>

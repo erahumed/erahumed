@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@
 <li><a class="dropdown-item" href="articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="articles/erahumed-workflow.html">Simulation workflow</a></li>
     <li><a class="dropdown-item" href="articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
-    <li><a class="dropdown-item" href="articles/pipeline-scheme.html">Scheme of the simulation pipeline</a></li>
+    <li><a class="dropdown-item" href="articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -63,13 +63,13 @@
 <p>The <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> R package provides the infrastructure for the <a href="https://www.erahumed.com/decision-support-system/" class="external-link">ERAHUMED Decision Support System</a> (DSS), that consists of:</p>
 <ul>
 <li>
-<strong>Data</strong>. The inputs for the DSS are packaged as R <code>data.frame</code>s imported with <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</li>
+<strong>Data</strong>: The DSS inputs are pre-packaged as R <code>data.frame</code>s and seamlessly imported with <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</li>
 <li>
-<strong>Analysis</strong>. The entire simulation pipeline is implemented by R functions.</li>
+<strong>Analysis</strong>. The entire simulation workflow is implemented as a set of R functions, enabling flexible and reproducible analysis.</li>
 <li>
-<strong>Visualization</strong>. Simulation outputs are R objects with methods for data exploration and visualization.</li>
+<strong>Outputs</strong>. Simulation results are returned as well-structured <code>data.frame</code>s, ready for further exploration and processing in R.</li>
 <li>
-<strong>Interactive Interface</strong>. All of the above has a graphical interface implemented as a Shiny application, which is also bundled with the package.</li>
+<strong>Interactive Interface</strong>. A Shiny-based graphical interface, with predefined visualizations for model outputs, is bundled with the package, allowing users to interactively explore the results.</li>
 </ul>
 <p>More information on the ERAHUMED project can be found on the <a href="https://www.erahumed.com/" class="external-link">main project’s website</a>. The full documentation of the <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> R package is hosted at <a href="https://erahumed.github.io/erahumed/">erahumed.github.io/erahumed</a>.</p>
 <div class="section level2">
@@ -77,8 +77,9 @@
 </h2>
 <p>You can install the latest release of <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> from Github, by running the following command in your local R session:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"erahumed/erahumed@*release"</span><span class="op">)</span></span></code></pre></div>
-<p>If you want the development version (notice: this may be unstable), simply omit the <code>@*release</code> reference, as in:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>  <span class="co"># If necessary</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"erahumed/erahumed"</span>, ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>If you want the development version (notice: this may be unstable), simply omit the reference:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"erahumed/erahumed"</span><span class="op">)</span>  <span class="co"># development version</span></span></code></pre></div>
 </div>
@@ -98,78 +99,50 @@
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a></span><span class="op">)</span></span></code></pre></div>
-<p>The following example illustrates the workflow for manually running the ERAHUMED simulation chain, and extracting the outputs of the various simulation layers. For more detailed information, see the <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>. A bird’s eye view on the various simulation pipeline components is also available, <a href="https://erahumed.github.io/erahumed/articles/pipeline-scheme.html">here</a>.</p>
+<p>The following example illustrates the workflow for manually running the ERAHUMED simulation chain, and extracting the outputs of the various simulation layers. For more detailed information, see the <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>.</p>
 <p>The pipeline always starts by initializing an ERAHUMED simulation, via:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">simulation</span></span>
 <span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
 <span><span class="co">#&gt; Computed layers: None</span></span></code></pre></div>
-<p>This is the main abstraction that <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> uses to collect the various layers involved in the simulation chain of the DSS, namely:</p>
+<p>This is the main abstraction that <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> uses to collect the various computational layers involved in a simulation. The configuration of specific aspects of the simulation happens through the <code>setup_hydrology()</code>, <code>setup_exposure()</code> and <code>setup_risk()</code> functions, for instance:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">erahumed_layers</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "inp" "hbl" "hbp" "hbd" "ca"  "ctc"</span></span></code></pre></div>
-<p>As the output above shows, the layers of <code>simulation</code> are initialized but not computed yet. We can modify the configuration of specific layers through the <code>setup_*()</code> functions, for instance:</p>
+<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">setup_hydrology</span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">setup_exposure</span><span class="op">(</span>dact_m <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
+<p>In order to start computations we use:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/erahumed_parameters.html">setup_hydrology</a></span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/erahumed_parameters.html">setup_exposure</a></span><span class="op">(</span>dact_m <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p>In order to actually compute the layers, we use <code><a href="reference/run_simulation.html">run_simulation()</a></code>:</p>
+<span>  <span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Finally, results can be inspected through:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/run_simulation.html">run_simulation</a></span><span class="op">(</span>layer <span class="op">=</span> <span class="st">"hbl"</span><span class="op">)</span>  <span class="co"># Run simulation until the hbl layer</span></span></code></pre></div>
-<p>Simulations are composed of the following layers (in dependency order, from upstream to downstream):</p>
-<ul>
-<li>INP [<code>setup_inp()</code>]: INPut data.</li>
-<li>hbl [<code>setup_hbl()</code>]: Hydrological Balance of the Albufera lake.</li>
-<li>hbc [<code>setup_hbc()</code>]: Hydrological Balance of rice Paddy clusters.</li>
-<li>CA [<code>setup_ca()</code>]: Chemical Applications.</li>
-<li>ctc [<code>setup_ctc()</code>]: Chemical Transport.</li>
-</ul>
-<p>In order to inspect the results of a given layer, we use:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">get_layer</span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hbl"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; A ERAHUMED HBL simulation layer.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Output columns: level, precipitation_mm, evapotranspiration_mm, date, is_imputed_level, is_imputed_outflow, volume, volume_change, volume_change_petp, outflow_pujol, outflow_perellonet, outflow_perello, outflow_recirculation, outflow_total, inflow_total, residence_time_days</span></span>
-<span><span class="fu">get_layer_parameters</span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hbl"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $storage_curve</span></span>
-<span><span class="co">#&gt; \(level) 25.58 * 1e6 + level * 63.086 * 1e6</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000001f8a9f9c848&gt;</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $petp_function</span></span>
-<span><span class="co">#&gt; \(p, etp) 53.9 * 1e3 * (p - etp)</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000001f8a9f9c848&gt;</span></span>
-<span><span class="fu">get_layer_output</span><span class="op">(</span><span class="va">simulation</span>, <span class="st">"hbl"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       level precipitation_mm evapotranspiration_mm       date is_imputed_level</span></span>
-<span><span class="co">#&gt; 1 0.3725000              8.2                  0.54 2005-12-20            FALSE</span></span>
-<span><span class="co">#&gt; 2 0.3726458              0.2                  0.65 2005-12-21            FALSE</span></span>
-<span><span class="co">#&gt; 3 0.3683833              0.2                  0.62 2005-12-22            FALSE</span></span>
-<span><span class="co">#&gt; 4 0.3662375              0.2                  1.02 2005-12-23            FALSE</span></span>
-<span><span class="co">#&gt; 5 0.3667417              0.0                  0.59 2005-12-24            FALSE</span></span>
-<span><span class="co">#&gt; 6 0.3634917              0.2                  0.86 2005-12-25            FALSE</span></span>
-<span><span class="co">#&gt;   is_imputed_outflow   volume volume_change volume_change_petp outflow_pujol</span></span>
-<span><span class="co">#&gt; 1               TRUE 49079535      9200.042             412874      5.739292</span></span>
-<span><span class="co">#&gt; 2               TRUE 49088735   -268904.075             -24255      5.901080</span></span>
-<span><span class="co">#&gt; 3               TRUE 48819831   -135372.042             -22638      3.877427</span></span>
-<span><span class="co">#&gt; 4               TRUE 48684459     31805.858             -44198      5.410336</span></span>
-<span><span class="co">#&gt; 5               TRUE 48716265   -205029.500             -31801      1.055759</span></span>
-<span><span class="co">#&gt; 6               TRUE 48511235   -419521.900             -35574      6.922879</span></span>
-<span><span class="co">#&gt;   outflow_perellonet outflow_perello outflow_recirculation outflow_total</span></span>
-<span><span class="co">#&gt; 1           2.919471        2.785127                     0     11.443889</span></span>
-<span><span class="co">#&gt; 2           3.140746        2.919733                     0     11.961558</span></span>
-<span><span class="co">#&gt; 3           2.500297        2.075301                     0      8.453025</span></span>
-<span><span class="co">#&gt; 4           3.180986        2.763805                     0     11.355127</span></span>
-<span><span class="co">#&gt; 5           1.578490        1.226585                     0      3.860835</span></span>
-<span><span class="co">#&gt; 6           3.786494        3.249450                     0     13.958823</span></span>
-<span><span class="co">#&gt;   inflow_total residence_time_days</span></span>
-<span><span class="co">#&gt; 1     6.771737            41.64606</span></span>
-<span><span class="co">#&gt; 2     9.129972            41.52984</span></span>
-<span><span class="co">#&gt; 3     7.148233            41.50109</span></span>
-<span><span class="co">#&gt; 4    12.234802            41.36962</span></span>
-<span><span class="co">#&gt; 5     1.855875            41.21872</span></span>
-<span><span class="co">#&gt; 6     9.514982            41.05920</span></span></code></pre></div>
-<p>For more information on the simulation interface, you can consult <code>?erahumed_simulation_interface</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">simulation</span>, </span>
+<span>            component <span class="op">=</span> <span class="st">"exposure"</span>,  <span class="co"># either "hydrology", "exposure", or "risk"  </span></span>
+<span>            element <span class="op">=</span> <span class="st">"lake"</span>         <span class="co"># either "lake", "ditch", or "cluster"</span></span>
+<span>            <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         date    chemical mf_kg        mw_kg        ms_kg     cw_kg_m3</span></span>
+<span><span class="co">#&gt; 1 2005-12-20 Acetamiprid     0 0.000000e+00 0.000000e+00           NA</span></span>
+<span><span class="co">#&gt; 2 2005-12-21 Acetamiprid     0 0.000000e+00 0.000000e+00 0.000000e+00</span></span>
+<span><span class="co">#&gt; 3 2005-12-22 Acetamiprid     0 6.558011e-05 0.000000e+00 1.343309e-12</span></span>
+<span><span class="co">#&gt; 4 2005-12-23 Acetamiprid     0 1.261073e-04 1.186372e-05 2.590299e-12</span></span>
+<span><span class="co">#&gt; 5 2005-12-24 Acetamiprid     0 1.301073e-04 3.379491e-05 2.670716e-12</span></span>
+<span><span class="co">#&gt; 6 2005-12-25 Acetamiprid     0 1.943898e-04 5.423975e-05 4.007109e-12</span></span>
+<span><span class="co">#&gt;   cw_outflow_kg_m3     cs_kg_m3      cs_g_kg volume_eod_m3 volume_sod_m3</span></span>
+<span><span class="co">#&gt; 1     0.000000e+00 0.000000e+00 0.000000e+00      49088735            NA</span></span>
+<span><span class="co">#&gt; 2     0.000000e+00 0.000000e+00 0.000000e+00      48819831      49088735</span></span>
+<span><span class="co">#&gt; 3     0.000000e+00 0.000000e+00 0.000000e+00      48684459      48819831</span></span>
+<span><span class="co">#&gt; 4     1.058758e-12 1.100530e-12 7.336869e-13      48716265      48684459</span></span>
+<span><span class="co">#&gt; 5     2.076471e-12 3.134963e-12 2.089976e-12      48511235      48716265</span></span>
+<span><span class="co">#&gt; 6     2.122158e-12 5.031517e-12 3.354345e-12      48091713      48511235</span></span>
+<span><span class="co">#&gt;   element_id</span></span>
+<span><span class="co">#&gt; 1       lake</span></span>
+<span><span class="co">#&gt; 2       lake</span></span>
+<span><span class="co">#&gt; 3       lake</span></span>
+<span><span class="co">#&gt; 4       lake</span></span>
+<span><span class="co">#&gt; 5       lake</span></span>
+<span><span class="co">#&gt; 6       lake</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
