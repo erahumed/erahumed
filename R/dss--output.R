@@ -42,7 +42,7 @@ dss_output_ui <- function(id) {
               inputId = ns("chemical"),
               label = "Chemicals",
               choices = names(info_chemicals()),
-              selected = c("Penoxsulam", "Difenoconazole"),
+              selected = names(info_chemicals()),
               individual = TRUE,
               checkIcon = list(yes = icon("ok", lib = "glyphicon")),
               size = "sm"
