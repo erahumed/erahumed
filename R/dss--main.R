@@ -35,8 +35,8 @@ dss_ui <- function() { bslib::page_navbar(
            nav_hyperlink("{erahumed} R Package Website", "https://erahumed.github.io/erahumed", icon = "r-project"),
            nav_hyperlink("Report a bug", "https://github.com/erahumed/erahumed/issues/new", icon = "github"),
            nav_menu_hr(),  # ---------------------------------
-           nav_hyperlink("Bird's eye view on simulation layers",
-                         "https://erahumed.github.io/erahumed/articles/pipeline-scheme.html",
+           nav_hyperlink("Table of simulation inputs",
+                         "https://erahumed.github.io/erahumed/articles/simulation-inputs.html",
                          icon = NULL
            )
 
