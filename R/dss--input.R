@@ -12,17 +12,26 @@ dss_input_ui <- function(id) {
     )
 
   hydrology_parameters_ui <- bslib::layout_column_wrap(
-    dss_input_outflows_df_button(ns("open_outflows_df_modal")),
-    shiny::div(
-      shiny::p(shiny::strong("Water storage parameters")),
+    card(
+      card_header("Observational inputs"),
+      dss_input_outflows_df_button(ns("open_outflows_df_modal")),
+    ),
+
+    bslib::card(
+      bslib::card_header("Water storage parameters"),
       dss_input_sc_intercept(ns("sc_intercept")),
       dss_input_sc_slope(ns("sc_slope")),
       dss_input_petp_surface(ns("petp_surface"))
       ),
-    dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
-    dss_input_height_thresh_cm(ns("height_thresh_cm")),
-    dss_input_ditch_level_m(ns("ditch_level_m")),
-    dss_input_management_df_button(ns("open_management_df_modal"))
+
+    bslib::card(
+      bslib::card_header("Irrigation and draining management"),
+      dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
+      dss_input_height_thresh_cm(ns("height_thresh_cm")),
+      dss_input_ditch_level_m(ns("ditch_level_m")),
+      dss_input_management_df_button(ns("open_management_df_modal"))
+    )
+
   )
 
   crop_parameters_ui <- bslib::layout_column_wrap(
@@ -50,10 +59,10 @@ dss_input_ui <- function(id) {
     bslib::accordion(
       bslib::accordion_panel("Simulation settings", simulation_parameters_ui),
       bslib::accordion_panel("Hydrology", hydrology_parameters_ui),
-      bslib::accordion_panel("Crop parameters", crop_parameters_ui),
       bslib::accordion_panel("Meteorology", meteorology_parameters_ui),
-      bslib::accordion_panel("Pesticide parameters", pesticide_parameters_ui),
-      bslib::accordion_panel("Physico-chemical parameters", physchem_parameters_ui)
+      bslib::accordion_panel("Crop settings", crop_parameters_ui),
+      bslib::accordion_panel("Pesticide definitions and properties", pesticide_parameters_ui),
+      bslib::accordion_panel("Physico-chemical environmental properties", physchem_parameters_ui)
       )
     )
 }
