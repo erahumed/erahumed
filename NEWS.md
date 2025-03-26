@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.17.0
 
 This version serves as a release candidate for v1.0.0. It presents a thorough 
 simplification of the public API of the package, as well as several improvements 
