@@ -1,5 +1,55 @@
 # erahumed (development version)
 
+This version serves as a release candidate for v1.0.0. It presents a thorough 
+simplification of the public API of the package, as well as several improvements 
+on the GUI side. Specific changes are discussed below.
+
+### Algorithm changes
+
+* The calculation of soil application rate, which was previously (wrongly) 
+reported as always zero, has been corrected (#341).
+
+* Exchanged `wilting` and `fc` input parameters for the single `porosity`.
+
+* The `outflows_df` data-frame no longer requires `*_is_imputed` columns (#348).
+
+### API changes
+
+* The simulation workflow has been considerably simplified. Full details on the
+current API are available at [the main package vignette.](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
+In brief, setting up a simulation and running it (entirely) is now performed 
+with the single command `erahumed_simulation()`, whose arguments are simulation
+parameters.
+
+* The `erahumed_simulation()` function has additional `date_start` and 
+`date_end` parameters.
+
+* The utility function `erahumed_input_docs()` is no longer exported (#357).
+
+### GUI changes
+
+* The Input tab has been completely restructured (see also #233).
+
+* Fixed coloring of various plots (#330).
+
+* Outputs: all chemicals are shown by default in the exposure plots.
+
+### Bug fixes
+
+* Fixed `get_results()` function which was not returning exposure results.
+
+* Fixed reading of `cluster_variety_map`.
+
+### Documentation
+
+* Change pipeline-scheme vignette for simulation-inputs vignette (close #305).
+
+* Improved various documentation entries for several parameters.
+
+### Dependencies
+
+* New soft (Suggests) dependencies: `{gt}` and `{kableExtra}`.
+
 # erahumed 0.16.2
 
 This version provides an important reshaping of the "Output"" section of the 
