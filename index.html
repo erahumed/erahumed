@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,49 +100,35 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a></span><span class="op">)</span></span></code></pre></div>
 <p>The following example illustrates the workflow for manually running the ERAHUMED simulation chain, and extracting the outputs of the various simulation layers. For more detailed information, see the <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>.</p>
-<p>The pipeline always starts by initializing an ERAHUMED simulation, via:</p>
+<p>Simulations are run via:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">simulation</span></span>
-<span><span class="co">#&gt; An ERAHUMED simulation.</span></span>
-<span><span class="co">#&gt; Computed layers: None</span></span></code></pre></div>
-<p>This is the main abstraction that <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> uses to collect the various computational layers involved in a simulation. The configuration of specific aspects of the simulation happens through the <code>setup_hydrology()</code>, <code>setup_exposure()</code> and <code>setup_risk()</code> functions, for instance:</p>
+<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span></span>
+<span>  date_start <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
+<span>  date_end <span class="op">=</span> <span class="st">"2020-12-31"</span>,</span>
+<span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.7</span>, Bomba <span class="op">=</span> <span class="fl">0.15</span>, Clearfield <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>where the parameters of the simulation are set through the arguments of <code><a href="reference/erahumed_simulation.html">erahumed_simulation()</a></code> (see <code><a href="reference/erahumed_simulation.html">?erahumed_simulation</a></code> or <a href="https://erahumed.github.io/erahumed/articles/simulation-inputs.html">this article</a> for a full list of parameters.</p>
+<p>Results can be inspected through:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">setup_hydrology</span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">setup_exposure</span><span class="op">(</span>dact_m <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></code></pre></div>
-<p>In order to start computations we use:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="va">simulation</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">run_simulation</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Finally, results can be inspected through:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">simulation</span>, </span>
 <span>            component <span class="op">=</span> <span class="st">"exposure"</span>,  <span class="co"># either "hydrology", "exposure", or "risk"  </span></span>
 <span>            element <span class="op">=</span> <span class="st">"lake"</span>         <span class="co"># either "lake", "ditch", or "cluster"</span></span>
 <span>            <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;         date    chemical mf_kg        mw_kg        ms_kg     cw_kg_m3</span></span>
-<span><span class="co">#&gt; 1 2005-12-20 Acetamiprid     0 0.000000e+00 0.000000e+00           NA</span></span>
-<span><span class="co">#&gt; 2 2005-12-21 Acetamiprid     0 0.000000e+00 0.000000e+00 0.000000e+00</span></span>
-<span><span class="co">#&gt; 3 2005-12-22 Acetamiprid     0 6.558011e-05 0.000000e+00 1.343309e-12</span></span>
-<span><span class="co">#&gt; 4 2005-12-23 Acetamiprid     0 1.261073e-04 1.186372e-05 2.590299e-12</span></span>
-<span><span class="co">#&gt; 5 2005-12-24 Acetamiprid     0 1.301073e-04 3.379491e-05 2.670716e-12</span></span>
-<span><span class="co">#&gt; 6 2005-12-25 Acetamiprid     0 1.943898e-04 5.423975e-05 4.007109e-12</span></span>
-<span><span class="co">#&gt;   cw_outflow_kg_m3     cs_kg_m3      cs_g_kg volume_eod_m3 volume_sod_m3</span></span>
-<span><span class="co">#&gt; 1     0.000000e+00 0.000000e+00 0.000000e+00      49088735            NA</span></span>
-<span><span class="co">#&gt; 2     0.000000e+00 0.000000e+00 0.000000e+00      48819831      49088735</span></span>
-<span><span class="co">#&gt; 3     0.000000e+00 0.000000e+00 0.000000e+00      48684459      48819831</span></span>
-<span><span class="co">#&gt; 4     1.058758e-12 1.100530e-12 7.336869e-13      48716265      48684459</span></span>
-<span><span class="co">#&gt; 5     2.076471e-12 3.134963e-12 2.089976e-12      48511235      48716265</span></span>
-<span><span class="co">#&gt; 6     2.122158e-12 5.031517e-12 3.354345e-12      48091713      48511235</span></span>
-<span><span class="co">#&gt;   element_id</span></span>
-<span><span class="co">#&gt; 1       lake</span></span>
-<span><span class="co">#&gt; 2       lake</span></span>
-<span><span class="co">#&gt; 3       lake</span></span>
-<span><span class="co">#&gt; 4       lake</span></span>
-<span><span class="co">#&gt; 5       lake</span></span>
-<span><span class="co">#&gt; 6       lake</span></span></code></pre></div>
+<span><span class="co">#&gt;         date    chemical mf_kg mw_kg ms_kg cw_kg_m3 cw_outflow_kg_m3 cs_kg_m3</span></span>
+<span><span class="co">#&gt; 1 2020-01-01 Acetamiprid     0     0     0       NA                0        0</span></span>
+<span><span class="co">#&gt; 2 2020-01-02 Acetamiprid     0     0     0        0                0        0</span></span>
+<span><span class="co">#&gt; 3 2020-01-03 Acetamiprid     0     0     0        0                0        0</span></span>
+<span><span class="co">#&gt; 4 2020-01-04 Acetamiprid     0     0     0        0                0        0</span></span>
+<span><span class="co">#&gt; 5 2020-01-05 Acetamiprid     0     0     0        0                0        0</span></span>
+<span><span class="co">#&gt; 6 2020-01-06 Acetamiprid     0     0     0        0                0        0</span></span>
+<span><span class="co">#&gt;   cs_g_kg volume_eod_m3 volume_sod_m3 element_id</span></span>
+<span><span class="co">#&gt; 1       0      53828509            NA       lake</span></span>
+<span><span class="co">#&gt; 2       0      53968700      53828509       lake</span></span>
+<span><span class="co">#&gt; 3       0      54126415      53968700       lake</span></span>
+<span><span class="co">#&gt; 4       0      54187749      54126415       lake</span></span>
+<span><span class="co">#&gt; 5       0      53968700      54187749       lake</span></span>
+<span><span class="co">#&gt; 6       0      53981843      53968700       lake</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
