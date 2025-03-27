@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Documentation
+
+* Updated README.
+
 # erahumed 0.17.0
 
 This version serves as a release candidate for v1.0.0. It presents a thorough 

@@ -82,33 +82,21 @@ simulation chain, and extracting the outputs of the various simulation layers.
 For more detailed information, see the 
 [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
 
-
-The pipeline always starts by initializing an ERAHUMED simulation, via:
-
-```{r}
-simulation <- erahumed_simulation()
-simulation
-```
-
-This is the main abstraction that `{erahumed}` uses to collect the various 
-computational layers involved in a simulation. The configuration of specific 
-aspects of the simulation happens through the `setup_hydrology()`, 
-`setup_exposure()` and `setup_risk()` functions, for instance:
+Simulations are run via:
 
 ```{r}
-simulation <- simulation |>
-  setup_hydrology(ideal_flow_rate_cm = 2.5) |>
-  setup_exposure(dact_m = 0.2)
+simulation <- erahumed_simulation(
+  date_start = "2020-01-01",
+  date_end = "2020-12-31",
+  variety_prop = c(J.Sendra = 0.7, Bomba = 0.15, Clearfield = 0.15)
+)
 ```
 
-In order to start computations we use:
+where the parameters of the simulation are set through the arguments of 
+`erahumed_simulation()` (see `?erahumed_simulation` or [this article](https://erahumed.github.io/erahumed/articles/simulation-inputs.html) 
+for a full list of parameters.
 
-```{r}
-simulation <- simulation |>
-  run_simulation()
-```
-
-Finally, results can be inspected through:
+Results can be inspected through:
 
 ```{r}
 get_results(simulation, 
