@@ -75,35 +75,22 @@ ERAHUMED simulation chain, and extracting the outputs of the various
 simulation layers. For more detailed information, see the [main package
 vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
 
-The pipeline always starts by initializing an ERAHUMED simulation, via:
+Simulations are run via:
 
 ``` r
-simulation <- erahumed_simulation()
-simulation
-#> An ERAHUMED simulation.
-#> Computed layers: None
+simulation <- erahumed_simulation(
+  date_start = "2020-01-01",
+  date_end = "2020-12-31",
+  variety_prop = c(J.Sendra = 0.7, Bomba = 0.15, Clearfield = 0.15)
+)
 ```
 
-This is the main abstraction that `{erahumed}` uses to collect the
-various computational layers involved in a simulation. The configuration
-of specific aspects of the simulation happens through the
-`setup_hydrology()`, `setup_exposure()` and `setup_risk()` functions,
-for instance:
+where the parameters of the simulation are set through the arguments of
+`erahumed_simulation()` (see `?erahumed_simulation` or [this
+article](https://erahumed.github.io/erahumed/articles/simulation-inputs.html)
+for a full list of parameters.
 
-``` r
-simulation <- simulation |>
-  setup_hydrology(ideal_flow_rate_cm = 2.5) |>
-  setup_exposure(dact_m = 0.2)
-```
-
-In order to start computations we use:
-
-``` r
-simulation <- simulation |>
-  run_simulation()
-```
-
-Finally, results can be inspected through:
+Results can be inspected through:
 
 ``` r
 get_results(simulation, 
@@ -111,27 +98,20 @@ get_results(simulation,
             element = "lake"         # either "lake", "ditch", or "cluster"
             ) |>
   head()
-#>         date    chemical mf_kg        mw_kg        ms_kg     cw_kg_m3
-#> 1 2005-12-20 Acetamiprid     0 0.000000e+00 0.000000e+00           NA
-#> 2 2005-12-21 Acetamiprid     0 0.000000e+00 0.000000e+00 0.000000e+00
-#> 3 2005-12-22 Acetamiprid     0 6.558011e-05 0.000000e+00 1.343309e-12
-#> 4 2005-12-23 Acetamiprid     0 1.261073e-04 1.186372e-05 2.590299e-12
-#> 5 2005-12-24 Acetamiprid     0 1.301073e-04 3.379491e-05 2.670716e-12
-#> 6 2005-12-25 Acetamiprid     0 1.943898e-04 5.423975e-05 4.007109e-12
-#>   cw_outflow_kg_m3     cs_kg_m3      cs_g_kg volume_eod_m3 volume_sod_m3
-#> 1     0.000000e+00 0.000000e+00 0.000000e+00      49088735            NA
-#> 2     0.000000e+00 0.000000e+00 0.000000e+00      48819831      49088735
-#> 3     0.000000e+00 0.000000e+00 0.000000e+00      48684459      48819831
-#> 4     1.058758e-12 1.100530e-12 7.336869e-13      48716265      48684459
-#> 5     2.076471e-12 3.134963e-12 2.089976e-12      48511235      48716265
-#> 6     2.122158e-12 5.031517e-12 3.354345e-12      48091713      48511235
-#>   element_id
-#> 1       lake
-#> 2       lake
-#> 3       lake
-#> 4       lake
-#> 5       lake
-#> 6       lake
+#>         date    chemical mf_kg mw_kg ms_kg cw_kg_m3 cw_outflow_kg_m3 cs_kg_m3
+#> 1 2020-01-01 Acetamiprid     0     0     0       NA                0        0
+#> 2 2020-01-02 Acetamiprid     0     0     0        0                0        0
+#> 3 2020-01-03 Acetamiprid     0     0     0        0                0        0
+#> 4 2020-01-04 Acetamiprid     0     0     0        0                0        0
+#> 5 2020-01-05 Acetamiprid     0     0     0        0                0        0
+#> 6 2020-01-06 Acetamiprid     0     0     0        0                0        0
+#>   cs_g_kg volume_eod_m3 volume_sod_m3 element_id
+#> 1       0      53828509            NA       lake
+#> 2       0      53968700      53828509       lake
+#> 3       0      54126415      53968700       lake
+#> 4       0      54187749      54126415       lake
+#> 5       0      53968700      54187749       lake
+#> 6       0      53981843      53968700       lake
 ```
 
 ## Getting help
