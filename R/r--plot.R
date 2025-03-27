@@ -32,11 +32,13 @@ plot_risk <- function(r_output,
   ts_data <- xts::xts(r_output[-1], order.by = r_output$date)
 
   # Extract column names without "msPAF"
-  cols_without_total <- setdiff(colnames(ts_data), "msPAF")
+  cols_without_total <- setdiff(colnames(ts_data), "Total")
 
   value_fmt <- "function(d) {return (100*d).toFixed(2) + ' %';}" |>
     htmlwidgets::JS()
   axis_fmt <- value_fmt
+
+  max_y <- max(ts_data$Total, na.rm = TRUE)
 
   g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
@@ -45,12 +47,18 @@ plot_risk <- function(r_output,
                      label = "msPAF [% of species]",
                      axisLabelWidth = 80,
                      axisLabelFormatter = axis_fmt,
-                     valueFormatter = value_fmt
+                     valueFormatter = value_fmt,
+                     valueRange =  c(0, max_y)
                      ) |>
-    dygraphs::dyAxis("y2", valueFormatter = value_fmt) |>
+    dygraphs::dyAxis("y2",
+                     valueFormatter = value_fmt,
+                     independentTicks = FALSE,
+                     valueRange = c(0, max_y)
+                     ) |>
     dygraphs::dyLegend(show = "always",
                        showZeroValues = FALSE,
-                       labelsSeparateLines = TRUE) |>
+                       labelsSeparateLines = TRUE
+                       ) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
     dygraphs::dyCSS(textConnection(
