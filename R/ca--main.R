@@ -8,7 +8,7 @@ compute_ca <- function(simulation)
 
   output <- hbc_res |>
     collapse::rsplit(
-      by = ~ cluster_id + year,
+      by = ~ element_id + year,
       flatten = TRUE,
       use.names = FALSE,
       simplify = FALSE,

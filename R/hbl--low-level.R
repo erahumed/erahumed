@@ -129,7 +129,7 @@
                           list(...)
                           ),
                         length)
-      if (length(unique(lengths)) > 1)
+      if (length(unique(lengths[lengths != 1])) > 1)
         stop("Time series inputs must have equal lengths, see ?hbl.")
 
       assert_function(storage_curve, check = list(rep(0, 10)) )

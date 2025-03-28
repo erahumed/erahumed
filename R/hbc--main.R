@@ -18,6 +18,10 @@ compute_hbc <- function(simulation)
     output <- do.call(.hbc, .hbc_args)
     })
 
+  names(output)[names(output) == "cluster_id"] <- "element_id"
+  names(output)[names(output) == "ditch"] <- "ditch_element_id"
+
+
   validate_hbc_output(output)
 
   simulation [["outputs"]] [["hbc"]] <- output
@@ -39,8 +43,8 @@ validate_hbc_output <- function(output) {
                                             area_m2 = numeric(),
                                             capacity_m3_s = numeric(),
                                             date = as.Date(character()),
-                                            cluster_id = character(),
-                                            ditch = character(),
+                                            element_id = character(),
+                                            ditch_element_id = character(),
                                             ideal_inflow_cm = numeric(),
                                             ideal_outflow_cm = numeric(),
                                             inflow_cm = numeric(),
@@ -55,7 +59,7 @@ validate_hbc_output <- function(output) {
   assert_positive_vector(output$area_m2, tol = 1e-6)
   assert_positive_vector(output$capacity_m3_s, tol = 1e-6)
   assert_date(output$date)
-  assert_character(output$cluster_id)
+  assert_character(output$element_id)
   assert_character(output$ditch)
   assert_positive_vector(output$ideal_outflow_cm, tol = 1e-6)
   assert_positive_vector(output$plan_delay, tol = 1e-6)

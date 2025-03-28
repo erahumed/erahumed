@@ -89,8 +89,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     ns <- session$ns
 
     element_type <- shiny::reactive({
-      if(!is.na(match(input$water_body, info_clusters()$cluster_id))) "c"
-      else if (!is.na(match(input$water_body, info_ditches()$ditch))) "d"
+      if(!is.na(match(input$water_body, info_clusters()$element_id))) "c"
+      else if (!is.na(match(input$water_body, info_ditches()$element_id))) "d"
       else "l"
     })
 
@@ -153,9 +153,9 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 }
 
 water_body_choices <- function() {
-  ditches <- info_ditches()$ditch
-  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$ditch_name)
-  clusters <- info_clusters()$cluster_id
+  ditches <- info_ditches()$element_id
+  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$element_id)
+  clusters <- info_clusters()$element_id
   names(clusters) <- info_clusters()$cluster_name
 
   list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters)

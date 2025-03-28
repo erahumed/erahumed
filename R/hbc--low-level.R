@@ -61,10 +61,11 @@
   res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))
   res$dd <- get_dd(as.POSIXlt(res$date))
+  res$element_id <- NULL
 
   clusters_df <- merge(clusters_df,
-                       cv_map[, c("cluster_id", "variety")],
-                       by = "cluster_id")
+                       cv_map[, c("element_id", "variety")],
+                       by = "element_id")
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
@@ -79,11 +80,11 @@
           allow.cartesian = TRUE
     )
 
-  res <- data.table::setorderv(res, c("date", "cluster_id"))
+  res <- data.table::setorderv(res, c("date", "element_id"))
 
   res <- list(date = res$date,
-              ditch = res$ditch,
-              cluster_id = res$cluster_id,
+              ditch = res$ditch_element_id,
+              cluster_id = res$element_id,
               ideal_height_eod_cm = res$ideal_height_eod_cm,
               petp_cm = res$petp_cm,
               seed_day = res$seed_day,

@@ -32,7 +32,7 @@ generate_clusters_variety <- function(variety_prop) {
   }
 
   area_clearfield_max <- res$area[
-    res$ditch %in% ditches_clearfield & is.na(res$variety)
+    res$ditch_element_id %in% ditches_clearfield & is.na(res$variety)
     ] |> sum()
   if (area_clearfield_target > area_clearfield_max) {
     msg <- "Surface proportion allocated to 'Clearfield' was too high."
@@ -45,7 +45,7 @@ generate_clusters_variety <- function(variety_prop) {
   area_clearfield <- 0
   while(area_clearfield < area_clearfield_target) {
     i <- sample(n_clusters, 1)
-    eligible <- res$ditch[i] %in% ditches_clearfield && is.na(res$variety[i])
+    eligible <- res$ditch_element_id[i] %in% ditches_clearfield && is.na(res$variety[i])
     if (!eligible)
       next
     res$variety[i] <- "Clearfield"

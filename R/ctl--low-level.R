@@ -50,8 +50,8 @@ ctl_data_prep <- function(simulation)
   ditch_inflows_m3_s <-
     get_output(simulation, "hbd") |>
     data.table::as.data.table() |>
-    data.table::setorderv(c("date", "ditch")) |>
-    collapse::rsplit(by = outflow_lake_m3 ~ ditch,
+    data.table::setorderv(c("date", "element_id")) |>
+    collapse::rsplit(by = outflow_lake_m3 ~ element_id,
                      simplify = TRUE,
                      keep.by = FALSE) |>
     lapply(\(x) x / s_per_day())

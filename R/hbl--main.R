@@ -7,6 +7,7 @@ compute_hbl <- function(simulation)
 
   output <-
     .hbl(
+      element_id = "lake",
       level = inp_df$level,
       precipitation_mm = inp_df$precipitation_mm,
       evapotranspiration_mm = inp_df$evapotranspiration_mm,

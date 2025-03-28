@@ -84,7 +84,7 @@ avg_df <- clusters_df |>
 ggplot() +
   geom_line(
     data = clusters_df,
-    mapping = aes(x = date, y = height_eod_cm, group = cluster_id),
+    mapping = aes(x = date, y = height_eod_cm, group = element_id),
     color = "black", linewidth = 0.1, alpha = 0.2) +
   geom_line(
     data = avg_df, 

@@ -4,7 +4,7 @@ test_that("Total number of applications is equal to expected", {
   yearly_amounts_clusters <- test_df |>
     dplyr::mutate(year = format(date, "%Y")) |>
     dplyr::rename(rice_variety = variety) |>
-    dplyr::group_by(cluster_id, rice_variety, year) |>
+    dplyr::group_by(element_id, rice_variety, year) |>
     dplyr::summarise(Acetamiprid = sum(Acetamiprid > 0),
                      Bentazone = sum(Bentazone > 0),
                      MCPA = sum(MCPA > 0),
