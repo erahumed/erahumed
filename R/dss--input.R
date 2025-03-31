@@ -127,6 +127,8 @@ dss_input_server <- function(id) {
     })
 
     res <- shiny::reactive({
+      shiny::req(length(input$date_range) == 2)
+
       list(
         date_start = input$date_range[[1]],
         date_end = input$date_range[[2]],
