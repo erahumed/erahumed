@@ -13,14 +13,14 @@ plot_hbd <- function(simulation,
   data <- get_output(simulation, "hbd")
 
   if (is.null(element_id)) {
-    element_id <- data$ditch[[1]]
+    element_id <- data$element_id[[1]]
     warning(paste0(
       "No ditch specified through the 'element_id' argument. ",
       "Plotting ditch '", element_id, "'."
     ))
   }
 
-  data <- data[data$ditch == element_id, ]
+  data <- data[data$element_id == element_id, ]
 
   switch(match.arg(type),
          storage = plot_erahumed_hbd_storage(data,
