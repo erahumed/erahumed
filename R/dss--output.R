@@ -75,7 +75,7 @@ dss_output_ui <- function(id) {
           ),
         full_screen = TRUE,
         bslib::nav_panel(
-          "Species Sensitivity",
+          "Potentially Affected Fraction",
           dygraphs::dygraphOutput(ns("r_plot"), height = "600px") |>
             withSpinner()
           )
