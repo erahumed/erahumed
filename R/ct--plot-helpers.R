@@ -46,7 +46,7 @@ ct_plot_time_series_density <- function(data,
   dygraphs::dygraph(plot_df, group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
-                     label = paste0("Density [", units, "]"),
+                     label = paste0("Concentration [", units, "]"),
                      axisLabelWidth = 80,
                      valueFormatter = value_fmt
                      ) |>
