@@ -14,10 +14,10 @@ ct_plot_time_series_density <- function(data,
   chemicals <- unique(data$chemical)
 
   if (compartment == "water") {
-    data$density <- data$cw_kg_m3 * 1e6
+    data$density <- data$cw_kg_m3 * 1e6 |>
+      (\(.) ifelse(is.na(.), 0, .))()
     data <- data[, c("date", "chemical", "density")]
     units <- "\u{03BC}g / L"
-
   } else {
     data$density <- data$cs_g_kg * 1e3
     data <- data[, c("date", "chemical", "density")]
