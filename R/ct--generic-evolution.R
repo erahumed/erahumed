@@ -94,8 +94,7 @@ ct_time_series <- function(application_kg,
               cw_outflow_kg_m3 = cw_outflow,
               cs_kg_m3 = cs,
               cs_g_kg = cs / bd_g_cm3,
-              volume_eod_m3 = volume_eod_m3,
-              volume_sod_m3 = volume_sod_m3)
+              volume_m3 = volume_sod_m3)
          )
 }
 
