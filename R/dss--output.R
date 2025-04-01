@@ -8,6 +8,7 @@ dss_output_ui <- function(id) {
     shinyWidgets::pickerInput(ns("water_body"),
                               "Water body",
                               choices = water_body_choices()),
+    shiny::textOutput(ns("selected_wb_info")),
 
     bslib::layout_column_wrap(
       bslib::navset_card_tab(
@@ -94,6 +95,31 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       else "l"
     })
 
+    output$selected_wb_info <- shiny::renderText({
+      cvmap <- get_etc(simulation(), "cluster_variety_map")[, c("element_id", "variety")]
+
+      if ( element_type() == "c" ) {
+        cluster_data <- info_clusters() |>
+          (\(.) .[.$element_id == input$water_body, ])() |>
+          merge(cvmap, by = "element_id") |>
+          merge(info_ditches(), by.x = "ditch_element_id", by.y = "element_id")
+
+
+        paste0("Cluster: ", cluster_data$cluster_name,
+               " - Ditch: ", cluster_data$ditch_name,
+               " - Tancat: ", cluster_data$tancat,
+               " - Variety: ", cluster_data$variety)
+      } else if ( element_type() == "d" ) {
+        ditch_data <- info_ditches() |>
+          (\(.) .[.$element_id == input$water_body, ])()
+        paste0("Ditch: ", ditch_data$ditch_name)
+      } else {
+        paste0("Albufera Lake")
+      }
+
+    })
+
+
     output$hb_plot_storage <- dygraphs::renderDygraph({
       plot_fun <- switch(element_type(),
                          c = plot_hbc, d = plot_hbd, l = plot_hbl)
@@ -152,11 +178,13 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
   })
 }
 
-water_body_choices <- function() {
+water_body_choices <- function()
+{
   ditches <- info_ditches()$element_id
-  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$element_id)
+  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$ditch_name)
+
   clusters <- info_clusters()$element_id
   names(clusters) <- info_clusters()$cluster_name
 
-  list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters)
+  return( list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters) )
 }
