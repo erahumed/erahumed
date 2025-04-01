@@ -34,17 +34,15 @@ dss_input_ui <- function(id) {
 
   )
 
-  crop_parameters_ui <- bslib::layout_column_wrap(
-    dss_input_prop_variety_slider(ns("prop_variety_12"))
-  )
 
-  pesticide_parameters_ui <- bslib::layout_column_wrap(
+  pesticide_applications_ui <- bslib::layout_column_wrap(
+    dss_input_drift(ns("drift")),
+    dss_input_covmax(ns("covmax")),
+    dss_input_prop_variety_slider(ns("prop_variety_12")),
     dss_input_ca_schedules_df_button(ns("open_ca_schedules_df_modal"))
     )
 
   physchem_parameters_ui <- bslib::layout_column_wrap(
-    dss_input_drift(ns("drift")),
-    dss_input_covmax(ns("covmax")),
     dss_input_jgrow(ns("jgrow")),
     dss_input_dact_m(ns("dact_m")),
     dss_input_css_ppm(ns("css_ppm")),
@@ -66,9 +64,15 @@ dss_input_ui <- function(id) {
       bslib::accordion_panel("Simulation settings", simulation_parameters_ui),
       bslib::accordion_panel("Hydrology", hydrology_parameters_ui),
       bslib::accordion_panel("Meteorology", meteorology_parameters_ui),
-      bslib::accordion_panel("Crop settings", crop_parameters_ui),
-      bslib::accordion_panel("Pesticide definitions and properties", pesticide_parameters_ui),
-      bslib::accordion_panel("Physico-chemical environmental properties", physchem_parameters_ui)
+      bslib::accordion_panel("Environmental properties", physchem_parameters_ui),
+      bslib::accordion_panel(
+        title = shiny::p(
+          "Pesticide application scheme",
+          bslib::tooltip(trigger = shiny::icon("tools"), "This section is under development.")
+        ),
+        value = "Pesticide application scheme",
+        pesticide_applications_ui
+        )
       )
     )
 }

@@ -61,7 +61,7 @@ weather_df:
 
 variety_prop:
   name: "Rice variety proportion"
-  group: "Crop parameters"
+  group: "Pesticide application scheme"
   type: "numeric(3)"
   description: >-
     Vector of `3` positive values. Controls the relative proportions
@@ -161,7 +161,7 @@ ditch_level_m:
 
 ca_schedules_df:
   name: "Chemical application schedules data frame"
-  group: "Pesticide parameters"
+  group: "Pesticide application scheme"
   type: "data.frame"
   description: >-
     A dataset that provides the list of scheduled chemical applications,
@@ -184,7 +184,7 @@ ca_schedules_df:
 
 drift:
   name: "Drift"
-  group: "Physico-chemical environmental properties"
+  group: "Pesticide application scheme"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -193,7 +193,7 @@ drift:
 
 covmax:
   name: "Max interception potential"
-  group: "Physico-chemical environmental properties"
+  group: "Pesticide application scheme"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -202,7 +202,7 @@ covmax:
 
 jgrow:
   name: "Maturation cycle length"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "day"
   type: "numeric(1)"
   description: >-
@@ -210,7 +210,7 @@ jgrow:
 
 dact_m:
   name: "Depth of active sediment"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "m"
   type: "numeric(1)"
   description: >-
@@ -220,7 +220,7 @@ dact_m:
 
 css_ppm:
   name: "Suspended solid concentration"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "ppm"
   type: "numeric(1)"
   description: >-
@@ -229,7 +229,7 @@ css_ppm:
 
 foc:
   name: "Fraction of organic content"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -238,7 +238,7 @@ foc:
 
 bd_g_cm3:
   name: "Bulk density of sediment"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "g\u00B7cm\u207B\u00B2"
   type: "numeric(1)"
   description: >-
@@ -247,7 +247,7 @@ bd_g_cm3:
 
 qseep_m_day:
   name: "Seepage rate"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "m\u00B7day\u207B\u00B9"
   type: "numeric(1)"
   description: >-
@@ -256,7 +256,7 @@ qseep_m_day:
 
 porosity:
   name: "Porosity"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -266,6 +266,6 @@ porosity:
 seed:
   name: "Simulation random seed"
   type: "numeric(1)"
-  group: "Hyperparameters"
+  group: "General"
   description: >-
     Seed for random number generation used by the simulation algorithms.
