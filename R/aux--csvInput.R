@@ -134,7 +134,8 @@ csv_input_header <- function(columns) {
     shiny::markdown()
 
   shiny::tags$details(
-    shiny::tags$summary("See columns description"),
-    markdown_text
+    shiny::tags$summary("Column descriptions"),
+    markdown_text,
+    open = "open"
   )
 }
