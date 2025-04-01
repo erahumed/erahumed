@@ -206,7 +206,7 @@ jgrow:
   unit: "day"
   type: "numeric(1)"
   description: >-
-    A positive integer. Length (in days) of crop maturation cycle.
+    A positive integer. Length (in days) of crop maturation cycle in rice paddies.
 
 dact_m:
   name: "Depth of active sediment"

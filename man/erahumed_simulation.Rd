@@ -61,7 +61,7 @@ erahumed_simulation(
 
 \item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Maximum potential fraction of applied chemicals intercepted by foliage at crop maturation.}
 
-\item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle.}
+\item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle in rice paddies.}
 
 \item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 
