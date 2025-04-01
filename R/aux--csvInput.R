@@ -61,13 +61,13 @@ csvInputServer <- function(id,
 
     # Downloadable csv of the data frame
     output$downloadDataCSV <- shiny::downloadHandler(
-      filename = function() paste0("data-", Sys.Date(), ".csv"),
+      filename = function() paste0(id, "-", Sys.Date(), ".csv"),
       content = function(file) readr::write_csv(df(), file)
     )
 
     # Downloadable Excel of the data frame
     output$downloadDataExcel <- shiny::downloadHandler(
-      filename = function() paste0("data-", Sys.Date(), ".xlsx"),
+      filename = function() paste0(id, "-", Sys.Date(), ".xlsx"),
       content = function(file) writexl::write_xlsx(df(), file)
     )
 
