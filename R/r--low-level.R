@@ -37,7 +37,7 @@ risk_from_ssds <- function(ct_output) {
            ),
          by = "tmoa"
       ][,
-        let(a = data.table::fifelse(is.na(cw_kg_m3), 0, cw_kg_m3))
+        let(cw_kg_m3 = data.table::fifelse(is.na(cw_kg_m3), 0, cw_kg_m3))
       ][,
         let(
           HU_acute = 1e6 * cw_kg_m3 / median_acute,
