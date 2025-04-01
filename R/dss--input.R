@@ -13,19 +13,19 @@ dss_input_ui <- function(id) {
 
   hydrology_parameters_ui <- bslib::layout_column_wrap(
     card(
-      card_header("Observational inputs"),
+      card_header("Lake's hydrology empirical data"),
       dss_input_outflows_df_button(ns("open_outflows_df_modal")),
     ),
 
     bslib::card(
-      bslib::card_header("Water storage parameters"),
+      bslib::card_header("Lake's water storage parameters"),
       dss_input_sc_intercept(ns("sc_intercept")),
       dss_input_sc_slope(ns("sc_slope")),
       dss_input_petp_surface(ns("petp_surface"))
       ),
 
     bslib::card(
-      bslib::card_header("Irrigation and draining management"),
+      bslib::card_header("Irrigation and draining management of rice fields"),
       dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
       dss_input_height_thresh_cm(ns("height_thresh_cm")),
       dss_input_ditch_level_m(ns("ditch_level_m")),
