@@ -56,7 +56,13 @@ dss_input_ui <- function(id) {
 
   bslib::page_fillable(
     title = "Input",
+    shiny::tags$div(
+      style = "position: fixed; bottom: 20px; left: 20px; z-index: 1000;",
+      shiny::actionButton(ns("reset"), "Reset", icon = shiny::icon("undo"),
+                          class = "btn-outline-danger btn-lg")
+    ),
     bslib::accordion(
+      id = ns("input-ui"),
       bslib::accordion_panel("Simulation settings", simulation_parameters_ui),
       bslib::accordion_panel("Hydrology", hydrology_parameters_ui),
       bslib::accordion_panel("Meteorology", meteorology_parameters_ui),
@@ -71,7 +77,13 @@ dss_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    outflows_df <- csvInputServer("outflows", erahumed::albufera_outflows)
+    reset_reactive <- shiny::reactiveVal(0)
+    shiny::observe( reset_reactive(reset_reactive() + 1) ) |>
+      shiny::bindEvent(input$reset)
+
+    outflows_df <- csvInputServer("outflows",
+                                  erahumed::albufera_outflows,
+                                  reset = reset_reactive)
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -83,7 +95,9 @@ dss_input_server <- function(id) {
       ))
     })
 
-    weather_df <- csvInputServer("weather", erahumed::albufera_weather)
+    weather_df <- csvInputServer("weather",
+                                 erahumed::albufera_weather,
+                                 reset = reset_reactive)
     shiny::observeEvent(input$open_weather_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -95,7 +109,9 @@ dss_input_server <- function(id) {
       ))
     })
 
-    management_df <- csvInputServer("management", erahumed::albufera_management)
+    management_df <- csvInputServer("management",
+                                    erahumed::albufera_management,
+                                    reset = reset_reactive)
     shiny::observeEvent(input$open_management_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -107,7 +123,9 @@ dss_input_server <- function(id) {
       ))
     })
 
-    ca_schedules_df <- csvInputServer("applications", erahumed::albufera_ca_schedules)
+    ca_schedules_df <- csvInputServer("applications",
+                                      erahumed::albufera_ca_schedules,
+                                      reset = reset_reactive)
     shiny::observeEvent(input$open_ca_schedules_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -125,6 +143,10 @@ dss_input_server <- function(id) {
         1 - input$prop_variety_12[[2]]
         )
     })
+
+    shiny::observe({
+      shinyjs::reset("input-ui")
+      }) |> shiny::bindEvent(input$reset)
 
     res <- shiny::reactive({
       shiny::req(length(input$date_range) == 2)

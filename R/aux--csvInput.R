@@ -28,9 +28,14 @@ csvInputUI <- function(id, columns = NULL) {
 
 }
 
-csvInputServer <- function(id, initial_df, sig_digits = 4, initial_rows = 5) {
+csvInputServer <- function(id,
+                           initial_df,
+                           sig_digits = 4,
+                           initial_rows = 5,
+                           reset = shiny::reactiveVal(NULL)
+                           )
+{
   shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
 
     df <- shiny::reactiveVal(initial_df)
 
@@ -44,6 +49,9 @@ csvInputServer <- function(id, initial_df, sig_digits = 4, initial_rows = 5) {
 
       df(new_data)
     })
+
+    shiny::observe( df(initial_df) ) |>
+      shiny::bindEvent(reset(), ignoreInit = TRUE, ignoreNULL = TRUE)
 
     # Output the data frame as a paginated table
     output$contents <- DT::renderDT({
