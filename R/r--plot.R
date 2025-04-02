@@ -36,7 +36,8 @@ plot_risk <- function(r_output,
   ] |>
     as.data.frame() |>
     (\(.) .[, c("date", "stressor", var)])() |>
-    stats::reshape(timevar = "stressor", idvar = "date", direction = "wide")
+    stats::reshape(timevar = "stressor", idvar = "date", direction = "wide") |>
+    (\(.) .[, order(colnames(.))])()
 
   colnames(df_plot) <- gsub("^mspaf_chronic\\.", "", colnames(df_plot))
   colnames(df_plot) <- gsub("^mspaf_acute\\.", "", colnames(df_plot))

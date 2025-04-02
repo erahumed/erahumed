@@ -38,7 +38,8 @@ ct_plot_time_series_density <- function(data,
     (function(df) {
       names(df) <- gsub("density", "", names(df), fixed = TRUE)
       return(df)
-      })()
+      })() |>
+    (\(.) .[, order(colnames(.))])()
 
   chemical_names <- setdiff(names(plot_df), "date")
   dy_colors <- chemical_color_map()[chemical_names] |> unname()
