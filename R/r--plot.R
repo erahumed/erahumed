@@ -6,30 +6,45 @@ plot_risk <- function(r_output,
 
   var <- switch(type,
                 chronic = "mspaf_chronic",
-                acute = "mspaf_acute"
-  )
+                acute = "mspaf_acute")
 
-  paf_chronic <- paf_acute <- NULL
+  paf_chronic <- paf_acute <- mspaf_acute <- mspaf_chronic <- stressor_type <- NULL
 
-  r_output <- r_output |>
-    data.table::as.data.table() |>
-    (function(dt) {
-      dt[, let(
-        mspaf_chronic = paf_chronic / sum(paf_chronic) * (1 - prod(1 - paf_chronic)),
-        mspaf_acute = paf_acute / sum(paf_acute) * (1 - prod(1 - paf_acute))
-      ), by = "date"]
-    })() |>
+  r_output <- data.table::as.data.table(r_output)
+
+  mspaf_df <- r_output[
+    stressor_type == "tmoa"
+  ][,
+    list(mspaf_acute = 1 - prod(1 - paf_acute),
+         mspaf_chronic = 1 - prod(1 - paf_chronic)
+         ),
+    by = "date"
+  ]
+
+  r_output <- merge(r_output, mspaf_df, by = "date")
+
+
+
+  df_plot <- r_output[
+    stressor_type == "chemical"
+  ][,
+    let(
+        mspaf_chronic = paf_chronic / sum(paf_chronic) * mspaf_chronic,
+        mspaf_acute = paf_acute / sum(paf_acute) * mspaf_acute
+        ),
+    by = "date"
+  ] |>
     as.data.frame() |>
-    (\(.) .[, c("date", "tmoa", var)])() |>
-    stats::reshape(timevar = "tmoa", idvar = "date", direction = "wide")
+    (\(.) .[, c("date", "stressor", var)])() |>
+    stats::reshape(timevar = "stressor", idvar = "date", direction = "wide")
 
-  colnames(r_output) <- gsub("^mspaf_chronic\\.", "", colnames(r_output))
-  colnames(r_output) <- gsub("^mspaf_acute\\.", "", colnames(r_output))
+  colnames(df_plot) <- gsub("^mspaf_chronic\\.", "", colnames(df_plot))
+  colnames(df_plot) <- gsub("^mspaf_acute\\.", "", colnames(df_plot))
 
   # Compute total msPAF (sum of stacked areas)
-  r_output$Total <- rowSums(r_output[, -1, drop = FALSE], na.rm = TRUE)
+  df_plot$Total <- rowSums(df_plot[, -1, drop = FALSE], na.rm = TRUE)
 
-  ts_data <- xts::xts(r_output[-1], order.by = r_output$date)
+  ts_data <- xts::xts(df_plot[-1], order.by = df_plot$date)
 
   # Extract column names without "msPAF"
   cols_without_total <- setdiff(colnames(ts_data), "Total")
