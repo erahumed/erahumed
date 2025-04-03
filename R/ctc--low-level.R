@@ -1,8 +1,11 @@
 .compute_ctc <- function(simulation) {
-
   get_output(simulation, "ca") |>
     data.table::as.data.table() |>
     merge(get_output(simulation, "inp"), by = "date", sort = TRUE) |>  # to recover weather data
+    merge(get_input(simulation, "management_df")[, c("seed_day", "tancat", "variety", "harvesting")],
+          by = c("seed_day", "tancat", "variety"),  # TODO: To recover harvest day
+          sort = FALSE
+          ) |>
     collapse::rsplit(by = ~ element_id,
                      flatten = TRUE,
                      use.names = FALSE,
@@ -57,6 +60,7 @@
         inflows_densities_kg_m3 = list(0),  # ... which is assumed to be free of pesticide.
         area_m2 = area_m2,
         seed_day = cluster_ca_df[["seed_day"]],  # Used to estimate foliage surface growth
+        harvesting = cluster_ca_df[["harvesting"]],
         chemical = chemical,
         drift = drift,
         covmax = covmax,

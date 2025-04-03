@@ -25,6 +25,7 @@
           ctl_preproc_data[["ditch_inflows_densities_kg_m3"]][[chemical]],
         area_m2 = ls,
         seed_day = 840,  # Ignored, only relevant for application interception (in clusters)
+        harvesting = FALSE, # Ignore harvesting (do not change this value)
         chemical = chemical,
         drift = get_input(simulation, "drift"),
         covmax = get_input(simulation, "covmax"),

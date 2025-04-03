@@ -47,7 +47,7 @@ test_that("All compartments of all clusters have at least one >0 value", {
   test_df <- get_output(test_sim_large(), "ctc") |>
     dplyr::filter(chemical %in% universal_chems) |>
     dplyr::group_by(element_id, chemical) |>
-    dplyr::summarise(mf_kg = sum(mf_kg), mw_kg = sum(mw_kg), ms_kg = sum(ms_kg)) |>
+    dplyr::summarise(mf_kg = sum(mf_kg), mw_kg = sum(mw_kg), ms_kg = sum(ms_kg), .groups = "drop") |>
     dplyr::filter(mf_kg < tol_kg | mw_kg < tol_kg | ms_kg < tol_kg)
 
   expect_equal(nrow(test_df), 0)
