@@ -22,26 +22,26 @@ library(dplyr)
 
 albufera_ca_schedules <- tribble(
   ~day,   ~rice_variety,  ~chemical,          ~kg_per_ha,     ~application_type,
-  51,     "J.Sendra",     "Acetamiprid",      0.03,           "ground",
-  51,     "Bomba",        "Acetamiprid",      0.03,           "ground",
-  51,     "Clearfield",   "Acetamiprid",      0.03,           "ground",
+  53,     "J.Sendra",     "Acetamiprid",      0.03,           "ground",
+  53,     "Bomba",        "Acetamiprid",      0.03,           "ground",
+  53,     "Clearfield",   "Acetamiprid",      0.03,           "ground",
 
-  51,     "J.Sendra",     "Bentazone",        1.00,           "ground",
-  51,     "Bomba",        "Bentazone",        1.00,           "ground",
+  53,     "J.Sendra",     "Bentazone",        1.00,           "ground",
+  53,     "Bomba",        "Bentazone",        1.00,           "ground",
 
-  51,     "J.Sendra",     "MCPA",             0.50,           "ground",
-  51,     "Bomba",        "MCPA",             0.50,           "ground",
+  53,     "J.Sendra",     "MCPA",             0.50,           "ground",
+  53,     "Bomba",        "MCPA",             0.50,           "ground",
 
-  21,     "J.Sendra",     "Penoxsulam",       0.04,           "ground",
-  21,     "Bomba",        "Penoxsulam",       0.04,           "ground",
+  19,     "J.Sendra",     "Penoxsulam",       0.04,           "ground",
+  19,     "Bomba",        "Penoxsulam",       0.04,           "ground",
 
-  7,      "J.Sendra",     "Cyhalofop-butyl",  0.30,           "ground",
-  7,      "Bomba",        "Cyhalofop-butyl",  0.30,           "ground",
-  21,     "J.Sendra",     "Cyhalofop-butyl",  0.30,           "ground",
-  21,     "Bomba",        "Cyhalofop-butyl",  0.30,           "ground",
+  6,      "J.Sendra",     "Cyhalofop-butyl",  0.30,           "ground",
+  6,      "Bomba",        "Cyhalofop-butyl",  0.30,           "ground",
+  19,     "J.Sendra",     "Cyhalofop-butyl",  0.30,           "ground",
+  19,     "Bomba",        "Cyhalofop-butyl",  0.30,           "ground",
 
-  21,     "Clearfield",   "Cycloxydim",       0.30,           "ground",
-  51,     "Clearfield",   "Cycloxydim",       0.30,           "ground",
+  19,     "Clearfield",   "Cycloxydim",       0.30,           "ground",
+  53,     "Clearfield",   "Cycloxydim",       0.30,           "ground",
 
   76,     "Bomba",        "Azoxystrobin",     0.20,           "aerial",
   90,     "Bomba",        "Azoxystrobin",     0.20,           "aerial",
