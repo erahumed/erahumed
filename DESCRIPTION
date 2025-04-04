@@ -47,7 +47,6 @@ Imports:
     leaflet,
     readr,
     readxl,
-    rlang,
     sever,
     sf,
     shiny,
