@@ -105,13 +105,13 @@ get_results(simulation,
 #> 4 2020-01-04 Acetamiprid     0     0     0        0                0        0
 #> 5 2020-01-05 Acetamiprid     0     0     0        0                0        0
 #> 6 2020-01-06 Acetamiprid     0     0     0        0                0        0
-#>   cs_g_kg volume_eod_m3 volume_sod_m3 element_id
-#> 1       0      53828509            NA       lake
-#> 2       0      53968700      53828509       lake
-#> 3       0      54126415      53968700       lake
-#> 4       0      54187749      54126415       lake
-#> 5       0      53968700      54187749       lake
-#> 6       0      53981843      53968700       lake
+#>   cs_g_kg volume_m3 element_id
+#> 1       0        NA       lake
+#> 2       0  27344422       lake
+#> 3       0  27397000       lake
+#> 4       0  27456150       lake
+#> 5       0  27479153       lake
+#> 6       0  27397000       lake
 ```
 
 ## Getting help
