@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,49 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.17.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.18.0" id="erahumed-0180">erahumed 0.18.0<a class="anchor" aria-label="anchor" href="#erahumed-0180"></a></h2>
+<div class="section level4">
+<h4 id="algorithm-0-18-0">Algorithm<a class="anchor" aria-label="anchor" href="#algorithm-0-18-0"></a></h4>
+<ul><li><p>At harvesting time, the mass accumulated in the foliage compartment of clusters is now set to zero (<a href="https://github.com/erahumed/erahumed/issues/374" class="external-link">#374</a>). Correspondingly, the <code>albufera_management</code> built-in data-set now comes with an extra <code>harvesting</code> column (<code>TRUE</code> or <code>FALSE</code>).</p></li>
+<li><p>The algorithm for computing of application dates was significantly simplified. These dates are now obtained by equating the scheduled application day with an “irrigation plan advancement” defined as the <code>seed_day</code> minus the <code>plan_delay</code>. The applications days in the <code>albufera_ca_schedules</code> data-set have also been fixed in order to be consistent with the emptyings scheduled in the ideal management plan of the <code>albufera_management</code> built-in data-set. These two changes have no actual effect on the current results with default inputs, which are the same as before, but makes future generalizations (<em>e.g.</em> supporting the definition of custom chemicals) much easier.</p></li>
+<li><p>The default values for the storage curve have been reverted to the ones reported by CHJ, in agreement with what was actually being documented.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="api-changes-0-18-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-18-0"></a></h4>
+<ul><li><p>The outputs for the risk component of simulations (obtained through <code>get_results(component = "risk")</code>) now list PAFs both for individual chemicals and combined toxic modes of action (<a href="https://github.com/erahumed/erahumed/issues/380" class="external-link">#380</a>).</p></li>
+<li><p>In the outputs for the risk component of simulations (obtained through <code>get_results(component = "risk")</code>), hazard units and SSDs standard deviations are no longer reported (<a href="https://github.com/erahumed/erahumed/issues/379" class="external-link">#379</a>).</p></li>
+<li><p>Variable names for <code>cluster_id</code> and <code>ditch</code> to have been renamed to <code>element_id</code> (<a href="https://github.com/erahumed/erahumed/issues/297" class="external-link">#297</a>).</p></li>
+<li><p>End-of-day and Start-of-day volume variables are no longer reported in CT output, replaced by the single “volume” variable - that is the Start-of-day one (<a href="https://github.com/erahumed/erahumed/issues/377" class="external-link">#377</a>). The semantics of output columns will be clarified in the user manual.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-changes-0-18-0">GUI changes<a class="anchor" aria-label="anchor" href="#gui-changes-0-18-0"></a></h4>
+<ul><li><p>The input tab now has a “Reset” button (<a href="https://github.com/erahumed/erahumed/issues/367" class="external-link">#367</a>).</p></li>
+<li><p>Reorganized grouping of inputs (<a href="https://github.com/erahumed/erahumed/issues/384" class="external-link">#384</a>, <a href="https://github.com/erahumed/erahumed/issues/385" class="external-link">#385</a>, <a href="https://github.com/erahumed/erahumed/issues/386" class="external-link">#386</a>, <a href="https://github.com/erahumed/erahumed/issues/387" class="external-link">#387</a>).</p></li>
+<li><p>Column descriptions in data-set inputs re now open by default (<a href="https://github.com/erahumed/erahumed/issues/382" class="external-link">#382</a>).</p></li>
+<li><p>Downloaded input data-sets now have self-explanatory names (<a href="https://github.com/erahumed/erahumed/issues/368" class="external-link">#368</a>).</p></li>
+<li><p>Add water body (<em>e.g.</em> grouping ditch for clusters) info in GUI (<a href="https://github.com/erahumed/erahumed/issues/370" class="external-link">#370</a>).</p></li>
+<li><p>Improved labels of hydrology inputs (<a href="https://github.com/erahumed/erahumed/issues/383" class="external-link">#383</a>).</p></li>
+<li><p>Risk plots: the breakdown is now done by chemical rather than toxic mode of action (<a href="https://github.com/erahumed/erahumed/issues/373" class="external-link">#373</a>).</p></li>
+<li><p>Exposure plots: density for zero volume is now set to zero (<a href="https://github.com/erahumed/erahumed/issues/370" class="external-link">#370</a>).</p></li>
+<li><p>Risk output: the only plot tab currently present has been renamed to “Potentially Affected Fraction” (<a href="https://github.com/erahumed/erahumed/issues/376" class="external-link">#376</a>).</p></li>
+<li><p>Label of risk plots has been changed to “Potentially affected species [%]” (<a href="https://github.com/erahumed/erahumed/issues/371" class="external-link">#371</a>).</p></li>
+<li><p>Label of exposure plots changed from “Density” to “Concentration” (<a href="https://github.com/erahumed/erahumed/issues/378" class="external-link">#378</a>).</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-18-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-18-0"></a></h4>
+<ul><li>Various improvements to inputs’ documentation.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-0-18-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-18-0"></a></h4>
+<ul><li><p>Fixed regression reintroducing the bug of <a href="https://github.com/erahumed/erahumed/issues/308" class="external-link">#308</a>.</p></li>
+<li><p>Fixed GUI crash upon trying to change date range (<a href="https://github.com/erahumed/erahumed/issues/361" class="external-link">#361</a>).</p></li>
+<li><p>Fixed implementation of <a href="https://github.com/erahumed/erahumed/issues/326" class="external-link">#326</a>.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.17.1" id="erahumed-0171">erahumed 0.17.1<a class="anchor" aria-label="anchor" href="#erahumed-0171"></a></h2>
 <div class="section level4">

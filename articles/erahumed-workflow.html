@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
       <h1>Simulation workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.17.1/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>erahumed-workflow.Rmd</code></div>
     </div>
 
@@ -87,8 +87,7 @@ Specifically, we will cover:</p>
 <span><span class="co">#&gt; Start date: 2020-01-01 </span></span>
 <span><span class="co">#&gt; End date: 2020-12-31</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">ℹ</span> Need help extracting simulation outputs? Check `?get_results`.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This message is displayed once per session.</span></span></span></code></pre></div>
+<span><span class="co">#&gt; Need help extracting simulation outputs? Check `?get_results`.</span></span></code></pre></div>
 <p>The command above runs a simulation with the default model
 parameters. These can be customized through the arguments of
 <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>, for instance:</p>
@@ -121,20 +120,20 @@ instance:</p>
 <span><span class="co">#&gt; 4                  20             TRUE           TRUE  -0.058 163789.56</span></span>
 <span><span class="co">#&gt; 5                  20             TRUE           TRUE  -0.058  83016.51</span></span>
 <span><span class="co">#&gt; 6                  20             TRUE           TRUE  -0.058 106260.07</span></span>
-<span><span class="co">#&gt;   capacity_m3_s       date                cluster_id ditch seed_day tancat</span></span>
-<span><span class="co">#&gt; 1    0.03448408 2020-01-01 02_Carrera_del_Saler0-2_0    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 2    0.03448408 2020-01-01          03_Petxinar0-3_2    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 3    0.03448408 2020-01-01          03_Petxinar0-3_3    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 4    0.03448408 2020-01-01          03_Petxinar1-3_1    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 5    0.03448408 2020-01-01          03_Petxinar1-3_2    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt; 6    0.03448408 2020-01-01          03_Petxinar1-3_3    d2     -110   TRUE</span></span>
-<span><span class="co">#&gt;      variety height_sod_cm irrigation draining ideal_diff_flow_cm</span></span>
-<span><span class="co">#&gt; 1   J.Sendra            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 2   J.Sendra            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 3   J.Sendra            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 4 Clearfield            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 5 Clearfield            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 6      Bomba            20       TRUE     TRUE              0.058</span></span>
+<span><span class="co">#&gt;   capacity_m3_s       date                element_id ditch_element_id seed_day</span></span>
+<span><span class="co">#&gt; 1    0.05741888 2020-01-01 02_Carrera_del_Saler0-2_0               d2     -110</span></span>
+<span><span class="co">#&gt; 2    0.05741888 2020-01-01          03_Petxinar0-3_2               d2     -110</span></span>
+<span><span class="co">#&gt; 3    0.05741888 2020-01-01          03_Petxinar0-3_3               d2     -110</span></span>
+<span><span class="co">#&gt; 4    0.05741888 2020-01-01          03_Petxinar1-3_1               d2     -110</span></span>
+<span><span class="co">#&gt; 5    0.05741888 2020-01-01          03_Petxinar1-3_2               d2     -110</span></span>
+<span><span class="co">#&gt; 6    0.05741888 2020-01-01          03_Petxinar1-3_3               d2     -110</span></span>
+<span><span class="co">#&gt;   tancat    variety height_sod_cm irrigation draining ideal_diff_flow_cm</span></span>
+<span><span class="co">#&gt; 1   TRUE   J.Sendra            20       TRUE     TRUE              0.058</span></span>
+<span><span class="co">#&gt; 2   TRUE   J.Sendra            20       TRUE     TRUE              0.058</span></span>
+<span><span class="co">#&gt; 3   TRUE   J.Sendra            20       TRUE     TRUE              0.058</span></span>
+<span><span class="co">#&gt; 4   TRUE Clearfield            20       TRUE     TRUE              0.058</span></span>
+<span><span class="co">#&gt; 5   TRUE Clearfield            20       TRUE     TRUE              0.058</span></span>
+<span><span class="co">#&gt; 6   TRUE      Bomba            20       TRUE     TRUE              0.058</span></span>
 <span><span class="co">#&gt;   ideal_inflow_cm ideal_outflow_cm outflow_m3_s outflow_cm inflow_cm</span></span>
 <span><span class="co">#&gt; 1               5            4.942            0          0     0.058</span></span>
 <span><span class="co">#&gt; 2               5            4.942            0          0     0.058</span></span>
@@ -171,7 +170,7 @@ levels for a set of clusters with similar features, using
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">clusters_df</span>,</span>
-<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">height_eod_cm</span>, group <span class="op">=</span> <span class="va">cluster_id</span><span class="op">)</span>,</span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">height_eod_cm</span>, group <span class="op">=</span> <span class="va">element_id</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="fl">0.1</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">avg_df</span>, </span>

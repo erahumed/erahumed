@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
       <h1>Simulation inputs</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.17.1/vignettes/simulation-inputs.Rmd" class="external-link"><code>vignettes/simulation-inputs.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/simulation-inputs.Rmd" class="external-link"><code>vignettes/simulation-inputs.Rmd</code></a></small>
       <div class="d-none name"><code>simulation-inputs.Rmd</code></div>
     </div>
 
@@ -87,32 +87,140 @@ Description
 </th>
 </tr></thead>
 <tbody>
-<tr grouplength="1">
+<tr grouplength="7">
 <td colspan="5" style="border-bottom: 1px solid;">
-<strong>Crop parameters</strong>
+<strong>Environmental parameters</strong>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>variety_prop</code>
+<code>bd_g_cm3</code>
 </td>
 <td style="text-align:left;">
-Rice variety proportion
+Bulk density of sediment
 </td>
 <td style="text-align:left;">
-N/A
+g·cm⁻²
 </td>
 <td style="text-align:left;">
-<code>numeric(3)</code>
+<code>numeric(1)</code>
 </td>
 <td style="text-align:left;">
-Vector of <code>3</code> positive values. Controls the proportions of
-field surface allocated to the cultivation of the J. Sendra, Bomba, and
-Clearfield varieties, respectively (positive vectors that do not sum to
-one are allowed, with entries being understood as relative proportions).
+A positive number. Bulk density of the sediment (including both the
+solid material and the pore spaces). Expressed in grams per cubic
+centimeter.
 </td>
 </tr>
-<tr grouplength="2">
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>dact_m</code>
+</td>
+<td style="text-align:left;">
+Depth of active sediment
+</td>
+<td style="text-align:left;">
+m
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A positive number. Active sediment layer depth, where “active”” refers
+to the portion of the sediment that is actually involved in chemical
+exchange or transport processes. Expressed in meters.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>foc</code>
+</td>
+<td style="text-align:left;">
+Fraction of organic content
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A number between <code>0</code> and <code>1</code>. Fraction of organic
+content within suspended solids and sediments.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>jgrow</code>
+</td>
+<td style="text-align:left;">
+Maturation cycle length
+</td>
+<td style="text-align:left;">
+day
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A positive integer. Length (in days) of crop maturation cycle in rice
+paddies.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>porosity</code>
+</td>
+<td style="text-align:left;">
+Porosity
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A number between <code>0</code> and <code>1</code>. The fraction of the
+total sediment volume that is occupied by pore spaces.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>qseep_m_day</code>
+</td>
+<td style="text-align:left;">
+Seepage rate
+</td>
+<td style="text-align:left;">
+m·day⁻¹
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A positive number. Seepage rate, <em>i.e.</em> the rate at which water
+seeps through the sediment or soil. Expressed in meters per day.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>css_ppm</code>
+</td>
+<td style="text-align:left;">
+Suspended solid concentration
+</td>
+<td style="text-align:left;">
+ppm
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A positive number. Concentration of suspended solid, expressed in parts
+per million.
+</td>
+</tr>
+<tr grouplength="3">
 <td colspan="5" style="border-bottom: 1px solid;">
 <strong>General</strong>
 </td>
@@ -133,6 +241,23 @@ N/A
 <td style="text-align:left;">
 A single-value <code>Date</code> vector (or a convertible object).
 Defines the ending date of the date interval for the simulation.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>seed</code>
+</td>
+<td style="text-align:left;">
+Simulation random seed
+</td>
+<td style="text-align:left;">
+N/A
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+Seed for random number generation used by the simulation algorithms.
 </td>
 </tr>
 <tr>
@@ -245,16 +370,11 @@ m²
 <code>numeric(1)</code>
 </td>
 <td style="text-align:left;">
-The value (in squared meters) of the surface that converts precipitation
-and evapotranspiration per unit area into volume changes for the
-Albufera lake. This function should take two numeric vectors of common
-length as inputs (representing the precipitation and evapotranspiration
-time series, respectively), and should return a numeric vector of the
-same length. The numeric values used in the default (linear) function
-were computed by the package authors, and correspond to the total study
-area (consisting of the lake and irrigation ditches) and the flooded
-fraction, that are relevant for precipitation and evapotranspiration
-volume changes, respectively.
+The surface area (in square meters) used to convert precipitation and
+evapotranspiration per unit area into volume changes for the Albufera
+Lake. The default numeric value was computed by the package authors and
+corresponds to the average flooded surface of the Albufera lake and its
+irrigation ditches.
 </td>
 </tr>
 <tr>
@@ -290,8 +410,10 @@ m³
 <code>numeric(1)</code>
 </td>
 <td style="text-align:left;">
-Intercept of the (linear) storage curve of the Albufera Lake, in cubic
-meters. Numeric values for the default are taken from the CHJ report
+Intercept of the linear storage curve for the Albufera Lake, expressed
+in cubic meters. This value represents the lake’s water volume when the
+water level is at sea level. The default numeric values are derived from
+the CHJ report
 <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo
 de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.
 </td>
@@ -311,31 +433,11 @@ m²
 </td>
 <td style="text-align:left;">
 Slope of the (linear) storage curve of the Albufera Lake, in square
-meters. Numeric values for the default are taken from the CHJ report
+meters. Multiplying this value by the change in the lake’s water level
+gives the corresponding change in water <em>volume</em>. The default
+numeric values are derived from the CHJ report
 <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo
 de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.
-</td>
-</tr>
-<tr grouplength="1">
-<td colspan="5" style="border-bottom: 1px solid;">
-<strong>Hyperparameters</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>seed</code>
-</td>
-<td style="text-align:left;">
-Simulation random seed
-</td>
-<td style="text-align:left;">
-N/A
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-Seed for random number generation used by the simulation algorithms.
 </td>
 </tr>
 <tr grouplength="1">
@@ -361,9 +463,9 @@ A dataset that provides the relevant metereological time series, along
 the template of <code>albufera_weather</code> (the default value).
 </td>
 </tr>
-<tr grouplength="1">
+<tr grouplength="4">
 <td colspan="5" style="border-bottom: 1px solid;">
-<strong>Pesticide parameters</strong>
+<strong>Pesticide application scheme</strong>
 </td>
 </tr>
 <tr>
@@ -382,49 +484,6 @@ N/A
 <td style="text-align:left;">
 A dataset that provides the list of scheduled chemical applications,
 along the template of <code>albufera_ca_schedules</code>.
-</td>
-</tr>
-<tr grouplength="9">
-<td colspan="5" style="border-bottom: 1px solid;">
-<strong>Physico-chemical environmental properties</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>bd_g_cm3</code>
-</td>
-<td style="text-align:left;">
-Bulk density of sediment
-</td>
-<td style="text-align:left;">
-g·cm⁻²
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A positive number. Bulk density of the sediment (including both the
-solid material and the pore spaces). Expressed in grams per cubic
-centimeter.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>dact_m</code>
-</td>
-<td style="text-align:left;">
-Depth of active sediment
-</td>
-<td style="text-align:left;">
-m
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A positive number. Active sediment layer depth, where “active”” refers
-to the portion of the sediment that is actually involved in chemical
-exchange or transport processes. Expressed in meters.
 </td>
 </tr>
 <tr>
@@ -447,41 +506,6 @@ chemical lost to drift during application.
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>foc</code>
-</td>
-<td style="text-align:left;">
-Fraction of organic content
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A number between <code>0</code> and <code>1</code>. Fraction of organic
-content within suspended solids and sediments.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>jgrow</code>
-</td>
-<td style="text-align:left;">
-Maturation cycle length
-</td>
-<td style="text-align:left;">
-day
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A positive integer. Length (in days) of crop maturation cycle.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 <code>covmax</code>
 </td>
 <td style="text-align:left;">
@@ -500,56 +524,21 @@ fraction of applied chemicals intercepted by foliage at crop maturation.
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>porosity</code>
+<code>variety_prop</code>
 </td>
 <td style="text-align:left;">
-Porosity
+Rice variety proportion
 </td>
 <td style="text-align:left;">
-1
+N/A
 </td>
 <td style="text-align:left;">
-<code>numeric(1)</code>
+<code>numeric(3)</code>
 </td>
 <td style="text-align:left;">
-A number between <code>0</code> and <code>1</code>. The fraction of the
-total sediment volume that is occupied by pore spaces.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>qseep_m_day</code>
-</td>
-<td style="text-align:left;">
-Seepage rate
-</td>
-<td style="text-align:left;">
-m·day⁻¹
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A positive number. Seepage rate, <em>i.e.</em> the rate at which water
-seeps through the sediment or soil. Expressed in meters per day.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>css_ppm</code>
-</td>
-<td style="text-align:left;">
-Suspended solid concentration
-</td>
-<td style="text-align:left;">
-ppm
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A positive number. Concentration of suspended solid, expressed in parts
-per million.
+Vector of <code>3</code> positive values. Controls the relative
+proportions of field surface allocated to the cultivation of the J.
+Sendra, Bomba, and Clearfield varieties, respectively.
 </td>
 </tr>
 </tbody>

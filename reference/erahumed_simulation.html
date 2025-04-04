@@ -11,7 +11,7 @@ for a detailed description of the simulation workflow."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ for a detailed description of the simulation workflow."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Initialize an ERAHUMED simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.17.1/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
       <div class="d-none name"><code>erahumed_simulation.Rd</code></div>
     </div>
 
@@ -58,8 +58,8 @@ for a detailed description of the simulation workflow.</p>
 <span>  outflows_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_outflows.html">albufera_outflows</a></span>,</span>
 <span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span>,</span>
 <span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.8</span>, Bomba <span class="op">=</span> <span class="fl">0.1</span>, Clearfield <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>  storage_curve_slope_m2 <span class="op">=</span> <span class="fl">63.086</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
-<span>  storage_curve_intercept_m3 <span class="op">=</span> <span class="fl">25.58</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
+<span>  storage_curve_slope_m2 <span class="op">=</span> <span class="fl">23.66</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
+<span>  storage_curve_intercept_m3 <span class="op">=</span> <span class="fl">16.75</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  petp_surface_m2 <span class="op">=</span> <span class="fl">53.9</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  management_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_management.html">albufera_management</a></span>,</span>
 <span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span>,</span>
@@ -100,19 +100,19 @@ for a detailed description of the simulation workflow.</p>
 
 
 <dt id="arg-variety-prop">variety_prop<a class="anchor" aria-label="anchor" href="#arg-variety-prop"></a></dt>
-<dd><p><code>[numeric(3)]</code> <br> Vector of <code>3</code> positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).</p></dd>
+<dd><p><code>[numeric(3)]</code> <br> Vector of <code>3</code> positive values. Controls the relative proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively.</p></dd>
 
 
 <dt id="arg-storage-curve-slope-m-">storage_curve_slope_m2<a class="anchor" aria-label="anchor" href="#arg-storage-curve-slope-m-"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Slope of the (linear) storage curve of the Albufera Lake, in square meters. Numeric values for the default are taken from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Slope of the (linear) storage curve of the Albufera Lake, in square meters. Multiplying this value by the change in the lake's water level gives the corresponding change in water <em>volume</em>. The default numeric values are derived from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
 
 
 <dt id="arg-storage-curve-intercept-m-">storage_curve_intercept_m3<a class="anchor" aria-label="anchor" href="#arg-storage-curve-intercept-m-"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Intercept of the (linear) storage curve of the Albufera Lake, in cubic meters. Numeric values for the default are taken from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Intercept of the linear storage curve for the Albufera Lake, expressed in cubic meters. This value represents the lake's water volume when the water level is at sea level. The default numeric values are derived from the CHJ report <a href="https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf" class="external-link"><em>Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA</em></a>.</p></dd>
 
 
 <dt id="arg-petp-surface-m-">petp_surface_m2<a class="anchor" aria-label="anchor" href="#arg-petp-surface-m-"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> The value (in squared meters) of the surface that converts precipitation and evapotranspiration per unit area into volume changes for the Albufera lake. This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.</p></dd>
 
 
 <dt id="arg-management-df">management_df<a class="anchor" aria-label="anchor" href="#arg-management-df"></a></dt>
@@ -144,7 +144,7 @@ for a detailed description of the simulation workflow.</p>
 
 
 <dt id="arg-jgrow">jgrow<a class="anchor" aria-label="anchor" href="#arg-jgrow"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> A positive integer. Length (in days) of crop maturation cycle.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive integer. Length (in days) of crop maturation cycle in rice paddies.</p></dd>
 
 
 <dt id="arg-dact-m">dact_m<a class="anchor" aria-label="anchor" href="#arg-dact-m"></a></dt>
@@ -188,8 +188,7 @@ for a detailed description of the simulation workflow.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Start date: 2020-01-01 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> End date: 2020-12-31 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Need help extracting simulation outputs? Check `?get_results`.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This message is displayed once per session.</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Need help extracting simulation outputs? Check `?get_results`.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
