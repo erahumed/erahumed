@@ -24,10 +24,14 @@ renv::use(
   vctrs       = "vctrs@0.6.5"
 )
 
-albufera_ct_parameters <- readxl::read_excel(
-  "data-raw/raw/ct_parameters.xlsx", sheet = 1
-  ) |>
+tmoas <-
+  readxl::read_excel("data-raw/raw/ct_parameters.xlsx", sheet = 2) |>
+  as.data.frame()
+
+albufera_ct_parameters <-
+  readxl::read_excel("data-raw/raw/ct_parameters.xlsx", sheet = 1) |>
   as.data.frame() |>
+  merge(tmoas, by = "tmoa_id") |>
   collapse::rsplit(  # This rather than 'base::split()' for simpler syntax
     by =  ~ chemical,
     flatten = FALSE,

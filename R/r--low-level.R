@@ -24,7 +24,7 @@ risk_from_ssds <- function(ct_output) {
       df$sd_acute <- info_chemicals()[[chemical]][["ssd_acute_sigma"]]
       df$sd_chronic <- info_chemicals()[[chemical]][["ssd_chronic_sigma"]]
 
-      df$tmoa <- info_chemicals()[[chemical]][["tmoa"]]
+      df$tmoa <- info_chemicals()[[chemical]][["tmoa_name"]]
 
       df
     }) |>
