@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{albufera_outflows}}{
 
-The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{level}{Lake level (in meters above sea level)}\item{outflow_pujol}{Outflow at Pujol (meters cube per second)}\item{outflow_perellonet}{Outflow at Perellonet (meters cube per second)}\item{outflow_perello}{Outflow at Perello (meters cube per second)}}
+The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{level}{Lake level (meters above sea level)}\item{outflow_pujol}{Outflow at Pujol (cubic meters per second)}\item{outflow_perellonet}{Outflow at Perellonet (cubic meters per second)}\item{outflow_perello}{Outflow at Perello (cubic meters per second)}}
 }
 }
 \source{

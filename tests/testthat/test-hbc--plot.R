@@ -1,11 +1,11 @@
 test_that("No error with basic valid inputs", {
-  plot_hbc(test_sim_small(), element_id = info_clusters()$cluster_id[1]) |>
+  plot_hbc(test_sim_small(), element_id = info_clusters()$element_id[1]) |>
     expect_no_error()
 })
 
 test_that("No error for all plot types and variables", {
   common_args <- list(simulation = test_sim_small(),
-                      element_id = info_clusters()$cluster_id[1])
+                      element_id = info_clusters()$element_id[1])
   args1 <- c(common_args, type = "storage", variable = "volume")
   args2 <- c(common_args, type = "storage", variable = "depth")
   args3 <- c(common_args, type = "flows", variable = "volume")
@@ -27,7 +27,7 @@ test_that("plot_hbc snapshot is constant", {
   plot_hbc(test_sim_small(),
            type = "storage",
            variable = "volume",
-           element_id = info_clusters()$cluster_id[1]
+           element_id = info_clusters()$element_id[1]
   ) |>
     expect_snapshot()
 })

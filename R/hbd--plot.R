@@ -13,14 +13,14 @@ plot_hbd <- function(simulation,
   data <- get_output(simulation, "hbd")
 
   if (is.null(element_id)) {
-    element_id <- data$ditch[[1]]
+    element_id <- data$element_id[[1]]
     warning(paste0(
       "No ditch specified through the 'element_id' argument. ",
       "Plotting ditch '", element_id, "'."
     ))
   }
 
-  data <- data[data$ditch == element_id, ]
+  data <- data[data$element_id == element_id, ]
 
   switch(match.arg(type),
          storage = plot_erahumed_hbd_storage(data,
@@ -44,8 +44,7 @@ plot_erahumed_hbd_storage <- function(data, element_id, variable, dygraph_group)
   var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
   y_lab <- paste0(var_name, " [", var_units, "]")
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(var_units) |>
-    htmlwidgets::JS()
+    sprintf(var_units)
 
   data[, c("date", y_var)] |>
     dygraphs::dygraph(group = dygraph_group) |>
@@ -76,8 +75,7 @@ plot_erahumed_hbd_flows <- function(data, element_id, variable, dygraph_group)
   var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
   y_lab <- paste0(var_name, " [", var_units, "]")
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(var_units) |>
-    htmlwidgets::JS()
+    sprintf(var_units)
 
   ymin <- 1.25 * min(data[[ y_vars[1] ]])
   ymax <- 1.25 * max(data[[ y_vars[2] ]])

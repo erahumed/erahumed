@@ -16,7 +16,7 @@ plot_hbc <- function(simulation,
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
 
   if (is.null(element_id)) {
-    element_id <- data$cluster_id[[1]]
+    element_id <- data$element_id[[1]]
     warning(paste0(
       "No cluster specified through the 'element_id' argument. ",
       "Plotting cluster '", element_id, "'."
@@ -24,7 +24,7 @@ plot_hbc <- function(simulation,
   }
 
 
-  data <- data[data$cluster_id == element_id, ]
+  data <- data[data$element_id == element_id, ]
 
   switch(match.arg(type),
          storage = plot_erahumed_hbc_storage(data,
@@ -48,8 +48,7 @@ plot_erahumed_hbc_storage <- function(data, element_id, variable, dygraph_group)
   var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
   y_lab <- paste0(var_name, " [", var_units, "]")
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(var_units) |>
-    htmlwidgets::JS()
+    sprintf(var_units)
 
   data[, c("date", y_var)] |>
     dygraphs::dygraph(group = dygraph_group) |>
@@ -80,8 +79,7 @@ plot_erahumed_hbc_flows <- function(data, element_id, variable, dygraph_group)
   var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
   y_lab <- paste0(var_name, " [", var_units, "]")
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(var_units) |>
-    htmlwidgets::JS()
+    sprintf(var_units)
 
   ymin <- 1.25 * min(c(data[[ y_vars[1] ]], data[[ y_vars[3] ]]))
   ymax <- 1.25 * max(c(data[[ y_vars[2] ]], data[[ y_vars[3] ]]))

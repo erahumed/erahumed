@@ -33,7 +33,7 @@ info_clusters <- function(include_geometry = FALSE) {
 
   if (include_geometry) {
     requireNamespace("sf", quietly = TRUE)
-    res <- merge(res, albufera_cluster_geometries, by = "cluster_id")
+    res <- merge(res, albufera_cluster_geometries, by = "element_id")
   }
 
   return(res)
@@ -49,7 +49,7 @@ info_ditches <- function(include_geometry = FALSE) {
 
   if (include_geometry) {
     requireNamespace("sf", quietly = TRUE)
-    res <- merge(res, albufera_ditches_geometries, by = "ditch")
+    res <- merge(res, albufera_ditches_geometries, by = "element_id")
   }
 
   return(res)
@@ -69,16 +69,16 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL)
 .plot_albufera_clusters <- function(cluster_variety_map)
 {
   clusters_df <- info_clusters(include_geometry = TRUE) |>
-    merge(info_ditches(), by = "ditch")
+    merge(info_ditches(), by.x = "ditch_element_id", by.y = "element_id")
   basins_df <- albufera_basins_geometries
 
   if (!is.null(cluster_variety_map)) {
     assert_data.frame(
       cluster_variety_map,
-      template = data.frame(cluster_id = character(), variety = character())
+      template = data.frame(element_id = character(), variety = character())
       )
-    cluster_variety_map <- cluster_variety_map[, c("cluster_id", "variety")]
-    clusters_df <- merge(clusters_df, cluster_variety_map, by = "cluster_id")
+    cluster_variety_map <- cluster_variety_map[, c("element_id", "variety")]
+    clusters_df <- merge(clusters_df, cluster_variety_map, by = "element_id")
 
     palette_domain <- c("J.Sendra", "Bomba", "Clearfield")
     palette <- c("#f5e7c1", "#735600", "#b484b8")
@@ -113,7 +113,7 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL)
                      "Area:", area, "m\u{00B2}"
                      ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
-      layerId = ~cluster_id
+      layerId = ~element_id
       )
 }
 

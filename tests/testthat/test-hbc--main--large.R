@@ -11,30 +11,30 @@ test_that("Returned dataset has the expected number of rows", {
   expect_equal(nrow(test_df), n_clusters * n_days)
 })
 
-test_that("'ditch' is consistent along 'cluster_id'", {
+test_that("'ditch_element_id' is consistent along 'element_id'", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
-    dplyr::group_by(cluster_id) |>
-    dplyr::summarise(distinct_values = dplyr::n_distinct(ditch)) |>
+    dplyr::group_by(element_id) |>
+    dplyr::summarise(distinct_values = dplyr::n_distinct(ditch_element_id)) |>
     dplyr::filter(distinct_values > 1)
 
   expect_equal(nrow(res), 0)
 })
 
-test_that("'tancat' is consistent along 'cluster_id'", {
+test_that("'tancat' is consistent along 'element_id'", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
-    dplyr::group_by(cluster_id) |>
+    dplyr::group_by(element_id) |>
     dplyr::summarise(distinct_values = dplyr::n_distinct(tancat)) |>
     dplyr::filter(distinct_values > 1)
 
   expect_equal(nrow(res), 0)
 })
 
-test_that("'variety' is consistent along 'cluster_id'", {
+test_that("'variety' is consistent along 'element_id'", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
-    dplyr::group_by(cluster_id) |>
+    dplyr::group_by(element_id) |>
     dplyr::summarise(distinct_values = dplyr::n_distinct(variety)) |>
     dplyr::filter(distinct_values > 1)
 
@@ -72,7 +72,7 @@ test_that("plan_delay is positive", {
 test_that("sum(real outflows) = total capacity of ditch", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
-    dplyr::group_by(date, ditch) |>
+    dplyr::group_by(date, ditch_element_id) |>
     dplyr::summarise(
       flowpoint = capacity_m3_s[1],
       outflow_m3_s = sum(outflow_m3_s),
@@ -88,7 +88,7 @@ test_that("sum(real outflows) = total capacity of ditch", {
 test_that("irrigation is the delayed version of ideal_irrigation", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
-    dplyr::group_by(cluster_id) |>
+    dplyr::group_by(element_id) |>
     dplyr::arrange(date) |>
     dplyr::mutate(
       # The correct delay for irrigation is that from the previous day!
@@ -103,7 +103,7 @@ test_that("irrigation is the delayed version of ideal_irrigation", {
 test_that("draining is the delayed version of ideal_draining", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
-    dplyr::group_by(cluster_id) |>
+    dplyr::group_by(element_id) |>
     dplyr::arrange(date) |>
     dplyr::mutate(
       # The correct delay for irrigation is that from the previous day!

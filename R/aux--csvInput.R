@@ -28,9 +28,14 @@ csvInputUI <- function(id, columns = NULL) {
 
 }
 
-csvInputServer <- function(id, initial_df, sig_digits = 4, initial_rows = 5) {
+csvInputServer <- function(id,
+                           initial_df,
+                           sig_digits = 4,
+                           initial_rows = 5,
+                           reset = shiny::reactiveVal(NULL)
+                           )
+{
   shiny::moduleServer(id, function(input, output, session) {
-    ns <- session$ns
 
     df <- shiny::reactiveVal(initial_df)
 
@@ -45,6 +50,9 @@ csvInputServer <- function(id, initial_df, sig_digits = 4, initial_rows = 5) {
       df(new_data)
     })
 
+    shiny::observe( df(initial_df) ) |>
+      shiny::bindEvent(reset(), ignoreInit = TRUE, ignoreNULL = TRUE)
+
     # Output the data frame as a paginated table
     output$contents <- DT::renderDT({
       DT::datatable(df(), options = list(pageLength = initial_rows)) |>
@@ -53,13 +61,13 @@ csvInputServer <- function(id, initial_df, sig_digits = 4, initial_rows = 5) {
 
     # Downloadable csv of the data frame
     output$downloadDataCSV <- shiny::downloadHandler(
-      filename = function() paste0("data-", Sys.Date(), ".csv"),
+      filename = function() paste0(id, "-", Sys.Date(), ".csv"),
       content = function(file) readr::write_csv(df(), file)
     )
 
     # Downloadable Excel of the data frame
     output$downloadDataExcel <- shiny::downloadHandler(
-      filename = function() paste0("data-", Sys.Date(), ".xlsx"),
+      filename = function() paste0(id, "-", Sys.Date(), ".xlsx"),
       content = function(file) writexl::write_xlsx(df(), file)
     )
 
@@ -126,7 +134,8 @@ csv_input_header <- function(columns) {
     shiny::markdown()
 
   shiny::tags$details(
-    shiny::tags$summary("See columns description"),
-    markdown_text
+    shiny::tags$summary("Column descriptions"),
+    markdown_text,
+    open = "open"
   )
 }

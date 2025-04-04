@@ -49,7 +49,10 @@ albufera_management <-  # Prepare result data-frame
     mm %in% c(4,6,9,11)   ~ dd <= 30,
     TRUE                  ~ TRUE
     )) |>
-  mutate(sowing = mm == 4 & dd == 20, seed_day = 1:n() - which(sowing)) |>
+  mutate(
+    sowing = mm == 4 & dd == 20,
+    harvesting = mm == 09 & dd == 07,
+    seed_day = 1:n() - which(sowing)) |>
   left_join(  # This brings in "ideal_irrigation" and "ideal_draining" logical columns
     farmer_account,
     by = c("mm", "dd")
@@ -102,6 +105,6 @@ albufera_management <-  # Prepare result data-frame
     ideal_draining = ifelse(.p, TRUE, ideal_draining),
     ideal_height_eod_cm = ifelse(.p, 10, ideal_height_eod_cm)
   ) |>
-  select(mm, dd, tancat, variety, sowing, seed_day, ideal_irrigation, ideal_draining, ideal_height_eod_cm) |>
+  select(mm, dd, tancat, variety, sowing, harvesting, seed_day, ideal_irrigation, ideal_draining, ideal_height_eod_cm) |>
   arrange(mm, dd, tancat, variety)
 

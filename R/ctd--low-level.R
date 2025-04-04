@@ -4,13 +4,12 @@
                    simulation = simulation
                    ) |>
     data.table::rbindlist() |>
-    as.data.frame() |>
-    (\(.) { names(.)[names(.) == "ditch"] <- "element_id"; . })()
+    as.data.frame()
 }
 
 .compute_ctd_one_ditch <- function(ctd_preproc_data, simulation)
 {
-  res_template <- as.list(ctd_preproc_data[["hbd"]][, c("ditch", "date")])
+  res_template <- as.list(ctd_preproc_data[["hbd"]][, c("element_id", "date")])
   chemicals <- names(ctd_preproc_data[["cluster_inflows_densities_kg_m3"]])
 
   lapply(chemicals, function(chemical) {
@@ -33,6 +32,7 @@
           ),
         area_m2 = ctd_preproc_data[["hbd"]][["surface"]][[1]],
         seed_day = 840,  # Ignored, only relevant for application interception (in clusters)
+        harvesting = FALSE, # Ignore harvesting (do not change this value)
         chemical = chemical,
         drift = get_input(simulation, "drift"),
         covmax = get_input(simulation, "covmax"),
@@ -57,8 +57,8 @@ ctd_data_prep <- function(simulation)
   cluster_inflows_m3_s <-
     get_output(simulation, "hbc") |>
     data.table::as.data.table() |>
-    data.table::setorderv(c("date", "cluster_id")) |>
-    collapse::rsplit(by = outflow_m3_s ~ ditch + cluster_id,
+    data.table::setorderv(c("date", "element_id")) |>
+    collapse::rsplit(by = outflow_m3_s ~ ditch_element_id + element_id,
                      flatten = FALSE,
                      use.names = TRUE,
                      simplify = TRUE,
@@ -67,9 +67,9 @@ ctd_data_prep <- function(simulation)
   cluster_inflows_densities_kg_m3 <-
     get_output(simulation, "ctc") |>
     data.table::as.data.table() |>
-    merge(info_clusters(), by.x = "element_id", by.y = "cluster_id") |>
+    merge(info_clusters(), by = "element_id") |>
     data.table::setorderv(c("date", "element_id")) |>
-    collapse::rsplit(by = cw_outflow_kg_m3 ~ ditch + chemical + element_id,
+    collapse::rsplit(by = cw_outflow_kg_m3 ~ ditch_element_id + chemical + element_id,
                      flatten = FALSE,
                      use.names = TRUE,
                      simplify = TRUE,
@@ -78,8 +78,8 @@ ctd_data_prep <- function(simulation)
   hbd_output_split <- get_output(simulation, "hbd") |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
-    merge(info_ditches(), by = "ditch") |>
-    collapse::rsplit(by = ~ ditch,
+    merge(info_ditches(), by = "element_id") |>
+    collapse::rsplit(by = ~ element_id,
                      flatten = FALSE,
                      use.names = TRUE,
                      simplify = FALSE,

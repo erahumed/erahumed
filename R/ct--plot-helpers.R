@@ -14,10 +14,10 @@ ct_plot_time_series_density <- function(data,
   chemicals <- unique(data$chemical)
 
   if (compartment == "water") {
-    data$density <- data$cw_kg_m3 * 1e6
+    data$density <- data$cw_kg_m3 * 1e6 |>
+      (\(.) ifelse(is.na(.), 0, .))()
     data <- data[, c("date", "chemical", "density")]
     units <- "\u{03BC}g / L"
-
   } else {
     data$density <- data$cs_g_kg * 1e3
     data <- data[, c("date", "chemical", "density")]
@@ -25,8 +25,7 @@ ct_plot_time_series_density <- function(data,
   }
 
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(units) |>
-    htmlwidgets::JS()
+    sprintf(units)
 
 
   plot_df <- data |>
@@ -38,7 +37,8 @@ ct_plot_time_series_density <- function(data,
     (function(df) {
       names(df) <- gsub("density", "", names(df), fixed = TRUE)
       return(df)
-      })()
+      })() |>
+    (\(.) .[, order(colnames(.))])()
 
   chemical_names <- setdiff(names(plot_df), "date")
   dy_colors <- chemical_color_map()[chemical_names] |> unname()
@@ -46,7 +46,7 @@ ct_plot_time_series_density <- function(data,
   dygraphs::dygraph(plot_df, group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
-                     label = paste0("Density [", units, "]"),
+                     label = paste0("Concentration [", units, "]"),
                      axisLabelWidth = 80,
                      valueFormatter = value_fmt
                      ) |>

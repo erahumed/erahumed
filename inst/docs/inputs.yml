@@ -28,13 +28,13 @@ outflows_df:
     date: >-
       Date of measurement
     level: >-
-      Lake level (in meters above sea level)
+      Lake level (meters above sea level)
     outflow_pujol: >-
-      Outflow at Pujol (meters cube per second)
+      Outflow at Pujol (cubic meters per second)
     outflow_perellonet: >-
-      Outflow at Perellonet (meters cube per second)
+      Outflow at Perellonet (cubic meters per second)
     outflow_perello: >-
-      Outflow at Perello (meters cube per second)
+      Outflow at Perello (cubic meters per second)
 
 weather_df:
   name: "Weather data frame"
@@ -49,26 +49,24 @@ weather_df:
     date: >-
       Date of measurement
     temperature_ave: >-
-      Average temperature.
+      Daily average temperature (degrees Celsius)
     temperature_min: >-
-      Minimum temperature.
+      Daily minimum temperature (degrees Celsius)
     temperature_max: >-
-      Maximum temperature.
+      Daily maximum temperature (degrees Celsius).
     precipitation_mm: >-
-      Daily precipitation in millimiters.
+      Daily precipitation (millimeters).
     evapotranspiration_mm: >-
-      Daily evapotranspiration in millimiters.
+      Daily evapotranspiration (millimeters).
 
 variety_prop:
   name: "Rice variety proportion"
-  group: "Crop parameters"
+  group: "Pesticide application scheme"
   type: "numeric(3)"
   description: >-
-    Vector of `3` positive values. Controls the proportions
+    Vector of `3` positive values. Controls the relative proportions
     of field surface allocated to the cultivation of the J. Sendra, Bomba,
-    and Clearfield varieties, respectively (positive vectors that do not
-    sum to one are allowed, with entries being understood as relative
-    proportions).
+    and Clearfield varieties, respectively.
 
 storage_curve_slope_m2:
   name: "Storage curve slope"
@@ -77,37 +75,32 @@ storage_curve_slope_m2:
   type: "numeric(1)"
   description: >-
     Slope of the (linear) storage curve of the Albufera Lake, in square
-    meters.
-    Numeric values for the default are taken from the CHJ
-    report [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+    meters. Multiplying this value by the change in the lake's water level gives
+    the corresponding change in water *volume*.
+    The default numeric values are derived from the CHJ report
+    [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
 storage_curve_intercept_m3:
   name: "Storage curve intercept"
   group: "Hydrology"
   unit: "m\u00B3"
   type: "numeric(1)"
   description: >-
-    Intercept of the (linear) storage curve of the Albufera Lake, in cubic
-    meters.
-    Numeric values for the default are taken from the CHJ
-    report [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
-
+    Intercept of the linear storage curve for the Albufera Lake, expressed in
+    cubic meters. This value represents the lake's water volume when the water
+    level is at sea level. The default numeric values are derived from the CHJ
+    report
+    [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
 petp_surface_m2:
   name: "PET surface"
   group: "Hydrology"
   unit: "m\u00B2"
   type: "numeric(1)"
   description: >-
-    The value (in squared meters) of the surface that converts
-    precipitation and evapotranspiration per unit area into volume changes
-    for the Albufera lake. This
-    function should take two numeric vectors of common length as inputs
-    (representing the precipitation and evapotranspiration time series,
-    respectively), and should return a numeric vector of the same length.
-    The numeric values used in the default (linear) function were
-    computed by the package authors, and correspond to the total study
-    area (consisting of the lake and irrigation ditches) and the flooded
-    fraction, that are relevant for precipitation and evapotranspiration
-    volume changes, respectively.
+    The surface area (in square meters) used to convert precipitation and
+    evapotranspiration per unit area into volume changes for the Albufera Lake.
+    The default numeric value was computed by the package authors and
+    corresponds to the average flooded surface of the Albufera lake and its
+    irrigation ditches.
 
 management_df:
   name: "Rice paddy management data frame"
@@ -168,7 +161,7 @@ ditch_level_m:
 
 ca_schedules_df:
   name: "Chemical application schedules data frame"
-  group: "Pesticide parameters"
+  group: "Pesticide application scheme"
   type: "data.frame"
   description: >-
     A dataset that provides the list of scheduled chemical applications,
@@ -191,7 +184,7 @@ ca_schedules_df:
 
 drift:
   name: "Drift"
-  group: "Physico-chemical environmental properties"
+  group: "Pesticide application scheme"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -200,7 +193,7 @@ drift:
 
 covmax:
   name: "Max interception potential"
-  group: "Physico-chemical environmental properties"
+  group: "Pesticide application scheme"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -209,15 +202,15 @@ covmax:
 
 jgrow:
   name: "Maturation cycle length"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "day"
   type: "numeric(1)"
   description: >-
-    A positive integer. Length (in days) of crop maturation cycle.
+    A positive integer. Length (in days) of crop maturation cycle in rice paddies.
 
 dact_m:
   name: "Depth of active sediment"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "m"
   type: "numeric(1)"
   description: >-
@@ -227,7 +220,7 @@ dact_m:
 
 css_ppm:
   name: "Suspended solid concentration"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "ppm"
   type: "numeric(1)"
   description: >-
@@ -236,7 +229,7 @@ css_ppm:
 
 foc:
   name: "Fraction of organic content"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -245,7 +238,7 @@ foc:
 
 bd_g_cm3:
   name: "Bulk density of sediment"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "g\u00B7cm\u207B\u00B2"
   type: "numeric(1)"
   description: >-
@@ -254,7 +247,7 @@ bd_g_cm3:
 
 qseep_m_day:
   name: "Seepage rate"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "m\u00B7day\u207B\u00B9"
   type: "numeric(1)"
   description: >-
@@ -263,7 +256,7 @@ qseep_m_day:
 
 porosity:
   name: "Porosity"
-  group: "Physico-chemical environmental properties"
+  group: "Environmental parameters"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -273,6 +266,6 @@ porosity:
 seed:
   name: "Simulation random seed"
   type: "numeric(1)"
-  group: "Hyperparameters"
+  group: "General"
   description: >-
     Seed for random number generation used by the simulation algorithms.

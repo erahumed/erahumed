@@ -26,8 +26,7 @@ plot_erahumed_hbl_storage <- function(data, variable, dygraph_group) {
   var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
   y_lab <- paste0(var_name, " [", var_units, "]")
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(var_units) |>
-    htmlwidgets::JS()
+    sprintf(var_units)
 
   data[, c("date", y_var)] |>
     dygraphs::dygraph(group = dygraph_group) |>
@@ -61,8 +60,7 @@ plot_erahumed_hbl_flows <- function(data, variable, sc_slope, dygraph_group)
   var_units <- switch(variable, depth = "cm", volume = "m\u{00B3}")
   y_lab <- paste0(var_name, " [", var_units, "]")
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(var_units) |>
-    htmlwidgets::JS()
+    sprintf(var_units)
 
   ymin <- 1.25 * min(c(data[[ y_vars[1] ]], data[[ y_vars[3] ]]))
   ymax <- 1.25 * max(c(data[[ y_vars[2] ]], data[[ y_vars[3] ]]))

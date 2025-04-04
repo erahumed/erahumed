@@ -1,9 +1,12 @@
 .compute_ctc <- function(simulation) {
-
   get_output(simulation, "ca") |>
     data.table::as.data.table() |>
     merge(get_output(simulation, "inp"), by = "date", sort = TRUE) |>  # to recover weather data
-    collapse::rsplit(by = ~ cluster_id,
+    merge(get_input(simulation, "management_df")[, c("seed_day", "tancat", "variety", "harvesting")],
+          by = c("seed_day", "tancat", "variety"),  # TODO: To recover harvest day
+          sort = FALSE
+          ) |>
+    collapse::rsplit(by = ~ element_id,
                      flatten = TRUE,
                      use.names = FALSE,
                      simplify = FALSE,
@@ -21,8 +24,7 @@
            porosity = get_input(simulation, "porosity")
            ) |>
       data.table::rbindlist() |>
-      as.data.frame() |>
-      (\(.) { names(.)[names(.) == "cluster_id"] <- "element_id"; . })()
+      as.data.frame()
 }
 
 .compute_ctc_one_cluster <- function(cluster_ca_df,
@@ -39,7 +41,7 @@
 {
   area_m2 <- cluster_ca_df[["area_m2"]][[1]]
 
-  res_template <- as.list(cluster_ca_df[, c("cluster_id", "date")])
+  res_template <- as.list(cluster_ca_df[, c("element_id", "date")])
 
   chemicals <- unique(erahumed::albufera_ca_schedules$chemical)
   chemicals <- names(cluster_ca_df)[names(cluster_ca_df) %in% chemicals]
@@ -58,6 +60,7 @@
         inflows_densities_kg_m3 = list(0),  # ... which is assumed to be free of pesticide.
         area_m2 = area_m2,
         seed_day = cluster_ca_df[["seed_day"]],  # Used to estimate foliage surface growth
+        harvesting = cluster_ca_df[["harvesting"]],
         chemical = chemical,
         drift = drift,
         covmax = covmax,

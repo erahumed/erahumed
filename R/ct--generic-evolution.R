@@ -10,6 +10,7 @@ ct_time_series <- function(application_kg,
                            inflows_densities_kg_m3,  # List of density time series
                            area_m2,
                            seed_day,
+                           harvesting,
                            chemical,
                            drift,
                            covmax,
@@ -36,6 +37,7 @@ ct_time_series <- function(application_kg,
                             inflows_densities_kg_m3 = inflows_densities_kg_m3,
                             area_m2 = area_m2,
                             seed_day = seed_day,
+                            harvesting = harvesting,
                             chemical = chemical,
                             drift = drift,
                             covmax = covmax,
@@ -94,8 +96,7 @@ ct_time_series <- function(application_kg,
               cw_outflow_kg_m3 = cw_outflow,
               cs_kg_m3 = cs,
               cs_g_kg = cs / bd_g_cm3,
-              volume_eod_m3 = volume_eod_m3,
-              volume_sod_m3 = volume_sod_m3)
+              volume_m3 = volume_sod_m3)
          )
 }
 
@@ -111,6 +112,7 @@ ct_ts_step_terms <- function(application_kg,
                              inflows_densities_kg_m3,
                              area_m2,
                              seed_day,
+                             harvesting,
                              chemical,
                              drift,
                              covmax,
@@ -209,12 +211,21 @@ ct_ts_step_terms <- function(application_kg,
   u <- -(kf + w)
   v <- w
 
+
   log_decay_factor_f <- cumsum(u)
   mf <- numeric(n_time_steps)
-  for (i in which(mfapp != 0)) {
+  application_days_idxs <- which(mfapp != 0)
+  harvesting_days_idxs <- which(harvesting)
+  for (i in application_days_idxs) {
     f <- log_decay_factor_f - log_decay_factor_f[i]
     fac <- exp(f)
     fac[seq_len(i-1)] <- 0
+
+    j <- harvesting_days_idxs[harvesting_days_idxs > i][1]
+    if (!is.na(j)) {
+      fac[j:length(fac)] <- 0
+    }
+
     mf <- mf + mfapp[i] * fac
   }
 

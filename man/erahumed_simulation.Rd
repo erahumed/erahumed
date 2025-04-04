@@ -10,8 +10,8 @@ erahumed_simulation(
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
-  storage_curve_slope_m2 = 63.086 * 1e+06,
-  storage_curve_intercept_m3 = 25.58 * 1e+06,
+  storage_curve_slope_m2 = 23.66 * 1e+06,
+  storage_curve_intercept_m3 = 16.75 * 1e+06,
   petp_surface_m2 = 53.9 * 1e+06,
   management_df = erahumed::albufera_management,
   ideal_flow_rate_cm = 5,
@@ -39,13 +39,13 @@ erahumed_simulation(
 
 \item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
 
-\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively (positive vectors that do not sum to one are allowed, with entries being understood as relative proportions).}
+\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the relative proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively.}
 
-\item{storage_curve_slope_m2}{\verb{[numeric(1)]} \cr Slope of the (linear) storage curve of the Albufera Lake, in square meters. Numeric values for the default are taken from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
+\item{storage_curve_slope_m2}{\verb{[numeric(1)]} \cr Slope of the (linear) storage curve of the Albufera Lake, in square meters. Multiplying this value by the change in the lake's water level gives the corresponding change in water \emph{volume}. The default numeric values are derived from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
-\item{storage_curve_intercept_m3}{\verb{[numeric(1)]} \cr Intercept of the (linear) storage curve of the Albufera Lake, in cubic meters. Numeric values for the default are taken from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
+\item{storage_curve_intercept_m3}{\verb{[numeric(1)]} \cr Intercept of the linear storage curve for the Albufera Lake, expressed in cubic meters. This value represents the lake's water volume when the water level is at sea level. The default numeric values are derived from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
-\item{petp_surface_m2}{\verb{[numeric(1)]} \cr The value (in squared meters) of the surface that converts precipitation and evapotranspiration per unit area into volume changes for the Albufera lake. This function should take two numeric vectors of common length as inputs (representing the precipitation and evapotranspiration time series, respectively), and should return a numeric vector of the same length. The numeric values used in the default (linear) function were computed by the package authors, and correspond to the total study area (consisting of the lake and irrigation ditches) and the flooded fraction, that are relevant for precipitation and evapotranspiration volume changes, respectively.}
+\item{petp_surface_m2}{\verb{[numeric(1)]} \cr The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.}
 
 \item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
 
@@ -61,7 +61,7 @@ erahumed_simulation(
 
 \item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Maximum potential fraction of applied chemicals intercepted by foliage at crop maturation.}
 
-\item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle.}
+\item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle in rice paddies.}
 
 \item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 

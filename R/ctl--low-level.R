@@ -25,6 +25,7 @@
           ctl_preproc_data[["ditch_inflows_densities_kg_m3"]][[chemical]],
         area_m2 = ls,
         seed_day = 840,  # Ignored, only relevant for application interception (in clusters)
+        harvesting = FALSE, # Ignore harvesting (do not change this value)
         chemical = chemical,
         drift = get_input(simulation, "drift"),
         covmax = get_input(simulation, "covmax"),
@@ -50,8 +51,8 @@ ctl_data_prep <- function(simulation)
   ditch_inflows_m3_s <-
     get_output(simulation, "hbd") |>
     data.table::as.data.table() |>
-    data.table::setorderv(c("date", "ditch")) |>
-    collapse::rsplit(by = outflow_lake_m3 ~ ditch,
+    data.table::setorderv(c("date", "element_id")) |>
+    collapse::rsplit(by = outflow_lake_m3 ~ element_id,
                      simplify = TRUE,
                      keep.by = FALSE) |>
     lapply(\(x) x / s_per_day())
