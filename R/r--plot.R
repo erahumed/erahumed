@@ -23,8 +23,6 @@ plot_risk <- function(r_output,
 
   r_output <- merge(r_output, mspaf_df, by = "date")
 
-
-
   df_plot <- r_output[
     stressor_type == "chemical"
   ][,
@@ -54,7 +52,7 @@ plot_risk <- function(r_output,
     htmlwidgets::JS()
   axis_fmt <- value_fmt
 
-  max_y <- max(ts_data$Total, na.rm = TRUE)
+  max_y <- max(ts_data$Total, na.rm = TRUE) * 1.01  # Slightly larger
 
   g <- dygraphs::dygraph(ts_data, group = dygraph_group) |>
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
