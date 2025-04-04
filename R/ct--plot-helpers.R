@@ -25,8 +25,7 @@ ct_plot_time_series_density <- function(data,
   }
 
   value_fmt <- "function(d) { return d.toPrecision(3) + ' %s'; }" |>
-    sprintf(units) |>
-    htmlwidgets::JS()
+    sprintf(units)
 
 
   plot_df <- data |>

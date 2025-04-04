@@ -48,8 +48,7 @@ plot_risk <- function(r_output,
   # Extract column names without "msPAF"
   cols_without_total <- setdiff(colnames(ts_data), "Total")
 
-  value_fmt <- "function(d) {return (100*d).toFixed(2) + ' %';}" |>
-    htmlwidgets::JS()
+  value_fmt <- "function(d) {return (100*d).toFixed(2) + ' %';}"
   axis_fmt <- value_fmt
 
   max_y <- max(ts_data$Total, na.rm = TRUE) * 1.01  # Slightly larger
