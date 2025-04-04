@@ -1,5 +1,81 @@
 # erahumed (development version)
 
+### Algorithm
+
+* At harvesting time, the mass accumulated in the foliage compartment of 
+clusters is now set to zero (#374). Correspondingly, the `albufera_management` 
+built-in data-set now comes with an extra `harvesting` column (`TRUE` or 
+`FALSE`).
+
+* The algorithm for computing of application dates was significantly simplified. 
+These dates are now obtained by equating the scheduled application day with an 
+"irrigation plan advancement" defined as the `seed_day` minus the `plan_delay`. 
+The applications days in the `albufera_ca_schedules` data-set have also been 
+fixed in order to be consistent with the emptyings scheduled in the ideal 
+management plan of the `albufera_management` built-in data-set. These two 
+changes have no actual effect on the current results with default inputs, which 
+are the same as before, but makes future generalizations (*e.g.* supporting the 
+definition of custom chemicals) much easier.
+
+* The default values for the storage curve have been reverted to the ones 
+reported by CHJ, in agreement with what was actually being documented.
+
+### API changes
+
+* The outputs for the risk component of simulations (obtained through 
+`get_results(component = "risk")`) now list PAFs both for individual chemicals
+and combined toxic modes of action (#380).
+
+* In the outputs for the risk component of simulations (obtained through 
+`get_results(component = "risk")`), hazard units and SSDs standard deviations 
+are no longer reported (#379).
+
+* Variable names for `cluster_id` and `ditch` to have been renamed to 
+`element_id` (#297).
+
+* End-of-day and Start-of-day volume variables are no longer reported in CT 
+output, replaced by the single "volume" variable - that is the Start-of-day one
+(#377). The semantics of output columns will be clarified in the user manual.
+
+### GUI changes
+
+* The input tab now has a "Reset" button (#367).
+
+* Reorganized grouping of inputs (#384, #385, #386, #387).
+
+* Column descriptions in data-set inputs re now open by default (#382).
+
+* Downloaded input data-sets now have self-explanatory names (#368).
+
+* Add water body (*e.g.* grouping ditch for clusters) info in GUI (#370).
+
+* Improved labels of hydrology inputs (#383).
+
+* Risk plots: the breakdown is now done by chemical rather than toxic mode of 
+action (#373).
+
+* Exposure plots: density for zero volume is now set to zero (#370).
+
+* Risk output: the only plot tab currently present has been renamed to 
+"Potentially Affected Fraction" (#376).
+
+* Label of risk plots has been changed to "Potentially affected species [%]" 
+(#371).
+
+* Label of exposure plots changed from "Density" to "Concentration" (#378).
+
+### Documentation
+
+* Various improvements to inputs' documentation.
+
+### Bug fixes
+
+* Fixed regression reintroducing the bug of #308.
+
+* Fixed GUI crash upon trying to change date range (#361).
+
+* Fixed implementation of #326.
+
 # erahumed 0.17.1
 
 ### Documentation
