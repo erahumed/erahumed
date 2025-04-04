@@ -4330,7 +4330,7 @@
               "drawAxis": true,
               "valueRange": [
                 0,
-                0.009131396923092949
+                0.009222710892323878
               ],
               "axisLabelWidth": 80,
               "axisLabelFormatter": "function(d) {return (100*d).toFixed(2) + ' %';}",
@@ -4339,7 +4339,7 @@
             "y2": {
               "valueRange": [
                 0,
-                0.009131396923092949
+                0.009222710892323878
               ],
               "valueFormatter": "function(d) {return (100*d).toFixed(2) + ' %';}",
               "independentTicks": false
