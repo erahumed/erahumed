@@ -2,10 +2,13 @@
 % Please edit documentation in R/dss--api.R
 \name{launch_dss}
 \alias{launch_dss}
-\title{ERAHUMED Decision Support System dashboard}
+\title{ERAHUMED Decision Support System Graphical User Interface}
 \usage{
 launch_dss()
 }
 \description{
-Launches the ERAHUMED Decision Support System dashboard Shiny app.
+Opens the graphical user interface (GUI) of the ERAHUMED Decision Support
+System. This is a Shiny application that provides access to the package's
+functionalities through a point-and-click interface, and can be used as an
+alternative to calling the functions programmatically.
 }
