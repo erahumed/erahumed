@@ -11,7 +11,7 @@ test_that("No error for all plot types and variables", {
   expect_no_error( do.call(plot_ctd, c(common_args, compartment = "sediment")) )
 })
 
-test_that("Succeeds but warns if no cluster is specified", {
+test_that("Succeeds but warns if no element_id is specified", {
   plot_ctd(test_sim_small()) |>
     expect_no_error() |>
     expect_warning()
