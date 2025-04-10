@@ -5,7 +5,7 @@ test_that("UI succeeds", {
 args <- list(initial_df = albufera_weather)
 shiny::testServer(csvInputServer, args = args, {
 
-  # Test that server returns an object of class erahumed_simulation()
+  # Test that server returns with default inputs
   expect_no_error(session$returned())
   expect_s3_class(session$returned(), class(data.frame()))
 
