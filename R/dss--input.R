@@ -54,6 +54,7 @@ dss_input_ui <- function(id) {
 
   bslib::page_fillable(
     title = "Input",
+    shinyjs::useShinyjs(),
     shiny::tags$div(
       style = "position: fixed; bottom: 20px; left: 20px; z-index: 1000;",
       shiny::actionButton(ns("reset"), "Reset", icon = shiny::icon("undo"),
