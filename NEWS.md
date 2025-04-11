@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.18.1
 
 ### Documentation
 
