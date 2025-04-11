@@ -1,5 +1,14 @@
 # erahumed (development version)
 
+### Documentation
+
+* Improved the documentation entry of `?launch_dss`
+
+### Testing
+
+* The testing infrastructure of the package has been thoroughly reviewed and 
+improved.
+
 # erahumed 0.18.0
 
 ### Algorithm
