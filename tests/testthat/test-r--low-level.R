@@ -1,4 +1,5 @@
 test_that("risk_from_sdss produces the expected output in toy case", {
+  # NB: the exponential of the SSD mean parameter is in micrograms per liter
   acetamiprid_at_0.5_acute_risk <-
     exp(info_chemicals()$Acetamiprid$ssd_acute_mu) / 1e6
 
