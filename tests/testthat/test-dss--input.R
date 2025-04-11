@@ -1,28 +1,49 @@
+library(shiny, quietly = TRUE)
+
 test_that("UI succeeds", {
   expect_no_error(dss_input_ui("ui"))
 })
 
+test_that("Server runs without error", {
+  expect_no_error( shiny::testServer(dss_input_server, {}) )
+})
 
-shiny::testServer(dss_input_server, {
-  do.call(session$setInputs, dss_input_defaults())
+test_that("Server returns without error", {
+  shiny::testServer(dss_input_server, {
+    do.call(session$setInputs, dss_input_defaults())
+    expect_no_error(session$returned)
+  })
+})
 
-  # Server returns correctly
-  expect_no_error(res <- session$returned)
+test_that("Server returns a reactive expression", {
+  shiny::testServer(dss_input_server, {
+    do.call(session$setInputs, dss_input_defaults())
+    expect_s3_class(session$returned, "reactiveExpr")
+  })
+})
 
-  # Results is a reactive expression that contains the list of 'erahumed_simulation' arguments
-  expect_s3_class(res, "reactiveExpr")
-  expect_type(res(), "list")
-  expect_setequal(names(res()), names(formals(erahumed_simulation)))
+test_that("Return contains the list of simulation parameters", {
+  shiny::testServer(dss_input_server, {
+    do.call(session$setInputs, dss_input_defaults())
+    res <- session$returned
+    expect_type(res(), "list")
+    expect_setequal(names(res()), names(formals(erahumed_simulation)))
+  })
+})
 
-  # Altering a few parameters works fine
-  new_seed <- 841
-  new_date_range <- c("2019-01-01", "2019-12-31")
-  session$setInputs(seed = new_seed, date_range = new_date_range)
-  expect_no_error(session$returned)
-  expect_equal(session$returned()$seed, new_seed)
-  expect_equal(session$returned()$date_start, new_date_range[[1]])
+test_that("Altering a few input parameters works", {
+  shiny::testServer(dss_input_server, {
+    do.call(session$setInputs, dss_input_defaults())
 
-}) |> suppressMessages()
+    new_seed <- 841
+    new_date_range <- c("2019-01-01", "2019-12-31")
+    session$setInputs(seed = new_seed, date_range = new_date_range)
+    expect_no_error(res <- session$returned)
+    expect_equal(res()$seed, new_seed)
+    expect_equal(res()$date_start, new_date_range[[1]])
+
+  })
+})
 
 library(shinytest2)
 
