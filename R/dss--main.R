@@ -69,9 +69,9 @@ dss_server <- function(input, output, session) {
   shiny::observe(run(run() + 1)) |> shiny::bindEvent(input$run)
 
   parameters <- dss_input_server("dss_input")
-  sim <- dss_run_server("dss_run", parameters = parameters, run = run)
+  simulation <- dss_run_server("dss_run", parameters = parameters, run = run)
   dss_output_server("dss_output",
-                    simulation = sim,
+                    simulation = simulation,
                     clicked_cluster_id = clicked_cluster_id)
 
   output$download <- shiny::downloadHandler(
@@ -79,7 +79,7 @@ dss_server <- function(input, output, session) {
     content = function(filename) {
       shinyjs::disable("download")
       shiny::showNotification("Download will start soon...", type = "message", duration = 5)
-      tryCatch(dss_download(filename, sim()),
+      tryCatch(dss_download(filename, simulation()),
                error = function(e)
                  shiny::showNotification(paste("Download failed:", e$message),
                                          type = "error"),
@@ -89,7 +89,7 @@ dss_server <- function(input, output, session) {
 
     )
 
-  vmap <- shiny::reactive(get_etc(sim(),"cluster_variety_map"))
+  vmap <- shiny::reactive(get_etc(simulation(),"cluster_variety_map"))
   output$map <- leaflet::renderLeaflet(
     plot_albufera_clusters(cluster_variety_map = vmap())
     ) |>
