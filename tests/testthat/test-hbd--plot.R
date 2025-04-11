@@ -17,7 +17,7 @@ test_that("No error for all plot types and variables", {
   expect_no_error( do.call(plot_hbd, args4) )
 })
 
-test_that("Succeeds but warns if no cluster is specified", {
+test_that("Succeeds but warns if no ditch is specified", {
   plot_hbd(test_sim_small()) |>
     expect_no_error() |>
     expect_warning()
