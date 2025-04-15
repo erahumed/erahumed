@@ -81,4 +81,7 @@ water_management_scheme <- function(
   return(res)
 }
 
+is_water_management_scheme <- function(x) {
+  inherits(x, "erahumed_wms")
+}
 

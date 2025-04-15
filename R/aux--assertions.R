@@ -158,3 +158,10 @@ assert_erahumed_simulation <- function(x, name  = deparse(substitute(x))) {
   msg <- paste(name, "is not a valid 'erahumed_simulation' object.")
   stop(msg)
 }
+
+assert_water_management_scheme <- function(x, name  = deparse(substitute(x))) {
+  if (is_water_management_scheme(x))
+    return(invisible(TRUE))
+  msg <- paste(name, "is not a valid 'erahumed_wms' (water_management_scheme) object.")
+  stop(msg)
+}
