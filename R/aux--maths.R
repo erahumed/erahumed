@@ -10,6 +10,23 @@ pmax2 <- function(x, thresh) {
 
 
 
+diff_circular <- function(x) {
+  c(x[1] - x[length(x)], diff(x))
+}
+
+
+smoother_stepwise <- function(x) {
+  n <- length(x)
+
+  for (i in which(diff_circular(x) != 0)) {
+    j <- if (x[i] != 0) { i } else if (i > 1) { i - 1 } else { n }
+    x[j] <- x[j] / 2
+  }
+
+  return(x)
+}
+
+
 moving_average <- function(x, k) {
   assert_numeric_vector(x)
   assert_positive_integer(k)
