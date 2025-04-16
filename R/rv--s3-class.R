@@ -77,9 +77,6 @@ chemical_application <- function(chemical,
         stop("Please specify application type")
       type <- match.arg(type)
 
-      # TODO: check availability of day for specified application type and variety
-      # Requires an argument with the management plan?
-      # Or maybe the chemical application scheme could be joined together with the rice variety?
     },
     error = function(e) {
       class(e) <- c("erahumed_chemical_application_error", class(e))
