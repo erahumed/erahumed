@@ -15,7 +15,7 @@ allocate_rice_variety <- function(
   variety,
   target_fraction,
   ditches = paste0("d", 1:26),  # TODO Make this more transparent
-  field_type = c("both", "regular", "tancat"),
+  field_type = c("both", "regular", "tancat")
   )
 {
   # TODO: arg validation
@@ -27,7 +27,7 @@ allocate_rice_variety <- function(
       "than the unallocated surface for the specified 'field_type' and",
       "'ditches'. Allocation has been reduced to ",
       format(100 * max_target_fraction, digits = 1), "%."
-      )
+    )
     warning(msg)
     target_fraction <- max_target_fraction
   }
