@@ -1,5 +1,5 @@
-chemical <- function(name,
-                     tmoa,
+chemical <- function(chemical_name,
+                     tmoa_id,
                      MW,
                      ksetl_m_day,
                      kvolat_m_day,
@@ -21,12 +21,12 @@ chemical <- function(name,
                      ssd_acute_sigma,
                      ssd_chronic_mu,
                      ssd_chronic_sigma
-                     )
+)
 {
   tryCatch(
     {
-      assert_string(name)
-      assert_string(tmoa)
+      assert_string(chemical_name)
+      assert_string(tmoa_id)
       assert_positive_number(MW)
       assert_positive_number(ksetl_m_day)
       assert_positive_number(kvolat_m_day)
@@ -55,9 +55,9 @@ chemical <- function(name,
       stop(e)
     })
 
-  # TODO Derived arguments necessary for low-level computations
-
-  res <- list(MW = MW,
+  res <- list(chemical_name = chemical_name,
+              tmoa_id = tmoa_id,
+              MW = MW,
               ksetl_m_day = ksetl_m_day,
               kvolat_m_day = kvolat_m_day,
               sol_ppm = sol_ppm,
@@ -77,9 +77,8 @@ chemical <- function(name,
               ssd_acute_mu = ssd_acute_mu,
               ssd_acute_sigma = ssd_acute_sigma,
               ssd_chronic_mu = ssd_chronic_mu,
-              ssd_chronic_sigma = ssd_chronic_sigma,
-              tmoa_id = tmoa_id
-              )
+              ssd_chronic_sigma = ssd_chronic_sigma
+  )
 
   class(res) <- "erahumed_chemical"
 
@@ -87,4 +86,3 @@ chemical <- function(name,
 }
 
 
-# TODO create chemicals for default application scheme
