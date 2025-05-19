@@ -9,7 +9,8 @@ add_application(
   chemical,
   amount_kg_ha,
   seed_day,
-  type = c("ground", "aerial")
+  type = c("ground", "aerial"),
+  emptying_days = 1
 )
 }
 \arguments{
@@ -28,6 +29,10 @@ Day after seeding when the application occurs.}
 
 \item{type}{\verb{[character(1)]} \cr
 Application type, either \code{"ground"} or \code{"aerial"}.}
+
+\item{emptying_days}{\verb{[numeric(1)]} \cr
+Duration (in days) that the field remains empty after a \code{"ground"}
+application. Ignored if \code{type} is \code{"aerial"}.}
 }
 \value{
 An object of class \link[=rfms]{erahumed_rfms}.
@@ -35,11 +40,6 @@ An object of class \link[=rfms]{erahumed_rfms}.
 \description{
 Schedules a chemical application within an existing rice field management
 system (see \link{rfms}).
-}
-\examples{
-rfms <- new_rfms()
-rfms <- add_application(rfms, chemical = "penoxsulam", amount_kg_ha = 0.025, seed_day = 10, type = "ground")
-
 }
 \seealso{
 \link{rfms}

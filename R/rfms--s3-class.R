@@ -1,19 +1,6 @@
 #' Rice Field Management Systems
 #'
 #' Functions to define and initialize rice field management systems.
-#' Specifically:
-#'
-#' - `new_rfms()` creates an empty management system, with no scheduled
-#'   chemical applications.
-#' - `jsendra_rfms()`, `bomba_rfms()`, and `clearfield_rfms()` provide
-#'   predefined systems inspired by the *J. Sendra*, *Bomba*, and *Clearfield*
-#'   rice varieties, respectively.
-#'
-#' Additional chemical applications can be scheduled using the helper function
-#' [add_application()]. The default values of the arguments of `new_rfms()`
-#' coincide with those used internally by `jsendra_rfms()`, `bomba_rfms()`, and
-#' `clearfield_rfms()`
-#'
 #'
 #' @param sowing_yday `[integer(1)]` \cr
 #' Day of the year marking the start of the sowing season (1–366, assuming a leap year).
@@ -30,6 +17,20 @@
 #' Target water level (in cm) during the *Perelloná* flooding period.
 #'
 #' @return An object of class `erahumed_rfms`.
+#'
+#' @details These functions are used to define and initialize rice field
+#' management systems. Specifically:
+#'
+#' * `new_rfms()` creates an empty management system, with no scheduled
+#'   chemical applications.
+#' * `jsendra_rfms()`, `bomba_rfms()`, and `clearfield_rfms()` provide
+#'   predefined systems inspired by the *J. Sendra*, *Bomba*, and *Clearfield*
+#'   rice varieties, respectively.
+#'
+#' Additional chemical applications can be scheduled using the helper function
+#' [add_application()]. The default values of the arguments of `new_rfms()`
+#' coincide with those used internally by `jsendra_rfms()`, `bomba_rfms()`, and
+#' `clearfield_rfms()`.
 #'
 #' @seealso [add_application]
 #'
@@ -97,14 +98,13 @@ is_rfms <- function(x) {
 #'   Day after seeding when the application occurs.
 #' @param type `[character(1)]` \cr
 #'   Application type, either `"ground"` or `"aerial"`.
+#' @param emptying_days `[numeric(1)]` \cr
+#'   Duration (in days) that the field remains empty after a `"ground"`
+#'   application. Ignored if `type` is `"aerial"`.
 #'
 #' @return An object of class [erahumed_rfms][rfms].
 #'
 #' @seealso [rfms]
-#'
-#' @examples
-#' rfms <- new_rfms()
-#' rfms <- add_application(rfms, chemical = "penoxsulam", amount_kg_ha = 0.025, seed_day = 10, type = "ground")
 #'
 #' @export
 add_application <- function(
@@ -112,7 +112,8 @@ add_application <- function(
     chemical,
     amount_kg_ha,
     seed_day,
-    type = c("ground", "aerial")
+    type = c("ground", "aerial"),
+    emptying_days = 1
     )
 {
   tryCatch(
@@ -124,10 +125,15 @@ add_application <- function(
       if (seed_day > (rfms$harvesting_yday - rfms$sowing_yday))
         stop("Specified 'seed_day' is outside of the sowing window.")
 
+      assert_positive_integer(emptying_days)
+      assert_length_one(emptying_days)
+
+
       application <- chemical_application(chemical = chemical,
                                           amount_kg_ha = amount_kg_ha,
                                           seed_day = seed_day,
-                                          type = type)
+                                          type = type,
+                                          emptying_days = emptying_days)
     },
     error = function(e) {
       class(e) <- c("erahumed_application_error", class(e))
@@ -145,7 +151,8 @@ add_application <- function(
 chemical_application <- function(chemical,
                                  amount_kg_ha,
                                  seed_day,
-                                 type = c("ground", "aerial")
+                                 type = c("ground", "aerial"),
+                                 emptying_days = emptying_days
 )
 {
   tryCatch(
@@ -167,6 +174,7 @@ chemical_application <- function(chemical,
   res <- list(chemical = chemical,
               amount_kg_ha = amount_kg_ha,
               seed_day = seed_day,
-              type = type)
+              type = type,
+              emptying_days = emptying_days)
   class(res) <- "erahumed_chemical_application"
 }
