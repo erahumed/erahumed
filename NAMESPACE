@@ -2,6 +2,7 @@
 
 S3method(print,erahumed_simulation)
 S3method(summary,erahumed_simulation)
+export(chemical)
 export(erahumed_simulation)
 export(get_results)
 export(info_chemicals)
