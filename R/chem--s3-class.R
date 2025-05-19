@@ -1,4 +1,4 @@
-chemical <- function(chemical_name,
+chemical <- function(display_name,
                      tmoa_id,
                      MW,
                      ksetl_m_day,
@@ -25,7 +25,7 @@ chemical <- function(chemical_name,
 {
   tryCatch(
     {
-      assert_string(chemical_name)
+      assert_string(display_name)
       assert_string(tmoa_id)
       assert_positive_number(MW)
       assert_positive_number(ksetl_m_day)
@@ -55,7 +55,7 @@ chemical <- function(chemical_name,
       stop(e)
     })
 
-  res <- list(chemical_name = chemical_name,
+  res <- list(display_name = display_name,
               tmoa_id = tmoa_id,
               MW = MW,
               ksetl_m_day = ksetl_m_day,

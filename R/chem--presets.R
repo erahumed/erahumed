@@ -1,5 +1,5 @@
 acetamiprid <- function() {
-  chemical(chemical_name = "Acetamiprid",
+  chemical(display_name = "Acetamiprid",
            tmoa_id = "NicotinicAcetylcholine",
            MW = 222.677,
            ksetl_m_day = 2,
@@ -25,7 +25,7 @@ acetamiprid <- function() {
 }
 
 azoxystrobin <- function() {
-  chemical(chemical_name = "Azoxystrobin",
+  chemical(display_name = "Azoxystrobin",
            tmoa_id = "C_Respiration",
            MW = 403.338,
            ksetl_m_day = 2,
@@ -51,7 +51,7 @@ azoxystrobin <- function() {
 }
 
 bentazone <- function() {
-  chemical(chemical_name = "Bentazone",
+  chemical(display_name = "Bentazone",
            tmoa_id = "Photosynthesis_PSII",
            MW = 240.28,
            ksetl_m_day = 2,
@@ -77,7 +77,7 @@ bentazone <- function() {
 }
 
 cycloxydim <- function() {
-  chemical(chemical_name = "Cycloxydim",
+  chemical(display_name = "Cycloxydim",
            tmoa_id = "AcetylCoA",
            MW = 325.5,
            ksetl_m_day = 2,
@@ -103,7 +103,7 @@ cycloxydim <- function() {
 }
 
 cyhalofop_butyl <- function() {
-  chemical(chemical_name = "Cyhalofop-butyl",
+  chemical(display_name = "Cyhalofop-butyl",
            tmoa_id = "AcetylCoA",
            MW = 357.38,
            ksetl_m_day = 2,
@@ -129,7 +129,7 @@ cyhalofop_butyl <- function() {
 }
 
 difenoconazole <- function() {
-  chemical(chemical_name = "Difenoconazole",
+  chemical(display_name = "Difenoconazole",
            tmoa_id = "Sterol_biosynthesis",
            MW = 406.3,
            ksetl_m_day = 2,
@@ -155,7 +155,7 @@ difenoconazole <- function() {
 }
 
 mcpa <- function() {
-  chemical(chemical_name = "MCPA",
+  chemical(display_name = "MCPA",
            tmoa_id = "Auxin_mimics",
            MW = 200.62,
            ksetl_m_day = 2,
@@ -181,7 +181,7 @@ mcpa <- function() {
 }
 
 penoxsulam <- function() {
-  chemical(chemical_name = "Penoxsulam",
+  chemical(display_name = "Penoxsulam",
            tmoa_id = "AcetoLactate",
            MW = 483.4,
            ksetl_m_day = 2,
