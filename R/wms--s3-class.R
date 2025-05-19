@@ -30,7 +30,7 @@
 #' These schedules are smoothed for use in simulations of irrigation and drainage operations.
 #'
 #' @noRd
-water_management_scheme <- function(
+wms <- function(
     sowing_yday = 111,
     harvesting_yday = 251,
     emptyings_yday = c(116:117, 129:130, 163:168),
@@ -81,7 +81,7 @@ water_management_scheme <- function(
   return(res)
 }
 
-is_water_management_scheme <- function(x) {
+is_wms <- function(x) {
   inherits(x, "erahumed_wms")
 }
 

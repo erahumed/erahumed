@@ -141,4 +141,6 @@ chemical <- function(display_name,
   return(res)
 }
 
-
+is_erahumed_chemical <- function(x) {
+  inherits(x, "erahumed_chemical")
+}

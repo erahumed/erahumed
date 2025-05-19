@@ -35,7 +35,7 @@ test_that("wms_draining() returns the expected output in simple case", {
 })
 
 test_that("wms_height_cm() succeeds with valid arguments", {
-  args <- formals(water_management_scheme) |> lapply(eval)
+  args <- formals(wms) |> lapply(eval)
   args <- args[ names(args)[names(args) %in% names(formals(wms_height_cm))] ]
   args <- c(args, tancat = TRUE)
 
@@ -43,7 +43,7 @@ test_that("wms_height_cm() succeeds with valid arguments", {
 })
 
 test_that("wms_height_cm() value is zero in emptyings", {
-  args <- formals(water_management_scheme) |> lapply(eval)
+  args <- formals(wms) |> lapply(eval)
   args <- args[ names(args)[names(args) %in% names(formals(wms_height_cm))] ]
   args <- c(args, tancat = TRUE)
 
@@ -54,7 +54,7 @@ test_that("wms_height_cm() value is zero in emptyings", {
 })
 
 test_that("wms_height_cm() maximum value is that expected", {
-  args <- formals(water_management_scheme) |> lapply(eval)
+  args <- formals(wms) |> lapply(eval)
   args <- args[ names(args)[names(args) %in% names(formals(wms_height_cm))] ]
   args <- c(args, tancat = TRUE)
 
@@ -65,7 +65,7 @@ test_that("wms_height_cm() maximum value is that expected", {
 })
 
 test_that("wms_df0() succeeds with valid arguments", {
-  args <- formals(water_management_scheme) |> lapply(eval)
+  args <- formals(wms) |> lapply(eval)
   args <- args[ names(args)[names(args) %in% names(formals(wms_df0))] ]
   args <- c(args, tancat = TRUE)
 
@@ -73,7 +73,7 @@ test_that("wms_df0() succeeds with valid arguments", {
 })
 
 test_that("wms_df() succeeds with valid arguments", {
-  args <- formals(water_management_scheme) |> lapply(eval)
+  args <- formals(wms) |> lapply(eval)
   args <- args[ names(args)[names(args) %in% names(formals(wms_df))] ]
 
   expect_no_error(do.call(wms_df, args))
