@@ -3,19 +3,47 @@
 \name{rfms}
 \alias{rfms}
 \alias{new_rfms}
-\title{Rice Field Management System}
+\title{Rice Field Management Systems}
 \usage{
-new_rfms()
+new_rfms(
+  sowing_yday = 111,
+  harvesting_yday = 251,
+  perellona_end_yday = 15,
+  perellona_start_yday = 306,
+  flow_height_cm = 10,
+  perellona_height_cm = 20
+)
+}
+\arguments{
+\item{sowing_yday}{\verb{[integer(1)]} \cr
+Day of the year marking the start of the sowing season (1–366, assuming a leap year).}
+
+\item{harvesting_yday}{\verb{[integer(1)]} \cr
+Day of the year marking the end of the sowing season (1–366, assuming a leap year).}
+
+\item{perellona_end_yday}{\verb{[integer(1)]} \cr
+Day of the year marking the end of the \emph{Perelloná} flooding period (before sowing).}
+
+\item{perellona_start_yday}{\verb{[integer(1)]} \cr
+Day of the year marking the beginning of the \emph{Perelloná} flooding period (after harvest).}
+
+\item{flow_height_cm}{\verb{[numeric(1)]} \cr
+Target water level (in cm) during the regular days of the sowing season,
+excluding emptying and transition days.}
+
+\item{perellona_height_cm}{\verb{[numeric(1)]} \cr
+Target water level (in cm) during the \emph{Perelloná} flooding period.}
 }
 \value{
 An object of class \code{erahumed_rfms}.
 }
 \description{
 Functions to define and initialize rice field management systems.
+Specifically:
 }
 \details{
 \itemize{
-\item \code{new_rfms()} creates an empty management system, without any scheduled
+\item \code{new_rfms()} creates an empty management system, with no scheduled
 chemical applications.
 \item \code{jsendra_rfms()}, \code{bomba_rfms()}, and \code{clearfield_rfms()} provide
 predefined systems inspired by the \emph{J. Sendra}, \emph{Bomba}, and \emph{Clearfield}
@@ -23,7 +51,9 @@ rice varieties, respectively.
 }
 
 Additional chemical applications can be scheduled using the helper function
-\code{\link[=add_application]{add_application()}}.
+\code{\link[=add_application]{add_application()}}. The default values of the arguments of \code{new_rfms()}
+coincide with those used internally by \code{jsendra_rfms()}, \code{bomba_rfms()}, and
+\code{clearfield_rfms()}
 }
 \seealso{
 \link{add_application}
