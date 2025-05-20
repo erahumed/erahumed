@@ -179,3 +179,10 @@ assert_rfms <- function(x, name  = deparse(substitute(x))) {
   msg <- paste(name, "is not a valid 'erahumed_rfms' object.")
   stop(msg)
 }
+
+assert_rfa <- function(x, name  = deparse(substitute(x))) {
+  if (is_rfa(x))
+    return(invisible(TRUE))
+  msg <- paste(name, "is not a valid 'erahumed_rfa' object.")
+  stop(msg)
+}
