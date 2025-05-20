@@ -177,4 +177,48 @@ chemical_application <- function(chemical,
               type = type,
               emptying_days = emptying_days)
   class(res) <- "erahumed_chemical_application"
+
+  return(res)
+}
+
+#' @export
+print.erahumed_rfms <- function(x, ...) {
+  cat("<Rice Field Management System>\n")
+  cat("  Sowing period     : Day", x$sowing_yday, "to", x$harvesting_yday, "\n")
+  cat("  Perelloná period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
+  cat("  Flow height       :", x$flow_height_cm, "cm during sowing season\n")
+  cat("  Perelloná height  :", x$perellona_height_cm, "cm during Perelloná\n")
+  cat("  Applications      :", length(x$applications), "chemical application(s)\n")
+  invisible(x)
+}
+
+#' @export
+summary.erahumed_rfms <- function(object, ...) {
+  n_app <- length(object$applications)
+
+  cat("<Rice Field Management System Summary>\n")
+  cat("  Sowing period      : Day", object$sowing_yday, "to", object$harvesting_yday, "\n")
+  cat("  Perelloná period   : Day", object$perellona_start_yday, "to", object$perellona_end_yday, "\n")
+  cat("  Flow height        :", object$flow_height_cm, "cm\n")
+  cat("  Perelloná height   :", object$perellona_height_cm, "cm\n")
+  cat("  Applications       :", n_app, "scheduled\n\n")
+
+  if (n_app == 0) {
+    cat("  No chemical applications defined.\n")
+  } else {
+    df <- do.call(rbind, lapply(object$applications, function(app) {
+      data.frame(
+        chemical = app$chemical$display_name,
+        type = app$type,
+        seed_day = app$seed_day,
+        amount_kg_ha = app$amount_kg_ha,
+        emptying_days = ifelse(app$type == "ground", app$emptying_days, NA_real_),
+        stringsAsFactors = FALSE
+      )
+    }))
+
+    print(df, row.names = FALSE)
+  }
+
+  invisible(object)
 }
