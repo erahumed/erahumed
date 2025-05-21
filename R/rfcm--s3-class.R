@@ -1,18 +1,34 @@
-#' Initialize Cluster-to-Management Map
+#' Cluster-Based Management Assignment
 #'
-#' Creates a new cluster map object that assigns rice field management systems
-#' to individual clusters in the simulation domain.
+#' Create and manage cluster-specific rice field management systems.
+#'
+#' These functions define how different rice field management systems are
+#' assigned to spatial clusters within the simulation. Each cluster can be
+#' associated with a specific management strategy, allowing for heterogeneous
+#' management across the simulation domain.
 #'
 #' @param default_management_system `[`[erahumed_management_system][management_system]`]` \cr
-#'   Management system used for all clusters by default. If not provided,
-#'   defaults to a system initialized with [new_management_system()].
+#'   A default management system assigned to all clusters initially. Typically
+#'   created with [new_management_system()] or a helper like [jsendra()].
 #'
 #' @return An object of class `erahumed_cluster_map`.
 #'
-#' @details The cluster map is used to associate different management strategies
-#' with spatial clusters in the simulation.
+#' @details
 #'
-#' @seealso [management_system]
+#' * `new_cluster_map()` initializes a cluster map with all clusters assigned
+#'   the same default management system.
+#'
+#' * `default_cluster_map()` provides a predefined map inspired by current
+#'   practices in the Albufera Natural Park. Specifically, it uses the *J. Sendra*
+#'   system as the default, and allocates small proportions of *Bomba* (10% in
+#'   tancats) and *Clearfield* (10% in ditches 1–19). This map is a convenient
+#'   starting point for scenario simulation or customization.
+#'
+#' Cluster assignments can be modified using [allocate_surface()].
+#'
+#' @seealso [new_management_system()], [allocate_surface()]
+#'
+#' @name cluster_map
 #'
 #' @export
 new_cluster_map <- function(default_management_system = new_management_system())

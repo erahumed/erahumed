@@ -1,3 +1,48 @@
+#' Allocate a Management System to a Surface Fraction
+#'
+#' Assigns a new management system to a fraction of surface area by selecting
+#' clusters that match given spatial and structural criteria.
+#'
+#' @param map `[`[erahumed_cluster_map][cluster_map]`]` \cr
+#'   A cluster map created with [new_cluster_map()] or [default_cluster_map()].
+#'
+#' @param system `[`[erahumed_management_system][management_system]`]` \cr
+#'   A management system to assign, created with [new_management_system()] or
+#'   helper functions such as [bomba()] or [clearfield()].
+#'
+#' @param target_fraction `[numeric(1)]` \cr
+#'   The fraction of total surface area to allocate to the given system. Must
+#'   be a number between 0 and 1.
+#'
+#' @param ditches `[integer]` \cr
+#'   A vector of ditch IDs where candidate clusters will be selected from.
+#'   Defaults to all ditches (1:26).
+#'
+#' @param field_type `[character(1)]` \cr
+#'   Type of field to consider when selecting clusters. Must be one of:
+#'   * `"regular"` – only regular fields
+#'   * `"tancat"` – only tancats
+#'   * `"both"` – all field types (default)
+#'
+#' @return An updated `erahumed_cluster_map` object with the new system
+#'   allocated to selected clusters.
+#'
+#' @details
+#' This function randomly selects clusters matching the specified `ditches` and
+#' `field_type` until the cumulative surface area of selected clusters reaches
+#' the `target_fraction`. The new management system is added to the internal
+#' list and assigned a unique ID within the map.
+#'
+#' If no eligible clusters remain before reaching the target fraction, the
+#' function will return early with a partial allocation.
+#'
+#' @seealso [new_cluster_map()], [default_cluster_map()], [new_management_system()]
+#'
+#' @examples
+#' map <- new_cluster_map(jsendra())
+#' map <- allocate_surface(map, bomba(), target_fraction = 0.1, field_type = "tancat")
+#'
+#' @export
 allocate_surface <- function(map,
                              system,
                              target_fraction,

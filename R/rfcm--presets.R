@@ -1,3 +1,5 @@
+#' @rdname cluster_map
+#' @export
 default_cluster_map <- function() {
 
   new_cluster_map(default_management_system = jsendra()) |>
