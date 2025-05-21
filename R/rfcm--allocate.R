@@ -1,7 +1,7 @@
 allocate_surface <- function(map,
                              system,
                              target_fraction,
-                             ditches = paste0("d", 1:26),
+                             ditches = 1:26,
                              field_type = c("both", "regular", "tancat")
 )
 {
@@ -11,13 +11,15 @@ allocate_surface <- function(map,
       assert_management_system(system)
       assert_positive_number(target_fraction)
       stopifnot(target_fraction <= 1)
-      assert_character(ditches)
+      assert_integer_vector(ditches)
       field_type <- match.arg(field_type)
     },
     error = function(e) {
       class(e) <- c("erahumed_allocate_surface_error", class(e))
       stop(e)
     })
+
+  ditches <- paste0("d", ditches)
 
   map[["ms_list"]] <- c(map[["ms_list"]], list(system))
   ms_id <- length(map[["ms_list"]])
