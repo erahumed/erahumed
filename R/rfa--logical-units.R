@@ -1,16 +1,16 @@
-rfa_candidates <- function(rfa,
+map_candidates <- function(map,
                            ditches,
                            field_type = c("both", "regular", "tancat")
                            )
 {
-  assert_rfa(rfa)
+  assert_cluster_map(map)
   assert_character(ditches)
   field_type <- match.arg(field_type)
 
-  df <- rfa$allocations |>
+  df <- map$map_df |>
     merge(info_clusters(), by.x = "cluster_id", by.y = "element_id")
 
-  df <- df[is.na(df$rfms_id), ]
+  df <- df[is.na(df$ms_id), ]
 
   df <- df[df$ditch_element_id %in% ditches, ]
 
@@ -23,15 +23,15 @@ rfa_candidates <- function(rfa,
   return(df$cluster_id)
 }
 
-rfa_assign <- function(rfa, cluster_id, rfms_id) {
-  df <- rfa[["allocations"]]
+map_assign <- function(map, cluster_id, ms_id) {
+  df <- map[["map_df"]]
   row <- which(df$cluster_id == cluster_id)
-  df[row, "rfms_id"] <- rfms_id
-  rfa[["allocations"]] <- df
-  return(rfa)
+  df[row, "ms_id"] <- ms_id
+  map[["map_df"]] <- df
+  return(map)
 }
 
-rfa_cluster_fraction <- function(cluster_id) {
+map_surface_fraction <- function(cluster_id) {
   df <- info_clusters()
   tot_area <- sum(df$area)
   clus_area <- df[df$element_id == cluster_id, ]$area

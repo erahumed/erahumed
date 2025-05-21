@@ -1,22 +1,26 @@
 test_that("Allocation of a rfms succeeds", {
-  rfa <- new_rfa()
-  rfms <- new_rfms()
+  map <- new_cluster_map()
+  ms <- new_management_system()
 
-  expect_no_error(allocate_rfms(rfa = rfa, rfms = rfms, target_fraction = 0.5))
+  expect_no_error(allocate_surface(map = map,
+                                   system = ms,
+                                   target_fraction = 0.5)
+                  )
 })
 
-test_that("allocate_rfms() returns an object of the correct type", {
-  res <-
-    allocate_rfms(rfa = new_rfa(), rfms = new_rfms(), target_fraction = 0.5)
+test_that("allocate_surface() returns an object of the correct type", {
+  res <-     allocate_surface(map = new_cluster_map(),
+                              system = new_management_system(),
+                              target_fraction = 0.5)
 
-  expect_no_error(assert_rfa(res))
+  expect_no_error(assert_cluster_map(res))
 })
 
-test_that("allocate_rfms() increases the number of rfmss each time", {
-  rfa <- new_rfa()
-  expect_length(rfa$rfms, 0)
-  rfa <- allocate_rfms(rfa = rfa, rfms = new_rfms(), target_fraction = .1)
-  expect_length(rfa$rfms, 1)
-  rfa <- allocate_rfms(rfa = rfa, rfms = new_rfms(), target_fraction = .2)
-  expect_length(rfa$rfms, 2)
+test_that("allocate_surface() increases the number of rfmss each time", {
+  map <- new_cluster_map()
+  expect_length(map$ms_list, 0)
+  map <- allocate_surface(map = map, system = new_management_system(), target_fraction = .1)
+  expect_length(map$ms_list, 1)
+  map <- allocate_surface(map = map, system = new_management_system(), target_fraction = .1)
+  expect_length(map$ms_list, 2)
   })

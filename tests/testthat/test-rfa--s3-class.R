@@ -1,14 +1,14 @@
-test_that("new_rfa() constructor succeeds", {
-  expect_no_error(new_rfa())
+test_that("new_cluster_map() constructor succeeds", {
+  expect_no_error(new_cluster_map())
 })
 
-test_that("new_rfa() creates an object of the correct class", {
-  x <- new_rfa()
-  expect_s3_class(x, "erahumed_rfa")
+test_that("new_cluster_map() creates an object of the correct class", {
+  x <- new_cluster_map()
+  expect_s3_class(x, "erahumed_cluster_map")
 })
 
 test_that("Validator succeeds", {
-  x <- new_rfa()
-  expect_no_error(assert_rfa(x))
+  x <- new_cluster_map()
+  expect_no_error(assert_cluster_map(x))
 })
 

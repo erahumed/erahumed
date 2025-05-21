@@ -1,4 +1,4 @@
-#' Rice Field Management Systems
+#' Rice Field Management System
 #'
 #' Functions to define and initialize rice field management systems.
 #'
@@ -16,28 +16,28 @@
 #' @param perellona_height_cm `[numeric(1)]` \cr
 #' Target water level (in cm) during the *Perelloná* flooding period.
 #'
-#' @return An object of class `erahumed_rfms`.
+#' @return An object of class `erahumed_management_system`.
 #'
 #' @details These functions are used to define and initialize rice field
-#' management systems. Specifically:
+#' management system. Specifically:
 #'
-#' * `new_rfms()` creates an empty management system, with no scheduled
-#'   chemical applications.
-#' * `jsendra_rfms()`, `bomba_rfms()`, and `clearfield_rfms()` provide
+#' * `new_management_system()` creates an empty management system, with no
+#'   scheduled chemical applications.
+#' * `jsendra()`, `bomba()`, and `clearfield()` provide
 #'   predefined systems inspired by the *J. Sendra*, *Bomba*, and *Clearfield*
 #'   rice varieties, respectively.
 #'
 #' Additional chemical applications can be scheduled using the helper function
-#' [add_application()]. The default values of the arguments of `new_rfms()`
-#' coincide with those used internally by `jsendra_rfms()`, `bomba_rfms()`, and
-#' `clearfield_rfms()`.
+#' [add_application()]. The default values of the arguments of
+#' `new_management_system()` coincide with those used internally by `jsendra()`,
+#' `bomba()`, and `clearfield()`.
 #'
-#' @seealso [add_application]
+#' @seealso [schedule_application]
 #'
-#' @name rfms
+#' @name management_system
 #'
 #' @export
-new_rfms <- function(
+new_management_system <- function(
     sowing_yday = 111,
     harvesting_yday = 251,
     perellona_end_yday = 15,
@@ -61,7 +61,7 @@ new_rfms <- function(
       assert_positive_number(perellona_height_cm)
     },
     error = function(e) {
-      class(e) <- c("erahumed_rfms_error", class(e))
+      class(e) <- c("erahumed_management_system_error", class(e))
       stop(e)
     })
 
@@ -72,24 +72,23 @@ new_rfms <- function(
               flow_height_cm = flow_height_cm,
               perellona_height_cm = perellona_height_cm,
               applications = list())
-  class(res) <- "erahumed_rfms"
+  class(res) <- "erahumed_management_system"
   return(res)
 }
 
-is_rfms <- function(x) {
-  inherits(x, "erahumed_rfms") &&
+is_management_system <- function(x) {
+  inherits(x, "erahumed_management_system") &&
     is.list(x) &&
     hasName(x, "applications")
 }
 
-#' Add a Chemical Application to a Rice Field Management System
+#' Schedule chemical application
 #'
 #' Schedules a chemical application within an existing rice field management
-#' system (see [rfms]).
+#' system (see [management_system]).
 #'
-#' @param rfms `[`[erahumed_rfms][rfms]`]` \cr
-#'   A rice field management system object created with one of the `*_rfms()`
-#'   functions documented in [rfms].
+#' @param system `[`[erahumed_management_system][management_system]`]` \cr
+#'   A rice field management system object.
 #' @param chemical `[`[erahumed_chemical][chemical]`]` \cr
 #'   Chemical to be applied.
 #' @param amount_kg_ha `[numeric(1)]` \cr
@@ -102,27 +101,27 @@ is_rfms <- function(x) {
 #'   Duration (in days) that the field remains empty after a `"ground"`
 #'   application. Ignored if `type` is `"aerial"`.
 #'
-#' @return An object of class [erahumed_rfms][rfms].
+#' @return An object of class [erahumed_management_system][management_system].
 #'
-#' @seealso [rfms]
+#' @seealso [management_system]
 #'
 #' @export
-add_application <- function(
-    rfms,
+schedule_application <- function(
+    system,
     chemical,
     amount_kg_ha,
     seed_day,
     type = c("ground", "aerial"),
     emptying_days = 1
-    )
+)
 {
   tryCatch(
     {
-      assert_rfms(rfms)
+      assert_management_system(system)
 
       assert_positive_integer(seed_day)
       assert_length_one(seed_day)
-      if (seed_day > (rfms$harvesting_yday - rfms$sowing_yday))
+      if (seed_day > (system$harvesting_yday - system$sowing_yday))
         stop("Specified 'seed_day' is outside of the sowing window.")
 
       assert_positive_integer(emptying_days)
@@ -140,12 +139,12 @@ add_application <- function(
       stop(e)
     })
 
-  .add_application(rfms, application)
+  .add_application(system, application)
 }
 
-.add_application <- function(rfms, application) {
-  rfms[["applications"]] <- c(rfms[["applications"]], list(application))
-  return(rfms)
+.add_application <- function(system, application) {
+  system[["applications"]] <- c(system[["applications"]], list(application))
+  return(system)
 }
 
 chemical_application <- function(chemical,
@@ -182,7 +181,7 @@ chemical_application <- function(chemical,
 }
 
 #' @export
-print.erahumed_rfms <- function(x, ...) {
+print.erahumed_management_system <- function(x, ...) {
   cat("<Rice Field Management System>\n")
   cat("  Sowing period     : Day", x$sowing_yday, "to", x$harvesting_yday, "\n")
   cat("  Perelloná period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
@@ -193,7 +192,7 @@ print.erahumed_rfms <- function(x, ...) {
 }
 
 #' @export
-summary.erahumed_rfms <- function(object, ...) {
+summary.erahumed_management_system <- function(object, ...) {
   n_app <- length(object$applications)
 
   cat("<Rice Field Management System Summary>\n")

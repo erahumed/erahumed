@@ -1,18 +1,17 @@
-new_rfa <- function(fallback_rfms = new_rfms()) {
+new_cluster_map <- function(default_management_system = new_management_system())
+{
+  map_df <- data.frame(cluster_id = info_clusters()$element_id, ms_id = NA)
 
-  allocations_df <-
-    data.frame(cluster_id = info_clusters()$element_id, rfms_id = NA)
-
-  res <- list(allocations = allocations_df,
-              rfms = list(),
-              fallback_rfms = fallback_rfms
+  res <- list(map_df = map_df,
+              ms_list = list(),
+              default_ms = default_management_system
               )
 
-  class(res) <- "erahumed_rfa"
+  class(res) <- "erahumed_cluster_map"
 
   return(res)
 }
 
-is_rfa <- function(x) {
-  inherits(x, "erahumed_rfa")
+is_cluster_map <- function(x) {
+  inherits(x, "erahumed_cluster_map")
 }

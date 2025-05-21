@@ -1,21 +1,21 @@
-test_that("rfa_candidates(): succeeds", {
-  rfa <- new_rfa()
+test_that("map_candidates(): succeeds", {
+  map <- new_cluster_map()
   ditches <- paste0("d", 1:26)
   field_type <- "both"
 
-  expect_no_error(rfa_candidates(rfa = rfa, ditches = ditches, field_type = field_type))
+  expect_no_error(map_candidates(map = map, ditches = ditches, field_type = field_type))
 })
 
-test_that("rfa_candidates(): returns a character vector", {
-  res <- rfa_candidates(rfa = new_rfa(),
+test_that("map_candidates(): returns a character vector", {
+  res <- map_candidates(map = new_cluster_map(),
                         ditches = paste0("d", 1:26),
                         field_type = "both")
 
   expect_vector(res, ptype = character())
 })
 
-test_that("rfa_candidates(): gives the correct output in simple case 1", {
-  res <- rfa_candidates(rfa = new_rfa(),
+test_that("map_candidates(): gives the correct output in simple case 1", {
+  res <- map_candidates(map = new_cluster_map(),
                         ditches = paste0("d", 1:26),
                         field_type = "both")
   n_clusters <- nrow(info_clusters())
@@ -23,8 +23,8 @@ test_that("rfa_candidates(): gives the correct output in simple case 1", {
   expect_length(res, n_clusters)
 })
 
-test_that("rfa_candidates(): gives the correct output in simple case 2", {
-  res <- rfa_candidates(rfa = new_rfa(),
+test_that("map_candidates(): gives the correct output in simple case 2", {
+  res <- map_candidates(map = new_cluster_map(),
                         ditches = paste0("d", 1:26),
                         field_type = "tancat")
   n_tancats <- info_clusters() |> (\(.) .[.$tancat, ])() |> nrow()
@@ -32,10 +32,10 @@ test_that("rfa_candidates(): gives the correct output in simple case 2", {
   expect_length(res, n_tancats)
 })
 
-test_that("rfa_candidates(): gives the correct output in simple case 3", {
+test_that("map_candidates(): gives the correct output in simple case 3", {
   ditches <- paste0("d", 1:8)
 
-  res <- rfa_candidates(rfa = new_rfa(),
+  res <- map_candidates(map = new_cluster_map(),
                         ditches = ditches,
                         field_type = "both")
   n_clusters <- info_clusters() |>
@@ -45,17 +45,17 @@ test_that("rfa_candidates(): gives the correct output in simple case 3", {
   expect_length(res, n_clusters)
 })
 
-test_that("rfa_assign(): succeeds", {
-  rfa <- new_rfa()
+test_that("map_assign(): succeeds", {
+  map <- new_cluster_map()
   cluster_id <- info_clusters()$element_id[[1]]
 
-  expect_no_error(rfa_assign(rfa, cluster_id = cluster_id, rfms_id = 1))
+  expect_no_error(map_assign(map, cluster_id = cluster_id, ms_id = 1))
 })
 
-test_that("rfa_assign() returns an object of class rfa", {
-  res <- rfa_assign(rfa = new_rfa(),
+test_that("map_assign() returns an object of class map", {
+  res <- map_assign(map = new_cluster_map(),
                     cluster_id = info_clusters()$element_id[[1]],
-                    rfms_id = 1)
+                    ms_id = 1)
 
-  expect_no_error(assert_rfa(res))
+  expect_no_error(assert_cluster_map(res))
 })

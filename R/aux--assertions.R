@@ -48,7 +48,7 @@ assert_positive_number <- function(
     name = deparse(substitute(x)),
     check_finite = TRUE,
     tol = 0
-    )
+)
 {
   assert_positive_vector(x, name, tol = tol)
   assert_length_one(x, name)
@@ -106,7 +106,7 @@ assert_data.frame <- function(
     template = NULL,
     extends = TRUE,
     check_types = TRUE
-    )
+)
 {
   if (!inherits(x, "data.frame"))
     stop(paste0("'", name, "' must be a data.frame."))
@@ -131,7 +131,7 @@ assert_data.frame <- function(
       all(c(type, exp_type) %in% c("integer", "double"))
     if (!type_match)
       stop( paste0("Columm ", col, " must be of type '", exp_type, "'.") )
-    }
+  }
 
   if (extends | all(cols %in% exp_cols))
     return(invisible(TRUE))
@@ -139,7 +139,7 @@ assert_data.frame <- function(
   msg <- paste0("'", name, "' ",
                 "must have exactly the following columns: ",
                 paste0(exp_cols, collapse = ", ")
-                )
+  )
   stop(msg)
 }
 
@@ -173,16 +173,16 @@ assert_wms <- function(x, name  = deparse(substitute(x))) {
   stop(msg)
 }
 
-assert_rfms <- function(x, name  = deparse(substitute(x))) {
-  if (is_rfms(x))
+assert_management_system <- function(x, name  = deparse(substitute(x))) {
+  if (is_management_system(x))
     return(invisible(TRUE))
-  msg <- paste(name, "is not a valid 'erahumed_rfms' object.")
+  msg <- paste(name, "is not a valid 'erahumed_management_scheme' object.")
   stop(msg)
 }
 
-assert_rfa <- function(x, name  = deparse(substitute(x))) {
-  if (is_rfa(x))
+assert_cluster_map <- function(x, name  = deparse(substitute(x))) {
+  if (is_cluster_map(x))
     return(invisible(TRUE))
-  msg <- paste(name, "is not a valid 'erahumed_rfa' object.")
+  msg <- paste(name, "is not a valid 'erahumed_cluster_map' object.")
   stop(msg)
 }

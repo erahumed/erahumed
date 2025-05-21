@@ -1,23 +1,24 @@
-test_that("new_rfms() constructor succeeds", {
-  expect_no_error(new_rfms())
+test_that("new_management_system() constructor succeeds", {
+  expect_no_error(new_management_system())
 })
 
-test_that("new_rfms() creates an object of the correct class", {
-  rfms <- new_rfms()
-  expect_s3_class(rfms, "erahumed_rfms")
+test_that("new_management_system() creates an object of the correct class", {
+  system <- new_management_system()
+  expect_s3_class(system, "erahumed_management_system")
 })
 
 test_that("Validator succeeds", {
-  rfms <- new_rfms()
-  expect_no_error(assert_rfms(rfms))
+  system <- new_management_system()
+  expect_no_error(assert_management_system(system))
 })
 
 test_that("add_application() succeeds", {
-  rfms <- new_rfms()
+  system <- new_management_system()
   chemical <- acetamiprid()
-  expect_no_error(add_application(rfms = rfms,
-                                  chemical = chemical,
-                                  seed_day = 50,
-                                  amount_kg_ha = 1,
-                                  type = "ground"))
+  expect_no_error(schedule_application(system = system,
+                                       chemical = chemical,
+                                       seed_day = 50,
+                                       amount_kg_ha = 1,
+                                       type = "ground")
+  )
 })

@@ -1,37 +1,37 @@
-allocate_rfms <- function(rfa,
-                          rfms,
-                          target_fraction,
-                          ditches = paste0("d", 1:26),
-                          field_type = c("both", "regular", "tancat")
+allocate_surface <- function(map,
+                             system,
+                             target_fraction,
+                             ditches = paste0("d", 1:26),
+                             field_type = c("both", "regular", "tancat")
 )
 {
   tryCatch(
     {
-      assert_rfa(rfa)
-      assert_rfms(rfms)
+      assert_cluster_map(map)
+      assert_management_system(system)
       assert_positive_number(target_fraction)
       stopifnot(target_fraction <= 1)
       assert_character(ditches)
       field_type <- match.arg(field_type)
     },
     error = function(e) {
-      class(e) <- c("erahumed_allocate_rfms_error", class(e))
+      class(e) <- c("erahumed_allocate_surface_error", class(e))
       stop(e)
     })
 
-  rfa[["rfms"]] <- c(rfa[["rfms"]], list(rfms))
-  rfms_id <- length(rfa[["rfms"]])
+  map[["ms_list"]] <- c(map[["ms_list"]], list(system))
+  ms_id <- length(map[["ms_list"]])
 
   allocated_fraction <- 0
   while (allocated_fraction < target_fraction) {
-    candidates <- rfa_candidates(rfa, ditches, field_type)
+    candidates <- map_candidates(map, ditches, field_type)
     if (length(candidates) == 0)
       break
     cluster_id <- sample(candidates, 1)
-    rfa <- rfa_assign(rfa, cluster_id = cluster_id, rfms_id = rfms_id)
+    map <- map_assign(map, cluster_id = cluster_id, ms_id = ms_id)
 
-    allocated_fraction <- allocated_fraction + rfa_cluster_fraction(cluster_id)
+    allocated_fraction <- allocated_fraction + map_surface_fraction(cluster_id)
   }
 
-  return(rfa)
+  return(map)
 }
