@@ -49,12 +49,8 @@
 
 
 
-.hbc_data_prep <- function(simulation,
-                          management_df,
-                          clusters_df,
-                          ideal_flow_rate_cm,
-                          height_thresh_cm,
-                          cv_map)
+.hbc_data_prep <-
+  function(simulation, cluster_map, ideal_flow_rate_cm, height_thresh_cm)
 {
   res <- data.table::as.data.table( get_output(simulation, "hbl") )
 
@@ -63,9 +59,14 @@
   res$dd <- get_dd(as.POSIXlt(res$date))
   res$element_id <- NULL
 
-  clusters_df <- merge(clusters_df,
-                       cv_map[, c("element_id", "variety")],
-                       by = "element_id")
+
+  clusters_df <- merge(albufera_clusters,
+                       cluster_map$map_df,
+                       by.x = "element_id",
+                       by.y = "cluster_id")
+  clusters_df$variety <- clusters_df$ms_id
+
+  management_df <- get_management_df(cluster_map)
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),

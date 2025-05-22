@@ -11,8 +11,12 @@ ca_to_cluster_wrap <- function(cluster_hbc_df, ca_schedules_df)
                   previous_applications = previous_applications)
     }
 
+  # TODO: temp fix
+  cluster_hbc_df$variety <- c("J.Sendra", "Bomba", "Clearfield")[cluster_hbc_df$variety]
+
   variety <- cluster_hbc_df$variety[[1]]
   area_ha <- cluster_hbc_df$area_m2[[1]] * 1e-4
+
   applications_df <- ca_schedules_df |> (\(.) .[.$rice_variety == variety, ])()
 
   res <- cluster_hbc_df
