@@ -33,12 +33,9 @@
 #' @export
 new_cluster_map <- function(default_management_system = new_management_system())
 {
-  map_df <- data.frame(cluster_id = info_clusters()$element_id, ms_id = NA)
+  map_df <- data.frame(cluster_id = info_clusters()$element_id, ms_id = 1)
 
-  res <- list(map_df = map_df,
-              ms_list = list(),
-              default_ms = default_management_system
-              )
+  res <- list(map_df = map_df, ms_list = list(default_management_system))
 
   class(res) <- "erahumed_cluster_map"
 
@@ -51,24 +48,17 @@ is_cluster_map <- function(x) {
 
 #' @export
 print.erahumed_cluster_map <- function(x, ...) {
-  n_clusters <- nrow(x$map_df)
-  n_custom_ms <- length(x$ms_list)
-
   cat("<Cluster-to-Management Map>\n")
-  cat("  Clusters         :", n_clusters, "\n")
-  cat("  Management systems   :", n_custom_ms + 1, "\n")
+  cat("  Clusters         :", nrow(x$map_df), "\n")
+  cat("  Management systems   :", length(x$ms_list), "\n")
   invisible(x)
 }
 
 #' @export
 summary.erahumed_cluster_map <- function(object, ...) {
-  n_clusters <- nrow(object$map_df)
-  n_custom_ms <- length(object$ms_list)
-
-
   cat("<Cluster-to-Management Map Summary>\n")
-  cat("  Total clusters        :", n_clusters, "\n")
-  cat("  Management systems:", n_custom_ms + 1, "\n")
+  cat("  Total clusters        :", nrow(object$map_df), "\n")
+  cat("  Management systems:", length(object$ms_list), "\n")
 
   freq <- table(object$map_df$ms_id)
   df <- data.frame(ms_id = names(freq), assigned_clusters = as.integer(freq), row.names = NULL)
