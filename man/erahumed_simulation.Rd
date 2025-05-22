@@ -10,6 +10,7 @@ erahumed_simulation(
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
+  cluster_map = default_cluster_map(),
   storage_curve_slope_m2 = 23.66 * 1e+06,
   storage_curve_intercept_m3 = 16.75 * 1e+06,
   petp_surface_m2 = 53.9 * 1e+06,

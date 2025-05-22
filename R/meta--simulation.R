@@ -41,6 +41,7 @@ erahumed_simulation <- function(
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c("J.Sendra" = 0.8, "Bomba" = 0.1, "Clearfield" = 0.1),
+  cluster_map = default_cluster_map(),
   storage_curve_slope_m2 = 23.66 * 1e6,
   storage_curve_intercept_m3 = 16.75 * 1e6,
   petp_surface_m2 = 53.9 * 1e6,
@@ -98,9 +99,6 @@ erahumed_simulation <- function(
         stop("Invalid 'date' domain in 'weather_df' (not an interval)." )
       }
 
-      assert_positive_vector(variety_prop)
-      stopifnot(length(variety_prop) == 3)
-
       assert_positive_number(storage_curve_slope_m2)
 
       assert_positive_number(storage_curve_intercept_m3)
@@ -108,19 +106,6 @@ erahumed_simulation <- function(
       assert_positive_number(petp_surface_m2)
 
       assert_positive_number(ditch_level_m)
-
-      management_df_temp <- erahumed::albufera_management
-      assert_data.frame(management_df, template = management_df_temp)
-      dates <- paste(management_df$mm, management_df$dd)
-      dates_expected <- paste(management_df_temp$mm, management_df_temp$dd)
-      if (!setequal(unique(dates), unique(dates_expected))) {
-        msg <- paste(
-          "Provided 'management_df' has unexpected 'date' values.",
-          "Values should coincide with 'erahumed::albufera_management$date'"
-        )
-        stop(msg)
-      }
-
       assert_positive_number(ideal_flow_rate_cm)
 
       assert_positive_number(height_thresh_cm)
