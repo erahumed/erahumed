@@ -11,9 +11,10 @@ get_management_df <- function(cluster_map) {
 }
 
 get_applications_df <- function(cluster_map) {
+  chemical_db <- get_chemical_db(cluster_map)
   ms_list <- cluster_map$ms_list
   lapply(seq_along(ms_list), function(i) {
-    df <- get_applications_df0(ms_list[[i]])
+    df <- get_applications_df0(ms_list[[i]], chemical_db = chemical_db)
     df$variety <- i
     df
     }) |>
