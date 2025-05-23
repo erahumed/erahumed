@@ -8,3 +8,13 @@ get_management_df <- function(cluster_map) {
   }) |>
     Reduce(rbind, x = _)
 }
+
+get_applications_df <- function(cluster_map) {
+  ms_list <- cluster_map$ms_list
+  lapply(seq_along(ms_list), function(i) {
+    df <- get_applications_df0(ms_list[[i]])
+    df$variety <- i
+    }) |>
+    Reduce(rbind, x = _, init = data.frame())
+}
+
