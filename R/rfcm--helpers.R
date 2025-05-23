@@ -20,3 +20,16 @@ get_applications_df <- function(cluster_map) {
     Reduce(rbind, x = _, init = data.frame())
 }
 
+get_chemical_db <- function(cluster_map) {
+  # If necessary, here we could make this O(N) by using an r2r::hashmap()
+  res <- list()
+  for (system in cluster_map$ms_list) {
+    for (application in system$applications) {
+      if(any( sapply(res, \(x) identical(x, application$chemical)) ))
+         next
+      res <- c(res, list(application$chemical))
+      }
+    }
+  return(res)
+}
+
