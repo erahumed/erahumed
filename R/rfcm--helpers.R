@@ -33,3 +33,16 @@ get_chemical_db <- function(cluster_map) {
   return(res)
 }
 
+match_chemical <- function(chemical, db) {
+  comparisons <- sapply(db, \(x) identical(chemical, x))
+  matches <- which(comparisons)
+
+  if (length(matches) == 0) {
+    return(NA)
+  } else if (length(matches) > 1) {
+    stop("Multiple matches for chemical")
+  }
+
+  return(matches)
+}
+
