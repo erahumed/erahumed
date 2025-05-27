@@ -27,10 +27,12 @@
 
       cluster_inflows_df <- cluster_inflows_df_list[[ element_id ]]
       cluster_inflows_m3_s <- lapply(cluster_inflows_df, function(df) {
-          df[df$chemical_id == chemical_id, outflow_m3] / s_per_day()
+          idx <- df$chemical_id == chemical_id
+          df[idx, outflow_m3] / s_per_day()
         })
       cluster_inflow_densities_kg_m3 <- lapply(cluster_inflows_df, function(df){
-          df[df$chemical_id == chemical_id, cw_outflow_kg_m3]
+          idx <- df$chemical_id == chemical_id
+          df[idx, cw_outflow_kg_m3]
         })
 
       ct_ts_df <- ct_time_series(
