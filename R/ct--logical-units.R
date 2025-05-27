@@ -1,5 +1,5 @@
-ct_get_param <- function(chemical, parameter) {
-  albufera_ct_parameters [[ chemical ]] [[ parameter ]]
+ct_get_param <- function(chemical, parameter, chemical_db) {
+  chemical_db [[ chemical ]] [[ parameter ]]
 }
 
 ct_fds <- function(pos, kd_cm3_g, bd_g_cm3) {

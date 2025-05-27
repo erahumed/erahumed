@@ -119,15 +119,15 @@ erahumed_simulation <- function(
 
   res <- initialize_erahumed_simulation(inputs = as.list(environment()))
 
-  res$etc$cluster_variety_map <-
-    withr::with_seed(seed, generate_clusters_variety(variety_prop))
+  res$etc$management_df <- get_management_df(cluster_map)
+  res$etc$chemical_db <- get_chemical_db(cluster_map)
+  res$etc$applications_df <- get_applications_df(cluster_map)
 
   res |>
     compute_inp() |>
     compute_hbl() |>
     compute_hbc() |>
     compute_hbd() |>
-    compute_ca() |>
     compute_ctc() |>
     compute_ctd() |>
     compute_ctl() |>
