@@ -19,6 +19,7 @@ dss_run_server <- function(id, parameters, run) {
         do.call(erahumed_simulation, parameters()),
         error = function(e) {
           shiny::showNotification(paste("Simulation error:", e$message), type = "error")
+          cat(e$message)
           shiny::req(FALSE)
         },
         finally = shiny::removeNotification(id = ns("rerun_notif"))

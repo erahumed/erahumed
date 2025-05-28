@@ -67,8 +67,7 @@ erahumed_simulation <- function(
         stop("'date_start' must be earlier than or equal to 'date_end'.")
       }
 
-      outflows_df_template <- erahumed::albufera_outflows
-      assert_data.frame(outflows_df, template = outflows_df_template)
+      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
 
       assert_data.frame(weather_df, template = erahumed::albufera_weather)
 
@@ -84,12 +83,11 @@ erahumed_simulation <- function(
         date_start < min(c(outflows_df$date, weather_df$date)) ||
         date_end > max(c(outflows_df$date, weather_df$date))
         ) {
-        msg <- paste(
+        stop(paste(
           "Input data for the specified date interval is incomplete. ",
           "Please check the 'date_start'/'date_end' parameters'",
           "and the 'outflows_df' and 'weather_df' data.frames."
-        )
-        stop(msg)
+        ))
       }
 
       if (any(diff(weather_df$date) != 1)) {

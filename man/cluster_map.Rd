@@ -6,7 +6,7 @@
 \alias{new_cluster_map}
 \title{Cluster-Based Management Assignment}
 \usage{
-default_cluster_map()
+default_cluster_map(seed = 840)
 
 new_cluster_map(default_management_system = new_management_system())
 }

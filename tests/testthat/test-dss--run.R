@@ -4,13 +4,12 @@ test_that("Server runs without error", {
   expect_no_error( shiny::testServer(dss_run_server, {}) )
 })
 
-parameters <- formals(erahumed_simulation) |>
-  as.list() |>
-  (\(.) {.$date_end <- "2020-01-10"; .})() |>
-  shiny::reactive()
+
+
+mock_sim <- erahumed_simulation(date_end = "2020-01-10")
+parameters <- shiny::reactive(mock_sim$inputs)
 
 test_that("Server returns a erahumed_simulation", {
-  skip("TODO")
   shiny::testServer(dss_run_server, {
     expect_no_error(res <- session$returned)
     expect_no_error(res())

@@ -7,18 +7,16 @@
 erahumed_simulation(
   date_start = "2020-01-01",
   date_end = "2020-12-31",
+  seed = 840,
+  cluster_map = default_cluster_map(seed = seed),
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
-  variety_prop = c(J.Sendra = 0.8, Bomba = 0.1, Clearfield = 0.1),
-  cluster_map = default_cluster_map(),
   storage_curve_slope_m2 = 23.66 * 1e+06,
   storage_curve_intercept_m3 = 16.75 * 1e+06,
   petp_surface_m2 = 53.9 * 1e+06,
-  management_df = erahumed::albufera_management,
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
   ditch_level_m = 1,
-  ca_schedules_df = erahumed::albufera_ca_schedules,
   drift = 0,
   covmax = 0.5,
   jgrow = 152,
@@ -27,8 +25,7 @@ erahumed_simulation(
   foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
-  porosity = 0.11,
-  seed = 840
+  porosity = 0.11
 )
 }
 \arguments{
@@ -36,11 +33,11 @@ erahumed_simulation(
 
 \item{date_end}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the ending date of the date interval for the simulation.}
 
+\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
+
 \item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
 
 \item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
-
-\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the relative proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively.}
 
 \item{storage_curve_slope_m2}{\verb{[numeric(1)]} \cr Slope of the (linear) storage curve of the Albufera Lake, in square meters. Multiplying this value by the change in the lake's water level gives the corresponding change in water \emph{volume}. The default numeric values are derived from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
@@ -48,15 +45,11 @@ erahumed_simulation(
 
 \item{petp_surface_m2}{\verb{[numeric(1)]} \cr The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.}
 
-\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
-
 \item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters per day.}
 
 \item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 
 \item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
-
-\item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
 
 \item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of applied chemical lost to drift during application.}
 
@@ -76,7 +69,11 @@ erahumed_simulation(
 
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 
-\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
+\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the relative proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively.}
+
+\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
+
+\item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
 }
 \value{
 An object of class \code{erahumed_simulation}.
