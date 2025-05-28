@@ -116,7 +116,7 @@ test_that("draining is the delayed version of ideal_draining", {
 })
 
 test_that("simple snapshot is constant", {
-  skip("TODO: review")
+  skip("TODO")
   skip_on_ci()  # Gives inconsistent result across different platforms
 
   test_df <- get_output(test_sim_large(), "hbc")
