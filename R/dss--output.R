@@ -96,20 +96,23 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$selected_wb_info <- shiny::renderText({
-      cvmap <- get_etc(simulation(), "cluster_variety_map")[, c("element_id", "variety")]
 
       if ( element_type() == "c" ) {
+        cvmap <- get_input(simulation(), "cluster_map")[["map_df"]]
+        cvmap$variety <- cvmap$ms_id
+        cvmap$element_id <- cvmap$cluster_id
+        cvmap <- cvmap[, c("element_id", "variety")]
+
         cluster_data <- info_clusters() |>
           (\(.) .[.$element_id == input$water_body, ])() |>
           merge(cvmap, by = "element_id") |>
           merge(info_ditches(), by.x = "ditch_element_id", by.y = "element_id")
 
-
         paste0("Cluster: ", cluster_data$cluster_name,
                " - Ditch: ", cluster_data$ditch_name,
                " - Tancat: ", cluster_data$tancat,
                " - Variety: ", cluster_data$variety)
-      } else if ( element_type() == "d" ) {
+        } else if ( element_type() == "d" ) {
         ditch_data <- info_ditches() |>
           (\(.) .[.$element_id == input$water_body, ])()
         paste0("Ditch: ", ditch_data$ditch_name)
