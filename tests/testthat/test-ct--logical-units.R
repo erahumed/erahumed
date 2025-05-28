@@ -71,10 +71,11 @@ test_that("ct_kdifus_m_day(): is always positive with the standard inputs", {
   }
 
 })
-test_that("ct_kdifus_m_day(): is always positive", {
-  skip("ct_kdifus_m_day() can become negative outside of the approx regime")
-  expect_gte(ct_kdifus_m_day(pos = 1, MW = 1), 0)
-})
+
+# test_that("ct_kdifus_m_day(): is always positive", {
+#   skip("ct_kdifus_m_day() can become negative outside of the approx regime")
+#   expect_gte(ct_kdifus_m_day(pos = 1, MW = 1), 0)
+# })
 
 test_that("ct_cover(): is a percentage series with the standard inputs", {
   global_params <- formals(erahumed_simulation)
