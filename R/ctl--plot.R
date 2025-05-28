@@ -13,7 +13,7 @@ plot_ctl <- function(
 
   ct_plot_time_series_density(data,
                               compartment = compartment,
-                              chemicals = chemical_ids,
+                              chemical_ids = chemical_ids,
                               dygraph_group = dygraph_group,
                               chemical_db = get_etc(simulation, "chemical_db")
                               )
