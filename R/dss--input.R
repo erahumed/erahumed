@@ -29,7 +29,6 @@ dss_input_ui <- function(id) {
       dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
       dss_input_height_thresh_cm(ns("height_thresh_cm")),
       dss_input_ditch_level_m(ns("ditch_level_m")),
-      dss_input_management_df_button(ns("open_management_df_modal"))
     )
 
   )
@@ -38,8 +37,6 @@ dss_input_ui <- function(id) {
   pesticide_applications_ui <- bslib::layout_column_wrap(
     dss_input_drift(ns("drift")),
     dss_input_covmax(ns("covmax")),
-    dss_input_prop_variety_slider(ns("prop_variety_12")),
-    dss_input_ca_schedules_df_button(ns("open_ca_schedules_df_modal"))
     )
 
   physchem_parameters_ui <- bslib::layout_column_wrap(
@@ -114,41 +111,6 @@ dss_input_server <- function(id) {
       ))
     })
 
-    management_df <- csvInputServer("management",
-                                    erahumed::albufera_management,
-                                    reset = reset_reactive)
-    shiny::observeEvent(input$open_management_df_modal, {
-      shiny::showModal(shiny::modalDialog(
-        csvInputUI(
-          ns("management"),
-          columns = erahumed_input_docs("management_df", "columns")
-        ),
-        title = shiny::p("Setup Management Dataset", dss_input_tooltip("management_df")),
-        size = "xl"
-      ))
-    })
-
-    ca_schedules_df <- csvInputServer("applications",
-                                      erahumed::albufera_ca_schedules,
-                                      reset = reset_reactive)
-    shiny::observeEvent(input$open_ca_schedules_df_modal, {
-      shiny::showModal(shiny::modalDialog(
-        csvInputUI(
-          ns("applications"),
-          columns = erahumed_input_docs("ca_schedules_df", "columns")
-        ),
-        title = shiny::p("Setup Applications Dataset", dss_input_tooltip("ca_schedules_df")),
-        size = "xl"
-      ))
-    })
-
-    variety_prop <- shiny::reactive({
-      c(input$prop_variety_12[[1]],
-        input$prop_variety_12[[2]] - input$prop_variety_12[[1]],
-        1 - input$prop_variety_12[[2]]
-        )
-    })
-
     shiny::observe({
       shinyjs::reset("input-ui")
       }) |> shiny::bindEvent(input$reset)
@@ -161,15 +123,12 @@ dss_input_server <- function(id) {
         date_end = input$date_range[[2]],
         outflows_df = outflows_df(),
         weather_df = weather_df(),
-        variety_prop = variety_prop(),
         storage_curve_slope_m2 = 1e6 * input$sc_slope,
         storage_curve_intercept_m3 = 1e6 * input$sc_intercept,
         petp_surface_m2 = 1e6 * input$petp_surface,
-        management_df = management_df(),
         ideal_flow_rate_cm = input$ideal_flow_rate_cm,
         height_thresh_cm = input$height_thresh_cm,
         ditch_level_m = input$ditch_level_m,
-        ca_schedules_df = ca_schedules_df(),
         drift = input$drift,
         covmax = input$covmax,
         jgrow = input$jgrow,
