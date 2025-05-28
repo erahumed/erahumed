@@ -10,7 +10,7 @@ map_candidates <- function(map,
   df <- map$map_df |>
     merge(info_clusters(), by.x = "cluster_id", by.y = "element_id")
 
-  df <- df[is.na(df$ms_id), ]
+  df <- df[df$ms_id == 1, ]
 
   df <- df[df$ditch_element_id %in% ditches, ]
 

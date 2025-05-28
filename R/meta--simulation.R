@@ -38,10 +38,11 @@
 erahumed_simulation <- function(
   date_start = "2020-01-01",
   date_end = "2020-12-31",
+  seed = 840,
+  cluster_map = default_cluster_map(seed = seed),
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
   variety_prop = c("J.Sendra" = 0.8, "Bomba" = 0.1, "Clearfield" = 0.1),
-  cluster_map = default_cluster_map(),
   storage_curve_slope_m2 = 23.66 * 1e6,
   storage_curve_intercept_m3 = 16.75 * 1e6,
   petp_surface_m2 = 53.9 * 1e6,
@@ -58,8 +59,7 @@ erahumed_simulation <- function(
   foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
-  porosity = 0.11,
-  seed = 840
+  porosity = 0.11
   )
 {
   tryCatch(

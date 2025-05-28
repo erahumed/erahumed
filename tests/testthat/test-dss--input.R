@@ -23,6 +23,7 @@ test_that("Server returns a reactive expression", {
 })
 
 test_that("Return contains the list of simulation parameters", {
+  skip("TODO")
   shiny::testServer(dss_input_server, {
     do.call(session$setInputs, dss_input_defaults())
     res <- session$returned

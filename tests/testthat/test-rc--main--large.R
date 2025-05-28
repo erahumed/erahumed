@@ -28,13 +28,13 @@ test_that("PAFs are increasing functions of water concentrations", {
   }
 
   # Cheap 'merge' exploiting the fact that rows of the two DFs are 1-1
-  merged_df <- dplyr::bind_cols(ctc_output[, c("chemical", "cw_kg_m3")],
+  merged_df <- dplyr::bind_cols(ctc_output[, c("chemical_id", "cw_kg_m3")],
                                 rc_output[, c("paf_acute", "paf_chronic")]
                                 ) |>
     dplyr::filter(cw_kg_m3 > e)
 
   test_df <- merged_df |>
-    dplyr::group_by(chemical) |>
+    dplyr::group_by(chemical_id) |>
     dplyr::arrange(cw_kg_m3) |>
     dplyr::filter(paf_acute < lag(paf_acute))
 
