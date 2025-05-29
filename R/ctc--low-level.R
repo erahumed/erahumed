@@ -16,13 +16,15 @@
 
   lapply(seq_along(get_etc(simulation, "chemical_db")), function(chemical_id) {
     lapply(hbc_split, \(cluster_ts_df) {
-      element_id <- cluster_ts_df[["element_id"]]
-      date <- cluster_ts_df[["date"]]
+      element_id <- cluster_ts_df[["element_id"]][[1]]
       area_m2 <- cluster_ts_df[["area_m2"]][[1]]
+      variety <- cluster_ts_df[["variety"]][[1]]
+      date <- cluster_ts_df[["date"]]
 
       ct_ts_df <- ct_time_series(
         application_kg = get_application_kg_vector(
           chemical = chemical_id,
+          variety = variety,
           applications_df = applications_df,
           seed_day = cluster_ts_df[["seed_day"]],
           plan_delay = cluster_ts_df[["plan_delay"]],
