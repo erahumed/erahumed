@@ -35,7 +35,7 @@ ct_plot_time_series_density <- function(data,
     (\(df) {
       # Rename columns from e.g., "density5" to "chemical_name (5)"
       names(df) <- gsub("density", "", names(df), fixed = TRUE)
-      col_ids <- setdiff(names(df), "date")
+      col_ids <- as.numeric( setdiff(names(df), "date") )
       col_labels <- sapply(col_ids, \(id) chemical_db[[id]][["display_name"]])
       if (anyDuplicated(col_labels)) {
         col_labels <- paste0(col_labels, " (", col_ids, ")")
@@ -47,7 +47,7 @@ ct_plot_time_series_density <- function(data,
   chemical_names <- setdiff(names(plot_df), "date")
 
   # Color mapping should still use readable labels
-  # dy_colors <- chemical_color_map()[get_name(as.integer(gsub(".*\\((\\d+)\\)", "\\1", chemical_names)))] |> unname()
+  dy_colors <- chemical_color_map(chemical_db)
 
   value_fmt <- sprintf("function(d) { return d.toPrecision(3) + ' %s'; }", units)
 
@@ -63,6 +63,6 @@ ct_plot_time_series_density <- function(data,
                        labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    #dygraphs::dyOptions(colors = dy_colors) |>  TODO:
+    dygraphs::dyOptions(colors = dy_colors) |>
     identity()
 }

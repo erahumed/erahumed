@@ -1,6 +1,7 @@
 plot_risk <- function(r_output,
                       type = c("chronic", "acute"),
-                      dygraph_group = NULL)
+                      dygraph_group = NULL,
+                      chemical_db)
 {
   type <- match.arg(type)
 
@@ -79,10 +80,10 @@ plot_risk <- function(r_output,
       )) # Hide ticks and label for y2
 
   # Add each individual series as part of the stacked graph
-  for (col in cols_without_total) {
-    color <- chemical_color_map()[col]
+  for (col in seq_along(cols_without_total)) {
+    color <- chemical_color_map(chemical_db)[col]
     if (is.na(color)) color <- "#888888"
-    g <- g |> dygraphs::dySeries(col, axis = "y", color = color)
+    g <- g |> dygraphs::dySeries(cols_without_total[col], axis = "y", color = color)
   }
 
   # Add the msPAF line separately on a second y-axis

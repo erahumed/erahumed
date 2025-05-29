@@ -8,5 +8,9 @@ plot_rl <- function(simulation,
 
   r_output <- get_output(simulation, "rl")
 
-  plot_risk(r_output, type = type, dygraph_group = dygraph_group)
+  plot_risk(r_output,
+            type = type,
+            dygraph_group = dygraph_group,
+            chemical_db = get_etc(simulation, "chemical_db")
+            )
 }
