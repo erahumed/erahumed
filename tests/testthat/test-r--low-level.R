@@ -1,6 +1,6 @@
 test_that("risk_from_sdss produces the expected output in toy case", {
   # NB: the exponential of the SSD mean parameter is in micrograms per liter
-  acetamiprid_at_0.5_acute_risk <- acetamiprid()$ssd_acute_mu / 1e6
+  acetamiprid_at_0.5_acute_risk <- exp(acetamiprid()$ssd_acute_mu) / 1e6
 
   ct_output <- data.frame(
     date = "2000-01-01",
@@ -31,8 +31,8 @@ test_that("Chemicals from same TMoA group combine additively", {
     if (chemical_db[[i]]$display_name %in% c("Cyhalofop-butyl", "Cycloxydim"))
       chemical_id <- c(chemical_id, i)
 
-  cyhalo_half_hu <- 0.5 * cyhalofop_butyl()$ssd_acute_mu / 1e6
-  cycloxydim_half_hu <- 0.5 * cycloxydim()$ssd_acute_mu / 1e6
+  cyhalo_half_hu <- 0.5 * exp(cyhalofop_butyl()$ssd_acute_mu) / 1e6
+  cycloxydim_half_hu <- 0.5 * exp(cycloxydim()$ssd_acute_mu) / 1e6
 
   ct_output <- data.frame(
     date = "2000-01-01",

@@ -14,8 +14,8 @@ risk_from_ssds <- function(ct_output, chemical_db) {
       chemical_id <- df$chemical_id[[1]]
 
 
-      df$median_acute <- ct_get_param(chemical_id, "ssd_acute_mu", chemical_db)
-      df$median_chronic <- ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db)
+      df$median_acute <- exp( ct_get_param(chemical_id, "ssd_acute_mu", chemical_db) )
+      df$median_chronic <- exp( ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db) )
 
       df$sd_acute <- ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
       df$sd_chronic <-  ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
