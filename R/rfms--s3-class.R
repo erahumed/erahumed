@@ -7,14 +7,14 @@
 #' @param harvesting_yday `[integer(1)]` \cr
 #' Day of the year marking the end of the sowing season (1–366, assuming a leap year).
 #' @param perellona_start_yday `[integer(1)]` \cr
-#' Day of the year marking the beginning of the *Perelloná* flooding period (after harvest).
+#' Day of the year marking the beginning of the *Perellona* flooding period (after harvest).
 #' @param perellona_end_yday `[integer(1)]` \cr
-#' Day of the year marking the end of the *Perelloná* flooding period (before sowing).
+#' Day of the year marking the end of the *Perellona* flooding period (before sowing).
 #' @param flow_height_cm `[numeric(1)]` \cr
 #' Target water level (in cm) during the regular days of the sowing season,
 #' excluding emptying and transition days.
 #' @param perellona_height_cm `[numeric(1)]` \cr
-#' Target water level (in cm) during the *Perelloná* flooding period.
+#' Target water level (in cm) during the *Perellona* flooding period.
 #'
 #' @return An object of class `erahumed_management_system`.
 #'

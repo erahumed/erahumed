@@ -31,17 +31,17 @@ Day of the year marking the start of the sowing season (1–366, assuming a leap
 Day of the year marking the end of the sowing season (1–366, assuming a leap year).}
 
 \item{perellona_end_yday}{\verb{[integer(1)]} \cr
-Day of the year marking the end of the \emph{Perelloná} flooding period (before sowing).}
+Day of the year marking the end of the \emph{Perellona} flooding period (before sowing).}
 
 \item{perellona_start_yday}{\verb{[integer(1)]} \cr
-Day of the year marking the beginning of the \emph{Perelloná} flooding period (after harvest).}
+Day of the year marking the beginning of the \emph{Perellona} flooding period (after harvest).}
 
 \item{flow_height_cm}{\verb{[numeric(1)]} \cr
 Target water level (in cm) during the regular days of the sowing season,
 excluding emptying and transition days.}
 
 \item{perellona_height_cm}{\verb{[numeric(1)]} \cr
-Target water level (in cm) during the \emph{Perelloná} flooding period.}
+Target water level (in cm) during the \emph{Perellona} flooding period.}
 }
 \value{
 An object of class \code{erahumed_management_system}.
