@@ -1,7 +1,6 @@
 library(shinytest2)
 
 test_that("Initial Shiny values are consistent", {
-  skip("TODO")
   skip_on_ci()
   skip_on_covr()
 

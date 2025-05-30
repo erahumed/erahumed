@@ -63,7 +63,6 @@ test_that("All compartments of all clusters have at least one >0 value", {
 
 
 test_that("simple snapshot is constant", {
-  skip("TODO")
   skip_on_ci()  # Gives inconsistent result across different platforms
 
   test_df <- get_output(test_sim_large(), "ctc")
