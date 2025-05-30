@@ -1,7 +1,5 @@
 #' Cluster-Based Management Assignment
 #'
-#' Create and manage cluster-specific rice field management systems.
-#'
 #' These functions define how different rice field management systems are
 #' assigned to spatial clusters within the simulation. Each cluster can be
 #' associated with a specific management strategy, allowing for heterogeneous

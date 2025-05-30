@@ -23,13 +23,12 @@ created with \code{\link[=new_management_system]{new_management_system()}} or a 
 An object of class \code{erahumed_cluster_map}.
 }
 \description{
-Create and manage cluster-specific rice field management systems.
-}
-\details{
 These functions define how different rice field management systems are
 assigned to spatial clusters within the simulation. Each cluster can be
 associated with a specific management strategy, allowing for heterogeneous
 management across the simulation domain.
+}
+\details{
 \itemize{
 \item \code{new_cluster_map()} initializes a cluster map with all clusters assigned
 the same default management system.
