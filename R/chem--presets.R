@@ -1,3 +1,20 @@
+#' Predefined pesticide definitions
+#'
+#' These functions return predefined objects of class [chemical],
+#' representing commonly used pesticides and their properties.
+#'
+#' @return An object of class [chemical].
+#'
+#' @examples
+#' acetamiprid()
+#'
+#' @name pesticides
+#' @aliases acetamiprid azoxystrobin bentazone cycloxydim cyhalofop_butyl
+#'   difenoconazole mcpa penoxsulam
+NULL
+
+#' @rdname pesticides
+#' @export
 acetamiprid <- function() {
   chemical(display_name = "Acetamiprid",
            tmoa_id = "NicotinicAcetylcholine",
@@ -24,6 +41,8 @@ acetamiprid <- function() {
            ssd_chronic_sigma = 3.5763254)
 }
 
+#' @rdname pesticides
+#' @export
 azoxystrobin <- function() {
   chemical(display_name = "Azoxystrobin",
            tmoa_id = "C_Respiration",
@@ -50,6 +69,8 @@ azoxystrobin <- function() {
            ssd_chronic_sigma = 2.15852371)
 }
 
+#' @rdname pesticides
+#' @export
 bentazone <- function() {
   chemical(display_name = "Bentazone",
            tmoa_id = "Photosynthesis_PSII",
@@ -76,6 +97,8 @@ bentazone <- function() {
            ssd_chronic_sigma = 2.03936956)
 }
 
+#' @rdname pesticides
+#' @export
 cycloxydim <- function() {
   chemical(display_name = "Cycloxydim",
            tmoa_id = "AcetylCoA",
@@ -102,6 +125,8 @@ cycloxydim <- function() {
            ssd_chronic_sigma = 2.640179)
 }
 
+#' @rdname pesticides
+#' @export
 cyhalofop_butyl <- function() {
   chemical(display_name = "Cyhalofop-butyl",
            tmoa_id = "AcetylCoA",
@@ -128,6 +153,8 @@ cyhalofop_butyl <- function() {
            ssd_chronic_sigma = 2.502751)
 }
 
+#' @rdname pesticides
+#' @export
 difenoconazole <- function() {
   chemical(display_name = "Difenoconazole",
            tmoa_id = "Sterol_biosynthesis",
@@ -154,6 +181,8 @@ difenoconazole <- function() {
            ssd_chronic_sigma = 2.15882)
 }
 
+#' @rdname pesticides
+#' @export
 mcpa <- function() {
   chemical(display_name = "MCPA",
            tmoa_id = "Auxin_mimics",
@@ -180,6 +209,8 @@ mcpa <- function() {
            ssd_chronic_sigma = 2.92852)
 }
 
+#' @rdname pesticides
+#' @export
 penoxsulam <- function() {
   chemical(display_name = "Penoxsulam",
            tmoa_id = "AcetoLactate",
