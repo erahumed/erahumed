@@ -61,7 +61,7 @@ rice varieties, respectively.
 }
 
 Additional chemical applications can be scheduled using the helper function
-\code{\link[=add_application]{add_application()}}. The default values of the arguments of
+\code{\link[=schedule_application]{schedule_application()}}. The default values of the arguments of
 \code{new_management_system()} coincide with those used internally by \code{jsendra()},
 \code{bomba()}, and \code{clearfield()}.
 }

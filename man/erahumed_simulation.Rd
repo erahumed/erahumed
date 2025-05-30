@@ -35,6 +35,8 @@ erahumed_simulation(
 
 \item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 
+\item{cluster_map}{\verb{[N.D.]} \cr No description available. If you think this is a bug, please reach out to us by filing an issue \href{https://github.com/erahumed/erahumed/issues}{on Github}.}
+
 \item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
 
 \item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
@@ -68,12 +70,6 @@ erahumed_simulation(
 \item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, \emph{i.e.} the rate at which water seeps through the sediment or soil. Expressed in meters per day.}
 
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
-
-\item{variety_prop}{\verb{[numeric(3)]} \cr Vector of \code{3} positive values. Controls the relative proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively.}
-
-\item{management_df}{\verb{[data.frame]} \cr Dataset that provides the yearly schedule for irrigation and draining, along the template of \link{albufera_management} (the default value).}
-
-\item{ca_schedules_df}{\verb{[data.frame]} \cr A dataset that provides the list of scheduled chemical applications, along the template of \link{albufera_ca_schedules}.}
 }
 \value{
 An object of class \code{erahumed_simulation}.

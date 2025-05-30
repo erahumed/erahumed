@@ -154,7 +154,7 @@ print.erahumed_chemical <- function(x, ...) {
 
   cat("Physico-chemical properties:\n")
   cat(sprintf("  Solubility:      %.2f ppm\n", x$sol_ppm))
-  cat(sprintf("  Koc:             %.2f cm³/g\n", x$koc_cm3_g))
+  cat(sprintf("  Koc:             %.2f cm\u{00B3}/g\n", x$koc_cm3_g))
   cat(sprintf("  Depth incorp.:   %.3f m\n", x$dinc_m))
   cat(sprintf("  Film thickness:  %.3f cm\n", x$fet_cm))
   cat(sprintf("  Settling rate:   %.3f m/day\n", x$ksetl_m_day))
@@ -162,13 +162,13 @@ print.erahumed_chemical <- function(x, ...) {
 
   cat("Degradation rates:\n")
   cat(sprintf("  kf (floodwater):           %.4f 1/day\n", x$kf_day))
-  cat(sprintf("  kw (water column):         %.4f 1/day @ %.1f°C (Q10 = %.2f)\n", x$kw_day, x$kw_temp, x$Q10_kw))
-  cat(sprintf("  ks (saturated sediment):   %.4f 1/day @ %.1f°C (Q10 = %.2f)\n", x$ks_sat_day, x$ks_sat_temp, x$Q10_ks_sat))
-  cat(sprintf("  ks (unsaturated sediment): %.4f 1/day @ %.1f°C (Q10 = %.2f)\n\n", x$ks_unsat_day, x$ks_unsat_temp, x$Q10_ks_unsat))
+  cat(sprintf("  kw (water column):         %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n", x$kw_day, x$kw_temp, x$Q10_kw))
+  cat(sprintf("  ks (saturated sediment):   %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n", x$ks_sat_day, x$ks_sat_temp, x$Q10_ks_sat))
+  cat(sprintf("  ks (unsaturated sediment): %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n\n", x$ks_unsat_day, x$ks_unsat_temp, x$Q10_ks_unsat))
 
-  cat("Toxicity (SSD, log₁₀ scale):\n")
-  cat(sprintf("  Acute   mean ± sd: %.2f ± %.2f\n", x$ssd_acute_mu, x$ssd_acute_sigma))
-  cat(sprintf("  Chronic mean ± sd: %.2f ± %.2f\n", x$ssd_chronic_mu, x$ssd_chronic_sigma))
+  cat("Toxicity (SSD, log\u{2081}\u{2080} scale):\n")
+  cat(sprintf("  Acute   mean \u{00B1} sd: %.2f \u{00B1} %.2f\n", x$ssd_acute_mu, x$ssd_acute_sigma))
+  cat(sprintf("  Chronic mean \u{00B1} sd: %.2f \u{00B1} %.2f\n", x$ssd_chronic_mu, x$ssd_chronic_sigma))
   invisible(x)
 }
 

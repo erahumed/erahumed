@@ -9,15 +9,13 @@
 #' @param date_end `r input_roxy("date_end")`
 #' @param outflows_df `r input_roxy("outflows_df")`
 #' @param weather_df `r input_roxy("weather_df")`
-#' @param variety_prop `r input_roxy("variety_prop")`
+#' @param cluster_map `r input_roxy("cluster_map")`
 #' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
 #' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
 #' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
-#' @param management_df `r input_roxy("management_df")`
 #' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
 #' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
 #' @param ditch_level_m `r input_roxy("ditch_level_m")`
-#' @param ca_schedules_df `r input_roxy("ca_schedules_df")`
 #' @param drift `r input_roxy("drift")`
 #' @param covmax `r input_roxy("covmax")`
 #' @param jgrow `r input_roxy("jgrow")`

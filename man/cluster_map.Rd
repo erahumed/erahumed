@@ -11,6 +11,10 @@ default_cluster_map(seed = 840)
 new_cluster_map(default_management_system = new_management_system())
 }
 \arguments{
+\item{seed}{\verb{[numeric(1)]} \cr
+Seed for random number generation in the assignation of clusters to
+management systems.}
+
 \item{default_management_system}{\code{[}\link[=management_system]{erahumed_management_system}\verb{]} \cr
 A default management system assigned to all clusters initially. Typically
 created with \code{\link[=new_management_system]{new_management_system()}} or a helper like \code{\link[=jsendra]{jsendra()}}.}

@@ -28,7 +28,7 @@
 #'   rice varieties, respectively.
 #'
 #' Additional chemical applications can be scheduled using the helper function
-#' [add_application()]. The default values of the arguments of
+#' [schedule_application()]. The default values of the arguments of
 #' `new_management_system()` coincide with those used internally by `jsendra()`,
 #' `bomba()`, and `clearfield()`.
 #'
@@ -79,7 +79,7 @@ new_management_system <- function(
 is_management_system <- function(x) {
   inherits(x, "erahumed_management_system") &&
     is.list(x) &&
-    hasName(x, "applications")
+    utils::hasName(x, "applications")
 }
 
 #' Schedule chemical application
@@ -184,7 +184,7 @@ chemical_application <- function(chemical,
 print.erahumed_management_system <- function(x, ...) {
   cat("<Rice Field Management System>\n")
   cat("  Sowing period     : Day", x$sowing_yday, "to", x$harvesting_yday, "\n")
-  cat("  Perelloná period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
+  cat("  Perellon\u{00E1} period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
   cat("  Flow height       :", x$flow_height_cm, "cm during sowing season\n")
   cat("  Perelloná height  :", x$perellona_height_cm, "cm during Perelloná\n")
   cat("  Applications      :", length(x$applications), "chemical application(s)\n")
@@ -197,9 +197,9 @@ summary.erahumed_management_system <- function(object, ...) {
 
   cat("<Rice Field Management System Summary>\n")
   cat("  Sowing period      : Day", object$sowing_yday, "to", object$harvesting_yday, "\n")
-  cat("  Perelloná period   : Day", object$perellona_start_yday, "to", object$perellona_end_yday, "\n")
+  cat("  Perellon\u{00E1} period   : Day", object$perellona_start_yday, "to", object$perellona_end_yday, "\n")
   cat("  Flow height        :", object$flow_height_cm, "cm\n")
-  cat("  Perelloná height   :", object$perellona_height_cm, "cm\n")
+  cat("  Perellon\u{00E1} height   :", object$perellona_height_cm, "cm\n")
   cat("  Applications       :", n_app, "scheduled\n\n")
 
   if (n_app == 0) {

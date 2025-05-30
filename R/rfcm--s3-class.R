@@ -10,6 +10,9 @@
 #' @param default_management_system `[`[erahumed_management_system][management_system]`]` \cr
 #'   A default management system assigned to all clusters initially. Typically
 #'   created with [new_management_system()] or a helper like [jsendra()].
+#' @param seed `[numeric(1)]` \cr
+#'  Seed for random number generation in the assignation of clusters to
+#'  management systems.
 #'
 #' @return An object of class `erahumed_cluster_map`.
 #'
