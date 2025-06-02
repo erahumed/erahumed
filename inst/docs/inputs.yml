@@ -59,15 +59,6 @@ weather_df:
     evapotranspiration_mm: >-
       Daily evapotranspiration (millimeters).
 
-variety_prop:
-  name: "Rice variety proportion"
-  group: "Pesticide application scheme"
-  type: "numeric(3)"
-  description: >-
-    Vector of `3` positive values. Controls the relative proportions
-    of field surface allocated to the cultivation of the J. Sendra, Bomba,
-    and Clearfield varieties, respectively.
-
 storage_curve_slope_m2:
   name: "Storage curve slope"
   group: "Hydrology"
@@ -102,36 +93,6 @@ petp_surface_m2:
     corresponds to the average flooded surface of the Albufera lake and its
     irrigation ditches.
 
-management_df:
-  name: "Rice paddy management data frame"
-  group: "Hydrology"
-  type: "data.frame"
-  description: >-
-    Dataset that provides the yearly schedule for irrigation and
-    draining, along the template of \link{albufera_management} (the
-    default value).
-  cardinality: >-
-    one row per day of year (29th of Feb. included) and per combination
-    of the categorical variables `tancat` and `variety`.
-  columns:
-    mm: >-
-      numeric. Month of year (1 = January, 2 = February, *etc.*).
-    dd: >-
-      numeric. Day of month.
-    tancat: >-
-      logical. Whether the paddy is a tancat or not.
-    variety: >-
-      character. Rice variety of the paddy under consideration.
-    sowing: >-
-      logical. Whether `mm` and `dd` correspond to the sowing day.
-    ideal_irrigation: >-
-      logical. Whether the paddy is scheduled to be irrigated on this day.
-    ideal_draining: >-
-      logical. Whether the paddy is scheduled to be drained on this day.
-    ideal_height_eod_cm: >-
-      numeric. Scheduled water level of the paddy *at the end of the day*
-      (that is, after irrigation and draining).
-
 ideal_flow_rate_cm:
   name: "Ideal flow rate"
   group: "Hydrology"
@@ -158,29 +119,6 @@ ditch_level_m:
   type: "numeric(1)"
   description: >-
     Constant water depth in ditches.
-
-ca_schedules_df:
-  name: "Chemical application schedules data frame"
-  group: "Pesticide application scheme"
-  type: "data.frame"
-  description: >-
-    A dataset that provides the list of scheduled chemical applications,
-    along the template of \link{albufera_ca_schedules}.
-  cardinality: >-
-    one row per scheduled application.
-  columns:
-    day: >-
-      numeric. Scheduled day, counted starting from the sowing day, for
-      the application under consideration.
-    rice_variety: >-
-      character. Rice variety for this specific application.
-    chemical: >-
-      character. Name of applied chemical.
-    kg_per_ha: >-
-      numeric. Amount of chemical applied, in kilograms per hectare.
-    application_type: >-
-      either `"ground"` or `"aerial"`. Application mode of the chemical
-      to rice paddies.
 
 drift:
   name: "Drift"
@@ -269,3 +207,10 @@ seed:
   group: "General"
   description: >-
     Seed for random number generation used by the simulation algorithms.
+
+cluster_map:
+  name: "Cluster map of management systems"
+  type: "erahumed_cluster_map"
+  description: >-
+    An object of class \link{cluster_map}. Defines how different rice field
+    management systems are assigned to spatial clusters within the simulation.

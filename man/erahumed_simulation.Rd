@@ -35,7 +35,7 @@ erahumed_simulation(
 
 \item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 
-\item{cluster_map}{\verb{[N.D.]} \cr No description available. If you think this is a bug, please reach out to us by filing an issue \href{https://github.com/erahumed/erahumed/issues}{on Github}.}
+\item{cluster_map}{\verb{[erahumed_cluster_map]} \cr An object of class \link{cluster_map}. Defines how different rice field management systems are assigned to spatial clusters within the simulation.}
 
 \item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
 

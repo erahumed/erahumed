@@ -1,4 +1,5 @@
 #' @rdname cluster_map
+#' @name cluster_map
 #' @export
 default_cluster_map <- function(seed = 840) {
 
