@@ -14,6 +14,14 @@ date_end:
     A single-value `Date` vector (or a convertible object).
     Defines the ending date of the date interval for the simulation.
 
+cluster_map:
+  name: "Cluster map of management systems"
+  group: "Pesticide application scheme"
+  type: "erahumed_cluster_map"
+  description: >-
+    An object of class \link{cluster_map}. Defines how different rice field
+    management systems are assigned to spatial clusters within the simulation.
+
 outflows_df:
   name: "Lake outflows and levels data frame"
   group: "Hydrology"
@@ -208,9 +216,3 @@ seed:
   description: >-
     Seed for random number generation used by the simulation algorithms.
 
-cluster_map:
-  name: "Cluster map of management systems"
-  type: "erahumed_cluster_map"
-  description: >-
-    An object of class \link{cluster_map}. Defines how different rice field
-    management systems are assigned to spatial clusters within the simulation.

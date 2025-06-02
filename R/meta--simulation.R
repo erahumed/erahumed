@@ -7,9 +7,9 @@
 #'
 #' @param date_start `r input_roxy("date_start")`
 #' @param date_end `r input_roxy("date_end")`
+#' @param cluster_map `r input_roxy("cluster_map")`
 #' @param outflows_df `r input_roxy("outflows_df")`
 #' @param weather_df `r input_roxy("weather_df")`
-#' @param cluster_map `r input_roxy("cluster_map")`
 #' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
 #' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
 #' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
@@ -36,7 +36,6 @@
 erahumed_simulation <- function(
   date_start = "2020-01-01",
   date_end = "2020-12-31",
-  seed = 840,
   cluster_map = default_cluster_map(seed = seed),
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
@@ -54,7 +53,8 @@ erahumed_simulation <- function(
   foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
-  porosity = 0.11
+  porosity = 0.11,
+  seed = 840
   )
 {
   tryCatch(

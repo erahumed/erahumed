@@ -7,7 +7,6 @@
 erahumed_simulation(
   date_start = "2020-01-01",
   date_end = "2020-12-31",
-  seed = 840,
   cluster_map = default_cluster_map(seed = seed),
   outflows_df = erahumed::albufera_outflows,
   weather_df = erahumed::albufera_weather,
@@ -25,15 +24,14 @@ erahumed_simulation(
   foc = 0.17,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
-  porosity = 0.11
+  porosity = 0.11,
+  seed = 840
 )
 }
 \arguments{
 \item{date_start}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the starting date of the date interval for the simulation.}
 
 \item{date_end}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the ending date of the date interval for the simulation.}
-
-\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 
 \item{cluster_map}{\verb{[erahumed_cluster_map]} \cr An object of class \link{cluster_map}. Defines how different rice field management systems are assigned to spatial clusters within the simulation.}
 
@@ -70,6 +68,8 @@ erahumed_simulation(
 \item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, \emph{i.e.} the rate at which water seeps through the sediment or soil. Expressed in meters per day.}
 
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
+
+\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 }
 \value{
 An object of class \code{erahumed_simulation}.
