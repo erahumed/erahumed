@@ -102,9 +102,13 @@ chemical <- function(display_name,
       assert_positive_number(Q10_ks_sat)
       assert_positive_number(Q10_ks_unsat)
       assert_positive_number(Q10_ks_sat)
-      assert_positive_number(ssd_acute_mu)
+      assert_numeric_vector(ssd_acute_mu)
+      assert_length_one(ssd_acute_mu)
+      assert_no_na(ssd_acute_mu)
       assert_positive_number(ssd_acute_sigma)
-      assert_positive_number(ssd_chronic_mu)
+      assert_numeric_vector(ssd_chronic_mu)
+      assert_length_one(ssd_chronic_mu)
+      assert_no_na(ssd_chronic_mu)
       assert_positive_number(ssd_chronic_sigma)
     },
     error = function(e) {
