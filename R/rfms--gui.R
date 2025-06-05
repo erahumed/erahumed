@@ -57,7 +57,7 @@ rfms_ui <- function(id) {
 }
 
 
-rfms_server <- function(id) {
+rfms_server <- function(id, chemical_db) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -66,7 +66,7 @@ rfms_server <- function(id) {
       system = new_management_system()
     )
 
-    # Helper: update the system whenever any input changes
+    # Update management system object on input change
     shiny::observe({
       tryCatch({
         rv$system <- new_management_system(
@@ -78,7 +78,6 @@ rfms_server <- function(id) {
           perellona_height_cm = input$perellona_height_cm
         )
       }, error = function(e) {
-        # Avoid system update on validation failure
         rv$system <- NULL
       })
     })
@@ -92,7 +91,7 @@ rfms_server <- function(id) {
       }
     })
 
-    # Reset button
+    # Reset inputs to defaults
     shiny::observe({
       shiny::updateNumericInput(session, "sowing_yday", value = rfms_input_defaults()$sowing_yday)
       shiny::updateNumericInput(session, "harvesting_yday", value = rfms_input_defaults()$harvesting_yday)
@@ -100,18 +99,27 @@ rfms_server <- function(id) {
       shiny::updateNumericInput(session, "perellona_end_yday", value = rfms_input_defaults()$perellona_end_yday)
       shiny::updateNumericInput(session, "flow_height_cm", value = rfms_input_defaults()$flow_height_cm)
       shiny::updateNumericInput(session, "perellona_height_cm", value = rfms_input_defaults()$perellona_height_cm)
-    }) |>
-      shiny::bindEvent(input$reset)
+    }) |> shiny::bindEvent(input$reset)
 
-    # Placeholder output for application database
-    output$db_output <- shiny::renderUI({
-      shiny::tags$p("(Application editing not yet implemented.)")
+    # # Placeholder output for chemical database
+    # output$db_output <- shiny::renderUI({
+    #   db <- chemical_db()
+    #   if (is.null(db) || length(db) == 0) {
+    #     shiny::tags$p("(No chemical applications defined yet.)")
+    #   } else {
+    #     DT::DTOutput(ns("chemical_table"))
+    #   }
+    # })
+
+    output$chemical_table <- DT::renderDT({
+      chemical_db()
     })
 
-    # Return the current management system object if needed
+    # Return both the current system and the ability to update the chemical database
     return(shiny::reactive(rv$system))
   })
 }
+
 
 
 rfms_input_defaults <- function() {
