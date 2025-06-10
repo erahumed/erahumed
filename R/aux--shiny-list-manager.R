@@ -106,11 +106,20 @@ list_manager_server <- function(id,
     shiny::observe({
       current <- items()
 
+      replacement <- tryCatch(
+        edited_item(),
+        error = function(e) {
+          shiny::showNotification(paste("Definition error:", e$message), type = "error")
+          cat(e$message)
+          shiny::req(FALSE)
+        }
+      )
+
       i <- input$edit_idx
       if (is.null(i)) {
-        current[[length(current) + 1]] <- edited_item()
+        current[[length(current) + 1]] <- replacement
       } else {
-        current[[i]] <- edited_item()
+        current[[i]] <- replacement
       }
 
       items(current)

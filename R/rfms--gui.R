@@ -159,39 +159,7 @@ rfms_server <- function(id, chemical_db) {
       }
       )
 
-
-    # Return both the current system and the ability to update the chemical database
     return(system)
-  })
-}
-
-
-generate_application_schedule_db_ui <- function(chemical_db, sowing_yday, harvesting_yday)
-  function(id, item = NULL) {
-    ns <- shiny::NS(id)
-
-    choices <- seq_along(chemical_db)
-    names(choices) <- sapply(chemical_db, \(.) .[["display_name"]])
-
-    shiny::tagList(
-      shiny::selectInput(ns("chemical"),
-                         "Select chemical",
-                         choices = choices,
-                         multiple = TRUE),
-      shiny::numericInput(
-        ns("seed_day"), "Application day (since sowing)",
-        value = 1,
-        min = 1,
-        max = harvesting_yday - sowing_yday),
-      shiny::numericInput(ns("amount_kg_ha"), "Amount (kg/ha)", value = 1, min = 0),
-      shiny::selectInput(ns("type"), label = "Type", choices = c("ground", "aerial")),
-      shiny::numericInput(ns("emptying_days"), "Emptying days", value = 1, min = 1, step = 1)
-  )
-}
-
-application_schedule_db_server <- function(id, chemical_db) {
-  shiny::moduleServer(id, function(input, output, session) {
-
   })
 }
 

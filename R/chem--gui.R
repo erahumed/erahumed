@@ -86,30 +86,31 @@ chemical_editor_ui <- function(id, item = NULL) {
 chemical_editor_server <- function(id)
 {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::reactive(chemical(
-      display_name = input$display_name,
-      tmoa_id = input$tmoa_id,
-      MW = input$MW,
-      ksetl_m_day = input$ksetl_m_day,
-      kvolat_m_day = input$kvolat_m_day,
-      sol_ppm = input$sol_ppm,
-      koc_cm3_g = input$koc_cm3_g,
-      dinc_m = input$dinc_m,
-      fet_cm = input$fet_cm,
-      kf_day = input$kf_day,
-      kw_day = input$kw_day,
-      ks_sat_day = input$ks_sat_day,
-      ks_unsat_day = input$ks_unsat_day,
-      kw_temp = input$kw_temp,
-      ks_sat_temp = input$ks_sat_temp,
-      ks_unsat_temp = input$ks_unsat_temp,
-      Q10_kw = input$Q10_kw,
-      Q10_ks_sat = input$Q10_ks_sat,
-      Q10_ks_unsat = input$Q10_ks_unsat,
-      ssd_acute_mu = input$ssd_acute_mu,
-      ssd_acute_sigma = input$ssd_acute_sigma,
-      ssd_chronic_mu = input$ssd_chronic_mu,
-      ssd_chronic_sigma = input$ssd_chronic_sigma
+    shiny::reactive(
+      chemical(
+        display_name = input$display_name,
+        tmoa_id = input$tmoa_id,
+        MW = input$MW,
+        ksetl_m_day = input$ksetl_m_day,
+        kvolat_m_day = input$kvolat_m_day,
+        sol_ppm = input$sol_ppm,
+        koc_cm3_g = input$koc_cm3_g,
+        dinc_m = input$dinc_m,
+        fet_cm = input$fet_cm,
+        kf_day = input$kf_day,
+        kw_day = input$kw_day,
+        ks_sat_day = input$ks_sat_day,
+        ks_unsat_day = input$ks_unsat_day,
+        kw_temp = input$kw_temp,
+        ks_sat_temp = input$ks_sat_temp,
+        ks_unsat_temp = input$ks_unsat_temp,
+        Q10_kw = input$Q10_kw,
+        Q10_ks_sat = input$Q10_ks_sat,
+        Q10_ks_unsat = input$Q10_ks_unsat,
+        ssd_acute_mu = input$ssd_acute_mu,
+        ssd_acute_sigma = input$ssd_acute_sigma,
+        ssd_chronic_mu = input$ssd_chronic_mu,
+        ssd_chronic_sigma = input$ssd_chronic_sigma
     ))
   })
 }
