@@ -57,46 +57,20 @@ rfms_ui <- function(id) {
 }
 
 
-rfms_server <- function(id, chemical_db) {
+rfms_server <- function(id, chemical_db, initial_rfms) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    system <- shiny::reactiveVal(new_management_system())
-
-    # Update management system object on input change
-    shiny::observe({
-      tryCatch({
-        system (
-          new_management_system(sowing_yday = input$sowing_yday,
-                                harvesting_yday = input$harvesting_yday,
-                                perellona_start_yday = input$perellona_start_yday,
-                                perellona_end_yday = input$perellona_end_yday,
-                                flow_height_cm = input$flow_height_cm,
-                                perellona_height_cm = input$perellona_height_cm
-                                )
-        )
-      }, error = function(e) {
-        system(NULL)
-      })
-    })
-
-    # Output the summary of the system
-    output$summary_output <- shiny::renderPrint({
-      if (is.null(system())) {
-        cat("Invalid configuration. Please check the input values.")
-      } else {
-        summary(system())
-      }
-    })
+    assert_management_system(initial_rfms)
 
     # Reset inputs to defaults
     shiny::observe({
-      shiny::updateNumericInput(session, "sowing_yday", value = rfms_input_defaults()$sowing_yday)
-      shiny::updateNumericInput(session, "harvesting_yday", value = rfms_input_defaults()$harvesting_yday)
-      shiny::updateNumericInput(session, "perellona_start_yday", value = rfms_input_defaults()$perellona_start_yday)
-      shiny::updateNumericInput(session, "perellona_end_yday", value = rfms_input_defaults()$perellona_end_yday)
-      shiny::updateNumericInput(session, "flow_height_cm", value = rfms_input_defaults()$flow_height_cm)
-      shiny::updateNumericInput(session, "perellona_height_cm", value = rfms_input_defaults()$perellona_height_cm)
+      shiny::updateNumericInput(session, "sowing_yday", value = initial_rfms$sowing_yday)
+      shiny::updateNumericInput(session, "harvesting_yday", value = initial_rfms$harvesting_yday)
+      shiny::updateNumericInput(session, "perellona_start_yday", value = initial_rfms$perellona_start_yday)
+      shiny::updateNumericInput(session, "perellona_end_yday", value = initial_rfms$perellona_end_yday)
+      shiny::updateNumericInput(session, "flow_height_cm", value = initial_rfms$flow_height_cm)
+      shiny::updateNumericInput(session, "perellona_height_cm", value = initial_rfms$perellona_height_cm)
     }) |> shiny::bindEvent(input$reset)
 
     applications_db <- list_manager_server(
@@ -156,14 +130,46 @@ rfms_server <- function(id, chemical_db) {
       },
       item_display_function = function(item) {
         paste0(item$chemical$display_name, " - Seed day: ", item$seed_day)
-      }
+      },
+      default_items = initial_rfms$applications
       )
 
-    return(system)
+    # Update management system object on input change
+    res <- shiny::reactive({
+      tryCatch({
+        sys <- new_management_system(sowing_yday = input$sowing_yday,
+                                     harvesting_yday = input$harvesting_yday,
+                                     perellona_start_yday = input$perellona_start_yday,
+                                     perellona_end_yday = input$perellona_end_yday,
+                                     flow_height_cm = input$flow_height_cm,
+                                     perellona_height_cm = input$perellona_height_cm
+                                     )
+
+        for (app in applications_db())
+          sys <- .add_application(sys, app)
+
+        sys
+        },
+        error = function(e) {
+          shiny::showNotification(paste("Error in RFMS definition:", e$message), type = "error")
+          cat(e$message)
+          shiny::req(FALSE)
+      })
+    })
+    # Output the summary of the system
+    output$summary_output <- shiny::renderPrint({
+      if (is.null(res())) {
+        cat("Invalid configuration. Please check the input values.")
+      } else {
+        summary(res())
+      }
+    })
+
+    return(res)
   })
+
+
 }
-
-
 
 rfms_input_defaults <- function() {
   fmls <- formals(new_management_system)
