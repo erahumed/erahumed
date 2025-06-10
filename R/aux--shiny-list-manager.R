@@ -1,0 +1,133 @@
+list_manager_ui <- function(
+    id,
+    object_name = "Item",
+    plural_name = paste0(object_name, "s"),
+    list_description = "list"
+    )
+{
+  ns <- shiny::NS(id)
+
+  title <- paste(object_name, list_description)
+  list_output_header <- shiny::tags$h4(plural_name)
+
+  # Used to trigger list edits and deletes from dynamically created button,
+  # avoiding anti-patterns such as nested observers.
+  counters_js <- shiny::tags$script(shiny::HTML(
+    "window.edit_counter = 0; window.delete_counter = 0;"))
+
+  add_item_btn <- shiny::actionButton(ns("add_item"), paste("Add", object_name))
+
+  bslib::page_fillable(
+    counters_js,
+    shinyjs::useShinyjs(),
+
+    # UI elements
+    title = title,
+    add_item_btn,
+    list_output_header,
+    shiny::uiOutput(ns("list_output"))
+    )
+}
+
+list_manager_server <- function(id,
+                                item_module_ui,
+                                item_module_server,
+                                display_function,
+                                default_items = list()
+                                )
+{
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    items <- shiny::reactiveVal(default_items)
+
+    onclick_js <- function(idx_id, trigger_id, counter_id) {
+      function(i) {
+        paste(
+          sprintf("%s++;", counter_id),
+          sprintf("Shiny.setInputValue('%s', %s);", ns(idx_id), i),
+          sprintf("Shiny.setInputValue('%s', %s);", ns(trigger_id), counter_id)
+        )
+      }
+    }
+
+    edit_onclick_js <- onclick_js("edit_idx", "edit_trigger", "window.edit_counter")
+    delete_onclick_js <- onclick_js("delete_idx", "delete_trigger", "window.delete_counter")
+
+    output$list_output <- shiny::renderUI({
+      if (length(items()) == 0) {
+        shiny::tags$em("No items yet.")
+      } else {
+        shiny::tags$ul(
+          lapply(seq_along(items()), function(i) {
+            shiny::tags$li(
+              display_function(items()[[i]]),
+              shiny::actionLink(ns(paste0("edit_", i)), "Edit", onclick = edit_onclick_js(i)),
+              " | ",
+              shiny::actionLink(ns(paste0("delete_", i)), "Delete", onclick = delete_onclick_js(i))
+            )
+          })
+        )
+      }
+    })
+
+    open_editor_modal <- function(title, item = NULL) {
+      shiny::showModal(
+        session = session,
+        shiny::modalDialog(
+          title = title,
+          item_module_ui(ns("editor"), item = item),
+          footer = shiny::tagList(
+            shiny::modalButton("Cancel"),
+            shiny::actionButton(ns("save_item"), "Save")
+          ),
+        ))
+      }
+
+    shiny::observe({
+      shinyjs::runjs(
+        sprintf("Shiny.setInputValue('%s', %s)",
+                ns("edit_idx"),
+                length(items()) + 1
+                )
+        )
+      open_editor_modal(title = "Add New Item")
+    }) |> shiny::bindEvent(input$add_item)
+
+    shiny::observe(
+      open_editor_modal(title = "Edit Item",
+                        item = items()[[input$edit_idx]])
+      ) |>
+      shiny::bindEvent(input$edit_trigger, ignoreNULL = TRUE)
+
+    # Mount the editor module
+    edited_item <- item_module_server("editor")
+
+    shiny::observe({
+      current <- items()
+
+      i <- input$edit_idx
+      if (is.null(i)) {
+        current[[length(current) + 1]] <- edited_item()
+      } else {
+        current[[i]] <- edited_item()
+      }
+
+      items(current)
+      shiny::removeModal(session = session)
+    }) |>
+      shiny::bindEvent(input$save_item)
+
+    shiny::observe({
+      i <- input$delete_idx
+      current <- items()
+      if (!is.null(i) && i <= length(current)) {
+        current[[i]] <- NULL
+        items(current)
+      }
+    }) |>
+      shiny::bindEvent(input$delete_trigger, ignoreNULL = TRUE)
+
+    return(items)
+  })
+}
