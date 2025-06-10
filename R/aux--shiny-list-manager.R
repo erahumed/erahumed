@@ -30,9 +30,9 @@ list_manager_ui <- function(
 }
 
 list_manager_server <- function(id,
-                                item_module_ui,
-                                item_module_server,
-                                display_function,
+                                item_editor_ui,
+                                item_editor_server,
+                                item_display_function,
                                 default_items = list()
                                 )
 {
@@ -61,7 +61,7 @@ list_manager_server <- function(id,
         shiny::tags$ul(
           lapply(seq_along(items()), function(i) {
             shiny::tags$li(
-              display_function(items()[[i]]),
+              item_display_function(items()[[i]]),
               shiny::actionLink(ns(paste0("edit_", i)), "Edit", onclick = edit_onclick_js(i)),
               " | ",
               shiny::actionLink(ns(paste0("delete_", i)), "Delete", onclick = delete_onclick_js(i))
@@ -76,7 +76,7 @@ list_manager_server <- function(id,
         session = session,
         shiny::modalDialog(
           title = title,
-          item_module_ui(ns("editor"), item = item),
+          item_editor_ui(ns("editor"), item = item),
           footer = shiny::tagList(
             shiny::modalButton("Cancel"),
             shiny::actionButton(ns("save_item"), "Save")
@@ -101,7 +101,7 @@ list_manager_server <- function(id,
       shiny::bindEvent(input$edit_trigger, ignoreNULL = TRUE)
 
     # Mount the editor module
-    edited_item <- item_module_server("editor")
+    edited_item <- item_editor_server("editor")
 
     shiny::observe({
       current <- items()
