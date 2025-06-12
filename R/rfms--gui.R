@@ -132,7 +132,7 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
       item_display_function = function(item) {
         paste0(item$chemical_name, " - Seed day: ", item$seed_day)
       },
-      default_items = list()
+      default_items = shiny::isolate(get_proto_applications(initial_rfms, chemical_db()))
       )
 
     # Update management system object on input change
@@ -206,3 +206,15 @@ rfms_input_defaults <- function() {
   )
 }
 
+get_proto_applications <- function(rfms, chemical_db) {
+  lapply(rfms$applications, function(app) {
+    list(
+      chemical_name = app$chemical$display_name,
+      chemical_id = chemical_db$ids[match_chemical(app$chemical, chemical_db$items)],
+      amount_kg_ha = app$amount_kg_ha,
+      seed_day = app$seed_day,
+      type = app$type,
+      emptying_days = app$emptying_days
+    )
+  } )
+}
