@@ -78,11 +78,10 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
       item_editor_ui = function(id, item = NULL) {
         ns <- shiny::NS(id)
 
-        choices <- seq_along(chemical_db())
-        names(choices) <- sapply(chemical_db(), \(.) .$display_name)
+        choices <- chemical_db()$ids
+        names(choices) <- sapply(chemical_db()$items, \(.) .$display_name)
 
-        selected_chem <- if (!is.null(item))
-          match_chemical(item$chemical, chemical_db())
+        selected_chem <- if (!is.null(item)) item$chemical_id
 
         shiny::tagList(
           shiny::selectInput(ns("chemical_id"),
@@ -116,10 +115,12 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
       item_editor_server = function(id) {
         shiny::moduleServer(id, function(input, output, session) {
           shiny::reactive({
-            chem_id <- as.numeric(input$chemical_id)  # Input is a string
+            chemical_idx <- match(input$chemical_id, chemical_db()$ids)
+            chemical_name <- chemical_db()$items[[chemical_idx]]$display_name
 
-            chemical_application(
-              chemical = chemical_db()[[chem_id]],
+            list(
+              chemical_name = chemical_name,
+              chemical_id = input$chemical_id,
               amount_kg_ha = input$amount_kg_ha,
               seed_day = input$seed_day,
               type = input$type,
@@ -129,9 +130,9 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
         })
       },
       item_display_function = function(item) {
-        paste0(item$chemical$display_name, " - Seed day: ", item$seed_day)
+        paste0(item$chemical_name, " - Seed day: ", item$seed_day)
       },
-      default_items = initial_rfms$applications
+      default_items = list()
       )
 
     # Update management system object on input change
@@ -145,8 +146,30 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
                                      perellona_height_cm = input$perellona_height_cm
                                      )
 
-        for (app in applications_db())
-          sys <- .add_application(sys, app)
+        for (app in applications_db()$items) {
+          chemical_index <- match(app$chemical_id, chemical_db()$ids)
+          if (is.na(chemical_index)) {
+            shiny::showNotification(
+              paste("Definition of", app$chemical_name,
+                    "application on seed day", app$seed_day,
+                    "is inconsistent, due to changes in the chemical database.
+                     Please review or remove this schedule, skipping for now.",
+              type = "warning")
+              )
+            next
+          }
+
+          app$chemical <- chemical_db()$items[[chemical_index]]
+
+          sys <- sys |>
+            schedule_application(
+              chemical = app$chemical,
+              amount_kg_ha = app$amount_kg_ha,
+              seed_day = app$seed_day,
+              type = app$type,
+              emptying_days = app$emptying_days
+            )
+          }
 
         sys
         },
@@ -182,3 +205,4 @@ rfms_input_defaults <- function() {
     perellona_height_cm = eval(fmls$perellona_height_cm)
   )
 }
+
