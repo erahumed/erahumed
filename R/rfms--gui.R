@@ -75,45 +75,52 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
 
     applications_db <- list_manager_server(
       "applications",
-      item_editor_ui = function(id, item = NULL) {
+      item_editor_ui = function(id) {
         ns <- shiny::NS(id)
 
         choices <- chemical_db()$ids
         names(choices) <- sapply(chemical_db()$items, \(.) .$display_name)
 
-        selected_chem <- if (!is.null(item)) item$chemical_id
-
         shiny::tagList(
           shiny::selectInput(ns("chemical_id"),
                              "Select chemical",
-                             choices = choices,
-                             selected = selected_chem
+                             choices = choices
                              ),
           shiny::numericInput(ns("seed_day"),
                               "Application day (since sowing)",
-                              value = item$seed_day,
+                              value = NA,
                               min = 1,
                               max = input$harvesting_yday - input$sowing_yday
                               ),
           shiny::numericInput(ns("amount_kg_ha"),
                               "Amount (kg/ha)",
-                              value = item$amount_kg_ha,
+                              value = NA,
                               min = 0),
           shiny::selectInput(ns("type"),
                              label = "Type",
                              choices = c("ground", "aerial"),
-                             selected = item$type
+                             selected = NA
                              ),
           shiny::numericInput(ns("emptying_days"),
                               "Emptying days",
-                              value = item$emptying_days,
+                              value = NA,
                               min = 1,
                               step = 1
                               )
         )
       },
-      item_editor_server = function(id) {
+      item_editor_server = function(id, item = shiny::reactive(NULL)) {
         shiny::moduleServer(id, function(input, output, session) {
+          shiny::observe({
+            shiny::req(item())
+
+            shiny::updateSelectInput(inputId = "chemical_id", selected = item()$chemical_id)
+            shiny::updateNumericInput(inputId = "seed_day", value = item()$seed_day)
+            shiny::updateNumericInput(inputId = "amount_kg_ha", value = item()$amount_kg_ha)
+            shiny::updateSelectInput(inputId = "type", selected = item()$type)
+            shiny::updateNumericInput(inputId = "emptying_days", value = item()$emptying_days)
+          })
+
           shiny::reactive({
             chemical_idx <- match(input$chemical_id, chemical_db()$ids)
             chemical_name <- chemical_db()$items[[chemical_idx]]$display_name

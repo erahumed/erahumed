@@ -44,6 +44,7 @@ list_manager_server <- function(id,
       ids = seq_along(default_items)
       ))
     item_counter <- shiny::reactiveVal(length(default_items))
+    editing_item <- shiny::reactiveVal(NULL)
 
     onclick_js <- function(idx_id, trigger_id, counter_id) {
       function(i) {
@@ -75,12 +76,12 @@ list_manager_server <- function(id,
       }
     })
 
-    open_editor_modal <- function(title, item = NULL) {
+    open_editor_modal <- function(title) {
       shiny::showModal(
         session = session,
         shiny::modalDialog(
           title = title,
-          item_editor_ui(ns("editor"), item = item),
+          item_editor_ui(ns("editor")),
           footer = shiny::tagList(
             shiny::modalButton("Cancel"),
             shiny::actionButton(ns("save_item"), "Save")
@@ -89,22 +90,23 @@ list_manager_server <- function(id,
       }
 
     shiny::observe({
-      shinyjs::runjs(
-        sprintf("Shiny.setInputValue('%s', null)", ns("edit_idx"))
-        )
       item_counter(item_counter() + 1)
 
-      open_editor_modal(title = "Add New Item")
-    }) |> shiny::bindEvent(input$add_item)
+      editing_item(NULL)
+      shinyjs::runjs(sprintf("Shiny.setInputValue('%s', null)", ns("edit_idx")))
 
-    shiny::observe(
-      open_editor_modal(title = "Edit Item",
-                        item = db()$items[[input$edit_idx]])
-      ) |>
+      open_editor_modal(title = "Add New Item")
+    }) |>
+      shiny::bindEvent(input$add_item)
+
+    shiny::observe({
+      editing_item(db()$items[[input$edit_idx]])
+
+      open_editor_modal(title = "Edit Item")
+      }) |>
       shiny::bindEvent(input$edit_trigger, ignoreNULL = TRUE)
 
-    # Mount the editor module
-    edited_item <- item_editor_server("editor")
+    edited_item <- item_editor_server("editor", item = editing_item)
 
     shiny::observe({
 

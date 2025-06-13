@@ -23,7 +23,7 @@ chemical_db_server <- function(id)
 }
 
 
-chemical_editor_ui <- function(id, item = NULL) {
+chemical_editor_ui <- function(id) {
   ns <- shiny::NS(id)
 
   bslib::layout_column_wrap(
@@ -35,13 +35,13 @@ chemical_editor_ui <- function(id, item = NULL) {
     bslib::card(
       bslib::card_header("General Information"),
       bslib::card_body(bslib::layout_column_wrap(
-        shiny::textInput(ns("display_name"), "Display name", value = item$display_name %||% ""),
-        shiny::textInput(ns("tmoa_id"), "TMoA ID", value = item$tmoa_id %||% ""),
-        shiny::numericInput(ns("MW"), "Molecular Weight (g/mol)", value = item$MW %||% NA),
-        shiny::numericInput(ns("sol_ppm"), "Solubility (ppm)", value = item$sol_ppm %||% NA),
-        shiny::numericInput(ns("koc_cm3_g"), "Koc (cm<sup>3</sup>/g)", value = item$koc_cm3_g %||% NA),
-        shiny::numericInput(ns("fet_cm"), "Film exchange thickness (cm)", value = item$fet_cm %||% NA),
-        shiny::numericInput(ns("dinc_m"), "Incorporation depth (m)", value = item$dinc_m %||% NA)
+        shiny::textInput(ns("display_name"), "Display name", value = NA),
+        shiny::textInput(ns("tmoa_id"), "TMoA ID", value = NA),
+        shiny::numericInput(ns("MW"), "Molecular Weight (g/mol)", value = NA),
+        shiny::numericInput(ns("sol_ppm"), "Solubility (ppm)", value = NA),
+        shiny::numericInput(ns("koc_cm3_g"), "Koc (cm<sup>3</sup>/g)", value = NA),
+        shiny::numericInput(ns("fet_cm"), "Film exchange thickness (cm)", value = NA),
+        shiny::numericInput(ns("dinc_m"), "Incorporation depth (m)", value = NA)
       ))
     ),
 
@@ -50,20 +50,20 @@ chemical_editor_ui <- function(id, item = NULL) {
       bslib::card_header("Degradation Parameters"),
       bslib::card_body(
         bslib::layout_column_wrap(
-          shiny::numericInput(ns("kf_day"), "k<sub>f</sub> (1/day)", value = item$kf_day %||% NA),
-          shiny::numericInput(ns("kw_day"), "k<sub>w</sub> (1/day)", value = item$kw_day %||% NA),
-          shiny::numericInput(ns("ks_sat_day"), "k<sub>s_sat</sub> (1/day)", value = item$ks_sat_day %||% NA),
-          shiny::numericInput(ns("ks_unsat_day"), "k<sub>s_unsat</sub> (1/day)", value = item$ks_unsat_day %||% NA),
-          shiny::numericInput(ns("ksetl_m_day"), "k<sub>setl</sub> (m/day)", value = item$ksetl_m_day %||% NA),
-          shiny::numericInput(ns("kvolat_m_day"), "k<sub>volat</sub> (m/day)", value = item$kvolat_m_day %||% NA),
+          shiny::numericInput(ns("kf_day"), "k<sub>f</sub> (1/day)", value = NA),
+          shiny::numericInput(ns("kw_day"), "k<sub>w</sub> (1/day)", value = NA),
+          shiny::numericInput(ns("ks_sat_day"), "k<sub>s_sat</sub> (1/day)", value = NA),
+          shiny::numericInput(ns("ks_unsat_day"), "k<sub>s_unsat</sub> (1/day)", value = NA),
+          shiny::numericInput(ns("ksetl_m_day"), "k<sub>setl</sub> (m/day)", value = NA),
+          shiny::numericInput(ns("kvolat_m_day"), "k<sub>volat</sub> (m/day)", value = NA),
 
-          shiny::numericInput(ns("kw_temp"), "T ref for k<sub>w</sub> (°C)", value = item$kw_temp %||% NA),
-          shiny::numericInput(ns("ks_sat_temp"), "T ref for k<sub>s_sat</sub> (°C)", value = item$ks_sat_temp %||% NA),
-          shiny::numericInput(ns("ks_unsat_temp"), "T ref for k<sub>s_unsat</sub> (°C)", value = item$ks_unsat_temp %||% NA),
+          shiny::numericInput(ns("kw_temp"), "T ref for k<sub>w</sub> (°C)", value = NA),
+          shiny::numericInput(ns("ks_sat_temp"), "T ref for k<sub>s_sat</sub> (°C)", value = NA),
+          shiny::numericInput(ns("ks_unsat_temp"), "T ref for k<sub>s_unsat</sub> (°C)", value = NA),
 
-          shiny::numericInput(ns("Q10_kw"), "Q<sub>10</sub> for k<sub>w</sub>", value = item$Q10_kw %||% NA),
-          shiny::numericInput(ns("Q10_ks_sat"), "Q<sub>10</sub> for k<sub>s_sat</sub>", value = item$Q10_ks_sat %||% NA),
-          shiny::numericInput(ns("Q10_ks_unsat"), "Q<sub>10</sub> for k<sub>s_unsat</sub>", value = item$Q10_ks_unsat %||% NA)
+          shiny::numericInput(ns("Q10_kw"), "Q<sub>10</sub> for k<sub>w</sub>", value = NA),
+          shiny::numericInput(ns("Q10_ks_sat"), "Q<sub>10</sub> for k<sub>s_sat</sub>", value = NA),
+          shiny::numericInput(ns("Q10_ks_unsat"), "Q<sub>10</sub> for k<sub>s_unsat</sub>", value = NA)
         )
       )
     ),
@@ -73,19 +73,49 @@ chemical_editor_ui <- function(id, item = NULL) {
       bslib::card_header("Toxicological Properties (SSD Parameters)"),
       bslib::card_body(
         bslib::layout_column_wrap(
-          shiny::numericInput(ns("ssd_acute_mu"), "SSD Acute μ", value = item$ssd_acute_mu %||% NA),
-          shiny::numericInput(ns("ssd_acute_sigma"), "SSD Acute σ", value = item$ssd_acute_sigma %||% NA),
-          shiny::numericInput(ns("ssd_chronic_mu"), "SSD Chronic μ", value = item$ssd_chronic_mu %||% NA),
-          shiny::numericInput(ns("ssd_chronic_sigma"), "SSD Chronic σ", value = item$ssd_chronic_sigma %||% NA)
+          shiny::numericInput(ns("ssd_acute_mu"), "SSD Acute μ", value = NA),
+          shiny::numericInput(ns("ssd_acute_sigma"), "SSD Acute σ", value = NA),
+          shiny::numericInput(ns("ssd_chronic_mu"), "SSD Chronic μ", value = NA),
+          shiny::numericInput(ns("ssd_chronic_sigma"), "SSD Chronic σ", value = NA)
         )
       )
     )
   )
 }
 
-chemical_editor_server <- function(id)
+chemical_editor_server <- function(id, item = shiny::reactive(NULL))
 {
   shiny::moduleServer(id, function(input, output, session) {
+    shiny::observe({
+      shiny::req(item())
+
+      shiny::updateTextInput(inputId = "display_name", value = item()$display_name)
+      shiny::updateTextInput(inputId = "tmoa_id", value = item()$tmoa_id)
+      shiny::updateNumericInput(inputId = "MW", value = item()$MW)
+      shiny::updateNumericInput(inputId = "sol_ppm", value = item()$sol_ppm)
+      shiny::updateNumericInput(inputId = "koc_cm3_g", value = item()$koc_cm3_g)
+      shiny::updateNumericInput(inputId = "fet_cm", value = item()$fet_cm)
+      shiny::updateNumericInput(inputId = "dinc_m", value = item()$dinc_m)
+      shiny::updateNumericInput(inputId = "kf_day", value = item()$kf_day)
+      shiny::updateNumericInput(inputId = "kw_day", value = item()$kw_day)
+      shiny::updateNumericInput(inputId = "ks_sat_day", value = item()$ks_sat_day)
+      shiny::updateNumericInput(inputId = "ks_unsat_day", value = item()$ks_unsat_day)
+      shiny::updateNumericInput(inputId = "ksetl_m_day", value = item()$ksetl_m_day)
+      shiny::updateNumericInput(inputId = "kvolat_m_day", value = item()$kvolat_m_day)
+
+      shiny::updateNumericInput(inputId = "kw_temp", value = item()$kw_temp)
+      shiny::updateNumericInput(inputId = "ks_sat_temp", value = item()$ks_sat_temp)
+      shiny::updateNumericInput(inputId = "ks_unsat_temp", value = item()$ks_unsat_temp)
+
+      shiny::updateNumericInput(inputId = "Q10_kw", value = item()$Q10_kw)
+      shiny::updateNumericInput(inputId = "Q10_ks_sat", value = item()$Q10_ks_sat)
+      shiny::updateNumericInput(inputId = "Q10_ks_unsat", value = item()$Q10_ks_unsat)
+      shiny::updateNumericInput(inputId = "ssd_acute_mu", value = item()$ssd_acute_mu)
+      shiny::updateNumericInput(inputId = "ssd_acute_sigma", value = item()$ssd_acute_sigma)
+      shiny::updateNumericInput(inputId = "ssd_chronic_mu", value = item()$ssd_chronic_mu)
+      shiny::updateNumericInput(inputId = "ssd_chronic_sigma", value = item()$ssd_chronic_sigma)
+    })
+
     shiny::reactive(
       chemical(
         display_name = input$display_name,
