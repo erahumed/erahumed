@@ -39,10 +39,9 @@ list_manager_server <- function(id,
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    db <- shiny::reactiveVal(list(
-      items = default_items,
-      ids = seq_along(default_items)
-      ))
+    db <- shiny::reactiveVal(list(items = default_items,
+                                  ids = seq_along(default_items)
+                                  ))
     item_counter <- shiny::reactiveVal(length(default_items))
     editing_item <- shiny::reactiveVal(NULL)
 
@@ -64,14 +63,14 @@ list_manager_server <- function(id,
         shiny::tags$em("No items yet.")
       } else {
         shiny::tags$ul(
-          lapply(seq_along(db()$items), function(i) {
+          Map(function(item, id) {
             shiny::tags$li(
-              item_display_function(db()$items[[i]]),
-              shiny::actionLink(ns(paste0("edit_", i)), "Edit", onclick = edit_onclick_js(i)),
+              item_display_function(item),
+              shiny::actionLink(ns(paste0("edit_", id)), "Edit", onclick = edit_onclick_js(id)),
               " | ",
-              shiny::actionLink(ns(paste0("delete_", i)), "Delete", onclick = delete_onclick_js(i))
+              shiny::actionLink(ns(paste0("delete_", id)), "Delete", onclick = delete_onclick_js(id))
             )
-          })
+          }, db()$items, db()$ids)
         )
       }
     })
@@ -100,8 +99,8 @@ list_manager_server <- function(id,
       shiny::bindEvent(input$add_item)
 
     shiny::observe({
-      editing_item(db()$items[[input$edit_idx]])
-
+      i <- match(input$edit_idx, db()$ids)
+      editing_item(db()$items[[i]])
       open_editor_modal(title = "Edit Item")
       }) |>
       shiny::bindEvent(input$edit_trigger, ignoreNULL = TRUE)
@@ -109,7 +108,6 @@ list_manager_server <- function(id,
     edited_item <- item_editor_server("editor", item = editing_item)
 
     shiny::observe({
-
       replacement <- tryCatch(
         edited_item(),
         error = function(e) {
@@ -121,29 +119,29 @@ list_manager_server <- function(id,
 
       db_copy <- db()
 
-      i <- input$edit_idx
-      if (is.null(i)) {
+      if (is.null(input$edit_idx)) {  # i.e. we are adding a new item
         item_counter(item_counter() + 1)
-        i <- length(db_copy$items) + 1
         db_copy$ids <- c(db_copy$ids, item_counter())
+        i <- length(db_copy$items) + 1
+      } else {
+        i <- match(input$edit_idx, db_copy$ids)
       }
+
       db_copy$items[[i]] <- replacement
 
       db(db_copy)
 
       shiny::removeModal(session = session)
     }) |>
-      shiny::bindEvent(input$save_item)
+      shiny::bindEvent(input$save_item, ignoreInit = TRUE, ignoreNULL = TRUE)
 
     shiny::observe({
       db_copy <- db()
 
-      i <- input$delete_idx
-      if (!is.null(i) && i <= length(db_copy$items)) {
-        db_copy$items[[i]] <- NULL
-        db_copy$ids <- db_copy$ids[-i]
-      }
+      i <- match(input$delete_idx, db_copy$ids)
 
+      db_copy$items[[i]] <- NULL
+      db_copy$ids <- db_copy$ids[-i]
       db(db_copy)
     }) |>
       shiny::bindEvent(input$delete_trigger, ignoreNULL = TRUE)
