@@ -106,6 +106,7 @@ list_manager_server <- function(id,
     edited_item <- item_editor_server("editor", item = editing_item)
 
     shiny::observe({
+
       replacement <- tryCatch(
         edited_item(),
         error = function(e) {
@@ -134,6 +135,20 @@ list_manager_server <- function(id,
       shiny::bindEvent(input$save_item, ignoreInit = TRUE, ignoreNULL = TRUE)
 
     shiny::observe({
+      shiny::showModal(shiny::modalDialog(
+        title = "Confirm Deletion",
+        "Are you sure you want to delete this item?",
+        footer = shiny::tagList(
+          shiny::modalButton("Cancel"),
+          shiny::actionButton(ns("confirm_delete"), "Delete", class = "btn-danger")
+        )
+      ))
+    }) |>
+      shiny::bindEvent(input$delete_trigger, ignoreNULL = TRUE, ignoreInit = TRUE)
+
+    shiny::observe({
+      shiny::removeModal(session = session)
+
       db_copy <- db()
 
       i <- match(input$delete_idx, db_copy$ids)
@@ -141,8 +156,10 @@ list_manager_server <- function(id,
       db_copy$items[[i]] <- NULL
       db_copy$ids <- db_copy$ids[-i]
       db(db_copy)
+
+      shiny::removeModal(session = session)
     }) |>
-      shiny::bindEvent(input$delete_trigger, ignoreNULL = TRUE)
+      shiny::bindEvent(input$confirm_delete, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     return(db)
   })
