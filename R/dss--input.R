@@ -22,15 +22,7 @@ dss_input_ui <- function(id) {
       dss_input_sc_intercept(ns("sc_intercept")),
       dss_input_sc_slope(ns("sc_slope")),
       dss_input_petp_surface(ns("petp_surface"))
-      ),
-
-    bslib::card(
-      bslib::card_header("Irrigation and draining management of rice fields"),
-      dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
-      dss_input_height_thresh_cm(ns("height_thresh_cm")),
-      dss_input_ditch_level_m(ns("ditch_level_m")),
-    )
-
+      )
   )
 
 
@@ -49,6 +41,17 @@ dss_input_ui <- function(id) {
     dss_input_porosity(ns("porosity"))
     )
 
+  agrochemical_management_ui <- bslib::layout_column_wrap(
+    bslib::card(
+      bslib::card_header("TODO 'parameters'"),
+      dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
+      dss_input_height_thresh_cm(ns("height_thresh_cm")),
+      dss_input_ditch_level_m(ns("ditch_level_m")),
+    ),
+    erahumed:::rfcm_ui(ns("rfcm")),
+    erahumed:::rfms_db_ui(ns("rfms_db"))
+  )
+
   bslib::page_fillable(
     title = "Input",
     shinyjs::useShinyjs(),
@@ -63,14 +66,7 @@ dss_input_ui <- function(id) {
       bslib::accordion_panel("Hydrology", hydrology_parameters_ui),
       bslib::accordion_panel("Meteorology", meteorology_parameters_ui),
       bslib::accordion_panel("Environmental properties", physchem_parameters_ui),
-      bslib::accordion_panel(
-        title = shiny::p(
-          "Pesticide application scheme",
-          bslib::tooltip(trigger = shiny::icon("tools"), "This section is under development.")
-        ),
-        value = "Pesticide application scheme",
-        pesticide_applications_ui
-        )
+      bslib::accordion_panel("Agrochemical management", agrochemical_management_ui)
       )
     )
 }
@@ -111,6 +107,10 @@ dss_input_server <- function(id) {
       ))
     })
 
+    rfms_db <- rfms_db_server("rfms_db")
+    cluster_map <- rfcm_server("rfcm", rfms_db)
+
+
     shiny::observe({
       shinyjs::reset("input-ui")
       }) |> shiny::bindEvent(input$reset)
@@ -121,6 +121,7 @@ dss_input_server <- function(id) {
       list(
         date_start = input$date_range[[1]],
         date_end = input$date_range[[2]],
+        cluster_map = cluster_map(),
         outflows_df = outflows_df(),
         weather_df = weather_df(),
         storage_curve_slope_m2 = 1e6 * input$sc_slope,

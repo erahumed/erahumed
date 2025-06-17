@@ -84,11 +84,7 @@ rfcm_server <- function(id, rfms_db) {
       summary(map())
     })
 
-    return(
-      list(
-        cluster_map = map
-      )
-    )
+    return(map)
   })
 }
 

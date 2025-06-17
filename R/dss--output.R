@@ -36,19 +36,19 @@ dss_output_ui <- function(id) {
         ),
       bslib::navset_card_tab(
         title = shiny::div(
-          "Exposure",
-          bslib::popover(
-            shiny_icon("gear"),
-            shinyWidgets::checkboxGroupButtons(
-              inputId = ns("chemical"),
-              label = "Chemicals",
-              choices = names(info_chemicals()),
-              selected = names(info_chemicals()),
-              individual = TRUE,
-              checkIcon = list(yes = icon("ok", lib = "glyphicon")),
-              size = "sm"
-            )
-            )
+          "Exposure"
+          # , bslib::popover(
+          #   shiny_icon("gear"),
+          #   # shinyWidgets::checkboxGroupButtons(
+          #   #   inputId = ns("chemical"),
+          #   #   label = "Chemicals",
+          #   #   choices = names(info_chemicals()),
+          #   #   selected = names(info_chemicals()),
+          #   #   individual = TRUE,
+          #   #   checkIcon = list(yes = icon("ok", lib = "glyphicon")),
+          #   #   size = "sm"
+          #   # )
+          #   )
           ),
         full_screen = TRUE,
         bslib::nav_panel(
