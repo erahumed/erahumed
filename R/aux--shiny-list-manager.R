@@ -89,8 +89,6 @@ list_manager_server <- function(id,
       }
 
     shiny::observe({
-      item_counter(item_counter() + 1)
-
       editing_item(NULL)
       shinyjs::runjs(sprintf("Shiny.setInputValue('%s', null)", ns("edit_idx")))
 
