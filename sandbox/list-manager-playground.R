@@ -23,8 +23,7 @@ item_editor_server <- function(id, item = reactive(NULL)) {
 }
 
 shinyApp(
-  ui = function()
-    erahumed:::list_manager_ui("test"),
+  ui = function() bslib::page_fillable(erahumed:::list_manager_ui("test")),
   server =
     function(input, output, session)
       erahumed:::list_manager_server("test",

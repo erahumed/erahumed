@@ -89,6 +89,26 @@ test_that("Can edit an item", {
   }, args = args)
 })
 
+test_that("Can duplicate an item", {
+  shiny::testServer(list_manager_server, {
+    # Initial items
+    expect_equal(length(session$returned()$items), 2)
+
+    # Trigger duplication of the first item
+    session$setInputs(duplicate_idx = 1)
+    session$setInputs(duplicate_trigger = 1)
+    session$flushReact()
+
+    # Should now have 3 items
+    items <- session$returned()$items
+    expect_equal(length(items), 3)
+
+    # The last item should be identical to the first one
+    expect_equal(items[[3]], items[[1]])
+  }, args = args)
+})
+
+
 test_that("Can delete an item", {
   shiny::testServer(list_manager_server, {
     session$setInputs(delete_idx = 1, delete_trigger = 1)
@@ -99,6 +119,35 @@ test_that("Can delete an item", {
 
     expect_equal(length(session$returned()$items), 1)
     expect_identical(session$returned()$items[[1]]$name, "b")
+  }, args = args)
+})
+
+
+test_that("Can delete an item", {
+  shiny::testServer(list_manager_server, {
+    session$setInputs(delete_idx = 1, delete_trigger = 1)
+    session$flushReact()
+
+    session$setInputs(confirm_delete = 1)
+    session$flushReact()
+
+    expect_equal(length(session$returned()$items), 1)
+    expect_identical(session$returned()$items[[1]]$name, "b")
+  }, args = args)
+})
+
+test_that("Canceling delete does not delete the item", {
+  shiny::testServer(list_manager_server, {
+    # Initially 2 items
+    expect_equal(length(session$returned()$items), 2)
+
+    # Trigger delete on item 1
+    session$setInputs(delete_idx = 1)
+    session$setInputs(delete_trigger = 1)
+    session$flushReact()
+
+    # If user does not click on the confirm button nothing should be deleted
+    expect_equal(length(session$returned()$items), 2)
   }, args = args)
 })
 

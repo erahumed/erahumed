@@ -8,24 +8,29 @@ list_manager_ui <- function(
   ns <- shiny::NS(id)
 
   title <- paste(object_name, list_description)
-  list_output_header <- shiny::tags$h4(plural_name)
 
   # Used to trigger list edits and deletes from dynamically created button,
   # avoiding anti-patterns such as nested observers.
   counters_js <- shiny::tags$script(shiny::HTML(
-    "window.edit_counter = 0; window.delete_counter = 0;"))
+    "window.edit_counter = 0; window.delete_counter = 0; window.duplicate_counter = 0;"))
 
-  add_item_btn <- shiny::actionButton(ns("add_item"), paste("Add", object_name))
+  add_item_btn <- shiny::actionButton(ns("add_item"), paste("New", object_name), class = "btn btn-sm btn-primary")
 
-  bslib::page_fillable(
-    counters_js,
+
+
+  list_output <- shiny::uiOutput(ns("list_output"))
+
+  bslib::card(
+    bslib::card_header(shiny::div(
+        class = "d-flex justify-content-between align-items-center",
+        shiny::strong(plural_name),
+        add_item_btn
+      )),
+    bslib::card_body(list_output),
+
     shinyjs::useShinyjs(),
+    counters_js
 
-    # UI elements
-    title = title,
-    add_item_btn,
-    list_output_header,
-    shiny::uiOutput(ns("list_output"))
     )
 }
 
@@ -56,6 +61,7 @@ list_manager_server <- function(id,
     }
 
     edit_onclick_js <- onclick_js("edit_idx", "edit_trigger", "window.edit_counter")
+    duplicate_onclick_js <- onclick_js("duplicate_idx", "duplicate_trigger", "window.duplicate_counter")
     delete_onclick_js <- onclick_js("delete_idx", "delete_trigger", "window.delete_counter")
 
     output$list_output <- shiny::renderUI({
@@ -67,6 +73,8 @@ list_manager_server <- function(id,
             shiny::tags$li(
               item_display_function(item),
               shiny::actionLink(ns(paste0("edit_", id)), "Edit", onclick = edit_onclick_js(id)),
+              " | ",
+              shiny::actionLink(ns(paste0("duplicate_", id)), "Duplicate", onclick = duplicate_onclick_js(id)),
               " | ",
               shiny::actionLink(ns(paste0("delete_", id)), "Delete", onclick = delete_onclick_js(id))
             )
@@ -133,6 +141,17 @@ list_manager_server <- function(id,
       shiny::removeModal(session = session)
     }) |>
       shiny::bindEvent(input$save_item, ignoreInit = TRUE, ignoreNULL = TRUE)
+
+    shiny::observe({
+      i <- match(input$duplicate_idx, db()$ids)
+      item_to_copy <- db()$items[[i]]
+
+      db_copy <- db()
+      item_counter(item_counter() + 1)
+      db_copy$ids <- c(db_copy$ids, item_counter())
+      db_copy$items <- c(db_copy$items, list(item_to_copy))
+      db(db_copy)
+    }) |> shiny::bindEvent(input$duplicate_trigger, ignoreNULL = TRUE)
 
     shiny::observe({
       shiny::showModal(shiny::modalDialog(
