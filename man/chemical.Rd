@@ -31,76 +31,51 @@ chemical(
 )
 }
 \arguments{
-\item{display_name}{\verb{[character(1)]} \cr
-The common name of the chemical (e.g., \code{"Acetamiprid"}).}
+\item{display_name}{\verb{[character(1)]} \cr The common name of the chemical (e.g., "Acetamiprid").}
 
-\item{tmoa_id}{\verb{[character(1)]} \cr
-Identifier for the toxic mode of action (e.g., \code{"NicotinicAcetylcholine"}).}
+\item{tmoa_id}{\verb{[character(1)]} \cr Identifier for the toxic mode of action (e.g., "NicotinicAcetylcholine").}
 
-\item{MW}{\verb{[numeric(1)]} \cr
-Molecular weight in grams per mole (g/mol).}
+\item{MW}{\verb{[numeric(1)]} \cr Molecular weight in grams per mole.}
 
-\item{ksetl_m_day}{\verb{[numeric(1)]} \cr
-Settling rate (m/day), representing particle-bound transfer to sediment.}
+\item{ksetl_m_day}{\verb{[numeric(1)]} \cr Settling rate, representing particle-bound transfer to sediment.}
 
-\item{kvolat_m_day}{\verb{[numeric(1)]} \cr
-Volatilization rate from water to air (m/day).}
+\item{kvolat_m_day}{\verb{[numeric(1)]} \cr Volatilization rate from water to air.}
 
-\item{sol_ppm}{\verb{[numeric(1)]} \cr
-Water solubility (ppm).}
+\item{sol_ppm}{\verb{[numeric(1)]} \cr Water solubility.}
 
-\item{koc_cm3_g}{\verb{[numeric(1)]} \cr
-Organic carbon–water partition coefficient (Koc) in cm³/g.}
+\item{koc_cm3_g}{\verb{[numeric(1)]} \cr Organic carbon-water partition coefficient (Koc).}
 
-\item{dinc_m}{\verb{[numeric(1)]} \cr
-Depth of incorporation into soil/sediment (m).}
+\item{dinc_m}{\verb{[numeric(1)]} \cr Depth of incorporation into soil/sediment.}
 
-\item{fet_cm}{\verb{[numeric(1)]} \cr
-Film thickness for exchange at the sediment–water interface (cm).}
+\item{fet_cm}{\verb{[numeric(1)]} \cr Film thickness for exchange at the sediment-water interface.}
 
-\item{kf_day}{\verb{[numeric(1)]} \cr
-Degradation rate in floodwater (1/day).}
+\item{kf_day}{\verb{[numeric(1)]} \cr Degradation rate in floodwater.}
 
-\item{kw_day}{\verb{[numeric(1)]} \cr
-Degradation rate in the water column (1/day).}
+\item{kw_day}{\verb{[numeric(1)]} \cr Degradation rate in the water column.}
 
-\item{ks_sat_day}{\verb{[numeric(1)]} \cr
-Degradation rate in saturated sediment (1/day).}
+\item{ks_sat_day}{\verb{[numeric(1)]} \cr Degradation rate in saturated sediment.}
 
-\item{ks_unsat_day}{\verb{[numeric(1)]} \cr
-Degradation rate in unsaturated sediment (1/day).}
+\item{ks_unsat_day}{\verb{[numeric(1)]} \cr Degradation rate in unsaturated sediment.}
 
-\item{kw_temp}{\verb{[numeric(1)]} \cr
-Reference temperature for \code{kw_day} (°C).}
+\item{kw_temp}{\verb{[numeric(1)]} \cr Reference temperature for kw_day.}
 
-\item{ks_sat_temp}{\verb{[numeric(1)]} \cr
-Reference temperature for \code{ks_sat_day} (°C).}
+\item{ks_sat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_sat_day.}
 
-\item{ks_unsat_temp}{\verb{[numeric(1)]} \cr
-Reference temperature for \code{ks_unsat_day} (°C).}
+\item{ks_unsat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_unsat_day.}
 
-\item{Q10_kw}{\verb{[numeric(1)]} \cr
-Q10 coefficient for temperature correction of degradation in water.}
+\item{Q10_kw}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction of degradation in water.}
 
-\item{Q10_ks_sat}{\verb{[numeric(1)]} \cr
-Q10 coefficient for temperature correction in saturated sediment.}
+\item{Q10_ks_sat}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction in saturated sediment.}
 
-\item{Q10_ks_unsat}{\verb{[numeric(1)]} \cr
-Q10 coefficient for temperature correction in unsaturated sediment.}
+\item{Q10_ks_unsat}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction in unsaturated sediment.}
 
-\item{ssd_acute_mu}{\verb{[numeric(1)]} \cr
-Mean (log₁₀ scale) of the acute species sensitivity distribution.}
+\item{ssd_acute_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the acute species sensitivity distribution.}
 
-\item{ssd_acute_sigma}{\verb{[numeric(1)]} \cr
-Standard deviation (log₁₀ scale) of the acute species sensitivity
-distribution.}
+\item{ssd_acute_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the acute species sensitivity distribution.}
 
-\item{ssd_chronic_mu}{\verb{[numeric(1)]} \cr
-Mean (log₁₀ scale) of the chronic species sensitivity distribution.}
+\item{ssd_chronic_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the chronic species sensitivity distribution.}
 
-\item{ssd_chronic_sigma}{\verb{[numeric(1)]} \cr
-Standard deviation (log₁₀ scale) of the chronic species sensitivity
-distribution.}
+\item{ssd_chronic_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the chronic species sensitivity distribution.}
 }
 \value{
 An object of class \code{erahumed_chemical}.

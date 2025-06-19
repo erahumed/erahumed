@@ -4,54 +4,29 @@
 #' including its identity, degradation rates, sorption properties, and toxicity
 #' to aquatic organisms.
 #'
-#' @param display_name `[character(1)]` \cr
-#' The common name of the chemical (e.g., `"Acetamiprid"`).
-#' @param tmoa_id `[character(1)]` \cr
-#' Identifier for the toxic mode of action (e.g., `"NicotinicAcetylcholine"`).
-#' @param MW `[numeric(1)]` \cr
-#' Molecular weight in grams per mole (g/mol).
-#' @param ksetl_m_day `[numeric(1)]` \cr
-#' Settling rate (m/day), representing particle-bound transfer to sediment.
-#' @param kvolat_m_day `[numeric(1)]` \cr
-#' Volatilization rate from water to air (m/day).
-#' @param sol_ppm `[numeric(1)]` \cr
-#' Water solubility (ppm).
-#' @param koc_cm3_g `[numeric(1)]` \cr
-#' Organic carbon–water partition coefficient (Koc) in cm³/g.
-#' @param dinc_m `[numeric(1)]` \cr
-#' Depth of incorporation into soil/sediment (m).
-#' @param fet_cm `[numeric(1)]` \cr
-#' Film thickness for exchange at the sediment–water interface (cm).
-#' @param kf_day `[numeric(1)]` \cr
-#' Degradation rate in floodwater (1/day).
-#' @param kw_day `[numeric(1)]` \cr
-#' Degradation rate in the water column (1/day).
-#' @param ks_sat_day `[numeric(1)]` \cr
-#' Degradation rate in saturated sediment (1/day).
-#' @param ks_unsat_day `[numeric(1)]` \cr
-#' Degradation rate in unsaturated sediment (1/day).
-#' @param kw_temp `[numeric(1)]` \cr
-#' Reference temperature for \code{kw_day} (°C).
-#' @param ks_sat_temp `[numeric(1)]` \cr
-#' Reference temperature for \code{ks_sat_day} (°C).
-#' @param ks_unsat_temp `[numeric(1)]` \cr
-#' Reference temperature for \code{ks_unsat_day} (°C).
-#' @param Q10_kw `[numeric(1)]` \cr
-#' Q10 coefficient for temperature correction of degradation in water.
-#' @param Q10_ks_sat `[numeric(1)]` \cr
-#' Q10 coefficient for temperature correction in saturated sediment.
-#' @param Q10_ks_unsat `[numeric(1)]` \cr
-#' Q10 coefficient for temperature correction in unsaturated sediment.
-#' @param ssd_acute_mu `[numeric(1)]` \cr
-#' Mean (log₁₀ scale) of the acute species sensitivity distribution.
-#' @param ssd_acute_sigma `[numeric(1)]` \cr
-#' Standard deviation (log₁₀ scale) of the acute species sensitivity
-#' distribution.
-#' @param ssd_chronic_mu `[numeric(1)]` \cr
-#' Mean (log₁₀ scale) of the chronic species sensitivity distribution.
-#' @param ssd_chronic_sigma `[numeric(1)]` \cr
-#' Standard deviation (log₁₀ scale) of the chronic species sensitivity
-#' distribution.
+#' @param display_name `r chemical_prop_roxy("display_name")`
+#' @param tmoa_id `r chemical_prop_roxy("tmoa_id")`
+#' @param MW `r chemical_prop_roxy("MW")`
+#' @param ksetl_m_day `r chemical_prop_roxy("ksetl_m_day")`
+#' @param kvolat_m_day `r chemical_prop_roxy("kvolat_m_day")`
+#' @param sol_ppm `r chemical_prop_roxy("sol_ppm")`
+#' @param koc_cm3_g `r chemical_prop_roxy("koc_cm3_g")`
+#' @param dinc_m `r chemical_prop_roxy("dinc_m")`
+#' @param fet_cm `r chemical_prop_roxy("fet_cm")`
+#' @param kf_day `r chemical_prop_roxy("kf_day")`
+#' @param kw_day `r chemical_prop_roxy("kw_day")`
+#' @param ks_sat_day `r chemical_prop_roxy("ks_sat_day")`
+#' @param ks_unsat_day `r chemical_prop_roxy("ks_unsat_day")`
+#' @param kw_temp `r chemical_prop_roxy("kw_temp")`
+#' @param ks_sat_temp `r chemical_prop_roxy("ks_sat_temp")`
+#' @param ks_unsat_temp `r chemical_prop_roxy("ks_unsat_temp")`
+#' @param Q10_kw `r chemical_prop_roxy("Q10_kw")`
+#' @param Q10_ks_sat `r chemical_prop_roxy("Q10_ks_sat")`
+#' @param Q10_ks_unsat `r chemical_prop_roxy("Q10_ks_unsat")`
+#' @param ssd_acute_mu `r chemical_prop_roxy("ssd_acute_mu")`
+#' @param ssd_acute_sigma `r chemical_prop_roxy("ssd_acute_sigma")`
+#' @param ssd_chronic_mu `r chemical_prop_roxy("ssd_chronic_mu")`
+#' @param ssd_chronic_sigma `r chemical_prop_roxy("ssd_chronic_sigma")`
 #'
 #' @return An object of class `erahumed_chemical`.
 #' @export
