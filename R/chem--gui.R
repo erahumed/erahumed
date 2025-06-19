@@ -22,66 +22,58 @@ chemical_db_server <- function(id)
   })
 }
 
-
 chemical_editor_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  bslib::layout_column_wrap(
-    width = 1,  # One column to stack cards vertically
-    gap = "1rem",
-    heights_equal = "row",
+  bslib::accordion(
+    open = FALSE,
+    multiple = TRUE,
 
     ## General info
-    bslib::card(
-      bslib::card_header("General Information"),
-      bslib::card_body(bslib::layout_column_wrap(
-        shiny::textInput(ns("display_name"), "Display name", value = NA),
-        shiny::textInput(ns("tmoa_id"), "TMoA ID", value = NA),
-        shiny::numericInput(ns("MW"), "Molecular Weight (g/mol)", value = NA),
-        shiny::numericInput(ns("sol_ppm"), "Solubility (ppm)", value = NA),
-        shiny::numericInput(ns("koc_cm3_g"), "Koc (cm<sup>3</sup>/g)", value = NA),
-        shiny::numericInput(ns("fet_cm"), "Film exchange thickness (cm)", value = NA),
-        shiny::numericInput(ns("dinc_m"), "Incorporation depth (m)", value = NA)
-      ))
+    bslib::accordion_panel("General Information",
+                           shiny::textInput(ns("display_name"), "Name", value = NA)
+    ),
+
+    ## Partitioning and mobility
+    bslib::accordion_panel("Partitioning and Mobility",
+                           shiny::numericInput(ns("MW"), shiny::HTML("Molecular Weight (g/mol)"), value = NA),
+                           shiny::numericInput(ns("sol_ppm"), shiny::HTML("Solubility (ppm)"), value = NA),
+                           shiny::numericInput(ns("koc_cm3_g"), shiny::HTML("K<sub>oc</sub> (cm<sup>3</sup>/g)"), value = NA),
+                           shiny::numericInput(ns("fet_cm"), shiny::HTML("Film exchange thickness (cm)"), value = NA),
+                           shiny::numericInput(ns("dinc_m"), shiny::HTML("Incorporation depth (m)"), value = NA),
+                           shiny::numericInput(ns("ksetl_m_day"), shiny::HTML("k<sub>setl</sub> (m/day)"), value = NA),
+                           shiny::numericInput(ns("kvolat_m_day"), shiny::HTML("k<sub>volat</sub> (m/day)"), value = NA)
     ),
 
     ## Degradation parameters
-    bslib::card(
-      bslib::card_header("Degradation Parameters"),
-      bslib::card_body(
-        bslib::layout_column_wrap(
-          shiny::numericInput(ns("kf_day"), "k<sub>f</sub> (1/day)", value = NA),
-          shiny::numericInput(ns("kw_day"), "k<sub>w</sub> (1/day)", value = NA),
-          shiny::numericInput(ns("ks_sat_day"), "k<sub>s_sat</sub> (1/day)", value = NA),
-          shiny::numericInput(ns("ks_unsat_day"), "k<sub>s_unsat</sub> (1/day)", value = NA),
-          shiny::numericInput(ns("ksetl_m_day"), "k<sub>setl</sub> (m/day)", value = NA),
-          shiny::numericInput(ns("kvolat_m_day"), "k<sub>volat</sub> (m/day)", value = NA),
+    bslib::accordion_panel("Degradation Constants",
+                           shiny::numericInput(ns("kf_day"), shiny::HTML("k<sub>f</sub> (1/day)"), value = NA),
+                           shiny::numericInput(ns("kw_day"), shiny::HTML("k<sub>w</sub> (1/day)"), value = NA),
+                           shiny::numericInput(ns("ks_sat_day"), shiny::HTML("k<sub>s,sat</sub> (1/day)"), value = NA),
+                           shiny::numericInput(ns("ks_unsat_day"), shiny::HTML("k<sub>s,unsat</sub> (1/day)"), value = NA)
+    ),
 
-          shiny::numericInput(ns("kw_temp"), "T ref for k<sub>w</sub> (°C)", value = NA),
-          shiny::numericInput(ns("ks_sat_temp"), "T ref for k<sub>s_sat</sub> (°C)", value = NA),
-          shiny::numericInput(ns("ks_unsat_temp"), "T ref for k<sub>s_unsat</sub> (°C)", value = NA),
-
-          shiny::numericInput(ns("Q10_kw"), "Q<sub>10</sub> for k<sub>w</sub>", value = NA),
-          shiny::numericInput(ns("Q10_ks_sat"), "Q<sub>10</sub> for k<sub>s_sat</sub>", value = NA),
-          shiny::numericInput(ns("Q10_ks_unsat"), "Q<sub>10</sub> for k<sub>s_unsat</sub>", value = NA)
-        )
-      )
+    ## Temperature dependence
+    bslib::accordion_panel("Temperature Dependence of Degradation",
+                           shiny::numericInput(ns("kw_temp"), shiny::HTML("T<sub>ref</sub> for k<sub>w</sub> (°C)"), value = NA),
+                           shiny::numericInput(ns("ks_sat_temp"), shiny::HTML("T<sub>ref</sub> for k<sub>s,sat</sub> (°C)"), value = NA),
+                           shiny::numericInput(ns("ks_unsat_temp"), shiny::HTML("T<sub>ref</sub> for k<sub>s,unsat</sub> (°C)"), value = NA),
+                           shiny::numericInput(ns("Q10_kw"), shiny::HTML("Q<sub>10</sub> for k<sub>w</sub>"), value = NA),
+                           shiny::numericInput(ns("Q10_ks_sat"), shiny::HTML("Q<sub>10</sub> for k<sub>s,sat</sub>"), value = NA),
+                           shiny::numericInput(ns("Q10_ks_unsat"), shiny::HTML("Q<sub>10</sub> for k<sub>s,unsat</sub>"), value = NA)
     ),
 
     ## Toxicology (SSD)
-    bslib::card(
-      bslib::card_header("Toxicological Properties (SSD Parameters)"),
-      bslib::card_body(
-        bslib::layout_column_wrap(
-          shiny::numericInput(ns("ssd_acute_mu"), "SSD Acute μ", value = NA),
-          shiny::numericInput(ns("ssd_acute_sigma"), "SSD Acute σ", value = NA),
-          shiny::numericInput(ns("ssd_chronic_mu"), "SSD Chronic μ", value = NA),
-          shiny::numericInput(ns("ssd_chronic_sigma"), "SSD Chronic σ", value = NA)
-        )
-      )
+    bslib::accordion_panel("Toxicological Properties",
+                           shiny::textInput(ns("tmoa_id"), "TMoA ID", value = NA),
+                           shiny::numericInput(ns("ssd_acute_mu"), shiny::HTML("SSD Acute &mu;"), value = NA),
+                           shiny::numericInput(ns("ssd_acute_sigma"), shiny::HTML("SSD Acute &sigma;"), value = NA),
+                           shiny::numericInput(ns("ssd_chronic_mu"), shiny::HTML("SSD Chronic &mu;"), value = NA),
+                           shiny::numericInput(ns("ssd_chronic_sigma"), shiny::HTML("SSD Chronic &sigma;"), value = NA)
     )
   )
 }
+
 
 chemical_editor_server <- function(id, item = shiny::reactive(NULL))
 {
