@@ -87,6 +87,7 @@ list_manager_server <- function(id,
       shiny::showModal(
         session = session,
         shiny::modalDialog(
+          size = "xl",
           title = title,
           item_editor_ui(ns("editor")),
           footer = shiny::tagList(
@@ -157,6 +158,7 @@ list_manager_server <- function(id,
       shiny::showModal(shiny::modalDialog(
         title = "Confirm Deletion",
         "Are you sure you want to delete this item?",
+        size = "s",
         footer = shiny::tagList(
           shiny::modalButton("Cancel"),
           shiny::actionButton(ns("confirm_delete"), "Delete", class = "btn-danger")
