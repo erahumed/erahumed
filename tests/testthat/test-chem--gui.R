@@ -23,6 +23,6 @@ test_that("Server returns a reactive expression", {
 test_that("Return contains by default the list of predefined chemicals", {
   shiny::testServer(chemical_db_server, {
     res <- session$returned
-    expect_identical(res(), default_chemical_db())
+    expect_identical(res()$items, default_chemical_db())
   })
 })
