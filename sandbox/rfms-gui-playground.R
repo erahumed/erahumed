@@ -3,7 +3,7 @@ library(erahumed)
 shiny::shinyApp(
   ui = function() {
     bslib::page_fillable(
-      erahumed:::chemical_db_ui("mock"),
+      erahumed:::chemical_db_ui("mock") |> shiny::tags$style(display = "none"),
       shiny::hr(),
       erahumed:::rfms_ui("test")
     )
