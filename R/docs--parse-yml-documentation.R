@@ -112,3 +112,12 @@ chemical_prop_docs <- function(...)
 chemical_prop_roxy <- function(name) {
   get_roxy_param_entry(chemical_prop_docs(name))
 }
+
+chemical_prop_desc <- function(name, strip_roxy = TRUE) {
+  res <- chemical_prop_docs(name, "description")
+
+  if (strip_roxy)
+    res <- strip_roxy_macros(res)
+
+  return(res)
+}

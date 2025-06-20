@@ -34,40 +34,37 @@ chemical_editor_ui <- function(id) {
 
       ## Partitioning and mobility
       bslib::accordion_panel("Partitioning and Mobility",
-                             inline_numeric_input(ns("MW"), shiny::HTML("Molecular Weight (g/mol)"), value = NA),
-                             inline_numeric_input(ns("sol_ppm"), shiny::HTML("Solubility (ppm)"), value = NA),
-                             inline_numeric_input(ns("koc_cm3_g"), shiny::HTML("K<sub>oc</sub> (cm<sup>3</sup>/g)"), value = NA),
-                             inline_numeric_input(ns("fet_cm"), shiny::HTML("Film exchange thickness (cm)"), value = NA),
-                             inline_numeric_input(ns("dinc_m"), shiny::HTML("Incorporation depth (m)"), value = NA),
-                             inline_numeric_input(ns("ksetl_m_day"), shiny::HTML("k<sub>setl</sub> (m/day)"), value = NA),
-                             inline_numeric_input(ns("kvolat_m_day"), shiny::HTML("k<sub>volat</sub> (m/day)"), value = NA)
+                             chem_input_MW(ns("MW")),
+                             chem_input_sol_ppm(ns("sol_ppm")),
+                             chem_input_koc_cm3_g(ns("koc_cm3_g")),
+                             chem_input_fet_cm(ns("fet_cm")),
+                             chem_input_dinc_m(ns("dinc_m")),
+                             chem_input_ksetl_m_day(ns("ksetl_m_day")),
+                             chem_input_kvolat_m_day(ns("kvolat_m_day"))
       ),
 
-      ## Degradation parameters
       bslib::accordion_panel("Degradation Constants",
-                             inline_numeric_input(ns("kf_day"), shiny::HTML("k<sub>f</sub> (1/day)"), value = NA),
-                             inline_numeric_input(ns("kw_day"), shiny::HTML("k<sub>w</sub> (1/day)"), value = NA),
-                             inline_numeric_input(ns("ks_sat_day"), shiny::HTML("k<sub>s,sat</sub> (1/day)"), value = NA),
-                             inline_numeric_input(ns("ks_unsat_day"), shiny::HTML("k<sub>s,unsat</sub> (1/day)"), value = NA)
+                             chem_input_kf_day(ns("kf_day")),
+                             chem_input_kw_day(ns("kw_day")),
+                             chem_input_ks_sat_day(ns("ks_sat_day")),
+                             chem_input_ks_unsat_day(ns("ks_unsat_day"))
       ),
 
-      ## Temperature dependence
       bslib::accordion_panel("Temperature Dependence of Degradation",
-                             inline_numeric_input(ns("kw_temp"), shiny::HTML("T<sub>ref</sub> for k<sub>w</sub> (°C)"), value = NA),
-                             inline_numeric_input(ns("ks_sat_temp"), shiny::HTML("T<sub>ref</sub> for k<sub>s,sat</sub> (°C)"), value = NA),
-                             inline_numeric_input(ns("ks_unsat_temp"), shiny::HTML("T<sub>ref</sub> for k<sub>s,unsat</sub> (°C)"), value = NA),
-                             inline_numeric_input(ns("Q10_kw"), shiny::HTML("Q<sub>10</sub> for k<sub>w</sub>"), value = NA),
-                             inline_numeric_input(ns("Q10_ks_sat"), shiny::HTML("Q<sub>10</sub> for k<sub>s,sat</sub>"), value = NA),
-                             inline_numeric_input(ns("Q10_ks_unsat"), shiny::HTML("Q<sub>10</sub> for k<sub>s,unsat</sub>"), value = NA)
+                             chem_input_kw_temp(ns("kw_temp")),
+                             chem_input_ks_sat_temp(ns("ks_sat_temp")),
+                             chem_input_ks_unsat_temp(ns("ks_unsat_temp")),
+                             chem_input_Q10_kw(ns("Q10_kw")),
+                             chem_input_Q10_ks_sat(ns("Q10_ks_sat")),
+                             chem_input_Q10_ks_unsat(ns("Q10_ks_unsat"))
       ),
 
-      ## Toxicology (SSD)
       bslib::accordion_panel("Toxicological Properties",
-                             inline_text_input(ns("tmoa_id"), "TMoA ID", value = NA),
-                             inline_numeric_input(ns("ssd_acute_mu"), shiny::HTML("SSD Acute &mu;"), value = NA),
-                             inline_numeric_input(ns("ssd_acute_sigma"), shiny::HTML("SSD Acute &sigma;"), value = NA),
-                             inline_numeric_input(ns("ssd_chronic_mu"), shiny::HTML("SSD Chronic &mu;"), value = NA),
-                             inline_numeric_input(ns("ssd_chronic_sigma"), shiny::HTML("SSD Chronic &sigma;"), value = NA)
+                             chem_input_tmoa_id(ns("tmoa_id")),
+                             chem_input_ssd_acute_mu(ns("ssd_acute_mu")),
+                             chem_input_ssd_acute_sigma(ns("ssd_acute_sigma")),
+                             chem_input_ssd_chronic_mu(ns("ssd_chronic_mu")),
+                             chem_input_ssd_chronic_sigma(ns("ssd_chronic_sigma"))
       )
     )
   )
