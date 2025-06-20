@@ -7,8 +7,6 @@ list_manager_ui <- function(
 {
   ns <- shiny::NS(id)
 
-  title <- paste(object_name, list_description)
-
   # Used to trigger list edits and deletes from dynamically created button,
   # avoiding anti-patterns such as nested observers.
   counters_js <- shiny::tags$script(shiny::HTML(
@@ -20,18 +18,20 @@ list_manager_ui <- function(
 
   list_output <- shiny::uiOutput(ns("list_output"))
 
-  bslib::card(
-    bslib::card_header(shiny::div(
+  shiny::tagList(
+    shinyjs::useShinyjs(),
+    counters_js,
+    bslib::card(
+      bslib::card_header(shiny::div(
         class = "d-flex justify-content-between align-items-center",
         shiny::strong(plural_name),
         add_item_btn
       )),
-    bslib::card_body(list_output),
-
-    shinyjs::useShinyjs(),
-    counters_js
-
+      bslib::card_body(list_output),
+      min_height = 200,
+      fill = FALSE
     )
+  )
 }
 
 list_manager_server <- function(id,
