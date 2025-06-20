@@ -12,46 +12,24 @@ rfms_ui <- function(id) {
                     bslib::card(
                       bslib::card_header("Crop calendar"),
                       bslib::card_body(
-                        inline_numeric_input(ns("sowing_yday"), "Sowing day of year",
-                                             value = rfms_input_defaults()$sowing_yday,
-                                             min = 1, max = 366) |>
-                          bslib::tooltip("Day of the year marking the start of the sowing season (1–366, assuming a leap year)."),
-
-                        inline_numeric_input(ns("perellona_start_yday"), "Perellona start day of year",
-                                             value = rfms_input_defaults()$perellona_start_yday,
-                                             min = 1, max = 366) |>
-                          bslib::tooltip("Day of the year marking the beginning of the Perellona flooding period (after harvest)."),
-
-                        inline_numeric_input(ns("perellona_end_yday"), "Perellona end day of year",
-                                             value = rfms_input_defaults()$perellona_end_yday,
-                                             min = 1, max = 366) |>
-                          bslib::tooltip("Day of the year marking the end of the Perellona flooding period (before sowing)."),
-
-                        inline_numeric_input(ns("harvesting_yday"), "Harvesting day of year",
-                                             value = rfms_input_defaults()$harvesting_yday,
-                                             min = 1, max = 366) |>
-                          bslib::tooltip("Day of the year marking the end of the sowing season (1–366, assuming a leap year).")
+                        rfms_input_sowing_yday(ns("sowing_yday")),
+                        rfms_input_perellona_start_yday(ns("perellona_start_yday")),
+                        rfms_input_perellona_end_yday(ns("perellona_end_yday")),
+                        rfms_input_harvesting_yday(ns("harvesting_yday"))
                       )
                     )
       ),
 
-      # Water levels
       shiny::column(6,
                     bslib::card(
                       bslib::card_header("Water levels"),
                       bslib::card_body(
-                        inline_numeric_input(ns("flow_height_cm"), "Flow height (cm)",
-                                             value = rfms_input_defaults()$flow_height_cm,
-                                             min = 0) |>
-                          bslib::tooltip("Target water level (in cm) during the regular days of the sowing season, excluding emptying and transition days."),
-
-                        inline_numeric_input(ns("perellona_height_cm"), "Perellona height (cm)",
-                                             value = rfms_input_defaults()$perellona_height_cm,
-                                             min = 0) |>
-                          bslib::tooltip("Target water level (in cm) during the Perellona flooding period.")
+                        rfms_input_flow_height_cm(ns("flow_height_cm")),
+                        rfms_input_perellona_height_cm(ns("perellona_height_cm"))
                       )
                     )
       )
+
 
     )
     ,
