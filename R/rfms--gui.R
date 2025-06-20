@@ -51,7 +51,7 @@ rfms_ui <- function(id) {
 
     shiny::hr(),
     list_manager_ui(ns("applications"),
-                    object_name = "Applications",
+                    object_name = "Application",
                     list_description = "list")
   )
 }
