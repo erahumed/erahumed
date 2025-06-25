@@ -40,9 +40,7 @@ rfms_ui <- function(id) {
     shiny::verbatimTextOutput(ns("summary_output")),
 
     shiny::hr(),
-    list_manager_ui(ns("applications"),
-                    object_name = "Application",
-                    list_description = "list")
+    applications_db_ui(ns("applications"))
   )
 }
 
@@ -63,74 +61,13 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
       shiny::updateNumericInput(session, "perellona_height_cm", value = initial_rfms$perellona_height_cm)
     }) |> shiny::bindEvent(input$reset)
 
-    applications_db <- list_manager_server(
+    applications_db <- applications_db_server(
       "applications",
-      item_editor_ui = function(id) {
-        ns <- shiny::NS(id)
-
-        choices <- chemical_db()$ids
-        names(choices) <- sapply(chemical_db()$items, \(.) .$display_name)
-
-        shiny::tagList(
-          shiny::selectInput(ns("chemical_id"),
-                             "Select chemical",
-                             choices = choices
-                             ),
-          shiny::numericInput(ns("seed_day"),
-                              "Application day (since sowing)",
-                              value = NA,
-                              min = 1,
-                              max = input$harvesting_yday - input$sowing_yday
-                              ),
-          shiny::numericInput(ns("amount_kg_ha"),
-                              "Amount (kg/ha)",
-                              value = NA,
-                              min = 0),
-          shiny::selectInput(ns("type"),
-                             label = "Type",
-                             choices = c("ground", "aerial"),
-                             selected = NA
-                             ),
-          shiny::numericInput(ns("emptying_days"),
-                              "Emptying days",
-                              value = NA,
-                              min = 1,
-                              step = 1
-                              )
-        )
-      },
-      item_editor_server = function(id, item = shiny::reactive(NULL)) {
-        shiny::moduleServer(id, function(input, output, session) {
-          shiny::observe({
-            shiny::req(item())
-
-            shiny::updateSelectInput(inputId = "chemical_id", selected = item()$chemical_id)
-            shiny::updateNumericInput(inputId = "seed_day", value = item()$seed_day)
-            shiny::updateNumericInput(inputId = "amount_kg_ha", value = item()$amount_kg_ha)
-            shiny::updateSelectInput(inputId = "type", selected = item()$type)
-            shiny::updateNumericInput(inputId = "emptying_days", value = item()$emptying_days)
-          })
-
-          shiny::reactive({
-            chemical_idx <- match(input$chemical_id, chemical_db()$ids)
-            chemical_name <- chemical_db()$items[[chemical_idx]]$display_name
-
-            list(
-              chemical_name = chemical_name,
-              chemical_id = input$chemical_id,
-              amount_kg_ha = input$amount_kg_ha,
-              seed_day = input$seed_day,
-              type = input$type,
-              emptying_days = input$emptying_days
-            )
-          })
-        })
-      },
-      item_display_function = function(item) {
-        paste0(item$chemical_name, " - Seed day: ", item$seed_day)
-      },
+      chemical_db = chemical_db,
+      harvesting_yday = shiny::reactive(input$harvesting_yday),
+      sowing_yday = shiny::reactive(input$sowing_yday),
       default_items = shiny::isolate(get_proto_applications(initial_rfms, chemical_db()))
-      )
+    )
 
     # Update management system object on input change
     res <- shiny::reactive({
@@ -191,16 +128,97 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
 
 }
 
-rfms_input_defaults <- function() {
-  fmls <- formals(new_management_system)
-  list(
-    sowing_yday = eval(fmls$sowing_yday),
-    harvesting_yday = eval(fmls$harvesting_yday),
-    perellona_end_yday = eval(fmls$perellona_end_yday),
-    perellona_start_yday = eval(fmls$perellona_start_yday),
-    flow_height_cm = eval(fmls$flow_height_cm),
-    perellona_height_cm = eval(fmls$perellona_height_cm)
+applications_db_ui <- function(id) {
+  ns <- shiny::NS(id)
+  list_manager_ui(
+    ns("apps"),
+    object_name = "Application",
+    list_description = "list"
   )
+}
+
+applications_db_server <- function(id, chemical_db, harvesting_yday, sowing_yday, default_items = list()) {
+  shiny::moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
+    list_manager_server(
+      "apps",
+      item_editor_ui =
+        make_application_editor_ui(chemical_db = chemical_db,
+                                   harvesting_yday = harvesting_yday,
+                                   sowing_yday = sowing_yday),
+      item_editor_server =
+        make_application_editor_server(chemical_db = chemical_db),
+      item_display_function =
+        \(x) paste0(x$chemical_name, " - Seed day: ", x$seed_day),
+      default_items = default_items
+    )
+  })
+}
+
+make_application_editor_ui <- function(chemical_db, harvesting_yday, sowing_yday) {
+  function(id) {
+    ns <- shiny::NS(id)
+
+    choices <- chemical_db()$ids
+    names(choices) <- sapply(chemical_db()$items, \(.) .$display_name)
+
+    shiny::tagList(
+      shiny::selectInput(ns("chemical_id"), "Select chemical", choices = choices),
+
+      shiny::numericInput(ns("seed_day"),
+                          "Application day (since sowing)",
+                          value = NA,
+                          min = 1,
+                          max = harvesting_yday() - sowing_yday()),
+
+      shiny::numericInput(ns("amount_kg_ha"),
+                          "Amount (kg/ha)",
+                          value = NA,
+                          min = 0),
+
+      shiny::selectInput(ns("type"),
+                         label = "Type",
+                         choices = c("ground", "aerial"),
+                         selected = NA),
+
+      shiny::numericInput(ns("emptying_days"),
+                          "Emptying days",
+                          value = NA,
+                          min = 1,
+                          step = 1)
+    )
+  }
+}
+
+make_application_editor_server <- function(chemical_db) {
+  function(id, item = shiny::reactive(NULL)) {
+    shiny::moduleServer(id, function(input, output, session) {
+      shiny::observe({
+        shiny::req(item())
+
+        shiny::updateSelectInput(inputId = "chemical_id", selected = item()$chemical_id)
+        shiny::updateNumericInput(inputId = "seed_day", value = item()$seed_day)
+        shiny::updateNumericInput(inputId = "amount_kg_ha", value = item()$amount_kg_ha)
+        shiny::updateSelectInput(inputId = "type", selected = item()$type)
+        shiny::updateNumericInput(inputId = "emptying_days", value = item()$emptying_days)
+      })
+
+      shiny::reactive({
+        chemical_idx <- match(input$chemical_id, chemical_db()$ids)
+        chemical_name <- chemical_db()$items[[chemical_idx]]$display_name
+
+        list(
+          chemical_name = chemical_name,
+          chemical_id = input$chemical_id,
+          amount_kg_ha = input$amount_kg_ha,
+          seed_day = input$seed_day,
+          type = input$type,
+          emptying_days = input$emptying_days
+        )
+      })
+    })
+  }
 }
 
 get_proto_applications <- function(rfms, chemical_db) {
