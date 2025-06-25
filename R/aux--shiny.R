@@ -86,12 +86,39 @@ add_inline_label <- function(input_element, label, id = NULL) {
   )
 }
 
-inline_numeric_input <- function(inputId, label, value = NA, min = NA, max = NA, step = NA, width = NULL) {
+inline_numeric_input <- function(inputId,
+                                 label,
+                                 value = NA,
+                                 min = NA,
+                                 max = NA,
+                                 step = NA,
+                                 width = NULL)
+{
   shiny::numericInput(inputId = inputId, label = NULL, value = value, min = min, max = max, step = step, width = width) |>
     add_inline_label(label = label, id = inputId)
 }
 
-inline_text_input <- function(id, label, value = "", width = NULL, placeholder = NULL) {
-  shiny::textInput(id, label = NULL, value = value, width = width, placeholder = placeholder) |>
-    add_inline_label(label = label, id = id)
+inline_text_input <- function(inputId,
+                              label,
+                              value = "",
+                              width = NULL,
+                              placeholder = NULL)
+{
+  shiny::textInput(inputId = inputId, label = NULL, value = value, width = width, placeholder = placeholder) |>
+    add_inline_label(label = label, id = inputId)
+}
+
+inline_select_input <- function(inputId,
+                                label,
+                                choices,
+                                selected = NULL,
+                                multiple = FALSE,
+                                selectize = TRUE,
+                                width = NULL,
+                                size = NULL)
+{
+  shiny::selectInput(inputId = inputId, label = NULL, choices = choices,
+                     selected = selected, multiple = multiple,
+                     selectize = selectize, width = width, size = size) |>
+    add_inline_label(label = label, id = inputId)
 }
