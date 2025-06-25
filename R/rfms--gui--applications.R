@@ -34,29 +34,11 @@ make_application_editor_ui <- function(chemical_db, harvesting_yday, sowing_yday
     names(choices) <- sapply(chemical_db()$items, \(.) .$display_name)
 
     shiny::tagList(
-      shiny::selectInput(ns("chemical_id"), "Select chemical", choices = choices),
-
-      shiny::numericInput(ns("seed_day"),
-                          "Application day (since sowing)",
-                          value = NA,
-                          min = 1,
-                          max = harvesting_yday() - sowing_yday()),
-
-      shiny::numericInput(ns("amount_kg_ha"),
-                          "Amount (kg/ha)",
-                          value = NA,
-                          min = 0),
-
-      shiny::selectInput(ns("type"),
-                         label = "Type",
-                         choices = c("ground", "aerial"),
-                         selected = NA),
-
-      shiny::numericInput(ns("emptying_days"),
-                          "Emptying days",
-                          value = NA,
-                          min = 1,
-                          step = 1)
+      rfms_input_chemical_id(ns("chemical_id"), choices = choices),
+      rfms_input_seed_day(ns("seed_day"), max = harvesting_yday() - sowing_yday()),
+      rfms_input_amount_kg_ha(ns("amount_kg_ha")),
+      rfms_input_type(ns("type")),
+      rfms_input_emptying_days(ns("emptying_days"))
     )
   }
 }

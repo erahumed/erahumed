@@ -103,3 +103,77 @@ rfms_input_perellona_height_cm <- function(id) {
                        value = rfms_input_defaults()$perellona_height_cm,
                        min = 0)
 }
+
+rfms_input_chemical_id <- function(id, choices) {
+  inline_select_input(id, "Select chemical", choices = choices)
+}
+
+rfms_input_seed_day <- function(id, max) {
+  desc <- "Day after seeding when the chemical application occurs."
+  label <- shiny::p(
+    "Application day (since sowing)",
+    bslib::tooltip(
+      trigger = shiny_icon("question-circle"),
+      desc,
+      placement = "right"
+    )
+  )
+
+  inline_numeric_input(id,
+                       label,
+                       value = NA,
+                       min = 1,
+                       max = max)
+}
+
+rfms_input_amount_kg_ha <- function(id) {
+  desc <- "Application rate of the chemical in kilograms per hectare."
+  label <- shiny::p(
+    "Amount (kg/ha)",
+    bslib::tooltip(
+      trigger = shiny_icon("question-circle"),
+      desc,
+      placement = "right"
+    )
+  )
+
+  inline_numeric_input(id,
+                       label,
+                       value = NA,
+                       min = 0)
+}
+
+rfms_input_type <- function(id) {
+  desc <- "Application method: either ground-based or aerial spraying."
+  label <- shiny::p(
+    "Type",
+    bslib::tooltip(
+      trigger = shiny_icon("question-circle"),
+      desc,
+      placement = "right"
+    )
+  )
+
+  inline_select_input(id,
+                      label = label,
+                      choices = c("ground", "aerial"),
+                      selected = NA)
+}
+
+rfms_input_emptying_days <- function(id) {
+  desc <- "Number of days the field remains empty after a ground application. Ignored if application type is aerial."
+  label <- shiny::p(
+    "Emptying days",
+    bslib::tooltip(
+      trigger = shiny_icon("question-circle"),
+      desc,
+      placement = "right"
+    )
+  )
+
+  inline_numeric_input(id,
+                       label,
+                       value = NA,
+                       min = 1,
+                       step = 1)
+}
