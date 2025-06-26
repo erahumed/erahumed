@@ -1,4 +1,4 @@
-plot_rfms <- function(x, ...) {
+plot_rfms <- function(x, main = NULL, ...) {
   year <- 2020
 
   n_app <- length(x$applications)
@@ -39,11 +39,11 @@ plot_rfms <- function(x, ...) {
     "
 
   # Initialize dygraph
-  graph <- dygraphs::dygraph(dummy_ts, main = "Chemical Applications Timeline") |>
+  graph <- dygraphs::dygraph(dummy_ts, main = main) |>
     dygraphs::dyAxis("x", axisLabelFormatter = axis_fmt) |>
     dygraphs::dyAxis("y", valueRange = c(0, 1)) |>
     dygraphs::dyLegend(show = "never") |>
-    dygraphs::dyOptions(drawYAxis = FALSE, drawGrid = TRUE)
+    dygraphs::dyOptions(drawYAxis = FALSE, drawGrid = FALSE)
 
   # Add events
   for (ev in events) {

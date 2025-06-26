@@ -29,21 +29,23 @@ rfms_ui <- function(id) {
                       )
                     )
       )
+    ),
 
-
-    )
-    ,
     shiny::actionButton(ns("reset"), label = "Reset all to defaults", icon = shiny::icon("undo")),
 
     shiny::hr(),
-    shiny::tags$h4("Current system summary:"),
-    shiny::verbatimTextOutput(ns("summary_output")),
 
-    shiny::hr(),
-    applications_db_ui(ns("applications"))
+    shiny::h1("Chemical applications"),
+    bslib::layout_columns(
+      col_widths = c(5, 7),
+      applications_db_ui(ns("applications")),
+      bslib::card(
+        bslib::card_header("Applications timeline"),
+        dygraphs::dygraphOutput(ns("timeline_plot")), fill = FALSE)
+    )
   )
-}
 
+}
 
 rfms_server <- function(id, chemical_db, initial_rfms) {
   shiny::moduleServer(id, function(input, output, session) {
@@ -78,7 +80,7 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
                                      perellona_end_yday = input$perellona_end_yday,
                                      flow_height_cm = input$flow_height_cm,
                                      perellona_height_cm = input$perellona_height_cm
-                                     )
+        )
 
         for (app in applications_db()$items) {
           chemical_index <- match(app$chemical_id, chemical_db()$ids)
@@ -87,9 +89,9 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
               paste("Definition of", app$chemical_name,
                     "application on seed day", app$seed_day,
                     "is inconsistent, due to changes in the chemical database.
-                     Please review or remove this schedule, skipping for now.",
-              type = "warning")
-              )
+                     Please review or remove this schedule, skipping for now."),
+              type = "warning"
+            )
             next
           }
 
@@ -103,17 +105,17 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
               type = app$type,
               emptying_days = app$emptying_days
             )
-          }
+        }
 
         sys
-        },
-        error = function(e) {
-          shiny::showNotification(paste("Error in RFMS definition:", e$message), type = "error")
-          cat(e$message)
-          shiny::req(FALSE)
+      },
+      error = function(e) {
+        shiny::showNotification(paste("Error in RFMS definition:", e$message), type = "error")
+        cat(e$message)
+        shiny::req(FALSE)
       })
     })
-    # Output the summary of the system
+
     output$summary_output <- shiny::renderPrint({
       if (is.null(res())) {
         cat("Invalid configuration. Please check the input values.")
@@ -122,8 +124,11 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
       }
     })
 
+    output$timeline_plot <- dygraphs::renderDygraph({
+      shiny::req(res())
+      plot_rfms(res())
+    })
+
     return(res)
   })
-
-
 }
