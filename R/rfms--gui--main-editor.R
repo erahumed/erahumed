@@ -1,51 +1,63 @@
 rfms_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  bslib::page_fillable(
-    title = "Rice Field Management System Definition",
-    shinyjs::useShinyjs(),
-
-    shiny::fluidRow(
-
-      # Crop calendar
-      shiny::column(6,
-                    bslib::card(
-                      bslib::card_header("Crop calendar"),
-                      bslib::card_body(
-                        rfms_input_sowing_yday(ns("sowing_yday")),
-                        rfms_input_perellona_start_yday(ns("perellona_start_yday")),
-                        rfms_input_perellona_end_yday(ns("perellona_end_yday")),
-                        rfms_input_harvesting_yday(ns("harvesting_yday"))
-                      )
-                    )
-      ),
-
-      shiny::column(6,
-                    bslib::card(
-                      bslib::card_header("Water levels"),
-                      bslib::card_body(
-                        rfms_input_flow_height_cm(ns("flow_height_cm")),
-                        rfms_input_perellona_height_cm(ns("perellona_height_cm"))
-                      )
-                    )
+  parameters_card <- bslib::card(
+    bslib::card_header("Parameters"),
+    bslib::card(
+      bslib::card_header("Crop calendar"),
+      bslib::card_body(
+        rfms_input_sowing_yday(ns("sowing_yday")),
+        rfms_input_perellona_start_yday(ns("perellona_start_yday")),
+        rfms_input_perellona_end_yday(ns("perellona_end_yday")),
+        rfms_input_harvesting_yday(ns("harvesting_yday"))
       )
     ),
-
-    shiny::actionButton(ns("reset"), label = "Reset all to defaults", icon = shiny::icon("undo")),
-
-    shiny::hr(),
-
-    shiny::h1("Chemical applications"),
-    bslib::layout_columns(
-      col_widths = c(5, 7),
-      applications_db_ui(ns("applications")),
-      bslib::card(
-        bslib::card_header("Applications timeline"),
-        dygraphs::dygraphOutput(ns("timeline_plot")), fill = FALSE)
-    )
+    bslib::card(
+      bslib::card_header("Water levels"),
+      bslib::card_body(
+        rfms_input_flow_height_cm(ns("flow_height_cm")),
+        rfms_input_perellona_height_cm(ns("perellona_height_cm"))
+      )
+    ),
+    shiny::div(
+      class = "d-flex justify-content-end mt-3 mb-3",
+      shiny::actionButton(ns("reset"),
+                          label = "Reset all to defaults",
+                          icon = shiny::icon("arrow-rotate-left"),
+                          class = "btn btn-secondary")
+    ),
   )
 
+  applications_card <-
+    bslib::card(
+      bslib::card_header(shiny::h4("Chemical Applications")),
+      bslib::card_body(
+        bslib::layout_columns(
+          col_widths = c(5, 7),
+          applications_db_ui(ns("applications")),
+          bslib::card(
+            bslib::card_header("Applications Timeline"),
+            dygraphs::dygraphOutput(ns("timeline_plot")),
+            fill = FALSE)
+          )
+        ),
+      fill = FALSE
+      )
+
+
+
+  bslib::page_fillable(
+    title = "Rice Field Management System Definition",
+    theme = bslib::bs_theme(version = 5, bootswatch = "flatly"),
+    shinyjs::useShinyjs(),
+    shiny::fluidRow(
+      shiny::column(width = 4, parameters_card),
+      shiny::column(width = 8, applications_card)
+      )
+    )
+
 }
+
 
 rfms_server <- function(id, chemical_db, initial_rfms) {
   shiny::moduleServer(id, function(input, output, session) {
