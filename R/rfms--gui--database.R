@@ -1,16 +1,12 @@
 rfms_db_ui <- function(id) {
   ns <- shiny::NS(id)
-  shiny::tagList(
-    chemical_db_ui(ns("chem_db")),
-    shiny::hr(),
-    shiny::verbatimTextOutput(ns("rfms_summary")),
-    shiny::actionButton(ns("addButton"), "Add cluster", icon = shiny::icon("plus")),
-    shiny::actionButton(ns("remove_tab"), "Remove Current Tab"),
-    shiny::tabsetPanel(
-      id = ns("rfms_tabs"),
-      type = "tabs",
+  bslib::page_fillable(
+    title = "Rice Field Management Systems",
+    theme = bslib::bs_theme(version = 5, bootswatch = "flatly"),
+    shiny::tabsetPanel(id = ns("rfms_tabs"), type = "tabs",
       header = shiny::tagList(
-        shiny::actionButton(ns("remove_tab"), "Remove")
+        shiny::actionButton(ns("addButton"), "Add new", icon = shiny::icon("plus")),
+        shiny::actionButton(ns("remove_tab"), "Remove current"),
       )
       # Initially empty; tabs will be inserted dynamically
     )
@@ -22,18 +18,17 @@ rfms_db_ui <- function(id) {
 
 
 
-rfms_db_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+rfms_db_server <- function(id, chemical_db) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    chemical_db <- chemical_db_server("chem_db")
-    counter <- reactiveVal(0)
+    counter <- shiny::reactiveVal(0)
 
-    rfms_modules <- reactiveValues()  # holds system() reactive for each tab
-    open_tabs <- reactiveVal(character())  # list of currently open tab IDs
+    rfms_modules <- shiny::reactiveValues()  # holds system() reactive for each tab
+    open_tabs <- shiny::reactiveVal(character())  # list of currently open tab IDs
 
     # -- Add new RFMS tab
-    observeEvent(input$addButton, {
+    shiny::observeEvent(input$addButton, {
       i <- counter() + 1
       counter(i)
 
@@ -41,9 +36,9 @@ rfms_db_server <- function(id) {
       tab_title <- paste("System", i)
 
       # Insert tab
-      insertTab(
+      shiny::insertTab(
         inputId = "rfms_tabs",
-        tabPanel(
+        shiny::tabPanel(
           title = tab_title,
           value = tab_id,
           rfms_ui(ns(tab_id))
@@ -59,19 +54,18 @@ rfms_db_server <- function(id) {
     })
 
     # -- Expose closing mechanism via external event or UI
-    observeEvent(input$remove_tab, {
+    shiny::observeEvent(input$remove_tab, {
       tab_id <- input$rfms_tabs
       if (!is.null(tab_id) && tab_id %in% open_tabs()) {
-        removeTab("rfms_tabs", target = tab_id)
+        shiny::removeTab("rfms_tabs", target = tab_id)
         open_tabs(setdiff(open_tabs(), tab_id))
         rfms_modules[[tab_id]] <- NULL  # optional: clean memory
       }
     })
 
-    output$rfms_summary <- renderPrint({
+    output$rfms_summary <- shiny::renderPrint({
       tabs <- open_tabs()
       if (length(tabs) == 0) {
-        cat("No RFMS defined yet.")
         return()
       }
 
@@ -82,8 +76,6 @@ rfms_db_server <- function(id) {
         if (is.null(val)) return(NULL)
         list(tab = tab_id)
       })
-
-      print(summary_list)
     })
 
     # Optionally return rfms_list from module

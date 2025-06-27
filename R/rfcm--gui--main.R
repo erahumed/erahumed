@@ -44,10 +44,10 @@ rfcm_server <- function(id, rfms_db) {
     })
 
     # Create new map
-    observeEvent(input$create_map, {
-      req(input$default_ms)
-      default_system <- rfms_db[[input$default_ms]]
-      new_map <- new_cluster_map(default_system)
+    shiny::observeEvent(input$create_map, {
+      shiny::req(input$default_ms)
+      default_system <- shiny::reactiveValuesToList(rfms_db)[[input$default_ms]]
+      new_map <- new_cluster_map(default_system())
       map(new_map)
 
       cat("[rfcm] New cluster map created with default system:", input$default_ms, "\n")

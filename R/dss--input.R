@@ -25,12 +25,6 @@ dss_input_ui <- function(id) {
       )
   )
 
-
-  pesticide_applications_ui <- bslib::layout_column_wrap(
-    dss_input_drift(ns("drift")),
-    dss_input_covmax(ns("covmax")),
-    )
-
   physchem_parameters_ui <- bslib::layout_column_wrap(
     dss_input_jgrow(ns("jgrow")),
     dss_input_dact_m(ns("dact_m")),
@@ -47,9 +41,12 @@ dss_input_ui <- function(id) {
       dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
       dss_input_height_thresh_cm(ns("height_thresh_cm")),
       dss_input_ditch_level_m(ns("ditch_level_m")),
+      dss_input_drift(ns("drift")),
+      dss_input_covmax(ns("covmax"))
     ),
-    erahumed:::rfcm_ui(ns("rfcm")),
-    erahumed:::rfms_db_ui(ns("rfms_db"))
+    rfcm_ui(ns("rfcm")),
+    rfms_db_ui(ns("rfms_db")),
+    chemical_db_ui(ns("chemical_db"))
   )
 
   bslib::page_fillable(
@@ -107,7 +104,8 @@ dss_input_server <- function(id) {
       ))
     })
 
-    rfms_db <- rfms_db_server("rfms_db")
+    chemical_db <- chemical_db_server("chemical_db")
+    rfms_db <- rfms_db_server("rfms_db", chemical_db)
     cluster_map <- rfcm_server("rfcm", rfms_db)
 
 
