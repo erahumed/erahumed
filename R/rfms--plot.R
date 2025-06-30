@@ -7,15 +7,34 @@ plot_rfms <- function(x, main = NULL, ...) {
     return(invisible(NULL))
   }
 
-  # Create a daily sequence for the full year (used to build dummy xts)
-  dates <- seq(as.Date(paste0(year, "-01-01")), as.Date(paste0(year, "-12-31")), by = "1 day")
-  dummy_ts <- xts::xts(rep(0, length(dates)), order.by = dates)
+  # Hydrological profile
+  wms_obj <- wms_from_rfms(x)
+
+  # Create daily dates (leap year assumed)
+  dates <- seq(as.Date(paste0(year, "-01-01")),
+               as.Date(paste0(year, "-12-31")),
+               by = "1 day")
+
+  # Extract water levels
+  wms_tancat <- wms_obj[wms_obj$tancat == TRUE, ]
+  wms_regular <- wms_obj[wms_obj$tancat == FALSE, ]
+
+  stopifnot(nrow(wms_tancat) == 366, nrow(wms_regular) == 366)
+
+  # Build xts time series
+  wms_xts <- xts::xts(
+    cbind(
+      Regular = wms_regular$ideal_height_eod_cm,
+      Tancat = wms_tancat$ideal_height_eod_cm
+    ),
+    order.by = dates
+  )
 
   # Group applications by seed_day
   apps_by_day <- split(x$applications, sapply(x$applications, function(app) app$seed_day))
 
-  # Create grouped event entries
-  events <- lapply(names(apps_by_day), function(seed_day_chr) {
+  # Create grouped chemical application events
+  chemical_events <- lapply(names(apps_by_day), function(seed_day_chr) {
     seed_day <- as.integer(seed_day_chr)
     app_list <- apps_by_day[[seed_day_chr]]
     app_date <- as.Date(paste0(year, "-01-01")) + x$sowing_yday + seed_day
@@ -30,26 +49,51 @@ plot_rfms <- function(x, main = NULL, ...) {
     list(date = app_date, label = label, tooltip = tooltip)
   })
 
+  # Define season markers
+  season_events <- list(
+    list(date = as.Date(paste0(year, "-01-01")) + x$sowing_yday, label = "Sowing start"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$harvesting_yday, label = "Sowing end"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_start_yday, label = "Perellonà start"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_end_yday, label = "Perellonà end")
+  )
+
+  # JavaScript axis formatter
   axis_fmt <- "
     function(d) {
        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
        return months[d.getMonth()];
      }
-    "
+  "
 
-  # Initialize dygraph
-  graph <- dygraphs::dygraph(dummy_ts, main = main) |>
+  # Build dygraph
+  graph <- dygraphs::dygraph(wms_xts, main = main) |>
+    dygraphs::dySeries("Regular", label = "Regular cluster", fillGraph = TRUE) |>
+    dygraphs::dySeries("Tancat", label = "Tancat cluster", fillGraph = TRUE) |>
     dygraphs::dyAxis("x", axisLabelFormatter = axis_fmt) |>
-    dygraphs::dyAxis("y", valueRange = c(0, 1)) |>
+    dygraphs::dyAxis("y", label = "Water level (cm)") |>
+    dygraphs::dyOptions(
+      drawGrid = TRUE,
+      strokeWidth = 2,
+      colors = c("steelblue", "lightblue")
+    ) |>
     dygraphs::dyLegend(show = "never") |>
-    dygraphs::dyOptions(drawYAxis = FALSE, drawGrid = FALSE)
+    dygraphs::dyUnzoom()
 
-  # Add events
-  for (ev in events) {
+  # Add chemical application events
+  for (ev in chemical_events) {
     graph <- dygraphs::dyEvent(graph, ev$date, ev$label, labelLoc = "top")
+  }
+
+  # Add season markers (with custom styling)
+  for (ev in season_events) {
+    graph <- dygraphs::dyEvent(
+      graph, ev$date, ev$label,
+      labelLoc = "top",
+      color = "darkred",
+      strokePattern = "solid"
+    )
   }
 
   graph
 }
-
