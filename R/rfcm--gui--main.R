@@ -1,23 +1,23 @@
 rfcm_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  tagList(
-    h3("Cluster-Based Management Assignment"),
+  shiny::tagList(
+    shiny::h3("Cluster-Based Management Assignment"),
 
-    selectInput(ns("default_ms"), "Default Management System",
+    shiny::selectInput(ns("default_ms"), "Default Management System",
                 choices = NULL),
-    actionButton(ns("create_map"), "Create New Cluster Map"),
+    shiny::actionButton(ns("create_map"), "Create New Cluster Map"),
 
-    hr(),
-    selectInput(ns("allocate_ms"), "Allocate Management System",
+    shiny::hr(),
+    shiny::selectInput(ns("allocate_ms"), "Allocate Management System",
                 choices = NULL),
-    numericInput(ns("target_fraction"), "Target Fraction", value = 0.1, min = 0, max = 1, step = 0.01),
-    selectInput(ns("field_type"), "Field Type", choices = c("both", "regular", "tancat")),
-    sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1),
-    actionButton(ns("allocate"), "Allocate"),
+    shiny::numericInput(ns("target_fraction"), "Target Fraction", value = 0.1, min = 0, max = 1, step = 0.01),
+    shiny::selectInput(ns("field_type"), "Field Type", choices = c("both", "regular", "tancat")),
+    shiny::sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1),
+    shiny::actionButton(ns("allocate"), "Allocate"),
 
-    hr(),
-    verbatimTextOutput(ns("summary"))
+    shiny::hr(),
+    shiny::verbatimTextOutput(ns("summary"))
   )
 }
 
@@ -28,16 +28,16 @@ rfcm_ui <- function(id) {
 
 
 rfcm_server <- function(id, rfms_db) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    map <- reactiveVal(NULL)
+    map <- shiny::reactiveVal(NULL)
 
     # Show available rfms
-    observe({
-      rfms_names <- names(reactiveValuesToList(rfms_db))
-      updateSelectInput(session, "default_ms", choices = rfms_names)
-      updateSelectInput(session, "allocate_ms", choices = rfms_names)
+    shiny::observe({
+      rfms_names <- names(shiny::reactiveValuesToList(rfms_db))
+      shiny::updateSelectInput(session, "default_ms", choices = rfms_names)
+      shiny::updateSelectInput(session, "allocate_ms", choices = rfms_names)
 
       cat("[rfcm] Available RFMS:\n")
       print(rfms_names)
@@ -54,8 +54,8 @@ rfcm_server <- function(id, rfms_db) {
     })
 
     # Allocate surface
-    observeEvent(input$allocate, {
-      req(map(), input$allocate_ms, input$target_fraction)
+    shiny::observeEvent(input$allocate, {
+      shiny::req(map(), input$allocate_ms, input$target_fraction)
 
       rfms <- shiny::reactiveValuesToList(rfms_db)[[input$allocate_ms]]
       ditches <- seq(input$ditches[1], input$ditches[2])
@@ -79,10 +79,7 @@ rfcm_server <- function(id, rfms_db) {
           length(updated$ms_list), "management systems.\n")
     })
 
-    output$summary <- renderPrint({
-      req(map())
-      summary(map())
-    })
+    output$summary <- shiny::renderPrint( summary(map()) )
 
     return(map)
   })

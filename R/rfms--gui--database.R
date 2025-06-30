@@ -27,6 +27,8 @@ rfms_db_server <- function(id, chemical_db) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    default_rfms <- c("jsendra", "bomba", "clearfield")
+
     counter <- shiny::reactiveVal(0)
 
     rfms_modules <- shiny::reactiveValues()  # holds system() reactive for each tab
@@ -35,7 +37,7 @@ rfms_db_server <- function(id, chemical_db) {
     rfms_modules[["bomba"]] <- rfms_server(id = "bomba", chemical_db = chemical_db, initial_rfms = bomba())
     rfms_modules[["clearfield"]] <- rfms_server(id = "clearfield", chemical_db = chemical_db, initial_rfms = clearfield())
 
-    open_tabs <- shiny::reactiveVal(c("jsendra", "bomba", "clearfield"))
+    open_tabs <- shiny::reactiveVal(default_rfms)
     tab_titles <- shiny::reactiveValues(jsendra = "J.Sendra",
                                         bomba = "Bomba",
                                         clearfield = "Clearfield")
@@ -90,7 +92,13 @@ rfms_db_server <- function(id, chemical_db) {
     # -- Expose closing mechanism via external event or UI
     shiny::observeEvent(input$remove_tab, {
       tab_id <- input$rfms_tabs
-      if (!is.null(tab_id) && tab_id %in% open_tabs()) {
+      if (tab_id %in% default_rfms) {
+        shiny::showModal(shiny::modalDialog(
+          title = "Cannot remove default system",
+          paste("The system", tab_titles[[tab_id]], "is a default and cannot be deleted."),
+          easyClose = TRUE
+        ))
+      } else if (!is.null(tab_id) && tab_id %in% open_tabs()) {
         shiny::removeTab("rfms_tabs", target = tab_id)
         open_tabs(setdiff(open_tabs(), tab_id))
         rfms_modules[[tab_id]] <- NULL  # optional: clean memory

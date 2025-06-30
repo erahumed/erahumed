@@ -35,7 +35,7 @@ dss_input_ui <- function(id) {
     dss_input_porosity(ns("porosity"))
     )
 
-  agrochemical_management_ui <- bslib::layout_column_wrap(
+  agrochemical_management_ui <- shiny::tagList(
     bslib::card(
       bslib::card_header("TODO 'parameters'"),
       dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
