@@ -12,25 +12,15 @@ list_manager_ui <- function(
   counters_js <- shiny::tags$script(shiny::HTML(
     "window.edit_counter = 0; window.delete_counter = 0; window.duplicate_counter = 0;"))
 
-  add_item_btn <- shiny::actionButton(ns("add_item"), paste("New", object_name), class = "btn btn-sm btn-primary")
-
-
+  add_item_btn <- shiny::actionButton(ns("add_item"), "Add new", icon = shiny::icon("plus"))
 
   list_output <- shiny::uiOutput(ns("list_output"))
 
   shiny::tagList(
     shinyjs::useShinyjs(),
     counters_js,
-    bslib::card(
-      bslib::card_header(shiny::div(
-        class = "d-flex justify-content-between align-items-center",
-        shiny::strong(plural_name),
-        add_item_btn
-      )),
-      bslib::card_body(list_output),
-      min_height = 200,
-      fill = FALSE
-    )
+    list_output,
+    add_item_btn
   )
 }
 
@@ -69,19 +59,48 @@ list_manager_server <- function(id,
         shiny::tags$em("No items yet.")
       } else {
         shiny::tags$ul(
+          class = "list-unstyled d-flex flex-wrap gap-2",
+          style = "padding-left: 0;",
           Map(function(item, id) {
             shiny::tags$li(
-              item_display_function(item),
-              shiny::actionLink(ns(paste0("edit_", id)), "Edit", onclick = edit_onclick_js(id)),
-              " | ",
-              shiny::actionLink(ns(paste0("duplicate_", id)), "Duplicate", onclick = duplicate_onclick_js(id)),
-              " | ",
-              shiny::actionLink(ns(paste0("delete_", id)), "Delete", onclick = delete_onclick_js(id))
+              shiny::tags$div(
+                class = "d-inline-flex align-items-center border rounded-pill px-3 py-1 bg-light",
+                style = "gap: 0.5rem;",
+                shiny::span(item_display_function(item)),
+                shiny::div(
+                  class = "btn-group btn-group-sm",
+                  shiny::actionLink(
+                    ns(paste0("edit_", id)),
+                    label = NULL,
+                    icon = shiny::icon("pen"),
+                    class = "btn btn-outline-primary btn-sm",
+                    onclick = edit_onclick_js(id),
+                    title = "Edit"
+                  ),
+                  shiny::actionLink(
+                    ns(paste0("duplicate_", id)),
+                    label = NULL,
+                    icon = shiny::icon("copy"),
+                    class = "btn btn-outline-secondary btn-sm",
+                    onclick = duplicate_onclick_js(id),
+                    title = "Duplicate"
+                  ),
+                  shiny::actionLink(
+                    ns(paste0("delete_", id)),
+                    label = NULL,
+                    icon = shiny::icon("trash"),
+                    class = "btn btn-outline-danger btn-sm",
+                    onclick = delete_onclick_js(id),
+                    title = "Delete"
+                  )
+                )
+              )
             )
           }, db()$items, db()$ids)
         )
       }
     })
+
 
     open_editor_modal <- function(title) {
       shiny::showModal(
