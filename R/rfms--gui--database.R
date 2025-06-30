@@ -2,7 +2,6 @@ rfms_db_ui <- function(id) {
   ns <- shiny::NS(id)
   bslib::page_fillable(
     title = "Rice Field Management Systems",
-    theme = bslib::bs_theme(version = 5, bootswatch = "flatly"),
     shiny::tagList(
       shiny::h3("Rice Field Management Systems"),
       shiny::tabsetPanel(
