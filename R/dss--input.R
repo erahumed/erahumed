@@ -32,21 +32,20 @@ dss_input_ui <- function(id) {
     dss_input_foc(ns("foc")),
     dss_input_bd_g_cm3(ns("bd_g_cm3")),
     dss_input_qseep_m_day(ns("qseep_m_day")),
-    dss_input_porosity(ns("porosity"))
+    dss_input_porosity(ns("porosity")),
+    dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
+    dss_input_height_thresh_cm(ns("height_thresh_cm")),
+    dss_input_ditch_level_m(ns("ditch_level_m")),
+    dss_input_drift(ns("drift")),
+    dss_input_covmax(ns("covmax"))
     )
 
   agrochemical_management_ui <- shiny::tagList(
-    bslib::card(
-      bslib::card_header("TODO 'parameters'"),
-      dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
-      dss_input_height_thresh_cm(ns("height_thresh_cm")),
-      dss_input_ditch_level_m(ns("ditch_level_m")),
-      dss_input_drift(ns("drift")),
-      dss_input_covmax(ns("covmax"))
-    ),
-    rfcm_ui(ns("rfcm")),
+    chemical_db_ui(ns("chemical_db")),
+    shiny::hr(),
     rfms_db_ui(ns("rfms_db")),
-    chemical_db_ui(ns("chemical_db"))
+    shiny::hr(),
+    rfcm_ui(ns("rfcm"))
   )
 
   bslib::page_fillable(

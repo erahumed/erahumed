@@ -2,13 +2,12 @@ rfcm_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::h3("Cluster-Based Management Assignment"),
+    shiny::h3("Spatial mapping of management systems"),
 
     shiny::selectInput(ns("default_ms"), "Default Management System",
                 choices = NULL),
     shiny::actionButton(ns("create_map"), "Create New Cluster Map"),
 
-    shiny::hr(),
     shiny::selectInput(ns("allocate_ms"), "Allocate Management System",
                 choices = NULL),
     shiny::numericInput(ns("target_fraction"), "Target Fraction", value = 0.1, min = 0, max = 1, step = 0.01),
@@ -16,7 +15,6 @@ rfcm_ui <- function(id) {
     shiny::sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1),
     shiny::actionButton(ns("allocate"), "Allocate"),
 
-    shiny::hr(),
     shiny::verbatimTextOutput(ns("summary"))
   )
 }
@@ -38,9 +36,6 @@ rfcm_server <- function(id, rfms_db) {
       rfms_names <- names(shiny::reactiveValuesToList(rfms_db))
       shiny::updateSelectInput(session, "default_ms", choices = rfms_names)
       shiny::updateSelectInput(session, "allocate_ms", choices = rfms_names)
-
-      cat("[rfcm] Available RFMS:\n")
-      print(rfms_names)
     })
 
     # Create new map
@@ -49,8 +44,6 @@ rfcm_server <- function(id, rfms_db) {
       default_system <- shiny::reactiveValuesToList(rfms_db)[[input$default_ms]]
       new_map <- new_cluster_map(default_system())
       map(new_map)
-
-      cat("[rfcm] New cluster map created with default system:", input$default_ms, "\n")
     })
 
     # Allocate surface
@@ -61,11 +54,6 @@ rfcm_server <- function(id, rfms_db) {
       ditches <- seq(input$ditches[1], input$ditches[2])
       field_type <- input$field_type
 
-      cat("[rfcm] Allocating system:", input$allocate_ms,
-          "\n  Fraction:", input$target_fraction,
-          "\n  Ditches:", paste(ditches, collapse = ", "),
-          "\n  Field type:", field_type, "\n")
-
       updated <- allocate_surface(
         map = map(),
         system = rfms(),
@@ -74,9 +62,6 @@ rfcm_server <- function(id, rfms_db) {
         field_type = field_type
       )
       map(updated)
-
-      cat("[rfcm] Allocation complete. Updated map has",
-          length(updated$ms_list), "management systems.\n")
     })
 
     output$summary <- shiny::renderPrint( summary(map()) )

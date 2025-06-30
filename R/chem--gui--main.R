@@ -2,10 +2,11 @@ chemical_db_ui <- function(id)
 {
   ns <- shiny::NS(id)
 
-  list_manager_ui(ns("manager"),
-                  object_name = "Chemical",
-                  list_description = "list"
-                  )
+  shiny::tagList(
+    shiny::h3("Chemical definitions"),
+    list_manager_ui(ns("manager"), object_name = "Chemical")
+  )
+
 }
 
 chemical_db_server <- function(id)
