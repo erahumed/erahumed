@@ -4,16 +4,16 @@ rfms_db_ui <- function(id) {
     title = "Rice Field Management Systems",
     shiny::tagList(
       shiny::h3("Rice Field Management Systems"),
+      shiny::tagList(
+        shiny::actionButton(ns("addButton"), "Add new", icon = shiny::icon("plus")),
+        shiny::actionButton(ns("remove_tab"), "Remove current"),
+      ),
       shiny::tabsetPanel(
         id = ns("rfms_tabs"),
         type = "tabs",
         shiny::tabPanel(title = "J.Sendra", value = "jsendra", rfms_ui(ns("jsendra"))),
         shiny::tabPanel(title = "Clearfield", value = "clearfield", rfms_ui(ns("clearfield"))),
-        shiny::tabPanel(title = "Bomba", value = "bomba", rfms_ui(ns("bomba"))),
-        header = shiny::tagList(
-          shiny::actionButton(ns("addButton"), "Add new", icon = shiny::icon("plus")),
-          shiny::actionButton(ns("remove_tab"), "Remove current"),
-          )
+        shiny::tabPanel(title = "Bomba", value = "bomba", rfms_ui(ns("bomba")))
         )
       )
     )

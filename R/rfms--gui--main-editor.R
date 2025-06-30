@@ -1,8 +1,8 @@
 rfms_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  parameters_card <- bslib::card(
-    bslib::card_header("Parameters"),
+  parameters_sidebar <- bslib::sidebar(
+    width = "30%",
     bslib::card(
       bslib::card_header("Crop calendar"),
       bslib::card_body(
@@ -32,29 +32,15 @@ rfms_ui <- function(id) {
     bslib::card(
       bslib::card_header(shiny::h4("Chemical Applications")),
       bslib::card_body(
-        bslib::layout_columns(
-          col_widths = c(5, 7),
-          applications_db_ui(ns("applications")),
-          bslib::card(
-            bslib::card_header("Applications Timeline"),
-            dygraphs::dygraphOutput(ns("timeline_plot")),
-            fill = FALSE)
-          )
+        dygraphs::dygraphOutput(ns("timeline_plot")),
+        applications_db_ui(ns("applications"))
         ),
       fill = FALSE
       )
 
 
 
-  bslib::page_fillable(
-    title = "Rice Field Management System Definition",
-    theme = bslib::bs_theme(version = 5, bootswatch = "flatly"),
-    shinyjs::useShinyjs(),
-    shiny::fluidRow(
-      shiny::column(width = 4, parameters_card),
-      shiny::column(width = 8, applications_card)
-      )
-    )
+  bslib::layout_sidebar(shinyjs::useShinyjs(), applications_card, sidebar = parameters_sidebar)
 
 }
 
