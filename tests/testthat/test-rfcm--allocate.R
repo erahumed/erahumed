@@ -16,11 +16,13 @@ test_that("allocate_surface() returns an object of the correct type", {
   expect_no_error(assert_cluster_map(res))
 })
 
-test_that("allocate_surface() increases the number of rfmss each time", {
+test_that("allocate_surface() increases the number of rfmss only upon adding new RFMS", {
   map <- new_cluster_map()
   expect_length(map$ms_list, 1)
-  map <- allocate_surface(map = map, system = new_management_system(), target_fraction = .1)
+  map <- allocate_surface(map = map, system = jsendra(), target_fraction = .1)
   expect_length(map$ms_list, 2)
-  map <- allocate_surface(map = map, system = new_management_system(), target_fraction = .1)
+  map <- allocate_surface(map = map, system = jsendra(), target_fraction = .1)
+  expect_length(map$ms_list, 2)
+  map <- allocate_surface(map = map, system = clearfield(), target_fraction = .1)
   expect_length(map$ms_list, 3)
   })

@@ -33,9 +33,12 @@ rfcm_server <- function(id, rfms_db) {
 
     # Show available rfms
     shiny::observe({
-      rfms_names <- names(shiny::reactiveValuesToList(rfms_db))
-      shiny::updateSelectInput(session, "default_ms", choices = rfms_names)
-      shiny::updateSelectInput(session, "allocate_ms", choices = rfms_names)
+      choices <- names(shiny::reactiveValuesToList(rfms_db))
+      names(choices) <- sapply(shiny::reactiveValuesToList(rfms_db), function(x) {
+        x()$display_name
+      })
+      shiny::updateSelectInput(session, "default_ms", choices = choices)
+      shiny::updateSelectInput(session, "allocate_ms", choices = choices)
     })
 
     # Create new map

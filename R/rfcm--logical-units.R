@@ -27,6 +27,7 @@ map_assign <- function(map, cluster_id, ms_id) {
   df <- map[["map_df"]]
   row <- which(df$cluster_id == cluster_id)
   df[row, "ms_id"] <- ms_id
+  df[row, "ms_name"] <- map[["ms_list"]][[ms_id]][["display_name"]]
   map[["map_df"]] <- df
   return(map)
 }

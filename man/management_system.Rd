@@ -20,7 +20,8 @@ new_management_system(
   perellona_end_yday = 15,
   perellona_start_yday = 306,
   flow_height_cm = 10,
-  perellona_height_cm = 20
+  perellona_height_cm = 20,
+  display_name = "New Management System"
 )
 }
 \arguments{
@@ -42,6 +43,9 @@ excluding emptying and transition days.}
 
 \item{perellona_height_cm}{\verb{[numeric(1)]} \cr
 Target water level (in cm) during the \emph{Perellona} flooding period.}
+
+\item{display_name}{\verb{[character(1)]} \cr
+Name of the management systems to be displayed in output plots and summaries.}
 }
 \value{
 An object of class \code{erahumed_management_system}.

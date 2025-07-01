@@ -15,6 +15,8 @@
 #' excluding emptying and transition days.
 #' @param perellona_height_cm `[numeric(1)]` \cr
 #' Target water level (in cm) during the *Perellona* flooding period.
+#' @param display_name `[character(1)]` \cr
+#' Name of the management systems to be displayed in output plots and summaries.
 #'
 #' @return An object of class `erahumed_management_system`.
 #'
@@ -43,7 +45,8 @@ new_management_system <- function(
     perellona_end_yday = 15,
     perellona_start_yday = 306,
     flow_height_cm = 10,
-    perellona_height_cm = 20
+    perellona_height_cm = 20,
+    display_name = "New Management System"
   )
 {
   tryCatch(
@@ -59,6 +62,7 @@ new_management_system <- function(
       stopifnot(perellona_start_yday > harvesting_yday)
       assert_positive_number(flow_height_cm)
       assert_positive_number(perellona_height_cm)
+      assert_string(display_name)
     },
     error = function(e) {
       class(e) <- c("erahumed_management_system_error", class(e))
@@ -71,6 +75,7 @@ new_management_system <- function(
               perellona_start_yday = perellona_start_yday,
               flow_height_cm = flow_height_cm,
               perellona_height_cm = perellona_height_cm,
+              display_name = display_name,
               applications = list())
   class(res) <- "erahumed_management_system"
   return(res)
@@ -183,6 +188,7 @@ chemical_application <- function(chemical,
 #' @export
 print.erahumed_management_system <- function(x, ...) {
   cat("<Rice Field Management System>\n")
+  cat("  Name               : ", object$display_name)
   cat("  Sowing period     : Day", x$sowing_yday, "to", x$harvesting_yday, "\n")
   cat("  Perellon\u{00E1} period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
   cat("  Flow height       :", x$flow_height_cm, "cm during sowing season\n")
@@ -196,6 +202,7 @@ summary.erahumed_management_system <- function(object, ...) {
   n_app <- length(object$applications)
 
   cat("<Rice Field Management System Summary>\n")
+  cat("  Name               : ", object$display_name)
   cat("  Sowing period      : Day", object$sowing_yday, "to", object$harvesting_yday, "\n")
   cat("  Perellon\u{00E1} period   : Day", object$perellona_start_yday, "to", object$perellona_end_yday, "\n")
   cat("  Flow height        :", object$flow_height_cm, "cm\n")

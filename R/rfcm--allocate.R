@@ -66,8 +66,15 @@ allocate_surface <- function(map,
 
   ditches <- paste0("d", ditches)
 
-  map[["ms_list"]] <- c(map[["ms_list"]], list(system))
-  ms_id <- length(map[["ms_list"]])
+  ms_id <- NULL
+  for (i in seq_along(map[["ms_list"]])) {
+    if (identical(system, map[["ms_list"]][[i]]))
+      ms_id <- i
+  }
+  if (is.null(ms_id)) {
+    map[["ms_list"]] <- c(map[["ms_list"]], list(system))
+    ms_id <- length(map[["ms_list"]])
+  }
 
   allocated_fraction <- 0
   while (allocated_fraction < target_fraction) {

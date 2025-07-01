@@ -77,7 +77,8 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
                                      perellona_start_yday = input$perellona_start_yday,
                                      perellona_end_yday = input$perellona_end_yday,
                                      flow_height_cm = input$flow_height_cm,
-                                     perellona_height_cm = input$perellona_height_cm
+                                     perellona_height_cm = input$perellona_height_cm,
+                                     display_name = initial_rfms$display_name
         )
 
         for (app in applications_db()$items) {
