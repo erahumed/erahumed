@@ -1,21 +1,34 @@
 rfcm_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  shiny::tagList(
+  sidebar <- bslib::sidebar(
+    width = "30%",
+    bslib::card(
+      bslib::card_header("Initialization"),
+      bslib::card_body(
+        shiny::selectInput(ns("default_ms"), "Default Management System", choices = NULL),
+        shiny::actionButton(ns("create_map"), "Create New Cluster Map", icon = icon("map"))
+      )
+    ),
+    bslib::card(
+      bslib::card_header("Spatial Allocation"),
+      bslib::card_body(
+        shiny::selectInput(ns("allocate_ms"), "System to allocate", choices = NULL),
+        shiny::numericInput(ns("target_fraction"), "Target fraction", value = 0.1, min = 0, max = 1, step = 0.01),
+        shiny::selectInput(ns("field_type"), "Field type", choices = c("both", "regular", "tancat")),
+        shiny::sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1),
+        shiny::actionButton(ns("allocate"), "Allocate", icon = icon("fill-drip"))
+      )
+    )
+  )
+
+  bslib::layout_sidebar(
     shiny::h3("Spatial mapping of management systems"),
-
-    shiny::selectInput(ns("default_ms"), "Default Management System",
-                choices = NULL),
-    shiny::actionButton(ns("create_map"), "Create New Cluster Map"),
-
-    shiny::selectInput(ns("allocate_ms"), "Allocate Management System",
-                choices = NULL),
-    shiny::numericInput(ns("target_fraction"), "Target Fraction", value = 0.1, min = 0, max = 1, step = 0.01),
-    shiny::selectInput(ns("field_type"), "Field Type", choices = c("both", "regular", "tancat")),
-    shiny::sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1),
-    shiny::actionButton(ns("allocate"), "Allocate"),
-
-    shiny::verbatimTextOutput(ns("summary"))
+    sidebar = sidebar,
+    bslib::card(
+      bslib::card_header("Map Summary"),
+      shiny::verbatimTextOutput(ns("summary"))
+    )
   )
 }
 
