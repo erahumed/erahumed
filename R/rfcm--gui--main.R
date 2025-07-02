@@ -27,7 +27,8 @@ rfcm_ui <- function(id) {
     sidebar = sidebar,
     bslib::card(
       bslib::card_header("Map Summary"),
-      shiny::verbatimTextOutput(ns("summary"))
+      shiny::verbatimTextOutput(ns("summary")),
+      shiny::plotOutput(ns("pie"))
     )
   )
 }
@@ -81,6 +82,16 @@ rfcm_server <- function(id, rfms_db) {
     })
 
     output$summary <- shiny::renderPrint( summary(map()) )
+
+    output$pie <- shiny::renderPlot({
+      shiny::req(map())
+
+      ids <- paste(map()$map_df$ms_id, map()$map_df$ms_name, sep = " - ")
+      ms_areas <- table(ids)
+      graphics::pie(ms_areas,
+          col = grDevices::rainbow(length(ms_areas)),
+          main = "Surface breakdown by management system")
+    })
 
     return(map)
   })
