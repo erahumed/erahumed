@@ -36,35 +36,70 @@ rfcm_server <- function(id, rfms_db) {
 
     # Show available rfms
     shiny::observe({
-      choices <- names(shiny::reactiveValuesToList(rfms_db))
-      names(choices) <- sapply(shiny::reactiveValuesToList(rfms_db), function(x) {
-        x()$display_name
+      rfms_list <- shiny::reactiveValuesToList(rfms_db)
+
+      labels <- sapply(rfms_list, function(x) {
+        tryCatch(x()$display_name, error = function(e) NA)
       })
+
+      valid <- !is.na(labels)
+      choices <- names(rfms_list)[valid]
+      names(choices) <- labels[valid]
+
       shiny::updateSelectInput(session, "default_ms", choices = choices)
       shiny::updateSelectInput(session, "allocate_ms", choices = choices)
     })
+
 
     allocations_db <- allocations_db_server("allocations_db", rfms_db = rfms_db)
 
     map <- shiny::reactive({
       shiny::req(input$default_ms)
 
-      default_ms <- shiny::reactiveValuesToList(rfms_db)[[input$default_ms]]
-      res <- new_cluster_map(default_management_system = default_ms())
+      rfms_list <- shiny::reactiveValuesToList(rfms_db)
+
+      # Defensive: check if selected default_ms still exists
+      if (!input$default_ms %in% names(rfms_list)) {
+        shiny::showNotification("Selected default management system has been deleted.", type = "error")
+        shiny::req(FALSE)
+      }
+
+      default_rfms_fun <- rfms_list[[input$default_ms]]
+
+      default_ms <- tryCatch(
+        default_rfms_fun(),
+        error = function(e) {
+          shiny::showNotification("Default RFMS is no longer available.", type = "error")
+          shiny::req(FALSE)
+        }
+      )
+
+      res <- new_cluster_map(default_management_system = default_ms)
 
       for (allocation in allocations_db()$items) {
-        rfms <- shiny::reactiveValuesToList(rfms_db)[[allocation$allocate_ms]]
-
-        res <- res |> allocate_surface(
-          system = rfms(),
-          target_fraction = allocation$target_fraction,
-          ditches = seq(allocation$ditches[1], allocation$ditches[2]),
-          field_type = allocation$field_type
+        rfms_fun <- rfms_list[[allocation$allocate_ms]]
+        rfms <- tryCatch(
+          rfms_fun(),
+          error = function(e) {
+            shiny::showNotification(
+              paste("Skipping allocation due to deleted RFMS:", allocation$allocate_ms),
+              type = "warning"
+            )
+            NULL
+          }
         )
+        if (!is.null(rfms)) {
+          res <- res |> allocate_surface(
+            system = rfms,
+            target_fraction = allocation$target_fraction,
+            ditches = seq(allocation$ditches[1], allocation$ditches[2]),
+            field_type = allocation$field_type
+          )
+        }
       }
 
       res
-      })
+    })
 
     output$summary <- shiny::renderPrint( summary(map()) )
 

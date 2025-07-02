@@ -71,6 +71,9 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
 
     # Update management system object on input change
     res <- shiny::reactive({
+      shiny::req(input$sowing_yday, input$harvesting_yday, input$perellona_start_yday,
+                 input$perellona_end_yday, input$flow_height_cm, input$perellona_height_cm)
+
       tryCatch({
         sys <- new_management_system(sowing_yday = input$sowing_yday,
                                      harvesting_yday = input$harvesting_yday,

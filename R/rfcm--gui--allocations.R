@@ -16,12 +16,23 @@ allocations_db_server <- function(id, rfms_db) {
       item_editor_ui = make_allocations_editor_ui(rfms_db = rfms_db),
       item_editor_server = make_allocations_editor_server(rfms_db = rfms_db),
       item_display_function = function(item) {
+        rfms_list <- shiny::reactiveValuesToList(rfms_db)
         item_idx <- item$allocate_ms
-        rfms <- shiny::reactiveValuesToList(rfms_db)[[item_idx]]()
-        name <- rfms[["display_name"]]
+
+        name <- tryCatch({
+          if (!item_idx %in% names(rfms_list)) {
+            stop("RFMS no longer exists")
+          }
+          rfms <- rfms_list[[item_idx]]()
+          rfms[["display_name"]]
+        }, error = function(e) {
+          "<deleted>"
+        })
+
         pct <- paste0(round(item$target_fraction * 100), "%")
         paste0(name, " (", pct, ")")
       },
+
       default_items = list()  # TODO
     )
   })
@@ -31,10 +42,22 @@ make_allocations_editor_ui <- function(rfms_db) {
   function(id) {
     ns <- shiny::NS(id)
 
-    choices <- names(shiny::reactiveValuesToList(rfms_db))
-    names(choices) <- sapply(shiny::reactiveValuesToList(rfms_db), function(x) {
-      x()$display_name
+    rfms_list <- shiny::reactiveValuesToList(rfms_db)
+
+    choices <- names(rfms_list)
+    labels <- sapply(rfms_list, function(x) {
+      tryCatch(
+        x()$display_name,
+        error = function(e) "<deleted>"
+      )
     })
+
+    # Optionally filter out deleted ones
+    valid <- labels != "<deleted>"
+    choices <- choices[valid]
+    labels <- labels[valid]
+
+    names(choices) <- labels
 
     shiny::tagList(
       shiny::selectInput(ns("allocate_ms"), "System to allocate", choices = choices),
