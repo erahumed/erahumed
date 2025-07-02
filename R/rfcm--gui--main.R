@@ -10,16 +10,7 @@ rfcm_ui <- function(id) {
         shiny::actionButton(ns("create_map"), "Create New Cluster Map", icon = icon("map"))
       )
     ),
-    bslib::card(
-      bslib::card_header("Spatial Allocation"),
-      bslib::card_body(
-        shiny::selectInput(ns("allocate_ms"), "System to allocate", choices = NULL),
-        shiny::numericInput(ns("target_fraction"), "Target fraction", value = 0.1, min = 0, max = 1, step = 0.01),
-        shiny::selectInput(ns("field_type"), "Field type", choices = c("both", "regular", "tancat")),
-        shiny::sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1),
-        shiny::actionButton(ns("allocate"), "Allocate", icon = icon("fill-drip"))
-      )
-    )
+    allocations_db_ui(ns("allocations_db"))
   )
 
   bslib::layout_sidebar(
@@ -43,8 +34,6 @@ rfcm_server <- function(id, rfms_db) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    map <- shiny::reactiveVal(NULL)
-
     # Show available rfms
     shiny::observe({
       choices <- names(shiny::reactiveValuesToList(rfms_db))
@@ -55,31 +44,27 @@ rfcm_server <- function(id, rfms_db) {
       shiny::updateSelectInput(session, "allocate_ms", choices = choices)
     })
 
-    # Create new map
-    shiny::observeEvent(input$create_map, {
+    allocations_db <- allocations_db_server("allocations_db", rfms_db = rfms_db)
+
+    map <- shiny::reactive({
       shiny::req(input$default_ms)
-      default_system <- shiny::reactiveValuesToList(rfms_db)[[input$default_ms]]
-      new_map <- new_cluster_map(default_system())
-      map(new_map)
-    })
 
-    # Allocate surface
-    shiny::observeEvent(input$allocate, {
-      shiny::req(map(), input$allocate_ms, input$target_fraction)
+      default_ms <- shiny::reactiveValuesToList(rfms_db)[[input$default_ms]]
+      res <- new_cluster_map(default_management_system = default_ms())
 
-      rfms <- shiny::reactiveValuesToList(rfms_db)[[input$allocate_ms]]
-      ditches <- seq(input$ditches[1], input$ditches[2])
-      field_type <- input$field_type
+      for (allocation in allocations_db()$items) {
+        rfms <- shiny::reactiveValuesToList(rfms_db)[[allocation$allocate_ms]]
 
-      updated <- allocate_surface(
-        map = map(),
-        system = rfms(),
-        target_fraction = input$target_fraction,
-        ditches = ditches,
-        field_type = field_type
-      )
-      map(updated)
-    })
+        res <- res |> allocate_surface(
+          system = rfms(),
+          target_fraction = allocation$target_fraction,
+          ditches = seq(allocation$ditches[1], allocation$ditches[2]),
+          field_type = allocation$field_type
+        )
+      }
+
+      res
+      })
 
     output$summary <- shiny::renderPrint( summary(map()) )
 
@@ -88,14 +73,19 @@ rfcm_server <- function(id, rfms_db) {
 
       ids <- paste(map()$map_df$ms_id, map()$map_df$ms_name, sep = " - ")
       ms_areas <- table(ids)
-      graphics::pie(ms_areas,
-          col = grDevices::rainbow(length(ms_areas)),
-          main = "Surface breakdown by management system")
+      graphics::pie(
+        ms_areas,
+        col = grDevices::rainbow(length(ms_areas)),
+        main = "Surface breakdown by management system"
+        )
     })
+
 
     return(map)
   })
 }
+
+
 
 
 
