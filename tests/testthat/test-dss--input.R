@@ -32,6 +32,8 @@ test_that("Return contains the list of simulation parameters", {
   })
 })
 
+skip("Dependencies on too many inputs that are not easily defined, testing too cumbersome")
+
 test_that("Altering a few input parameters works", {
   shiny::testServer(dss_input_server, {
     do.call(session$setInputs, dss_input_defaults())

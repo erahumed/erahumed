@@ -1,7 +1,6 @@
 dss_input_defaults <- function() {
   fmls <- formals(erahumed_simulation)
 
-  vprop <- eval(fmls$variety_prop)
   date_range <- c(eval(fmls$date_start), eval(fmls$date_end))
 
   list(
@@ -21,7 +20,6 @@ dss_input_defaults <- function() {
     foc = eval(fmls$foc),
     bd_g_cm3 = eval(fmls$bd_g_cm3),
     qseep_m_day = eval(fmls$qseep_m_day),
-    porosity = eval(fmls$porosity),
-    prop_variety_12 = c(vprop[1], vprop[1] + vprop[2])
+    porosity = eval(fmls$porosity)
   )
 }

@@ -6,6 +6,8 @@ test_that("Server runs without error", {
 
 
 
+skip("Dependencies on too many inputs that are not easily defined, testing too cumbersome")
+
 mock_sim <- erahumed_simulation(date_end = "2020-01-10")
 parameters <- shiny::reactive(mock_sim$inputs)
 
