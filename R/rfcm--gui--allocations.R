@@ -33,7 +33,20 @@ allocations_db_server <- function(id, rfms_db) {
         paste0(name, " (", pct, ")")
       },
 
-      default_items = list()  # TODO
+      default_items = list(
+        list(
+          allocate_ms = "clearfield",
+          target_fraction = 0.10,
+          field_type = "both",         # or "regular" if clearer
+          ditches = c(1, 19)
+        ),
+        list(
+          allocate_ms = "bomba",
+          target_fraction = 0.10,
+          field_type = "tancat",
+          ditches = c(1, 26)  # full range or customize
+        )
+      )
     )
   })
 }

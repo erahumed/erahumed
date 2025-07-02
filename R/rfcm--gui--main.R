@@ -3,13 +3,7 @@ rfcm_ui <- function(id) {
 
   sidebar <- bslib::sidebar(
     width = "30%",
-    bslib::card(
-      bslib::card_header("Initialization"),
-      bslib::card_body(
-        shiny::selectInput(ns("default_ms"), "Default Management System", choices = NULL),
-        shiny::actionButton(ns("create_map"), "Create New Cluster Map", icon = icon("map"))
-      )
-    ),
+    shiny::selectInput(ns("default_ms"), "Default Management System", choices = NULL),
     allocations_db_ui(ns("allocations_db"))
   )
 
@@ -34,6 +28,8 @@ rfcm_server <- function(id, rfms_db) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    has_initialized <- shiny::reactiveVal(FALSE)
+
     # Show available rfms
     shiny::observe({
       rfms_list <- shiny::reactiveValuesToList(rfms_db)
@@ -48,7 +44,10 @@ rfcm_server <- function(id, rfms_db) {
 
       shiny::updateSelectInput(session, "default_ms", choices = choices)
       shiny::updateSelectInput(session, "allocate_ms", choices = choices)
+
     })
+
+
 
 
     allocations_db <- allocations_db_server("allocations_db", rfms_db = rfms_db)
