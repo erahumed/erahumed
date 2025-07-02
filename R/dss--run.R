@@ -25,9 +25,7 @@ dss_run_server <- function(id, parameters, run) {
         finally = shiny::removeNotification(id = ns("rerun_notif"))
         )
       }) |>
-      shiny::bindEvent(run(), ignoreNULL = FALSE
-                       , ignoreInit = TRUE # TODO REMOVE
-                       )
+      shiny::bindEvent(run(), ignoreNULL = FALSE, ignoreInit = TRUE)
 
     return(res)
   })
