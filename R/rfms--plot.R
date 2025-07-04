@@ -32,7 +32,7 @@ plot_rfms <- function(x, main = NULL, ...) {
     chemical_events <- lapply(names(apps_by_day), function(seed_day_chr) {
       seed_day <- as.integer(seed_day_chr)
       app_list <- apps_by_day[[seed_day_chr]]
-      app_date <- as.Date(paste0(year, "-01-01")) + x$sowing_yday + seed_day
+      app_date <- as.Date(paste0(year, "-01-01")) + x$sowing_yday + seed_day - 1
 
       label <- paste(sapply(app_list, function(app) app$chemical$display_name), collapse = ", ")
       tooltip <- paste(sapply(app_list, function(app) {
@@ -47,9 +47,9 @@ plot_rfms <- function(x, main = NULL, ...) {
 
   # Define season markers
   season_events <- list(
-    list(date = as.Date(paste0(year, "-01-01")) + x$sowing_yday, label = "Sowing start"),
-    list(date = as.Date(paste0(year, "-01-01")) + x$harvesting_yday, label = "Sowing end"),
-    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_start_yday, label = "Perellon\u00e0 start"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$sowing_yday - 1, label = "Sowing start"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$harvesting_yday - 1, label = "Sowing end"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_start_yday - 2, label = "Perellon\u00e0 start"),
     list(date = as.Date(paste0(year, "-01-01")) + x$perellona_end_yday, label = "Perellon\u00e0 end")
   )
 
