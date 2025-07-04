@@ -30,22 +30,56 @@ rfcm_server <- function(id, rfms_db, seed) {
 
     has_initialized <- shiny::reactiveVal(FALSE)
 
-    # Show available rfms
+    previous_choices <- shiny::reactiveVal(NULL)
+    previous_selected <- shiny::reactiveVal(NULL)
+
     shiny::observe({
       rfms_list <- shiny::reactiveValuesToList(rfms_db)
 
+      # Names are values, labels are display names
+      values <- names(rfms_list)
       labels <- sapply(rfms_list, function(x) {
         tryCatch(x()$display_name, error = function(e) NA)
       })
 
       valid <- !is.na(labels)
-      choices <- names(rfms_list)[valid]
-      names(choices) <- labels[valid]
+      values <- values[valid]
+      labels <- labels[valid]
+      choices <- setNames(values, labels)  # choices: values as keys, labels as names
 
-      shiny::updateSelectInput(session, "default_ms", choices = choices)
-      shiny::updateSelectInput(session, "allocate_ms", choices = choices)
+      if (!identical(values, previous_choices())) {
+        current_selected <- input$default_ms
 
+        selected <- NULL
+        if (!has_initialized()) {
+          if ("jsendra" %in% values) {
+            selected <- "jsendra"
+          } else if (length(values) > 0) {
+            selected <- values[1]
+          }
+          has_initialized(TRUE)
+        } else {
+          if (!is.null(current_selected) && current_selected %in% values) {
+            selected <- current_selected
+          } else if (length(values) > 0) {
+            selected <- values[1]
+          }
+        }
+
+        shiny::updateSelectInput(
+          session, "default_ms",
+          choices = choices,
+          selected = selected
+        )
+
+        previous_choices(values)
+        previous_selected(selected)
+      }
     })
+
+
+
+
 
 
 
