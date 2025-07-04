@@ -105,7 +105,7 @@ dss_input_server <- function(id) {
 
     chemical_db <- chemical_db_server("chemical_db")
     rfms_db <- rfms_db_server("rfms_db", chemical_db)
-    cluster_map <- rfcm_server("rfcm", rfms_db)
+    cluster_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
 
 
     shiny::observe({

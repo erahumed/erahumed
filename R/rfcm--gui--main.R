@@ -24,7 +24,7 @@ rfcm_ui <- function(id) {
 
 
 
-rfcm_server <- function(id, rfms_db) {
+rfcm_server <- function(id, rfms_db, seed) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -75,27 +75,29 @@ rfcm_server <- function(id, rfms_db) {
 
       res <- new_cluster_map(default_management_system = default_ms)
 
-      for (allocation in allocations_db()$items) {
-        rfms_fun <- rfms_list[[allocation$allocate_ms]]
-        rfms <- tryCatch(
-          rfms_fun(),
-          error = function(e) {
-            shiny::showNotification(
-              paste("Skipping allocation due to deleted RFMS:", allocation$allocate_ms),
-              type = "warning"
-            )
-            NULL
-          }
-        )
-        if (!is.null(rfms)) {
-          res <- res |> allocate_surface(
-            system = rfms,
-            target_fraction = allocation$target_fraction,
-            ditches = seq(allocation$ditches[1], allocation$ditches[2]),
-            field_type = allocation$field_type
+      withr::with_seed(seed, {
+        for (allocation in allocations_db()$items) {
+          rfms_fun <- rfms_list[[allocation$allocate_ms]]
+          rfms <- tryCatch(
+            rfms_fun(),
+            error = function(e) {
+              shiny::showNotification(
+                paste("Skipping allocation due to deleted RFMS:", allocation$allocate_ms),
+                type = "warning"
+              )
+              NULL
+            }
           )
+          if (!is.null(rfms)) {
+            res <- res |> allocate_surface(
+              system = rfms,
+              target_fraction = allocation$target_fraction,
+              ditches = seq(allocation$ditches[1], allocation$ditches[2]),
+              field_type = allocation$field_type
+            )
+          }
         }
-      }
+      })
 
       res
     })
