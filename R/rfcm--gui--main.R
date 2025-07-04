@@ -45,7 +45,8 @@ rfcm_server <- function(id, rfms_db, seed) {
       valid <- !is.na(labels)
       values <- values[valid]
       labels <- labels[valid]
-      choices <- setNames(values, labels)  # choices: values as keys, labels as names
+      choices <- values
+      names(choices) <- labels
 
       if (!identical(values, previous_choices())) {
         current_selected <- input$default_ms
