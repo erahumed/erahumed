@@ -1,12 +1,6 @@
 plot_rfms <- function(x, main = NULL, ...) {
   year <- 2020
 
-  n_app <- length(x$applications)
-  if (n_app == 0) {
-    warning("No chemical applications defined.")
-    return(invisible(NULL))
-  }
-
   # Hydrological profile
   wms_obj <- wms_from_rfms(x)
 
@@ -30,24 +24,26 @@ plot_rfms <- function(x, main = NULL, ...) {
     order.by = dates
   )
 
-  # Group applications by seed_day
-  apps_by_day <- split(x$applications, sapply(x$applications, function(app) app$seed_day))
+  # Chemical application events (if any)
+  chemical_events <- list()
+  if (length(x$applications) > 0) {
+    apps_by_day <- split(x$applications, sapply(x$applications, function(app) app$seed_day))
 
-  # Create grouped chemical application events
-  chemical_events <- lapply(names(apps_by_day), function(seed_day_chr) {
-    seed_day <- as.integer(seed_day_chr)
-    app_list <- apps_by_day[[seed_day_chr]]
-    app_date <- as.Date(paste0(year, "-01-01")) + x$sowing_yday + seed_day
+    chemical_events <- lapply(names(apps_by_day), function(seed_day_chr) {
+      seed_day <- as.integer(seed_day_chr)
+      app_list <- apps_by_day[[seed_day_chr]]
+      app_date <- as.Date(paste0(year, "-01-01")) + x$sowing_yday + seed_day
 
-    label <- paste(sapply(app_list, function(app) app$chemical$display_name), collapse = ", ")
-    tooltip <- paste(sapply(app_list, function(app) {
-      paste0(app$chemical$display_name, ": ",
-             app$amount_kg_ha, " kg/ha, ",
-             app$type)
-    }), collapse = "\n")
+      label <- paste(sapply(app_list, function(app) app$chemical$display_name), collapse = ", ")
+      tooltip <- paste(sapply(app_list, function(app) {
+        paste0(app$chemical$display_name, ": ",
+               app$amount_kg_ha, " kg/ha, ",
+               app$type)
+      }), collapse = "\n")
 
-    list(date = app_date, label = label, tooltip = tooltip)
-  })
+      list(date = app_date, label = label, tooltip = tooltip)
+    })
+  }
 
   # Define season markers
   season_events <- list(

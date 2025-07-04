@@ -5,6 +5,8 @@ ct_plot_time_series_density <- function(data,
                                         dygraph_group,
                                         chemical_db)
 {
+  if (length(chemical_db) == 0) return(NULL)
+
   compartment <- match.arg(compartment)
 
   # Vectorized name lookup (assumes get_name is vectorized or vectorizable)

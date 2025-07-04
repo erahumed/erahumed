@@ -3,6 +3,8 @@ plot_risk <- function(r_output,
                       dygraph_group = NULL,
                       chemical_db)
 {
+  if (length(chemical_db) == 0) return(NULL)
+
   type <- match.arg(type)
 
   var <- switch(type,

@@ -15,7 +15,7 @@ get_applications_df <- function(cluster_map) {
   ms_list <- cluster_map$ms_list
   lapply(seq_along(ms_list), function(i) {
     df <- get_applications_df0(ms_list[[i]], chemical_db = chemical_db)
-    df$variety <- i
+    if (nrow(df) != 0) df$variety <- i
     df
     }) |>
     Reduce(rbind, x = _, init = data.frame())

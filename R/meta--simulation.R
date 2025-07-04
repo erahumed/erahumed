@@ -34,28 +34,28 @@
 #'
 #' @export
 erahumed_simulation <- function(
-  date_start = "2020-01-01",
-  date_end = "2020-12-31",
-  cluster_map = default_cluster_map(seed = seed),
-  outflows_df = erahumed::albufera_outflows,
-  weather_df = erahumed::albufera_weather,
-  storage_curve_slope_m2 = 23.66 * 1e6,
-  storage_curve_intercept_m3 = 16.75 * 1e6,
-  petp_surface_m2 = 53.9 * 1e6,
-  ideal_flow_rate_cm = 5,
-  height_thresh_cm = 0.5,
-  ditch_level_m = 1,
-  drift = 0,
-  covmax = 0.5,
-  jgrow = 152,
-  dact_m = 0.1,
-  css_ppm = 50,
-  foc = 0.17,
-  bd_g_cm3 = 1.5,
-  qseep_m_day = 0,
-  porosity = 0.11,
-  seed = 840
-  )
+    date_start = "2020-01-01",
+    date_end = "2020-12-31",
+    cluster_map = default_cluster_map(seed = seed),
+    outflows_df = erahumed::albufera_outflows,
+    weather_df = erahumed::albufera_weather,
+    storage_curve_slope_m2 = 23.66 * 1e6,
+    storage_curve_intercept_m3 = 16.75 * 1e6,
+    petp_surface_m2 = 53.9 * 1e6,
+    ideal_flow_rate_cm = 5,
+    height_thresh_cm = 0.5,
+    ditch_level_m = 1,
+    drift = 0,
+    covmax = 0.5,
+    jgrow = 152,
+    dact_m = 0.1,
+    css_ppm = 50,
+    foc = 0.17,
+    bd_g_cm3 = 1.5,
+    qseep_m_day = 0,
+    porosity = 0.11,
+    seed = 840
+)
 {
   tryCatch(
     {
@@ -80,7 +80,7 @@ erahumed_simulation <- function(
       if (
         date_start < min(c(outflows_df$date, weather_df$date)) ||
         date_end > max(c(outflows_df$date, weather_df$date))
-        ) {
+      ) {
         stop(paste(
           "Input data for the specified date interval is incomplete. ",
           "Please check the 'date_start'/'date_end' parameters'",
@@ -116,17 +116,24 @@ erahumed_simulation <- function(
   res$etc$chemical_db <- get_chemical_db(cluster_map)
   res$etc$applications_df <- get_applications_df(cluster_map)
 
-  res |>
+  res <- res |>
     compute_inp() |>
     compute_hbl() |>
     compute_hbc() |>
-    compute_hbd() |>
-    compute_ctc() |>
-    compute_ctd() |>
-    compute_ctl() |>
-    compute_rc() |>
-    compute_rd() |>
-    compute_rl()
+    compute_hbd()
+
+  if (length(res$etc$chemical_db) > 0) {
+    res <- res |>
+      compute_ctc() |>
+      compute_ctd() |>
+      compute_ctl() |>
+      compute_rc() |>
+      compute_rd() |>
+      compute_rl()
+  }
+
+  return(res)
+
 }
 
 initialize_erahumed_simulation <- function(inputs)
