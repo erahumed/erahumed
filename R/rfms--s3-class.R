@@ -188,7 +188,7 @@ chemical_application <- function(chemical,
 #' @export
 print.erahumed_management_system <- function(x, ...) {
   cat("<Rice Field Management System>\n")
-  cat("  Name               : ", object$display_name)
+  cat("  Name               : ", x$display_name)
   cat("  Sowing period     : Day", x$sowing_yday, "to", x$harvesting_yday, "\n")
   cat("  Perellon\u{00E1} period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
   cat("  Flow height       :", x$flow_height_cm, "cm during sowing season\n")

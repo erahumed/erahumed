@@ -53,8 +53,8 @@ plot_rfms <- function(x, main = NULL, ...) {
   season_events <- list(
     list(date = as.Date(paste0(year, "-01-01")) + x$sowing_yday, label = "Sowing start"),
     list(date = as.Date(paste0(year, "-01-01")) + x$harvesting_yday, label = "Sowing end"),
-    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_start_yday, label = "Perellonà start"),
-    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_end_yday, label = "Perellonà end")
+    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_start_yday, label = "Perellon\u00e0 start"),
+    list(date = as.Date(paste0(year, "-01-01")) + x$perellona_end_yday, label = "Perellon\u00e0 end")
   )
 
   # JavaScript axis formatter

@@ -89,7 +89,7 @@ chem_input_ks_unsat_day <- function(id) {
 chem_input_kw_temp <- function(id) {
   inline_numeric_input(
     id,
-    label = shiny::p(shiny::HTML("T<sub>ref</sub> for k<sub>w</sub> (°C)"), chem_input_tooltip("kw_temp")),
+    label = shiny::p(shiny::HTML("T<sub>ref</sub> for k<sub>w</sub> (&deg;C)"), chem_input_tooltip("kw_temp")),
     value = chem_input_defaults()[["kw_temp"]]
   )
 }
@@ -97,7 +97,7 @@ chem_input_kw_temp <- function(id) {
 chem_input_ks_sat_temp <- function(id) {
   inline_numeric_input(
     id,
-    label = shiny::p(shiny::HTML("T<sub>ref</sub> for k<sub>s,sat</sub> (°C)"), chem_input_tooltip("ks_sat_temp")),
+    label = shiny::p(shiny::HTML("T<sub>ref</sub> for k<sub>s,sat</sub> (&deg;C)"), chem_input_tooltip("ks_sat_temp")),
     value = chem_input_defaults()[["ks_sat_temp"]]
   )
 }
@@ -105,7 +105,7 @@ chem_input_ks_sat_temp <- function(id) {
 chem_input_ks_unsat_temp <- function(id) {
   inline_numeric_input(
     id,
-    label = shiny::p(shiny::HTML("T<sub>ref</sub> for k<sub>s,unsat</sub> (°C)"), chem_input_tooltip("ks_unsat_temp")),
+    label = shiny::p(shiny::HTML("T<sub>ref</sub> for k<sub>s,unsat</sub> (&deg;C)"), chem_input_tooltip("ks_unsat_temp")),
     value = chem_input_defaults()[["ks_unsat_temp"]]
   )
 }

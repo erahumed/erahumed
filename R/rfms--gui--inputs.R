@@ -1,5 +1,5 @@
 rfms_input_sowing_yday <- function(id) {
-  desc <- "Day of the year marking the start of the sowing season (1–366, assuming a leap year)."
+  desc <- "Day of the year marking the start of the sowing season (1-366, assuming a leap year)."
   label <- shiny::p(
     "Sowing day of year",
     bslib::tooltip(
@@ -53,7 +53,7 @@ rfms_input_perellona_end_yday <- function(id) {
 }
 
 rfms_input_harvesting_yday <- function(id) {
-  desc <- "Day of the year marking the end of the sowing season (1–366, assuming a leap year)."
+  desc <- "Day of the year marking the end of the sowing season (1-366, assuming a leap year)."
   label <- shiny::p(
     "Harvesting day of year",
     bslib::tooltip(
