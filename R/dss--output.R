@@ -7,7 +7,8 @@ dss_output_ui <- function(id) {
 
     shinyWidgets::pickerInput(ns("water_body"),
                               "Water body",
-                              choices = water_body_choices()),
+                              choices = water_body_choices(),
+                              multiple = FALSE),
     shiny::textOutput(ns("selected_wb_info")),
 
     bslib::layout_column_wrap(
