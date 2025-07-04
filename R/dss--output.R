@@ -124,6 +124,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
 
     output$hb_plot_storage <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_hbc, d = plot_hbd, l = plot_hbl)
 
@@ -135,6 +137,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$hb_plot_flows <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_hbc, d = plot_hbd, l = plot_hbl)
 
@@ -146,6 +150,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$ct_plot_water <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_ctc, d = plot_ctd, l = plot_ctl)
 
@@ -158,6 +164,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$ct_plot_sediment <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_ctc, d = plot_ctd, l = plot_ctl)
       simulation() |>
@@ -168,6 +176,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$r_plot <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_rc, d = plot_rd, l = plot_rl)
 

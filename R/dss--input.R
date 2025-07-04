@@ -113,7 +113,9 @@ dss_input_server <- function(id) {
       }) |> shiny::bindEvent(input$reset)
 
     res <- shiny::reactive({
+      shiny::req(input$date_range)
       shiny::req(length(input$date_range) == 2)
+      shiny::req(cluster_map())
 
       list(
         date_start = input$date_range[[1]],
