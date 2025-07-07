@@ -62,6 +62,6 @@ Imports:
     yaml,
     zip
 Depends: 
-    R (>= 4.1.0)
+    R (>= 4.2.0)
 LazyData: true
 VignetteBuilder: knitr
