@@ -126,12 +126,17 @@ schedule_application <- function(
 
       assert_positive_integer(seed_day)
       assert_length_one(seed_day)
+      if (seed_day == 0)
+        stop("'seed_day' must be greater than 0.")
       if (seed_day > (system$harvesting_yday - system$sowing_yday))
         stop("Specified 'seed_day' is outside of the sowing window.")
 
       assert_positive_integer(emptying_days)
       assert_length_one(emptying_days)
-
+      if (emptying_days == 0)
+        stop("'emptying_days' must be greater than 0.")
+      if (emptying_days > seed_day)
+        stop("'emptying_days' cannot be greater than 'seed_day'.")
 
       application <- chemical_application(chemical = chemical,
                                           amount_kg_ha = amount_kg_ha,

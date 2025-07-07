@@ -12,8 +12,8 @@ emptyings_yday_from_rfms <- function(rfms) {
   lapply(rfms$applications, function(app) {
     if (app$type == "aerial")
       return(integer())
-    start_yday <- rfms$sowing_yday + app$seed_day
-    end_yday <- start_yday + app$emptying_days - 1
+    end_yday <- rfms$sowing_yday + app$seed_day
+    start_yday <- end_yday - app$emptying_days + 1
     start_yday:end_yday
     }) |>
     Reduce(c, x = _, init = integer()) |>
