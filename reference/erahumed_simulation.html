@@ -11,7 +11,7 @@ for a detailed description of the simulation workflow."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ for a detailed description of the simulation workflow."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Initialize an ERAHUMED simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.18.1/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
       <div class="d-none name"><code>erahumed_simulation.Rd</code></div>
     </div>
 
@@ -55,17 +55,15 @@ for a detailed description of the simulation workflow.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">erahumed_simulation</span><span class="op">(</span></span>
 <span>  date_start <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
 <span>  date_end <span class="op">=</span> <span class="st">"2020-12-31"</span>,</span>
+<span>  cluster_map <span class="op">=</span> <span class="fu"><a href="cluster_map.html">default_cluster_map</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span>,</span>
 <span>  outflows_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_outflows.html">albufera_outflows</a></span>,</span>
 <span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span>,</span>
-<span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.8</span>, Bomba <span class="op">=</span> <span class="fl">0.1</span>, Clearfield <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
 <span>  storage_curve_slope_m2 <span class="op">=</span> <span class="fl">23.66</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  storage_curve_intercept_m3 <span class="op">=</span> <span class="fl">16.75</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  petp_surface_m2 <span class="op">=</span> <span class="fl">53.9</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
-<span>  management_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_management.html">albufera_management</a></span>,</span>
 <span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  height_thresh_cm <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  ditch_level_m <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  ca_schedules_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_ca_schedules.html">albufera_ca_schedules</a></span>,</span>
 <span>  drift <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  covmax <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  jgrow <span class="op">=</span> <span class="fl">152</span>,</span>
@@ -91,16 +89,16 @@ for a detailed description of the simulation workflow.</p>
 <dd><p><code>[Date(1)]</code> <br> A single-value <code>Date</code> vector (or a convertible object). Defines the ending date of the date interval for the simulation.</p></dd>
 
 
+<dt id="arg-cluster-map">cluster_map<a class="anchor" aria-label="anchor" href="#arg-cluster-map"></a></dt>
+<dd><p><code>[erahumed_cluster_map]</code> <br> An object of class <a href="cluster_map.html">cluster_map</a>. Defines how different rice field management systems are assigned to spatial clusters within the simulation.</p></dd>
+
+
 <dt id="arg-outflows-df">outflows_df<a class="anchor" aria-label="anchor" href="#arg-outflows-df"></a></dt>
 <dd><p><code>[data.frame]</code> <br> Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of <a href="albufera_outflows.html">albufera_outflows</a> (the default value).</p></dd>
 
 
 <dt id="arg-weather-df">weather_df<a class="anchor" aria-label="anchor" href="#arg-weather-df"></a></dt>
 <dd><p><code>[data.frame]</code> <br> A dataset that provides the relevant metereological time series, along the template of <a href="albufera_weather.html">albufera_weather</a> (the default value).</p></dd>
-
-
-<dt id="arg-variety-prop">variety_prop<a class="anchor" aria-label="anchor" href="#arg-variety-prop"></a></dt>
-<dd><p><code>[numeric(3)]</code> <br> Vector of <code>3</code> positive values. Controls the relative proportions of field surface allocated to the cultivation of the J. Sendra, Bomba, and Clearfield varieties, respectively.</p></dd>
 
 
 <dt id="arg-storage-curve-slope-m-">storage_curve_slope_m2<a class="anchor" aria-label="anchor" href="#arg-storage-curve-slope-m-"></a></dt>
@@ -115,10 +113,6 @@ for a detailed description of the simulation workflow.</p>
 <dd><p><code>[numeric(1)]</code> <br> The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.</p></dd>
 
 
-<dt id="arg-management-df">management_df<a class="anchor" aria-label="anchor" href="#arg-management-df"></a></dt>
-<dd><p><code>[data.frame]</code> <br> Dataset that provides the yearly schedule for irrigation and draining, along the template of <a href="albufera_management.html">albufera_management</a> (the default value).</p></dd>
-
-
 <dt id="arg-ideal-flow-rate-cm">ideal_flow_rate_cm<a class="anchor" aria-label="anchor" href="#arg-ideal-flow-rate-cm"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (<em>i.e.</em> when being simultaneously irrigated and drained). Expressed in centimeters per day.</p></dd>
 
@@ -129,10 +123,6 @@ for a detailed description of the simulation workflow.</p>
 
 <dt id="arg-ditch-level-m">ditch_level_m<a class="anchor" aria-label="anchor" href="#arg-ditch-level-m"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Constant water depth in ditches.</p></dd>
-
-
-<dt id="arg-ca-schedules-df">ca_schedules_df<a class="anchor" aria-label="anchor" href="#arg-ca-schedules-df"></a></dt>
-<dd><p><code>[data.frame]</code> <br> A dataset that provides the list of scheduled chemical applications, along the template of <a href="albufera_ca_schedules.html">albufera_ca_schedules</a>.</p></dd>
 
 
 <dt id="arg-drift">drift<a class="anchor" aria-label="anchor" href="#arg-drift"></a></dt>
@@ -201,7 +191,7 @@ for a detailed description of the simulation workflow.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
