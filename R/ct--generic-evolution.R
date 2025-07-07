@@ -1,29 +1,59 @@
-ct_time_series <- function(application_kg,
-                           precipitation_mm,
-                           etp_mm,
-                           temperature_ave,
-                           temperature_min,
-                           temperature_max,
-                           volume_eod_m3,
-                           outflow_m3_s,
-                           inflows_m3_s,             # List of inflows time series
-                           inflows_densities_kg_m3,  # List of density time series
-                           area_m2,
-                           seed_day,
-                           harvesting,
-                           chemical,
-                           drift,
-                           covmax,
-                           jgrow,
-                           dact_m,
-                           css_ppm,
-                           foc,
-                           bd_g_cm3,
-                           qseep_m_day,
-                           porosity
-                           )
+ct_time_series <- function(
+    application_kg,
+    precipitation_mm,
+    etp_mm,
+    temperature_ave,
+    temperature_min,
+    temperature_max,
+    volume_eod_m3,
+    outflow_m3_s,
+    inflows_m3_s,
+    inflows_densities_kg_m3,
+    area_m2,
+    seed_day,
+    harvesting,
+    simulation,
+    chemical_id
+    )
 {
+  chemical_db <- get_etc(simulation, "chemical_db")
+
   volume_eps <- 1e-6 # Threshold below which densities are reported as NA
+
+  drift <- get_input(simulation, "drift")
+  covmax <- get_input(simulation, "covmax")
+  jgrow <- get_input(simulation, "jgrow")
+  dact_m <- get_input(simulation, "dact_m")
+  css_ppm <- get_input(simulation, "css_ppm")
+  foc <- get_input(simulation, "foc")
+  bd_g_cm3 <- get_input(simulation, "bd_g_cm3")
+  qseep_m_day <- get_input(simulation, "qseep_m_day")
+  porosity <- get_input(simulation, "porosity")
+
+  # Chemical input properties
+  kd_cm3_g <- foc * ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
+  kf_day <- ct_get_param(chemical_id, "kf_day", chemical_db)
+  kw_day <- ct_get_param(chemical_id, "kw_day", chemical_db)
+  Q10_kw <- ct_get_param(chemical_id, "Q10_kw", chemical_db)
+  kw_temp <- ct_get_param(chemical_id, "kw_temp", chemical_db)
+  ks_sat_day <- ct_get_param(chemical_id, "ks_sat_day", chemical_db)
+  Q10_ks_sat <- ct_get_param(chemical_id, "Q10_ks_sat", chemical_db)
+  ks_sat_temp <- ct_get_param(chemical_id, "ks_sat_temp", chemical_db)
+  ks_unsat_day <- ct_get_param(chemical_id, "ks_unsat_day", chemical_db)
+  Q10_ks_unsat <- ct_get_param(chemical_id, "Q10_ks_unsat", chemical_db)
+  ks_unsat_temp <- ct_get_param(chemical_id, "ks_unsat_temp", chemical_db)
+  sol_ppm <- ct_get_param(chemical_id, "sol_ppm", chemical_db)
+  dinc_m <- ct_get_param(chemical_id, "dinc_m", chemical_db)
+  ksetl_m_day <- ct_get_param(chemical_id, "ksetl_m_day", chemical_db)
+  kvolat_m_day <- ct_get_param(chemical_id, "kvolat_m_day", chemical_db)
+  MW <- ct_get_param(chemical_id, "MW", chemical_db)
+  fet_cm <- ct_get_param(chemical_id, "fet_cm", chemical_db)
+
+  # Chemical derived properties
+  fds <- ct_fds(pos = porosity, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
+  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
+  fpw <- 1 - fdw
+  kdifus_m_day <- ct_kdifus_m_day(pos = porosity, MW = MW)
 
   terms <- ct_ts_step_terms(application_kg = application_kg,
                             precipitation_mm = precipitation_mm,
@@ -38,7 +68,6 @@ ct_time_series <- function(application_kg,
                             area_m2 = area_m2,
                             seed_day = seed_day,
                             harvesting = harvesting,
-                            chemical = chemical,
                             drift = drift,
                             covmax = covmax,
                             jgrow = jgrow,
@@ -47,7 +76,29 @@ ct_time_series <- function(application_kg,
                             foc = foc,
                             bd_g_cm3 = bd_g_cm3,
                             qseep_m_day = qseep_m_day,
-                            porosity = porosity)
+                            porosity = porosity,
+                            kd_cm3_g = kd_cm3_g,
+                            kf_day = kf_day,
+                            kw_day = kw_day,
+                            Q10_kw = Q10_kw,
+                            kw_temp = kw_temp,
+                            ks_sat_day = ks_sat_day,
+                            Q10_ks_sat = Q10_ks_sat,
+                            ks_sat_temp = ks_sat_temp,
+                            ks_unsat_day = ks_unsat_day,
+                            Q10_ks_unsat = Q10_ks_unsat,
+                            ks_unsat_temp = ks_unsat_temp,
+                            sol_ppm = sol_ppm,
+                            dinc_m = dinc_m,
+                            ksetl_m_day = ksetl_m_day,
+                            kvolat_m_day = kvolat_m_day,
+                            MW = MW,
+                            fet_cm = fet_cm,
+                            fds = fds,
+                            fdw = fdw,
+                            fpw = fpw,
+                            kdifus_m_day = kdifus_m_day
+                            )
 
   eAww <- terms[["eAww"]]
   eAws <- terms[["eAws"]]
@@ -92,11 +143,13 @@ ct_time_series <- function(application_kg,
   return(list(mf_kg = mf,
               mw_kg = mw,
               ms_kg = ms,
+              mw_outflow_kg = mw_outflow,
               cw_kg_m3 = cw,
-              cw_outflow_kg_m3 = cw_outflow,
               cs_kg_m3 = cs,
               cs_g_kg = cs / bd_g_cm3,
-              volume_m3 = volume_sod_m3)
+              cw_outflow_kg_m3 = cw_outflow,
+              volume_m3 = volume_sod_m3,
+              outflow_m3 = outflow_m3)
          )
 }
 
@@ -113,7 +166,6 @@ ct_ts_step_terms <- function(application_kg,
                              area_m2,
                              seed_day,
                              harvesting,
-                             chemical,
                              drift,
                              covmax,
                              jgrow,
@@ -122,37 +174,33 @@ ct_ts_step_terms <- function(application_kg,
                              foc,
                              bd_g_cm3,
                              qseep_m_day,
-                             porosity
+                             porosity,
+                             kd_cm3_g,
+                             kf_day,
+                             kw_day,
+                             Q10_kw,
+                             kw_temp,
+                             ks_sat_day,
+                             Q10_ks_sat,
+                             ks_sat_temp,
+                             ks_unsat_day,
+                             Q10_ks_unsat,
+                             ks_unsat_temp,
+                             sol_ppm,
+                             dinc_m,
+                             ksetl_m_day,
+                             kvolat_m_day,
+                             MW,
+                             fet_cm,
+                             fds,
+                             fdw,
+                             fpw,
+                             kdifus_m_day
                              )
 {
   n_time_steps <- length(outflow_m3_s)  # Guaranteed to be of required length
   dt <- 1
 
-  # Chemicals parameters
-  kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
-  kf_day <- ct_get_param(chemical, "kf_day")
-  kw_day <- ct_get_param(chemical, "kw_day")
-  Q10_kw <- ct_get_param(chemical, "Q10_kw")
-  kw_temp <- ct_get_param(chemical, "kw_temp")
-  ks_sat_day <- ct_get_param(chemical, "ks_sat_day")
-  Q10_ks_sat <- ct_get_param(chemical, "Q10_ks_sat")
-  ks_sat_temp <- ct_get_param(chemical, "ks_sat_temp")
-  ks_unsat_day <- ct_get_param(chemical, "ks_unsat_day")
-  Q10_ks_unsat <- ct_get_param(chemical, "Q10_ks_unsat")
-  ks_unsat_temp <- ct_get_param(chemical, "ks_unsat_temp")
-  sol_ppm <- ct_get_param(chemical, "sol_ppm")
-  dinc_m <- ct_get_param(chemical, "dinc_m")
-  ksetl_m_day <- ct_get_param(chemical, "ksetl_m_day")
-  kvolat_m_day <- ct_get_param(chemical, "kvolat_m_day")
-  MW <- ct_get_param(chemical, "MW")
-  fet_cm <- ct_get_param(chemical, "fet_cm")
-
-  # Derived parameters
-  pos <- porosity
-  fds <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
-  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
-  fpw <- 1 - fdw
-  kdifus_m_day <- ct_kdifus_m_day(pos = pos, MW = MW)
   temp_arr <- ct_temperature_arrhenius(temperature_ave,
                                         temperature_min,
                                         temperature_max)
@@ -177,7 +225,7 @@ ct_ts_step_terms <- function(application_kg,
   Sw <- ct_setl(ksetl_m_day = ksetl_m_day, fpw = fpw, height_sod_m = height_sod_m)
 
   ### Diffusion
-  Ds <- ct_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = pos, dact_m = dact_m)
+  Ds <- ct_diff_s(kdifus_m_day = kdifus_m_day, fds = fds, pos = porosity, dact_m = dact_m)
   Dw <- ct_diff_w(kdifus_m_day = kdifus_m_day, fdw = fdw, height_sod_m = height_sod_m)
 
   ### Degradation (applying Arrhenius kinetic equilibrium)

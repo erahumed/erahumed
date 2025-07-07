@@ -89,9 +89,8 @@ dss_server <- function(input, output, session) {
 
     )
 
-  vmap <- shiny::reactive(get_etc(simulation(),"cluster_variety_map"))
   output$map <- leaflet::renderLeaflet(
-    plot_albufera_clusters(cluster_variety_map = vmap())
+    plot_albufera_clusters(cluster_map = parameters()[["cluster_map"]])
     ) |>
     shiny::snapshotExclude()
   shiny::observeEvent(input$hide_map_card, shinyjs::hide("map_card"))

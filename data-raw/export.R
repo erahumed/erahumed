@@ -33,18 +33,13 @@ renv::use(
   zip         = "zip@2.3.1"
 )
 
-source("data-raw/albufera_ca_schedules.R")
 source("data-raw/albufera_clusters.R")
-source("data-raw/albufera_ct_parameters.R")
 source("data-raw/albufera_data.R")
-source("data-raw/albufera_management.R")
 
 usethis::use_data(albufera_outflows, overwrite = TRUE)
 usethis::use_data(albufera_weather, overwrite = TRUE)
-usethis::use_data(albufera_management, overwrite = TRUE)
-usethis::use_data(albufera_ca_schedules, overwrite = TRUE)
 
 usethis::use_data(
-  albufera_clusters, albufera_cluster_geometries, albufera_ct_parameters,
+  albufera_clusters, albufera_cluster_geometries,
   albufera_ditches, albufera_ditches_geometries, albufera_basins_geometries,
   internal = TRUE, overwrite = TRUE)

@@ -56,9 +56,9 @@ info_ditches <- function(include_geometry = FALSE) {
 }
 
 
-plot_albufera_clusters <- function(cluster_variety_map = NULL)
+plot_albufera_clusters <- function(cluster_map = NULL)
 {
-  tryCatch(.plot_albufera_clusters(cluster_variety_map),
+  tryCatch(.plot_albufera_clusters(cluster_map),
            error = function(cnd) {
              warning("Error while loading Albufera Leaflet map.")
              return(NULL)
@@ -66,22 +66,25 @@ plot_albufera_clusters <- function(cluster_variety_map = NULL)
            )
 }
 
-.plot_albufera_clusters <- function(cluster_variety_map)
+.plot_albufera_clusters <- function(cluster_map)
 {
   clusters_df <- info_clusters(include_geometry = TRUE) |>
     merge(info_ditches(), by.x = "ditch_element_id", by.y = "element_id")
   basins_df <- albufera_basins_geometries
 
-  if (!is.null(cluster_variety_map)) {
-    assert_data.frame(
-      cluster_variety_map,
-      template = data.frame(element_id = character(), variety = character())
-      )
-    cluster_variety_map <- cluster_variety_map[, c("element_id", "variety")]
+
+  if (!is.null(cluster_map)) {
+
+    map_df <- cluster_map$map_df
+    map_df$element_id <- map_df$cluster_id
+    map_df$variety <- paste(map_df$ms_id, map_df$ms_name, sep = ": ")
+
+    cluster_variety_map <- map_df[, c("element_id", "variety")]
     clusters_df <- merge(clusters_df, cluster_variety_map, by = "element_id")
 
-    palette_domain <- c("J.Sendra", "Bomba", "Clearfield")
-    palette <- c("#f5e7c1", "#735600", "#b484b8")
+    palette_domain <- unique(map_df$variety)
+    n_colors <- length(palette_domain)
+    palette <- grDevices::hcl.colors(n_colors, palette = "Dynamic", rev = FALSE)
   } else {
     clusters_df$variety <- "N/A"
 

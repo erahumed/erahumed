@@ -22,25 +22,8 @@ dss_input_ui <- function(id) {
       dss_input_sc_intercept(ns("sc_intercept")),
       dss_input_sc_slope(ns("sc_slope")),
       dss_input_petp_surface(ns("petp_surface"))
-      ),
-
-    bslib::card(
-      bslib::card_header("Irrigation and draining management of rice fields"),
-      dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
-      dss_input_height_thresh_cm(ns("height_thresh_cm")),
-      dss_input_ditch_level_m(ns("ditch_level_m")),
-      dss_input_management_df_button(ns("open_management_df_modal"))
-    )
-
+      )
   )
-
-
-  pesticide_applications_ui <- bslib::layout_column_wrap(
-    dss_input_drift(ns("drift")),
-    dss_input_covmax(ns("covmax")),
-    dss_input_prop_variety_slider(ns("prop_variety_12")),
-    dss_input_ca_schedules_df_button(ns("open_ca_schedules_df_modal"))
-    )
 
   physchem_parameters_ui <- bslib::layout_column_wrap(
     dss_input_jgrow(ns("jgrow")),
@@ -49,8 +32,21 @@ dss_input_ui <- function(id) {
     dss_input_foc(ns("foc")),
     dss_input_bd_g_cm3(ns("bd_g_cm3")),
     dss_input_qseep_m_day(ns("qseep_m_day")),
-    dss_input_porosity(ns("porosity"))
+    dss_input_porosity(ns("porosity")),
+    dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
+    dss_input_height_thresh_cm(ns("height_thresh_cm")),
+    dss_input_ditch_level_m(ns("ditch_level_m")),
+    dss_input_drift(ns("drift")),
+    dss_input_covmax(ns("covmax"))
     )
+
+  agrochemical_management_ui <- shiny::tagList(
+    chemical_db_ui(ns("chemical_db")),
+    shiny::hr(),
+    rfms_db_ui(ns("rfms_db")),
+    shiny::hr(),
+    rfcm_ui(ns("rfcm"))
+  )
 
   bslib::page_fillable(
     title = "Input",
@@ -66,14 +62,7 @@ dss_input_ui <- function(id) {
       bslib::accordion_panel("Hydrology", hydrology_parameters_ui),
       bslib::accordion_panel("Meteorology", meteorology_parameters_ui),
       bslib::accordion_panel("Environmental properties", physchem_parameters_ui),
-      bslib::accordion_panel(
-        title = shiny::p(
-          "Pesticide application scheme",
-          bslib::tooltip(trigger = shiny::icon("tools"), "This section is under development.")
-        ),
-        value = "Pesticide application scheme",
-        pesticide_applications_ui
-        )
+      bslib::accordion_panel("Agrochemical management", agrochemical_management_ui)
       )
     )
 }
@@ -114,62 +103,32 @@ dss_input_server <- function(id) {
       ))
     })
 
-    management_df <- csvInputServer("management",
-                                    erahumed::albufera_management,
-                                    reset = reset_reactive)
-    shiny::observeEvent(input$open_management_df_modal, {
-      shiny::showModal(shiny::modalDialog(
-        csvInputUI(
-          ns("management"),
-          columns = erahumed_input_docs("management_df", "columns")
-        ),
-        title = shiny::p("Setup Management Dataset", dss_input_tooltip("management_df")),
-        size = "xl"
-      ))
-    })
+    chemical_db <- chemical_db_server("chemical_db")
+    rfms_db <- rfms_db_server("rfms_db", chemical_db)
+    cluster_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
 
-    ca_schedules_df <- csvInputServer("applications",
-                                      erahumed::albufera_ca_schedules,
-                                      reset = reset_reactive)
-    shiny::observeEvent(input$open_ca_schedules_df_modal, {
-      shiny::showModal(shiny::modalDialog(
-        csvInputUI(
-          ns("applications"),
-          columns = erahumed_input_docs("ca_schedules_df", "columns")
-        ),
-        title = shiny::p("Setup Applications Dataset", dss_input_tooltip("ca_schedules_df")),
-        size = "xl"
-      ))
-    })
-
-    variety_prop <- shiny::reactive({
-      c(input$prop_variety_12[[1]],
-        input$prop_variety_12[[2]] - input$prop_variety_12[[1]],
-        1 - input$prop_variety_12[[2]]
-        )
-    })
 
     shiny::observe({
       shinyjs::reset("input-ui")
       }) |> shiny::bindEvent(input$reset)
 
     res <- shiny::reactive({
+      shiny::req(input$date_range)
       shiny::req(length(input$date_range) == 2)
+      shiny::req(cluster_map())
 
       list(
         date_start = input$date_range[[1]],
         date_end = input$date_range[[2]],
+        cluster_map = cluster_map(),
         outflows_df = outflows_df(),
         weather_df = weather_df(),
-        variety_prop = variety_prop(),
         storage_curve_slope_m2 = 1e6 * input$sc_slope,
         storage_curve_intercept_m3 = 1e6 * input$sc_intercept,
         petp_surface_m2 = 1e6 * input$petp_surface,
-        management_df = management_df(),
         ideal_flow_rate_cm = input$ideal_flow_rate_cm,
         height_thresh_cm = input$height_thresh_cm,
         ditch_level_m = input$ditch_level_m,
-        ca_schedules_df = ca_schedules_df(),
         drift = input$drift,
         covmax = input$covmax,
         jgrow = input$jgrow,

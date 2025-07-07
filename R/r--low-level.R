@@ -1,5 +1,5 @@
 #' @importFrom data.table let
-risk_from_ssds <- function(ct_output) {
+risk_from_ssds <- function(ct_output, chemical_db) {
   # To avoid R CMD check note due to non-standard evaluation in {data.table}
   sd_acute <- sd_chronic <-
     median_acute <- median_chronic <- HU_acute <- HU_chronic <- element_id <-
@@ -9,22 +9,19 @@ risk_from_ssds <- function(ct_output) {
 
   res_prep <- ct_output |>
     data.table::as.data.table() |>
-    collapse::rsplit(by = ~ chemical,
-                     flatten = TRUE,
-                     use.names = FALSE,
-                     simplify = FALSE,
-                     keep.by = TRUE
-                     ) |>
+    collapse::rsplit(by = ~ chemical_id, keep.by = TRUE) |>
     lapply(function(df) {
-      chemical <- df$chemical[[1]]
+      chemical_id <- df$chemical_id[[1]]
 
-      df$median_acute <- exp(info_chemicals()[[chemical]][["ssd_acute_mu"]])
-      df$median_chronic <- exp(info_chemicals()[[chemical]][["ssd_chronic_mu"]])
 
-      df$sd_acute <- info_chemicals()[[chemical]][["ssd_acute_sigma"]]
-      df$sd_chronic <- info_chemicals()[[chemical]][["ssd_chronic_sigma"]]
+      df$median_acute <- exp( ct_get_param(chemical_id, "ssd_acute_mu", chemical_db) )
+      df$median_chronic <- exp( ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db) )
 
-      df$tmoa <- info_chemicals()[[chemical]][["tmoa_name"]]
+      df$sd_acute <- ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
+      df$sd_chronic <-  ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
+
+      df$tmoa <- ct_get_param(chemical_id, "tmoa_id", chemical_db)
+      df$chemical <- ct_get_param(chemical_id, "display_name", chemical_db)
 
       df
     }) |>
@@ -37,7 +34,7 @@ risk_from_ssds <- function(ct_output) {
           HU_acute = 1e6 * cw_kg_m3 / median_acute,
           HU_chronic = 1e6 * rolling_average(cw_kg_m3, 21) / median_chronic
         ),
-        by = c("element_id", "chemical")
+        by = c("element_id", "chemical_id")
       ]
     })()
 

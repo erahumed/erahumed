@@ -1,6 +1,6 @@
 Package: erahumed
 Title: ERAHUMED Data Analysis and Visualization
-Version: 0.18.1
+Version: 0.19.0
 Authors@R: c(
     person("Valerio", "Gherardi",
            email = "vgherard840@gmail.com", 
@@ -62,6 +62,6 @@ Imports:
     yaml,
     zip
 Depends: 
-    R (>= 4.1.0)
+    R (>= 4.2.0)
 LazyData: true
 VignetteBuilder: knitr

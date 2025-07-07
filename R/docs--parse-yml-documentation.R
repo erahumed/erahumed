@@ -1,16 +1,21 @@
-#' ERAHUMED documentation as an R object
-#'
-#' @description
-#' Allows to interact with parts of the package documentation as an R object.
-#' For internal use only.
-#'
-#' @param ... strings, keys of the documentation YAML tree.
-#'
-#' @return
-#' A list or a character vector, depending on whether the keys passed through
-#' the `...` argument identify a leaf or an internal node of the YAML tree.
-#'
-#' @noRd
+get_roxy_param_entry <- function(docs) {
+  if (is.null(docs[["description"]])) {
+    docs[["description"]] <- paste(
+      "No description available.",
+      "If you think this is a bug, please reach out to us by filing an issue",
+      "[on Github](https://github.com/erahumed/erahumed/issues)."
+    )
+  }
+
+  if (is.null(docs[["type"]])) {
+    docs[["type"]] <- "N.D."
+  }
+
+  res <- paste0("`[", docs[["type"]], "]` \\cr ", docs[["description"]])
+
+  return(res)
+}
+
 erahumed_input_docs <- function(...)
 {
   args <- list(...)
@@ -35,24 +40,10 @@ erahumed_input_docs <- function(...)
   return(res)
 }
 
+
+
 input_roxy <- function(name) {
-  docs <- erahumed_input_docs(name)
-
-  if (is.null(docs[["description"]])) {
-    docs[["description"]] <- paste(
-      "No description available.",
-      "If you think this is a bug, please reach out to us by filing an issue",
-      "[on Github](https://github.com/erahumed/erahumed/issues)."
-    )
-  }
-
-  if (is.null(docs[["type"]])) {
-    docs[["type"]] <- "N.D."
-  }
-
-  res <- paste0("`[", docs[["type"]], "]` \\cr ", docs[["description"]])
-
-  return(res)
+  get_roxy_param_entry(erahumed_input_docs(name))
 }
 
 erahumed_input_desc <- function(name, strip_roxy = TRUE) {
@@ -94,3 +85,39 @@ erahumed_dataset_format <- function(name){
   return(res)
 }
 
+chemical_prop_docs <- function(...)
+{
+  args <- list(...)
+
+  sapply(args, assert_string)
+
+  tags <- as.character(args)
+
+  yml_path <- system.file("docs", "chemical_properties.yml", package = "erahumed")
+  docs <- yaml::read_yaml(yml_path)
+
+  res <- docs
+  for (tag in tags) {
+    res <- res[[tag]]
+  }
+
+  if (is.null(res)) {
+    obj <- paste(tags, collapse = "/")
+    warning( paste0("No entry found for '", obj, "' found in ", yml_path, ".") )
+  }
+
+  return(res)
+}
+
+chemical_prop_roxy <- function(name) {
+  get_roxy_param_entry(chemical_prop_docs(name))
+}
+
+chemical_prop_desc <- function(name, strip_roxy = TRUE) {
+  res <- chemical_prop_docs(name, "description")
+
+  if (strip_roxy)
+    res <- strip_roxy_macros(res)
+
+  return(res)
+}

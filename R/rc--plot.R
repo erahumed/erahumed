@@ -20,5 +20,9 @@ plot_rc <- function(simulation,
   r_output <- r_output |>
     (\(.) .[.$element_id == element_id, ])()
 
-  plot_risk(r_output, type = type, dygraph_group = dygraph_group)
+  plot_risk(r_output,
+            type = type,
+            dygraph_group = dygraph_group,
+            chemical_db = get_etc(simulation, "chemical_db")
+            )
 }

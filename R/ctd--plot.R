@@ -2,7 +2,7 @@ plot_ctd <- function(
     simulation,
     element_id = NULL,
     compartment = c("water", "sediment"),
-    chemicals = NULL,
+    chemical_ids = NULL,
     dygraph_group = NULL,
     ...
 )
@@ -24,6 +24,8 @@ plot_ctd <- function(
 
   ct_plot_time_series_density(data,
                               compartment = compartment,
-                              chemicals = chemicals,
-                              dygraph_group = dygraph_group)
+                              chemical_ids = chemical_ids,
+                              dygraph_group = dygraph_group,
+                              chemical_db = get_etc(simulation, "chemical_db")
+                              )
 }

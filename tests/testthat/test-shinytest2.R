@@ -7,5 +7,8 @@ test_that("Initial Shiny values are consistent", {
   app <- dss()
   drv <- AppDriver$new(app, name = "ERAHUMED", load_timeout = 60000)
 
+  drv$click("run", wait_ = FALSE)
+
+
   drv$expect_values()
 })

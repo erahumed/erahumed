@@ -5,10 +5,10 @@ test_that("ct_fds(): result is a percentage with the standard inputs", {
 
   pos <- 0.11
 
-  chemicals <- unique(albufera_ca_schedules$chemical)
+  chemicals <- list(acetamiprid(), bentazone(), difenoconazole())
   for (chemical in chemicals) {
     foc <- 0.17
-    kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
+    kd_cm3_g <- foc * chemical$koc_cm3_g
 
     res <- ct_fds(pos = pos, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
     expect_gte(res, 0)
@@ -33,10 +33,10 @@ test_that("ct_fds(): result is a percentage with random inputs", {
 test_that("ct_fdw(): result is a percentage with the standard inputs", {
   css_ppm <- formals(erahumed_simulation)$css_ppm
 
-  chemicals <- unique(albufera_ca_schedules$chemical)
+  chemicals <- list(acetamiprid(), bentazone(), difenoconazole())
   for (chemical in chemicals) {
     foc <- 0.17
-    kd_cm3_g <- foc * ct_get_param(chemical, "koc_cm3_g")
+    kd_cm3_g <- foc * chemical$koc_cm3_g
 
     res <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
     expect_gte(res, 0)
@@ -62,19 +62,20 @@ test_that("ct_kdifus_m_day(): is always positive with the standard inputs", {
 
   pos <- 0.11
 
-  chemicals <- unique(albufera_ca_schedules$chemical)
+  chemicals <- list(acetamiprid(), bentazone(), difenoconazole())
   for (chemical in chemicals) {
-    MW <- ct_get_param(chemical, "MW")
+    MW <- chemical$MW
 
     res <- ct_kdifus_m_day(pos = pos, MW = MW)
     expect_gte(res, 0)
   }
 
 })
-test_that("ct_kdifus_m_day(): is always positive", {
-  skip("ct_kdifus_m_day() can become negative outside of the approx regime")
-  expect_gte(ct_kdifus_m_day(pos = 1, MW = 1), 0)
-})
+
+# test_that("ct_kdifus_m_day(): is always positive", {
+#   skip("ct_kdifus_m_day() can become negative outside of the approx regime")
+#   expect_gte(ct_kdifus_m_day(pos = 1, MW = 1), 0)
+# })
 
 test_that("ct_cover(): is a percentage series with the standard inputs", {
   global_params <- formals(erahumed_simulation)
@@ -92,15 +93,9 @@ test_that("ct_cover(): is a percentage series with the standard inputs", {
 })
 
 test_that("ct_msapp(): result is always a fraction of application",{
-  chemicals <- unique(albufera_ca_schedules$chemical)
-  for (chemical in chemicals) {
-    res <- ct_msapp(
-      application_kg = 1,
-      drift = 0,
-      cover = 0,
-      is_empty = TRUE
-      )
-    expect_true(all( 0 <= res & res <= 1 ))
-  }
-
+  res <- ct_msapp(application_kg = 1,
+                  drift = 0,
+                  cover = 0,
+                  is_empty = TRUE)
+  expect_true( 0 <= res & res <= 1 )
 })

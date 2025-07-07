@@ -77,3 +77,48 @@ nav_menu_hr <- function() {
     style = "margin: 0.25rem 0; border: 0; border-top: 1px solid #666;"
   ))
 }
+
+add_inline_label <- function(input_element, label, id = NULL) {
+  shiny::div(
+    class = "mb-2 d-flex align-items-center gap-2",
+    shiny::tags$label(label, `for` = id, class = "form-label mb-0 me-2", style = "min-width: 180px;"),
+    input_element
+  )
+}
+
+inline_numeric_input <- function(inputId,
+                                 label,
+                                 value = NA,
+                                 min = NA,
+                                 max = NA,
+                                 step = NA,
+                                 width = NULL)
+{
+  shiny::numericInput(inputId = inputId, label = NULL, value = value, min = min, max = max, step = step, width = width) |>
+    add_inline_label(label = label, id = inputId)
+}
+
+inline_text_input <- function(inputId,
+                              label,
+                              value = "",
+                              width = NULL,
+                              placeholder = NULL)
+{
+  shiny::textInput(inputId = inputId, label = NULL, value = value, width = width, placeholder = placeholder) |>
+    add_inline_label(label = label, id = inputId)
+}
+
+inline_select_input <- function(inputId,
+                                label,
+                                choices,
+                                selected = NULL,
+                                multiple = FALSE,
+                                selectize = TRUE,
+                                width = NULL,
+                                size = NULL)
+{
+  shiny::selectInput(inputId = inputId, label = NULL, choices = choices,
+                     selected = selected, multiple = multiple,
+                     selectize = selectize, width = width, size = size) |>
+    add_inline_label(label = label, id = inputId)
+}

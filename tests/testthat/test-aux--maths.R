@@ -86,3 +86,37 @@ test_that("pmax2() outputs are correct in simple cases", {
     c(2, 1, 1, 1.1, 1, 1, 1.4, 3)
   )
 })
+
+test_that("diff_circular() succeeds", {
+  expect_no_error( diff_circular(numeric(10)) )
+})
+
+test_that("diff_circular() returns a vector of the correct length", {
+  n <- 840
+  res <- diff_circular(numeric(n))
+  expect_vector(res, ptype = numeric(), size = n)
+})
+
+test_that("diff_circular() gives the correct output in simple case", {
+  x <- c(0, 1, 3, 6, 10, 15)
+  expected <- c(-15, 1, 2, 3, 4, 5)
+  expect_equal(diff_circular(x), expected)
+})
+
+test_that("smoother_stepwise() succeeds", {
+  expect_no_error( smoother_stepwise(numeric(10)) )
+})
+
+test_that("smoother_stepwise() returns a vector of the correct length", {
+  n <- 840
+  res <- smoother_stepwise(numeric(n))
+  expect_vector(res, ptype = numeric(), size = n)
+})
+
+test_that("smoother_stepwise() gives the correct output in simple case", {
+  x <-
+    c(4, 4, 4, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 2, 0, 0, 0, 4, 4, 4)
+  expected <-
+    c(4, 4, 2, 0, 0, 0, 1, 2, 1, 0, 0, 1, 2, 2, 1, 0, 0, 0, 2, 4, 4)
+  expect_equal(smoother_stepwise(x), expected)
+})

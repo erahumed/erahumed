@@ -12,20 +12,32 @@ dss_run_server <- function(id, parameters, run) {
       }) |>
       shiny::bindEvent(parameters(), ignoreInit = TRUE)
 
-    res <- shiny::reactive({
-      shiny::req(parameters())
 
-      tryCatch(
-        do.call(erahumed_simulation, parameters()),
-        error = function(e) {
-          shiny::showNotification(paste("Simulation error:", e$message), type = "error")
-          shiny::req(FALSE)
-        },
-        finally = shiny::removeNotification(id = ns("rerun_notif"))
-        )
-      }) |>
-      shiny::bindEvent(run(), ignoreNULL = FALSE)
 
-    return(res)
+    shiny::reactive(run_sim(parameters, ns)) |>
+      shiny::bindEvent(run(), ignoreNULL = TRUE, ignoreInit = TRUE)
+
   })
+}
+
+run_sim <- function(parameters, ns) {
+  tryCatch(parameters(),
+    error = function(e) {
+      shiny::showNotification(paste("Parameters error:", e$message), type = "error")
+      cat("Parameters error: ", e$message)
+
+      shiny::req(FALSE)
+  })
+
+
+  tryCatch(
+    do.call(erahumed_simulation, parameters()),
+    error = function(e) {
+      shiny::showNotification(paste("Simulation error:", e$message), type = "error")
+      cat("Simulation error: ", e$message)
+
+      shiny::req(FALSE)
+    },
+    finally = shiny::removeNotification(id = ns("rerun_notif"))
+  )
 }

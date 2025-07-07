@@ -49,11 +49,6 @@ test_that("Error if no data for provided date interval", {
                       )
 })
 
-test_that("Error if invalid variety proportions", {
-  expect_input_error( erahumed_simulation(variety_prop = c(-6,2,2)) )
-  expect_input_error( erahumed_simulation(variety_prop = c(5,5)) )
-})
-
 test_that("Error if invalid ditch_level_m", {
   expect_input_error( erahumed_simulation(ditch_level_m = -1) )
   expect_input_error( erahumed_simulation(ditch_level_m = "one") )
@@ -61,7 +56,6 @@ test_that("Error if invalid ditch_level_m", {
   expect_input_error( erahumed_simulation(ditch_level_m = Inf) )
   expect_input_error( erahumed_simulation(ditch_level_m = NaN) )
 })
-
 
 test_that("Error if invalid ideal_flow_rate_cm", {
   expect_input_error( erahumed_simulation(ideal_flow_rate_cm = -1) )
@@ -75,18 +69,6 @@ test_that("Error if invalid height_thresh_cm", {
   expect_input_error( erahumed_simulation(height_thresh_cm = -1) )
   expect_input_error( erahumed_simulation(height_thresh_cm = "two") )
   expect_input_error( erahumed_simulation(height_thresh_cm = NA_real_) )
-})
-
-test_that("Error if invalid 'management_df'", {
-  invalid_mgmt_df <- erahumed::albufera_management[,-1]  # missing 'date'
-
-  expect_input_error( erahumed_simulation(management_df = invalid_mgmt_df) )
-})
-
-test_that("Error if invalid 'management_df' date interval", {
-  invalid_mgmt_df <- erahumed::albufera_management[-(18:26),]  # missing days
-
-  expect_input_error( erahumed_simulation(management_df = invalid_mgmt_df) )
 })
 
 test_that("Simulation results depend on seed", {

@@ -1,19 +1,16 @@
 compute_hbc <- function(simulation)
 {
-  management_df <- get_input(simulation, "management_df")
-  clusters_df <- albufera_clusters
+  cluster_map <- get_input(simulation, "cluster_map")
   ideal_flow_rate_cm <- get_input(simulation, "ideal_flow_rate_cm")
   height_thresh_cm <- get_input(simulation, "height_thresh_cm")
-  cv_map <- get_etc(simulation, "cluster_variety_map")
   seed <- get_input(simulation, "seed")
 
   withr::with_seed(seed, {
     .hbc_args <- .hbc_data_prep(simulation = simulation,
-                                management_df = management_df,
-                                clusters_df = clusters_df,
+                                cluster_map = cluster_map,
                                 ideal_flow_rate_cm = ideal_flow_rate_cm,
-                                height_thresh_cm = height_thresh_cm,
-                                cv_map = cv_map)
+                                height_thresh_cm = height_thresh_cm
+                                )
 
     output <- do.call(.hbc, .hbc_args)
     })

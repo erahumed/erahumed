@@ -7,7 +7,8 @@ dss_output_ui <- function(id) {
 
     shinyWidgets::pickerInput(ns("water_body"),
                               "Water body",
-                              choices = water_body_choices()),
+                              choices = water_body_choices(),
+                              multiple = FALSE),
     shiny::textOutput(ns("selected_wb_info")),
 
     bslib::layout_column_wrap(
@@ -36,19 +37,19 @@ dss_output_ui <- function(id) {
         ),
       bslib::navset_card_tab(
         title = shiny::div(
-          "Exposure",
-          bslib::popover(
-            shiny_icon("gear"),
-            shinyWidgets::checkboxGroupButtons(
-              inputId = ns("chemical"),
-              label = "Chemicals",
-              choices = names(info_chemicals()),
-              selected = names(info_chemicals()),
-              individual = TRUE,
-              checkIcon = list(yes = icon("ok", lib = "glyphicon")),
-              size = "sm"
-            )
-            )
+          "Exposure"
+          # , bslib::popover(
+          #   shiny_icon("gear"),
+          #   # shinyWidgets::checkboxGroupButtons(
+          #   #   inputId = ns("chemical"),
+          #   #   label = "Chemicals",
+          #   #   choices = names(info_chemicals()),
+          #   #   selected = names(info_chemicals()),
+          #   #   individual = TRUE,
+          #   #   checkIcon = list(yes = icon("ok", lib = "glyphicon")),
+          #   #   size = "sm"
+          #   # )
+          #   )
           ),
         full_screen = TRUE,
         bslib::nav_panel(
@@ -96,20 +97,23 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$selected_wb_info <- shiny::renderText({
-      cvmap <- get_etc(simulation(), "cluster_variety_map")[, c("element_id", "variety")]
 
       if ( element_type() == "c" ) {
+        cvmap <- get_input(simulation(), "cluster_map")[["map_df"]]
+        cvmap$variety <- cvmap$ms_id
+        cvmap$element_id <- cvmap$cluster_id
+        cvmap <- cvmap[, c("element_id", "variety")]
+
         cluster_data <- info_clusters() |>
           (\(.) .[.$element_id == input$water_body, ])() |>
           merge(cvmap, by = "element_id") |>
           merge(info_ditches(), by.x = "ditch_element_id", by.y = "element_id")
 
-
         paste0("Cluster: ", cluster_data$cluster_name,
                " - Ditch: ", cluster_data$ditch_name,
                " - Tancat: ", cluster_data$tancat,
                " - Variety: ", cluster_data$variety)
-      } else if ( element_type() == "d" ) {
+        } else if ( element_type() == "d" ) {
         ditch_data <- info_ditches() |>
           (\(.) .[.$element_id == input$water_body, ])()
         paste0("Ditch: ", ditch_data$ditch_name)
@@ -121,6 +125,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
 
     output$hb_plot_storage <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_hbc, d = plot_hbd, l = plot_hbl)
 
@@ -132,6 +138,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$hb_plot_flows <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_hbc, d = plot_hbd, l = plot_hbl)
 
@@ -143,6 +151,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$ct_plot_water <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_ctc, d = plot_ctd, l = plot_ctl)
 
@@ -155,6 +165,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$ct_plot_sediment <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_ctc, d = plot_ctd, l = plot_ctl)
       simulation() |>
@@ -165,6 +177,8 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$r_plot <- dygraphs::renderDygraph({
+      shiny::req(simulation())
+
       plot_fun <- switch(element_type(),
                          c = plot_rc, d = plot_rd, l = plot_rl)
 

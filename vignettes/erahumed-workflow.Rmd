@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This document illustrates the simulation workflow of ERAHUMED. Specifically, we 
+This document illustrates the basic simulation workflow of ERAHUMED. Specifically, we 
 will cover:
 
 * How to setup and run a simulation.
@@ -36,11 +36,7 @@ sim
 The command above runs a simulation with the default model parameters. These can be customized through the arguments of `erahumed_simulation()`, for instance:
 
 ```{r}
-sim2 <- erahumed_simulation(
-  variety_prop = c(J.Sendra = 0.6, Bomba = 0.2, Clearfield = 0.2),
-  ideal_flow_rate_cm = 10,
-  seed = 841
-)
+sim2 <- erahumed_simulation(ideal_flow_rate_cm = 10, seed = 841)
 ```
 
 The full set of simulation parameters is documented in `?erahumed_simulation` (see [here](https://erahumed.github.io/erahumed/articles/simulation-inputs.html) for

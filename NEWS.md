@@ -1,3 +1,53 @@
+# erahumed 0.19.0
+
+This is a major release that introduces several powerful features to the  
+package, including:
+
+* The ability to define new chemical compounds with custom physico-chemical  
+  and toxicological properties.
+
+* The ability to define new rice field management systems (beyond the  
+  originally implemented *J. Sendra*, *Clearfield*, and *Bomba*), featuring  
+  customizable crop calendar dates (start/end of sowing season and *Perellona*)  
+  and user-defined pesticide application schemes.
+
+* The ability to define a custom spatial distribution of  
+  (built-in and user-defined) rice field management systems across rice field  
+  clusters.
+
+Detailed changes are discussed above.
+
+## API additions
+
+* New chemical compounds are defined through the `chemical()` helper. The  
+  functions `acetamiprid()`, `azoxystrobin()`, `bentazone()`, `cycloxydim()`,  
+  `cyhalofop_butyl()`, `difenoconazole()`, `mcpa()`, and `penoxsulam()` expose  
+  the presets used by the `{erahumed}` built-in management systems.
+
+* Rice field management systems are defined through `new_management_system()`  
+  and `schedule_application()`. The *J. Sendra*, *Clearfield*, and *Bomba* systems  
+  are implemented using the helpers `jsendra()`, `clearfield()`, and `bomba()`.
+
+* The spatial distribution of management systems is defined through  
+  `new_cluster_map()` and `allocate_surface()`. `default_cluster_map()` provides a  
+  predefined map inspired by current practices in the Albufera Natural Park.
+
+## API changes
+
+* `erahumed_simulation()` no longer accepts the `variety_prop`,  
+  `management_df`, and `ca_schedules_df` arguments. These have been replaced  
+  by a new `cluster_map` argument, through which users provide all relevant  
+  information regarding custom chemicals, management schemes, and their  
+  spatial distribution.
+
+* The `albufera_management` and `albufera_ca_schedules` datasets are no longer  
+  exported.
+
+## GUI changes
+
+* A graphical interface for the new features has been developed and is accessible  
+  through the "Agrochemical management" section of the Inputs.
+
 # erahumed 0.18.1
 
 ### Documentation

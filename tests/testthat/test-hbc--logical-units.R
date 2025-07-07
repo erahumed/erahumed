@@ -33,23 +33,6 @@ test_that("hbc_make_df_list() throws if inputs cannot form a data.frame", {
     )
   )
 
-  skip("hbc_make_df_list(): corner case if wrong size input can be recycled")
-  expect_error(
-    hbc_make_df_list(
-      ideal_height_eod_cm = rep(10, 10),
-      ideal_irrigation = rep(TRUE, 10),
-      ideal_draining = rep(TRUE, 10),
-      petp_cm = rnorm(2),
-      area_m2 = runif(10, 1e6, 1e7),
-      capacity_m3_s = runif(10, 1, 2),
-      date = c(
-        rep(as.Date("2020-01-01"), 5),
-        rep(as.Date("2020-01-02"), 5)
-      ),
-      cluster_id = letters[1:10]
-    )
-  )
-
 })
 
 test_that("hbc_make_df_list() throws if date or cluster_id are missing", {
@@ -458,21 +441,6 @@ test_that("hbc_height_eod_cm() returns the correct structure", {
 
   expect_type(res$height_eod_cm, "double")
   expect_length(res$height_eod_cm, n)
-})
-
-test_that("hbc_height_eod_cm(): heights are always positive", {
-  skip("hbc_height_eod_cm(): heights<0 is possible for certain inputs")
-  set.seed(840)
-  n <- rpois(1, 1e3)
-
-  res <- hbc_height_eod_cm(
-    height_sod_cm = runif(n, 0, 20),
-    petp_cm = -rnorm(n, sd = 0.5),
-    inflow_cm = runif(n, 0, 10),
-    outflow_cm = runif(n,  0, 10)
-  )
-
-  expect_gte(min(res$height_eod_cm), 0)
 })
 
 test_that("hbc_height_eod_cm(): correct results in simple cases", {

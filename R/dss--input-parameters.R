@@ -187,26 +187,6 @@ dss_input_porosity <- function(id) {
   )
 }
 
-dss_input_prop_variety_slider <- function(id) {
-
-  tltp_txt <- paste0(
-    "The two numbers on the slider represent the fraction of the crop surface ",
-    "allocated to J. Sendra and the combined area of J. Sendra and Bomba rice ",
-    "varieties, respectively."
-    )
-
-  tltp <- bslib::tooltip(shiny_icon("question-circle"), tltp_txt, placement = "right")
-
-  shiny::sliderInput(
-    inputId = id,
-    label = shiny::p("Variety proportion (J.Sendra : Bomba : Clearfield)", tltp),
-    min = 0,
-    max = 1,
-    value = dss_input_defaults()[["prop_variety_12"]],
-    step = 0.01
-    )
-}
-
 dss_input_weather_df_button <- function(id) {
   btn <- shiny::actionButton(inputId = id, label = "Setup Weather DF")
   bslib::tooltip(trigger = btn, erahumed_input_desc("weather_df"))

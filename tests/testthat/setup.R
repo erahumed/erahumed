@@ -19,4 +19,4 @@ test_sim_large <- function(seed = 840, force = FALSE) {
   .test_sim_large
 }
 
-stopifnot(succeeds(test_sim_small()))
+test_sim_small()

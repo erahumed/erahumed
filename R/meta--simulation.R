@@ -7,17 +7,15 @@
 #'
 #' @param date_start `r input_roxy("date_start")`
 #' @param date_end `r input_roxy("date_end")`
+#' @param cluster_map `r input_roxy("cluster_map")`
 #' @param outflows_df `r input_roxy("outflows_df")`
 #' @param weather_df `r input_roxy("weather_df")`
-#' @param variety_prop `r input_roxy("variety_prop")`
 #' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
 #' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
 #' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
-#' @param management_df `r input_roxy("management_df")`
 #' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
 #' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
 #' @param ditch_level_m `r input_roxy("ditch_level_m")`
-#' @param ca_schedules_df `r input_roxy("ca_schedules_df")`
 #' @param drift `r input_roxy("drift")`
 #' @param covmax `r input_roxy("covmax")`
 #' @param jgrow `r input_roxy("jgrow")`
@@ -36,30 +34,28 @@
 #'
 #' @export
 erahumed_simulation <- function(
-  date_start = "2020-01-01",
-  date_end = "2020-12-31",
-  outflows_df = erahumed::albufera_outflows,
-  weather_df = erahumed::albufera_weather,
-  variety_prop = c("J.Sendra" = 0.8, "Bomba" = 0.1, "Clearfield" = 0.1),
-  storage_curve_slope_m2 = 23.66 * 1e6,
-  storage_curve_intercept_m3 = 16.75 * 1e6,
-  petp_surface_m2 = 53.9 * 1e6,
-  management_df = erahumed::albufera_management,
-  ideal_flow_rate_cm = 5,
-  height_thresh_cm = 0.5,
-  ditch_level_m = 1,
-  ca_schedules_df = erahumed::albufera_ca_schedules,
-  drift = 0,
-  covmax = 0.5,
-  jgrow = 152,
-  dact_m = 0.1,
-  css_ppm = 50,
-  foc = 0.17,
-  bd_g_cm3 = 1.5,
-  qseep_m_day = 0,
-  porosity = 0.11,
-  seed = 840
-  )
+    date_start = "2020-01-01",
+    date_end = "2020-12-31",
+    cluster_map = default_cluster_map(seed = seed),
+    outflows_df = erahumed::albufera_outflows,
+    weather_df = erahumed::albufera_weather,
+    storage_curve_slope_m2 = 23.66 * 1e6,
+    storage_curve_intercept_m3 = 16.75 * 1e6,
+    petp_surface_m2 = 53.9 * 1e6,
+    ideal_flow_rate_cm = 5,
+    height_thresh_cm = 0.5,
+    ditch_level_m = 1,
+    drift = 0,
+    covmax = 0.5,
+    jgrow = 152,
+    dact_m = 0.1,
+    css_ppm = 50,
+    foc = 0.17,
+    bd_g_cm3 = 1.5,
+    qseep_m_day = 0,
+    porosity = 0.11,
+    seed = 840
+)
 {
   tryCatch(
     {
@@ -69,8 +65,7 @@ erahumed_simulation <- function(
         stop("'date_start' must be earlier than or equal to 'date_end'.")
       }
 
-      outflows_df_template <- erahumed::albufera_outflows
-      assert_data.frame(outflows_df, template = outflows_df_template)
+      assert_data.frame(outflows_df, template = erahumed::albufera_outflows)
 
       assert_data.frame(weather_df, template = erahumed::albufera_weather)
 
@@ -85,21 +80,17 @@ erahumed_simulation <- function(
       if (
         date_start < min(c(outflows_df$date, weather_df$date)) ||
         date_end > max(c(outflows_df$date, weather_df$date))
-        ) {
-        msg <- paste(
+      ) {
+        stop(paste(
           "Input data for the specified date interval is incomplete. ",
           "Please check the 'date_start'/'date_end' parameters'",
           "and the 'outflows_df' and 'weather_df' data.frames."
-        )
-        stop(msg)
+        ))
       }
 
       if (any(diff(weather_df$date) != 1)) {
         stop("Invalid 'date' domain in 'weather_df' (not an interval)." )
       }
-
-      assert_positive_vector(variety_prop)
-      stopifnot(length(variety_prop) == 3)
 
       assert_positive_number(storage_curve_slope_m2)
 
@@ -108,19 +99,6 @@ erahumed_simulation <- function(
       assert_positive_number(petp_surface_m2)
 
       assert_positive_number(ditch_level_m)
-
-      management_df_temp <- erahumed::albufera_management
-      assert_data.frame(management_df, template = management_df_temp)
-      dates <- paste(management_df$mm, management_df$dd)
-      dates_expected <- paste(management_df_temp$mm, management_df_temp$dd)
-      if (!setequal(unique(dates), unique(dates_expected))) {
-        msg <- paste(
-          "Provided 'management_df' has unexpected 'date' values.",
-          "Values should coincide with 'erahumed::albufera_management$date'"
-        )
-        stop(msg)
-      }
-
       assert_positive_number(ideal_flow_rate_cm)
 
       assert_positive_number(height_thresh_cm)
@@ -134,21 +112,28 @@ erahumed_simulation <- function(
 
   res <- initialize_erahumed_simulation(inputs = as.list(environment()))
 
-  res$etc$cluster_variety_map <-
-    withr::with_seed(seed, generate_clusters_variety(variety_prop))
+  res$etc$management_df <- get_management_df(cluster_map)
+  res$etc$chemical_db <- get_chemical_db(cluster_map)
+  res$etc$applications_df <- get_applications_df(cluster_map)
 
-  res |>
+  res <- res |>
     compute_inp() |>
     compute_hbl() |>
     compute_hbc() |>
-    compute_hbd() |>
-    compute_ca() |>
-    compute_ctc() |>
-    compute_ctd() |>
-    compute_ctl() |>
-    compute_rc() |>
-    compute_rd() |>
-    compute_rl()
+    compute_hbd()
+
+  if (length(res$etc$chemical_db) > 0) {
+    res <- res |>
+      compute_ctc() |>
+      compute_ctd() |>
+      compute_ctl() |>
+      compute_rc() |>
+      compute_rd() |>
+      compute_rl()
+  }
+
+  return(res)
+
 }
 
 initialize_erahumed_simulation <- function(inputs)

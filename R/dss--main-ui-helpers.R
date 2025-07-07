@@ -39,12 +39,12 @@ dss_footer <- function() {
   )
 
   shiny::tagList(
-    shiny::p(
-      dss_title(),
-      "was developed with ", r_icon, "and Shiny by Valerio Gherardi.",
-      "License:", gpl3_hl,
-      style = footer_style
-    ),
+    # shiny::p(
+    #   dss_title(),
+    #   "was developed with ", r_icon, "and Shiny by Valerio Gherardi.",
+    #   "License:", gpl3_hl,
+    #   style = footer_style
+    # ),
     map_card,
     shiny::tags$head(shiny::tags$style(
       shiny::HTML("#map_card { display: none; }")

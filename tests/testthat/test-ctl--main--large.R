@@ -22,12 +22,19 @@ test_that("The time series of chemical masses are always positive", {
 test_that("Water and soil of all ditches have at least one >0 value", {
   tol_kg <- 1e-10
 
-  non_universal_chems <- c("MCPA", "Benta", "Cyhalo", "Cicloxidim", "Penoxulam")
+  universal_chems <- c("Acetamiprid", "Azoxystrobin", "Difenoconazole")
+
+  chemical_db <- get_etc(test_sim_large(), "chemical_db")
+  chem_names <- sapply(seq_along(chemical_db), function(chemical_id) {
+    ct_get_param(chemical_id, "display_name", chemical_db)
+  })
+
+  universal_chem_ids <- which(chem_names %in% universal_chems)
 
   test_df <- get_output(test_sim_large(), "ctl") |>
-    dplyr::filter(!(chemical %in% non_universal_chems)) |>
-    dplyr::group_by(chemical) |>
-    dplyr::summarise(mw_kg = sum(mw_kg), ms_kg = sum(ms_kg)) |>
+    dplyr::filter(chemical_id %in% universal_chem_ids) |>
+    dplyr::group_by(element_id, chemical_id) |>
+    dplyr::summarise(mw_kg = sum(mw_kg), ms_kg = sum(ms_kg), .groups = "drop") |>
     dplyr::filter(mw_kg < tol_kg | ms_kg < tol_kg)
 
   expect_equal(nrow(test_df), 0)
@@ -36,11 +43,8 @@ test_that("Water and soil of all ditches have at least one >0 value", {
 test_that("Foliage mass of all ditches is always =0", {
   tol_kg <- 1e-10
 
-  non_universal_chems <- c("MCPA", "Benta", "Cyhalo", "Cicloxidim", "Penoxulam")
 
   test_df <- get_output(test_sim_large(), "ctl") |>
-    dplyr::filter(!(chemical %in% non_universal_chems)) |>
-    dplyr::group_by(chemical) |>
     dplyr::summarise(mf_kg = sum(mf_kg)) |>
     dplyr::filter(mf_kg > tol_kg)
 
