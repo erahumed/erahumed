@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.19.0
 
 This is a major release that introduces several powerful features to the  
 package, including:
