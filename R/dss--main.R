@@ -77,17 +77,32 @@ dss_server <- function(input, output, session) {
   output$download <- shiny::downloadHandler(
     filename = function() paste0("erahumed-dss-results-", Sys.Date(), ".zip"),
     content = function(filename) {
-      shinyjs::disable("download")
-      shiny::showNotification("Download will start soon...", type = "message", duration = 5)
-      tryCatch(dss_download(filename, simulation()),
-               error = function(e)
-                 shiny::showNotification(paste("Download failed:", e$message),
-                                         type = "error"),
-               finally = shinyjs::enable("download")
-               )
-      }
 
-    )
+      sim <- simulation()
+      shiny::req(sim)
+
+      shiny::showModal(
+        shiny::modalDialog(
+          title = "Please wait",
+          shiny::tagList(
+            shiny::icon("spinner", class = "fa-spin", style = "margin-right: 10px;"),
+            "Preparing the download, this may take a few seconds..."
+          ),
+          footer = NULL,
+          easyClose = FALSE
+        )
+      )
+
+      tryCatch({
+        dss_download(filename, sim)
+      }, error = function(e) {
+        shiny::showNotification(paste("Download failed:", e$message), type = "error")
+      }, finally = {
+        shiny::removeModal()
+      })
+    }
+  )
+
 
   output$map <- leaflet::renderLeaflet(
     plot_albufera_clusters(cluster_map = parameters()[["cluster_map"]])

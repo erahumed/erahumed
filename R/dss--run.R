@@ -2,6 +2,8 @@ dss_run_server <- function(id, parameters, run) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    res <- shiny::reactiveVal(NULL)
+
     shiny::observe({
       shiny::showNotification(
         "Simulation parameters have changed. Click 'Run simulation' to update results.",
@@ -14,8 +16,13 @@ dss_run_server <- function(id, parameters, run) {
 
 
 
-    shiny::reactive(run_sim(parameters, ns)) |>
+    shiny::observe({
+      sim <- run_sim(parameters, ns)
+      res(sim)
+      }) |>
       shiny::bindEvent(run(), ignoreNULL = TRUE, ignoreInit = TRUE)
+
+    return(res)
 
   })
 }

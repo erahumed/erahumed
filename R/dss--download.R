@@ -1,4 +1,8 @@
 dss_download <- function(filename, simulation) {
+  if (!is_erahumed_simulation(simulation)) {
+    stop("Simulation is not ready yet.")
+  }
+
   components <- c("hydrology", "exposure", "risk")
   elements <- c("lake", "ditch", "cluster")
 
