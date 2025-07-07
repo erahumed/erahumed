@@ -159,17 +159,41 @@ is_erahumed_simulation <- function(obj) {
 
 #' @export
 print.erahumed_simulation <- function(x, ...) {
-  cat("A ERAHUMED simulation.\n\n")
-  cat("Start date:", get_input(x, "date_start"), "\n")
-  cat("End date:", get_input(x, "date_end"), "\n")
+  cat("<ERAHUMED Simulation>\n")
+
+  date_start <- get_input(x, "date_start")
+  date_end <- get_input(x, "date_end")
+  cat("  Date range             :", date_start, "to", date_end, "\n")
+
+  n_days <- as.integer(as.Date(date_end) - as.Date(date_start)) + 1
+  cat("  Simulation days        :", n_days, "\n")
+
+  cluster_map <- get_input(x, "cluster_map")
+  if (inherits(cluster_map, "erahumed_cluster_map")) {
+    cat("  Clusters               :", nrow(cluster_map$map_df), "\n")
+    cat("  Management systems     :", length(cluster_map$ms_list), "\n")
+  }
+
+  chemicals <- x$etc$chemical_db
+  if (length(chemicals) > 0) {
+    cat("  Chemicals simulated    :", length(chemicals), "\n")
+  } else {
+    cat("  Chemicals simulated    : None\n")
+  }
+
+  applications <- x$etc$applications_df
+  if (is.data.frame(applications)) {
+    cat("  Total applications     :", nrow(applications), "\n")
+  }
 
   inform_once(
     "\nNeed help extracting simulation outputs? Check `?get_results`.",
     id = "erahumed_get_results"
-    )
+  )
 
-  return(invisible(x))
+  invisible(x)
 }
+
 
 #' @export
 summary.erahumed_simulation <- function(object, ...) {
