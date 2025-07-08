@@ -109,7 +109,7 @@ ideal_flow_rate_cm:
   description: >-
     Ideal inflow/outflow of a cluster, for days in which the
     cluster is scheduled to be in flux (*i.e.* when being simultaneously
-    irrigated and drained). Expressed in centimeters per day.
+    irrigated and drained). Expressed in centimeters of water depth per day.
 
 height_thresh_cm:
   name: "Cluster Height Threshold"
@@ -170,8 +170,8 @@ css_ppm:
   unit: "ppm"
   type: "numeric(1)"
   description: >-
-    A positive number. Concentration of suspended solid, expressed in parts per
-    million.
+    A positive number. Concentration of water suspended solids, expressed in
+    parts per million.
 
 foc:
   name: "Fraction of organic content"
@@ -179,8 +179,8 @@ foc:
   unit: "1"
   type: "numeric(1)"
   description: >-
-    A number between `0` and `1`. Fraction of organic content within suspended
-    solids and sediments.
+    A number between `0` and `1`. Fraction of organic matter content within
+    suspended solids and sediments.
 
 bd_g_cm3:
   name: "Bulk density of sediment"
