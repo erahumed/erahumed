@@ -45,7 +45,7 @@ erahumed_simulation(
 
 \item{petp_surface_m2}{\verb{[numeric(1)]} \cr The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.}
 
-\item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters per day.}
+\item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters of water depth per day.}
 
 \item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 
@@ -59,9 +59,9 @@ erahumed_simulation(
 
 \item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 
-\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of suspended solid, expressed in parts per million.}
+\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of water suspended solids, expressed in parts per million.}
 
-\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic content within suspended solids and sediments.}
+\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within suspended solids and sediments.}
 
 \item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
 

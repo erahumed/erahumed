@@ -127,9 +127,9 @@ rfms_input_seed_day <- function(id, max) {
 }
 
 rfms_input_amount_kg_ha <- function(id) {
-  desc <- "Application rate of the chemical in kilograms per hectare."
+  desc <- "Application rate of chemical active ingredient in kilograms per hectare."
   label <- shiny::p(
-    "Amount (kg/ha)",
+    "Dose (kg/ha)",
     bslib::tooltip(
       trigger = shiny_icon("question-circle"),
       desc,
