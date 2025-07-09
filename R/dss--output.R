@@ -2,85 +2,89 @@
 #' @importFrom shinycssloaders withSpinner
 dss_output_ui <- function(id) {
   ns <- shiny::NS(id)
-  bslib::page_fillable(
-    title = "Output",
 
-    shinyWidgets::pickerInput(ns("water_body"),
-                              "Water body",
-                              choices = water_body_choices(),
-                              multiple = FALSE),
-    shiny::textOutput(ns("selected_wb_info")),
+  shiny::tagList(
+    shinyjs::useShinyjs(),  # Needed for show/hide
+    shiny::div(
+      id = ns("output_busy_wrapper"),
+      style = "position: relative;",  # Enable overlay positioning
 
-    bslib::layout_column_wrap(
-      bslib::navset_card_tab(
-        title = shiny::div(
-          "Hydrology",
-          bslib::popover(
-            shiny_icon("gear"),
-            shinyWidgets::radioGroupButtons(ns("hb_variable"),
-                                            label = "Variable",
-                                            choices = list(Depth = "depth",
-                                                           Volume = "volume"),
-                                            selected = "depth")
+      # Overlay shown during simulation run. Logic handled by dss_run_server()!
+      shiny::div(
+        id = ns("running_overlay"),
+        style = "display: none;
+                 position: absolute;
+                 z-index: 999;
+                 top: 0; left: 0;
+                 width: 100%; height: 100%;
+                 background-color: rgba(255, 255, 255, 0.8);
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 font-size: 1.5em;",
+        shiny::icon("spinner", class = "fa-spin", style = "margin-right: 10px;"),
+        "Running simulation..."
+      ) |> shinyjs::hidden(),
+
+      shiny::div(
+        id = ns("initial_overlay"),
+        style = "display: none;
+                 position: absolute;
+                 z-index: 999;
+                 top: 0; left: 0;
+                 width: 100%; height: 100%;
+                 background-color: rgba(255, 255, 255, 0.8);
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 font-size: 1.5em;",
+        shiny::icon("circle-info", style = "margin-right: 10px;"),
+        "Simulation not yet run. Click 'Run simulation' to begin."
+      ),
+
+      bslib::page_fillable(
+        title = "Output",
+        shinyWidgets::pickerInput(ns("water_body"),
+                                  "Water body",
+                                  choices = water_body_choices(),
+                                  multiple = FALSE),
+        shiny::textOutput(ns("selected_wb_info")),
+
+        bslib::layout_column_wrap(
+          bslib::navset_card_tab(
+            title = shiny::div("Hydrology",
+                               bslib::popover(
+                                 shiny_icon("gear"),
+                                 shinyWidgets::radioGroupButtons(ns("hb_variable"),
+                                                                 label = "Variable",
+                                                                 choices = list(Depth = "depth", Volume = "volume"),
+                                                                 selected = "depth")
+                               )),
+            full_screen = TRUE,
+            bslib::nav_panel("Storage", dygraphs::dygraphOutput(ns("hb_plot_storage"), height = "600px")),
+            bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows"), height = "600px"))
+          ),
+          bslib::navset_card_tab(
+            title = shiny::div("Exposure"),
+            full_screen = TRUE,
+            bslib::nav_panel("Water", dygraphs::dygraphOutput(ns("ct_plot_water"), height = "600px")),
+            bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment"), height = "600px"))
+          ),
+          bslib::navset_card_tab(
+            title = shiny::div("Risk",
+                               bslib::popover(
+                                 shiny_icon("gear"),
+                                 shinyWidgets::radioGroupButtons(ns("risk_type"),
+                                                                 label = "Risk type",
+                                                                 choices = list(Chronic = "chronic", Acute = "acute"),
+                                                                 selected = "chronic")
+                               )),
+            full_screen = TRUE,
+            bslib::nav_panel("Potentially Affected Fraction",
+                             dygraphs::dygraphOutput(ns("r_plot"), height = "600px")
             )
-          ),
-        full_screen = TRUE,
-        bslib::nav_panel("Storage",
-                         dygraphs::dygraphOutput(ns("hb_plot_storage"),
-                                                 height = "600px"
-                                                 ) |> withSpinner()
-                         ),
-        bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows"),
-                                                          height = "600px"
-                                                          ) |> withSpinner()
-                         )
-        ),
-      bslib::navset_card_tab(
-        title = shiny::div(
-          "Exposure"
-          # , bslib::popover(
-          #   shiny_icon("gear"),
-          #   # shinyWidgets::checkboxGroupButtons(
-          #   #   inputId = ns("chemical"),
-          #   #   label = "Chemicals",
-          #   #   choices = names(info_chemicals()),
-          #   #   selected = names(info_chemicals()),
-          #   #   individual = TRUE,
-          #   #   checkIcon = list(yes = icon("ok", lib = "glyphicon")),
-          #   #   size = "sm"
-          #   # )
-          #   )
-          ),
-        full_screen = TRUE,
-        bslib::nav_panel(
-          "Water",
-          dygraphs::dygraphOutput(ns("ct_plot_water"), height = "600px") |>
-            withSpinner()
-                         ),
-        bslib::nav_panel(
-          "Sediment",
-          dygraphs::dygraphOutput(ns("ct_plot_sediment"), height = "600px") |>
-            withSpinner()
           )
-        ),
-      bslib::navset_card_tab(
-        title = shiny::div(
-          "Risk",
-          bslib::popover(
-            shiny_icon("gear"),
-            shinyWidgets::radioGroupButtons(
-              inputId = ns("risk_type"),
-              label = "Risk type",
-              choices = list(Chronic = "chronic", Acute = "acute"),
-              selected = "chronic")
-            )
-          ),
-        full_screen = TRUE,
-        bslib::nav_panel(
-          "Potentially Affected Fraction",
-          dygraphs::dygraphOutput(ns("r_plot"), height = "600px") |>
-            withSpinner()
-          )
+        )
       )
     )
   )
@@ -202,3 +206,4 @@ water_body_choices <- function()
 
   return( list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters) )
 }
+

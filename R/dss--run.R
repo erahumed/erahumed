@@ -4,28 +4,37 @@ dss_run_server <- function(id, parameters, run) {
 
     res <- shiny::reactiveVal(NULL)
 
+    # Show "not yet run" overlay on startup
+    shinyjs::show("initial_overlay")
+    shinyjs::hide("running_overlay")
+
+    shiny::observe({
+      shinyjs::hide("initial_overlay")
+      shinyjs::show("running_overlay")
+
+      sim <- run_sim(parameters, ns)
+      res(sim)
+
+      shinyjs::hide("running_overlay")
+    }) |>
+      shiny::bindEvent(run(), ignoreNULL = TRUE, ignoreInit = TRUE)
+
+
     shiny::observe({
       shiny::showNotification(
         "Simulation parameters have changed. Click 'Run simulation' to update results.",
         duration = NULL,
         type = "warning",
         id = ns("rerun_notif")
-        )
-      }) |>
+      )
+    }) |>
       shiny::bindEvent(parameters(), ignoreInit = TRUE)
 
-
-
-    shiny::observe({
-      sim <- run_sim(parameters, ns)
-      res(sim)
-      }) |>
-      shiny::bindEvent(run(), ignoreNULL = TRUE, ignoreInit = TRUE)
-
     return(res)
-
   })
 }
+
+
 
 run_sim <- function(parameters, ns) {
   tryCatch(parameters(),

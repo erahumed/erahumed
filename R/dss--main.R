@@ -69,7 +69,10 @@ dss_server <- function(input, output, session) {
   shiny::observe(run(run() + 1)) |> shiny::bindEvent(input$run)
 
   parameters <- dss_input_server("dss_input")
-  simulation <- dss_run_server("dss_run", parameters = parameters, run = run)
+
+  # Here ID is the same as the dss output module, a little hack so that we can
+  # easily interact with the dss_output UI from this server also.
+  simulation <- dss_run_server("dss_output", parameters = parameters, run = run)
   dss_output_server("dss_output",
                     simulation = simulation,
                     clicked_cluster_id = clicked_cluster_id)
