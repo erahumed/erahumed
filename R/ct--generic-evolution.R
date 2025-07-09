@@ -277,6 +277,10 @@ ct_ts_step_terms <- function(application_kg,
     mf <- mf + mfapp[i] * fac
   }
 
+  # Regularization for the singular case
+  a <- a - 1e-10
+  d <- d - 1e-10
+
   eA <- exp2by2(a = a, b = b, c = c, d = d)
   iC <- inv2by2(a = a - u, b = b, c = c, d = d - u)
   q1 <- (eA$E11 - exp(u))*iC$I11 + eA$E12*iC$I21
