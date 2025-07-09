@@ -64,7 +64,15 @@ dss_output_ui <- function(id) {
             bslib::nav_panel("Flows", dygraphs::dygraphOutput(ns("hb_plot_flows"), height = "600px"))
           ),
           bslib::navset_card_tab(
-            title = shiny::div("Exposure"),
+            title = shiny::div("Exposure",
+                               bslib::popover(
+                                 shiny_icon("gear"),
+                                 shiny::checkboxGroupInput(
+                                   ns("ct_chemical_ids"),
+                                   label = "Select chemical(s) to display",
+                                   choices = NULL  # will be updated dynamically in server
+                                 ))
+                               ),
             full_screen = TRUE,
             bslib::nav_panel("Water", dygraphs::dygraphOutput(ns("ct_plot_water"), height = "600px")),
             bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment"), height = "600px"))
@@ -126,6 +134,21 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     })
 
+    # Update available chemical choices when simulation is available
+    shiny::observeEvent(simulation(), {
+      chemical_db <- get_etc(simulation(), "chemical_db")
+      choices <- seq_along(chemical_db)
+      names(choices) <- sapply(chemical_db, \(c) c$display_name)
+
+      shiny::updateCheckboxGroupInput(
+        session,
+        "ct_chemical_ids",
+        choices = choices,
+        selected = seq_along(chemical_db)
+      )
+    })
+
+
 
     output$hb_plot_storage <- dygraphs::renderDygraph({
       shiny::req(simulation())
@@ -154,7 +177,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$ct_plot_water <- dygraphs::renderDygraph({
-      shiny::req(simulation())
+      shiny::req(simulation(), input$ct_chemical_ids)
 
       plot_fun <- switch(element_type(),
                          c = plot_ctc, d = plot_ctd, l = plot_ctl)
@@ -163,19 +186,19 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
         plot_fun(
           element_id = input$water_body,
           compartment = "water",
-          chemicals = input$chemical,
+          chemical_ids = as.numeric(input$ct_chemical_ids),
           dygraph_group = "dss")
     })
 
     output$ct_plot_sediment <- dygraphs::renderDygraph({
-      shiny::req(simulation())
+      shiny::req(simulation(), input$ct_chemical_ids)
 
       plot_fun <- switch(element_type(),
                          c = plot_ctc, d = plot_ctd, l = plot_ctl)
       simulation() |>
         plot_fun(element_id = input$water_body,
                  compartment = "sediment",
-                 chemicals = input$chemical,
+                 chemical_ids = as.numeric(input$ct_chemical_ids),
                  dygraph_group = "dss")
     })
 
