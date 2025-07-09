@@ -14,10 +14,13 @@
     data.table::setorderv("date") |>
     collapse::rsplit(by = ~ element_id)
 
-  lapply(seq_along(get_etc(simulation, "chemical_db")), function(chemical_id) {
+  chem_db <- get_etc(simulation, "chemical_db")
+
+  lapply(seq_along(chem_db), function(chemical_id) {
       element_id <- "lake"
       date <- lake_ts_df[["date"]]
       area_m2 <- get_input(simulation, "petp_surface_m2")
+      chemical_name <- ct_get_param(chemical_id, "display_name", chem_db)
 
       ditch_inflows_m3_s <- lapply(ditch_inflows_df_list, function(df)
         {
@@ -48,7 +51,7 @@
         simulation = simulation,
         chemical_id = chemical_id
       )
-      c(list(element_id = element_id, chemical_id = chemical_id),
+      c(list(element_id = element_id, chemical_id = chemical_id, chemical_name = chemical_name),
         list(date = date),
         ct_ts_df
       )

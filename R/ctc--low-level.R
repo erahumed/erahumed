@@ -14,12 +14,15 @@
           ) |>
     collapse::rsplit(by = ~ element_id, keep.by = TRUE)
 
-  lapply(seq_along(get_etc(simulation, "chemical_db")), function(chemical_id) {
+  chem_db <- get_etc(simulation, "chemical_db")
+
+  lapply(seq_along(chem_db), function(chemical_id) {
     lapply(hbc_split, \(cluster_ts_df) {
       element_id <- cluster_ts_df[["element_id"]][[1]]
       area_m2 <- cluster_ts_df[["area_m2"]][[1]]
       variety <- cluster_ts_df[["variety"]][[1]]
       date <- cluster_ts_df[["date"]]
+      chemical_name <- ct_get_param(chemical_id, "display_name", chem_db)
 
       ct_ts_df <- ct_time_series(
         application_kg = get_application_kg_vector(
@@ -45,7 +48,7 @@
         simulation = simulation,
         chemical_id = chemical_id
       )
-      c(list(element_id = element_id, chemical_id = chemical_id),
+      c(list(element_id = element_id, chemical_id = chemical_id, chemical_name = chemical_name),
         list(date = date),
         ct_ts_df
         )

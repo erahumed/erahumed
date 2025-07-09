@@ -18,12 +18,16 @@
                      use.names = TRUE,
                      keep.by = FALSE)
 
-  lapply(seq_along(get_etc(simulation, "chemical_db")), function(chemical_id) {
+  chem_db <- get_etc(simulation, "chemical_db")
+
+  lapply(seq_along(chem_db), function(chemical_id) {
     lapply(hbd_output_split, function(ditch_ts_df) {
       element_id <- ditch_ts_df[["element_id"]][[1]]
       area_m2 <- ditch_ts_df[["surface"]][[1]]
 
       date <- ditch_ts_df[["date"]]
+      chemical_name <- ct_get_param(chemical_id, "display_name", chem_db)
+
 
       cluster_inflows_df <- cluster_inflows_df_list[[ element_id ]]
       cluster_inflows_m3_s <- lapply(cluster_inflows_df, function(df) {
@@ -56,7 +60,7 @@
         simulation = simulation,
         chemical_id = chemical_id
       )
-      c(list(element_id = element_id, chemical_id = chemical_id),
+      c(list(element_id = element_id, chemical_id = chemical_id, chemical_name = chemical_name),
         list(date = date),
         ct_ts_df
       )
