@@ -60,11 +60,11 @@ fet_cm:
   description: "Fraction of pesticide washed off from foliage per cm of rainfall."
 
 kf_day:
-  name: "Floodwater degradation rate"
+  name: "Foliage degradation rate"
   group: "Degradation"
   type: "numeric(1)"
   unit: "1/day"
-  description: "Degradation rate in floodwater."
+  description: "Degradation rate in foliage."
 
 kw_day:
   name: "Water column degradation rate"

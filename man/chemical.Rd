@@ -49,7 +49,7 @@ chemical(
 
 \item{fet_cm}{\verb{[numeric(1)]} \cr Fraction of pesticide washed off from foliage per cm of rainfall.}
 
-\item{kf_day}{\verb{[numeric(1)]} \cr Degradation rate in floodwater.}
+\item{kf_day}{\verb{[numeric(1)]} \cr Degradation rate in foliage.}
 
 \item{kw_day}{\verb{[numeric(1)]} \cr Degradation rate in the water column.}
 
