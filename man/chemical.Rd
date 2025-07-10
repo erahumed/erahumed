@@ -47,7 +47,7 @@ chemical(
 
 \item{dinc_m}{\verb{[numeric(1)]} \cr Depth of incorporation into soil/sediment.}
 
-\item{fet_cm}{\verb{[numeric(1)]} \cr Film thickness for exchange at the sediment-water interface.}
+\item{fet_cm}{\verb{[numeric(1)]} \cr Fraction of pesticide washed off from foliage per cm of rainfall.}
 
 \item{kf_day}{\verb{[numeric(1)]} \cr Degradation rate in floodwater.}
 

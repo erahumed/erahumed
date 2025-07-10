@@ -53,11 +53,11 @@ dinc_m:
   description: "Depth of incorporation into soil/sediment."
 
 fet_cm:
-  name: "Film thickness for exchange"
+  name: "Foliar extraction term"
   group: "Transport parameters"
   type: "numeric(1)"
-  unit: "cm"
-  description: "Film thickness for exchange at the sediment-water interface."
+  unit: "1/cm"
+  description: "Fraction of pesticide washed off from foliage per cm of rainfall."
 
 kf_day:
   name: "Floodwater degradation rate"
