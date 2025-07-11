@@ -9,9 +9,6 @@ ct_plot_time_series_density <- function(data,
 
   compartment <- match.arg(compartment)
 
-  # Vectorized name lookup (assumes get_name is vectorized or vectorizable)
-  #data$chemical_name <- get_name(data$chemical_id)
-
   if (!is.null(chemical_ids)) {
     assert_integer_vector(chemical_ids)
     data <- data[data$chemical_id %in% chemical_ids, ]
@@ -26,34 +23,27 @@ ct_plot_time_series_density <- function(data,
     units <- "\u{03BC}g / g"
   }
 
-  # Pivot by chemical_id to guarantee uniqueness
+  # Keep only needed columns
   data <- data[, c("date", "chemical_id", "density")]
 
-  plot_df <- stats::reshape(data,
-                            idvar = "date",
-                            timevar = "chemical_id",
-                            direction = "wide",
-                            sep = "") |>
-    (\(df) {
-      # Rename columns from e.g., "density5" to "chemical_name (5)"
-      names(df) <- gsub("density", "", names(df), fixed = TRUE)
-      col_ids <- as.numeric( setdiff(names(df), "date") )
-      col_labels <- sapply(col_ids, \(id) chemical_db[[id]][["display_name"]])
-      if (anyDuplicated(col_labels)) {
-        col_labels <- paste0(col_labels, " (", col_ids, ")")
-      }
-      names(df)[match(col_ids, names(df))] <- col_labels
-      df[, c("date", sort(col_labels))]
-    })()
+  # Determine ordered chemical_ids by name
+  chem_ids <- sort(unique(data$chemical_id))
+  chem_names <- sapply(chem_ids, \(id) chemical_db[[id]][["display_name"]])
+  chem_ids_ordered <- chem_ids[order(chem_names)]
+  chem_names_ordered <- chem_names[order(chem_names)]
 
-  chemical_names <- setdiff(names(plot_df), "date")
+  # Pivot
+  wide_dt <- data |>
+    data.table::as.data.table() |>
+    data.table::dcast(date ~ chemical_id, value.var = "density") |>
+    data.table::setcolorder(c("date", as.character(chem_ids_ordered)))
 
-  # Color mapping should still use readable labels
-  dy_colors <- chemical_color_map(chemical_db)
+
+  ts_plot <- xts::xts(wide_dt[, -1, with = FALSE], order.by = wide_dt$date)
 
   value_fmt <- sprintf("function(d) { return d.toPrecision(3) + ' %s'; }", units)
 
-  dygraphs::dygraph(plot_df, group = dygraph_group) |>
+  g <- dygraphs::dygraph(ts_plot, group = dygraph_group) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
                      label = paste0("Concentration [", units, "]"),
@@ -61,10 +51,19 @@ ct_plot_time_series_density <- function(data,
                      valueFormatter = value_fmt
     ) |>
     dygraphs::dyLegend(show = "always",
-                       showZeroValues = FALSE,
+                       showZeroValues = TRUE,
                        labelsSeparateLines = TRUE) |>
     dygraphs::dyRangeSelector() |>
     dygraphs::dyUnzoom() |>
-    dygraphs::dyOptions(colors = dy_colors) |>
-    identity()
+    dygraphs::dyOptions(strokeWidth = 1.5)
+
+  for (id in chem_ids_ordered) {
+    series_id <- as.character(id)
+    color <- chemical_color_map(chemical_db)[[id]]
+    if (is.null(color) || is.na(color)) color <- "#888888"
+    g <- g |>
+      dygraphs::dySeries(series_id, label = chem_names[[id]], color = color)
+  }
+
+  g
 }
