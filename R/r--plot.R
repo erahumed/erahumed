@@ -60,7 +60,7 @@ plot_risk <- function(r_output,
     dygraphs::dyOptions(stackedGraph = TRUE, fillAlpha = 0.7) |>
     dygraphs::dyAxis("x", label = "Date") |>
     dygraphs::dyAxis("y",
-                     label = "Potentially Affected Species [%]",
+                     label = "Potentially Affected Fraction of Species [%]",
                      axisLabelWidth = 80,
                      axisLabelFormatter = axis_fmt,
                      valueFormatter = value_fmt,
