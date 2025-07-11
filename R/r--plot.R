@@ -168,7 +168,7 @@ plot_risk <- function(r_output,
   ## --- Highlight msPAF ---
   if ("msPAF" %in% colnames(ts_plot)) {
     g <- g |> dygraphs::dySeries("msPAF",
-                                 label = "msPAF",
+                                 label = "Combined effect",
                                  color = "black",
                                  strokeWidth = 3)
   }
