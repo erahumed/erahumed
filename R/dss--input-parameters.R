@@ -1,7 +1,7 @@
 dss_input_seed <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("Seed for simulation", dss_input_tooltip("seed")),
+    label = shiny::p("Simulation random seed", dss_input_tooltip("seed")),
     value = dss_input_defaults()[["seed"]],
     step = 1
     )
@@ -91,7 +91,7 @@ dss_input_ditch_level_m <- function(id) {
 dss_input_drift <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("drift", dss_input_tooltip("drift")),
+    label = shiny::p("Drift [1]", dss_input_tooltip("drift")),
     value = dss_input_defaults()[["drift"]],
     step = 0.01,
     min = 0,
@@ -102,7 +102,7 @@ dss_input_drift <- function(id) {
 dss_input_covmax <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("covmax", dss_input_tooltip("covmax")),
+    label = shiny::p("Max interception potential [1]", dss_input_tooltip("covmax")),
     value = dss_input_defaults()[["covmax"]],
     step = 0.01,
     min = 0,
@@ -113,7 +113,7 @@ dss_input_covmax <- function(id) {
 dss_input_jgrow <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("jgrow", dss_input_tooltip("jgrow")),
+    label = shiny::p("Maturation cycle length [1]", dss_input_tooltip("jgrow")),
     value = dss_input_defaults()[["jgrow"]],
     step = 1,
     min = 0,
@@ -124,7 +124,7 @@ dss_input_jgrow <- function(id) {
 dss_input_dact_m <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("dact_m", dss_input_tooltip("dact_m")),
+    label = shiny::p("Depth of active sediment [m]", dss_input_tooltip("dact_m")),
     value = dss_input_defaults()[["dact_m"]],
     step = 0.01,
     min = 0,
@@ -135,7 +135,7 @@ dss_input_dact_m <- function(id) {
 dss_input_css_ppm <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("css_ppm", dss_input_tooltip("css_ppm")),
+    label = shiny::p("Suspended solid concentration [ppm]", dss_input_tooltip("css_ppm")),
     value = dss_input_defaults()[["css_ppm"]],
     step = 1,
     min = 0,
@@ -146,7 +146,7 @@ dss_input_css_ppm <- function(id) {
 dss_input_foc <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("foc", dss_input_tooltip("foc")),
+    label = shiny::p("Fraction of organic content [1]", dss_input_tooltip("foc")),
     value = dss_input_defaults()[["foc"]],
     step = 0.001,
     min = 0,
@@ -157,7 +157,7 @@ dss_input_foc <- function(id) {
 dss_input_bd_g_cm3 <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("bd_g_cm3", dss_input_tooltip("bd_g_cm3")),
+    label = shiny::p("Bulk density of sediment [g\u00B7cm\u207B\u00B2]", dss_input_tooltip("bd_g_cm3")),
     value = dss_input_defaults()[["bd_g_cm3"]],
     step = 0.01,
     min = 0,
@@ -168,7 +168,7 @@ dss_input_bd_g_cm3 <- function(id) {
 dss_input_qseep_m_day <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("qseep_m_day", dss_input_tooltip("qseep_m_day")),
+    label = shiny::p("Seepage rate [m\u00B7day\u207B\u00B9]", dss_input_tooltip("qseep_m_day")),
     value = dss_input_defaults()[["qseep_m_day"]],
     step = 0.01,
     min = 0,
@@ -179,7 +179,7 @@ dss_input_qseep_m_day <- function(id) {
 dss_input_porosity <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("porosity", dss_input_tooltip("porosity")),
+    label = shiny::p("Porosity [1]", dss_input_tooltip("porosity")),
     value = dss_input_defaults()[["porosity"]],
     step = 0.01,
     min = 0,
