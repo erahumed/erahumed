@@ -7,13 +7,11 @@ rfcm_get_map_candidates <- function(map,
   assert_character(ditches)
   field_type <- match.arg(field_type)
 
-  df <- map$map_df |>
-    merge(info_clusters(), by.x = "cluster_id", by.y = "element_id")
+  df <- rfcm_filter_cluster_df(ditches = ditches, field_type = field_type) |>
+    merge(map$map_df, by.x = "element_id", by.y = "cluster_id") |>
+    (\(.) .[.$ms_id == 1, ])()
 
-  df <- rfcm_filter_cluster_df(ditches = ditches, field_type = field_type)
-  df <- df[df$ms_id == 1, ]
-
-  return(df$cluster_id)
+  return(df$element_id)
 }
 
 rfcm_map_assign <- function(map, cluster_id, ms_id) {
@@ -31,9 +29,9 @@ rfcm_filter_cluster_df <- function(ditches, field_type) {
   res <- res[res$ditch_element_id %in% ditches, ]
 
   if (field_type == "tancat") {
-    res <- res[df$tancat, ]
+    res <- res[res$tancat, ]
   } else if (field_type == "regular") {
-    res <- res[!df$tancat, ]
+    res <- res[!res$tancat, ]
   }
 
   return(res)
