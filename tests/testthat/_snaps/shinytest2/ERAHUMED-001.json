@@ -90,11 +90,11 @@
           },
           "labels": [
             "day",
-            "Depth"
+            "Water depth"
           ],
           "retainDateWindow": false,
           "xlabel": "Date",
-          "ylabel": "Depth [cm]",
+          "ylabel": "Water depth [cm]",
           "legend": "always",
           "labelsDivWidth": 250,
           "labelsShowZeroValues": true,
@@ -110,7 +110,7 @@
             "black"
           ],
           "series": {
-            "Depth": {
+            "Water depth": {
               "axis": "y"
             }
           }
