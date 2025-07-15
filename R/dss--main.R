@@ -52,12 +52,26 @@ dss_ui <- function() { bslib::page_navbar(
                         class = "btn btn-primary")
     ),
   bslib::nav_item(shiny::div(style = "margin-left: auto;",
-    shiny::downloadButton("download",
-                        "Download results",
-                        icon = shiny_icon("download"),
-                        class = "btn btn-outline-secondary"
-                        )
-    ))
+                             shiny::div(class = "btn-group",
+                                        shiny::tags$button(
+                                          type = "button",
+                                          class = "btn btn-outline-secondary dropdown-toggle",
+                                          `data-bs-toggle` = "dropdown",
+                                          `aria-expanded` = "false",
+                                          shiny::icon("download"),
+                                          "Download results"
+                                        ),
+                                        shiny::tags$ul(class = "dropdown-menu dropdown-menu-end",
+                                                       shiny::tags$li(
+                                                         shiny::downloadLink("download_csv", "Download as CSV", class = "dropdown-item")
+                                                       ),
+                                                       shiny::tags$li(
+                                                         shiny::downloadLink("download_xlsx", "Download as Excel", class = "dropdown-item")
+                                                       )
+                                        )
+                             )
+  ))
+
 
 )}
 
@@ -77,27 +91,23 @@ dss_server <- function(input, output, session) {
                     simulation = simulation,
                     clicked_cluster_id = clicked_cluster_id)
 
-  output$download <- shiny::downloadHandler(
+  output$download_csv <- shiny::downloadHandler(
     filename = function() paste0("erahumed-dss-results-", Sys.Date(), ".zip"),
     content = function(filename) {
-
       sim <- simulation()
       shiny::req(sim)
-
-      shiny::showModal(
-        shiny::modalDialog(
-          title = "Please wait",
-          shiny::tagList(
-            shiny::icon("spinner", class = "fa-spin", style = "margin-right: 10px;"),
-            "Preparing the download, this may take a few seconds..."
-          ),
-          footer = NULL,
-          easyClose = FALSE
-        )
-      )
+      shiny::showModal(shiny::modalDialog(
+        title = "Please wait",
+        shiny::tagList(
+          shiny::icon("spinner", class = "fa-spin", style = "margin-right: 10px;"),
+          "Preparing CSV download..."
+        ),
+        footer = NULL,
+        easyClose = FALSE
+      ))
 
       tryCatch({
-        dss_download(filename, sim)
+        dss_download(filename, sim, format = "csv")
       }, error = function(e) {
         shiny::showNotification(paste("Download failed:", e$message), type = "error")
       }, finally = {
@@ -105,6 +115,32 @@ dss_server <- function(input, output, session) {
       })
     }
   )
+
+  output$download_xlsx <- shiny::downloadHandler(
+    filename = function() paste0("erahumed-dss-results-", Sys.Date(), ".zip"),
+    content = function(filename) {
+      sim <- simulation()
+      shiny::req(sim)
+      shiny::showModal(shiny::modalDialog(
+        title = "Please wait",
+        shiny::tagList(
+          shiny::icon("spinner", class = "fa-spin", style = "margin-right: 10px;"),
+          "Preparing Excel download..."
+        ),
+        footer = NULL,
+        easyClose = FALSE
+      ))
+
+      tryCatch({
+        dss_download(filename, sim, format = "xlsx")
+      }, error = function(e) {
+        shiny::showNotification(paste("Download failed:", e$message), type = "error")
+      }, finally = {
+        shiny::removeModal()
+      })
+    }
+  )
+
 
 
   output$map <- leaflet::renderLeaflet(

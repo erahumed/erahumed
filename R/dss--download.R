@@ -1,4 +1,6 @@
-dss_download <- function(filename, simulation) {
+dss_download <- function(filename, simulation, format = c("csv", "xlsx")) {
+  format <- match.arg(format)
+
   if (!is_erahumed_simulation(simulation)) {
     stop("Simulation is not ready yet.")
   }
@@ -6,18 +8,38 @@ dss_download <- function(filename, simulation) {
   components <- c("hydrology", "exposure", "risk")
   elements <- c("lake", "ditch", "cluster")
 
-  temp_dir <- tempdir()
-  dir.create(file.path(temp_dir, "results"))
+  temp_dir <- tempfile("download_tempdir_")
+  results_dir <- file.path(temp_dir, "results")
+  dir.create(results_dir, recursive = TRUE)
+
   for (component in components) {
     for (element in elements) {
-      csv_file_name <- paste0(component, "-", element, ".csv")
-      temp_file <- file.path(temp_dir, "results", csv_file_name)
+      if (format == "xlsx" && element == "cluster") {
+        next
+      }
+
       df <- get_results(simulation, component = component, element = element)
-      readr::write_csv(df, temp_file)
+      file_basename <- paste0(component, "-", element)
+      out_file <- switch(format,
+                         csv = file.path(results_dir, paste0(file_basename, ".csv")),
+                         xlsx = file.path(results_dir, paste0(file_basename, ".xlsx"))
+      )
+      switch(format,
+             csv = readr::write_csv(df, out_file),
+             xlsx = writexl::write_xlsx(df, out_file)
+      )
     }
   }
 
-  zip::zip(zipfile = filename, "results", root = temp_dir)
+  if (format == "xlsx") {
+    shiny::showNotification(
+      "Note: Cluster-level data is excluded from Excel downloads due to Excel row limits.",
+      type = "warning", duration = 10
+    )
+  }
 
-  unlink(temp_dir)
+
+  zip::zip(zipfile = filename, files = "results", root = temp_dir)
+
+  unlink(temp_dir, recursive = TRUE)
 }
