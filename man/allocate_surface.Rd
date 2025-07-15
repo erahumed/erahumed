@@ -21,12 +21,13 @@ A management system to assign, created with \code{\link[=new_management_system]{
 helper functions such as \code{\link[=bomba]{bomba()}} or \code{\link[=clearfield]{clearfield()}}.}
 
 \item{target_fraction}{\verb{[numeric(1)]} \cr
-The fraction of total surface area to allocate to the given system. Must
-be a number between 0 and 1.}
+The fraction of surface area \strong{within the selected subset} of clusters
+(filtered by \code{ditches} and \code{field_type}) to allocate to the given system.
+Must be a number between 0 and 1.}
 
 \item{ditches}{\verb{[integer]} \cr
-A vector of ditch IDs where candidate clusters will be selected from.
-Defaults to all ditches (1:26).}
+A vector of ditch IDs (e.g., 1:26) defining the subset of clusters to be
+considered for allocation. Defaults to all ditches.}
 
 \item{field_type}{\verb{[character(1)]} \cr
 Type of field to consider when selecting clusters. Must be one of:
@@ -42,22 +43,21 @@ allocated to selected clusters.
 }
 \description{
 Assigns a new management system to a fraction of surface area by selecting
-clusters that match given spatial and structural criteria.
+clusters that match given spatial and structural criteria, using only the
+subset of eligible clusters defined by \code{ditches} and \code{field_type}.
 }
 \details{
-This function randomly selects clusters matching the specified \code{ditches} and
-\code{field_type} until the cumulative surface area of selected clusters reaches
-the \code{target_fraction}. The new management system is added to the internal
-list and assigned a unique ID within the map.
+This function allocates a management system to a subset of clusters selected
+based on the \code{ditches} and \code{field_type} criteria. The \code{target_fraction} refers
+to the fraction of \strong{total surface area within this eligible subset}, not the
+entire map.
 
-If no eligible clusters remain before reaching the target fraction, the
-function will return early with a partial allocation.
-}
-\examples{
-map <- new_cluster_map(jsendra())
-map <- allocate_surface(map, bomba(), target_fraction = 0.1, field_type = "tancat")
+Clusters are randomly selected from the eligible subset until the cumulative
+surface area of selected clusters reaches the desired fraction.
 
-}
-\seealso{
-\code{\link[=new_cluster_map]{new_cluster_map()}}, \code{\link[=default_cluster_map]{default_cluster_map()}}, \code{\link[=new_management_system]{new_management_system()}}
+If the requested fraction exceeds the total available surface in the subset
+(e.g., due to prior allocations), the
+function will issue a warning and perform a \strong{partial allocation} using all
+remaining candidates. The map is returned with the maximum possible surface
+allocated under the given constraints.
 }
