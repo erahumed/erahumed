@@ -19,7 +19,7 @@ plot_hbl <- function(simulation,
 plot_erahumed_hbl_storage <- function(data, variable, dygraph_group) {
 
   data$volume_m3 <- data$volume
-  data$depth_cm <- data$level * 100
+  data$depth_cm <- data$depth * 100
 
   y_var <- switch(variable, depth = "depth_cm", volume = "volume_m3")
   var_name <- switch(variable, depth = "Depth", volume = "Volume")

@@ -67,3 +67,6 @@ hbl_flow_balance <- function(outflows, volume_change, volume_change_petp) {
 
   return(res)
 }
+
+hbl_depth <- function(volume, surface)
+  volume / surface

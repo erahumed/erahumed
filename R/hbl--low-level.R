@@ -98,6 +98,8 @@
                                                 res$outflow_total,
                                                 units = "days")
 
+  res$depth <- hbl_depth(volume = res$volume, surface = storage_curve_slope_m2)
+
   return(res)
 }
 
