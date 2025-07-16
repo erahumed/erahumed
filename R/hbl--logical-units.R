@@ -58,9 +58,6 @@ hbl_flow_balance <- function(outflows_m3_s, volume_change_m3, volume_change_petp
   outflow_total_m3 <- outflow_total_m3 + outflow_recirculation_m3
   inflow_total_m3 <- pmax(inflow_total_m3, 0)
 
-  names(outflows_m3_s) <- gsub("outflow_m3_s_", "", x = names(outflows_m3_s), fixed = TRUE)
-  names(outflows_m3_s) <- paste0("outflow_m3_s_", names(outflows_m3_s))
-
   res <- cbind(
     as.data.frame(outflows_m3_s),
     data.frame(outflow_recirculation_m3_s, outflow_total_m3, inflow_total_m3)

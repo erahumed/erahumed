@@ -64,14 +64,14 @@ test_that("hbl_flow_balance(): returns a dataframe of the correct length", {
 })
 
 test_that("hbl_flow_balance(): returns df has the required columns", {
-  res <- hbl_flow_balance(outflows_m3_s = list(a = 1:10, b = 2:11),
+  res <- hbl_flow_balance(outflows_m3_s = list(a_m3_s = 1:10, b_m3_s = 2:11),
                           volume_change_m3 = rep(1, 10),
                           volume_change_petp_m3 = rep(0.5, 10)
                           )
 
   cols <- colnames(res)
   expected_cols <- c(
-    "outflow_m3_s_a", "outflow_m3_s_b", "outflow_total_m3", "outflow_recirculation_m3_s", "inflow_total_m3"
+    "a_m3_s", "b_m3_s", "outflow_total_m3", "outflow_recirculation_m3_s", "inflow_total_m3"
     )
   expect_setequal(cols, expected_cols)
 })
@@ -110,15 +110,15 @@ test_that("hbl_flow_balance(): sum of outflows equals total", {
   volume_change_m3 <- rnorm(len)
   volume_change_petp_m3 <- rnorm(len)
 
-  res <- hbl_flow_balance(outflows_m3_s = list(a = runif(len, 0, 1),
-                                          b = runif(len, 0, 1)),
+  res <- hbl_flow_balance(outflows_m3_s = list(a_m3_s = runif(len, 0, 1),
+                                          b_m3_s = runif(len, 0, 1)),
                           volume_change_m3 = volume_change_m3,
                           volume_change_petp_m3 = volume_change_petp_m3
                           )
 
   zero_check <- res |>
     dplyr::mutate(outflow_total_bis =
-                    s_per_day() * (outflow_m3_s_a + outflow_m3_s_b + outflow_recirculation_m3_s)
+                    s_per_day() * (a_m3_s + b_m3_s + outflow_recirculation_m3_s)
                   ) |>
     dplyr::filter(
       abs(outflow_total_m3 - outflow_total_bis) > tol * median(abs(outflow_total_m3))
@@ -134,8 +134,8 @@ test_that("hbl_flow_balance(): outflow_recirculation > 0 requires zero inflow_m3
   volume_change_m3 <- rnorm(len)
   volume_change_petp_m3 <- rnorm(len)
 
-  res <- hbl_flow_balance(outflows_m3_s = list(a = runif(len, 0, 1),
-                                          b = runif(len, 0, 1)),
+  res <- hbl_flow_balance(outflows_m3_s = list(a_m3_s = runif(len, 0, 1),
+                                               b_m3_s = runif(len, 0, 1)),
                           volume_change_m3 = volume_change_m3,
                           volume_change_petp_m3 = volume_change_petp_m3
   )
