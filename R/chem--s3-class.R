@@ -11,7 +11,6 @@
 #' @param kvolat_m_day `r chemical_prop_roxy("kvolat_m_day")`
 #' @param sol_ppm `r chemical_prop_roxy("sol_ppm")`
 #' @param koc_cm3_g `r chemical_prop_roxy("koc_cm3_g")`
-#' @param dinc_m `r chemical_prop_roxy("dinc_m")`
 #' @param fet_cm `r chemical_prop_roxy("fet_cm")`
 #' @param kf_day `r chemical_prop_roxy("kf_day")`
 #' @param kw_day `r chemical_prop_roxy("kw_day")`
@@ -37,7 +36,6 @@ chemical <- function(display_name,
                      kvolat_m_day,
                      sol_ppm,
                      koc_cm3_g,
-                     dinc_m,
                      fet_cm,
                      kf_day,
                      kw_day,
@@ -64,7 +62,6 @@ chemical <- function(display_name,
       assert_positive_number(kvolat_m_day)
       assert_positive_number(sol_ppm)
       assert_positive_number(koc_cm3_g)
-      assert_positive_number(dinc_m)
       assert_positive_number(fet_cm)
       assert_positive_number(kf_day)
       assert_positive_number(kw_day)
@@ -98,7 +95,6 @@ chemical <- function(display_name,
               kvolat_m_day = kvolat_m_day,
               sol_ppm = sol_ppm,
               koc_cm3_g = koc_cm3_g,
-              dinc_m = dinc_m,
               fet_cm = fet_cm,
               kf_day = kf_day,
               kw_day = kw_day,
@@ -134,7 +130,6 @@ print.erahumed_chemical <- function(x, ...) {
   cat("Physico-chemical properties:\n")
   cat(sprintf("  Solubility:      %.2f ppm\n", x$sol_ppm))
   cat(sprintf("  Koc:             %.2f cm\u{00B3}/g\n", x$koc_cm3_g))
-  cat(sprintf("  Depth incorp.:   %.3f m\n", x$dinc_m))
   cat(sprintf("  Film thickness:  %.3f cm\n", x$fet_cm))
   cat(sprintf("  Settling rate:   %.3f m/day\n", x$ksetl_m_day))
   cat(sprintf("  Volatilization:  %.3f m/day\n\n", x$kvolat_m_day))

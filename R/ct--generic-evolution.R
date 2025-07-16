@@ -43,7 +43,6 @@ ct_time_series <- function(
   Q10_ks_unsat <- ct_get_param(chemical_id, "Q10_ks_unsat", chemical_db)
   ks_unsat_temp <- ct_get_param(chemical_id, "ks_unsat_temp", chemical_db)
   sol_ppm <- ct_get_param(chemical_id, "sol_ppm", chemical_db)
-  dinc_m <- ct_get_param(chemical_id, "dinc_m", chemical_db)
   ksetl_m_day <- ct_get_param(chemical_id, "ksetl_m_day", chemical_db)
   kvolat_m_day <- ct_get_param(chemical_id, "kvolat_m_day", chemical_db)
   MW <- ct_get_param(chemical_id, "MW", chemical_db)
@@ -89,7 +88,6 @@ ct_time_series <- function(
                             Q10_ks_unsat = Q10_ks_unsat,
                             ks_unsat_temp = ks_unsat_temp,
                             sol_ppm = sol_ppm,
-                            dinc_m = dinc_m,
                             ksetl_m_day = ksetl_m_day,
                             kvolat_m_day = kvolat_m_day,
                             MW = MW,
@@ -187,7 +185,6 @@ ct_ts_step_terms <- function(application_kg,
                              Q10_ks_unsat,
                              ks_unsat_temp,
                              sol_ppm,
-                             dinc_m,
                              ksetl_m_day,
                              kvolat_m_day,
                              MW,

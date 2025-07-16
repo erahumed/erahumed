@@ -45,13 +45,6 @@ koc_cm3_g:
   unit: "cm \u00B3 /g"
   description: "Organic carbon-water partition coefficient (Koc)."
 
-dinc_m:
-  name: "Incorporation depth"
-  group: "Transport parameters"
-  type: "numeric(1)"
-  unit: "m"
-  description: "Depth of incorporation into soil/sediment."
-
 fet_cm:
   name: "Foliar extraction term"
   group: "Transport parameters"

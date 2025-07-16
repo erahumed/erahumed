@@ -30,14 +30,6 @@ chem_input_fet_cm <- function(id) {
   )
 }
 
-chem_input_dinc_m <- function(id) {
-  inline_numeric_input(
-    id,
-    label = shiny::p(shiny::HTML("Incorporation depth (m)"), chem_input_tooltip("dinc_m")),
-    value = chem_input_defaults()[["dinc_m"]]
-  )
-}
-
 chem_input_ksetl_m_day <- function(id) {
   inline_numeric_input(
     id,

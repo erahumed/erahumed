@@ -12,7 +12,6 @@ chemical(
   kvolat_m_day,
   sol_ppm,
   koc_cm3_g,
-  dinc_m,
   fet_cm,
   kf_day,
   kw_day,
@@ -44,8 +43,6 @@ chemical(
 \item{sol_ppm}{\verb{[numeric(1)]} \cr Water solubility.}
 
 \item{koc_cm3_g}{\verb{[numeric(1)]} \cr Organic carbon-water partition coefficient (Koc).}
-
-\item{dinc_m}{\verb{[numeric(1)]} \cr Depth of incorporation into soil/sediment.}
 
 \item{fet_cm}{\verb{[numeric(1)]} \cr Fraction of pesticide washed off from foliage per cm of rainfall.}
 

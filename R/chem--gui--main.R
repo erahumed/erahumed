@@ -39,7 +39,6 @@ chemical_editor_ui <- function(id) {
                              chem_input_sol_ppm(ns("sol_ppm")),
                              chem_input_koc_cm3_g(ns("koc_cm3_g")),
                              chem_input_fet_cm(ns("fet_cm")),
-                             chem_input_dinc_m(ns("dinc_m")),
                              chem_input_ksetl_m_day(ns("ksetl_m_day")),
                              chem_input_kvolat_m_day(ns("kvolat_m_day"))
       ),
@@ -84,7 +83,6 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
       shiny::updateNumericInput(inputId = "sol_ppm", value = item()$sol_ppm)
       shiny::updateNumericInput(inputId = "koc_cm3_g", value = item()$koc_cm3_g)
       shiny::updateNumericInput(inputId = "fet_cm", value = item()$fet_cm)
-      shiny::updateNumericInput(inputId = "dinc_m", value = item()$dinc_m)
       shiny::updateNumericInput(inputId = "kf_day", value = item()$kf_day)
       shiny::updateNumericInput(inputId = "kw_day", value = item()$kw_day)
       shiny::updateNumericInput(inputId = "ks_sat_day", value = item()$ks_sat_day)
