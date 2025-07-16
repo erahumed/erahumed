@@ -39,8 +39,8 @@
         temperature_min = cluster_ts_df[["temperature_min"]],
         temperature_max = cluster_ts_df[["temperature_max"]],
         volume_eod_m3 = area_m2 * cluster_ts_df[["height_eod_cm"]] / 100,
-        outflow_m3_s = cluster_ts_df[["outflow_m3_s"]],
-        inflows_m3_s = list(cluster_ts_df[["inflow_m3_s"]]),  # Clusters have a single source of inflow...
+        outflow_m3 = cluster_ts_df[["outflow_m3"]],
+        inflows_m3 = list(cluster_ts_df[["inflow_m3"]]),  # Clusters have a single source of inflow...
         inflows_densities_kg_m3 = list(0),  # ... which is assumed to be free of pesticide.
         area_m2 = area_m2,
         seed_day = cluster_ts_df[["seed_day"]],  # Used to estimate foliage surface growth

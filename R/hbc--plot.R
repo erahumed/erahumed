@@ -11,8 +11,7 @@ plot_hbc <- function(simulation,
   variable <- match.arg(variable)
 
   data <- get_output(simulation, "hbc")
-  data$outflow_m3 <- -data$outflow_m3_s * s_per_day()
-  data$inflow_m3 <- data$inflow_m3_s * s_per_day()
+  data$outflow_m3 <- -data$outflow_m3
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
 
   if (is.null(element_id)) {
@@ -67,9 +66,8 @@ plot_erahumed_hbc_storage <- function(data, element_id, variable, dygraph_group)
 
 plot_erahumed_hbc_flows <- function(data, element_id, variable, dygraph_group)
 {
-  data$outflow_m3 <- -data$outflow_m3_s * s_per_day()
+  data$outflow_m3 <- -data$outflow_m3
   data$outflow_cm <- -data$outflow_cm
-  data$inflow_m3 <- data$inflow_m3_s * s_per_day()
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
 
   y_vars <- switch(variable,

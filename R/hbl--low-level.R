@@ -52,62 +52,62 @@
 #'
 #' @noRd
 .hbl <- function(
-    level,
+    level_m,
     precipitation_mm,
     evapotranspiration_mm,
-    outflows,
+    outflows_m3_s,
     ...,
     storage_curve_slope_m2 = 1,
     storage_curve_intercept_m3 = 0,
     petp_surface_m2 = 1
 )
 {
-  storage_curve <- function(level) {
-    level * storage_curve_slope_m2 + storage_curve_intercept_m3
+  storage_curve <- function(level_m) {
+    level_m * storage_curve_slope_m2 + storage_curve_intercept_m3
   }
   petp_function <- function(precipitation_mm, evapotranspiration_mm) {
     petp_surface_m2 * (precipitation_mm - evapotranspiration_mm) / 1000
   }
 
   .hbl_argcheck(
-    level = level,
+    level_m = level_m,
     precipitation_mm = precipitation_mm,
     evapotranspiration_mm = evapotranspiration_mm,
-    outflows = outflows,
+    outflows_m3_s = outflows_m3_s,
     ... = ...,
     storage_curve = storage_curve,
     petp_function = petp_function
     )
 
-  res <- data.frame(level, precipitation_mm, evapotranspiration_mm, ...)
+  res <- data.frame(level_m, precipitation_mm, evapotranspiration_mm, ...)
 
-  res$volume <- storage_curve(level)
-  res$volume_change <- hbl_volume_change(res$volume, fill_last = NA)
-  res$level_change <- hbl_volume_change(res$level, fill_last = NA)
-  res$volume_change_petp <- petp_function(precipitation_mm, evapotranspiration_mm)
-  res$volume_eod <- c(res$volume[-1], NA_real_)
+  res$volume_m3 <- storage_curve(level_m)
+  res$volume_change_m3 <- hbl_diff(res$volume_m3, fill_last = NA)
+  res$level_change_m <- hbl_diff(res$level_m, fill_last = NA)
+  res$volume_change_petp_m3 <- petp_function(precipitation_mm, evapotranspiration_mm)
+  res$volume_eod_m3 <- c(res$volume_m3[-1], NA_real_)
 
-  flow_balance_df <- hbl_flow_balance(outflows = outflows,
-                                      volume_change = res$volume_change,
-                                      volume_change_petp = res$volume_change_petp)
+  flow_balance_df <- hbl_flow_balance(outflows_m3_s = outflows_m3_s,
+                                      volume_change_m3 = res$volume_change_m3,
+                                      volume_change_petp_m3 = res$volume_change_petp_m3)
   res <- cbind(res, flow_balance_df)
 
   res <- res[-nrow(res), ]  # Drop last row: NA propagates from 'volume_change'
 
-  res$residence_time_days <- hbl_residence_time(res$volume,
-                                                res$outflow_total,
+  res$residence_time_days <- hbl_residence_time(res$volume_m3,
+                                                res$outflow_total_m3,
                                                 units = "days")
 
-  res$depth <- hbl_depth(volume = res$volume, surface = storage_curve_slope_m2)
+  res$depth_m <- hbl_depth_m(volume_m3 = res$volume_m3, surface_m2 = storage_curve_slope_m2)
 
   return(res)
 }
 
 .hbl_argcheck <- function(
-    level,
+    level_m,
     precipitation_mm,
     evapotranspiration_mm,
-    outflows,
+    outflows_m3_s,
     ...,
     storage_curve,
     petp_function
@@ -115,19 +115,19 @@
 {
   tryCatch(
     {
-      assert_numeric_vector(level)
+      assert_numeric_vector(level_m)
       assert_numeric_vector(precipitation_mm)
       assert_numeric_vector(evapotranspiration_mm)
-      assert_list(outflows)
-      for (i in seq_along(outflows)) {
-        assert_numeric_vector(outflows[[i]])
+      assert_list(outflows_m3_s)
+      for (i in seq_along(outflows_m3_s)) {
+        assert_numeric_vector(outflows_m3_s[[i]])
       }
       for (i in seq_along(list(...))) {
         assert_atomic(list(...)[[i]])
       }
 
-      lengths <- sapply(c(list(level, precipitation_mm, evapotranspiration_mm),
-                          outflows,
+      lengths <- sapply(c(list(level_m, precipitation_mm, evapotranspiration_mm),
+                          outflows_m3_s,
                           list(...)
                           ),
                         length)

@@ -6,8 +6,8 @@ ct_time_series <- function(
     temperature_min,
     temperature_max,
     volume_eod_m3,
-    outflow_m3_s,
-    inflows_m3_s,
+    outflow_m3,
+    inflows_m3,
     inflows_densities_kg_m3,
     area_m2,
     seed_day,
@@ -61,8 +61,8 @@ ct_time_series <- function(
                             temperature_min = temperature_min,
                             temperature_max = temperature_max,
                             volume_eod_m3 = volume_eod_m3,
-                            outflow_m3_s = outflow_m3_s,
-                            inflows_m3_s = inflows_m3_s,
+                            outflow_m3 = outflow_m3,
+                            inflows_m3 = inflows_m3,
                             inflows_densities_kg_m3 = inflows_densities_kg_m3,
                             area_m2 = area_m2,
                             seed_day = seed_day,
@@ -114,7 +114,7 @@ ct_time_series <- function(
   outflow_m3 <- terms[["outflow_m3"]]
   outflow_fac <- terms[["outflow_fac"]]
 
-  n_time_steps <- length(outflow_m3_s)
+  n_time_steps <- length(outflow_m3)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
     mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1]
@@ -158,8 +158,8 @@ ct_ts_step_terms <- function(application_kg,
                              temperature_min,
                              temperature_max,
                              volume_eod_m3,
-                             outflow_m3_s,
-                             inflows_m3_s,
+                             outflow_m3,
+                             inflows_m3,
                              inflows_densities_kg_m3,
                              area_m2,
                              seed_day,
@@ -195,7 +195,7 @@ ct_ts_step_terms <- function(application_kg,
                              kdifus_m_day
                              )
 {
-  n_time_steps <- length(outflow_m3_s)  # Guaranteed to be of required length
+  n_time_steps <- length(outflow_m3)  # Guaranteed to be of required length
   dt <- 1
 
   temp_arr <- ct_temperature_arrhenius(temperature_ave,
@@ -205,8 +205,7 @@ ct_ts_step_terms <- function(application_kg,
   # Hydro balance time series
   height_eod_m <- volume_eod_m3 / area_m2
   height_eod_cm <- height_eod_m * 100
-  outflow_m3 <- outflow_m3_s * s_per_day()
-  inflow_m3 <- ct_total_inflow_m3_s(inflows_m3_s) * s_per_day()
+  inflow_m3 <- ct_total_inflow_m3(inflows_m3)
   rain_cm <- precipitation_mm / 10
   rain_m3 <- (precipitation_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
@@ -239,7 +238,7 @@ ct_ts_step_terms <- function(application_kg,
   outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
 
   ### Inflow
-  mw_inflow_kg <- ct_mw_inflow_kg(inflows_m3_s, inflows_densities_kg_m3)
+  mw_inflow_kg <- ct_mw_inflow_kg(inflows_m3, inflows_densities_kg_m3)
 
   ### Application
   mfapp <- ct_mfapp(application_kg, drift, cover)

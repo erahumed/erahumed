@@ -30,9 +30,9 @@
 
 
       cluster_inflows_df <- cluster_inflows_df_list[[ element_id ]]
-      cluster_inflows_m3_s <- lapply(cluster_inflows_df, function(df) {
+      cluster_inflows_m3 <- lapply(cluster_inflows_df, function(df) {
           idx <- df$chemical_id == chemical_id
-          df[idx, outflow_m3] / s_per_day()
+          df[idx, outflow_m3]
         })
       cluster_inflow_densities_kg_m3 <- lapply(cluster_inflows_df, function(df){
           idx <- df$chemical_id == chemical_id
@@ -47,11 +47,9 @@
         temperature_min = ditch_ts_df[["temperature_min"]],
         temperature_max = ditch_ts_df[["temperature_max"]],
         volume_eod_m3 = ditch_ts_df[["volume_m3"]],
-        outflow_m3_s = ditch_ts_df[["outflow_lake_m3"]] / s_per_day(),
-        inflows_m3_s =  # Ditch inflow waters come from clusters as well as from outside...
-          c(cluster_inflows_m3_s,
-            list(ditch_ts_df[["inflow_external_m3"]] / s_per_day())
-          ),
+        outflow_m3 = ditch_ts_df[["outflow_lake_m3"]],
+        inflows_m3 =  # Ditch inflow waters come from clusters as well as from outside...
+          c(cluster_inflows_m3, list(ditch_ts_df[["inflow_external_m3"]])),
         inflows_densities_kg_m3 =  # ... the latters are assumed to be free of pesticide.
           c(cluster_inflow_densities_kg_m3, list(0)),
         area_m2 = area_m2,

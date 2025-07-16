@@ -35,13 +35,13 @@ outflows_df:
   columns:
     date: >-
       Date of measurement
-    level: >-
+    level_m: >-
       Lake level (meters above sea level)
-    outflow_pujol: >-
+    outflow_pujol_m3_s: >-
       Outflow at Pujol (cubic meters per second)
-    outflow_perellonet: >-
+    outflow_perellonet_m3_s: >-
       Outflow at Perellonet (cubic meters per second)
-    outflow_perello: >-
+    outflow_perello_m3_s: >-
       Outflow at Perello (cubic meters per second)
 
 weather_df:

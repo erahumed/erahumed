@@ -3,7 +3,7 @@
   cw_outflow_kg_m3 <- outflow_m3 <- NULL
 
   lake_ts_df <- get_output(simulation, "hbl") |>
-    (\(.) .[, c("date", "volume_eod", "outflow_total")])() |>
+    (\(.) .[, c("date", "volume_eod_m3", "outflow_total_m3")])() |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
     merge(get_output(simulation, "inp"), by = "date")
@@ -22,10 +22,10 @@
       area_m2 <- get_input(simulation, "petp_surface_m2")
       chemical_name <- ct_get_param(chemical_id, "display_name", chem_db)
 
-      ditch_inflows_m3_s <- lapply(ditch_inflows_df_list, function(df)
+      ditch_inflows_m3 <- lapply(ditch_inflows_df_list, function(df)
         {
           idx <- df$chemical_id == chemical_id
-          df[idx, outflow_m3] / s_per_day()
+          df[idx, outflow_m3]
         })
       ditch_inflow_densities_kg_m3 <- lapply(ditch_inflows_df_list, function(df)
         {
@@ -40,9 +40,9 @@
         temperature_ave = lake_ts_df[["temperature_ave"]],
         temperature_min = lake_ts_df[["temperature_min"]],
         temperature_max = lake_ts_df[["temperature_max"]],
-        volume_eod_m3 = lake_ts_df[["volume_eod"]],
-        outflow_m3_s = lake_ts_df[["outflow_total"]],
-        inflows_m3_s = ditch_inflows_m3_s,
+        volume_eod_m3 = lake_ts_df[["volume_eod_m3"]],
+        outflow_m3 = lake_ts_df[["outflow_total_m3"]],
+        inflows_m3 = ditch_inflows_m3,
         inflows_densities_kg_m3 =  # ... the latters are assumed to be free of pesticide.
           c(ditch_inflow_densities_kg_m3, list(0)),
         area_m2 = area_m2,

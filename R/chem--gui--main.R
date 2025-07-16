@@ -112,7 +112,6 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         kvolat_m_day = input$kvolat_m_day,
         sol_ppm = input$sol_ppm,
         koc_cm3_g = input$koc_cm3_g,
-        dinc_m = input$dinc_m,
         fet_cm = input$fet_cm,
         kf_day = input$kf_day,
         kw_day = input$kw_day,

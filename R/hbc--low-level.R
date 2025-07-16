@@ -7,7 +7,7 @@
     ideal_irrigation,
     ideal_draining,
     area_m2,
-    total_inflow_lake,
+    total_inflow_lake_m3,
     ...,
     ideal_flow_rate_cm,
     height_thresh_cm
@@ -15,7 +15,7 @@
 
   pcts <- hbc_ditch_inflow_pct(ditch, area_m2)
 
-  capacity_m3_s <- total_inflow_lake * pcts$inflow_pct[match(ditch, pcts$ditch)]
+  capacity_m3 <- total_inflow_lake_m3 * pcts$inflow_pct[match(ditch, pcts$ditch)]
 
   res <- lapply(
     unique(ditch),
@@ -27,7 +27,7 @@
              ideal_irrigation = ideal_irrigation[idx],
              ideal_draining = ideal_draining[idx],
              area_m2 = area_m2[idx],
-             capacity_m3_s = capacity_m3_s[idx],
+             capacity_m3 = capacity_m3[idx],
              date = date[idx],
              ideal_flow_rate_cm = ideal_flow_rate_cm,
              height_thresh_cm,
@@ -92,7 +92,7 @@
               ideal_irrigation = res$ideal_irrigation,
               ideal_draining = res$ideal_draining,
               area_m2 = res$area,
-              total_inflow_lake = res$inflow_total,
+              total_inflow_lake_m3 = res$inflow_total_m3,
               tancat = res$tancat,
               variety = res$variety,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
