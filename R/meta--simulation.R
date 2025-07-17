@@ -171,7 +171,7 @@ print.erahumed_simulation <- function(x, ...) {
   cluster_map <- get_input(x, "cluster_map")
   if (inherits(cluster_map, "erahumed_cluster_map")) {
     cat("  Clusters               :", nrow(cluster_map$map_df), "\n")
-    cat("  Management systems     :", length(cluster_map$ms_list), "\n")
+    cat("  Management systems     :", length(cluster_map$rfms_list), "\n")
   }
 
   chemicals <- x$etc$chemical_db

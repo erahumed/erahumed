@@ -9,16 +9,16 @@ rfcm_get_map_candidates <- function(map,
 
   df <- rfcm_filter_cluster_df(ditches = ditches, field_type = field_type) |>
     merge(map$map_df, by.x = "element_id", by.y = "cluster_id") |>
-    (\(.) .[.$ms_id == 1, ])()
+    (\(.) .[.$rfms_id == 1, ])()
 
   return(df$element_id)
 }
 
-rfcm_map_assign <- function(map, cluster_id, ms_id) {
+rfcm_map_assign <- function(map, cluster_id, rfms_id) {
   df <- map[["map_df"]]
   row <- which(df$cluster_id == cluster_id)
-  df[row, "ms_id"] <- ms_id
-  df[row, "ms_name"] <- map[["ms_list"]][[ms_id]][["display_name"]]
+  df[row, "rfms_id"] <- rfms_id
+  df[row, "ms_name"] <- map[["rfms_list"]][[rfms_id]][["display_name"]]
   map[["map_df"]] <- df
   return(map)
 }

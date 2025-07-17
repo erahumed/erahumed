@@ -64,7 +64,7 @@
                        cluster_map$map_df,
                        by.x = "element_id",
                        by.y = "cluster_id")
-  clusters_df$variety <- clusters_df$ms_id
+  clusters_df$variety <- clusters_df$rfms_id
 
   management_df <- get_management_df(cluster_map)
 

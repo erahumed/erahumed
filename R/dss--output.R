@@ -111,7 +111,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
       if ( element_type() == "c" ) {
         cvmap <- get_input(simulation(), "cluster_map")[["map_df"]]
-        cvmap$variety <- cvmap$ms_id
+        cvmap$variety <- cvmap$rfms_id
         cvmap$element_id <- cvmap$cluster_id
         cvmap <- cvmap[, c("element_id", "variety")]
 

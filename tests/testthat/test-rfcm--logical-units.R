@@ -49,13 +49,13 @@ test_that("rfcm_map_assign(): succeeds", {
   map <- new_cluster_map()
   cluster_id <- info_clusters()$element_id[[1]]
 
-  expect_no_error(rfcm_map_assign(map, cluster_id = cluster_id, ms_id = 1))
+  expect_no_error(rfcm_map_assign(map, cluster_id = cluster_id, rfms_id = 1))
 })
 
 test_that("rfcm_map_assign() returns an object of class map", {
   res <- rfcm_map_assign(map = new_cluster_map(),
                     cluster_id = info_clusters()$element_id[[1]],
-                    ms_id = 1)
+                    rfms_id = 1)
 
   expect_no_error(assert_cluster_map(res))
 })

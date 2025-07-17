@@ -77,7 +77,7 @@ plot_albufera_clusters <- function(cluster_map = NULL)
 
     map_df <- cluster_map$map_df
     map_df$element_id <- map_df$cluster_id
-    map_df$variety <- paste(map_df$ms_id, map_df$ms_name, sep = ": ")
+    map_df$variety <- paste(map_df$rfms_id, map_df$ms_name, sep = ": ")
 
     cluster_variety_map <- map_df[, c("element_id", "variety")]
     clusters_df <- merge(clusters_df, cluster_variety_map, by = "element_id")

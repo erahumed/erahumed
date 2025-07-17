@@ -66,17 +66,17 @@ allocate_surface <- function(map,
 
   ditches <- paste0("d", ditches)
 
-  # Determine ms_id (append if not yet in the list)
-  ms_id <- NULL
-  for (i in seq_along(map[["ms_list"]])) {
-    if (identical(system, map[["ms_list"]][[i]])) {
-      ms_id <- i
+  # Determine rfms_id (append if not yet in the list)
+  rfms_id <- NULL
+  for (i in seq_along(map[["rfms_list"]])) {
+    if (identical(system, map[["rfms_list"]][[i]])) {
+      rfms_id <- i
       break
     }
   }
-  if (is.null(ms_id)) {
-    map[["ms_list"]] <- c(map[["ms_list"]], list(system))
-    ms_id <- length(map[["ms_list"]])
+  if (is.null(rfms_id)) {
+    map[["rfms_list"]] <- c(map[["rfms_list"]], list(system))
+    rfms_id <- length(map[["rfms_list"]])
   }
 
   # Get total surface of eligible clusters
@@ -100,7 +100,7 @@ allocate_surface <- function(map,
     }
 
     cluster_id <- sample(remaining_candidates, 1)
-    map <- rfcm_map_assign(map, cluster_id = cluster_id, ms_id = ms_id)
+    map <- rfcm_map_assign(map, cluster_id = cluster_id, rfms_id = rfms_id)
 
     allocated_surface <- allocated_surface + rfcm_cluster_surface(cluster_id)
     remaining_candidates <- setdiff(remaining_candidates, cluster_id)

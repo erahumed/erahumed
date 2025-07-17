@@ -142,7 +142,7 @@ rfcm_server <- function(id, rfms_db, seed) {
     output$pie <- shiny::renderPlot({
       shiny::req(map())
 
-      ids <- paste(map()$map_df$ms_id, map()$map_df$ms_name, sep = " - ")
+      ids <- paste(map()$map_df$rfms_id, map()$map_df$ms_name, sep = " - ")
       ms_areas <- table(ids)
       graphics::pie(
         ms_areas,
