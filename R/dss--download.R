@@ -38,8 +38,42 @@ dss_download <- function(filename, simulation, format = c("csv", "xlsx")) {
     )
   }
 
+  readme_path <- file.path(temp_dir, "README.txt")
 
-  zip::zip(zipfile = filename, files = "results", root = temp_dir)
+  writeLines(download_readme_lines(), readme_path)
+
+  zip::zip(zipfile = filename, files = c("results", "README.txt"), root = temp_dir)
 
   unlink(temp_dir, recursive = TRUE)
 }
+
+
+download_readme_lines <- function() {
+  c(
+    "ERAHUMED DSS – Simulation Output Archive",
+    "========================================",
+    "",
+    paste0("This archive was generated with the R package {erahumed}, version ", utils::packageVersion("erahumed")),
+    "(https://erahumed.github.io/erahumed/). It contains tabular outputs from a simulation",
+    "of the ecological and hydrological dynamics of the Albufera Natural Park, produced",
+    "by the ERAHUMED decision support system.",
+    "",
+    "Each file contains daily time series data generated for three key components:",
+    "  - Hydrology: water inflow, outflow, storage, and related volumes.",
+    "  - Exposure: pesticide concentrations in water and sediment compartments.",
+    "  - Risk: ecotoxicological risk levels expressed as Potentially Affected Fraction (PAF).",
+    "",
+    "Outputs are disaggregated at three spatial levels:",
+    "  - lake: aggregated data for the Albufera lake.",
+    "  - ditch: aggregated data for each of the 26 drainage ditches.",
+    "  - cluster: detailed data for each rice field cluster (up to several thousand records).",
+    "",
+    "Due to Excel file size limitations, cluster-level data are excluded from XLSX exports.",
+    "All data are included in CSV format.",
+    "",
+    "For documentation, methodology, and source code, please refer to:",
+    "https://erahumed.github.io/erahumed/"
+  )
+}
+
+
