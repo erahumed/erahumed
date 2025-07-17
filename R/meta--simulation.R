@@ -27,6 +27,11 @@
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
 #' @param porosity `r input_roxy("porosity")`
 #' @param seed `r input_roxy("seed")`
+#' @param .progress_msg_callback A function used to report simulation progress.
+#'   It should accept a single character string as input, representing the
+#'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).
+#'   This parameter is primarily intended for user feedback mechanisms (e.g.,
+#'   console messages). By default, it prints a message to the R console.
 #'
 #' @return An object of class `erahumed_simulation`.
 #'
@@ -56,7 +61,8 @@ erahumed_simulation <- function(
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     porosity = 0.11,
-    seed = 840
+    seed = 840,
+    .progress_msg_callback = message
 )
 {
   tryCatch(
@@ -122,27 +128,69 @@ erahumed_simulation <- function(
     })
 
 
-  res <- initialize_erahumed_simulation(inputs = as.list(environment()))
+  .progress_msg_callback("Initializing inputs")
+
+  res <- initialize_erahumed_simulation(list(
+    date_start = date_start,
+    date_end = date_end,
+    cluster_map = cluster_map,
+    outflows_df = outflows_df,
+    weather_df = weather_df,
+    storage_curve_slope_m2 = storage_curve_slope_m2,
+    storage_curve_intercept_m3 = storage_curve_intercept_m3,
+    petp_surface_m2 = petp_surface_m2,
+    ideal_flow_rate_cm = ideal_flow_rate_cm,
+    height_thresh_cm = height_thresh_cm,
+    ditch_level_m = ditch_level_m,
+    drift = drift,
+    covmax = covmax,
+    jgrow = jgrow,
+    dact_m = dact_m,
+    css_ppm = css_ppm,
+    foc_ss = foc_ss,
+    foc_sed = foc_sed,
+    bd_g_cm3 = bd_g_cm3,
+    qseep_m_day = qseep_m_day,
+    porosity = porosity,
+    seed = seed))
 
   res$etc$management_df <- get_management_df(cluster_map)
   res$etc$chemical_db <- get_chemical_db(cluster_map)
   res$etc$applications_df <- get_applications_df(cluster_map)
 
-  res <- res |>
-    compute_inp() |>
-    compute_hbl() |>
-    compute_hbc() |>
-    compute_hbd()
+  res <- compute_inp(res)
+
+  .progress_msg_callback("Computing hydrology: lake")
+  res <- compute_hbl(res)
+
+  .progress_msg_callback("Computing hydrology: clusters")
+  res <- compute_hbc(res)
+
+  .progress_msg_callback("Computing hydrology: ditches")
+  res <- compute_hbd(res)
+
 
   if (length(res$etc$chemical_db) > 0) {
-    res <- res |>
-      compute_ctc() |>
-      compute_ctd() |>
-      compute_ctl() |>
-      compute_rc() |>
-      compute_rd() |>
-      compute_rl()
+    .progress_msg_callback("Computing exposure: clusters")
+    res <- compute_ctc(res)
+
+    .progress_msg_callback("Computing exposure: ditches")
+    res <- compute_ctd(res)
+
+    .progress_msg_callback("Computing exposure: lake")
+    res <- compute_ctl(res)
+
+    .progress_msg_callback("Computing risk: clusters")
+    res <- compute_rc(res)
+
+    .progress_msg_callback("Computing risk: ditches")
+    res <- compute_rd(res)
+
+    .progress_msg_callback("Computing risk: lake")
+    res <- compute_rl(res)
+
   }
+
 
   return(res)
 

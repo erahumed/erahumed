@@ -9,6 +9,8 @@ dss_run_server <- function(id, parameters, run) {
     shinyjs::hide("running_overlay")
 
     shiny::observe({
+      start <- Sys.time()
+
       shinyjs::hide("initial_overlay")
       shinyjs::show("running_overlay")
 
@@ -28,6 +30,8 @@ dss_run_server <- function(id, parameters, run) {
             shinyjs::show("initial_overlay")
         }
       )
+
+      cat("Simulation ran in:", round(difftime(Sys.time(), start, units = "secs"), 2), "seconds\n")
     }) |>
       shiny::bindEvent(run(), ignoreNULL = TRUE, ignoreInit = TRUE)
 

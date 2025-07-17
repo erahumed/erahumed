@@ -26,7 +26,8 @@ erahumed_simulation(
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   porosity = 0.11,
-  seed = 840
+  seed = 840,
+  .progress_msg_callback = message
 )
 }
 \arguments{
@@ -73,6 +74,12 @@ erahumed_simulation(
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 
 \item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
+
+\item{.progress_msg_callback}{A function used to report simulation progress.
+It should accept a single character string as input, representing the
+current stage of the simulation (e.g., \code{"Computing hydrology: lake"}).
+This parameter is primarily intended for user feedback mechanisms (e.g.,
+console messages). By default, it prints a message to the R console.}
 }
 \value{
 An object of class \code{erahumed_simulation}.
