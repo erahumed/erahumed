@@ -4,6 +4,11 @@ compute_rc <- function(simulation)
                            chemical_db = get_etc(simulation, "chemical_db")
   )
 
+  clus_props_df <-
+    get_input(simulation, "cluster_map")[["map_df"]][, c("cluster_id", "rfms_id", "rfms_name")]
+  output <- output |>
+    merge(clus_props_df, by.x = "element_id", by.y = "cluster_id")
+
   validate_rc_output(output)
 
   simulation [["outputs"]] [["rc"]] <- output

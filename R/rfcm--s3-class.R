@@ -37,7 +37,7 @@ new_cluster_map <- function(default_management_system = new_management_system())
   map_df <- data.frame(
     cluster_id = info_clusters()$element_id,
     rfms_id = 1,
-    ms_name = default_management_system[["display_name"]]
+    rfms_name = default_management_system[["display_name"]]
     )
 
   res <- list(map_df = map_df, rfms_list = list(default_management_system))
@@ -67,7 +67,7 @@ summary.erahumed_cluster_map <- function(object, ...) {
 
   df <- object$map_df
 
-  df$readable_id <- paste(df$rfms_id, df$ms_name, sep = ": ")
+  df$readable_id <- paste(df$rfms_id, df$rfms_name, sep = ": ")
 
   freq <- table(df$readable_id)
   df <- data.frame(rfms_id = names(freq), assigned_clusters = as.integer(freq), row.names = NULL)

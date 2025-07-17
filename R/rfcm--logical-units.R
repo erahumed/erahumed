@@ -18,7 +18,7 @@ rfcm_map_assign <- function(map, cluster_id, rfms_id) {
   df <- map[["map_df"]]
   row <- which(df$cluster_id == cluster_id)
   df[row, "rfms_id"] <- rfms_id
-  df[row, "ms_name"] <- map[["rfms_list"]][[rfms_id]][["display_name"]]
+  df[row, "rfms_name"] <- map[["rfms_list"]][[rfms_id]][["display_name"]]
   map[["map_df"]] <- df
   return(map)
 }

@@ -64,9 +64,8 @@
                        cluster_map$map_df,
                        by.x = "element_id",
                        by.y = "cluster_id")
-  clusters_df$rfms_id <- clusters_df$rfms_id
 
-  management_df <- get_management_df(cluster_map)
+  management_df <- get_etc(simulation, "management_df")
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
@@ -75,7 +74,7 @@
           allow.cartesian = TRUE
     ) |>
     merge(y = data.table::as.data.table(clusters_df),
-          by = c("tancat", "rfms_id"),
+          by = c("tancat", "rfms_id", "rfms_name"),  # Joining also by rfms_name to avoid duplicating column
           all.y = TRUE,
           sort = FALSE,
           allow.cartesian = TRUE
@@ -95,6 +94,7 @@
               total_inflow_lake_m3 = res$inflow_total_m3,
               tancat = res$tancat,
               rfms_id = res$rfms_id,
+              rfms_name = res$rfms_name,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm
   )

@@ -5,6 +5,7 @@ get_management_df <- function(cluster_map) {
     rfms <- cluster_map$rfms_list[[i]]
     df <- wms_from_rfms(rfms)
     df$rfms_id <- i  # this is called 'rfms_id' for "historical" reasons.
+    df$rfms_name <- rfms[["display_name"]]
     df
   }) |>
     Reduce(rbind, x = _)
