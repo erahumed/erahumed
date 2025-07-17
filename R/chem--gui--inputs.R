@@ -38,14 +38,6 @@ chem_input_ksetl_m_day <- function(id) {
   )
 }
 
-chem_input_kvolat_m_day <- function(id) {
-  inline_numeric_input(
-    id,
-    label = shiny::p(shiny::HTML("k<sub>volat</sub> (m/day)"), chem_input_tooltip("kvolat_m_day")),
-    value = chem_input_defaults()[["kvolat_m_day"]]
-  )
-}
-
 chem_input_kf_day <- function(id) {
   inline_numeric_input(
     id,

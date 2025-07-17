@@ -39,8 +39,7 @@ chemical_editor_ui <- function(id) {
                              chem_input_sol_ppm(ns("sol_ppm")),
                              chem_input_koc_cm3_g(ns("koc_cm3_g")),
                              chem_input_fet_cm(ns("fet_cm")),
-                             chem_input_ksetl_m_day(ns("ksetl_m_day")),
-                             chem_input_kvolat_m_day(ns("kvolat_m_day"))
+                             chem_input_ksetl_m_day(ns("ksetl_m_day"))
       ),
 
       bslib::accordion_panel("Degradation Constants",
@@ -88,7 +87,6 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
       shiny::updateNumericInput(inputId = "ks_sat_day", value = item()$ks_sat_day)
       shiny::updateNumericInput(inputId = "ks_unsat_day", value = item()$ks_unsat_day)
       shiny::updateNumericInput(inputId = "ksetl_m_day", value = item()$ksetl_m_day)
-      shiny::updateNumericInput(inputId = "kvolat_m_day", value = item()$kvolat_m_day)
 
       shiny::updateNumericInput(inputId = "kw_temp", value = item()$kw_temp)
       shiny::updateNumericInput(inputId = "ks_sat_temp", value = item()$ks_sat_temp)
@@ -109,7 +107,6 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         tmoa_id = input$tmoa_id,
         MW = input$MW,
         ksetl_m_day = input$ksetl_m_day,
-        kvolat_m_day = input$kvolat_m_day,
         sol_ppm = input$sol_ppm,
         koc_cm3_g = input$koc_cm3_g,
         fet_cm = input$fet_cm,

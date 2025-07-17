@@ -8,7 +8,6 @@
 #' @param tmoa_id `r chemical_prop_roxy("tmoa_id")`
 #' @param MW `r chemical_prop_roxy("MW")`
 #' @param ksetl_m_day `r chemical_prop_roxy("ksetl_m_day")`
-#' @param kvolat_m_day `r chemical_prop_roxy("kvolat_m_day")`
 #' @param sol_ppm `r chemical_prop_roxy("sol_ppm")`
 #' @param koc_cm3_g `r chemical_prop_roxy("koc_cm3_g")`
 #' @param fet_cm `r chemical_prop_roxy("fet_cm")`
@@ -33,7 +32,6 @@ chemical <- function(display_name,
                      tmoa_id,
                      MW,
                      ksetl_m_day,
-                     kvolat_m_day,
                      sol_ppm,
                      koc_cm3_g,
                      fet_cm,
@@ -59,7 +57,6 @@ chemical <- function(display_name,
       assert_string(tmoa_id)
       assert_positive_number(MW)
       assert_positive_number(ksetl_m_day)
-      assert_positive_number(kvolat_m_day)
       assert_positive_number(sol_ppm)
       assert_positive_number(koc_cm3_g)
       assert_positive_number(fet_cm)
@@ -92,7 +89,6 @@ chemical <- function(display_name,
               tmoa_id = tmoa_id,
               MW = MW,
               ksetl_m_day = ksetl_m_day,
-              kvolat_m_day = kvolat_m_day,
               sol_ppm = sol_ppm,
               koc_cm3_g = koc_cm3_g,
               fet_cm = fet_cm,
@@ -132,10 +128,9 @@ print.erahumed_chemical <- function(x, ...) {
   cat(sprintf("  Koc:             %.2f cm\u{00B3}/g\n", x$koc_cm3_g))
   cat(sprintf("  Film thickness:  %.3f cm\n", x$fet_cm))
   cat(sprintf("  Settling rate:   %.3f m/day\n", x$ksetl_m_day))
-  cat(sprintf("  Volatilization:  %.3f m/day\n\n", x$kvolat_m_day))
 
   cat("Degradation rates:\n")
-  cat(sprintf("  kf (floodwater):           %.4f 1/day\n", x$kf_day))
+  cat(sprintf("  kf (foliage):           %.4f 1/day\n", x$kf_day))
   cat(sprintf("  kw (water column):         %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n", x$kw_day, x$kw_temp, x$Q10_kw))
   cat(sprintf("  ks (saturated sediment):   %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n", x$ks_sat_day, x$ks_sat_temp, x$Q10_ks_sat))
   cat(sprintf("  ks (unsaturated sediment): %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n\n", x$ks_unsat_day, x$ks_unsat_temp, x$Q10_ks_unsat))

@@ -9,7 +9,6 @@ chemical(
   tmoa_id,
   MW,
   ksetl_m_day,
-  kvolat_m_day,
   sol_ppm,
   koc_cm3_g,
   fet_cm,
@@ -37,8 +36,6 @@ chemical(
 \item{MW}{\verb{[numeric(1)]} \cr Molecular weight in grams per mole.}
 
 \item{ksetl_m_day}{\verb{[numeric(1)]} \cr Settling rate, representing particle-bound transfer to sediment.}
-
-\item{kvolat_m_day}{\verb{[numeric(1)]} \cr Volatilization rate from water to air.}
 
 \item{sol_ppm}{\verb{[numeric(1)]} \cr Water solubility.}
 
