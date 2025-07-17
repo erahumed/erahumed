@@ -17,7 +17,8 @@ dss_input_defaults <- function() {
     jgrow = eval(fmls$jgrow),
     dact_m = eval(fmls$dact_m),
     css_ppm = eval(fmls$css_ppm),
-    foc = eval(fmls$foc),
+    foc_ss = eval(fmls$foc_ss),
+    foc_sed = eval(fmls$foc_sed),
     bd_g_cm3 = eval(fmls$bd_g_cm3),
     qseep_m_day = eval(fmls$qseep_m_day),
     porosity = eval(fmls$porosity)

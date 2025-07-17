@@ -143,11 +143,22 @@ dss_input_css_ppm <- function(id) {
   )
 }
 
-dss_input_foc <- function(id) {
+dss_input_foc_ss <- function(id) {
   shiny::numericInput(
     inputId = id,
-    label = shiny::p("Fraction of organic content [1]", dss_input_tooltip("foc")),
-    value = dss_input_defaults()[["foc"]],
+    label = shiny::p("Fraction of organic content in suspended solid [1]", dss_input_tooltip("foc_ss")),
+    value = dss_input_defaults()[["foc_ss"]],
+    step = 0.001,
+    min = 0,
+    max = 1
+  )
+}
+
+dss_input_foc_sed <- function(id) {
+  shiny::numericInput(
+    inputId = id,
+    label = shiny::p("Fraction of organic content in sediment [1]", dss_input_tooltip("foc_sed")),
+    value = dss_input_defaults()[["foc_sed"]],
     step = 0.001,
     min = 0,
     max = 1

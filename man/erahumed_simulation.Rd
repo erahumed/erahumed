@@ -21,7 +21,8 @@ erahumed_simulation(
   jgrow = 152,
   dact_m = 0.1,
   css_ppm = 50,
-  foc = 0.17,
+  foc_ss = 0.1,
+  foc_sed = 0.05,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   porosity = 0.11,
@@ -61,7 +62,9 @@ erahumed_simulation(
 
 \item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of water suspended solids, expressed in parts per million.}
 
-\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within suspended solids and sediments.}
+\item{foc_ss}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within suspended solids.}
+
+\item{foc_sed}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within sediment.}
 
 \item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
 

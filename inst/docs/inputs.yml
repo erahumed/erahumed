@@ -173,14 +173,23 @@ css_ppm:
     A positive number. Concentration of water suspended solids, expressed in
     parts per million.
 
-foc:
-  name: "Fraction of organic content"
+foc_ss:
+  name: "Fraction of organic content in suspended solid"
   group: "Environmental parameters"
   unit: "1"
   type: "numeric(1)"
   description: >-
     A number between `0` and `1`. Fraction of organic matter content within
-    suspended solids and sediments.
+    suspended solids.
+
+foc_sed:
+  name: "Fraction of organic content in sediment"
+  group: "Environmental parameters"
+  unit: "1"
+  type: "numeric(1)"
+  description: >-
+    A number between `0` and `1`. Fraction of organic matter content within
+    sediment.
 
 bd_g_cm3:
   name: "Bulk density of sediment"

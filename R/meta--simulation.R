@@ -21,7 +21,8 @@
 #' @param jgrow `r input_roxy("jgrow")`
 #' @param dact_m `r input_roxy("dact_m")`
 #' @param css_ppm `r input_roxy("css_ppm")`
-#' @param foc `r input_roxy("foc")`
+#' @param foc_ss `r input_roxy("foc_ss")`
+#' @param foc_sed `r input_roxy("foc_sed")`
 #' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
 #' @param porosity `r input_roxy("porosity")`
@@ -50,7 +51,8 @@ erahumed_simulation <- function(
     jgrow = 152,
     dact_m = 0.1,
     css_ppm = 50,
-    foc = 0.17,
+    foc_ss = 0.1,
+    foc_sed = 0.05,
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     porosity = 0.11,
@@ -103,6 +105,16 @@ erahumed_simulation <- function(
 
       assert_positive_number(height_thresh_cm)
 
+      assert_fraction(drift)
+      assert_fraction(covmax)
+      assert_positive_integer(jgrow)
+      assert_positive_number(dact_m)
+      assert_positive_number(css_ppm)
+      assert_fraction(foc_ss)
+      assert_fraction(foc_sed)
+      assert_positive_number(bd_g_cm3)
+      assert_positive_number(qseep_m_day)
+      assert_fraction(porosity)
     },
     error = function(e) {
       class(e) <- c("erahumed_input_error", class(e))

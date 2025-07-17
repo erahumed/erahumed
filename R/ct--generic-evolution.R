@@ -25,13 +25,16 @@ ct_time_series <- function(
   jgrow <- get_input(simulation, "jgrow")
   dact_m <- get_input(simulation, "dact_m")
   css_ppm <- get_input(simulation, "css_ppm")
-  foc <- get_input(simulation, "foc")
+  foc_ss <- get_input(simulation, "foc_ss")
+  foc_sed <- get_input(simulation, "foc_sed")
   bd_g_cm3 <- get_input(simulation, "bd_g_cm3")
   qseep_m_day <- get_input(simulation, "qseep_m_day")
   porosity <- get_input(simulation, "porosity")
 
   # Chemical input properties
-  kd_cm3_g <- foc * ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
+  koc_cm3_g <- ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
+  kd_ss_cm3_g <- foc_ss * koc_cm3_g
+  kd_sed_cm3_g <- foc_sed * koc_cm3_g
   kf_day <- ct_get_param(chemical_id, "kf_day", chemical_db)
   kw_day <- ct_get_param(chemical_id, "kw_day", chemical_db)
   Q10_kw <- ct_get_param(chemical_id, "Q10_kw", chemical_db)
@@ -48,8 +51,8 @@ ct_time_series <- function(
   fet_cm <- ct_get_param(chemical_id, "fet_cm", chemical_db)
 
   # Chemical derived properties
-  fds <- ct_fds(pos = porosity, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
-  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
+  fds <- ct_fds(pos = porosity, kd_cm3_g = kd_sed_cm3_g, bd_g_cm3 = bd_g_cm3)
+  fdw <- ct_fdw(kd_cm3_g = kd_ss_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
   kdifus_m_day <- ct_kdifus_m_day(pos = porosity, MW = MW)
 
@@ -71,11 +74,9 @@ ct_time_series <- function(
                             jgrow = jgrow,
                             dact_m = dact_m,
                             css_ppm = css_ppm,
-                            foc = foc,
                             bd_g_cm3 = bd_g_cm3,
                             qseep_m_day = qseep_m_day,
                             porosity = porosity,
-                            kd_cm3_g = kd_cm3_g,
                             kf_day = kf_day,
                             kw_day = kw_day,
                             Q10_kw = Q10_kw,
@@ -167,11 +168,9 @@ ct_ts_step_terms <- function(application_kg,
                              jgrow,
                              dact_m,
                              css_ppm,
-                             foc,
                              bd_g_cm3,
                              qseep_m_day,
                              porosity,
-                             kd_cm3_g,
                              kf_day,
                              kw_day,
                              Q10_kw,
