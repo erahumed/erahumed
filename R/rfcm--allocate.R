@@ -4,27 +4,11 @@
 #' clusters that match given spatial and structural criteria, using only the
 #' subset of eligible clusters defined by `ditches` and `field_type`.
 #'
-#' @param map `[`[erahumed_cluster_map][cluster_map]`]` \cr
-#'   A cluster map created with [new_cluster_map()] or [default_cluster_map()].
-#'
-#' @param system `[`[erahumed_management_system][management_system]`]` \cr
-#'   A management system to assign, created with [new_management_system()] or
-#'   helper functions such as [bomba()] or [clearfield()].
-#'
-#' @param target_fraction `[numeric(1)]` \cr
-#'   The fraction of surface area **within the selected subset** of clusters
-#'   (filtered by `ditches` and `field_type`) to allocate to the given system.
-#'   Must be a number between 0 and 1.
-#'
-#' @param ditches `[integer]` \cr
-#'   A vector of ditch IDs (e.g., 1:26) defining the subset of clusters to be
-#'   considered for allocation. Defaults to all ditches.
-#'
-#' @param field_type `[character(1)]` \cr
-#'   Type of field to consider when selecting clusters. Must be one of:
-#'   * `"regular"` – only regular fields
-#'   * `"tancat"` – only tancats
-#'   * `"both"` – all field types (default)
+#' @param map `r allocation_param_roxy("map")`
+#' @param system `r allocation_param_roxy("system")`
+#' @param target_fraction `r allocation_param_roxy("target_fraction")`
+#' @param ditches `r allocation_param_roxy("ditches")`
+#' @param field_type `r allocation_param_roxy("field_type")`
 #'
 #' @return An updated `erahumed_cluster_map` object with the new system
 #'   allocated to selected clusters.

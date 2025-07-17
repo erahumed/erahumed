@@ -121,3 +121,35 @@ chemical_prop_desc <- function(name, strip_roxy = TRUE) {
 
   return(res)
 }
+
+
+allocation_param_docs <- function(...) {
+  args <- list(...)
+  sapply(args, assert_string)
+
+  yml_path <- system.file("docs", "allocation_parameters.yml", package = "erahumed")
+  docs <- yaml::read_yaml(yml_path)
+
+  res <- docs
+  for (tag in args) {
+    res <- res[[tag]]
+  }
+
+  if (is.null(res)) {
+    obj <- paste(args, collapse = "/")
+    warning(paste0("No entry found for '", obj, "' in ", yml_path, "."))
+  }
+
+  return(res)
+}
+
+allocation_param_roxy <- function(name) {
+  get_roxy_param_entry(allocation_param_docs(name))
+}
+
+allocation_param_desc <- function(name, strip_roxy = TRUE) {
+  res <- allocation_param_docs(name, "description")
+  if (strip_roxy) res <- strip_roxy_macros(res)
+  return(res)
+}
+

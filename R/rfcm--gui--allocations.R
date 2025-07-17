@@ -73,10 +73,10 @@ make_allocations_editor_ui <- function(rfms_db) {
     names(choices) <- labels
 
     shiny::tagList(
-      shiny::selectInput(ns("allocate_ms"), "System to allocate", choices = choices),
-      shiny::numericInput(ns("target_fraction"), "Target fraction", value = 0.1, min = 0, max = 1, step = 0.01),
-      shiny::selectInput(ns("field_type"), "Field type", choices = c("both", "regular", "tancat")),
-      shiny::sliderInput(ns("ditches"), "Ditches", min = 1, max = 26, value = c(1, 26), step = 1)
+      allocation_input_system(ns("allocate_ms"), choices = choices),
+      allocation_input_target_fraction(ns("target_fraction")),
+      allocation_input_field_type(ns("field_type")),
+      allocation_input_ditches(ns("ditches"))
     )
   }
 }
