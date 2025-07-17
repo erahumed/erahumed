@@ -6,8 +6,10 @@
 #' These helpers return `data.frame`s that contain information on the
 #' hydro-geographical components employed by ERAHUMED to model the Albufera
 #' Natural Park ecosystem: ditches, and rice fields clusters. The definition of
-#' clusters is discussed in
+#' these spatial elements is discussed detail in
 #' [Martínez-Megías et al. (2023)](https://doi.org/10.1016/j.scitotenv.2023.163018).
+#' The [hydro-geographical model vignette](https://erahumed.github.io/erahumed/articles/hydrogeographical-model.html)
+#' describes the modeling of these spatial units within ERAHUMED.
 #'
 #' @param include_geometry `TRUE` or `FALSE`. Whether to include the geometries
 #' of the various elements (as a column of class `sfc_MULTIPOLYGON` from the

@@ -1,5 +1,5 @@
 ---
-title: "Hydrogeographical model of the Albufera Natural Park"
+title: "Hydro-geographical model of the Albufera Natural Park"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{hydrogeographical-model}
