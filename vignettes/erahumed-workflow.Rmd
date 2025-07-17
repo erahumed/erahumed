@@ -68,10 +68,10 @@ library(ggplot2)
 
 ditch <- "d4"
 tancat <- FALSE
-rfms_id <- "Clearfield"
+rfms_name <- "Clearfield"  # Rice field management system
 
 clusters_df <- cluster_hydrology_df |>
-  filter(ditch == !!ditch, tancat == !!tancat, rfms_id == !!rfms_id)
+  filter(ditch == !!ditch, tancat == !!tancat, rfms_name == !!rfms_name)
 
 avg_df <- clusters_df |>
   group_by(date) |>
@@ -89,7 +89,7 @@ ggplot() +
     ) +
   xlab("Date") + ylab("Height [cm]") + 
   ggtitle("Cluster simulated water levels",
-          paste("Ditch:", ditch, "- Tancat:", tancat, "- rfms_id:", rfms_id)
+          paste("Ditch:", ditch, "- Tancat:", tancat, "- RFMS:", rfms_name)
           )
 ```
 
