@@ -1,18 +1,42 @@
 ---
-title: "Hydrological model of the Albufera Natural Park"
+title: "Hydrogeographical model of the Albufera Natural Park"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{hydrology-scheme}
+  %\VignetteIndexEntry{hydrogeographical-model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+## Introduction
+
+The `{erahumed}` package implements a spatially explicit representation of the 
+Albufera Natural Park to support ecological risk assessment of pesticide use. 
+This representation captures the hydrological and geographical structure of the 
+park through a simplified model that focuses on the dominant water flow 
+pathways and landscape units relevant to exposure and risk modeling.
+
+At the core of this model are three hydro-geographical components:
+
+* **Rice field clusters**, representing the agricultural units where pesticide 
+applications occur.
+
+* **Ditches**, which act as conduits for water (and associated pesticide loads) 
+draining from the fields.
+
+* **The Albufera lake**, which serves as the terminal water body receiving 
+inputs from the surrounding landscape.
+
+The following sections introduce the modeling assumptions functions used to access this information and illustrate how to explore the spatial configuration of the landscape using an interactive map.
+
+## Schematic diagram
 
 This schematic diagram represents the simplified hydrological model of the Albufera Natural Park employed by `{erahumed}`. The model highlights water flows across 
 three primary landscape elements: rice clusters, ditches, and the Albufera lake, 
 as depicted by the directional arrows. Key simplifying assumptions embedded in 
 the model and visually summarized in the diagram are as follows:
 
-* **Rice Clusters** Clusters are irrigated by external water sources and drain exclusively into the ditches. There is no direct hydrological interaction or 
+* **Rice field clusters** Clusters are irrigated by external water sources and drain 
+exclusively into the ditches. There is no direct hydrological interaction or 
 exchange between individual clusters.
 
 * **Ditches** Ditches collect water from the clusters and, potentially, from 
@@ -24,3 +48,35 @@ The lake receives water exclusively from the ditches. While two types of outflow
 
 
  <img src='hydrology_scheme.jpg' align="center" style="max-width: 100%; height: auto;"/>
+
+
+## Cluster and Ditch Metadata
+
+The ERAHUMED package provides two functions to retrieve metadata for the hydro-geographical components:
+
+* `info_clusters()`: metadata on rice field clusters,
+
+* `info_ditches()`: metadata on the ditch network.
+
+For example:
+
+```{r}
+head(erahumed::info_clusters())
+```
+
+You can also include spatial information by passing `include_geometry = TRUE`. 
+The geometry column will be of type `sfc_MULTIPOLYGON` from the `{sf}` package.
+
+## Visualization
+
+It is shown below an interactive map of the Albufera Natural Park, showing the 
+clusters and associated ditches. If a cluster map object is passed, the map 
+includes coloring based on management system assignments.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+erahumed:::plot_albufera_clusters()
+```
+
+## Reference
+
+* Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., & Rico, A. (2023). Influence of climate change and pesticide use practices on the ecological risks of pesticides in a protected Mediterranean wetland: A Bayesian network approach. *Science of The Total Environment, 878*, 163018. https://doi.org/10.1016/j.scitotenv.2023.163018
