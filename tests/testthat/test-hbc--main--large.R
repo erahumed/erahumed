@@ -31,11 +31,11 @@ test_that("'tancat' is consistent along 'element_id'", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("'variety' is consistent along 'element_id'", {
+test_that("'rfms_id' is consistent along 'element_id'", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
     dplyr::group_by(element_id) |>
-    dplyr::summarise(distinct_values = dplyr::n_distinct(variety)) |>
+    dplyr::summarise(distinct_values = dplyr::n_distinct(rfms_id)) |>
     dplyr::filter(distinct_values > 1)
 
   expect_equal(nrow(res), 0)

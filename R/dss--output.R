@@ -111,9 +111,9 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
       if ( element_type() == "c" ) {
         cvmap <- get_input(simulation(), "cluster_map")[["map_df"]]
-        cvmap$variety <- cvmap$rfms_id
+        cvmap$rfms_id <- cvmap$rfms_id
         cvmap$element_id <- cvmap$cluster_id
-        cvmap <- cvmap[, c("element_id", "variety")]
+        cvmap <- cvmap[, c("element_id", "rfms_id")]
 
         cluster_data <- info_clusters() |>
           (\(.) .[.$element_id == input$water_body, ])() |>
@@ -123,7 +123,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
         paste0("Cluster: ", cluster_data$cluster_name,
                " - Ditch: ", cluster_data$ditch_name,
                " - Tancat: ", cluster_data$tancat,
-               " - Variety: ", cluster_data$variety)
+               " - rfms_id: ", cluster_data$rfms_id)
         } else if ( element_type() == "d" ) {
         ditch_data <- info_ditches() |>
           (\(.) .[.$element_id == input$water_body, ])()

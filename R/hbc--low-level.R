@@ -64,7 +64,7 @@
                        cluster_map$map_df,
                        by.x = "element_id",
                        by.y = "cluster_id")
-  clusters_df$variety <- clusters_df$rfms_id
+  clusters_df$rfms_id <- clusters_df$rfms_id
 
   management_df <- get_management_df(cluster_map)
 
@@ -75,7 +75,7 @@
           allow.cartesian = TRUE
     ) |>
     merge(y = data.table::as.data.table(clusters_df),
-          by = c("tancat", "variety"),
+          by = c("tancat", "rfms_id"),
           all.y = TRUE,
           sort = FALSE,
           allow.cartesian = TRUE
@@ -94,7 +94,7 @@
               area_m2 = res$area,
               total_inflow_lake_m3 = res$inflow_total_m3,
               tancat = res$tancat,
-              variety = res$variety,
+              rfms_id = res$rfms_id,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm
   )

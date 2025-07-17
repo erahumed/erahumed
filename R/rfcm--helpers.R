@@ -4,7 +4,7 @@ get_management_df <- function(cluster_map) {
   lapply(1:n_rfms, function(i) {
     rfms <- cluster_map$rfms_list[[i]]
     df <- wms_from_rfms(rfms)
-    df$variety <- i  # this is called 'variety' for "historical" reasons.
+    df$rfms_id <- i  # this is called 'rfms_id' for "historical" reasons.
     df
   }) |>
     Reduce(rbind, x = _)
@@ -15,7 +15,7 @@ get_applications_df <- function(cluster_map) {
   rfms_list <- cluster_map$rfms_list
   lapply(seq_along(rfms_list), function(i) {
     df <- get_applications_df0(rfms_list[[i]], chemical_db = chemical_db)
-    if (nrow(df) != 0) df$variety <- i
+    if (nrow(df) != 0) df$rfms_id <- i
     df
     }) |>
     Reduce(rbind, x = _, init = data.frame())

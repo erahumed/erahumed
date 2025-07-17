@@ -77,16 +77,16 @@ plot_albufera_clusters <- function(cluster_map = NULL)
 
     map_df <- cluster_map$map_df
     map_df$element_id <- map_df$cluster_id
-    map_df$variety <- paste(map_df$rfms_id, map_df$ms_name, sep = ": ")
+    map_df$rfms_id <- paste(map_df$rfms_id, map_df$ms_name, sep = ": ")
 
-    cluster_variety_map <- map_df[, c("element_id", "variety")]
+    cluster_variety_map <- map_df[, c("element_id", "rfms_id")]
     clusters_df <- merge(clusters_df, cluster_variety_map, by = "element_id")
 
-    palette_domain <- unique(map_df$variety)
+    palette_domain <- unique(map_df$rfms_id)
     n_colors <- length(palette_domain)
     palette <- grDevices::hcl.colors(n_colors, palette = "Dynamic", rev = FALSE)
   } else {
-    clusters_df$variety <- "N/A"
+    clusters_df$rfms_id <- "N/A"
 
     palette_domain <- "N/A"
     palette <- c("#f5e7c1")
@@ -106,13 +106,13 @@ plot_albufera_clusters <- function(cluster_map = NULL)
       ) |>
     leaflet::addPolygons(
       data = plot_prepare_sf(clusters_df),
-      color = ~color_map(variety),
+      color = ~color_map(rfms_id),
       fillOpacity = 0.25,
       weight = 1,
       popup = ~paste("Cluster ID:", cluster_name, "<br>",
                      "Ditch:", ditch_name, "<br>",
                      "Tancat:", ifelse(tancat, "Yes", "No"), "<br>",
-                     "Variety:", variety, "<br>",
+                     "rfms_id:", rfms_id, "<br>",
                      "Area:", area, "m\u{00B2}"
                      ),
       highlightOptions = leaflet::highlightOptions(weight = 0, fillOpacity = 1),
