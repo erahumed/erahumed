@@ -27,7 +27,7 @@ erahumed_simulation(
   qseep_m_day = 0,
   porosity = 0.11,
   seed = 840,
-  .progress_msg_callback = message
+  .progress = message
 )
 }
 \arguments{
@@ -75,7 +75,7 @@ erahumed_simulation(
 
 \item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 
-\item{.progress_msg_callback}{A function used to report simulation progress.
+\item{.progress}{A function used to report simulation progress.
 It should accept a single character string as input, representing the
 current stage of the simulation (e.g., \code{"Computing hydrology: lake"}).
 This parameter is primarily intended for user feedback mechanisms (e.g.,

@@ -22,7 +22,7 @@ dss_output_ui <- function(id) {
                  justify-content: center;
                  font-size: 1.5em;",
         shiny::icon("spinner", class = "fa-spin", style = "margin-right: 10px;"),
-        "Running simulation..."
+        shiny::textOutput(ns("progress_message"))
       ) |> shinyjs::hidden(),
 
       shiny::div(

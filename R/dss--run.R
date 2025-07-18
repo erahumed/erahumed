@@ -8,14 +8,24 @@ dss_run_server <- function(id, parameters, run) {
     shinyjs::show("initial_overlay")
     shinyjs::hide("running_overlay")
 
-    shiny::observe({
-      start <- Sys.time()
+    prog_msg_reactive <- shiny::reactiveVal("Starting simulation...")
+    output$progress_message <- shiny::renderText(prog_msg_reactive())
 
+    shiny::observe({
       shinyjs::hide("initial_overlay")
       shinyjs::show("running_overlay")
 
-      tryCatch({
-        res( do.call(erahumed_simulation, parameters()) )
+      shiny::withProgress(message = "Running simulation...", value = 0, {
+        update_msg <- function(msg, step) {
+          incProgress(amount = step, detail = msg)
+          prog_msg_reactive(msg)  # update message too, if you still want to show it in the UI
+        }
+
+        args <- c(parameters(), list(.progress = \(msg) update_msg(msg, 1/10)) )
+
+
+        tryCatch({
+          res( do.call(erahumed_simulation, args) )
         },
         error = function(e) {
           shiny::showNotification(paste("Simulation error:", e$message), type = "error")
@@ -29,9 +39,9 @@ dss_run_server <- function(id, parameters, run) {
           if (is.null(res()))
             shinyjs::show("initial_overlay")
         }
-      )
+        )
+      })
 
-      cat("Simulation ran in:", round(difftime(Sys.time(), start, units = "secs"), 2), "seconds\n")
     }) |>
       shiny::bindEvent(run(), ignoreNULL = TRUE, ignoreInit = TRUE)
 

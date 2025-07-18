@@ -27,7 +27,7 @@
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
 #' @param porosity `r input_roxy("porosity")`
 #' @param seed `r input_roxy("seed")`
-#' @param .progress_msg_callback A function used to report simulation progress.
+#' @param .progress A function used to report simulation progress.
 #'   It should accept a single character string as input, representing the
 #'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).
 #'   This parameter is primarily intended for user feedback mechanisms (e.g.,
@@ -62,7 +62,7 @@ erahumed_simulation <- function(
     qseep_m_day = 0,
     porosity = 0.11,
     seed = 840,
-    .progress_msg_callback = message
+    .progress = message
 )
 {
   tryCatch(
@@ -128,7 +128,7 @@ erahumed_simulation <- function(
     })
 
 
-  .progress_msg_callback("Initializing inputs")
+  .progress("Initializing inputs")
 
   res <- initialize_erahumed_simulation(list(
     date_start = date_start,
@@ -160,37 +160,39 @@ erahumed_simulation <- function(
 
   res <- compute_inp(res)
 
-  .progress_msg_callback("Computing hydrology: lake")
+  .progress("Computing hydrology: lake")
   res <- compute_hbl(res)
 
-  .progress_msg_callback("Computing hydrology: clusters")
+  .progress("Computing hydrology: clusters")
   res <- compute_hbc(res)
 
-  .progress_msg_callback("Computing hydrology: ditches")
+  .progress("Computing hydrology: ditches")
   res <- compute_hbd(res)
 
 
   if (length(res$etc$chemical_db) > 0) {
-    .progress_msg_callback("Computing exposure: clusters")
+    .progress("Computing exposure: clusters")
     res <- compute_ctc(res)
 
-    .progress_msg_callback("Computing exposure: ditches")
+    .progress("Computing exposure: ditches")
     res <- compute_ctd(res)
 
-    .progress_msg_callback("Computing exposure: lake")
+    .progress("Computing exposure: lake")
     res <- compute_ctl(res)
 
-    .progress_msg_callback("Computing risk: clusters")
+    .progress("Computing risk: clusters")
     res <- compute_rc(res)
 
-    .progress_msg_callback("Computing risk: ditches")
+    .progress("Computing risk: ditches")
     res <- compute_rd(res)
 
-    .progress_msg_callback("Computing risk: lake")
+    .progress("Computing risk: lake")
     res <- compute_rl(res)
 
   }
 
+
+  # TODO: msg_callback could print execution time
 
   return(res)
 
