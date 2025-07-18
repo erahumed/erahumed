@@ -1,5 +1,5 @@
 #' @importFrom data.table let
-risk_from_ssds <- function(ct_output, chemical_db) {
+compute_risk_general <- function(ct_output, chemical_db) {
   # To avoid R CMD check note due to non-standard evaluation in {data.table}
   sd_acute <- sd_chronic <-
     median_acute <- median_chronic <- HU_acute <- HU_chronic <- element_id <-
