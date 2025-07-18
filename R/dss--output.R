@@ -6,9 +6,8 @@ dss_output_ui <- function(id) {
     shinyjs::useShinyjs(),  # Needed for show/hide
     shiny::div(
       id = ns("output_busy_wrapper"),
-      style = "position: relative;",  # Enable overlay positioning
+      style = "position: relative;",
 
-      # Overlay shown during simulation run. Logic handled by dss_run_server()!
       shiny::div(
         id = ns("running_overlay"),
         style = "display: none;
@@ -69,9 +68,9 @@ dss_output_ui <- function(id) {
                                  shiny::checkboxGroupInput(
                                    ns("ct_chemical_ids"),
                                    label = "Select chemical(s) to display",
-                                   choices = NULL  # will be updated dynamically in server
+                                   choices = NULL
                                  ))
-                               ),
+            ),
             full_screen = TRUE,
             bslib::nav_panel("Water", dygraphs::dygraphOutput(ns("ct_plot_water"), height = "600px")),
             bslib::nav_panel("Sediment", dygraphs::dygraphOutput(ns("ct_plot_sediment"), height = "600px"))
@@ -80,13 +79,19 @@ dss_output_ui <- function(id) {
             title = shiny::div("Risk",
                                bslib::popover(
                                  shiny_icon("gear"),
-                                 shinyWidgets::radioGroupButtons(ns("risk_type"),
-                                                                 label = "Risk type",
-                                                                 choices = list(Chronic = "chronic", Acute = "acute"),
-                                                                 selected = "chronic")
+                                 shiny::tagList(
+                                   shinyWidgets::radioGroupButtons(ns("risk_type"),
+                                                                   label = "Risk type",
+                                                                   choices = list(Chronic = "chronic", Acute = "acute"),
+                                                                   selected = "chronic"),
+                                   shinyWidgets::radioGroupButtons(ns("risk_method"),
+                                                                   label = "Risk metric",
+                                                                   choices = list("PAF" = "paf", "RQ" = "rq"),
+                                                                   selected = "paf")
+                                 )
                                )),
             full_screen = TRUE,
-            bslib::nav_panel("Potentially Affected Fraction",
+            bslib::nav_panel("Risk overview",
                              dygraphs::dygraphOutput(ns("r_plot"), height = "600px")
             )
           )
@@ -101,14 +106,13 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     ns <- session$ns
 
     element_type <- shiny::reactive({
-      if(!is.na(match(input$water_body, info_clusters()$element_id))) "c"
+      if (!is.na(match(input$water_body, info_clusters()$element_id))) "c"
       else if (!is.na(match(input$water_body, info_ditches()$element_id))) "d"
       else "l"
     })
 
     output$selected_wb_info <- shiny::renderText({
-
-      if ( element_type() == "c" ) {
+      if (element_type() == "c") {
         cvmap <- get_input(simulation(), "cluster_map")[["map_df"]]
         cvmap$rfms_id <- cvmap$rfms_id
         cvmap$element_id <- cvmap$cluster_id
@@ -123,17 +127,15 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
                " - Ditch: ", cluster_data$ditch_name,
                " - Tancat: ", cluster_data$tancat,
                " - rfms_id: ", cluster_data$rfms_id)
-        } else if ( element_type() == "d" ) {
+      } else if (element_type() == "d") {
         ditch_data <- info_ditches() |>
           (\(.) .[.$element_id == input$water_body, ])()
         paste0("Ditch: ", ditch_data$ditch_name)
       } else {
         paste0("Albufera Lake")
       }
-
     })
 
-    # Update available chemical choices when simulation is available
     shiny::observeEvent(simulation(), {
       chemical_db <- get_etc(simulation(), "chemical_db")
       choices <- seq_along(chemical_db)
@@ -147,13 +149,9 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       )
     })
 
-
-
     output$hb_plot_storage <- dygraphs::renderDygraph({
       shiny::req(simulation())
-
-      plot_fun <- switch(element_type(),
-                         c = plot_hbc, d = plot_hbd, l = plot_hbl)
+      plot_fun <- switch(element_type(), c = plot_hbc, d = plot_hbd, l = plot_hbl)
 
       simulation() |>
         plot_fun(element_id = input$water_body,
@@ -164,9 +162,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     output$hb_plot_flows <- dygraphs::renderDygraph({
       shiny::req(simulation())
-
-      plot_fun <- switch(element_type(),
-                         c = plot_hbc, d = plot_hbd, l = plot_hbl)
+      plot_fun <- switch(element_type(), c = plot_hbc, d = plot_hbd, l = plot_hbl)
 
       simulation() |>
         plot_fun(element_id = input$water_body,
@@ -177,23 +173,19 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     output$ct_plot_water <- dygraphs::renderDygraph({
       shiny::req(simulation(), input$ct_chemical_ids)
-
-      plot_fun <- switch(element_type(),
-                         c = plot_ctc, d = plot_ctd, l = plot_ctl)
+      plot_fun <- switch(element_type(), c = plot_ctc, d = plot_ctd, l = plot_ctl)
 
       simulation() |>
-        plot_fun(
-          element_id = input$water_body,
-          compartment = "water",
-          chemical_ids = as.numeric(input$ct_chemical_ids),
-          dygraph_group = "dss")
+        plot_fun(element_id = input$water_body,
+                 compartment = "water",
+                 chemical_ids = as.numeric(input$ct_chemical_ids),
+                 dygraph_group = "dss")
     })
 
     output$ct_plot_sediment <- dygraphs::renderDygraph({
       shiny::req(simulation(), input$ct_chemical_ids)
+      plot_fun <- switch(element_type(), c = plot_ctc, d = plot_ctd, l = plot_ctl)
 
-      plot_fun <- switch(element_type(),
-                         c = plot_ctc, d = plot_ctd, l = plot_ctl)
       simulation() |>
         plot_fun(element_id = input$water_body,
                  compartment = "sediment",
@@ -203,17 +195,14 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     output$r_plot <- dygraphs::renderDygraph({
       shiny::req(simulation())
-
-      plot_fun <- switch(element_type(),
-                         c = plot_rc, d = plot_rd, l = plot_rl)
+      plot_fun <- switch(element_type(), c = plot_rc, d = plot_rd, l = plot_rl)
 
       simulation() |>
         plot_fun(element_id = input$water_body,
                  type = input$risk_type,
+                 method = input$risk_method,
                  dygraph_group = "dss")
-
     })
-
   })
 }
 
@@ -227,4 +216,3 @@ water_body_choices <- function()
 
   return( list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters) )
 }
-
