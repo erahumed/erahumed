@@ -50,7 +50,7 @@ dss_download <- function(filename, simulation, format = c("csv", "xlsx")) {
 
 download_readme_lines <- function() {
   c(
-    "ERAHUMED DSS – Simulation Output Archive",
+    "ERAHUMED DSS - Simulation Output Archive",
     "========================================",
     "",
     paste0("This archive was generated with the R package {erahumed}, version ", utils::packageVersion("erahumed")),
