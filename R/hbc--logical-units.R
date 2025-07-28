@@ -17,6 +17,7 @@ hbc_simulate_ditch <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     petp_cm,
     area_m2,
     capacity_m3,
@@ -32,6 +33,7 @@ hbc_simulate_ditch <- function(
       ideal_height_eod_cm = ideal_height_eod_cm,
       ideal_irrigation = ideal_irrigation,
       ideal_draining = ideal_draining,
+      is_plan_delays_window = is_plan_delays_window,
       petp_cm = petp_cm,
       area_m2 = area_m2,
       capacity_m3 = capacity_m3,
@@ -66,6 +68,7 @@ hbc_make_df_list <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     petp_cm,
     area_m2,
     capacity_m3,
@@ -78,6 +81,7 @@ hbc_make_df_list <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     plan_delay = 0,
     petp_cm,
     height_eod_cm = ideal_height_eod_cm,
@@ -127,6 +131,7 @@ hbc_extract_daily_inputs <- function(df_list, j) {
     petp_cm = current$petp_cm,
     irrigation = irrigation,
     draining = draining,
+    is_plan_delays_window = current$is_plan_delays_window,
     area_m2 = current$area,
     capacity_m3 = current$capacity_m3[[1]],
     date = current$date,
@@ -142,6 +147,7 @@ hbc_daily_step <- function(
     petp_cm,
     irrigation,
     draining,
+    is_plan_delays_window,
     area_m2,
     capacity_m3,
     ideal_flow_rate_cm,
@@ -183,8 +189,8 @@ hbc_daily_step <- function(
   l <- c(l, hbc_plan_delay(plan_delay_lag = plan_delay_lag,
                            ideal_height_eod_cm = ideal_height_eod_cm,
                            height_eod_cm = l$height_eod_cm,
-                           date = date,
-                           height_thresh_cm = height_thresh_cm))
+                           height_thresh_cm = height_thresh_cm,
+                           is_plan_delays_window = is_plan_delays_window))
 
   return(l)
 
@@ -278,23 +284,12 @@ hbc_plan_delay <- function(
     plan_delay_lag,
     ideal_height_eod_cm,
     height_eod_cm,
-    date,
     height_thresh_cm,
-    mm_dd_start = c(4, 20),
-    mm_dd_end = c(10, 15)
+    is_plan_delays_window
     )
 {
-  date <- as.POSIXlt(date[1])
-  reset_delay <-
-    (get_mm(date) < mm_dd_start[1]) ||
-    (get_mm(date) == mm_dd_start[1] && get_dd(date) < mm_dd_start[2]) ||
-    (get_mm(date) > mm_dd_end[1]) ||
-    (get_mm(date) == mm_dd_end[1] && get_dd(date) > mm_dd_end[2])
-
-  if (reset_delay)
-    return( list(plan_delay = numeric(length(plan_delay_lag))) )
-
   add_delay <- (ideal_height_eod_cm == 0) & (height_eod_cm > height_thresh_cm)
-  return( list(plan_delay = plan_delay_lag + add_delay) )
+
+  return( list(plan_delay = (plan_delay_lag + add_delay) * is_plan_delays_window) )
 }
 

@@ -50,12 +50,16 @@ wms_df0 <- function(sowing_yday,
   days_dummy <- seq(from = as.Date("2000-01-01"),
                     to = as.Date("2000-12-31"),
                     by = "day") |> as.POSIXlt()
+
+  yday <- seq_along(days_dummy)
+
   data.frame(
     mm = get_mm(days_dummy),
     dd = get_dd(days_dummy),
-    yday = seq_along(days_dummy),
-    sowing = seq_along(days_dummy) == sowing_yday,
-    harvesting = seq_along(days_dummy) == harvesting_yday,
+    yday = yday,
+    sowing = yday == sowing_yday,
+    harvesting = yday == harvesting_yday,
+    is_plan_delays_window = sowing_yday <= yday & yday <= perellona_start_yday - 1,
     seed_day = seq_along(days_dummy) - sowing_yday,
     ideal_height_eod_cm = ideal_height_eod_cm,
     ideal_irrigation = wms_irrigation(ideal_height_eod_cm),
