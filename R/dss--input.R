@@ -51,11 +51,6 @@ dss_input_ui <- function(id) {
   bslib::page_fillable(
     title = "Input",
     shinyjs::useShinyjs(),
-    shiny::tags$div(
-      style = "position: fixed; bottom: 20px; left: 20px; z-index: 1000;",
-      shiny::actionButton(ns("reset"), "Reset", icon = shiny::icon("undo"),
-                          class = "btn-outline-danger btn-lg")
-    ),
     bslib::accordion(
       id = ns("input-ui"),
       bslib::accordion_panel("Simulation settings", simulation_parameters_ui),
@@ -71,13 +66,7 @@ dss_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    reset_reactive <- shiny::reactiveVal(0)
-    shiny::observe( reset_reactive(reset_reactive() + 1) ) |>
-      shiny::bindEvent(input$reset)
-
-    outflows_df <- csvInputServer("outflows",
-                                  erahumed::albufera_outflows,
-                                  reset = reset_reactive)
+    outflows_df <- csvInputServer("outflows", erahumed::albufera_outflows)
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -89,9 +78,7 @@ dss_input_server <- function(id) {
       ))
     })
 
-    weather_df <- csvInputServer("weather",
-                                 erahumed::albufera_weather,
-                                 reset = reset_reactive)
+    weather_df <- csvInputServer("weather", erahumed::albufera_weather)
     shiny::observeEvent(input$open_weather_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -106,11 +93,6 @@ dss_input_server <- function(id) {
     chemical_db <- chemical_db_server("chemical_db")
     rfms_db <- rfms_db_server("rfms_db", chemical_db)
     cluster_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
-
-
-    shiny::observe({
-      shinyjs::reset("input-ui")
-      }) |> shiny::bindEvent(input$reset)
 
     res <- shiny::reactive({
       shiny::req(input$date_range)

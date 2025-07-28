@@ -17,7 +17,7 @@ chemical_db_server <- function(id)
     list_manager_server("manager",
                         item_editor_ui = chemical_editor_ui,
                         item_editor_server = chemical_editor_server,
-                        item_display_function = function(x) x$display_name,
+                        item_display_function = chemical_display_function,
                         default_items = default_chemical_db()
                         )
   })
@@ -28,7 +28,7 @@ chemical_editor_ui <- function(id) {
 
 
   shiny::tagList(
-    inline_text_input(ns("display_name"), "Compound name", value = NA),
+    chem_input_display_name(ns("display_name")),
     bslib::accordion(
       open = FALSE,
       multiple = TRUE,
@@ -126,4 +126,8 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         ssd_chronic_sigma = input$ssd_chronic_sigma
     ))
   })
+}
+
+chemical_display_function <- function(x) {
+  paste0(x$display_name, " (", x$tmoa_id, ")")
 }

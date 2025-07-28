@@ -12,5 +12,5 @@ test_that("Simulation succeeds with chemicals with no degradation",
 
   cm <- new_cluster_map(default_management_system = ms)
 
-  expect_no_error(erahumed_simulation(cluster_map = cm))
+  expect_no_error(erahumed_simulation(cluster_map = cm, .progress = \() {}))
 })

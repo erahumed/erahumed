@@ -48,30 +48,3 @@ test_that("Altering a few input parameters works", {
   })
 })
 
-library(shinytest2)
-
-test_that("'reset' button works", {
-  skip("'reset' button test skipped")
-  # This test does not work because shinyjs::reset() is apparently not
-  # compatible with shinytest2 (in order to make it work, we should explicitly
-  # call "set_inputs()", which defeats the purpose of the whole test.
-  # The techniques used here, however, may prove useful in other contexts.
-  skip_on_ci()
-
-  mock_app_ui <- function() { erahumed:::dss_input_ui("test") }
-  mock_app_server <- function(input, output, session) {
-    erahumed:::dss_input_server("test")
-  }
-
-  app <- shiny::shinyApp(ui = mock_app_ui, server = mock_app_server)
-  drv <- AppDriver$new(app, name = "DSS input reset test")
-
-  drv$set_inputs("test-sc_slope" = 42)
-  sc_slope <- drv$get_value(input = "test-sc_slope")
-  expect_equal(sc_slope, 42)
-
-  drv$click("test-reset")
-  sc_slope <- drv$get_value(input = "test-sc_slope")
-  expect_equal(sc_slope, dss_input_defaults()[["sc_slope"]])
-
-})
