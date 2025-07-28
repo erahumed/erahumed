@@ -12,7 +12,6 @@ dss_input_defaults <- function() {
     ideal_flow_rate_cm = eval(fmls$ideal_flow_rate_cm),
     height_thresh_cm = eval(fmls$height_thresh_cm),
     ditch_level_m = eval(fmls$ditch_level_m),
-    drift = eval(fmls$drift),
     covmax = eval(fmls$covmax),
     jgrow = eval(fmls$jgrow),
     dact_m = eval(fmls$dact_m),

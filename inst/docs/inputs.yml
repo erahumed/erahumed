@@ -128,15 +128,6 @@ ditch_level_m:
   description: >-
     Constant water depth in ditches.
 
-drift:
-  name: "Drift"
-  group: "Pesticide application scheme"
-  unit: "1"
-  type: "numeric(1)"
-  description: >-
-    A number between `0` and `1`. Fraction of applied chemical lost to drift
-    during application.
-
 covmax:
   name: "Max interception potential"
   group: "Pesticide application scheme"

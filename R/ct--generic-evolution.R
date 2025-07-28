@@ -20,7 +20,6 @@ ct_time_series <- function(
 
   volume_eps <- 1e-6 # Threshold below which densities are reported as NA
 
-  drift <- get_input(simulation, "drift")
   covmax <- get_input(simulation, "covmax")
   jgrow <- get_input(simulation, "jgrow")
   dact_m <- get_input(simulation, "dact_m")
@@ -69,7 +68,6 @@ ct_time_series <- function(
                             area_m2 = area_m2,
                             seed_day = seed_day,
                             harvesting = harvesting,
-                            drift = drift,
                             covmax = covmax,
                             jgrow = jgrow,
                             dact_m = dact_m,
@@ -163,7 +161,6 @@ ct_ts_step_terms <- function(application_kg,
                              area_m2,
                              seed_day,
                              harvesting,
-                             drift,
                              covmax,
                              jgrow,
                              dact_m,
@@ -237,9 +234,9 @@ ct_ts_step_terms <- function(application_kg,
   mw_inflow_kg <- ct_mw_inflow_kg(inflows_m3, inflows_densities_kg_m3)
 
   ### Application
-  mfapp <- ct_mfapp(application_kg, drift, cover)
-  mwapp <- ct_mwapp(application_kg, drift, cover, is_empty) + mw_inflow_kg
-  msapp <- ct_msapp(application_kg, drift, cover, is_empty)
+  mfapp <- ct_mfapp(application_kg, cover)
+  mwapp <- ct_mwapp(application_kg, cover, is_empty) + mw_inflow_kg
+  msapp <- ct_msapp(application_kg, cover, is_empty)
 
 
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)

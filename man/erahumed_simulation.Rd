@@ -16,7 +16,6 @@ erahumed_simulation(
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
   ditch_level_m = 1,
-  drift = 0,
   covmax = 0.5,
   jgrow = 152,
   dact_m = 0.1,
@@ -52,8 +51,6 @@ erahumed_simulation(
 \item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 
 \item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
-
-\item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of applied chemical lost to drift during application.}
 
 \item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Maximum potential fraction of applied chemicals intercepted by foliage at crop maturation.}
 

@@ -63,17 +63,17 @@ ct_outflow_fac <- function(volume_eod_m3, outflow_m3) {
          0)
 }
 
-ct_mfapp <- function(application_kg, drift, cover) {
-  application_kg * (1 - drift) * cover
+ct_mfapp <- function(application_kg, cover) {
+  application_kg * cover
 }
 
-ct_mwapp <- function(application_kg, drift, cover,is_empty) {
-  application_kg * (1 - drift) * (1 - cover) * (!is_empty)
+ct_mwapp <- function(application_kg, cover, is_empty) {
+  application_kg * (1 - cover) * (!is_empty)
 }
 
-ct_msapp <- function(application_kg, drift, cover, is_empty)
+ct_msapp <- function(application_kg, cover, is_empty)
 {
-  application_kg * (1 - drift) * (1 - cover) * is_empty
+  application_kg * (1 - cover) * is_empty
 }
 
 ct_mw_max <- function(sol_ppm, volume_eod_m3) {

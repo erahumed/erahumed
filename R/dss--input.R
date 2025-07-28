@@ -37,7 +37,6 @@ dss_input_ui <- function(id) {
     dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
     dss_input_height_thresh_cm(ns("height_thresh_cm")),
     dss_input_ditch_level_m(ns("ditch_level_m")),
-    dss_input_drift(ns("drift")),
     dss_input_covmax(ns("covmax"))
     )
 
@@ -130,7 +129,6 @@ dss_input_server <- function(id) {
         ideal_flow_rate_cm = input$ideal_flow_rate_cm,
         height_thresh_cm = input$height_thresh_cm,
         ditch_level_m = input$ditch_level_m,
-        drift = input$drift,
         covmax = input$covmax,
         jgrow = input$jgrow,
         dact_m = input$dact_m,

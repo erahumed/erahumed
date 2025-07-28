@@ -16,7 +16,6 @@
 #' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
 #' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
 #' @param ditch_level_m `r input_roxy("ditch_level_m")`
-#' @param drift `r input_roxy("drift")`
 #' @param covmax `r input_roxy("covmax")`
 #' @param jgrow `r input_roxy("jgrow")`
 #' @param dact_m `r input_roxy("dact_m")`
@@ -51,7 +50,6 @@ erahumed_simulation <- function(
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 0.5,
     ditch_level_m = 1,
-    drift = 0,
     covmax = 0.5,
     jgrow = 152,
     dact_m = 0.1,
@@ -111,7 +109,6 @@ erahumed_simulation <- function(
 
       assert_positive_number(height_thresh_cm)
 
-      assert_fraction(drift)
       assert_fraction(covmax)
       assert_positive_integer(jgrow)
       assert_positive_number(dact_m)
@@ -142,7 +139,6 @@ erahumed_simulation <- function(
     ideal_flow_rate_cm = ideal_flow_rate_cm,
     height_thresh_cm = height_thresh_cm,
     ditch_level_m = ditch_level_m,
-    drift = drift,
     covmax = covmax,
     jgrow = jgrow,
     dact_m = dact_m,

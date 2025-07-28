@@ -88,17 +88,6 @@ dss_input_ditch_level_m <- function(id) {
   )
 }
 
-dss_input_drift <- function(id) {
-  shiny::numericInput(
-    inputId = id,
-    label = shiny::p("Drift [1]", dss_input_tooltip("drift")),
-    value = dss_input_defaults()[["drift"]],
-    step = 0.01,
-    min = 0,
-    max = 1
-  )
-}
-
 dss_input_covmax <- function(id) {
   shiny::numericInput(
     inputId = id,
