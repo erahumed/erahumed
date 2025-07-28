@@ -140,6 +140,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       chemical_db <- get_etc(simulation(), "chemical_db")
       choices <- seq_along(chemical_db)
       names(choices) <- sapply(chemical_db, \(c) c$display_name)
+      choices <- choices[order(names(choices))]  # Sort alphabetically
 
       shiny::updateCheckboxGroupInput(
         session,

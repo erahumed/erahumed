@@ -57,12 +57,14 @@ ct_plot_time_series_density <- function(data,
     dygraphs::dyUnzoom() |>
     dygraphs::dyOptions(strokeWidth = 1.5)
 
-  for (id in chem_ids_ordered) {
+  for (i in seq_along(chem_ids_ordered)) {
+    id <- chem_ids_ordered[[i]]
+    label <- chem_names_ordered[[i]]
     series_id <- as.character(id)
     color <- chemical_color_map(chemical_db)[[id]]
     if (is.null(color) || is.na(color)) color <- "#888888"
     g <- g |>
-      dygraphs::dySeries(series_id, label = chem_names[[id]], color = color)
+      dygraphs::dySeries(series_id, label = label, color = color)
   }
 
   g
