@@ -1,5 +1,98 @@
 # erahumed (development version)
 
+This is a minor release providing several improvements and bug fixes over the 
+previous one, plus a few minor algorithm changes. This prepares the publication 
+of the first public release v1.0.0.
+
+### Algorithm changes
+
+* We now differentiate between the fraction of organic content of suspended 
+solid, on one hand, and sediment on the other (#453). This is reflected in the
+`foc_sed` and `foc_ss` arguments of `erahumed_simulation()`, that replace the 
+former `foc` argument.
+* Added a "risk quotient" method (alongside the already implemented PAF) as 
+available risk metric (#413).
+* The day for ground chemical applications becomes the last in the emptying 
+window (#412). This was previously the *first* day in the emptying window.
+* The Albufera lake's depth is now reported correctly (as Volume / Surface) 
+(#439). The previous value was a placeholder that coincided with the level 
+(with respect to reference) provided in CHJ data.
+* Various improvements and clean-up in the tabular outputs for hydrology, 
+exposure and risk, concerning both the R interface and the results downloadable 
+from the GUI (including: #450, #435).
+* The period in which plan delays for water management of rice fields are 
+applied now extends from the beginning of the sowing season to the beginning of
+the Perellona, whose concrete dates may differ among different rice-field 
+management system. Previously, this window was fixed to the days between April 
+20 and October 15, for all management system. For the predefined existing 
+systems (J.Sendra, Clearfield, and Bomba) the change has no practical effect.
+* The `dinc_m` and `drift` parameters are removed and fixed to their default 
+values (#442, #425).
+* The volatilization coefficient is no longer a defining property of chemicals 
+(#451). Previously, this was a required input, although this numerical value was 
+never used in the actual simulation, as volatilization is not currently being
+taken into account.
+
+### Data changes
+
+* The default distribution of rice-field management systems is now as follows:
+in the North (ditches 1 to 9) 80% of surface is allocated to Clearfield, and
+20% to J.Sendra; in the South (ditches 10 to 26) 80% of surface is allocated to 
+J.Sendra, and 20% to Clearfield.
+
+* Reviewed numerical properties of predefined chemicals.
+
+### API changes
+
+* Improved printing method for objects of S3 class `erahumed_simulation` (#411).
+* `allocate_surface()`: the `target_fraction` argument now refers to the 
+fraction of surface of the *selected region*, whereas it was previously 
+referred to the whole Albufera Natural Park (#421).
+* `erahumed_simulation()` accepts a new `.progress` argument, a function that 
+allows the user to customize how simulation progress is reported.
+
+### GUI changes
+
+* The app is now frozen while downloading the results zip archive (#303).
+* The Output tab now shows a "loading" spinner while the simulation is running.
+Simulation progress is reported in a notification modal (#432).
+* Restored chemical selectors for exposure plots (#428).
+* Increased the size of Albufera auxiliary widget, in order to make it more 
+comfortable to read (#365).
+* Risk plot is now a regular time-series plot (#445), with risks due to 
+individual chemicals plotted as independent time-series, alongside the 
+"combined effect" time-series. Previously, risks due to individual chemicals 
+were displayed as stacked areas.
+* Results can now be download also in XLSX (Excel) format (#447).
+* The results .zip archive now contains a README file (#437) that provides 
+basic information on the contents of the archive.
+* The GUI for allocating rice-field management systems now has improved 
+parameters descriptions (#423).
+* Removed the "reset" button from the main input GUI. A global reset that also
+included restoring the initial state of the chemicals and management system
+databases is too complex too implement at the current stage.
+
+### Bug fixes
+
+* Chemical database is now working normally: chemicals can be edited multiple
+time without any error being triggered (#434).
+* Degradation constants of chemicals can now be set to be exactly zero without
+breaking the functioning of the algorithm (#433).
+* Fixed broken selector of chemicals to be displayed in the exposure plots 
+(#455).
+
+### Documentation
+
+* New 
+[`hydrogeographical-model vignette`](https://erahumed.github.io/erahumed/articles/hydrogeographical-model.html) 
+replacing the older `hydrology-scheme` vignette (#239).
+* Various improvements and corrections in parameter and data descriptions
+(including: #441, #443, #446, #448, #438).
+
+### Testing
+
+* Minor improvements (including: #452). 
+
 # erahumed 0.19.0
 
 This is a major release that introduces several powerful features to the  
