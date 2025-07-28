@@ -1,0 +1,44 @@
+map:
+  name: "Cluster map"
+  group: "Inputs"
+  type: "erahumed_cluster_map"
+  description: >
+    A cluster map created with `new_cluster_map()` or `default_cluster_map()`.
+
+system:
+  name: "Management system"
+  group: "Inputs"
+  type: "erahumed_management_system"
+  description: >
+    A management system to assign, created with `new_management_system()` or helper
+    functions such as `bomba()` or `clearfield()`.
+
+target_fraction:
+  name: "Target allocation fraction"
+  group: "Allocation settings"
+  type: "numeric(1)"
+  description: >
+    The fraction of surface area **within the selected subset** of clusters
+    (filtered by `ditches` and `field_type`) to allocate to the given system.
+    Must be a number between 0 and 1.
+
+ditches:
+  name: "Ditches"
+  group: "Allocation settings"
+  type: "integer"
+  description: >
+    A vector of ditch IDs (e.g., 1:26) defining the subset of clusters to be
+    considered for allocation. Defaults to all ditches.
+
+field_type:
+  name: "Field type"
+  group: "Allocation settings"
+  type: "character(1)"
+  description: >
+    Type of field to consider when selecting clusters. Must be one of:
+
+    * `"regular"` – only regular fields
+
+    * `"tancat"` – only tancats
+
+    * `"both"` – all field types (default).

@@ -1,8 +1,13 @@
 compute_rc <- function(simulation)
 {
-  output <- risk_from_ssds(ct_output = get_output(simulation, "ctc"),
+  output <- compute_risk_general(ct_output = get_output(simulation, "ctc"),
                            chemical_db = get_etc(simulation, "chemical_db")
   )
+
+  clus_props_df <-
+    get_input(simulation, "cluster_map")[["map_df"]][, c("cluster_id", "rfms_id", "rfms_name")]
+  output <- output |>
+    merge(clus_props_df, by.x = "element_id", by.y = "cluster_id")
 
   validate_rc_output(output)
 

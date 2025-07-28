@@ -24,13 +24,6 @@ ksetl_m_day:
   unit: "m/day"
   description: "Settling rate, representing particle-bound transfer to sediment."
 
-kvolat_m_day:
-  name: "Volatilization rate"
-  group: "Transport parameters"
-  type: "numeric(1)"
-  unit: "m/day"
-  description: "Volatilization rate from water to air."
-
 sol_ppm:
   name: "Solubility"
   group: "Physicochemical properties"
@@ -45,26 +38,19 @@ koc_cm3_g:
   unit: "cm \u00B3 /g"
   description: "Organic carbon-water partition coefficient (Koc)."
 
-dinc_m:
-  name: "Incorporation depth"
-  group: "Transport parameters"
-  type: "numeric(1)"
-  unit: "m"
-  description: "Depth of incorporation into soil/sediment."
-
 fet_cm:
-  name: "Film thickness for exchange"
+  name: "Foliar extraction term"
   group: "Transport parameters"
   type: "numeric(1)"
-  unit: "cm"
-  description: "Film thickness for exchange at the sediment-water interface."
+  unit: "1/cm"
+  description: "Fraction of pesticide washed off from foliage per cm of rainfall."
 
 kf_day:
-  name: "Floodwater degradation rate"
+  name: "Foliage degradation rate"
   group: "Degradation"
   type: "numeric(1)"
   unit: "1/day"
-  description: "Degradation rate in floodwater."
+  description: "Degradation rate in foliage."
 
 kw_day:
   name: "Water column degradation rate"

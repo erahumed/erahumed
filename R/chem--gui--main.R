@@ -17,7 +17,7 @@ chemical_db_server <- function(id)
     list_manager_server("manager",
                         item_editor_ui = chemical_editor_ui,
                         item_editor_server = chemical_editor_server,
-                        item_display_function = function(x) x$display_name,
+                        item_display_function = chemical_display_function,
                         default_items = default_chemical_db()
                         )
   })
@@ -28,7 +28,7 @@ chemical_editor_ui <- function(id) {
 
 
   shiny::tagList(
-    inline_text_input(ns("display_name"), "Compound name", value = NA),
+    chem_input_display_name(ns("display_name")),
     bslib::accordion(
       open = FALSE,
       multiple = TRUE,
@@ -39,9 +39,7 @@ chemical_editor_ui <- function(id) {
                              chem_input_sol_ppm(ns("sol_ppm")),
                              chem_input_koc_cm3_g(ns("koc_cm3_g")),
                              chem_input_fet_cm(ns("fet_cm")),
-                             chem_input_dinc_m(ns("dinc_m")),
-                             chem_input_ksetl_m_day(ns("ksetl_m_day")),
-                             chem_input_kvolat_m_day(ns("kvolat_m_day"))
+                             chem_input_ksetl_m_day(ns("ksetl_m_day"))
       ),
 
       bslib::accordion_panel("Degradation Constants",
@@ -84,13 +82,11 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
       shiny::updateNumericInput(inputId = "sol_ppm", value = item()$sol_ppm)
       shiny::updateNumericInput(inputId = "koc_cm3_g", value = item()$koc_cm3_g)
       shiny::updateNumericInput(inputId = "fet_cm", value = item()$fet_cm)
-      shiny::updateNumericInput(inputId = "dinc_m", value = item()$dinc_m)
       shiny::updateNumericInput(inputId = "kf_day", value = item()$kf_day)
       shiny::updateNumericInput(inputId = "kw_day", value = item()$kw_day)
       shiny::updateNumericInput(inputId = "ks_sat_day", value = item()$ks_sat_day)
       shiny::updateNumericInput(inputId = "ks_unsat_day", value = item()$ks_unsat_day)
       shiny::updateNumericInput(inputId = "ksetl_m_day", value = item()$ksetl_m_day)
-      shiny::updateNumericInput(inputId = "kvolat_m_day", value = item()$kvolat_m_day)
 
       shiny::updateNumericInput(inputId = "kw_temp", value = item()$kw_temp)
       shiny::updateNumericInput(inputId = "ks_sat_temp", value = item()$ks_sat_temp)
@@ -111,10 +107,8 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         tmoa_id = input$tmoa_id,
         MW = input$MW,
         ksetl_m_day = input$ksetl_m_day,
-        kvolat_m_day = input$kvolat_m_day,
         sol_ppm = input$sol_ppm,
         koc_cm3_g = input$koc_cm3_g,
-        dinc_m = input$dinc_m,
         fet_cm = input$fet_cm,
         kf_day = input$kf_day,
         kw_day = input$kw_day,
@@ -132,4 +126,8 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         ssd_chronic_sigma = input$ssd_chronic_sigma
     ))
   })
+}
+
+chemical_display_function <- function(x) {
+  paste0(x$display_name, " (", x$tmoa_id, ")")
 }

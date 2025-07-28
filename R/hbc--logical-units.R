@@ -17,9 +17,10 @@ hbc_simulate_ditch <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     petp_cm,
     area_m2,
-    capacity_m3_s,
+    capacity_m3,
     date,
     cluster_id,
     ideal_flow_rate_cm,
@@ -32,9 +33,10 @@ hbc_simulate_ditch <- function(
       ideal_height_eod_cm = ideal_height_eod_cm,
       ideal_irrigation = ideal_irrigation,
       ideal_draining = ideal_draining,
+      is_plan_delays_window = is_plan_delays_window,
       petp_cm = petp_cm,
       area_m2 = area_m2,
-      capacity_m3_s = capacity_m3_s,
+      capacity_m3 = capacity_m3,
       date = date,
       cluster_id = cluster_id,
       ...
@@ -66,9 +68,10 @@ hbc_make_df_list <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     petp_cm,
     area_m2,
-    capacity_m3_s,
+    capacity_m3,
     date,
     cluster_id,
     ...
@@ -78,11 +81,12 @@ hbc_make_df_list <- function(
     ideal_height_eod_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     plan_delay = 0,
     petp_cm,
     height_eod_cm = ideal_height_eod_cm,
     area_m2,
-    capacity_m3_s,
+    capacity_m3,
     date,
     cluster_id,
     ...
@@ -127,8 +131,9 @@ hbc_extract_daily_inputs <- function(df_list, j) {
     petp_cm = current$petp_cm,
     irrigation = irrigation,
     draining = draining,
+    is_plan_delays_window = current$is_plan_delays_window,
     area_m2 = current$area,
-    capacity_m3_s = current$capacity_m3_s[[1]],
+    capacity_m3 = current$capacity_m3[[1]],
     date = current$date,
     plan_delay_lag = plan_delay_lag
   )
@@ -142,8 +147,9 @@ hbc_daily_step <- function(
     petp_cm,
     irrigation,
     draining,
+    is_plan_delays_window,
     area_m2,
-    capacity_m3_s,
+    capacity_m3,
     ideal_flow_rate_cm,
     height_thresh_cm,
     randomize_clusters
@@ -164,30 +170,27 @@ hbc_daily_step <- function(
                                draining = draining,
                                ideal_flow_rate_cm = ideal_flow_rate_cm))
 
-  l <- c(l, hbc_outflow_m3_s(ideal_outflow_cm = l$ideal_outflow_cm,
-                                  area_m2 = area_m2,
-                                  capacity_m3_s = capacity_m3_s,
-                                  randomize_clusters = randomize_clusters))
+  l <- c(l, hbc_outflow_m3(ideal_outflow_cm = l$ideal_outflow_cm,
+                           area_m2 = area_m2,
+                           capacity_m3 = capacity_m3,
+                           randomize_clusters = randomize_clusters))
 
-  l <- c(l, hbc_outflow_cm(outflow_m3_s = l$outflow_m3_s,
-                                area_m2 = area_m2))
+  l <- c(l, hbc_outflow_cm(outflow_m3 = l$outflow_m3, area_m2 = area_m2))
 
-  l <- c(l, hbc_inflow_cm(outflow_cm = l$outflow_cm,
-                               ideal_diff_flow_cm = l$ideal_diff_flow_cm))
+  l <- c(l, hbc_inflow_cm(outflow_cm = l$outflow_cm, ideal_diff_flow_cm = l$ideal_diff_flow_cm))
 
-  l <- c(l, hbc_inflow_m3_s(inflow_cm = l$inflow_cm,
-                                 area_m2 = area_m2))
+  l <- c(l, hbc_inflow_m3(inflow_cm = l$inflow_cm, area_m2 = area_m2))
 
   l <- c(l, hbc_height_eod_cm(height_sod_cm = height_sod_cm,
-                               petp_cm = petp_cm,
-                               inflow_cm = l$inflow_cm,
-                               outflow_cm = l$outflow_cm))
+                              petp_cm = petp_cm,
+                              inflow_cm = l$inflow_cm,
+                              outflow_cm = l$outflow_cm))
 
   l <- c(l, hbc_plan_delay(plan_delay_lag = plan_delay_lag,
                            ideal_height_eod_cm = ideal_height_eod_cm,
                            height_eod_cm = l$height_eod_cm,
-                           date = date,
-                           height_thresh_cm = height_thresh_cm))
+                           height_thresh_cm = height_thresh_cm,
+                           is_plan_delays_window = is_plan_delays_window))
 
   return(l)
 
@@ -224,10 +227,10 @@ hbc_ideal_flows_cm <- function(
                ideal_outflow_cm = ideal_outflow_cm) )
 }
 
-hbc_outflow_m3_s <- function(
+hbc_outflow_m3 <- function(
     ideal_outflow_cm,
     area_m2,
-    capacity_m3_s,
+    capacity_m3,
     randomize_clusters = TRUE
     )
 {
@@ -235,12 +238,12 @@ hbc_outflow_m3_s <- function(
 
   ord <- if (randomize_clusters) { sample(n) } else { 1:n }
 
-  ideal_outflow_m3_s <- (ideal_outflow_cm / 100) * area_m2 / s_per_day()
-  outflow_m3_s <- numeric(n)
+  ideal_outflow_m3 <- (ideal_outflow_cm / 100) * area_m2
+  outflow_m3 <- numeric(n)
 
-  cum_outflows <- pmin2(cumsum(c(0, ideal_outflow_m3_s[ord])), capacity_m3_s)
-  outflow_m3_s[ord] <- diff(cum_outflows)
-  capacity_m3_s <- capacity_m3_s - cum_outflows[length(cum_outflows)]
+  cum_outflows <- pmin2(cumsum(c(0, ideal_outflow_m3[ord])), capacity_m3)
+  outflow_m3[ord] <- diff(cum_outflows)
+  capacity_m3 <- capacity_m3 - cum_outflows[length(cum_outflows)]
 
   # In an older version of the algorithm, we used to compensate for a positive
   # difference between the ditch outflow and the sum of clusters ideal outflows,
@@ -250,19 +253,19 @@ hbc_outflow_m3_s <- function(
   #
   # outflow_m3_s <- outflow_m3_s + capacity_m3_s / length(outflow_m3_s)
 
-  return( list(outflow_m3_s = outflow_m3_s) )
+  return( list(outflow_m3 = outflow_m3) )
 }
 
-hbc_outflow_cm <- function(outflow_m3_s, area_m2) {
-  list( outflow_cm = m3_s_to_cm_day(outflow_m3_s, area_m2) )
+hbc_outflow_cm <- function(outflow_m3, area_m2) {
+  list( outflow_cm = 100 * outflow_m3 / area_m2 )
 }
 
 hbc_inflow_cm <- function(outflow_cm, ideal_diff_flow_cm) {
   list( inflow_cm = pmax2(outflow_cm + ideal_diff_flow_cm, 0) )
 }
 
-hbc_inflow_m3_s <- function(inflow_cm, area_m2) {
-  list(inflow_m3_s = cm_day_to_m3_s(inflow_cm, area_m2))
+hbc_inflow_m3 <- function(inflow_cm, area_m2) {
+  list(inflow_m3 =  area_m2 * inflow_cm / 100)
 }
 
 hbc_height_eod_cm <- function(
@@ -281,23 +284,12 @@ hbc_plan_delay <- function(
     plan_delay_lag,
     ideal_height_eod_cm,
     height_eod_cm,
-    date,
     height_thresh_cm,
-    mm_dd_start = c(4, 20),
-    mm_dd_end = c(10, 15)
+    is_plan_delays_window
     )
 {
-  date <- as.POSIXlt(date[1])
-  reset_delay <-
-    (get_mm(date) < mm_dd_start[1]) ||
-    (get_mm(date) == mm_dd_start[1] && get_dd(date) < mm_dd_start[2]) ||
-    (get_mm(date) > mm_dd_end[1]) ||
-    (get_mm(date) == mm_dd_end[1] && get_dd(date) > mm_dd_end[2])
-
-  if (reset_delay)
-    return( list(plan_delay = numeric(length(plan_delay_lag))) )
-
   add_delay <- (ideal_height_eod_cm == 0) & (height_eod_cm > height_thresh_cm)
-  return( list(plan_delay = plan_delay_lag + add_delay) )
+
+  return( list(plan_delay = (plan_delay_lag + add_delay) * is_plan_delays_window) )
 }
 

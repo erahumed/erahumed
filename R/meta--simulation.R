@@ -16,16 +16,21 @@
 #' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
 #' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
 #' @param ditch_level_m `r input_roxy("ditch_level_m")`
-#' @param drift `r input_roxy("drift")`
 #' @param covmax `r input_roxy("covmax")`
 #' @param jgrow `r input_roxy("jgrow")`
 #' @param dact_m `r input_roxy("dact_m")`
 #' @param css_ppm `r input_roxy("css_ppm")`
-#' @param foc `r input_roxy("foc")`
+#' @param foc_ss `r input_roxy("foc_ss")`
+#' @param foc_sed `r input_roxy("foc_sed")`
 #' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
 #' @param porosity `r input_roxy("porosity")`
 #' @param seed `r input_roxy("seed")`
+#' @param .progress A function used to report simulation progress.
+#'   It should accept a single character string as input, representing the
+#'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).
+#'   This parameter is primarily intended for user feedback mechanisms (e.g.,
+#'   console messages). By default, it prints a message to the R console.
 #'
 #' @return An object of class `erahumed_simulation`.
 #'
@@ -45,16 +50,17 @@ erahumed_simulation <- function(
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 0.5,
     ditch_level_m = 1,
-    drift = 0,
     covmax = 0.5,
     jgrow = 152,
     dact_m = 0.1,
     css_ppm = 50,
-    foc = 0.17,
+    foc_ss = 0.1,
+    foc_sed = 0.05,
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     porosity = 0.11,
-    seed = 840
+    seed = 840,
+    .progress = message
 )
 {
   tryCatch(
@@ -103,6 +109,15 @@ erahumed_simulation <- function(
 
       assert_positive_number(height_thresh_cm)
 
+      assert_fraction(covmax)
+      assert_positive_integer(jgrow)
+      assert_positive_number(dact_m)
+      assert_positive_number(css_ppm)
+      assert_fraction(foc_ss)
+      assert_fraction(foc_sed)
+      assert_positive_number(bd_g_cm3)
+      assert_positive_number(qseep_m_day)
+      assert_fraction(porosity)
     },
     error = function(e) {
       class(e) <- c("erahumed_input_error", class(e))
@@ -110,27 +125,70 @@ erahumed_simulation <- function(
     })
 
 
-  res <- initialize_erahumed_simulation(inputs = as.list(environment()))
+  .progress("Initializing inputs")
+
+  res <- initialize_erahumed_simulation(list(
+    date_start = date_start,
+    date_end = date_end,
+    cluster_map = cluster_map,
+    outflows_df = outflows_df,
+    weather_df = weather_df,
+    storage_curve_slope_m2 = storage_curve_slope_m2,
+    storage_curve_intercept_m3 = storage_curve_intercept_m3,
+    petp_surface_m2 = petp_surface_m2,
+    ideal_flow_rate_cm = ideal_flow_rate_cm,
+    height_thresh_cm = height_thresh_cm,
+    ditch_level_m = ditch_level_m,
+    covmax = covmax,
+    jgrow = jgrow,
+    dact_m = dact_m,
+    css_ppm = css_ppm,
+    foc_ss = foc_ss,
+    foc_sed = foc_sed,
+    bd_g_cm3 = bd_g_cm3,
+    qseep_m_day = qseep_m_day,
+    porosity = porosity,
+    seed = seed))
 
   res$etc$management_df <- get_management_df(cluster_map)
   res$etc$chemical_db <- get_chemical_db(cluster_map)
   res$etc$applications_df <- get_applications_df(cluster_map)
 
-  res <- res |>
-    compute_inp() |>
-    compute_hbl() |>
-    compute_hbc() |>
-    compute_hbd()
+  res <- compute_inp(res)
+
+  .progress("Computing hydrology: lake")
+  res <- compute_hbl(res)
+
+  .progress("Computing hydrology: clusters")
+  res <- compute_hbc(res)
+
+  .progress("Computing hydrology: ditches")
+  res <- compute_hbd(res)
+
 
   if (length(res$etc$chemical_db) > 0) {
-    res <- res |>
-      compute_ctc() |>
-      compute_ctd() |>
-      compute_ctl() |>
-      compute_rc() |>
-      compute_rd() |>
-      compute_rl()
+    .progress("Computing exposure: clusters")
+    res <- compute_ctc(res)
+
+    .progress("Computing exposure: ditches")
+    res <- compute_ctd(res)
+
+    .progress("Computing exposure: lake")
+    res <- compute_ctl(res)
+
+    .progress("Computing risk: clusters")
+    res <- compute_rc(res)
+
+    .progress("Computing risk: ditches")
+    res <- compute_rd(res)
+
+    .progress("Computing risk: lake")
+    res <- compute_rl(res)
+
   }
+
+
+  # TODO: msg_callback could print execution time
 
   return(res)
 
@@ -159,17 +217,41 @@ is_erahumed_simulation <- function(obj) {
 
 #' @export
 print.erahumed_simulation <- function(x, ...) {
-  cat("A ERAHUMED simulation.\n\n")
-  cat("Start date:", get_input(x, "date_start"), "\n")
-  cat("End date:", get_input(x, "date_end"), "\n")
+  cat("<ERAHUMED Simulation>\n")
+
+  date_start <- get_input(x, "date_start")
+  date_end <- get_input(x, "date_end")
+  cat("  Date range             :", date_start, "to", date_end, "\n")
+
+  n_days <- as.integer(as.Date(date_end) - as.Date(date_start)) + 1
+  cat("  Simulation days        :", n_days, "\n")
+
+  cluster_map <- get_input(x, "cluster_map")
+  if (inherits(cluster_map, "erahumed_cluster_map")) {
+    cat("  Clusters               :", nrow(cluster_map$map_df), "\n")
+    cat("  Management systems     :", length(cluster_map$rfms_list), "\n")
+  }
+
+  chemicals <- x$etc$chemical_db
+  if (length(chemicals) > 0) {
+    cat("  Chemicals simulated    :", length(chemicals), "\n")
+  } else {
+    cat("  Chemicals simulated    : None\n")
+  }
+
+  applications <- x$etc$applications_df
+  if (is.data.frame(applications)) {
+    cat("  Total applications     :", nrow(applications), "\n")
+  }
 
   inform_once(
     "\nNeed help extracting simulation outputs? Check `?get_results`.",
     id = "erahumed_get_results"
-    )
+  )
 
-  return(invisible(x))
+  invisible(x)
 }
+
 
 #' @export
 summary.erahumed_simulation <- function(object, ...) {

@@ -6,8 +6,8 @@ ct_time_series <- function(
     temperature_min,
     temperature_max,
     volume_eod_m3,
-    outflow_m3_s,
-    inflows_m3_s,
+    outflow_m3,
+    inflows_m3,
     inflows_densities_kg_m3,
     area_m2,
     seed_day,
@@ -20,18 +20,20 @@ ct_time_series <- function(
 
   volume_eps <- 1e-6 # Threshold below which densities are reported as NA
 
-  drift <- get_input(simulation, "drift")
   covmax <- get_input(simulation, "covmax")
   jgrow <- get_input(simulation, "jgrow")
   dact_m <- get_input(simulation, "dact_m")
   css_ppm <- get_input(simulation, "css_ppm")
-  foc <- get_input(simulation, "foc")
+  foc_ss <- get_input(simulation, "foc_ss")
+  foc_sed <- get_input(simulation, "foc_sed")
   bd_g_cm3 <- get_input(simulation, "bd_g_cm3")
   qseep_m_day <- get_input(simulation, "qseep_m_day")
   porosity <- get_input(simulation, "porosity")
 
   # Chemical input properties
-  kd_cm3_g <- foc * ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
+  koc_cm3_g <- ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
+  kd_ss_cm3_g <- foc_ss * koc_cm3_g
+  kd_sed_cm3_g <- foc_sed * koc_cm3_g
   kf_day <- ct_get_param(chemical_id, "kf_day", chemical_db)
   kw_day <- ct_get_param(chemical_id, "kw_day", chemical_db)
   Q10_kw <- ct_get_param(chemical_id, "Q10_kw", chemical_db)
@@ -43,15 +45,13 @@ ct_time_series <- function(
   Q10_ks_unsat <- ct_get_param(chemical_id, "Q10_ks_unsat", chemical_db)
   ks_unsat_temp <- ct_get_param(chemical_id, "ks_unsat_temp", chemical_db)
   sol_ppm <- ct_get_param(chemical_id, "sol_ppm", chemical_db)
-  dinc_m <- ct_get_param(chemical_id, "dinc_m", chemical_db)
   ksetl_m_day <- ct_get_param(chemical_id, "ksetl_m_day", chemical_db)
-  kvolat_m_day <- ct_get_param(chemical_id, "kvolat_m_day", chemical_db)
   MW <- ct_get_param(chemical_id, "MW", chemical_db)
   fet_cm <- ct_get_param(chemical_id, "fet_cm", chemical_db)
 
   # Chemical derived properties
-  fds <- ct_fds(pos = porosity, kd_cm3_g = kd_cm3_g, bd_g_cm3 = bd_g_cm3)
-  fdw <- ct_fdw(kd_cm3_g = kd_cm3_g, css_ppm = css_ppm)
+  fds <- ct_fds(pos = porosity, kd_cm3_g = kd_sed_cm3_g, bd_g_cm3 = bd_g_cm3)
+  fdw <- ct_fdw(kd_cm3_g = kd_ss_cm3_g, css_ppm = css_ppm)
   fpw <- 1 - fdw
   kdifus_m_day <- ct_kdifus_m_day(pos = porosity, MW = MW)
 
@@ -62,22 +62,19 @@ ct_time_series <- function(
                             temperature_min = temperature_min,
                             temperature_max = temperature_max,
                             volume_eod_m3 = volume_eod_m3,
-                            outflow_m3_s = outflow_m3_s,
-                            inflows_m3_s = inflows_m3_s,
+                            outflow_m3 = outflow_m3,
+                            inflows_m3 = inflows_m3,
                             inflows_densities_kg_m3 = inflows_densities_kg_m3,
                             area_m2 = area_m2,
                             seed_day = seed_day,
                             harvesting = harvesting,
-                            drift = drift,
                             covmax = covmax,
                             jgrow = jgrow,
                             dact_m = dact_m,
                             css_ppm = css_ppm,
-                            foc = foc,
                             bd_g_cm3 = bd_g_cm3,
                             qseep_m_day = qseep_m_day,
                             porosity = porosity,
-                            kd_cm3_g = kd_cm3_g,
                             kf_day = kf_day,
                             kw_day = kw_day,
                             Q10_kw = Q10_kw,
@@ -89,9 +86,7 @@ ct_time_series <- function(
                             Q10_ks_unsat = Q10_ks_unsat,
                             ks_unsat_temp = ks_unsat_temp,
                             sol_ppm = sol_ppm,
-                            dinc_m = dinc_m,
                             ksetl_m_day = ksetl_m_day,
-                            kvolat_m_day = kvolat_m_day,
                             MW = MW,
                             fet_cm = fet_cm,
                             fds = fds,
@@ -116,7 +111,7 @@ ct_time_series <- function(
   outflow_m3 <- terms[["outflow_m3"]]
   outflow_fac <- terms[["outflow_fac"]]
 
-  n_time_steps <- length(outflow_m3_s)
+  n_time_steps <- length(outflow_m3)
   mw <- ms <- mw_outflow <- numeric(n_time_steps)
   for (t in 2:n_time_steps) {
     mw[t] <- eAww[t]*mw[t-1] + eAws[t]*ms[t-1] + qw[t]*mf[t-1]
@@ -160,22 +155,19 @@ ct_ts_step_terms <- function(application_kg,
                              temperature_min,
                              temperature_max,
                              volume_eod_m3,
-                             outflow_m3_s,
-                             inflows_m3_s,
+                             outflow_m3,
+                             inflows_m3,
                              inflows_densities_kg_m3,
                              area_m2,
                              seed_day,
                              harvesting,
-                             drift,
                              covmax,
                              jgrow,
                              dact_m,
                              css_ppm,
-                             foc,
                              bd_g_cm3,
                              qseep_m_day,
                              porosity,
-                             kd_cm3_g,
                              kf_day,
                              kw_day,
                              Q10_kw,
@@ -187,9 +179,7 @@ ct_ts_step_terms <- function(application_kg,
                              Q10_ks_unsat,
                              ks_unsat_temp,
                              sol_ppm,
-                             dinc_m,
                              ksetl_m_day,
-                             kvolat_m_day,
                              MW,
                              fet_cm,
                              fds,
@@ -198,7 +188,7 @@ ct_ts_step_terms <- function(application_kg,
                              kdifus_m_day
                              )
 {
-  n_time_steps <- length(outflow_m3_s)  # Guaranteed to be of required length
+  n_time_steps <- length(outflow_m3)  # Guaranteed to be of required length
   dt <- 1
 
   temp_arr <- ct_temperature_arrhenius(temperature_ave,
@@ -208,8 +198,7 @@ ct_ts_step_terms <- function(application_kg,
   # Hydro balance time series
   height_eod_m <- volume_eod_m3 / area_m2
   height_eod_cm <- height_eod_m * 100
-  outflow_m3 <- outflow_m3_s * s_per_day()
-  inflow_m3 <- ct_total_inflow_m3_s(inflows_m3_s) * s_per_day()
+  inflow_m3 <- ct_total_inflow_m3(inflows_m3)
   rain_cm <- precipitation_mm / 10
   rain_m3 <- (precipitation_mm / 1000) * area_m2
   etp_m3 <- (etp_mm / 1000) * area_m2
@@ -242,12 +231,12 @@ ct_ts_step_terms <- function(application_kg,
   outflow_fac <- ct_outflow_fac(volume_eod_m3 = volume_eod_m3, outflow_m3 = outflow_m3)
 
   ### Inflow
-  mw_inflow_kg <- ct_mw_inflow_kg(inflows_m3_s, inflows_densities_kg_m3)
+  mw_inflow_kg <- ct_mw_inflow_kg(inflows_m3, inflows_densities_kg_m3)
 
   ### Application
-  mfapp <- ct_mfapp(application_kg, drift, cover)
-  mwapp <- ct_mwapp(application_kg, drift, cover, is_empty) + mw_inflow_kg
-  msapp <- ct_msapp(application_kg, drift, cover, is_empty)
+  mfapp <- ct_mfapp(application_kg, cover)
+  mwapp <- ct_mwapp(application_kg, cover, is_empty) + mw_inflow_kg
+  msapp <- ct_msapp(application_kg, cover, is_empty)
 
 
   mw_max <- ct_mw_max(sol_ppm = sol_ppm, volume_eod_m3 = volume_eod_m3)
@@ -276,6 +265,10 @@ ct_ts_step_terms <- function(application_kg,
 
     mf <- mf + mfapp[i] * fac
   }
+
+  # Regularization for the singular case
+  a <- a - 1e-10
+  d <- d - 1e-10
 
   eA <- exp2by2(a = a, b = b, c = c, d = d)
   iC <- inv2by2(a = a - u, b = b, c = c, d = d - u)

@@ -36,11 +36,11 @@ new_cluster_map <- function(default_management_system = new_management_system())
 {
   map_df <- data.frame(
     cluster_id = info_clusters()$element_id,
-    ms_id = 1,
-    ms_name = default_management_system[["display_name"]]
+    rfms_id = 1,
+    rfms_name = default_management_system[["display_name"]]
     )
 
-  res <- list(map_df = map_df, ms_list = list(default_management_system))
+  res <- list(map_df = map_df, rfms_list = list(default_management_system))
 
   class(res) <- "erahumed_cluster_map"
 
@@ -55,7 +55,7 @@ is_cluster_map <- function(x) {
 print.erahumed_cluster_map <- function(x, ...) {
   cat("<Cluster-to-Management Map>\n")
   cat("  Clusters         :", nrow(x$map_df), "\n")
-  cat("  Management systems   :", length(x$ms_list), "\n")
+  cat("  Management systems   :", length(x$rfms_list), "\n")
   invisible(x)
 }
 
@@ -63,14 +63,14 @@ print.erahumed_cluster_map <- function(x, ...) {
 summary.erahumed_cluster_map <- function(object, ...) {
   cat("<Cluster-to-Management Map Summary>\n")
   cat("  Total clusters        :", nrow(object$map_df), "\n")
-  cat("  Management systems:", length(object$ms_list), "\n")
+  cat("  Management systems:", length(object$rfms_list), "\n")
 
   df <- object$map_df
 
-  df$readable_id <- paste(df$ms_id, df$ms_name, sep = ": ")
+  df$readable_id <- paste(df$rfms_id, df$rfms_name, sep = ": ")
 
   freq <- table(df$readable_id)
-  df <- data.frame(ms_id = names(freq), assigned_clusters = as.integer(freq), row.names = NULL)
+  df <- data.frame(rfms_id = names(freq), assigned_clusters = as.integer(freq), row.names = NULL)
   print(df)
 
   invisible(object)

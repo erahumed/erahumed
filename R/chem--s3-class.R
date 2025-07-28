@@ -8,10 +8,8 @@
 #' @param tmoa_id `r chemical_prop_roxy("tmoa_id")`
 #' @param MW `r chemical_prop_roxy("MW")`
 #' @param ksetl_m_day `r chemical_prop_roxy("ksetl_m_day")`
-#' @param kvolat_m_day `r chemical_prop_roxy("kvolat_m_day")`
 #' @param sol_ppm `r chemical_prop_roxy("sol_ppm")`
 #' @param koc_cm3_g `r chemical_prop_roxy("koc_cm3_g")`
-#' @param dinc_m `r chemical_prop_roxy("dinc_m")`
 #' @param fet_cm `r chemical_prop_roxy("fet_cm")`
 #' @param kf_day `r chemical_prop_roxy("kf_day")`
 #' @param kw_day `r chemical_prop_roxy("kw_day")`
@@ -29,31 +27,36 @@
 #' @param ssd_chronic_sigma `r chemical_prop_roxy("ssd_chronic_sigma")`
 #'
 #' @return An object of class `erahumed_chemical`.
+#'
+#' @details
+#' If not explicitly specified, default values will be used for all parameters
+#' except `display_name` and `tmoa_id`. These defaults are intended to represent
+#' typical or illustrative values and **do not correspond to any specific real-world
+#' chemical**. They are provided solely for convenience in prototyping or testing.
+#'
 #' @export
 chemical <- function(display_name,
                      tmoa_id,
-                     MW,
-                     ksetl_m_day,
-                     kvolat_m_day,
-                     sol_ppm,
-                     koc_cm3_g,
-                     dinc_m,
-                     fet_cm,
-                     kf_day,
-                     kw_day,
-                     ks_sat_day,
-                     ks_unsat_day,
-                     kw_temp,
-                     ks_sat_temp,
-                     ks_unsat_temp,
-                     Q10_kw,
-                     Q10_ks_sat,
-                     Q10_ks_unsat,
-                     ssd_acute_mu,
-                     ssd_acute_sigma,
-                     ssd_chronic_mu,
-                     ssd_chronic_sigma
-)
+                     MW = 330,
+                     ksetl_m_day = 2,
+                     sol_ppm = 500,
+                     koc_cm3_g = 200,
+                     fet_cm = 0.2,
+                     kf_day = 0.2,
+                     kw_day = 0.05,
+                     ks_sat_day = 0.05,
+                     ks_unsat_day = 0.05,
+                     kw_temp = 20,
+                     ks_sat_temp = 20,
+                     ks_unsat_temp = 20,
+                     Q10_kw = 2.58,
+                     Q10_ks_sat = 2.58,
+                     Q10_ks_unsat = 2.58,
+                     ssd_acute_mu = 7.5,
+                     ssd_acute_sigma = 2.5,
+                     ssd_chronic_mu = 4.5,
+                     ssd_chronic_sigma = 2.5
+                     )
 {
   tryCatch(
     {
@@ -61,10 +64,8 @@ chemical <- function(display_name,
       assert_string(tmoa_id)
       assert_positive_number(MW)
       assert_positive_number(ksetl_m_day)
-      assert_positive_number(kvolat_m_day)
       assert_positive_number(sol_ppm)
       assert_positive_number(koc_cm3_g)
-      assert_positive_number(dinc_m)
       assert_positive_number(fet_cm)
       assert_positive_number(kf_day)
       assert_positive_number(kw_day)
@@ -95,10 +96,8 @@ chemical <- function(display_name,
               tmoa_id = tmoa_id,
               MW = MW,
               ksetl_m_day = ksetl_m_day,
-              kvolat_m_day = kvolat_m_day,
               sol_ppm = sol_ppm,
               koc_cm3_g = koc_cm3_g,
-              dinc_m = dinc_m,
               fet_cm = fet_cm,
               kf_day = kf_day,
               kw_day = kw_day,
@@ -134,13 +133,11 @@ print.erahumed_chemical <- function(x, ...) {
   cat("Physico-chemical properties:\n")
   cat(sprintf("  Solubility:      %.2f ppm\n", x$sol_ppm))
   cat(sprintf("  Koc:             %.2f cm\u{00B3}/g\n", x$koc_cm3_g))
-  cat(sprintf("  Depth incorp.:   %.3f m\n", x$dinc_m))
   cat(sprintf("  Film thickness:  %.3f cm\n", x$fet_cm))
   cat(sprintf("  Settling rate:   %.3f m/day\n", x$ksetl_m_day))
-  cat(sprintf("  Volatilization:  %.3f m/day\n\n", x$kvolat_m_day))
 
   cat("Degradation rates:\n")
-  cat(sprintf("  kf (floodwater):           %.4f 1/day\n", x$kf_day))
+  cat(sprintf("  kf (foliage):           %.4f 1/day\n", x$kf_day))
   cat(sprintf("  kw (water column):         %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n", x$kw_day, x$kw_temp, x$Q10_kw))
   cat(sprintf("  ks (saturated sediment):   %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n", x$ks_sat_day, x$ks_sat_temp, x$Q10_ks_sat))
   cat(sprintf("  ks (unsaturated sediment): %.4f 1/day @ %.1f\u{00B3}C (Q10 = %.2f)\n\n", x$ks_unsat_day, x$ks_unsat_temp, x$Q10_ks_unsat))

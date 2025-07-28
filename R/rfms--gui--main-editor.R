@@ -7,9 +7,9 @@ rfms_ui <- function(id) {
       bslib::card_header("Crop calendar"),
       bslib::card_body(
         rfms_input_sowing_yday(ns("sowing_yday")),
+        rfms_input_harvesting_yday(ns("harvesting_yday")),
         rfms_input_perellona_start_yday(ns("perellona_start_yday")),
-        rfms_input_perellona_end_yday(ns("perellona_end_yday")),
-        rfms_input_harvesting_yday(ns("harvesting_yday"))
+        rfms_input_perellona_end_yday(ns("perellona_end_yday"))
       )
     ),
     bslib::card(

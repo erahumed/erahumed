@@ -18,17 +18,21 @@
                      use.names = TRUE,
                      keep.by = FALSE)
 
-  lapply(seq_along(get_etc(simulation, "chemical_db")), function(chemical_id) {
+  chem_db <- get_etc(simulation, "chemical_db")
+
+  lapply(seq_along(chem_db), function(chemical_id) {
     lapply(hbd_output_split, function(ditch_ts_df) {
       element_id <- ditch_ts_df[["element_id"]][[1]]
       area_m2 <- ditch_ts_df[["surface"]][[1]]
 
       date <- ditch_ts_df[["date"]]
+      chemical_name <- ct_get_param(chemical_id, "display_name", chem_db)
+
 
       cluster_inflows_df <- cluster_inflows_df_list[[ element_id ]]
-      cluster_inflows_m3_s <- lapply(cluster_inflows_df, function(df) {
+      cluster_inflows_m3 <- lapply(cluster_inflows_df, function(df) {
           idx <- df$chemical_id == chemical_id
-          df[idx, outflow_m3] / s_per_day()
+          df[idx, outflow_m3]
         })
       cluster_inflow_densities_kg_m3 <- lapply(cluster_inflows_df, function(df){
           idx <- df$chemical_id == chemical_id
@@ -43,11 +47,9 @@
         temperature_min = ditch_ts_df[["temperature_min"]],
         temperature_max = ditch_ts_df[["temperature_max"]],
         volume_eod_m3 = ditch_ts_df[["volume_m3"]],
-        outflow_m3_s = ditch_ts_df[["outflow_lake_m3"]] / s_per_day(),
-        inflows_m3_s =  # Ditch inflow waters come from clusters as well as from outside...
-          c(cluster_inflows_m3_s,
-            list(ditch_ts_df[["inflow_external_m3"]] / s_per_day())
-          ),
+        outflow_m3 = ditch_ts_df[["outflow_lake_m3"]],
+        inflows_m3 =  # Ditch inflow waters come from clusters as well as from outside...
+          c(cluster_inflows_m3, list(ditch_ts_df[["inflow_external_m3"]])),
         inflows_densities_kg_m3 =  # ... the latters are assumed to be free of pesticide.
           c(cluster_inflow_densities_kg_m3, list(0)),
         area_m2 = area_m2,
@@ -56,7 +58,7 @@
         simulation = simulation,
         chemical_id = chemical_id
       )
-      c(list(element_id = element_id, chemical_id = chemical_id),
+      c(list(element_id = element_id, chemical_id = chemical_id, chemical_name = chemical_name),
         list(date = date),
         ct_ts_df
       )

@@ -4,17 +4,17 @@ compute_hbd <- function(simulation)
   hbc_res <- get_output(simulation, "hbc")
 
   inflow_clusters_df <- hbc_res |>
-    stats::aggregate(outflow_m3_s ~ ditch_element_id + date, FUN = sum) |>
+    stats::aggregate(outflow_m3 ~ ditch_element_id + date, FUN = sum) |>
     (function(df) {
-      df$inflow_clusters_m3 <- df$outflow_m3_s * s_per_day()
+      df$inflow_clusters_m3 <- df$outflow_m3
       df <- df[, c("ditch_element_id", "date", "inflow_clusters_m3")]
       return(df)
       })()
 
   outflow_lake_df <- hbc_res |>
-    stats::aggregate(capacity_m3_s ~ ditch_element_id + date, FUN = \(x) x[[1]]) |>
+    stats::aggregate(capacity_m3 ~ ditch_element_id + date, FUN = \(x) x[[1]]) |>
     (function(df) {
-      df$outflow_lake_m3 <- df$capacity_m3_s * s_per_day()
+      df$outflow_lake_m3 <- df$capacity_m3
       df <- df[, c("ditch_element_id", "date", "outflow_lake_m3")]
       return(df)
     })()

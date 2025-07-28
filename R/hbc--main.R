@@ -38,7 +38,7 @@ validate_hbc_output <- function(output) {
                                             draining = logical(),
                                             petp_cm = numeric(),
                                             area_m2 = numeric(),
-                                            capacity_m3_s = numeric(),
+                                            capacity_m3 = numeric(),
                                             date = as.Date(character()),
                                             element_id = character(),
                                             ditch_element_id = character(),
@@ -46,15 +46,15 @@ validate_hbc_output <- function(output) {
                                             ideal_outflow_cm = numeric(),
                                             inflow_cm = numeric(),
                                             outflow_cm = numeric(),
-                                            inflow_m3_s = numeric(),
-                                            outflow_m3_s = numeric(),
+                                            inflow_m3 = numeric(),
+                                            outflow_m3 = numeric(),
                                             plan_delay = numeric()
                     )
   )
 
   assert_positive_vector(output$ideal_height_eod_cm, tol = 1e-6)
   assert_positive_vector(output$area_m2, tol = 1e-6)
-  assert_positive_vector(output$capacity_m3_s, tol = 1e-6)
+  assert_positive_vector(output$capacity_m3, tol = 1e-6)
   assert_date(output$date)
   assert_character(output$element_id)
   assert_character(output$ditch)

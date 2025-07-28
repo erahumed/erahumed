@@ -31,11 +31,11 @@ test_that("'tancat' is consistent along 'element_id'", {
   expect_equal(nrow(res), 0)
 })
 
-test_that("'variety' is consistent along 'element_id'", {
+test_that("'rfms_id' is consistent along 'element_id'", {
   test_df <- get_output(test_sim_large(), "hbc")
   res <- test_df |>
     dplyr::group_by(element_id) |>
-    dplyr::summarise(distinct_values = dplyr::n_distinct(variety)) |>
+    dplyr::summarise(distinct_values = dplyr::n_distinct(rfms_id)) |>
     dplyr::filter(distinct_values > 1)
 
   expect_equal(nrow(res), 0)
@@ -74,12 +74,12 @@ test_that("sum(real outflows) = total capacity of ditch", {
   res <- test_df |>
     dplyr::group_by(date, ditch_element_id) |>
     dplyr::summarise(
-      flowpoint = capacity_m3_s[1],
-      outflow_m3_s = sum(outflow_m3_s),
+      flowpoint = capacity_m3[1],
+      outflow_m3 = sum(outflow_m3),
       .groups = "drop"
     ) |>
     dplyr::filter(
-      abs(outflow_m3_s) > flowpoint + mean(flowpoint) * 1e-10
+      abs(outflow_m3) > flowpoint + mean(flowpoint) * 1e-10
     )
 
   expect_equal(nrow(res), 0)

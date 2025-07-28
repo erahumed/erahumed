@@ -173,14 +173,10 @@ albufera_outflows <- albufera_outflows |>
   rename_with(tolower) |>
   transmute(
     date,
-    level,
-    outflow_pujol = pujol,
-    outflow_perellonet = perellonet,
-    outflow_perello = perello
-    # No longer exported:
-    # is_imputed_level = is_imputed_level,
-    # is_imputed_outflow =
-    #   pujol_is_imputed | perello_is_imputed | perellonet_is_imputed
+    level_m = level,
+    outflow_pujol_m3_s = pujol,
+    outflow_perellonet_m3_s = perellonet,
+    outflow_perello_m3_s = perello
   )
 
 

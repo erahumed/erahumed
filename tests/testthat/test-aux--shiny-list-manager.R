@@ -67,7 +67,7 @@ test_that("Can add an item", {
     session$flushReact()
 
     session$setInputs("editor-name" = "new", "editor-value" = 10)
-    session$setInputs(save_item = 1)
+    session$setInputs(save_item_btn = 1)
     session$flushReact()
 
     expect_equal(length(session$returned()$items), 3)
@@ -81,7 +81,7 @@ test_that("Can edit an item", {
     session$flushReact()
 
     session$setInputs("editor-name" = "edited", "editor-value" = 99)
-    session$setInputs(save_item = 1)
+    session$setInputs(save_item_btn = 1)
     session$flushReact()
 
     expect_identical(session$returned()$items[[1]]$name, "edited")

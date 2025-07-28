@@ -61,6 +61,14 @@ assert_positive_integer <- function(x, name = deparse(substitute(x))) {
   assert_integer_vector(x, name)
 }
 
+assert_fraction <- function(x, name = deparse(substitute(x)), tol = 0) {
+  assert_positive_number(x, name)
+  if (x <= 1 - tol)
+    return(invisible(TRUE))
+
+  stop(paste("'", name, "' must be smaller than 1."))
+}
+
 assert_character <- function(x, name = deparse(substitute(x))) {
   if(is.character(x))
     return(invisible(TRUE))

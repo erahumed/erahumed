@@ -35,13 +35,13 @@ outflows_df:
   columns:
     date: >-
       Date of measurement
-    level: >-
+    level_m: >-
       Lake level (meters above sea level)
-    outflow_pujol: >-
+    outflow_pujol_m3_s: >-
       Outflow at Pujol (cubic meters per second)
-    outflow_perellonet: >-
+    outflow_perellonet_m3_s: >-
       Outflow at Perellonet (cubic meters per second)
-    outflow_perello: >-
+    outflow_perello_m3_s: >-
       Outflow at Perello (cubic meters per second)
 
 weather_df:
@@ -109,7 +109,7 @@ ideal_flow_rate_cm:
   description: >-
     Ideal inflow/outflow of a cluster, for days in which the
     cluster is scheduled to be in flux (*i.e.* when being simultaneously
-    irrigated and drained). Expressed in centimeters per day.
+    irrigated and drained). Expressed in centimeters of water depth per day.
 
 height_thresh_cm:
   name: "Cluster Height Threshold"
@@ -127,15 +127,6 @@ ditch_level_m:
   type: "numeric(1)"
   description: >-
     Constant water depth in ditches.
-
-drift:
-  name: "Drift"
-  group: "Pesticide application scheme"
-  unit: "1"
-  type: "numeric(1)"
-  description: >-
-    A number between `0` and `1`. Fraction of applied chemical lost to drift
-    during application.
 
 covmax:
   name: "Max interception potential"
@@ -170,17 +161,26 @@ css_ppm:
   unit: "ppm"
   type: "numeric(1)"
   description: >-
-    A positive number. Concentration of suspended solid, expressed in parts per
-    million.
+    A positive number. Concentration of water suspended solids, expressed in
+    parts per million.
 
-foc:
-  name: "Fraction of organic content"
+foc_ss:
+  name: "Fraction of organic content in suspended solid"
   group: "Environmental parameters"
   unit: "1"
   type: "numeric(1)"
   description: >-
-    A number between `0` and `1`. Fraction of organic content within suspended
-    solids and sediments.
+    A number between `0` and `1`. Fraction of organic matter content within
+    suspended solids.
+
+foc_sed:
+  name: "Fraction of organic content in sediment"
+  group: "Environmental parameters"
+  unit: "1"
+  type: "numeric(1)"
+  description: >-
+    A number between `0` and `1`. Fraction of organic matter content within
+    sediment.
 
 bd_g_cm3:
   name: "Bulk density of sediment"

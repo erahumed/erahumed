@@ -10,7 +10,7 @@ test_that("Server runs without error", {
 
 test_that("Plots are generated without any error", {
   shiny::testServer(dss_output_server, {
-    session$setInputs(water_body = "lake")
+    session$setInputs(water_body = "lake", ct_chemical_ids = "1")
     expect_no_error(output$hb_plot_storage)
     expect_no_error(output$hb_plot_flows)
     expect_no_error(output$ct_plot_water)

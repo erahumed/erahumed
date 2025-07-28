@@ -29,14 +29,14 @@ dss_input_ui <- function(id) {
     dss_input_jgrow(ns("jgrow")),
     dss_input_dact_m(ns("dact_m")),
     dss_input_css_ppm(ns("css_ppm")),
-    dss_input_foc(ns("foc")),
+    dss_input_foc_ss(ns("foc_ss")),
+    dss_input_foc_sed(ns("foc_sed")),
     dss_input_bd_g_cm3(ns("bd_g_cm3")),
     dss_input_qseep_m_day(ns("qseep_m_day")),
     dss_input_porosity(ns("porosity")),
     dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
     dss_input_height_thresh_cm(ns("height_thresh_cm")),
     dss_input_ditch_level_m(ns("ditch_level_m")),
-    dss_input_drift(ns("drift")),
     dss_input_covmax(ns("covmax"))
     )
 
@@ -51,11 +51,6 @@ dss_input_ui <- function(id) {
   bslib::page_fillable(
     title = "Input",
     shinyjs::useShinyjs(),
-    shiny::tags$div(
-      style = "position: fixed; bottom: 20px; left: 20px; z-index: 1000;",
-      shiny::actionButton(ns("reset"), "Reset", icon = shiny::icon("undo"),
-                          class = "btn-outline-danger btn-lg")
-    ),
     bslib::accordion(
       id = ns("input-ui"),
       bslib::accordion_panel("Simulation settings", simulation_parameters_ui),
@@ -71,13 +66,7 @@ dss_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    reset_reactive <- shiny::reactiveVal(0)
-    shiny::observe( reset_reactive(reset_reactive() + 1) ) |>
-      shiny::bindEvent(input$reset)
-
-    outflows_df <- csvInputServer("outflows",
-                                  erahumed::albufera_outflows,
-                                  reset = reset_reactive)
+    outflows_df <- csvInputServer("outflows", erahumed::albufera_outflows)
     shiny::observeEvent(input$open_outflows_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -89,9 +78,7 @@ dss_input_server <- function(id) {
       ))
     })
 
-    weather_df <- csvInputServer("weather",
-                                 erahumed::albufera_weather,
-                                 reset = reset_reactive)
+    weather_df <- csvInputServer("weather", erahumed::albufera_weather)
     shiny::observeEvent(input$open_weather_df_modal, {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
@@ -106,11 +93,6 @@ dss_input_server <- function(id) {
     chemical_db <- chemical_db_server("chemical_db")
     rfms_db <- rfms_db_server("rfms_db", chemical_db)
     cluster_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
-
-
-    shiny::observe({
-      shinyjs::reset("input-ui")
-      }) |> shiny::bindEvent(input$reset)
 
     res <- shiny::reactive({
       shiny::req(input$date_range)
@@ -129,12 +111,12 @@ dss_input_server <- function(id) {
         ideal_flow_rate_cm = input$ideal_flow_rate_cm,
         height_thresh_cm = input$height_thresh_cm,
         ditch_level_m = input$ditch_level_m,
-        drift = input$drift,
         covmax = input$covmax,
         jgrow = input$jgrow,
         dact_m = input$dact_m,
         css_ppm = input$css_ppm,
-        foc = input$foc,
+        foc_ss = input$foc_ss,
+        foc_sed = input$foc_sed,
         bd_g_cm3 = input$bd_g_cm3,
         qseep_m_day = input$qseep_m_day,
         porosity = input$porosity,

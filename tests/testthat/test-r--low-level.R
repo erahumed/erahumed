@@ -10,7 +10,7 @@ test_that("risk_from_sdss produces the expected output in toy case", {
   )
   chemical_db <- get_etc(test_sim_small(), "chemical_db")
 
-  res <- risk_from_ssds(ct_output, chemical_db = chemical_db)
+  res <- compute_risk_general(ct_output, chemical_db = chemical_db)
 
   expect_equal(nrow(res), 2)
 
@@ -41,7 +41,7 @@ test_that("Chemicals from same TMoA group combine additively", {
     cw_kg_m3 = c(cyhalo_half_hu, cycloxydim_half_hu)
   )
 
-  res <- risk_from_ssds(ct_output, chemical_db)
+  res <- compute_risk_general(ct_output, chemical_db)
 
   expect_equal(nrow(res), 3)
 

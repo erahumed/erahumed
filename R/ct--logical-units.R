@@ -63,33 +63,33 @@ ct_outflow_fac <- function(volume_eod_m3, outflow_m3) {
          0)
 }
 
-ct_mfapp <- function(application_kg, drift, cover) {
-  application_kg * (1 - drift) * cover
+ct_mfapp <- function(application_kg, cover) {
+  application_kg * cover
 }
 
-ct_mwapp <- function(application_kg, drift, cover,is_empty) {
-  application_kg * (1 - drift) * (1 - cover) * (!is_empty)
+ct_mwapp <- function(application_kg, cover, is_empty) {
+  application_kg * (1 - cover) * (!is_empty)
 }
 
-ct_msapp <- function(application_kg, drift, cover, is_empty)
+ct_msapp <- function(application_kg, cover, is_empty)
 {
-  application_kg * (1 - drift) * (1 - cover) * is_empty
+  application_kg * (1 - cover) * is_empty
 }
 
 ct_mw_max <- function(sol_ppm, volume_eod_m3) {
   ppm_to_kg_m3(sol_ppm) * volume_eod_m3
 }
 
-ct_total_inflow_m3_s <- function(inflows_m3_s) {
-  Reduce("+", inflows_m3_s, init = 0)
+ct_total_inflow_m3 <- function(inflows_m3) {
+  Reduce("+", inflows_m3, init = 0)
 }
 
-ct_mw_inflow_kg <- function(inflows_m3_s, inflows_densities_kg_m3) {
-  lapply(seq_along(inflows_m3_s), function(i) {
-    vol <- inflows_m3_s[[i]]
+ct_mw_inflow_kg <- function(inflows_m3, inflows_densities_kg_m3) {
+  lapply(seq_along(inflows_m3), function(i) {
+    vol <- inflows_m3[[i]]
     dens <- inflows_densities_kg_m3[[i]]
     dens <- ifelse(!is.na(dens), dens, 0)
-    vol * dens * s_per_day()
+    vol * dens
     }) |>
     Reduce("+", x = _, init = 0)
 }

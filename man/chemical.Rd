@@ -7,27 +7,25 @@
 chemical(
   display_name,
   tmoa_id,
-  MW,
-  ksetl_m_day,
-  kvolat_m_day,
-  sol_ppm,
-  koc_cm3_g,
-  dinc_m,
-  fet_cm,
-  kf_day,
-  kw_day,
-  ks_sat_day,
-  ks_unsat_day,
-  kw_temp,
-  ks_sat_temp,
-  ks_unsat_temp,
-  Q10_kw,
-  Q10_ks_sat,
-  Q10_ks_unsat,
-  ssd_acute_mu,
-  ssd_acute_sigma,
-  ssd_chronic_mu,
-  ssd_chronic_sigma
+  MW = 330,
+  ksetl_m_day = 2,
+  sol_ppm = 500,
+  koc_cm3_g = 200,
+  fet_cm = 0.2,
+  kf_day = 0.2,
+  kw_day = 0.05,
+  ks_sat_day = 0.05,
+  ks_unsat_day = 0.05,
+  kw_temp = 20,
+  ks_sat_temp = 20,
+  ks_unsat_temp = 20,
+  Q10_kw = 2.58,
+  Q10_ks_sat = 2.58,
+  Q10_ks_unsat = 2.58,
+  ssd_acute_mu = 7.5,
+  ssd_acute_sigma = 2.5,
+  ssd_chronic_mu = 4.5,
+  ssd_chronic_sigma = 2.5
 )
 }
 \arguments{
@@ -39,17 +37,13 @@ chemical(
 
 \item{ksetl_m_day}{\verb{[numeric(1)]} \cr Settling rate, representing particle-bound transfer to sediment.}
 
-\item{kvolat_m_day}{\verb{[numeric(1)]} \cr Volatilization rate from water to air.}
-
 \item{sol_ppm}{\verb{[numeric(1)]} \cr Water solubility.}
 
 \item{koc_cm3_g}{\verb{[numeric(1)]} \cr Organic carbon-water partition coefficient (Koc).}
 
-\item{dinc_m}{\verb{[numeric(1)]} \cr Depth of incorporation into soil/sediment.}
+\item{fet_cm}{\verb{[numeric(1)]} \cr Fraction of pesticide washed off from foliage per cm of rainfall.}
 
-\item{fet_cm}{\verb{[numeric(1)]} \cr Film thickness for exchange at the sediment-water interface.}
-
-\item{kf_day}{\verb{[numeric(1)]} \cr Degradation rate in floodwater.}
+\item{kf_day}{\verb{[numeric(1)]} \cr Degradation rate in foliage.}
 
 \item{kw_day}{\verb{[numeric(1)]} \cr Degradation rate in the water column.}
 
@@ -84,4 +78,10 @@ An object of class \code{erahumed_chemical}.
 Creates a list of parameters that define a pesticide or chemical substance,
 including its identity, degradation rates, sorption properties, and toxicity
 to aquatic organisms.
+}
+\details{
+If not explicitly specified, default values will be used for all parameters
+except \code{display_name} and \code{tmoa_id}. These defaults are intended to represent
+typical or illustrative values and \strong{do not correspond to any specific real-world
+chemical}. They are provided solely for convenience in prototyping or testing.
 }

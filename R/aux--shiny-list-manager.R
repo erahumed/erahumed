@@ -39,6 +39,7 @@ list_manager_server <- function(id,
                                   ))
     item_counter <- shiny::reactiveVal(length(default_items))
     editing_item <- shiny::reactiveVal(NULL)
+    save_trigger <- shiny::reactiveVal(0)
 
     onclick_js <- function(idx_id, trigger_id, counter_id) {
       function(i) {
@@ -101,37 +102,46 @@ list_manager_server <- function(id,
       }
     })
 
+    item_editor_modal <- function() {
+      shiny::modalDialog(
+        size = "xl",
+        title = "Edit Item",
+        item_editor_ui(ns("editor")),
+        footer = shiny::tagList(
+          shiny::modalButton("Cancel"),
+          shiny::actionButton(ns("save_item_btn"), "Save")
+        )
+      )
+    }
 
-    open_editor_modal <- function(title) {
-      shiny::showModal(
-        session = session,
-        shiny::modalDialog(
-          size = "xl",
-          title = title,
-          item_editor_ui(ns("editor")),
-          footer = shiny::tagList(
-            shiny::modalButton("Cancel"),
-            shiny::actionButton(ns("save_item"), "Save")
-          ),
-        ))
-      }
+    edited_item <- item_editor_server("editor", item = editing_item)
 
     shiny::observe({
       editing_item(NULL)
       shinyjs::runjs(sprintf("Shiny.setInputValue('%s', null)", ns("edit_idx")))
 
-      open_editor_modal(title = "Add New Item")
-    }) |>
+      shiny::showModal(session = session, item_editor_modal())
+    },
+    label = "obs-add_item") |>
       shiny::bindEvent(input$add_item)
+
+    shiny::observe({
+      shiny::showModal(session = session, item_editor_modal())
+      editing_item(NULL)  # Force reactive change! See next observer
+      }, label = "obs-edit_trigger", priority = 1) |>
+      shiny::bindEvent(input$edit_trigger, ignoreNULL = TRUE)
 
     shiny::observe({
       i <- match(input$edit_idx, db()$ids)
       editing_item(db()$items[[i]])
-      open_editor_modal(title = "Edit Item")
-      }) |>
+    }, label = "obs-edit_trigger", priority = 0) |>
       shiny::bindEvent(input$edit_trigger, ignoreNULL = TRUE)
 
-    edited_item <- item_editor_server("editor", item = editing_item)
+    shiny::observe({
+      save_trigger(save_trigger() + 1)
+      shiny::removeModal(session = session)
+    }, label = "obs-save_item_btn") |>
+      shiny::bindEvent(input$save_item_btn, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     shiny::observe({
 
@@ -157,10 +167,8 @@ list_manager_server <- function(id,
       db_copy$items[[i]] <- replacement
 
       db(db_copy)
-
-      shiny::removeModal(session = session)
-    }) |>
-      shiny::bindEvent(input$save_item, ignoreInit = TRUE, ignoreNULL = TRUE)
+    }, label  = "obs-save_trigger") |>
+      shiny::bindEvent(save_trigger(), ignoreInit = TRUE, ignoreNULL = TRUE)
 
     shiny::observe({
       i <- match(input$duplicate_idx, db()$ids)
@@ -171,7 +179,8 @@ list_manager_server <- function(id,
       db_copy$ids <- c(db_copy$ids, item_counter())
       db_copy$items <- c(db_copy$items, list(item_to_copy))
       db(db_copy)
-    }) |> shiny::bindEvent(input$duplicate_trigger, ignoreNULL = TRUE)
+    }, label = "obs-duplicate_trigger"
+    ) |> shiny::bindEvent(input$duplicate_trigger, ignoreNULL = TRUE)
 
     shiny::observe({
       shiny::showModal(shiny::modalDialog(
@@ -183,7 +192,7 @@ list_manager_server <- function(id,
           shiny::actionButton(ns("confirm_delete"), "Delete", class = "btn-danger")
         )
       ))
-    }) |>
+    }, label = "obs-delete_trigger") |>
       shiny::bindEvent(input$delete_trigger, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     shiny::observe({
@@ -198,7 +207,7 @@ list_manager_server <- function(id,
       db(db_copy)
 
       shiny::removeModal(session = session)
-    }) |>
+    }, label = "obs-confirm_delete") |>
       shiny::bindEvent(input$confirm_delete, ignoreNULL = TRUE, ignoreInit = TRUE)
 
     return(db)

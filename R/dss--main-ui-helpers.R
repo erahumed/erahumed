@@ -33,7 +33,7 @@ dss_footer <- function() {
 
   map_card <- close_card(
     full_screen = TRUE,
-    leaflet::leafletOutput("map") |> shinycssloaders::withSpinner(),
+    leaflet::leafletOutput("map", height = "600px") |> shinycssloaders::withSpinner(),
     id = "map_card",
     style = "position: absolute; bottom: 50px; left: 50px; width: 300px;"
   )

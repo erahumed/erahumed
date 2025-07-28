@@ -23,11 +23,11 @@
 #'
 #' @noRd
 hbl_residence_time <- function(
-    volume, outflow_total, k = 61, units = c("days", "seconds")
+    volume_m3, outflow_total_m3, k = 61, units = c("days", "seconds")
 )
 {
-  assert_numeric_vector(volume)
-  assert_numeric_vector(outflow_total)
+  assert_numeric_vector(volume_m3)
+  assert_numeric_vector(outflow_total_m3)
   assert_positive_integer(k)
   units <- match.arg(units)
 
@@ -36,34 +36,35 @@ hbl_residence_time <- function(
                  seconds = 1
   )
 
-  vol_smooth <- moving_average(volume, k)
-  outflow_smooth <- moving_average(outflow_total, k)
+  vol_smooth <- moving_average(volume_m3, k)
+  outflow_smooth <- moving_average(outflow_total_m3, k)
 
   return(vol_smooth / outflow_smooth / norm)
 }
 
 
 
-hbl_volume_change <- function(volume, fill_last = NA) {
-  c(diff(volume), fill_last)
+hbl_diff <- function(volume_m3, fill_last = NA) {
+  c(diff(volume_m3), fill_last)
 }
 
-hbl_flow_balance <- function(outflows, volume_change, volume_change_petp) {
+hbl_flow_balance <- function(outflows_m3_s, volume_change_m3, volume_change_petp_m3) {
 
-  outflow_total <- Reduce("+", outflows)
-  net_flow_total <- (volume_change - volume_change_petp) / s_per_day()
-  inflow_total <- outflow_total + net_flow_total
-  outflow_recirculation <- pmax(-inflow_total, 0)
-  outflow_total <- outflow_total + outflow_recirculation
-  inflow_total <- pmax(inflow_total, 0)
-
-  names(outflows) <- gsub("outflow_", "", x = names(outflows), fixed = TRUE)
-  names(outflows) <- paste0("outflow_", names(outflows))
+  outflow_total_m3 <- Reduce("+", outflows_m3_s) * s_per_day()
+  net_flow_total_m3 <- (volume_change_m3 - volume_change_petp_m3)
+  inflow_total_m3 <- outflow_total_m3 + net_flow_total_m3
+  outflow_recirculation_m3 <- pmax(-inflow_total_m3, 0)
+  outflow_recirculation_m3_s <- outflow_recirculation_m3 / s_per_day()
+  outflow_total_m3 <- outflow_total_m3 + outflow_recirculation_m3
+  inflow_total_m3 <- pmax(inflow_total_m3, 0)
 
   res <- cbind(
-    as.data.frame(outflows),
-    data.frame(outflow_recirculation, outflow_total, inflow_total)
+    as.data.frame(outflows_m3_s),
+    data.frame(outflow_recirculation_m3_s, outflow_total_m3, inflow_total_m3)
     )
 
   return(res)
 }
+
+hbl_depth_m <- function(volume_m3, surface_m2)
+  volume_m3 / surface_m2

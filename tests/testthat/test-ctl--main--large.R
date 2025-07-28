@@ -5,7 +5,7 @@ test_that("Returned dataset has the expected number of rows", {
                              to = max(test_df$date),
                              by = "day")
   )
-  n_chemicals <- length(unique(test_df$chemical))
+  n_chemicals <- length(unique(test_df$chemical_id))
 
   expect_equal(nrow(test_df), 1 * n_days * n_chemicals)
 })

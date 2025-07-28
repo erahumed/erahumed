@@ -16,16 +16,17 @@ erahumed_simulation(
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
   ditch_level_m = 1,
-  drift = 0,
   covmax = 0.5,
   jgrow = 152,
   dact_m = 0.1,
   css_ppm = 50,
-  foc = 0.17,
+  foc_ss = 0.1,
+  foc_sed = 0.05,
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   porosity = 0.11,
-  seed = 840
+  seed = 840,
+  .progress = message
 )
 }
 \arguments{
@@ -45,13 +46,11 @@ erahumed_simulation(
 
 \item{petp_surface_m2}{\verb{[numeric(1)]} \cr The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.}
 
-\item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters per day.}
+\item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters of water depth per day.}
 
 \item{height_thresh_cm}{\verb{[numeric(1)]} \cr A positive number. Height threshold for water levels, below which a cluster is considered to be emptied.}
 
 \item{ditch_level_m}{\verb{[numeric(1)]} \cr Constant water depth in ditches.}
-
-\item{drift}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of applied chemical lost to drift during application.}
 
 \item{covmax}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Maximum potential fraction of applied chemicals intercepted by foliage at crop maturation.}
 
@@ -59,9 +58,11 @@ erahumed_simulation(
 
 \item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 
-\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of suspended solid, expressed in parts per million.}
+\item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of water suspended solids, expressed in parts per million.}
 
-\item{foc}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic content within suspended solids and sediments.}
+\item{foc_ss}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within suspended solids.}
+
+\item{foc_sed}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within sediment.}
 
 \item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
 
@@ -70,6 +71,12 @@ erahumed_simulation(
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 
 \item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
+
+\item{.progress}{A function used to report simulation progress.
+It should accept a single character string as input, representing the
+current stage of the simulation (e.g., \code{"Computing hydrology: lake"}).
+This parameter is primarily intended for user feedback mechanisms (e.g.,
+console messages). By default, it prints a message to the R console.}
 }
 \value{
 An object of class \code{erahumed_simulation}.

@@ -1,12 +1,13 @@
-test_that("hbc_make_df_list() succeds if inputs can form a data.frame", {
+test_that("hbc_make_df_list() succeeds if inputs can form a data.frame", {
   expect_no_condition(
     hbc_make_df_list(
       ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
+      is_plan_delays_window = rep(TRUE, 10),
       petp_cm = rnorm(10),
       area_m2 = runif(10, 1e6, 1e7),
-      capacity_m3_s = runif(10, 1, 2),
+      capacity_m3 = runif(10, 1, 2),
       date = c(
         rep(as.Date("2020-01-01"), 5),
         rep(as.Date("2020-01-02"), 5)
@@ -24,7 +25,7 @@ test_that("hbc_make_df_list() throws if inputs cannot form a data.frame", {
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
       area_m2 = runif(10, 1e6, 1e7),
-      capacity_m3_s = runif(10, 1, 2),
+      capacity_m3 = runif(10, 1, 2),
       date = c(
         rep(as.Date("2020-01-01"), 5),
         rep(as.Date("2020-01-02"), 5)
@@ -43,7 +44,7 @@ test_that("hbc_make_df_list() throws if date or cluster_id are missing", {
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
       area_m2 = runif(10, 1e6, 1e7),
-      capacity_m3_s = runif(10, 1, 2),
+      capacity_m3 = runif(10, 1, 2),
       # date = c(
       #   rep(as.Date("2020-01-01"), 5),
       #   rep(as.Date("2020-01-02"), 5)
@@ -59,7 +60,7 @@ test_that("hbc_make_df_list() throws if date or cluster_id are missing", {
       ideal_draining = rep(TRUE, 10),
       petp_cm = rnorm(3),
       area_m2 = runif(10, 1e6, 1e7),
-      capacity_m3_s = runif(10, 1, 2),
+      capacity_m3 = runif(10, 1, 2),
       date = c(
         rep(as.Date("2020-01-01"), 5),
         rep(as.Date("2020-01-02"), 5)
@@ -75,9 +76,10 @@ test_that("hbc_make_df_list() returns a list of dataframes", {
       ideal_height_eod_cm = rep(10, 10),
       ideal_irrigation = rep(TRUE, 10),
       ideal_draining = rep(TRUE, 10),
+      is_plan_delays_window = rep(TRUE, 10),
       petp_cm = rnorm(10),
       area_m2 = runif(10, 1e6, 1e7),
-      capacity_m3_s = runif(10, 1, 2),
+      capacity_m3 = runif(10, 1, 2),
       date = c(
         rep(as.Date("2020-01-01"), 5),
         rep(as.Date("2020-01-02"), 5)
@@ -94,9 +96,10 @@ test_that("hbc_make_df_list() returned dfs contain the input columns", {
     ideal_height_eod_cm = rep(10, 10),
     ideal_irrigation = rep(TRUE, 10),
     ideal_draining = rep(TRUE, 10),
+    is_plan_delays_window = rep(TRUE, 10),
     petp_cm = rnorm(10),
     area_m2 = runif(10, 1e6, 1e7),
-    capacity_m3_s = runif(10, 1, 2),
+    capacity_m3 = runif(10, 1, 2),
     date = c(
       rep(as.Date("2020-01-01"), 5),
       rep(as.Date("2020-01-02"), 5)
@@ -118,9 +121,10 @@ test_that("hbc_make_df_list() returned dfs are grouped by date", {
     ideal_height_eod_cm = rep(10, 10),
     ideal_irrigation = rep(TRUE, 10),
     ideal_draining = rep(TRUE, 10),
+    is_plan_delays_window = rep(TRUE, 10),
     petp_cm = rnorm(10),
     area_m2 = runif(10, 1e6, 1e7),
-    capacity_m3_s = runif(10, 1, 2),
+    capacity_m3 = runif(10, 1, 2),
     date =rep(
       seq.Date(from = as.Date("2020-01-01"),
                to = as.Date("2020-01-05"),
@@ -145,9 +149,10 @@ test_that("hbc_make_df_list() returned dfs are sorted by date", {
     ideal_height_eod_cm = rep(10, 10),
     ideal_irrigation = rep(TRUE, 10),
     ideal_draining = rep(TRUE, 10),
+    is_plan_delays_window = rep(TRUE, 10),
     petp_cm = rnorm(10),
     area_m2 = runif(10, 1e6, 1e7),
-    capacity_m3_s = runif(10, 1, 2),
+    capacity_m3 = runif(10, 1, 2),
     date =rep(
       seq.Date(from = as.Date("2020-01-01"),
                to = as.Date("2020-01-05"),
@@ -301,68 +306,68 @@ test_that("hbc_ideal_flows_cm(): flows are always positive", {
 
 
 
-test_that("hbc_outflow_m3_s() returns a (properly) named list", {
-  res <- hbc_outflow_m3_s(
+test_that("hbc_outflow_m3() returns a (properly) named list", {
+  res <- hbc_outflow_m3(
     ideal_outflow_cm = c(1, 2, 3),
     area_m2 = c(1, 1, 2),
-    capacity_m3_s = 1
+    capacity_m3 = 1
   )
 
   expect_type(res, "list")
-  expect_identical(names(res), "outflow_m3_s")
+  expect_identical(names(res), "outflow_m3")
 })
 
-test_that("hbc_outflow_m3_s() returns the correct structure", {
+test_that("hbc_outflow_m3() returns the correct structure", {
   set.seed(840)
   n <- rpois(1, 1e3)
 
-  res <- hbc_outflow_m3_s(
+  res <- hbc_outflow_m3(
     ideal_outflow_cm = runif(n, 0, 10),
     area_m2 = runif(n, 1e6, 1e7),
-    capacity_m3_s = 5
+    capacity_m3 = 5
   )
 
-  expect_type(res$outflow_m3_s, "double")
-  expect_length(res$outflow_m3_s, n)
+  expect_type(res$outflow_m3, "double")
+  expect_length(res$outflow_m3, n)
 })
 
-test_that("hbc_outflow_m3_s(): outflows are always positive", {
+test_that("hbc_outflow_m3(): outflows are always positive", {
   set.seed(840)
   n <- rpois(1, 1e3)
-  capacity_m3_s <- 5
+  capacity_m3 <- 5
 
-  res <- hbc_outflow_m3_s(
+  res <- hbc_outflow_m3(
     ideal_outflow_cm = runif(n, 0, 10),
     area_m2 = runif(n, 1e6, 1e7),
-    capacity_m3_s = capacity_m3_s
+    capacity_m3 = capacity_m3
   )
 
-  expect_gte(min(res$outflow_m3_s), 0)
+  expect_gte(min(res$outflow_m3), 0)
 })
 
-test_that("hbc_outflow_m3_s(): sum of real outflows = capacity", {
+test_that("hbc_outflow_m3(): sum of real outflows = capacity", {
   set.seed(840)
   n <- rpois(1, 1e3)
-  capacity_m3_s <- 5
+  capacity_m3 <- 5
 
-  res <- hbc_outflow_m3_s(
+  res <- hbc_outflow_m3(
     ideal_outflow_cm = runif(n, 0, 10),
     area_m2 = runif(n, 1e6, 1e7),
-    capacity_m3_s = capacity_m3_s
+    capacity_m3 = capacity_m3
   )
 
-  expect_equal(sum(res$outflow_m3_s), capacity_m3_s)
+  expect_equal(sum(res$outflow_m3), capacity_m3)
 })
 
 
 
 test_that("hbc_outflow_cm(): simple check on a concrete case", {
   res <- hbc_outflow_cm(
-    outflow_m3_s = 1,
+    outflow_m3 = 1,
     area_m2 = 1
   )
 
-  expect_equal(res$outflow_cm, s_per_day() * 100)
+  expect_equal(res$outflow_cm, 100)
 })
 
 
@@ -405,13 +410,13 @@ test_that("hbc_inflow_cm(): real-diff-flow = ideal-diff-flow cases", {
 
 
 
-test_that("hbc_inflow_m3_s(): simple check on a concrete case", {
-  res <- hbc_inflow_m3_s(
+test_that("hbc_inflow_m3(): simple check on a concrete case", {
+  res <- hbc_inflow_m3(
     inflow_cm = 1,
     area_m2 = 1
   )
 
-  expect_equal(res$inflow_m3_s, 1 / s_per_day() / 100)
+  expect_equal(res$inflow_m3, 1 / 100)
 })
 
 
@@ -463,7 +468,7 @@ test_that("hbc_plan_delay(): returns a (properly) named list", {
     plan_delay_lag = c(0, 0),
     ideal_height_eod_cm = c(0, 0),
     height_eod_cm = c(1, 1),
-    date = c("1970-01-01", "1980-06-01"),
+    is_plan_delays_window = c(FALSE, TRUE),
     height_thresh_cm = 2
     )
 
@@ -479,7 +484,7 @@ test_that("hbc_plan_delay(): returns the correct structure", {
     plan_delay_lag = rpois(n, 10),
     ideal_height_eod_cm = runif(n, 0, 20),
     height_eod_cm = runif(n, 0, 20),
-    date = seq.Date(from = as.Date("1970-01-01"), by = "day", length.out = n),
+    is_plan_delays_window = rep(TRUE, n),
     height_thresh_cm = 2
     )
 
@@ -492,9 +497,7 @@ test_that("hbc_plan_delay(): adds one iff height_eod_cm above thresh", {
     plan_delay_lag = c(1, 7, 21),
     ideal_height_eod_cm = c(0, 0, 10),
     height_eod_cm = c(1, 3, 20),
-    mm_dd_start = c(4, 20),
-    mm_dd_end = c(10, 15),
-    date = "1970-06-01",  # Inside the plan delay window
+    is_plan_delays_window = c(TRUE, TRUE, TRUE),
     height_thresh_cm = 2
     )
 
@@ -506,9 +509,7 @@ test_that("hbc_plan_delay(): returns 0s outside of plan delay window", {
     plan_delay_lag = c(1, 7, 21),
     ideal_height_eod_cm = c(0, 0, 10),
     height_eod_cm = c(1, 3, 20),
-    mm_dd_start = c(4, 20),
-    mm_dd_end = c(10, 15),
-    date = "1970-01-01",  # Outside of the plan delay window
+    is_plan_delays_window = c(FALSE, FALSE, FALSE),
     height_thresh_cm = 2
     )
 

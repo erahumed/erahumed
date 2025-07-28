@@ -29,6 +29,8 @@ A \code{data.frame}.
 These helpers return \code{data.frame}s that contain information on the
 hydro-geographical components employed by ERAHUMED to model the Albufera
 Natural Park ecosystem: ditches, and rice fields clusters. The definition of
-clusters is discussed in
+these spatial elements is discussed detail in
 \href{https://doi.org/10.1016/j.scitotenv.2023.163018}{Martínez-Megías et al. (2023)}.
+The \href{https://erahumed.github.io/erahumed/articles/hydrogeographical-model.html}{hydro-geographical model vignette}
+describes the modeling of these spatial units within ERAHUMED.
 }

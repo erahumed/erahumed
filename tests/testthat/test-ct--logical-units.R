@@ -93,9 +93,6 @@ test_that("ct_cover(): is a percentage series with the standard inputs", {
 })
 
 test_that("ct_msapp(): result is always a fraction of application",{
-  res <- ct_msapp(application_kg = 1,
-                  drift = 0,
-                  cover = 0,
-                  is_empty = TRUE)
+  res <- ct_msapp(application_kg = 1, cover = 0, is_empty = TRUE)
   expect_true( 0 <= res & res <= 1 )
 })

@@ -8,10 +8,10 @@ compute_hbl <- function(simulation)
   output <-
     .hbl(
       element_id = "lake",
-      level = inp_df$level,
+      level_m = inp_df$level_m,
       precipitation_mm = inp_df$precipitation_mm,
       evapotranspiration_mm = inp_df$evapotranspiration_mm,
-      outflows = inp_df[, grepl("^outflow_", colnames(inp_df))],
+      outflows_m3_s = inp_df[, grepl("^outflow_", colnames(inp_df))],
       date = inp_df$date,
       storage_curve_slope_m2 = storage_curve_slope_m2,
       storage_curve_intercept_m3 = storage_curve_intercept_m3,
@@ -28,13 +28,13 @@ compute_hbl <- function(simulation)
 
 validate_hbl_output <- function(output) {
   assert_data.frame(output,
-                    template = data.frame(level = numeric(),
+                    template = data.frame(level_m = numeric(),
                                           precipitation_mm = numeric(),
                                           evapotranspiration_mm = numeric(),
-                                          volume = numeric(),
-                                          inflow_total = numeric(),
-                                          outflow_total = numeric(),
-                                          outflow_recirculation = numeric(),
+                                          volume_m3 = numeric(),
+                                          inflow_total_m3 = numeric(),
+                                          outflow_total_m3 = numeric(),
+                                          outflow_recirculation_m3_s = numeric(),
                                           residence_time_days = numeric()
                     )
   )

@@ -6,8 +6,9 @@
     petp_cm,
     ideal_irrigation,
     ideal_draining,
+    is_plan_delays_window,
     area_m2,
-    total_inflow_lake,
+    total_inflow_lake_m3,
     ...,
     ideal_flow_rate_cm,
     height_thresh_cm
@@ -15,7 +16,7 @@
 
   pcts <- hbc_ditch_inflow_pct(ditch, area_m2)
 
-  capacity_m3_s <- total_inflow_lake * pcts$inflow_pct[match(ditch, pcts$ditch)]
+  capacity_m3 <- total_inflow_lake_m3 * pcts$inflow_pct[match(ditch, pcts$ditch)]
 
   res <- lapply(
     unique(ditch),
@@ -26,8 +27,9 @@
              petp_cm = petp_cm[idx],
              ideal_irrigation = ideal_irrigation[idx],
              ideal_draining = ideal_draining[idx],
+             is_plan_delays_window = is_plan_delays_window[idx],
              area_m2 = area_m2[idx],
-             capacity_m3_s = capacity_m3_s[idx],
+             capacity_m3 = capacity_m3[idx],
              date = date[idx],
              ideal_flow_rate_cm = ideal_flow_rate_cm,
              height_thresh_cm,
@@ -64,9 +66,8 @@
                        cluster_map$map_df,
                        by.x = "element_id",
                        by.y = "cluster_id")
-  clusters_df$variety <- clusters_df$ms_id
 
-  management_df <- get_management_df(cluster_map)
+  management_df <- get_etc(simulation, "management_df")
 
   res <- res |>
     merge(y = data.table::as.data.table(management_df),
@@ -75,7 +76,7 @@
           allow.cartesian = TRUE
     ) |>
     merge(y = data.table::as.data.table(clusters_df),
-          by = c("tancat", "variety"),
+          by = c("tancat", "rfms_id", "rfms_name"),  # Joining also by rfms_name to avoid duplicating column
           all.y = TRUE,
           sort = FALSE,
           allow.cartesian = TRUE
@@ -91,10 +92,12 @@
               seed_day = res$seed_day,
               ideal_irrigation = res$ideal_irrigation,
               ideal_draining = res$ideal_draining,
+              is_plan_delays_window = res$is_plan_delays_window,
               area_m2 = res$area,
-              total_inflow_lake = res$inflow_total,
+              total_inflow_lake_m3 = res$inflow_total_m3,
               tancat = res$tancat,
-              variety = res$variety,
+              rfms_id = res$rfms_id,
+              rfms_name = res$rfms_name,
               ideal_flow_rate_cm = ideal_flow_rate_cm,
               height_thresh_cm = height_thresh_cm
   )
