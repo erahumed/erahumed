@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.20.0
 
 This is a minor release providing several improvements and bug fixes over the 
 previous one, plus a few minor algorithm changes. This prepares the publication 
