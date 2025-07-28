@@ -4,9 +4,9 @@ pkgdown_sha: ~
 articles:
   ct-diagram: ct-diagram.html
   erahumed-workflow: erahumed-workflow.html
-  hydrology-scheme: hydrology-scheme.html
+  hydrogeographical-model: hydrogeographical-model.html
   simulation-inputs: simulation-inputs.html
-last_built: 2025-07-07T07:47Z
+last_built: 2025-07-28T12:39Z
 urls:
   reference: https://erahumed.github.io/erahumed/reference
   article: https://erahumed.github.io/erahumed/articles

@@ -11,7 +11,7 @@ to aquatic organisms."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,7 @@ to aquatic organisms."></head><body>
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -40,7 +40,7 @@ to aquatic organisms."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Define a pesticide with physico-chemical and toxicity properties</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.19.0/R/chem--s3-class.R" class="external-link"><code>R/chem--s3-class.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/chem--s3-class.R" class="external-link"><code>R/chem--s3-class.R</code></a></small>
       <div class="d-none name"><code>chemical.Rd</code></div>
     </div>
 
@@ -55,27 +55,25 @@ to aquatic organisms.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">chemical</span><span class="op">(</span></span>
 <span>  <span class="va">display_name</span>,</span>
 <span>  <span class="va">tmoa_id</span>,</span>
-<span>  <span class="va">MW</span>,</span>
-<span>  <span class="va">ksetl_m_day</span>,</span>
-<span>  <span class="va">kvolat_m_day</span>,</span>
-<span>  <span class="va">sol_ppm</span>,</span>
-<span>  <span class="va">koc_cm3_g</span>,</span>
-<span>  <span class="va">dinc_m</span>,</span>
-<span>  <span class="va">fet_cm</span>,</span>
-<span>  <span class="va">kf_day</span>,</span>
-<span>  <span class="va">kw_day</span>,</span>
-<span>  <span class="va">ks_sat_day</span>,</span>
-<span>  <span class="va">ks_unsat_day</span>,</span>
-<span>  <span class="va">kw_temp</span>,</span>
-<span>  <span class="va">ks_sat_temp</span>,</span>
-<span>  <span class="va">ks_unsat_temp</span>,</span>
-<span>  <span class="va">Q10_kw</span>,</span>
-<span>  <span class="va">Q10_ks_sat</span>,</span>
-<span>  <span class="va">Q10_ks_unsat</span>,</span>
-<span>  <span class="va">ssd_acute_mu</span>,</span>
-<span>  <span class="va">ssd_acute_sigma</span>,</span>
-<span>  <span class="va">ssd_chronic_mu</span>,</span>
-<span>  <span class="va">ssd_chronic_sigma</span></span>
+<span>  MW <span class="op">=</span> <span class="fl">330</span>,</span>
+<span>  ksetl_m_day <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  sol_ppm <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  koc_cm3_g <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  fet_cm <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  kf_day <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  kw_day <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  ks_sat_day <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  ks_unsat_day <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  kw_temp <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  ks_sat_temp <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  ks_unsat_temp <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  Q10_kw <span class="op">=</span> <span class="fl">2.58</span>,</span>
+<span>  Q10_ks_sat <span class="op">=</span> <span class="fl">2.58</span>,</span>
+<span>  Q10_ks_unsat <span class="op">=</span> <span class="fl">2.58</span>,</span>
+<span>  ssd_acute_mu <span class="op">=</span> <span class="fl">7.5</span>,</span>
+<span>  ssd_acute_sigma <span class="op">=</span> <span class="fl">2.5</span>,</span>
+<span>  ssd_chronic_mu <span class="op">=</span> <span class="fl">4.5</span>,</span>
+<span>  ssd_chronic_sigma <span class="op">=</span> <span class="fl">2.5</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,10 +97,6 @@ to aquatic organisms.</p>
 <dd><p><code>[numeric(1)]</code> <br> Settling rate, representing particle-bound transfer to sediment.</p></dd>
 
 
-<dt id="arg-kvolat-m-day">kvolat_m_day<a class="anchor" aria-label="anchor" href="#arg-kvolat-m-day"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Volatilization rate from water to air.</p></dd>
-
-
 <dt id="arg-sol-ppm">sol_ppm<a class="anchor" aria-label="anchor" href="#arg-sol-ppm"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Water solubility.</p></dd>
 
@@ -111,16 +105,12 @@ to aquatic organisms.</p>
 <dd><p><code>[numeric(1)]</code> <br> Organic carbon-water partition coefficient (Koc).</p></dd>
 
 
-<dt id="arg-dinc-m">dinc_m<a class="anchor" aria-label="anchor" href="#arg-dinc-m"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Depth of incorporation into soil/sediment.</p></dd>
-
-
 <dt id="arg-fet-cm">fet_cm<a class="anchor" aria-label="anchor" href="#arg-fet-cm"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Film thickness for exchange at the sediment-water interface.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Fraction of pesticide washed off from foliage per cm of rainfall.</p></dd>
 
 
 <dt id="arg-kf-day">kf_day<a class="anchor" aria-label="anchor" href="#arg-kf-day"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Degradation rate in floodwater.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Degradation rate in foliage.</p></dd>
 
 
 <dt id="arg-kw-day">kw_day<a class="anchor" aria-label="anchor" href="#arg-kw-day"></a></dt>
@@ -178,6 +168,13 @@ to aquatic organisms.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>erahumed_chemical</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>If not explicitly specified, default values will be used for all parameters
+except <code>display_name</code> and <code>tmoa_id</code>. These defaults are intended to represent
+typical or illustrative values and <strong>do not correspond to any specific real-world
+chemical</strong>. They are provided solely for convenience in prototyping or testing.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -9,7 +9,7 @@ representing commonly used pesticides and their properties."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@ representing commonly used pesticides and their properties."></head><body>
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -38,7 +38,7 @@ representing commonly used pesticides and their properties."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Predefined pesticide definitions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.19.0/R/chem--presets.R" class="external-link"><code>R/chem--presets.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/chem--presets.R" class="external-link"><code>R/chem--presets.R</code></a></small>
       <div class="d-none name"><code>pesticides.Rd</code></div>
     </div>
 
@@ -82,20 +82,17 @@ representing commonly used pesticides and their properties.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Physico-chemical properties:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Solubility:      2950.00 ppm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Koc:             200.00 cm³/g</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Depth incorp.:   0.000 m</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Film thickness:  0.200 cm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Settling rate:   2.000 m/day</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Volatilization:  0.000 m/day</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Degradation rates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   kf (floodwater):           0.1100 1/day</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   kw (water column):         0.0420 1/day @ 20.0³C (Q10 = 2.58)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ks (saturated sediment):   0.2310 1/day @ 20.0³C (Q10 = 2.58)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ks (unsaturated sediment): 0.2310 1/day @ 20.0³C (Q10 = 2.58)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   kf (foliage):           0.1100 1/day</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   kw (water column):         0.0154 1/day @ 20.0³C (Q10 = 2.58)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ks (saturated sediment):   0.0420 1/day @ 20.0³C (Q10 = 2.58)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ks (unsaturated sediment): 0.0290 1/day @ 20.0³C (Q10 = 2.58)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Toxicity (SSD, log₁₀ scale):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Acute   mean ± sd: 5.62 ± 3.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Chronic mean ± sd: 4.57 ± 3.58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Acute   mean ± sd: 5.62 ± 3.61</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Chronic mean ± sd: 4.57 ± 3.63</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

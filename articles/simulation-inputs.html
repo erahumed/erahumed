@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul>
 </li>
@@ -62,7 +62,7 @@
       <h1>Simulation inputs</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.19.0/vignettes/simulation-inputs.Rmd" class="external-link"><code>vignettes/simulation-inputs.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/simulation-inputs.Rmd" class="external-link"><code>vignettes/simulation-inputs.Rmd</code></a></small>
       <div class="d-none name"><code>simulation-inputs.Rmd</code></div>
     </div>
 
@@ -87,7 +87,7 @@ Description
 </th>
 </tr></thead>
 <tbody>
-<tr grouplength="7">
+<tr grouplength="8">
 <td colspan="5" style="border-bottom: 1px solid;">
 <strong>Environmental parameters</strong>
 </td>
@@ -132,10 +132,10 @@ exchange or transport processes. Expressed in meters.
 </tr>
 <tr>
 <td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>foc</code>
+<code>foc_sed</code>
 </td>
 <td style="text-align:left;">
-Fraction of organic content
+Fraction of organic content in sediment
 </td>
 <td style="text-align:left;">
 1
@@ -145,7 +145,25 @@ Fraction of organic content
 </td>
 <td style="text-align:left;">
 A number between <code>0</code> and <code>1</code>. Fraction of organic
-content within suspended solids and sediments.
+matter content within sediment.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+<code>foc_ss</code>
+</td>
+<td style="text-align:left;">
+Fraction of organic content in suspended solid
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+<code>numeric(1)</code>
+</td>
+<td style="text-align:left;">
+A number between <code>0</code> and <code>1</code>. Fraction of organic
+matter content within suspended solids.
 </td>
 </tr>
 <tr>
@@ -216,8 +234,8 @@ ppm
 <code>numeric(1)</code>
 </td>
 <td style="text-align:left;">
-A positive number. Concentration of suspended solid, expressed in parts
-per million.
+A positive number. Concentration of water suspended solids, expressed in
+parts per million.
 </td>
 </tr>
 <tr grouplength="3">
@@ -334,7 +352,7 @@ cm
 <td style="text-align:left;">
 Ideal inflow/outflow of a cluster, for days in which the cluster is
 scheduled to be in flux (<em>i.e.</em> when being simultaneously
-irrigated and drained). Expressed in centimeters per day.
+irrigated and drained). Expressed in centimeters of water depth per day.
 </td>
 </tr>
 <tr>
@@ -444,7 +462,7 @@ A dataset that provides the relevant metereological time series, along
 the template of <code>albufera_weather</code> (the default value).
 </td>
 </tr>
-<tr grouplength="3">
+<tr grouplength="2">
 <td colspan="5" style="border-bottom: 1px solid;">
 <strong>Pesticide application scheme</strong>
 </td>
@@ -466,24 +484,6 @@ N/A
 An object of class <code>cluster_map</code>. Defines how different rice
 field management systems are assigned to spatial clusters within the
 simulation.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;padding-left: 2em;" indentlevel="1">
-<code>drift</code>
-</td>
-<td style="text-align:left;">
-Drift
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-<code>numeric(1)</code>
-</td>
-<td style="text-align:left;">
-A number between <code>0</code> and <code>1</code>. Fraction of applied
-chemical lost to drift during application.
 </td>
 </tr>
 <tr>

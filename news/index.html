@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -36,9 +36,64 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.19.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.20.0" id="erahumed-0200">erahumed 0.20.0<a class="anchor" aria-label="anchor" href="#erahumed-0200"></a></h2>
+<p>This is a minor release providing several improvements and bug fixes over the previous one, plus a few minor algorithm changes. This prepares the publication of the first public release v1.0.0.</p>
+<div class="section level4">
+<h4 id="algorithm-changes-0-20-0">Algorithm changes<a class="anchor" aria-label="anchor" href="#algorithm-changes-0-20-0"></a></h4>
+<ul><li>We now differentiate between the fraction of organic content of suspended solid, on one hand, and sediment on the other (<a href="https://github.com/erahumed/erahumed/issues/453" class="external-link">#453</a>). This is reflected in the <code>foc_sed</code> and <code>foc_ss</code> arguments of <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>, that replace the former <code>foc</code> argument.</li>
+<li>Added a “risk quotient” method (alongside the already implemented PAF) as available risk metric (<a href="https://github.com/erahumed/erahumed/issues/413" class="external-link">#413</a>).</li>
+<li>The day for ground chemical applications becomes the last in the emptying window (<a href="https://github.com/erahumed/erahumed/issues/412" class="external-link">#412</a>). This was previously the <em>first</em> day in the emptying window.</li>
+<li>The Albufera lake’s depth is now reported correctly (as Volume / Surface) (<a href="https://github.com/erahumed/erahumed/issues/439" class="external-link">#439</a>). The previous value was a placeholder that coincided with the level (with respect to reference) provided in CHJ data.</li>
+<li>Various improvements and clean-up in the tabular outputs for hydrology, exposure and risk, concerning both the R interface and the results downloadable from the GUI (including: <a href="https://github.com/erahumed/erahumed/issues/450" class="external-link">#450</a>, <a href="https://github.com/erahumed/erahumed/issues/435" class="external-link">#435</a>).</li>
+<li>The period in which plan delays for water management of rice fields are applied now extends from the beginning of the sowing season to the beginning of the Perellona, whose concrete dates may differ among different rice-field management system. Previously, this window was fixed to the days between April 20 and October 15, for all management system. For the predefined existing systems (J.Sendra, Clearfield, and Bomba) the change has no practical effect.</li>
+<li>The <code>dinc_m</code> and <code>drift</code> parameters are removed and fixed to their default values (<a href="https://github.com/erahumed/erahumed/issues/442" class="external-link">#442</a>, <a href="https://github.com/erahumed/erahumed/issues/425" class="external-link">#425</a>).</li>
+<li>The volatilization coefficient is no longer a defining property of chemicals (<a href="https://github.com/erahumed/erahumed/issues/451" class="external-link">#451</a>). Previously, this was a required input, although this numerical value was never used in the actual simulation, as volatilization is not currently being taken into account.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="data-changes-0-20-0">Data changes<a class="anchor" aria-label="anchor" href="#data-changes-0-20-0"></a></h4>
+<ul><li><p>The default distribution of rice-field management systems is now as follows: in the North (ditches 1 to 9) 80% of surface is allocated to Clearfield, and 20% to J.Sendra; in the South (ditches 10 to 26) 80% of surface is allocated to J.Sendra, and 20% to Clearfield.</p></li>
+<li><p>Reviewed numerical properties of predefined chemicals.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="api-changes-0-20-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-20-0"></a></h4>
+<ul><li>Improved printing method for objects of S3 class <code>erahumed_simulation</code> (<a href="https://github.com/erahumed/erahumed/issues/411" class="external-link">#411</a>).</li>
+<li>
+<code><a href="../reference/allocate_surface.html">allocate_surface()</a></code>: the <code>target_fraction</code> argument now refers to the fraction of surface of the <em>selected region</em>, whereas it was previously referred to the whole Albufera Natural Park (<a href="https://github.com/erahumed/erahumed/issues/421" class="external-link">#421</a>).</li>
+<li>
+<code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> accepts a new <code>.progress</code> argument, a function that allows the user to customize how simulation progress is reported.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-changes-0-20-0">GUI changes<a class="anchor" aria-label="anchor" href="#gui-changes-0-20-0"></a></h4>
+<ul><li>The app is now frozen while downloading the results zip archive (<a href="https://github.com/erahumed/erahumed/issues/303" class="external-link">#303</a>).</li>
+<li>The Output tab now shows a “loading” spinner while the simulation is running. Simulation progress is reported in a notification modal (<a href="https://github.com/erahumed/erahumed/issues/432" class="external-link">#432</a>).</li>
+<li>Restored chemical selectors for exposure plots (<a href="https://github.com/erahumed/erahumed/issues/428" class="external-link">#428</a>).</li>
+<li>Increased the size of Albufera auxiliary widget, in order to make it more comfortable to read (<a href="https://github.com/erahumed/erahumed/issues/365" class="external-link">#365</a>).</li>
+<li>Risk plot is now a regular time-series plot (<a href="https://github.com/erahumed/erahumed/issues/445" class="external-link">#445</a>), with risks due to individual chemicals plotted as independent time-series, alongside the “combined effect” time-series. Previously, risks due to individual chemicals were displayed as stacked areas.</li>
+<li>Results can now be download also in XLSX (Excel) format (<a href="https://github.com/erahumed/erahumed/issues/447" class="external-link">#447</a>).</li>
+<li>The results .zip archive now contains a README file (<a href="https://github.com/erahumed/erahumed/issues/437" class="external-link">#437</a>) that provides basic information on the contents of the archive.</li>
+<li>The GUI for allocating rice-field management systems now has improved parameters descriptions (<a href="https://github.com/erahumed/erahumed/issues/423" class="external-link">#423</a>).</li>
+<li>Removed the “reset” button from the main input GUI. A global reset that also included restoring the initial state of the chemicals and management system databases is too complex too implement at the current stage.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="bug-fixes-0-20-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-20-0"></a></h4>
+<ul><li>Chemical database is now working normally: chemicals can be edited multiple time without any error being triggered (<a href="https://github.com/erahumed/erahumed/issues/434" class="external-link">#434</a>).</li>
+<li>Degradation constants of chemicals can now be set to be exactly zero without breaking the functioning of the algorithm (<a href="https://github.com/erahumed/erahumed/issues/433" class="external-link">#433</a>).</li>
+<li>Fixed broken selector of chemicals to be displayed in the exposure plots (<a href="https://github.com/erahumed/erahumed/issues/455" class="external-link">#455</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-20-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-20-0"></a></h4>
+<ul><li>New <a href="https://erahumed.github.io/erahumed/articles/hydrogeographical-model.html"><code>hydrogeographical-model vignette</code></a> replacing the older <code>hydrology-scheme</code> vignette (<a href="https://github.com/erahumed/erahumed/issues/239" class="external-link">#239</a>).</li>
+<li>Various improvements and corrections in parameter and data descriptions (including: <a href="https://github.com/erahumed/erahumed/issues/441" class="external-link">#441</a>, <a href="https://github.com/erahumed/erahumed/issues/443" class="external-link">#443</a>, <a href="https://github.com/erahumed/erahumed/issues/446" class="external-link">#446</a>, <a href="https://github.com/erahumed/erahumed/issues/448" class="external-link">#448</a>, <a href="https://github.com/erahumed/erahumed/issues/438" class="external-link">#438</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="testing-0-20-0">Testing<a class="anchor" aria-label="anchor" href="#testing-0-20-0"></a></h4>
+<ul><li>Minor improvements (including: <a href="https://github.com/erahumed/erahumed/issues/452" class="external-link">#452</a>).</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.19.0" id="erahumed-0190">erahumed 0.19.0<a class="anchor" aria-label="anchor" href="#erahumed-0190"></a></h2>
 <p>This is a major release that introduces several powerful features to the<br>

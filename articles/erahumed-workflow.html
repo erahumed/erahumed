@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul>
 </li>
@@ -62,7 +62,7 @@
       <h1>Simulation workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.19.0/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>erahumed-workflow.Rmd</code></div>
     </div>
 
@@ -81,18 +81,41 @@ Specifically, we will cover:</p>
 <p>ERAHUMED simulation can be run with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Initializing inputs</span></span>
+<span><span class="co">#&gt; Computing hydrology: lake</span></span>
+<span><span class="co">#&gt; Computing hydrology: clusters</span></span>
+<span><span class="co">#&gt; Computing hydrology: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: clusters</span></span>
+<span><span class="co">#&gt; Computing exposure: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: lake</span></span>
+<span><span class="co">#&gt; Computing risk: clusters</span></span>
+<span><span class="co">#&gt; Computing risk: ditches</span></span>
+<span><span class="co">#&gt; Computing risk: lake</span></span>
 <span><span class="va">sim</span></span>
-<span><span class="co">#&gt; A ERAHUMED simulation.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Start date: 2020-01-01 </span></span>
-<span><span class="co">#&gt; End date: 2020-12-31</span></span>
+<span><span class="co">#&gt; &lt;ERAHUMED Simulation&gt;</span></span>
+<span><span class="co">#&gt;   Date range             : 2020-01-01 to 2020-12-31 </span></span>
+<span><span class="co">#&gt;   Simulation days        : 366 </span></span>
+<span><span class="co">#&gt;   Clusters               : 552 </span></span>
+<span><span class="co">#&gt;   Management systems     : 2 </span></span>
+<span><span class="co">#&gt;   Chemicals simulated    : 8 </span></span>
+<span><span class="co">#&gt;   Total applications     : 17</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Need help extracting simulation outputs? Check `?get_results`.</span></span></code></pre></div>
 <p>The command above runs a simulation with the default model
 parameters. These can be customized through the arguments of
 <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>, for instance:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">841</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">841</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Initializing inputs</span></span>
+<span><span class="co">#&gt; Computing hydrology: lake</span></span>
+<span><span class="co">#&gt; Computing hydrology: clusters</span></span>
+<span><span class="co">#&gt; Computing hydrology: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: clusters</span></span>
+<span><span class="co">#&gt; Computing exposure: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: lake</span></span>
+<span><span class="co">#&gt; Computing risk: clusters</span></span>
+<span><span class="co">#&gt; Computing risk: ditches</span></span>
+<span><span class="co">#&gt; Computing risk: lake</span></span></code></pre></div>
 <p>The full set of simulation parameters is documented in
 <code><a href="../reference/erahumed_simulation.html">?erahumed_simulation</a></code> (see <a href="https://erahumed.github.io/erahumed/articles/simulation-inputs.html">here</a>
 for a table format).</p>
@@ -107,41 +130,41 @@ the simulation we use:</p>
 instance:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cluster_hydrology_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   ideal_height_eod_cm ideal_irrigation ideal_draining petp_cm   area_m2</span></span>
-<span><span class="co">#&gt; 1                  20             TRUE           TRUE  -0.058 114881.78</span></span>
-<span><span class="co">#&gt; 2                  20             TRUE           TRUE  -0.058 116539.90</span></span>
-<span><span class="co">#&gt; 3                  20             TRUE           TRUE  -0.058 154730.35</span></span>
-<span><span class="co">#&gt; 4                  20             TRUE           TRUE  -0.058 163789.56</span></span>
-<span><span class="co">#&gt; 5                  20             TRUE           TRUE  -0.058  83016.51</span></span>
-<span><span class="co">#&gt; 6                  20             TRUE           TRUE  -0.058 106260.07</span></span>
-<span><span class="co">#&gt;   capacity_m3_s       date                element_id ditch_element_id seed_day</span></span>
-<span><span class="co">#&gt; 1    0.05741888 2020-01-01 02_Carrera_del_Saler0-2_0               d2     -110</span></span>
-<span><span class="co">#&gt; 2    0.05741888 2020-01-01          03_Petxinar0-3_2               d2     -110</span></span>
-<span><span class="co">#&gt; 3    0.05741888 2020-01-01          03_Petxinar0-3_3               d2     -110</span></span>
-<span><span class="co">#&gt; 4    0.05741888 2020-01-01          03_Petxinar1-3_1               d2     -110</span></span>
-<span><span class="co">#&gt; 5    0.05741888 2020-01-01          03_Petxinar1-3_2               d2     -110</span></span>
-<span><span class="co">#&gt; 6    0.05741888 2020-01-01          03_Petxinar1-3_3               d2     -110</span></span>
-<span><span class="co">#&gt;   tancat variety height_sod_cm irrigation draining ideal_diff_flow_cm</span></span>
-<span><span class="co">#&gt; 1   TRUE       2            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 2   TRUE       3            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 3   TRUE       1            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 4   TRUE       2            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 5   TRUE       3            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt; 6   TRUE       1            20       TRUE     TRUE              0.058</span></span>
-<span><span class="co">#&gt;   ideal_inflow_cm ideal_outflow_cm outflow_m3_s outflow_cm inflow_cm</span></span>
-<span><span class="co">#&gt; 1               5            4.942            0          0     0.058</span></span>
-<span><span class="co">#&gt; 2               5            4.942            0          0     0.058</span></span>
-<span><span class="co">#&gt; 3               5            4.942            0          0     0.058</span></span>
-<span><span class="co">#&gt; 4               5            4.942            0          0     0.058</span></span>
-<span><span class="co">#&gt; 5               5            4.942            0          0     0.058</span></span>
-<span><span class="co">#&gt; 6               5            4.942            0          0     0.058</span></span>
-<span><span class="co">#&gt;    inflow_m3_s height_eod_cm plan_delay</span></span>
-<span><span class="co">#&gt; 1 0.0007711971            20          0</span></span>
-<span><span class="co">#&gt; 2 0.0007823281            20          0</span></span>
-<span><span class="co">#&gt; 3 0.0010386991            20          0</span></span>
-<span><span class="co">#&gt; 4 0.0010995133            20          0</span></span>
-<span><span class="co">#&gt; 5 0.0005572868            20          0</span></span>
-<span><span class="co">#&gt; 6 0.0007133199            20          0</span></span></code></pre></div>
+<span><span class="co">#&gt;   ideal_height_eod_cm ideal_irrigation ideal_draining is_plan_delays_window</span></span>
+<span><span class="co">#&gt; 1                  20             TRUE           TRUE                 FALSE</span></span>
+<span><span class="co">#&gt; 2                  20             TRUE           TRUE                 FALSE</span></span>
+<span><span class="co">#&gt; 3                  20             TRUE           TRUE                 FALSE</span></span>
+<span><span class="co">#&gt; 4                  20             TRUE           TRUE                 FALSE</span></span>
+<span><span class="co">#&gt; 5                  20             TRUE           TRUE                 FALSE</span></span>
+<span><span class="co">#&gt; 6                  20             TRUE           TRUE                 FALSE</span></span>
+<span><span class="co">#&gt;   petp_cm   area_m2 capacity_m3       date                element_id</span></span>
+<span><span class="co">#&gt; 1  -0.058 114881.78    4960.991 2020-01-01 02_Carrera_del_Saler0-2_0</span></span>
+<span><span class="co">#&gt; 2  -0.058 116539.90    4960.991 2020-01-01          03_Petxinar0-3_2</span></span>
+<span><span class="co">#&gt; 3  -0.058 154730.35    4960.991 2020-01-01          03_Petxinar0-3_3</span></span>
+<span><span class="co">#&gt; 4  -0.058 163789.56    4960.991 2020-01-01          03_Petxinar1-3_1</span></span>
+<span><span class="co">#&gt; 5  -0.058  83016.51    4960.991 2020-01-01          03_Petxinar1-3_2</span></span>
+<span><span class="co">#&gt; 6  -0.058 106260.07    4960.991 2020-01-01          03_Petxinar1-3_3</span></span>
+<span><span class="co">#&gt;   ditch_element_id seed_day tancat rfms_id  rfms_name height_sod_cm irrigation</span></span>
+<span><span class="co">#&gt; 1               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
+<span><span class="co">#&gt; 2               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
+<span><span class="co">#&gt; 3               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
+<span><span class="co">#&gt; 4               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
+<span><span class="co">#&gt; 5               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
+<span><span class="co">#&gt; 6               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
+<span><span class="co">#&gt;   draining ideal_diff_flow_cm ideal_inflow_cm ideal_outflow_cm outflow_m3</span></span>
+<span><span class="co">#&gt; 1     TRUE              0.058               5            4.942          0</span></span>
+<span><span class="co">#&gt; 2     TRUE              0.058               5            4.942          0</span></span>
+<span><span class="co">#&gt; 3     TRUE              0.058               5            4.942          0</span></span>
+<span><span class="co">#&gt; 4     TRUE              0.058               5            4.942          0</span></span>
+<span><span class="co">#&gt; 5     TRUE              0.058               5            4.942          0</span></span>
+<span><span class="co">#&gt; 6     TRUE              0.058               5            4.942          0</span></span>
+<span><span class="co">#&gt;   outflow_cm inflow_cm inflow_m3 height_eod_cm plan_delay</span></span>
+<span><span class="co">#&gt; 1          0     0.058  66.63143            20          0</span></span>
+<span><span class="co">#&gt; 2          0     0.058  67.59314            20          0</span></span>
+<span><span class="co">#&gt; 3          0     0.058  89.74360            20          0</span></span>
+<span><span class="co">#&gt; 4          0     0.058  94.99795            20          0</span></span>
+<span><span class="co">#&gt; 5          0     0.058  48.14958            20          0</span></span>
+<span><span class="co">#&gt; 6          0     0.058  61.63084            20          0</span></span></code></pre></div>
 <p>From here on, the analysis may proceed in the way you find more
 convenient. For instance, in the chunk below I create a plot of water
 levels for a set of clusters with similar features, using
@@ -152,10 +175,10 @@ levels for a set of clusters with similar features, using
 <span></span>
 <span><span class="va">ditch</span> <span class="op">&lt;-</span> <span class="st">"d4"</span></span>
 <span><span class="va">tancat</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span><span class="va">variety</span> <span class="op">&lt;-</span> <span class="st">"Clearfield"</span></span>
+<span><span class="va">rfms_name</span> <span class="op">&lt;-</span> <span class="st">"Clearfield"</span>  <span class="co"># Rice field management system</span></span>
 <span></span>
 <span><span class="va">clusters_df</span> <span class="op">&lt;-</span> <span class="va">cluster_hydrology_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ditch</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">ditch</span>, <span class="va">tancat</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">tancat</span>, <span class="va">variety</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">variety</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ditch</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">ditch</span>, <span class="va">tancat</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">tancat</span>, <span class="va">rfms_name</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">rfms_name</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">avg_df</span> <span class="op">&lt;-</span> <span class="va">clusters_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -173,7 +196,7 @@ levels for a set of clusters with similar features, using
 <span>    <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Date"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Height [cm]"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Cluster simulated water levels"</span>,</span>
-<span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Ditch:"</span>, <span class="va">ditch</span>, <span class="st">"- Tancat:"</span>, <span class="va">tancat</span>, <span class="st">"- Variety:"</span>, <span class="va">variety</span><span class="op">)</span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Ditch:"</span>, <span class="va">ditch</span>, <span class="st">"- Tancat:"</span>, <span class="va">tancat</span>, <span class="st">"- RFMS:"</span>, <span class="va">rfms_name</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
 <p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="section level2">

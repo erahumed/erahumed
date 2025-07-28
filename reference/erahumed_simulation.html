@@ -11,7 +11,7 @@ for a detailed description of the simulation workflow."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,7 @@ for a detailed description of the simulation workflow."></head><body>
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
     <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="../articles/hydrology-scheme.html">Hydrological model of the Albufera Natural Park</a></li>
+    <li><a class="dropdown-item" href="../articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
     <li><a class="dropdown-item" href="../articles/simulation-inputs.html">Simulation inputs</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -40,7 +40,7 @@ for a detailed description of the simulation workflow."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Initialize an ERAHUMED simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.19.0/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
       <div class="d-none name"><code>erahumed_simulation.Rd</code></div>
     </div>
 
@@ -64,16 +64,17 @@ for a detailed description of the simulation workflow.</p>
 <span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  height_thresh_cm <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  ditch_level_m <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  drift <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  covmax <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  jgrow <span class="op">=</span> <span class="fl">152</span>,</span>
 <span>  dact_m <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  css_ppm <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>  foc <span class="op">=</span> <span class="fl">0.17</span>,</span>
+<span>  foc_ss <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  foc_sed <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  bd_g_cm3 <span class="op">=</span> <span class="fl">1.5</span>,</span>
 <span>  qseep_m_day <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  porosity <span class="op">=</span> <span class="fl">0.11</span>,</span>
-<span>  seed <span class="op">=</span> <span class="fl">840</span></span>
+<span>  seed <span class="op">=</span> <span class="fl">840</span>,</span>
+<span>  .progress <span class="op">=</span> <span class="va">message</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -114,7 +115,7 @@ for a detailed description of the simulation workflow.</p>
 
 
 <dt id="arg-ideal-flow-rate-cm">ideal_flow_rate_cm<a class="anchor" aria-label="anchor" href="#arg-ideal-flow-rate-cm"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (<em>i.e.</em> when being simultaneously irrigated and drained). Expressed in centimeters per day.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (<em>i.e.</em> when being simultaneously irrigated and drained). Expressed in centimeters of water depth per day.</p></dd>
 
 
 <dt id="arg-height-thresh-cm">height_thresh_cm<a class="anchor" aria-label="anchor" href="#arg-height-thresh-cm"></a></dt>
@@ -123,10 +124,6 @@ for a detailed description of the simulation workflow.</p>
 
 <dt id="arg-ditch-level-m">ditch_level_m<a class="anchor" aria-label="anchor" href="#arg-ditch-level-m"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Constant water depth in ditches.</p></dd>
-
-
-<dt id="arg-drift">drift<a class="anchor" aria-label="anchor" href="#arg-drift"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Fraction of applied chemical lost to drift during application.</p></dd>
 
 
 <dt id="arg-covmax">covmax<a class="anchor" aria-label="anchor" href="#arg-covmax"></a></dt>
@@ -142,11 +139,15 @@ for a detailed description of the simulation workflow.</p>
 
 
 <dt id="arg-css-ppm">css_ppm<a class="anchor" aria-label="anchor" href="#arg-css-ppm"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> A positive number. Concentration of suspended solid, expressed in parts per million.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Concentration of water suspended solids, expressed in parts per million.</p></dd>
 
 
-<dt id="arg-foc">foc<a class="anchor" aria-label="anchor" href="#arg-foc"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Fraction of organic content within suspended solids and sediments.</p></dd>
+<dt id="arg-foc-ss">foc_ss<a class="anchor" aria-label="anchor" href="#arg-foc-ss"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Fraction of organic matter content within suspended solids.</p></dd>
+
+
+<dt id="arg-foc-sed">foc_sed<a class="anchor" aria-label="anchor" href="#arg-foc-sed"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. Fraction of organic matter content within sediment.</p></dd>
 
 
 <dt id="arg-bd-g-cm-">bd_g_cm3<a class="anchor" aria-label="anchor" href="#arg-bd-g-cm-"></a></dt>
@@ -164,6 +165,14 @@ for a detailed description of the simulation workflow.</p>
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Seed for random number generation used by the simulation algorithms.</p></dd>
 
+
+<dt id="arg--progress">.progress<a class="anchor" aria-label="anchor" href="#arg--progress"></a></dt>
+<dd><p>A function used to report simulation progress.
+It should accept a single character string as input, representing the
+current stage of the simulation (e.g., <code>"Computing hydrology: lake"</code>).
+This parameter is primarily intended for user feedback mechanisms (e.g.,
+console messages). By default, it prints a message to the R console.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -173,10 +182,23 @@ for a detailed description of the simulation workflow.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">erahumed_simulation</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A ERAHUMED simulation.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Start date: 2020-01-01 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> End date: 2020-12-31 </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Initializing inputs</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing hydrology: lake</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing hydrology: clusters</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing hydrology: ditches</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing exposure: clusters</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing exposure: ditches</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing exposure: lake</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing risk: clusters</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing risk: ditches</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Computing risk: lake</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ERAHUMED Simulation&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Date range             : 2020-01-01 to 2020-12-31 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Simulation days        : 366 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Clusters               : 552 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Management systems     : 2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Chemicals simulated    : 8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Total applications     : 17 </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Need help extracting simulation outputs? Check `?get_results`.</span>
 <span class="r-in"><span></span></span>
