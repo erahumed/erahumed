@@ -7,12 +7,12 @@
 erahumed_simulation(
   date_start = "2020-01-01",
   date_end = "2020-12-31",
-  cluster_map = default_cluster_map(seed = seed),
+  seed = 840,
   outflows_df = erahumed::albufera_outflows,
-  weather_df = erahumed::albufera_weather,
   storage_curve_slope_m2 = 23.66 * 1e+06,
   storage_curve_intercept_m3 = 16.75 * 1e+06,
   petp_surface_m2 = 53.9 * 1e+06,
+  weather_df = erahumed::albufera_weather,
   ideal_flow_rate_cm = 5,
   height_thresh_cm = 0.5,
   ditch_level_m = 1,
@@ -25,7 +25,7 @@ erahumed_simulation(
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   porosity = 0.11,
-  seed = 840,
+  cluster_map = default_cluster_map(seed = seed),
   .progress = message
 )
 }
@@ -34,17 +34,17 @@ erahumed_simulation(
 
 \item{date_end}{\verb{[Date(1)]} \cr A single-value \code{Date} vector (or a convertible object). Defines the ending date of the date interval for the simulation.}
 
-\item{cluster_map}{\verb{[erahumed_cluster_map]} \cr An object of class \link{cluster_map}. Defines how different rice field management systems are assigned to spatial clusters within the simulation.}
+\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
 
 \item{outflows_df}{\verb{[data.frame]} \cr Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of \link{albufera_outflows} (the default value).}
-
-\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
 
 \item{storage_curve_slope_m2}{\verb{[numeric(1)]} \cr Slope of the (linear) storage curve of the Albufera Lake, in square meters. Multiplying this value by the change in the lake's water level gives the corresponding change in water \emph{volume}. The default numeric values are derived from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
 \item{storage_curve_intercept_m3}{\verb{[numeric(1)]} \cr Intercept of the linear storage curve for the Albufera Lake, expressed in cubic meters. This value represents the lake's water volume when the water level is at sea level. The default numeric values are derived from the CHJ report \href{https://www.chj.es/Descargas/ProyectosOPH/Consulta\%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf}{\emph{Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA}}.}
 
 \item{petp_surface_m2}{\verb{[numeric(1)]} \cr The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.}
+
+\item{weather_df}{\verb{[data.frame]} \cr A dataset that provides the relevant metereological time series, along the template of \link{albufera_weather} (the default value).}
 
 \item{ideal_flow_rate_cm}{\verb{[numeric(1)]} \cr Ideal inflow/outflow of a cluster, for days in which the cluster is scheduled to be in flux (\emph{i.e.} when being simultaneously irrigated and drained). Expressed in centimeters of water depth per day.}
 
@@ -70,7 +70,7 @@ erahumed_simulation(
 
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 
-\item{seed}{\verb{[numeric(1)]} \cr Seed for random number generation used by the simulation algorithms.}
+\item{cluster_map}{\verb{[erahumed_cluster_map]} \cr An object of class \link{cluster_map} that defines how different rice field management systems (RFMSs) are assigned to spatial clusters within the simulation. This object also encapsulates the full set of user-defined agrochemical configurations, including custom chemicals and RFMSs, and serves as the main interface for scenario customization.}
 
 \item{.progress}{A function used to report simulation progress.
 It should accept a single character string as input, representing the
@@ -85,6 +85,14 @@ An object of class \code{erahumed_simulation}.
 Initializes an ERAHUMED simulation. Check the
 \href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{main package vignette}
 for a detailed description of the simulation workflow.
+}
+\details{
+The \code{cluster_map} argument plays a central role in the customization
+capabilities of the ERAHUMED model. Beyond mapping rice field management
+systems (RFMSs) to spatial clusters, it also carries the full definitions of
+custom chemicals and RFMSs configured by the user. This makes it the primary
+interface for building and running alternative scenarios involving changes in
+pesticide use or management strategies.
 }
 \examples{
 erahumed_simulation()

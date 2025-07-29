@@ -14,13 +14,12 @@ date_end:
     A single-value `Date` vector (or a convertible object).
     Defines the ending date of the date interval for the simulation.
 
-cluster_map:
-  name: "Cluster map of management systems"
-  group: "Pesticide application scheme"
-  type: "erahumed_cluster_map"
+seed:
+  name: "Simulation random seed"
+  group: "General"
+  type: "numeric(1)"
   description: >-
-    An object of class \link{cluster_map}. Defines how different rice field
-    management systems are assigned to spatial clusters within the simulation.
+    Seed for random number generation used by the simulation algorithms.
 
 outflows_df:
   name: "Lake outflows and levels data frame"
@@ -43,6 +42,42 @@ outflows_df:
       Outflow at Perellonet (cubic meters per second)
     outflow_perello_m3_s: >-
       Outflow at Perello (cubic meters per second)
+
+storage_curve_slope_m2:
+  name: "Storage curve slope"
+  group: "Hydrology"
+  unit: "m\u00B2"
+  type: "numeric(1)"
+  description: >-
+    Slope of the (linear) storage curve of the Albufera Lake, in square
+    meters. Multiplying this value by the change in the lake's water level gives
+    the corresponding change in water *volume*.
+    The default numeric values are derived from the CHJ report
+    [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+
+storage_curve_intercept_m3:
+  name: "Storage curve intercept"
+  group: "Hydrology"
+  unit: "m\u00B3"
+  type: "numeric(1)"
+  description: >-
+    Intercept of the linear storage curve for the Albufera Lake, expressed in
+    cubic meters. This value represents the lake's water volume when the water
+    level is at sea level. The default numeric values are derived from the CHJ
+    report
+    [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
+
+petp_surface_m2:
+  name: "PET surface"
+  group: "Hydrology"
+  unit: "m\u00B2"
+  type: "numeric(1)"
+  description: >-
+    The surface area (in square meters) used to convert precipitation and
+    evapotranspiration per unit area into volume changes for the Albufera Lake.
+    The default numeric value was computed by the package authors and
+    corresponds to the average flooded surface of the Albufera lake and its
+    irrigation ditches.
 
 weather_df:
   name: "Weather data frame"
@@ -67,43 +102,9 @@ weather_df:
     evapotranspiration_mm: >-
       Daily evapotranspiration (millimeters).
 
-storage_curve_slope_m2:
-  name: "Storage curve slope"
-  group: "Hydrology"
-  unit: "m\u00B2"
-  type: "numeric(1)"
-  description: >-
-    Slope of the (linear) storage curve of the Albufera Lake, in square
-    meters. Multiplying this value by the change in the lake's water level gives
-    the corresponding change in water *volume*.
-    The default numeric values are derived from the CHJ report
-    [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
-storage_curve_intercept_m3:
-  name: "Storage curve intercept"
-  group: "Hydrology"
-  unit: "m\u00B3"
-  type: "numeric(1)"
-  description: >-
-    Intercept of the linear storage curve for the Albufera Lake, expressed in
-    cubic meters. This value represents the lake's water volume when the water
-    level is at sea level. The default numeric values are derived from the CHJ
-    report
-    [*Modelo de seguimiento de l’Albufera de Valencia con AQUATOOLDMA*](https://www.chj.es/Descargas/ProyectosOPH/Consulta%20publica/PHC-2015-2021/ReferenciasBibliograficas/HumedalesZonasProtegidas/CHJ,2012.Aquatool_Albufera.pdf).
-petp_surface_m2:
-  name: "PET surface"
-  group: "Hydrology"
-  unit: "m\u00B2"
-  type: "numeric(1)"
-  description: >-
-    The surface area (in square meters) used to convert precipitation and
-    evapotranspiration per unit area into volume changes for the Albufera Lake.
-    The default numeric value was computed by the package authors and
-    corresponds to the average flooded surface of the Albufera lake and its
-    irrigation ditches.
-
 ideal_flow_rate_cm:
   name: "Ideal flow rate"
-  group: "Hydrology"
+  group: "Environmental properties"
   unit: "cm"
   type: "numeric(1)"
   description: >-
@@ -113,7 +114,7 @@ ideal_flow_rate_cm:
 
 height_thresh_cm:
   name: "Cluster Height Threshold"
-  group: "Hydrology"
+  group: "Environmental properties"
   unit: "cm"
   type: "numeric(1)"
   description: >-
@@ -122,7 +123,7 @@ height_thresh_cm:
 
 ditch_level_m:
   name: "Ditch water level"
-  group: "Hydrology"
+  group: "Environmental properties"
   unit: "m"
   type: "numeric(1)"
   description: >-
@@ -130,7 +131,7 @@ ditch_level_m:
 
 covmax:
   name: "Max interception potential"
-  group: "Pesticide application scheme"
+  group: "Environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -139,7 +140,7 @@ covmax:
 
 jgrow:
   name: "Maturation cycle length"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "day"
   type: "numeric(1)"
   description: >-
@@ -147,7 +148,7 @@ jgrow:
 
 dact_m:
   name: "Depth of active sediment"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "m"
   type: "numeric(1)"
   description: >-
@@ -157,7 +158,7 @@ dact_m:
 
 css_ppm:
   name: "Suspended solid concentration"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "ppm"
   type: "numeric(1)"
   description: >-
@@ -166,7 +167,7 @@ css_ppm:
 
 foc_ss:
   name: "Fraction of organic content in suspended solid"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -175,7 +176,7 @@ foc_ss:
 
 foc_sed:
   name: "Fraction of organic content in sediment"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
@@ -184,7 +185,7 @@ foc_sed:
 
 bd_g_cm3:
   name: "Bulk density of sediment"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "g\u00B7cm\u207B\u00B2"
   type: "numeric(1)"
   description: >-
@@ -193,7 +194,7 @@ bd_g_cm3:
 
 qseep_m_day:
   name: "Seepage rate"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "m\u00B7day\u207B\u00B9"
   type: "numeric(1)"
   description: >-
@@ -202,17 +203,20 @@ qseep_m_day:
 
 porosity:
   name: "Porosity"
-  group: "Environmental parameters"
+  group: "Environmental properties"
   unit: "1"
   type: "numeric(1)"
   description: >-
     A number between `0` and `1`. The fraction of the total sediment volume
     that is occupied by pore spaces.
 
-seed:
-  name: "Simulation random seed"
-  type: "numeric(1)"
-  group: "General"
+cluster_map:
+  name: "Map of rice field management systems"
+  group: "Agrochemical management"
+  type: "erahumed_cluster_map"
   description: >-
-    Seed for random number generation used by the simulation algorithms.
-
+    An object of class \link{cluster_map} that defines how different rice field
+    management systems (RFMSs) are assigned to spatial clusters within the
+    simulation. This object also encapsulates the full set of user-defined
+    agrochemical configurations, including custom chemicals and RFMSs, and
+    serves as the main interface for scenario customization.
