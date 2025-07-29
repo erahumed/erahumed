@@ -1,7 +1,3 @@
-#' Rice Field Management System
-#'
-#' Functions to define and initialize rice field management systems.
-#'
 #' @param sowing_yday `[integer(1)]` \cr
 #' Day of the year marking the start of the sowing season (1–366, assuming a leap year).
 #' @param harvesting_yday `[integer(1)]` \cr
@@ -18,26 +14,7 @@
 #' @param display_name `[character(1)]` \cr
 #' Name of the management systems to be displayed in output plots and summaries.
 #'
-#' @return An object of class `erahumed_rfms`.
-#'
-#' @details These functions are used to define and initialize rice field
-#' management system. Specifically:
-#'
-#' * `new_rfms()` creates an empty management system, with no
-#'   scheduled chemical applications.
-#' * `jsendra()`, `bomba()`, and `clearfield()` provide
-#'   predefined systems inspired by the *J. Sendra*, *Bomba*, and *Clearfield*
-#'   rice varieties, respectively.
-#'
-#' Additional chemical applications can be scheduled using the helper function
-#' [schedule_application()]. The default values of the arguments of
-#' `new_rfms()` coincide with those used internally by `jsendra()`,
-#' `bomba()`, and `clearfield()`.
-#'
-#' @seealso [schedule_application]
-#'
-#' @name rfms
-#'
+#' @rdname rfms
 #' @export
 new_rfms <- function(
     sowing_yday = 111,
