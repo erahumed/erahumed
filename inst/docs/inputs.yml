@@ -219,4 +219,5 @@ rfms_map:
     management systems (RFMSs) are assigned to spatial clusters within the
     simulation. This object also encapsulates the full set of user-defined
     agrochemical configurations, including custom chemicals and RFMSs, and
-    serves as the main interface for scenario customization.
+    serves as the main interface for scenario customization. See \link{rfms}
+    for an overview of RFMS definitions and customization options.
