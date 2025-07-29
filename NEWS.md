@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Under the hoods
+
+* Improvements in internal mechanisms for programmatically generating 
+documentation entries for model parameters.
+
 # erahumed 0.20.0
 
 This is a minor release providing several improvements and bug fixes over the 
