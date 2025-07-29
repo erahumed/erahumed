@@ -1,5 +1,14 @@
 # erahumed (development version)
 
+### API changes
+
+* Changed order in `erahumed_simulation()` arguments, matching the one used in 
+documentation tables.
+
+### Documentation
+
+* Improved documentation of `cluster_map` argument of `erahumed_simualation()`.
+
 ### Under the hoods
 
 * Improvements in internal mechanisms for programmatically generating 
