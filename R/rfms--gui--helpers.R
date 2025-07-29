@@ -1,5 +1,5 @@
 rfms_input_defaults <- function() {
-  fmls <- formals(new_management_system)
+  fmls <- formals(new_rfms)
   list(
     sowing_yday = eval(fmls$sowing_yday),
     harvesting_yday = eval(fmls$harvesting_yday),

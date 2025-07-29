@@ -5,6 +5,8 @@
 * Changed order in `erahumed_simulation()` arguments, matching the one used in 
 documentation tables.
 
+* `new_management_system()` is replaced by `new_rfms()`.
+
 * `new_cluster_map()` is replaced by `new_rfms_map()`. The corresponding 
 underlying S3 class is renamed to `erahumed_rfms_map`.
 
@@ -138,7 +140,7 @@ Detailed changes are discussed above.
   `cyhalofop_butyl()`, `difenoconazole()`, `mcpa()`, and `penoxsulam()` expose  
   the presets used by the `{erahumed}` built-in management systems.
 
-* Rice field management systems are defined through `new_management_system()`  
+* Rice field management systems are defined through `new_rfms()`  
   and `schedule_application()`. The *J. Sendra*, *Clearfield*, and *Bomba* systems  
   are implemented using the helpers `jsendra()`, `clearfield()`, and `bomba()`.
 

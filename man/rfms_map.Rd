@@ -8,16 +8,16 @@
 \usage{
 default_rfms_map(seed = 840)
 
-new_rfms_map(default_management_system = new_management_system())
+new_rfms_map(default_rfms = new_rfms())
 }
 \arguments{
 \item{seed}{\verb{[numeric(1)]} \cr
 Seed for random number generation in the assignation of clusters to
 management systems.}
 
-\item{default_management_system}{\code{[}\link[=management_system]{erahumed_management_system}\verb{]} \cr
+\item{default_rfms}{\code{[}\link[=rfms]{erahumed_rfms}\verb{]} \cr
 A default management system assigned to all clusters initially. Typically
-created with \code{\link[=new_management_system]{new_management_system()}} or a helper like \code{\link[=jsendra]{jsendra()}}.}
+created with \code{\link[=new_rfms]{new_rfms()}} or a helper like \code{\link[=jsendra]{jsendra()}}.}
 }
 \value{
 An object of class \code{erahumed_rfms_map}.
@@ -42,5 +42,5 @@ starting point for scenario simulation or customization.
 Cluster assignments can be modified using \code{\link[=allocate_surface]{allocate_surface()}}.
 }
 \seealso{
-\code{\link[=new_management_system]{new_management_system()}}, \code{\link[=allocate_surface]{allocate_surface()}}
+\code{\link[=new_rfms]{new_rfms()}}, \code{\link[=allocate_surface]{allocate_surface()}}
 }

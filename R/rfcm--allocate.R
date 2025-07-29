@@ -38,7 +38,7 @@ allocate_surface <- function(map,
 {
   tryCatch({
     assert_rfms_map(map)
-    assert_management_system(system)
+    assert_rfms(system)
     assert_positive_number(target_fraction)
     stopifnot(target_fraction <= 1)
     assert_integer_vector(ditches)

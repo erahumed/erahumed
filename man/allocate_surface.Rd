@@ -15,7 +15,7 @@ allocate_surface(
 \arguments{
 \item{map}{\verb{[erahumed_rfms_map]} \cr A cluster map created with \code{new_rfms_map()} or \code{default_rfms_map()}.}
 
-\item{system}{\verb{[erahumed_management_system]} \cr A management system to assign, created with \code{new_management_system()} or helper functions such as \code{bomba()} or \code{clearfield()}.}
+\item{system}{\verb{[erahumed_rfms]} \cr A management system to assign, created with \code{new_rfms()} or helper functions such as \code{bomba()} or \code{clearfield()}.}
 
 \item{target_fraction}{\verb{[numeric(1)]} \cr The fraction of surface area \strong{within the selected subset} of clusters (filtered by \code{ditches} and \code{field_type}) to allocate to the given system. Must be a number between 0 and 1.}
 

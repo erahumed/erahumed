@@ -14,7 +14,7 @@ schedule_application(
 )
 }
 \arguments{
-\item{system}{\code{[}\link[=management_system]{erahumed_management_system}\verb{]} \cr
+\item{system}{\code{[}\link[=rfms]{erahumed_rfms}\verb{]} \cr
 A rice field management system object.}
 
 \item{chemical}{\code{[}\link[=chemical]{erahumed_chemical}\verb{]} \cr
@@ -34,12 +34,12 @@ Duration (in days) that the field remains empty after a \code{"ground"}
 application. Ignored if \code{type} is \code{"aerial"}.}
 }
 \value{
-An object of class \link[=management_system]{erahumed_management_system}.
+An object of class \link[=rfms]{erahumed_rfms}.
 }
 \description{
 Schedules a chemical application within an existing rice field management
-system (see \link{management_system}).
+system (see \link{rfms}).
 }
 \seealso{
-\link{management_system}
+\link{rfms}
 }

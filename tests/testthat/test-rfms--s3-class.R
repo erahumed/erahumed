@@ -1,19 +1,19 @@
-test_that("new_management_system() constructor succeeds", {
-  expect_no_error(new_management_system())
+test_that("new_rfms() constructor succeeds", {
+  expect_no_error(new_rfms())
 })
 
-test_that("new_management_system() creates an object of the correct class", {
-  system <- new_management_system()
-  expect_s3_class(system, "erahumed_management_system")
+test_that("new_rfms() creates an object of the correct class", {
+  system <- new_rfms()
+  expect_s3_class(system, "erahumed_rfms")
 })
 
 test_that("Validator succeeds", {
-  system <- new_management_system()
-  expect_no_error(assert_management_system(system))
+  system <- new_rfms()
+  expect_no_error(assert_rfms(system))
 })
 
 test_that("add_application() succeeds", {
-  system <- new_management_system()
+  system <- new_rfms()
   chemical <- acetamiprid()
   expect_no_error(schedule_application(system = system,
                                        chemical = chemical,

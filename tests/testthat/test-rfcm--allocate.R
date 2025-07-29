@@ -1,6 +1,6 @@
 test_that("Allocation of a rfms succeeds", {
   map <- new_rfms_map()
-  ms <- new_management_system()
+  ms <- new_rfms()
 
   expect_no_error(allocate_surface(map = map,
                                    system = ms,
@@ -10,7 +10,7 @@ test_that("Allocation of a rfms succeeds", {
 
 test_that("allocate_surface() returns an object of the correct type", {
   res <-     allocate_surface(map = new_rfms_map(),
-                              system = new_management_system(),
+                              system = new_rfms(),
                               target_fraction = 0.5)
 
   expect_no_error(assert_rfms_map(res))

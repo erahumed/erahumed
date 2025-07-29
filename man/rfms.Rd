@@ -4,8 +4,8 @@
 \alias{jsendra}
 \alias{bomba}
 \alias{clearfield}
-\alias{management_system}
-\alias{new_management_system}
+\alias{rfms}
+\alias{new_rfms}
 \title{Rice Field Management System}
 \usage{
 jsendra()
@@ -14,7 +14,7 @@ bomba()
 
 clearfield()
 
-new_management_system(
+new_rfms(
   sowing_yday = 111,
   harvesting_yday = 251,
   perellona_end_yday = 15,
@@ -48,7 +48,7 @@ Target water level (in cm) during the \emph{Perellona} flooding period.}
 Name of the management systems to be displayed in output plots and summaries.}
 }
 \value{
-An object of class \code{erahumed_management_system}.
+An object of class \code{erahumed_rfms}.
 }
 \description{
 Functions to define and initialize rice field management systems.
@@ -57,7 +57,7 @@ Functions to define and initialize rice field management systems.
 These functions are used to define and initialize rice field
 management system. Specifically:
 \itemize{
-\item \code{new_management_system()} creates an empty management system, with no
+\item \code{new_rfms()} creates an empty management system, with no
 scheduled chemical applications.
 \item \code{jsendra()}, \code{bomba()}, and \code{clearfield()} provide
 predefined systems inspired by the \emph{J. Sendra}, \emph{Bomba}, and \emph{Clearfield}
@@ -66,7 +66,7 @@ rice varieties, respectively.
 
 Additional chemical applications can be scheduled using the helper function
 \code{\link[=schedule_application]{schedule_application()}}. The default values of the arguments of
-\code{new_management_system()} coincide with those used internally by \code{jsendra()},
+\code{new_rfms()} coincide with those used internally by \code{jsendra()},
 \code{bomba()}, and \code{clearfield()}.
 }
 \seealso{

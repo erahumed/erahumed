@@ -8,9 +8,9 @@ map:
 system:
   name: "Management system"
   group: "Inputs"
-  type: "erahumed_management_system"
+  type: "erahumed_rfms"
   description: >
-    A management system to assign, created with `new_management_system()` or helper
+    A management system to assign, created with `new_rfms()` or helper
     functions such as `bomba()` or `clearfield()`.
 
 target_fraction:

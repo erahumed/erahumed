@@ -181,8 +181,8 @@ assert_wms <- function(x, name  = deparse(substitute(x))) {
   stop(msg)
 }
 
-assert_management_system <- function(x, name  = deparse(substitute(x))) {
-  if (is_management_system(x))
+assert_rfms <- function(x, name  = deparse(substitute(x))) {
+  if (is_rfms(x))
     return(invisible(TRUE))
   msg <- paste(name, "is not a valid 'erahumed_management_scheme' object.")
   stop(msg)
