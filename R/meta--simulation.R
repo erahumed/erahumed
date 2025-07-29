@@ -7,12 +7,12 @@
 #'
 #' @param date_start `r input_roxy("date_start")`
 #' @param date_end `r input_roxy("date_end")`
-#' @param cluster_map `r input_roxy("cluster_map")`
+#' @param seed `r input_roxy("seed")`
 #' @param outflows_df `r input_roxy("outflows_df")`
-#' @param weather_df `r input_roxy("weather_df")`
 #' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
 #' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
 #' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
+#' @param weather_df `r input_roxy("weather_df")`
 #' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
 #' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
 #' @param ditch_level_m `r input_roxy("ditch_level_m")`
@@ -25,7 +25,7 @@
 #' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
 #' @param porosity `r input_roxy("porosity")`
-#' @param seed `r input_roxy("seed")`
+#' @param cluster_map `r input_roxy("cluster_map")`
 #' @param .progress A function used to report simulation progress.
 #'   It should accept a single character string as input, representing the
 #'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).
@@ -34,6 +34,14 @@
 #'
 #' @return An object of class `erahumed_simulation`.
 #'
+#' @details
+#' The \code{cluster_map} argument plays a central role in the customization
+#' capabilities of the ERAHUMED model. Beyond mapping rice field management
+#' systems (RFMSs) to spatial clusters, it also carries the full definitions of
+#' custom chemicals and RFMSs configured by the user. This makes it the primary
+#' interface for building and running alternative scenarios involving changes in
+#' pesticide use or management strategies.
+#'
 #' @examples
 #' erahumed_simulation()
 #'
@@ -41,12 +49,12 @@
 erahumed_simulation <- function(
     date_start = "2020-01-01",
     date_end = "2020-12-31",
-    cluster_map = default_cluster_map(seed = seed),
+    seed = 840,
     outflows_df = erahumed::albufera_outflows,
-    weather_df = erahumed::albufera_weather,
     storage_curve_slope_m2 = 23.66 * 1e6,
     storage_curve_intercept_m3 = 16.75 * 1e6,
     petp_surface_m2 = 53.9 * 1e6,
+    weather_df = erahumed::albufera_weather,
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 0.5,
     ditch_level_m = 1,
@@ -59,7 +67,7 @@ erahumed_simulation <- function(
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     porosity = 0.11,
-    seed = 840,
+    cluster_map = default_cluster_map(seed = seed),
     .progress = message
 )
 {
