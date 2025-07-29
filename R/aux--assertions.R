@@ -188,9 +188,9 @@ assert_management_system <- function(x, name  = deparse(substitute(x))) {
   stop(msg)
 }
 
-assert_cluster_map <- function(x, name  = deparse(substitute(x))) {
-  if (is_cluster_map(x))
+assert_rfms_map <- function(x, name  = deparse(substitute(x))) {
+  if (is_rfms_map(x))
     return(invisible(TRUE))
-  msg <- paste(name, "is not a valid 'erahumed_cluster_map' object.")
+  msg <- paste(name, "is not a valid 'erahumed_rfms_map' object.")
   stop(msg)
 }

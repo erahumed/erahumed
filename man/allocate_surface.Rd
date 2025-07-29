@@ -13,7 +13,7 @@ allocate_surface(
 )
 }
 \arguments{
-\item{map}{\verb{[erahumed_cluster_map]} \cr A cluster map created with \code{new_cluster_map()} or \code{default_cluster_map()}.}
+\item{map}{\verb{[erahumed_rfms_map]} \cr A cluster map created with \code{new_rfms_map()} or \code{default_rfms_map()}.}
 
 \item{system}{\verb{[erahumed_management_system]} \cr A management system to assign, created with \code{new_management_system()} or helper functions such as \code{bomba()} or \code{clearfield()}.}
 
@@ -29,7 +29,7 @@ allocate_surface(
 }}
 }
 \value{
-An updated \code{erahumed_cluster_map} object with the new system
+An updated \code{erahumed_rfms_map} object with the new system
 allocated to selected clusters.
 }
 \description{

@@ -52,7 +52,7 @@
 
 
 .hbc_data_prep <-
-  function(simulation, cluster_map, ideal_flow_rate_cm, height_thresh_cm)
+  function(simulation, rfms_map, ideal_flow_rate_cm, height_thresh_cm)
 {
   res <- data.table::as.data.table( get_output(simulation, "hbl") )
 
@@ -63,7 +63,7 @@
 
 
   clusters_df <- merge(albufera_clusters,
-                       cluster_map$map_df,
+                       rfms_map$map_df,
                        by.x = "element_id",
                        by.y = "cluster_id")
 

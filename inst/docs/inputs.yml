@@ -210,12 +210,12 @@ porosity:
     A number between `0` and `1`. The fraction of the total sediment volume
     that is occupied by pore spaces.
 
-cluster_map:
+rfms_map:
   name: "Map of rice field management systems"
   group: "Agrochemical management"
-  type: "erahumed_cluster_map"
+  type: "erahumed_rfms_map"
   description: >-
-    An object of class \link{cluster_map} that defines how different rice field
+    An object of class \link{rfms_map} that defines how different rice field
     management systems (RFMSs) are assigned to spatial clusters within the
     simulation. This object also encapsulates the full set of user-defined
     agrochemical configurations, including custom chemicals and RFMSs, and

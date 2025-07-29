@@ -1,9 +1,9 @@
 map:
   name: "Cluster map"
   group: "Inputs"
-  type: "erahumed_cluster_map"
+  type: "erahumed_rfms_map"
   description: >
-    A cluster map created with `new_cluster_map()` or `default_cluster_map()`.
+    A cluster map created with `new_rfms_map()` or `default_rfms_map()`.
 
 system:
   name: "Management system"

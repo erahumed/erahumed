@@ -1,10 +1,10 @@
-#' @rdname cluster_map
-#' @name cluster_map
+#' @rdname rfms_map
+#' @name rfms_map
 #' @export
-default_cluster_map <- function(seed = 840) {
+default_rfms_map <- function(seed = 840) {
 
   withr::with_seed(seed, {
-    new_cluster_map(default_management_system = jsendra()) |>
+    new_rfms_map(default_management_system = jsendra()) |>
       allocate_surface(clearfield(), target_fraction = 0.8, ditches = 1:9) |>
       allocate_surface(clearfield(), target_fraction = 0.2, ditches = 10:26)
     })

@@ -10,7 +10,7 @@
 #' @param ditches `r allocation_param_roxy("ditches")`
 #' @param field_type `r allocation_param_roxy("field_type")`
 #'
-#' @return An updated `erahumed_cluster_map` object with the new system
+#' @return An updated `erahumed_rfms_map` object with the new system
 #'   allocated to selected clusters.
 #'
 #' @details
@@ -37,7 +37,7 @@ allocate_surface <- function(map,
                              field_type = c("both", "regular", "tancat"))
 {
   tryCatch({
-    assert_cluster_map(map)
+    assert_rfms_map(map)
     assert_management_system(system)
     assert_positive_number(target_fraction)
     stopifnot(target_fraction <= 1)

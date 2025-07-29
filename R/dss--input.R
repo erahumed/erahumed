@@ -92,17 +92,17 @@ dss_input_server <- function(id) {
 
     chemical_db <- chemical_db_server("chemical_db")
     rfms_db <- rfms_db_server("rfms_db", chemical_db)
-    cluster_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
+    rfms_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
 
     res <- shiny::reactive({
       shiny::req(input$date_range)
       shiny::req(length(input$date_range) == 2)
-      shiny::req(cluster_map())
+      shiny::req(rfms_map())
 
       list(
         date_start = input$date_range[[1]],
         date_end = input$date_range[[2]],
-        cluster_map = cluster_map(),
+        rfms_map = rfms_map(),
         outflows_df = outflows_df(),
         weather_df = weather_df(),
         storage_curve_slope_m2 = 1e6 * input$sc_slope,

@@ -1,13 +1,13 @@
 compute_hbc <- function(simulation)
 {
-  cluster_map <- get_input(simulation, "cluster_map")
+  rfms_map <- get_input(simulation, "rfms_map")
   ideal_flow_rate_cm <- get_input(simulation, "ideal_flow_rate_cm")
   height_thresh_cm <- get_input(simulation, "height_thresh_cm")
   seed <- get_input(simulation, "seed")
 
   withr::with_seed(seed, {
     .hbc_args <- .hbc_data_prep(simulation = simulation,
-                                cluster_map = cluster_map,
+                                rfms_map = rfms_map,
                                 ideal_flow_rate_cm = ideal_flow_rate_cm,
                                 height_thresh_cm = height_thresh_cm
                                 )

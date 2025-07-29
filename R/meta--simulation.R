@@ -25,7 +25,7 @@
 #' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
 #' @param qseep_m_day `r input_roxy("qseep_m_day")`
 #' @param porosity `r input_roxy("porosity")`
-#' @param cluster_map `r input_roxy("cluster_map")`
+#' @param rfms_map `r input_roxy("rfms_map")`
 #' @param .progress A function used to report simulation progress.
 #'   It should accept a single character string as input, representing the
 #'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).
@@ -35,7 +35,7 @@
 #' @return An object of class `erahumed_simulation`.
 #'
 #' @details
-#' The \code{cluster_map} argument plays a central role in the customization
+#' The \code{rfms_map} argument plays a central role in the customization
 #' capabilities of the ERAHUMED model. Beyond mapping rice field management
 #' systems (RFMSs) to spatial clusters, it also carries the full definitions of
 #' custom chemicals and RFMSs configured by the user. This makes it the primary
@@ -67,7 +67,7 @@ erahumed_simulation <- function(
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     porosity = 0.11,
-    cluster_map = default_cluster_map(seed = seed),
+    rfms_map = default_rfms_map(seed = seed),
     .progress = message
 )
 {
@@ -138,7 +138,7 @@ erahumed_simulation <- function(
   res <- initialize_erahumed_simulation(list(
     date_start = date_start,
     date_end = date_end,
-    cluster_map = cluster_map,
+    rfms_map = rfms_map,
     outflows_df = outflows_df,
     weather_df = weather_df,
     storage_curve_slope_m2 = storage_curve_slope_m2,
@@ -158,9 +158,9 @@ erahumed_simulation <- function(
     porosity = porosity,
     seed = seed))
 
-  res$etc$management_df <- get_management_df(cluster_map)
-  res$etc$chemical_db <- get_chemical_db(cluster_map)
-  res$etc$applications_df <- get_applications_df(cluster_map)
+  res$etc$management_df <- get_management_df(rfms_map)
+  res$etc$chemical_db <- get_chemical_db(rfms_map)
+  res$etc$applications_df <- get_applications_df(rfms_map)
 
   res <- compute_inp(res)
 
@@ -234,10 +234,10 @@ print.erahumed_simulation <- function(x, ...) {
   n_days <- as.integer(as.Date(date_end) - as.Date(date_start)) + 1
   cat("  Simulation days        :", n_days, "\n")
 
-  cluster_map <- get_input(x, "cluster_map")
-  if (inherits(cluster_map, "erahumed_cluster_map")) {
-    cat("  Clusters               :", nrow(cluster_map$map_df), "\n")
-    cat("  Management systems     :", length(cluster_map$rfms_list), "\n")
+  rfms_map <- get_input(x, "rfms_map")
+  if (inherits(rfms_map, "erahumed_rfms_map")) {
+    cat("  Clusters               :", nrow(rfms_map$map_df), "\n")
+    cat("  Management systems     :", length(rfms_map$rfms_list), "\n")
   }
 
   chemicals <- x$etc$chemical_db

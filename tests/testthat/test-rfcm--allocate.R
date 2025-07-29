@@ -1,5 +1,5 @@
 test_that("Allocation of a rfms succeeds", {
-  map <- new_cluster_map()
+  map <- new_rfms_map()
   ms <- new_management_system()
 
   expect_no_error(allocate_surface(map = map,
@@ -9,15 +9,15 @@ test_that("Allocation of a rfms succeeds", {
 })
 
 test_that("allocate_surface() returns an object of the correct type", {
-  res <-     allocate_surface(map = new_cluster_map(),
+  res <-     allocate_surface(map = new_rfms_map(),
                               system = new_management_system(),
                               target_fraction = 0.5)
 
-  expect_no_error(assert_cluster_map(res))
+  expect_no_error(assert_rfms_map(res))
 })
 
 test_that("allocate_surface() increases the number of rfmss only upon adding new RFMS", {
-  map <- new_cluster_map()
+  map <- new_rfms_map()
   expect_length(map$rfms_list, 1)
   map <- allocate_surface(map = map, system = jsendra(), target_fraction = .1)
   expect_length(map$rfms_list, 2)

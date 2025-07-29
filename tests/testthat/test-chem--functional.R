@@ -10,7 +10,7 @@ test_that("Simulation succeeds with chemicals with no degradation",
   ms <- new_management_system() |>
     schedule_application(chem, seed_day = 10, emptying_days = 1, type = "ground", amount_kg_ha = 1)
 
-  cm <- new_cluster_map(default_management_system = ms)
+  cm <- new_rfms_map(default_management_system = ms)
 
-  expect_no_error(erahumed_simulation(cluster_map = cm, .progress = \(.) {}))
+  expect_no_error(erahumed_simulation(rfms_map = cm, .progress = \(.) {}))
 })

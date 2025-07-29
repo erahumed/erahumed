@@ -25,7 +25,7 @@ erahumed_simulation(
   bd_g_cm3 = 1.5,
   qseep_m_day = 0,
   porosity = 0.11,
-  cluster_map = default_cluster_map(seed = seed),
+  rfms_map = default_rfms_map(seed = seed),
   .progress = message
 )
 }
@@ -70,7 +70,7 @@ erahumed_simulation(
 
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 
-\item{cluster_map}{\verb{[erahumed_cluster_map]} \cr An object of class \link{cluster_map} that defines how different rice field management systems (RFMSs) are assigned to spatial clusters within the simulation. This object also encapsulates the full set of user-defined agrochemical configurations, including custom chemicals and RFMSs, and serves as the main interface for scenario customization.}
+\item{rfms_map}{\verb{[erahumed_rfms_map]} \cr An object of class \link{rfms_map} that defines how different rice field management systems (RFMSs) are assigned to spatial clusters within the simulation. This object also encapsulates the full set of user-defined agrochemical configurations, including custom chemicals and RFMSs, and serves as the main interface for scenario customization.}
 
 \item{.progress}{A function used to report simulation progress.
 It should accept a single character string as input, representing the
@@ -87,7 +87,7 @@ Initializes an ERAHUMED simulation. Check the
 for a detailed description of the simulation workflow.
 }
 \details{
-The \code{cluster_map} argument plays a central role in the customization
+The \code{rfms_map} argument plays a central role in the customization
 capabilities of the ERAHUMED model. Beyond mapping rice field management
 systems (RFMSs) to spatial clusters, it also carries the full definitions of
 custom chemicals and RFMSs configured by the user. This makes it the primary

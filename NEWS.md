@@ -5,9 +5,12 @@
 * Changed order in `erahumed_simulation()` arguments, matching the one used in 
 documentation tables.
 
+* `new_cluster_map()` is replaced by `new_rfms_map()`. The corresponding 
+underlying S3 class is renamed to `erahumed_rfms_map`.
+
 ### Documentation
 
-* Improved documentation of `cluster_map` argument of `erahumed_simualation()`.
+* Improved documentation of `rfms_map` argument of `erahumed_simualation()`.
 
 ### Under the hoods
 
@@ -140,14 +143,14 @@ Detailed changes are discussed above.
   are implemented using the helpers `jsendra()`, `clearfield()`, and `bomba()`.
 
 * The spatial distribution of management systems is defined through  
-  `new_cluster_map()` and `allocate_surface()`. `default_cluster_map()` provides a  
+  `new_rfms_map()` and `allocate_surface()`. `default_rfms_map()` provides a  
   predefined map inspired by current practices in the Albufera Natural Park.
 
 ## API changes
 
 * `erahumed_simulation()` no longer accepts the `variety_prop`,  
   `management_df`, and `ca_schedules_df` arguments. These have been replaced  
-  by a new `cluster_map` argument, through which users provide all relevant  
+  by a new `rfms_map` argument, through which users provide all relevant  
   information regarding custom chemicals, management schemes, and their  
   spatial distribution.
 
