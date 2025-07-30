@@ -4,27 +4,27 @@
 #' including its identity, degradation rates, sorption properties, and toxicity
 #' to aquatic organisms.
 #'
-#' @param display_name `r chemical_prop_roxy("display_name")`
-#' @param tmoa_id `r chemical_prop_roxy("tmoa_id")`
-#' @param MW `r chemical_prop_roxy("MW")`
-#' @param ksetl_m_day `r chemical_prop_roxy("ksetl_m_day")`
-#' @param sol_ppm `r chemical_prop_roxy("sol_ppm")`
-#' @param koc_cm3_g `r chemical_prop_roxy("koc_cm3_g")`
-#' @param fet_cm `r chemical_prop_roxy("fet_cm")`
-#' @param kf_day `r chemical_prop_roxy("kf_day")`
-#' @param kw_day `r chemical_prop_roxy("kw_day")`
-#' @param ks_sat_day `r chemical_prop_roxy("ks_sat_day")`
-#' @param ks_unsat_day `r chemical_prop_roxy("ks_unsat_day")`
-#' @param kw_temp `r chemical_prop_roxy("kw_temp")`
-#' @param ks_sat_temp `r chemical_prop_roxy("ks_sat_temp")`
-#' @param ks_unsat_temp `r chemical_prop_roxy("ks_unsat_temp")`
-#' @param Q10_kw `r chemical_prop_roxy("Q10_kw")`
-#' @param Q10_ks_sat `r chemical_prop_roxy("Q10_ks_sat")`
-#' @param Q10_ks_unsat `r chemical_prop_roxy("Q10_ks_unsat")`
-#' @param ssd_acute_mu `r chemical_prop_roxy("ssd_acute_mu")`
-#' @param ssd_acute_sigma `r chemical_prop_roxy("ssd_acute_sigma")`
-#' @param ssd_chronic_mu `r chemical_prop_roxy("ssd_chronic_mu")`
-#' @param ssd_chronic_sigma `r chemical_prop_roxy("ssd_chronic_sigma")`
+#' @param display_name `r get_param_roxy("display_name", fun = "chemical")`
+#' @param tmoa_id `r get_param_roxy("tmoa_id", fun = "chemical")`
+#' @param MW `r get_param_roxy("MW", fun = "chemical")`
+#' @param ksetl_m_day `r get_param_roxy("ksetl_m_day", fun = "chemical")`
+#' @param sol_ppm `r get_param_roxy("sol_ppm", fun = "chemical")`
+#' @param koc_cm3_g `r get_param_roxy("koc_cm3_g", fun = "chemical")`
+#' @param fet_cm `r get_param_roxy("fet_cm", fun = "chemical")`
+#' @param kf_day `r get_param_roxy("kf_day", fun = "chemical")`
+#' @param kw_day `r get_param_roxy("kw_day", fun = "chemical")`
+#' @param ks_sat_day `r get_param_roxy("ks_sat_day", fun = "chemical")`
+#' @param ks_unsat_day `r get_param_roxy("ks_unsat_day", fun = "chemical")`
+#' @param kw_temp `r get_param_roxy("kw_temp", fun = "chemical")`
+#' @param ks_sat_temp `r get_param_roxy("ks_sat_temp", fun = "chemical")`
+#' @param ks_unsat_temp `r get_param_roxy("ks_unsat_temp", fun = "chemical")`
+#' @param Q10_kw `r get_param_roxy("Q10_kw", fun = "chemical")`
+#' @param Q10_ks_sat `r get_param_roxy("Q10_ks_sat", fun = "chemical")`
+#' @param Q10_ks_unsat `r get_param_roxy("Q10_ks_unsat", fun = "chemical")`
+#' @param ssd_acute_mu `r get_param_roxy("ssd_acute_mu", fun = "chemical")`
+#' @param ssd_acute_sigma `r get_param_roxy("ssd_acute_sigma", fun = "chemical")`
+#' @param ssd_chronic_mu `r get_param_roxy("ssd_chronic_mu", fun = "chemical")`
+#' @param ssd_chronic_sigma `r get_param_roxy("ssd_chronic_sigma", fun = "chemical")`
 #'
 #' @return An object of class `erahumed_chemical`.
 #'

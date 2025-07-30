@@ -1,7 +1,7 @@
 allocation_input_tooltip <- function(name) {
   bslib::tooltip(
     trigger = shiny_icon("question-circle"),
-    allocation_param_desc(name, strip_roxy = TRUE),
+    get_param_desc(param = name, fun = "allocation", strip_roxy = TRUE),
     placement = "right"
   )
 }

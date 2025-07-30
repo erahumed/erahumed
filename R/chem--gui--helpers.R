@@ -14,7 +14,7 @@ default_chemical_db <- function() {
 chem_input_tooltip <- function(param) {
   bslib::tooltip(
     trigger = shiny_icon("question-circle"),
-    chemical_prop_desc(param, strip_roxy = TRUE),
+    get_param_desc(param, fun = "chemical", strip_roxy = TRUE),
     placement = "right"
   )
 }

@@ -14,12 +14,50 @@ knitr::opts_chunk$set(
 )
 ```
 
+### Simulation parameters
+
 ```{r}
 #| echo: false
-#| label: tbl-landscape-params
-#| tbl-cap: "ERAHUMED input parameters"
+#| label: tbl-simulation-params
+#| tbl-cap: "Simulation input parameters"
 
-input_docs_df <- erahumed:::erahumed_input_docs_df(fmt_markdown = gt::vec_fmt_markdown)
+input_docs_df <- erahumed:::get_param_docs_df(fun = "simulation", fmt_markdown = gt::vec_fmt_markdown)
+
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
+```
+
+### Chemical parameters
+
+```{r}
+#| echo: false
+#| label: tbl-chemical-params
+#| tbl-cap: "Chemical input parameters"
+
+input_docs_df <- erahumed:::get_param_docs_df(fun = "chemical", fmt_markdown = gt::vec_fmt_markdown)
+
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
+```
+
+### Rice field management system parameters
+
+```{r}
+#| echo: false
+#| label: tbl-rfm-params
+#| tbl-cap: "RFMS input parameters"
+
+input_docs_df <- erahumed:::get_param_docs_df(fun = "rfms", fmt_markdown = gt::vec_fmt_markdown)
+
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
+```
+
+### Surface allocation parameters
+
+```{r}
+#| echo: false
+#| label: tbl-allocation-params
+#| tbl-cap: "Surface allocation input parameters"
+
+input_docs_df <- erahumed:::get_param_docs_df(fun = "allocation", fmt_markdown = gt::vec_fmt_markdown)
 
 knitr::kable(input_docs_df, format = "html", escape = FALSE)
 ```

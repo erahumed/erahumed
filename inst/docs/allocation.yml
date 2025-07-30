@@ -2,6 +2,7 @@ map:
   name: "Cluster map"
   group: "Inputs"
   type: "erahumed_rfms_map"
+  unit: "N/A"
   description: >
     A cluster map created with `new_rfms_map()` or `default_rfms_map()`.
 
@@ -9,6 +10,7 @@ system:
   name: "Management system"
   group: "Inputs"
   type: "erahumed_rfms"
+  unit: "N/A"
   description: >
     A management system to assign, created with `new_rfms()` or helper
     functions such as `bomba()` or `clearfield()`.
@@ -17,6 +19,7 @@ target_fraction:
   name: "Target allocation fraction"
   group: "Allocation settings"
   type: "numeric(1)"
+  unit: "1"
   description: >
     The fraction of surface area **within the selected subset** of clusters
     (filtered by `ditches` and `field_type`) to allocate to the given system.
@@ -26,6 +29,7 @@ ditches:
   name: "Ditches"
   group: "Allocation settings"
   type: "integer"
+  unit: "N/A"
   description: >
     A vector of ditch IDs (e.g., 1:26) defining the subset of clusters to be
     considered for allocation. Defaults to all ditches.
@@ -34,6 +38,7 @@ field_type:
   name: "Field type"
   group: "Allocation settings"
   type: "character(1)"
+  unit: "N/A"
   description: >
     Type of field to consider when selecting clusters. Must be one of:
 

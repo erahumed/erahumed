@@ -5,27 +5,27 @@
 #' [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
 #' for a detailed description of the simulation workflow.
 #'
-#' @param date_start `r input_roxy("date_start")`
-#' @param date_end `r input_roxy("date_end")`
-#' @param seed `r input_roxy("seed")`
-#' @param outflows_df `r input_roxy("outflows_df")`
-#' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
-#' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
-#' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
-#' @param weather_df `r input_roxy("weather_df")`
-#' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
-#' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
-#' @param ditch_level_m `r input_roxy("ditch_level_m")`
-#' @param covmax `r input_roxy("covmax")`
-#' @param jgrow `r input_roxy("jgrow")`
-#' @param dact_m `r input_roxy("dact_m")`
-#' @param css_ppm `r input_roxy("css_ppm")`
-#' @param foc_ss `r input_roxy("foc_ss")`
-#' @param foc_sed `r input_roxy("foc_sed")`
-#' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
-#' @param qseep_m_day `r input_roxy("qseep_m_day")`
-#' @param porosity `r input_roxy("porosity")`
-#' @param rfms_map `r input_roxy("rfms_map")`
+#' @param date_start `r get_param_roxy("date_start", fun = "simulation")`
+#' @param date_end `r get_param_roxy("date_end", fun = "simulation")`
+#' @param seed `r get_param_roxy("seed", fun = "simulation")`
+#' @param outflows_df `r get_param_roxy("outflows_df", fun = "simulation")`
+#' @param storage_curve_slope_m2 `r get_param_roxy("storage_curve_slope_m2", fun = "simulation")`
+#' @param storage_curve_intercept_m3 `r get_param_roxy("storage_curve_intercept_m3", fun = "simulation")`
+#' @param petp_surface_m2 `r get_param_roxy("petp_surface_m2", fun = "simulation")`
+#' @param weather_df `r get_param_roxy("weather_df", fun = "simulation")`
+#' @param ideal_flow_rate_cm `r get_param_roxy("ideal_flow_rate_cm", fun = "simulation")`
+#' @param height_thresh_cm `r get_param_roxy("height_thresh_cm", fun = "simulation")`
+#' @param ditch_level_m `r get_param_roxy("ditch_level_m", fun = "simulation")`
+#' @param covmax `r get_param_roxy("covmax", fun = "simulation")`
+#' @param jgrow `r get_param_roxy("jgrow", fun = "simulation")`
+#' @param dact_m `r get_param_roxy("dact_m", fun = "simulation")`
+#' @param css_ppm `r get_param_roxy("css_ppm", fun = "simulation")`
+#' @param foc_ss `r get_param_roxy("foc_ss", fun = "simulation")`
+#' @param foc_sed `r get_param_roxy("foc_sed", fun = "simulation")`
+#' @param bd_g_cm3 `r get_param_roxy("bd_g_cm3", fun = "simulation")`
+#' @param qseep_m_day `r get_param_roxy("qseep_m_day", fun = "simulation")`
+#' @param porosity `r get_param_roxy("porosity", fun = "simulation")`
+#' @param rfms_map `r get_param_roxy("rfms_map", fun = "simulation")`
 #' @param .progress A function used to report simulation progress.
 #'   It should accept a single character string as input, representing the
 #'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).

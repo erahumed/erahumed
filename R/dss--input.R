@@ -71,7 +71,7 @@ dss_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("outflows"),
-          columns = erahumed_input_docs("outflows_df", "columns")
+          columns = get_param_docs("outflows_df", fun = "simulation")[["columns"]]
         ),
         title = shiny::p("Setup Outflows Dataset", dss_input_tooltip("outflows_df")),
         size = "xl"
@@ -83,7 +83,7 @@ dss_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("weather"),
-          columns = erahumed_input_docs("weather_df", "columns")
+          columns = get_param_docs("weather_df", fun = "simulation")[["columns"]]
         ),
         title = shiny::p("Setup Weather Dataset", dss_input_tooltip("weather_df")),
         size = "xl"
@@ -129,18 +129,3 @@ dss_input_server <- function(id) {
   })
 }
 
-layer_card_header <- function(layer) {
-  docs <- erahumed_input_docs("layers", layer)
-
-  title <- docs[["title"]]
-  description <- docs[["description"]]
-
-  card_header(title,
-              bslib::tooltip(
-                shiny_icon("question-circle"),
-                description,
-                placement = "right"
-              ),
-              class = "bg-dark")
-
-}
