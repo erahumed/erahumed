@@ -14,12 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Simulation parameters
+### Landscape parameters
 
 ```{r}
 #| echo: false
-#| label: tbl-simulation-params
-#| tbl-cap: "Simulation input parameters"
+#| label: tbl-landscape-params
+#| tbl-cap: "Landscape input parameters"
 
 input_docs_df <- erahumed:::get_param_docs_df(fun = "simulation", fmt_markdown = gt::vec_fmt_markdown)
 

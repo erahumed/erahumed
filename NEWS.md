@@ -12,7 +12,10 @@ underlying S3 class is renamed to `erahumed_rfms_map`.
 
 ### Documentation
 
-* Improved documentation of `rfms_map` argument of `erahumed_simualation()`.
+* Improved documentation of `rfms_map` argument of `erahumed_simulation()`.
+* The [simulation inputs vignette](https://erahumed.github.io/erahumed/articles/simulation-inputs.html)
+now also lists chemical parameters, RFMS parameters and parameters for surface
+allocation.
 
 ### Under the hoods
 
