@@ -1,18 +1,10 @@
-#' @param sowing_yday `[integer(1)]` \cr
-#' Day of the year marking the start of the sowing season (1–366, assuming a leap year).
-#' @param harvesting_yday `[integer(1)]` \cr
-#' Day of the year marking the end of the sowing season (1–366, assuming a leap year).
-#' @param perellona_start_yday `[integer(1)]` \cr
-#' Day of the year marking the beginning of the *Perellona* flooding period (after harvest).
-#' @param perellona_end_yday `[integer(1)]` \cr
-#' Day of the year marking the end of the *Perellona* flooding period (before sowing).
-#' @param flow_height_cm `[numeric(1)]` \cr
-#' Target water level (in cm) during the regular days of the sowing season,
-#' excluding emptying and transition days.
-#' @param perellona_height_cm `[numeric(1)]` \cr
-#' Target water level (in cm) during the *Perellona* flooding period.
-#' @param display_name `[character(1)]` \cr
-#' Name of the management systems to be displayed in output plots and summaries.
+#' @param sowing_yday `r get_param_roxy("sowing_yday", fun = "rfms")`
+#' @param harvesting_yday `r get_param_roxy("harvesting_yday", fun = "rfms")`
+#' @param perellona_start_yday `r get_param_roxy("perellona_start_yday", fun = "rfms")`
+#' @param perellona_end_yday `r get_param_roxy("perellona_end_yday", fun = "rfms")`
+#' @param flow_height_cm `r get_param_roxy("flow_height_cm", fun = "rfms")`
+#' @param perellona_height_cm `r get_param_roxy("perellona_height_cm", fun = "rfms")`
+#' @param display_name `r get_param_roxy("display_name", fun = "rfms")`
 #'
 #' @rdname rfms
 #' @export

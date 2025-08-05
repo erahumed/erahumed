@@ -26,27 +26,19 @@ new_rfms(
 )
 }
 \arguments{
-\item{sowing_yday}{\verb{[integer(1)]} \cr
-Day of the year marking the start of the sowing season (1–366, assuming a leap year).}
+\item{sowing_yday}{\verb{[integer(1)]} \cr Day of the year marking the start of the sowing season (1–366, assuming a leap year).}
 
-\item{harvesting_yday}{\verb{[integer(1)]} \cr
-Day of the year marking the end of the sowing season (1–366, assuming a leap year).}
+\item{harvesting_yday}{\verb{[integer(1)]} \cr Day of the year marking the end of the sowing season (1–366, assuming a leap year).}
 
-\item{perellona_end_yday}{\verb{[integer(1)]} \cr
-Day of the year marking the end of the \emph{Perellona} flooding period (before sowing).}
+\item{perellona_end_yday}{\verb{[integer(1)]} \cr Day of the year marking the end of the \emph{Perellona} flooding period (before sowing).}
 
-\item{perellona_start_yday}{\verb{[integer(1)]} \cr
-Day of the year marking the beginning of the \emph{Perellona} flooding period (after harvest).}
+\item{perellona_start_yday}{\verb{[integer(1)]} \cr Day of the year marking the beginning of the \emph{Perellona} flooding period (after harvest).}
 
-\item{flow_height_cm}{\verb{[numeric(1)]} \cr
-Target water level (in cm) during the regular days of the sowing season,
-excluding emptying and transition days.}
+\item{flow_height_cm}{\verb{[numeric(1)]} \cr Target water level (in cm) during the regular days of the sowing season, excluding emptying and transition days.}
 
-\item{perellona_height_cm}{\verb{[numeric(1)]} \cr
-Target water level (in cm) during the \emph{Perellona} flooding period.}
+\item{perellona_height_cm}{\verb{[numeric(1)]} \cr Target water level (in cm) during the \emph{Perellona} flooding period.}
 
-\item{display_name}{\verb{[character(1)]} \cr
-Name of the management systems to be displayed in output plots and summaries.}
+\item{display_name}{\verb{[character(1)]} \cr Name of the management system to be displayed in output plots and summaries.}
 }
 \value{
 An object of class \code{erahumed_rfms}.
