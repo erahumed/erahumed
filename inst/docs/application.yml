@@ -1,0 +1,41 @@
+system:
+  name: "RFMS object"
+  group: "Input object"
+  type: "erahumed_rfms"
+  unit: "N/A"
+  description: "A rice field management system to which the application is added. See [rfms] for details."
+
+chemical:
+  name: "Chemical"
+  group: "Chemical"
+  type: "erahumed_chemical"
+  unit: "N/A"
+  description: "Chemical compound to be applied. See [chemical] for details."
+
+amount_kg_ha:
+  name: "Application rate"
+  group: "Application"
+  type: "numeric(1)"
+  unit: "kg/ha"
+  description: "Amount of active ingredient applied per hectare."
+
+seed_day:
+  name: "Application day after seeding"
+  group: "Application"
+  type: "integer(1)"
+  unit: "days"
+  description: "Number of days after seeding when the application is performed."
+
+type:
+  name: "Application type"
+  group: "Application"
+  type: "character(1)"
+  unit: "N/A"
+  description: "Application method, either 'ground' (requiring draining) or 'aerial'."
+
+emptying_days:
+  name: "Emptying duration"
+  group: "Application"
+  type: "numeric(1)"
+  unit: "days"
+  description: "Number of days the field remains empty after a ground application. Ignored if the application type is 'aerial'."

@@ -1,4 +1,4 @@
-parse_docs_yml <- function(fun = c("simulation", "chemical", "rfms", "allocation")) {
+parse_docs_yml <- function(fun = c("simulation", "chemical", "rfms", "application", "allocation")) {
   fun <- match.arg(fun)
   filename <- paste0(fun, ".yml")
   yml_path <- system.file("docs", filename, package = "erahumed")

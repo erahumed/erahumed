@@ -58,26 +58,18 @@ is_rfms <- function(x) {
 
 #' Schedule chemical application
 #'
-#' Schedules a chemical application within an existing rice field management
-#' system (see [rfms]).
+#' Adds a chemical application to a rice field management system (RFMS), specifying timing, application method, and chemical properties.
 #'
-#' @param system `[`[erahumed_rfms][rfms]`]` \cr
-#'   A rice field management system object.
-#' @param chemical `[`[erahumed_chemical][chemical]`]` \cr
-#'   Chemical to be applied.
-#' @param amount_kg_ha `[numeric(1)]` \cr
-#'   Application rate in kilograms per hectare.
-#' @param seed_day `[integer(1)]` \cr
-#'   Day after seeding when the application occurs.
-#' @param type `[character(1)]` \cr
-#'   Application type, either `"ground"` or `"aerial"`.
-#' @param emptying_days `[numeric(1)]` \cr
-#'   Duration (in days) that the field remains empty after a `"ground"`
-#'   application. Ignored if `type` is `"aerial"`.
+#' @param system `r get_param_roxy("system", fun = "application")`
+#' @param chemical `r get_param_roxy("chemical", fun = "application")`
+#' @param amount_kg_ha `r get_param_roxy("amount_kg_ha", fun = "application")`
+#' @param seed_day `r get_param_roxy("seed_day", fun = "application")`
+#' @param type `r get_param_roxy("type", fun = "application")`
+#' @param emptying_days `r get_param_roxy("emptying_days", fun = "application")`
 #'
-#' @return An object of class [erahumed_rfms][rfms].
+#' @return An updated object of class [erahumed_rfms][rfms] with the scheduled application included.
 #'
-#' @seealso [rfms]
+#' @seealso [rfms], [chemical]
 #'
 #' @export
 schedule_application <- function(
