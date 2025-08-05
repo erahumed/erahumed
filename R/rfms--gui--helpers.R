@@ -22,3 +22,19 @@ get_proto_applications <- function(rfms, chemical_db) {
     )
   } )
 }
+
+rfms_input_tooltip <- function(param) {
+  bslib::tooltip(
+    trigger = shiny_icon("question-circle"),
+    get_param_desc(param, fun = "rfms", strip_roxy = TRUE),
+    placement = "right"
+  )
+}
+
+application_input_tooltip <- function(param) {
+  bslib::tooltip(
+    trigger = shiny_icon("question-circle"),
+    get_param_desc(param, fun = "application", strip_roxy = TRUE),
+    placement = "right"
+  )
+}
