@@ -24,7 +24,7 @@ schedule_application(
 
 \item{type}{\verb{[character(1)]} \cr Application method, either 'ground' (requiring draining) or 'aerial'.}
 
-\item{emptying_days}{\verb{[numeric(1)]} \cr Number of days the field remains empty after a ground application. Ignored if the application type is 'aerial'.}
+\item{emptying_days}{\verb{[numeric(1)]} \cr Number of days the field remains empty \strong{before} a ground application. The chemical is always assumed to be applied on the \strong{last day} of this emptying period. Ignored if the application type is \code{"aerial"}.}
 }
 \value{
 An updated object of class \link[=rfms]{erahumed_rfms} with the scheduled application included.

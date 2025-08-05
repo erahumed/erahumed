@@ -38,4 +38,7 @@ emptying_days:
   group: "Application"
   type: "numeric(1)"
   unit: "days"
-  description: "Number of days the field remains empty after a ground application. Ignored if the application type is 'aerial'."
+  description: >-
+    Number of days the field remains empty **before** a ground application.
+    The chemical is always assumed to be applied on the **last day** of this
+    emptying period. Ignored if the application type is `"aerial"`.
