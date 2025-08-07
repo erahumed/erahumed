@@ -1,3 +1,3 @@
-test_that("erahumed_input_docs() returns a list", {
-  expect_vector(erahumed_input_docs(), ptype = list())
+test_that("parse_docs_yml() returns a list", {
+  expect_vector(parse_docs_yml(), ptype = list())
 })
