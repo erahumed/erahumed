@@ -88,7 +88,7 @@ rfms_db_server <- function(id, chemical_db) {
       rfms_modules[[tab_id]] <- rfms_server(
         id = tab_id,
         chemical_db = chemical_db,
-        initial_rfms = new_management_system(display_name = tab_label)
+        initial_rfms = new_rfms(display_name = tab_label)
         )
 
       open_tabs(c(open_tabs(), tab_id))

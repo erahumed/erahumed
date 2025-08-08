@@ -113,7 +113,7 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
     output$selected_wb_info <- shiny::renderText({
       if (element_type() == "c") {
-        cvmap <- get_input(simulation(), "cluster_map")[["map_df"]]
+        cvmap <- get_input(simulation(), "rfms_map")[["map_df"]]
         cvmap$rfms_id <- cvmap$rfms_id
         cvmap$element_id <- cvmap$cluster_id
         cvmap <- cvmap[, c("element_id", "rfms_id")]

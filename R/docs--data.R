@@ -8,7 +8,7 @@
 #' Publicly available at <http://riegos.ivia.es/>.
 #'
 #' @format ## `albufera_weather`
-#' `r erahumed_dataset_format("weather_df")`
+#' `r get_dataset_format_roxy("weather_df", fun = "simulation")`
 #' @source <http://riegos.ivia.es/>
 "albufera_weather"
 
@@ -25,6 +25,6 @@
 #' @name albufera_outflows
 #'
 #' @format ## `albufera_outflows`
-#' `r erahumed_dataset_format("outflows_df")`
+#' `r get_dataset_format_roxy("outflows_df", fun = "simulation")`
 #' @source <https://aps.chj.es/>
 "albufera_outflows"

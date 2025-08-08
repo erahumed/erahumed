@@ -189,20 +189,11 @@ dss_input_porosity <- function(id) {
 
 dss_input_weather_df_button <- function(id) {
   btn <- shiny::actionButton(inputId = id, label = "Setup Weather DF")
-  bslib::tooltip(trigger = btn, erahumed_input_desc("weather_df"))
+  bslib::tooltip(trigger = btn, get_param_desc("weather_df", fun = "simulation"))
 }
 
 dss_input_outflows_df_button <- function(id) {
   btn <- shiny::actionButton(inputId = id, label = "Setup Outflows DF")
-  bslib::tooltip(trigger = btn, erahumed_input_desc("outflows_df"))
+  bslib::tooltip(trigger = btn, get_param_desc("outflows_df", fun = "simulation"))
 }
 
-dss_input_management_df_button <- function(id) {
-  btn <- shiny::actionButton(inputId = id, label = "Setup Management DF")
-  bslib::tooltip(trigger = btn, erahumed_input_desc("management_df"))
-}
-
-dss_input_ca_schedules_df_button <- function(id) {
-  btn <- shiny::actionButton(inputId = id, label = "Setup Applications DF")
-  bslib::tooltip(trigger = btn, erahumed_input_desc("ca_schedules_df"))
-}

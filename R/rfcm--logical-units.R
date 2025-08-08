@@ -3,7 +3,7 @@ rfcm_get_map_candidates <- function(map,
                            field_type = c("both", "regular", "tancat")
                            )
 {
-  assert_cluster_map(map)
+  assert_rfms_map(map)
   assert_character(ditches)
   field_type <- match.arg(field_type)
 

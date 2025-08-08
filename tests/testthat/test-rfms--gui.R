@@ -30,6 +30,6 @@ test_that("Server returns a reactive expression", {
 test_that("Return value is a RFMS", {
   shiny::testServer(rfms_server, {
     res <- session$returned
-    expect_s3_class(res(), class(new_management_system()))
+    expect_s3_class(res(), class(new_rfms()))
   }, args = list(get_etc(test_sim_small(), "chemical_db")))
 })

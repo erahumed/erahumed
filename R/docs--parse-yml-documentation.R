@@ -1,10 +1,31 @@
-get_roxy_param_entry <- function(docs) {
+parse_docs_yml <- function(fun = c("simulation", "chemical", "rfms", "application", "allocation")) {
+  fun <- match.arg(fun)
+  filename <- paste0(fun, ".yml")
+  yml_path <- system.file("docs", filename, package = "erahumed")
+
+  yaml::read_yaml(yml_path)
+}
+
+get_param_docs <- function(param, fun)
+{
+  assert_string(param)
+
+  docs <- parse_docs_yml(fun)
+
+  res <- docs[[param]]
+
+  if (is.null(res))
+    warning( paste0("No entry found for ", fun, " parameter '", param, "'.") )
+
+  return(res)
+}
+
+get_param_roxy <- function(param, fun)
+{
+  docs <- get_param_docs(param = param, fun = fun)
+
   if (is.null(docs[["description"]])) {
-    docs[["description"]] <- paste(
-      "No description available.",
-      "If you think this is a bug, please reach out to us by filing an issue",
-      "[on Github](https://github.com/erahumed/erahumed/issues)."
-    )
+    docs[["description"]] <- param_desc_placeholder()
   }
 
   if (is.null(docs[["type"]])) {
@@ -16,38 +37,10 @@ get_roxy_param_entry <- function(docs) {
   return(res)
 }
 
-erahumed_input_docs <- function(...)
-{
-  args <- list(...)
+get_param_desc <- function(param, fun, strip_roxy = TRUE) {
+  docs <- get_param_docs(param = param, fun = fun)
 
-  sapply(args, assert_string)
-
-  tags <- as.character(args)
-
-  yml_path <- system.file("docs", "inputs.yml", package = "erahumed")
-  docs <- yaml::read_yaml(yml_path)
-
-  res <- docs
-  for (tag in tags) {
-    res <- res[[tag]]
-  }
-
-  if (is.null(res)) {
-    obj <- paste(tags, collapse = "/")
-    warning( paste0("No entry found for '", obj, "' found in ", yml_path, ".") )
-  }
-
-  return(res)
-}
-
-
-
-input_roxy <- function(name) {
-  get_roxy_param_entry(erahumed_input_docs(name))
-}
-
-erahumed_input_desc <- function(name, strip_roxy = TRUE) {
-  res <- erahumed_input_docs(name, "description")
+  res <- docs[["description"]]
 
   if (strip_roxy)
     res <- strip_roxy_macros(res)
@@ -55,12 +48,14 @@ erahumed_input_desc <- function(name, strip_roxy = TRUE) {
   return(res)
 }
 
-erahumed_dataset_format <- function(name){
-  docs <- erahumed_input_docs(name)
+get_dataset_format_roxy <- function(param, fun){
+  docs <- get_param_docs(param, fun)
 
-  if (is.null(docs)) {
+  docs_df <- docs[["df"]]
+
+  if (is.null(docs_df)) {
     res <- paste(
-      "No format description available.",
+      "No dataset format description available.",
       "If you think this is a bug, please reach out to us by filing an issue",
       "[on Github](https://github.com/erahumed/erahumed/issues)."
     )
@@ -69,12 +64,12 @@ erahumed_dataset_format <- function(name){
   }
 
   res <- paste0(
-    "The cardinality of data is given by: ", docs[["cardinality"]],
+    "The cardinality of data is given by: ", docs_df[["cardinality"]],
     "The dataset features the following columns:",
     "\\describe{"
   )
 
-  cols <- docs[["columns"]]
+  cols <- docs_df[["columns"]]
   for (i in seq_along(cols)) {
     res <- paste0(res,
                   "\\item{", names(cols)[[i]], "}{", cols[[i]], "}")
@@ -85,71 +80,40 @@ erahumed_dataset_format <- function(name){
   return(res)
 }
 
-chemical_prop_docs <- function(...)
-{
-  args <- list(...)
+get_param_docs_df <- function(fun, fmt_markdown = identity) {
+  docs <- parse_docs_yml(fun)
 
-  sapply(args, assert_string)
+  res <- data.frame(
+    Parameter = names(docs) |> wrap_bcktcks() |> fmt_markdown(),
+    Name = NA,
+    Unit = NA,
+    Group = NA,
+    Type = NA,
+    Description = NA
+  )
 
-  tags <- as.character(args)
+  for (i in seq_along(docs)) {
+    res[i, "Name"] <- (docs[[i]]$name %||% res[i, "Parameter"])
+    res[i, "Unit"] <- (docs[[i]]$unit %||% "N/A")
+    res[i, "Type"] <- docs[[i]]$type |>
+      wrap_bcktcks() |> fmt_markdown()
+    res[i, "Group"] <- docs[[i]]$group
+    res[i, "Description"] <- docs[[i]]$description |>
+      strip_roxy_macros() |> fmt_markdown()
 
-  yml_path <- system.file("docs", "chemical_properties.yml", package = "erahumed")
-  docs <- yaml::read_yaml(yml_path)
-
-  res <- docs
-  for (tag in tags) {
-    res <- res[[tag]]
-  }
-
-  if (is.null(res)) {
-    obj <- paste(tags, collapse = "/")
-    warning( paste0("No entry found for '", obj, "' found in ", yml_path, ".") )
-  }
-
-  return(res)
-}
-
-chemical_prop_roxy <- function(name) {
-  get_roxy_param_entry(chemical_prop_docs(name))
-}
-
-chemical_prop_desc <- function(name, strip_roxy = TRUE) {
-  res <- chemical_prop_docs(name, "description")
-
-  if (strip_roxy)
-    res <- strip_roxy_macros(res)
-
-  return(res)
-}
-
-
-allocation_param_docs <- function(...) {
-  args <- list(...)
-  sapply(args, assert_string)
-
-  yml_path <- system.file("docs", "allocation_parameters.yml", package = "erahumed")
-  docs <- yaml::read_yaml(yml_path)
-
-  res <- docs
-  for (tag in args) {
-    res <- res[[tag]]
-  }
-
-  if (is.null(res)) {
-    obj <- paste(args, collapse = "/")
-    warning(paste0("No entry found for '", obj, "' in ", yml_path, "."))
   }
 
   return(res)
 }
 
-allocation_param_roxy <- function(name) {
-  get_roxy_param_entry(allocation_param_docs(name))
-}
 
-allocation_param_desc <- function(name, strip_roxy = TRUE) {
-  res <- allocation_param_docs(name, "description")
-  if (strip_roxy) res <- strip_roxy_macros(res)
-  return(res)
-}
 
+param_desc_placeholder <- function() {
+  gh_issue_link <- "https://github.com/erahumed/erahumed/issues"
+
+  paste(
+    "No description available.",
+    "If you think this is a bug, please reach out to us by filing an issue",
+    "[on Github](", gh_issue_link, ")."
+  )
+}

@@ -4,13 +4,13 @@
 #' clusters that match given spatial and structural criteria, using only the
 #' subset of eligible clusters defined by `ditches` and `field_type`.
 #'
-#' @param map `r allocation_param_roxy("map")`
-#' @param system `r allocation_param_roxy("system")`
-#' @param target_fraction `r allocation_param_roxy("target_fraction")`
-#' @param ditches `r allocation_param_roxy("ditches")`
-#' @param field_type `r allocation_param_roxy("field_type")`
+#' @param map `r get_param_roxy("map", fun = "allocation")`
+#' @param system `r get_param_roxy("system", fun = "allocation")`
+#' @param target_fraction `r get_param_roxy("target_fraction", fun = "allocation")`
+#' @param ditches `r get_param_roxy("ditches", fun = "allocation")`
+#' @param field_type `r get_param_roxy("field_type", fun = "allocation")`
 #'
-#' @return An updated `erahumed_cluster_map` object with the new system
+#' @return An updated `erahumed_rfms_map` object with the new system
 #'   allocated to selected clusters.
 #'
 #' @details
@@ -37,8 +37,8 @@ allocate_surface <- function(map,
                              field_type = c("both", "regular", "tancat"))
 {
   tryCatch({
-    assert_cluster_map(map)
-    assert_management_system(system)
+    assert_rfms_map(map)
+    assert_rfms(system)
     assert_positive_number(target_fraction)
     stopifnot(target_fraction <= 1)
     assert_integer_vector(ditches)

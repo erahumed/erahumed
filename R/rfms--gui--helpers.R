@@ -1,5 +1,5 @@
 rfms_input_defaults <- function() {
-  fmls <- formals(new_management_system)
+  fmls <- formals(new_rfms)
   list(
     sowing_yday = eval(fmls$sowing_yday),
     harvesting_yday = eval(fmls$harvesting_yday),
@@ -21,4 +21,20 @@ get_proto_applications <- function(rfms, chemical_db) {
       emptying_days = app$emptying_days
     )
   } )
+}
+
+rfms_input_tooltip <- function(param) {
+  bslib::tooltip(
+    trigger = shiny_icon("question-circle"),
+    get_param_desc(param, fun = "rfms", strip_roxy = TRUE),
+    placement = "right"
+  )
+}
+
+application_input_tooltip <- function(param) {
+  bslib::tooltip(
+    trigger = shiny_icon("question-circle"),
+    get_param_desc(param, fun = "application", strip_roxy = TRUE),
+    placement = "right"
+  )
 }

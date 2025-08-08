@@ -14,32 +14,24 @@ schedule_application(
 )
 }
 \arguments{
-\item{system}{\code{[}\link[=management_system]{erahumed_management_system}\verb{]} \cr
-A rice field management system object.}
+\item{system}{\verb{[erahumed_rfms]} \cr A rice field management system to which the application is added. See \link{rfms} for details.}
 
-\item{chemical}{\code{[}\link[=chemical]{erahumed_chemical}\verb{]} \cr
-Chemical to be applied.}
+\item{chemical}{\verb{[erahumed_chemical]} \cr Chemical compound to be applied. See \link{chemical} for details.}
 
-\item{amount_kg_ha}{\verb{[numeric(1)]} \cr
-Application rate in kilograms per hectare.}
+\item{amount_kg_ha}{\verb{[numeric(1)]} \cr Amount of active ingredient applied per hectare.}
 
-\item{seed_day}{\verb{[integer(1)]} \cr
-Day after seeding when the application occurs.}
+\item{seed_day}{\verb{[integer(1)]} \cr Number of days after seeding when the application is performed.}
 
-\item{type}{\verb{[character(1)]} \cr
-Application type, either \code{"ground"} or \code{"aerial"}.}
+\item{type}{\verb{[character(1)]} \cr Application method, either 'ground' (requiring draining) or 'aerial'.}
 
-\item{emptying_days}{\verb{[numeric(1)]} \cr
-Duration (in days) that the field remains empty after a \code{"ground"}
-application. Ignored if \code{type} is \code{"aerial"}.}
+\item{emptying_days}{\verb{[numeric(1)]} \cr Number of days the field remains empty \strong{before} a ground application. The chemical is always assumed to be applied on the \strong{last day} of this emptying period. Ignored if the application type is \code{"aerial"}.}
 }
 \value{
-An object of class \link[=management_system]{erahumed_management_system}.
+An updated object of class \link[=rfms]{erahumed_rfms} with the scheduled application included.
 }
 \description{
-Schedules a chemical application within an existing rice field management
-system (see \link{management_system}).
+Adds a chemical application to a rice field management system (RFMS), specifying timing, application method, and chemical properties.
 }
 \seealso{
-\link{management_system}
+\link{rfms}, \link{chemical}
 }

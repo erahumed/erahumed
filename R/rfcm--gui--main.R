@@ -108,7 +108,7 @@ rfcm_server <- function(id, rfms_db, seed) {
         }
       )
 
-      res <- new_cluster_map(default_management_system = default_ms)
+      res <- new_rfms_map(default_rfms = default_ms)
 
       withr::with_seed(seed, {
         for (allocation in allocations_db()$items) {

@@ -71,7 +71,7 @@ dss_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("outflows"),
-          columns = erahumed_input_docs("outflows_df", "columns")
+          columns = get_param_docs("outflows_df", fun = "simulation")[["columns"]]
         ),
         title = shiny::p("Setup Outflows Dataset", dss_input_tooltip("outflows_df")),
         size = "xl"
@@ -83,7 +83,7 @@ dss_input_server <- function(id) {
       shiny::showModal(shiny::modalDialog(
         csvInputUI(
           ns("weather"),
-          columns = erahumed_input_docs("weather_df", "columns")
+          columns = get_param_docs("weather_df", fun = "simulation")[["columns"]]
         ),
         title = shiny::p("Setup Weather Dataset", dss_input_tooltip("weather_df")),
         size = "xl"
@@ -92,17 +92,17 @@ dss_input_server <- function(id) {
 
     chemical_db <- chemical_db_server("chemical_db")
     rfms_db <- rfms_db_server("rfms_db", chemical_db)
-    cluster_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
+    rfms_map <- rfcm_server("rfcm", rfms_db = rfms_db, seed = input$seed)
 
     res <- shiny::reactive({
       shiny::req(input$date_range)
       shiny::req(length(input$date_range) == 2)
-      shiny::req(cluster_map())
+      shiny::req(rfms_map())
 
       list(
         date_start = input$date_range[[1]],
         date_end = input$date_range[[2]],
-        cluster_map = cluster_map(),
+        rfms_map = rfms_map(),
         outflows_df = outflows_df(),
         weather_df = weather_df(),
         storage_curve_slope_m2 = 1e6 * input$sc_slope,
@@ -129,18 +129,3 @@ dss_input_server <- function(id) {
   })
 }
 
-layer_card_header <- function(layer) {
-  docs <- erahumed_input_docs("layers", layer)
-
-  title <- docs[["title"]]
-  description <- docs[["description"]]
-
-  card_header(title,
-              bslib::tooltip(
-                shiny_icon("question-circle"),
-                description,
-                placement = "right"
-              ),
-              class = "bg-dark")
-
-}

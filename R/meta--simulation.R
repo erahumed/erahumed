@@ -5,27 +5,27 @@
 #' [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
 #' for a detailed description of the simulation workflow.
 #'
-#' @param date_start `r input_roxy("date_start")`
-#' @param date_end `r input_roxy("date_end")`
-#' @param cluster_map `r input_roxy("cluster_map")`
-#' @param outflows_df `r input_roxy("outflows_df")`
-#' @param weather_df `r input_roxy("weather_df")`
-#' @param storage_curve_slope_m2 `r input_roxy("storage_curve_slope_m2")`
-#' @param storage_curve_intercept_m3 `r input_roxy("storage_curve_intercept_m3")`
-#' @param petp_surface_m2 `r input_roxy("petp_surface_m2")`
-#' @param ideal_flow_rate_cm `r input_roxy("ideal_flow_rate_cm")`
-#' @param height_thresh_cm `r input_roxy("height_thresh_cm")`
-#' @param ditch_level_m `r input_roxy("ditch_level_m")`
-#' @param covmax `r input_roxy("covmax")`
-#' @param jgrow `r input_roxy("jgrow")`
-#' @param dact_m `r input_roxy("dact_m")`
-#' @param css_ppm `r input_roxy("css_ppm")`
-#' @param foc_ss `r input_roxy("foc_ss")`
-#' @param foc_sed `r input_roxy("foc_sed")`
-#' @param bd_g_cm3 `r input_roxy("bd_g_cm3")`
-#' @param qseep_m_day `r input_roxy("qseep_m_day")`
-#' @param porosity `r input_roxy("porosity")`
-#' @param seed `r input_roxy("seed")`
+#' @param date_start `r get_param_roxy("date_start", fun = "simulation")`
+#' @param date_end `r get_param_roxy("date_end", fun = "simulation")`
+#' @param seed `r get_param_roxy("seed", fun = "simulation")`
+#' @param outflows_df `r get_param_roxy("outflows_df", fun = "simulation")`
+#' @param storage_curve_slope_m2 `r get_param_roxy("storage_curve_slope_m2", fun = "simulation")`
+#' @param storage_curve_intercept_m3 `r get_param_roxy("storage_curve_intercept_m3", fun = "simulation")`
+#' @param petp_surface_m2 `r get_param_roxy("petp_surface_m2", fun = "simulation")`
+#' @param weather_df `r get_param_roxy("weather_df", fun = "simulation")`
+#' @param ideal_flow_rate_cm `r get_param_roxy("ideal_flow_rate_cm", fun = "simulation")`
+#' @param height_thresh_cm `r get_param_roxy("height_thresh_cm", fun = "simulation")`
+#' @param ditch_level_m `r get_param_roxy("ditch_level_m", fun = "simulation")`
+#' @param covmax `r get_param_roxy("covmax", fun = "simulation")`
+#' @param jgrow `r get_param_roxy("jgrow", fun = "simulation")`
+#' @param dact_m `r get_param_roxy("dact_m", fun = "simulation")`
+#' @param css_ppm `r get_param_roxy("css_ppm", fun = "simulation")`
+#' @param foc_ss `r get_param_roxy("foc_ss", fun = "simulation")`
+#' @param foc_sed `r get_param_roxy("foc_sed", fun = "simulation")`
+#' @param bd_g_cm3 `r get_param_roxy("bd_g_cm3", fun = "simulation")`
+#' @param qseep_m_day `r get_param_roxy("qseep_m_day", fun = "simulation")`
+#' @param porosity `r get_param_roxy("porosity", fun = "simulation")`
+#' @param rfms_map `r get_param_roxy("rfms_map", fun = "simulation")`
 #' @param .progress A function used to report simulation progress.
 #'   It should accept a single character string as input, representing the
 #'   current stage of the simulation (e.g., `"Computing hydrology: lake"`).
@@ -34,6 +34,14 @@
 #'
 #' @return An object of class `erahumed_simulation`.
 #'
+#' @details
+#' The \code{rfms_map} argument plays a central role in the customization
+#' capabilities of the ERAHUMED model. Beyond mapping rice field management
+#' systems (RFMSs) to spatial clusters, it also carries the full definitions of
+#' custom chemicals and RFMSs configured by the user. This makes it the primary
+#' interface for building and running alternative scenarios involving changes in
+#' pesticide use or management strategies.
+#'
 #' @examples
 #' erahumed_simulation()
 #'
@@ -41,12 +49,12 @@
 erahumed_simulation <- function(
     date_start = "2020-01-01",
     date_end = "2020-12-31",
-    cluster_map = default_cluster_map(seed = seed),
+    seed = 840,
     outflows_df = erahumed::albufera_outflows,
-    weather_df = erahumed::albufera_weather,
     storage_curve_slope_m2 = 23.66 * 1e6,
     storage_curve_intercept_m3 = 16.75 * 1e6,
     petp_surface_m2 = 53.9 * 1e6,
+    weather_df = erahumed::albufera_weather,
     ideal_flow_rate_cm = 5,
     height_thresh_cm = 0.5,
     ditch_level_m = 1,
@@ -59,7 +67,7 @@ erahumed_simulation <- function(
     bd_g_cm3 = 1.5,
     qseep_m_day = 0,
     porosity = 0.11,
-    seed = 840,
+    rfms_map = default_rfms_map(seed = seed),
     .progress = message
 )
 {
@@ -130,7 +138,7 @@ erahumed_simulation <- function(
   res <- initialize_erahumed_simulation(list(
     date_start = date_start,
     date_end = date_end,
-    cluster_map = cluster_map,
+    rfms_map = rfms_map,
     outflows_df = outflows_df,
     weather_df = weather_df,
     storage_curve_slope_m2 = storage_curve_slope_m2,
@@ -150,9 +158,9 @@ erahumed_simulation <- function(
     porosity = porosity,
     seed = seed))
 
-  res$etc$management_df <- get_management_df(cluster_map)
-  res$etc$chemical_db <- get_chemical_db(cluster_map)
-  res$etc$applications_df <- get_applications_df(cluster_map)
+  res$etc$management_df <- get_management_df(rfms_map)
+  res$etc$chemical_db <- get_chemical_db(rfms_map)
+  res$etc$applications_df <- get_applications_df(rfms_map)
 
   res <- compute_inp(res)
 
@@ -226,10 +234,10 @@ print.erahumed_simulation <- function(x, ...) {
   n_days <- as.integer(as.Date(date_end) - as.Date(date_start)) + 1
   cat("  Simulation days        :", n_days, "\n")
 
-  cluster_map <- get_input(x, "cluster_map")
-  if (inherits(cluster_map, "erahumed_cluster_map")) {
-    cat("  Clusters               :", nrow(cluster_map$map_df), "\n")
-    cat("  Management systems     :", length(cluster_map$rfms_list), "\n")
+  rfms_map <- get_input(x, "rfms_map")
+  if (inherits(rfms_map, "erahumed_rfms_map")) {
+    cat("  Clusters               :", nrow(rfms_map$map_df), "\n")
+    cat("  Management systems     :", length(rfms_map$rfms_list), "\n")
   }
 
   chemicals <- x$etc$chemical_db

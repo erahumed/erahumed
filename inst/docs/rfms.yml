@@ -1,0 +1,48 @@
+sowing_yday:
+  name: "Start of sowing season"
+  group: "Calendar"
+  type: "integer(1)"
+  unit: "N/A"
+  description: "Day of the year marking the start of the sowing season (1–366, assuming a leap year)."
+
+harvesting_yday:
+  name: "End of sowing season"
+  group: "Calendar"
+  type: "integer(1)"
+  unit: "N/A"
+  description: "Day of the year marking the end of the sowing season (1–366, assuming a leap year)."
+
+perellona_start_yday:
+  name: "Start of Perellona"
+  group: "Calendar"
+  type: "integer(1)"
+  unit: "N/A"
+  description: "Day of the year marking the beginning of the *Perellona* flooding period (after harvest)."
+
+perellona_end_yday:
+  name: "End of Perellona"
+  group: "Calendar"
+  type: "integer(1)"
+  unit: "N/A"
+  description: "Day of the year marking the end of the *Perellona* flooding period (before sowing)."
+
+flow_height_cm:
+  name: "Target water level (sowing)"
+  group: "Hydrology"
+  type: "numeric(1)"
+  unit: "cm"
+  description: "Target water level (in cm) during the regular days of the sowing season, excluding emptying and transition days."
+
+perellona_height_cm:
+  name: "Target water level (Perellona)"
+  group: "Hydrology"
+  type: "numeric(1)"
+  unit: "cm"
+  description: "Target water level (in cm) during the *Perellona* flooding period."
+
+display_name:
+  name: "Display name"
+  group: "Metadata"
+  type: "character(1)"
+  unit: "N/A"
+  description: "Name of the management system to be displayed in output plots and summaries."

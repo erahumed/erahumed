@@ -58,9 +58,9 @@ info_ditches <- function(include_geometry = FALSE) {
 }
 
 
-plot_albufera_clusters <- function(cluster_map = NULL)
+plot_albufera_clusters <- function(rfms_map = NULL)
 {
-  tryCatch(.plot_albufera_clusters(cluster_map),
+  tryCatch(.plot_albufera_clusters(rfms_map),
            error = function(cnd) {
              warning("Error while loading Albufera Leaflet map.")
              return(NULL)
@@ -68,16 +68,16 @@ plot_albufera_clusters <- function(cluster_map = NULL)
            )
 }
 
-.plot_albufera_clusters <- function(cluster_map)
+.plot_albufera_clusters <- function(rfms_map)
 {
   clusters_df <- info_clusters(include_geometry = TRUE) |>
     merge(info_ditches(), by.x = "ditch_element_id", by.y = "element_id")
   basins_df <- albufera_basins_geometries
 
 
-  if (!is.null(cluster_map)) {
+  if (!is.null(rfms_map)) {
 
-    map_df <- cluster_map$map_df
+    map_df <- rfms_map$map_df
     map_df$element_id <- map_df$cluster_id
     map_df$rfms_id <- paste(map_df$rfms_id, map_df$rfms_name, sep = ": ")
 

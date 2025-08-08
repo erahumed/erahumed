@@ -1,7 +1,7 @@
-#' @rdname management_system
+#' @rdname rfms
 #' @export
 jsendra <- function() {
-  new_management_system(display_name = "J.Sendra") |>
+  new_rfms(display_name = "J.Sendra") |>
     schedule_application(chemical = acetamiprid(),
                          seed_day = 52,
                          amount_kg_ha = 0.03,
@@ -50,10 +50,10 @@ jsendra <- function() {
                          type = "aerial")
 }
 
-#' @rdname management_system
+#' @rdname rfms
 #' @export
 bomba <- function() {
-  new_management_system(display_name = "Bomba") |>
+  new_rfms(display_name = "Bomba") |>
     schedule_application(chemical = acetamiprid(),
                          seed_day = 52,
                          amount_kg_ha = 0.03,
@@ -110,10 +110,10 @@ bomba <- function() {
                          type = "aerial")
 }
 
-#' @rdname management_system
+#' @rdname rfms
 #' @export
 clearfield <- function() {
-  new_management_system(display_name = "Clearfield") |>
+  new_rfms(display_name = "Clearfield") |>
     schedule_application(chemical = acetamiprid(),
                          seed_day = 52,
                          amount_kg_ha = 0.03,

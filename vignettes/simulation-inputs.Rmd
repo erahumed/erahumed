@@ -14,59 +14,50 @@ knitr::opts_chunk$set(
 )
 ```
 
+### Landscape parameters
+
 ```{r}
 #| echo: false
 #| label: tbl-landscape-params
-#| tbl-cap: "ERAHUMED input parameters"
+#| tbl-cap: "Landscape input parameters"
 
-if (knitr::opts_knit$get("rmarkdown.pandoc.to") == "html") {
-  render_fun <- function(x) {
-    x <- dplyr::arrange(x, Group, Name)
-    grps_rle <- rle(x$Group)
-    pack_rows_idx <- grps_rle$lengths
-    names(pack_rows_idx) <- grps_rle$values
-    x <- dplyr::select(x, -Group)
-    
-    knitr::kable(x, format = "html", escape = FALSE) |> 
-      kableExtra::pack_rows(index = pack_rows_idx)
-    }
-  } else {
-  render_fun <- function(x) {
-    knitr::kable(x, format = "latex")
-    }
-}
+input_docs_df <- erahumed:::get_param_docs_df(fun = "simulation", fmt_markdown = gt::vec_fmt_markdown)
 
-strip_roxy_macros <- function(x) 
-  gsub("\\\\link(?:\\[[^]]+\\])?\\{([^}]+)\\}", "`\\1`", x = x)
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
+```
 
-wrap_bcktcks <- function(x) paste0("`", x, "`")
+### Chemical parameters
 
-input_docs_df <- function() {
-  docs <- erahumed:::erahumed_input_docs()
+```{r}
+#| echo: false
+#| label: tbl-chemical-params
+#| tbl-cap: "Chemical input parameters"
 
-  res <- data.frame(Parameter = names(docs) |> 
-                      wrap_bcktcks() |> gt::vec_fmt_markdown(),
-                    Name = NA,
-                    Unit = NA,
-                    Group = NA,
-                    Type = NA, 
-                    Description = NA
-                    )
-  
-  for (i in seq_along(docs)) {
-    res[i, "Name"] <- (docs[[i]]$name %||% res[i, "Parameter"])
-    res[i, "Unit"] <- (docs[[i]]$unit %||% "N/A")
-    res[i, "Type"] <- docs[[i]]$type |> 
-      wrap_bcktcks() |> gt::vec_fmt_markdown()
-    res[i, "Group"] <- docs[[i]]$group
-    res[i, "Description"] <- docs[[i]]$description |> 
-      strip_roxy_macros() |> gt::vec_fmt_markdown()
-      
-  }
-  
-  return(res)
-}
+input_docs_df <- erahumed:::get_param_docs_df(fun = "chemical", fmt_markdown = gt::vec_fmt_markdown)
 
-input_docs_df() |>
-  render_fun()
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
+```
+
+### Rice field management system parameters
+
+```{r}
+#| echo: false
+#| label: tbl-rfm-params
+#| tbl-cap: "RFMS input parameters"
+
+input_docs_df <- erahumed:::get_param_docs_df(fun = "rfms", fmt_markdown = gt::vec_fmt_markdown)
+
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
+```
+
+### Surface allocation parameters
+
+```{r}
+#| echo: false
+#| label: tbl-allocation-params
+#| tbl-cap: "Surface allocation input parameters"
+
+input_docs_df <- erahumed:::get_param_docs_df(fun = "allocation", fmt_markdown = gt::vec_fmt_markdown)
+
+knitr::kable(input_docs_df, format = "html", escape = FALSE)
 ```

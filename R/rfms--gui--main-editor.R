@@ -49,7 +49,7 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
   shiny::moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    assert_management_system(initial_rfms)
+    assert_rfms(initial_rfms)
 
     # Reset inputs to defaults
     shiny::observe({
@@ -75,7 +75,7 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
                  input$perellona_end_yday, input$flow_height_cm, input$perellona_height_cm)
 
       tryCatch({
-        sys <- new_management_system(sowing_yday = input$sowing_yday,
+        sys <- new_rfms(sowing_yday = input$sowing_yday,
                                      harvesting_yday = input$harvesting_yday,
                                      perellona_start_yday = input$perellona_start_yday,
                                      perellona_end_yday = input$perellona_end_yday,

@@ -1,5 +1,5 @@
 test_that("rfcm_get_map_candidates(): succeeds", {
-  map <- new_cluster_map()
+  map <- new_rfms_map()
   ditches <- paste0("d", 1:26)
   field_type <- "both"
 
@@ -7,7 +7,7 @@ test_that("rfcm_get_map_candidates(): succeeds", {
 })
 
 test_that("rfcm_get_map_candidates(): returns a character vector", {
-  res <- rfcm_get_map_candidates(map = new_cluster_map(),
+  res <- rfcm_get_map_candidates(map = new_rfms_map(),
                         ditches = paste0("d", 1:26),
                         field_type = "both")
 
@@ -15,7 +15,7 @@ test_that("rfcm_get_map_candidates(): returns a character vector", {
 })
 
 test_that("rfcm_get_map_candidates(): gives the correct output in simple case 1", {
-  res <- rfcm_get_map_candidates(map = new_cluster_map(),
+  res <- rfcm_get_map_candidates(map = new_rfms_map(),
                         ditches = paste0("d", 1:26),
                         field_type = "both")
   n_clusters <- nrow(info_clusters())
@@ -24,7 +24,7 @@ test_that("rfcm_get_map_candidates(): gives the correct output in simple case 1"
 })
 
 test_that("rfcm_get_map_candidates(): gives the correct output in simple case 2", {
-  res <- rfcm_get_map_candidates(map = new_cluster_map(),
+  res <- rfcm_get_map_candidates(map = new_rfms_map(),
                         ditches = paste0("d", 1:26),
                         field_type = "tancat")
   n_tancats <- info_clusters() |> (\(.) .[.$tancat, ])() |> nrow()
@@ -35,7 +35,7 @@ test_that("rfcm_get_map_candidates(): gives the correct output in simple case 2"
 test_that("rfcm_get_map_candidates(): gives the correct output in simple case 3", {
   ditches <- paste0("d", 1:8)
 
-  res <- rfcm_get_map_candidates(map = new_cluster_map(),
+  res <- rfcm_get_map_candidates(map = new_rfms_map(),
                         ditches = ditches,
                         field_type = "both")
   n_clusters <- info_clusters() |>
@@ -46,16 +46,16 @@ test_that("rfcm_get_map_candidates(): gives the correct output in simple case 3"
 })
 
 test_that("rfcm_map_assign(): succeeds", {
-  map <- new_cluster_map()
+  map <- new_rfms_map()
   cluster_id <- info_clusters()$element_id[[1]]
 
   expect_no_error(rfcm_map_assign(map, cluster_id = cluster_id, rfms_id = 1))
 })
 
 test_that("rfcm_map_assign() returns an object of class map", {
-  res <- rfcm_map_assign(map = new_cluster_map(),
+  res <- rfcm_map_assign(map = new_rfms_map(),
                     cluster_id = info_clusters()$element_id[[1]],
                     rfms_id = 1)
 
-  expect_no_error(assert_cluster_map(res))
+  expect_no_error(assert_rfms_map(res))
 })
