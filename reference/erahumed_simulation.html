@@ -11,7 +11,7 @@ for a detailed description of the simulation workflow."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ for a detailed description of the simulation workflow."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Initialize an ERAHUMED simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.20.0/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
       <div class="d-none name"><code>erahumed_simulation.Rd</code></div>
     </div>
 
@@ -55,12 +55,12 @@ for a detailed description of the simulation workflow.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">erahumed_simulation</span><span class="op">(</span></span>
 <span>  date_start <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
 <span>  date_end <span class="op">=</span> <span class="st">"2020-12-31"</span>,</span>
-<span>  cluster_map <span class="op">=</span> <span class="fu"><a href="cluster_map.html">default_cluster_map</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">840</span>,</span>
 <span>  outflows_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_outflows.html">albufera_outflows</a></span>,</span>
-<span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span>,</span>
 <span>  storage_curve_slope_m2 <span class="op">=</span> <span class="fl">23.66</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  storage_curve_intercept_m3 <span class="op">=</span> <span class="fl">16.75</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
 <span>  petp_surface_m2 <span class="op">=</span> <span class="fl">53.9</span> <span class="op">*</span> <span class="fl">1e+06</span>,</span>
+<span>  weather_df <span class="op">=</span> <span class="fu">erahumed</span><span class="fu">::</span><span class="va"><a href="albufera_weather.html">albufera_weather</a></span>,</span>
 <span>  ideal_flow_rate_cm <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  height_thresh_cm <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  ditch_level_m <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -73,7 +73,7 @@ for a detailed description of the simulation workflow.</p>
 <span>  bd_g_cm3 <span class="op">=</span> <span class="fl">1.5</span>,</span>
 <span>  qseep_m_day <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  porosity <span class="op">=</span> <span class="fl">0.11</span>,</span>
-<span>  seed <span class="op">=</span> <span class="fl">840</span>,</span>
+<span>  rfms_map <span class="op">=</span> <span class="fu"><a href="rfms_map.html">default_rfms_map</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span>,</span>
 <span>  .progress <span class="op">=</span> <span class="va">message</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -90,16 +90,12 @@ for a detailed description of the simulation workflow.</p>
 <dd><p><code>[Date(1)]</code> <br> A single-value <code>Date</code> vector (or a convertible object). Defines the ending date of the date interval for the simulation.</p></dd>
 
 
-<dt id="arg-cluster-map">cluster_map<a class="anchor" aria-label="anchor" href="#arg-cluster-map"></a></dt>
-<dd><p><code>[erahumed_cluster_map]</code> <br> An object of class <a href="cluster_map.html">cluster_map</a>. Defines how different rice field management systems are assigned to spatial clusters within the simulation.</p></dd>
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> Seed for random number generation used by the simulation algorithms.</p></dd>
 
 
 <dt id="arg-outflows-df">outflows_df<a class="anchor" aria-label="anchor" href="#arg-outflows-df"></a></dt>
 <dd><p><code>[data.frame]</code> <br> Time-series dataset that provides the observational hydrological data on the Albufera lake, along the template of <a href="albufera_outflows.html">albufera_outflows</a> (the default value).</p></dd>
-
-
-<dt id="arg-weather-df">weather_df<a class="anchor" aria-label="anchor" href="#arg-weather-df"></a></dt>
-<dd><p><code>[data.frame]</code> <br> A dataset that provides the relevant metereological time series, along the template of <a href="albufera_weather.html">albufera_weather</a> (the default value).</p></dd>
 
 
 <dt id="arg-storage-curve-slope-m-">storage_curve_slope_m2<a class="anchor" aria-label="anchor" href="#arg-storage-curve-slope-m-"></a></dt>
@@ -112,6 +108,10 @@ for a detailed description of the simulation workflow.</p>
 
 <dt id="arg-petp-surface-m-">petp_surface_m2<a class="anchor" aria-label="anchor" href="#arg-petp-surface-m-"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> The surface area (in square meters) used to convert precipitation and evapotranspiration per unit area into volume changes for the Albufera Lake. The default numeric value was computed by the package authors and corresponds to the average flooded surface of the Albufera lake and its irrigation ditches.</p></dd>
+
+
+<dt id="arg-weather-df">weather_df<a class="anchor" aria-label="anchor" href="#arg-weather-df"></a></dt>
+<dd><p><code>[data.frame]</code> <br> A dataset that provides the relevant metereological time series, along the template of <a href="albufera_weather.html">albufera_weather</a> (the default value).</p></dd>
 
 
 <dt id="arg-ideal-flow-rate-cm">ideal_flow_rate_cm<a class="anchor" aria-label="anchor" href="#arg-ideal-flow-rate-cm"></a></dt>
@@ -162,8 +162,8 @@ for a detailed description of the simulation workflow.</p>
 <dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. The fraction of the total sediment volume that is occupied by pore spaces.</p></dd>
 
 
-<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Seed for random number generation used by the simulation algorithms.</p></dd>
+<dt id="arg-rfms-map">rfms_map<a class="anchor" aria-label="anchor" href="#arg-rfms-map"></a></dt>
+<dd><p><code>[erahumed_rfms_map]</code> <br> An object of class <a href="rfms_map.html">rfms_map</a> that defines how different rice field management systems (RFMSs) are assigned to spatial clusters within the simulation. This object also encapsulates the full set of user-defined agrochemical configurations, including custom chemicals and RFMSs, and serves as the main interface for scenario customization. See <a href="rfms.html">rfms</a> for an overview of RFMS definitions and customization options.</p></dd>
 
 
 <dt id="arg--progress">.progress<a class="anchor" aria-label="anchor" href="#arg--progress"></a></dt>
@@ -177,6 +177,15 @@ console messages). By default, it prints a message to the R console.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>erahumed_simulation</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The <code>rfms_map</code> argument plays a central role in the customization
+capabilities of the ERAHUMED model. Beyond mapping rice field management
+systems (RFMSs) to spatial clusters, it also carries the full definitions of
+custom chemicals and RFMSs configured by the user. This makes it the primary
+interface for building and running alternative scenarios involving changes in
+pesticide use or management strategies.</p>
     </div>
 
     <div class="section level2">

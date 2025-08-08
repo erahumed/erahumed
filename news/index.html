@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,27 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.20.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.20.1" id="erahumed-0201">erahumed 0.20.1<a class="anchor" aria-label="anchor" href="#erahumed-0201"></a></h2>
+<div class="section level4">
+<h4 id="api-changes-0-20-1">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-20-1"></a></h4>
+<ul><li><p>Changed order in <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> arguments, matching the one used in documentation tables.</p></li>
+<li><p><code>new_management_system()</code> is replaced by <code><a href="../reference/rfms.html">new_rfms()</a></code>.</p></li>
+<li><p><code>new_cluster_map()</code> is replaced by <code><a href="../reference/rfms_map.html">new_rfms_map()</a></code>. The corresponding underlying S3 class is renamed to <code>erahumed_rfms_map</code>.</p></li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-20-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-20-1"></a></h4>
+<ul><li>Improved documentation of <code>rfms_map</code> argument of <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>.</li>
+<li>The <a href="https://erahumed.github.io/erahumed/articles/simulation-inputs.html">simulation inputs vignette</a> now also lists chemical parameters, RFMS parameters and parameters for surface allocation.</li>
+</ul></div>
+<div class="section level4">
+<h4 id="under-the-hoods-0-20-1">Under the hoods<a class="anchor" aria-label="anchor" href="#under-the-hoods-0-20-1"></a></h4>
+<ul><li>Improvements in internal mechanisms for programmatically generating documentation entries for model parameters.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.20.0" id="erahumed-0200">erahumed 0.20.0<a class="anchor" aria-label="anchor" href="#erahumed-0200"></a></h2>
 <p>This is a minor release providing several improvements and bug fixes over the previous one, plus a few minor algorithm changes. This prepares the publication of the first public release v1.0.0.</p>
@@ -113,16 +131,16 @@ clusters.</p></li>
 <ul><li><p>New chemical compounds are defined through the <code><a href="../reference/chemical.html">chemical()</a></code> helper. The<br>
 functions <code><a href="../reference/pesticides.html">acetamiprid()</a></code>, <code><a href="../reference/pesticides.html">azoxystrobin()</a></code>, <code><a href="../reference/pesticides.html">bentazone()</a></code>, <code><a href="../reference/pesticides.html">cycloxydim()</a></code>,<br><code><a href="../reference/pesticides.html">cyhalofop_butyl()</a></code>, <code><a href="../reference/pesticides.html">difenoconazole()</a></code>, <code><a href="../reference/pesticides.html">mcpa()</a></code>, and <code><a href="../reference/pesticides.html">penoxsulam()</a></code> expose<br>
 the presets used by the <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> built-in management systems.</p></li>
-<li><p>Rice field management systems are defined through <code><a href="../reference/management_system.html">new_management_system()</a></code><br>
+<li><p>Rice field management systems are defined through <code><a href="../reference/rfms.html">new_rfms()</a></code><br>
 and <code><a href="../reference/schedule_application.html">schedule_application()</a></code>. The <em>J. Sendra</em>, <em>Clearfield</em>, and <em>Bomba</em> systems<br>
-are implemented using the helpers <code><a href="../reference/management_system.html">jsendra()</a></code>, <code><a href="../reference/management_system.html">clearfield()</a></code>, and <code><a href="../reference/management_system.html">bomba()</a></code>.</p></li>
-<li><p>The spatial distribution of management systems is defined through<br><code><a href="../reference/cluster_map.html">new_cluster_map()</a></code> and <code><a href="../reference/allocate_surface.html">allocate_surface()</a></code>. <code><a href="../reference/cluster_map.html">default_cluster_map()</a></code> provides a<br>
+are implemented using the helpers <code><a href="../reference/rfms.html">jsendra()</a></code>, <code><a href="../reference/rfms.html">clearfield()</a></code>, and <code><a href="../reference/rfms.html">bomba()</a></code>.</p></li>
+<li><p>The spatial distribution of management systems is defined through<br><code><a href="../reference/rfms_map.html">new_rfms_map()</a></code> and <code><a href="../reference/allocate_surface.html">allocate_surface()</a></code>. <code><a href="../reference/rfms_map.html">default_rfms_map()</a></code> provides a<br>
 predefined map inspired by current practices in the Albufera Natural Park.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="api-changes-0-19-0">API changes<a class="anchor" aria-label="anchor" href="#api-changes-0-19-0"></a></h3>
 <ul><li><p><code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> no longer accepts the <code>variety_prop</code>,<br><code>management_df</code>, and <code>ca_schedules_df</code> arguments. These have been replaced<br>
-by a new <code>cluster_map</code> argument, through which users provide all relevant<br>
+by a new <code>rfms_map</code> argument, through which users provide all relevant<br>
 information regarding custom chemicals, management schemes, and their<br>
 spatial distribution.</p></li>
 <li><p>The <code>albufera_management</code> and <code>albufera_ca_schedules</code> datasets are no longer<br>

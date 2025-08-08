@@ -11,7 +11,7 @@ subset of eligible clusters defined by ditches and field_type."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ subset of eligible clusters defined by ditches and field_type."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Allocate a Management System to a Surface Fraction</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.20.0/R/rfcm--allocate.R" class="external-link"><code>R/rfcm--allocate.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/rfcm--allocate.R" class="external-link"><code>R/rfcm--allocate.R</code></a></small>
       <div class="d-none name"><code>allocate_surface.Rd</code></div>
     </div>
 
@@ -66,11 +66,11 @@ subset of eligible clusters defined by <code>ditches</code> and <code>field_type
 
 
 <dl><dt id="arg-map">map<a class="anchor" aria-label="anchor" href="#arg-map"></a></dt>
-<dd><p><code>[erahumed_cluster_map]</code> <br> A cluster map created with <code><a href="cluster_map.html">new_cluster_map()</a></code> or <code><a href="cluster_map.html">default_cluster_map()</a></code>.</p></dd>
+<dd><p><code>[erahumed_rfms_map]</code> <br> A cluster map created with <code><a href="rfms_map.html">new_rfms_map()</a></code> or <code><a href="rfms_map.html">default_rfms_map()</a></code>.</p></dd>
 
 
 <dt id="arg-system">system<a class="anchor" aria-label="anchor" href="#arg-system"></a></dt>
-<dd><p><code>[erahumed_management_system]</code> <br> A management system to assign, created with <code><a href="management_system.html">new_management_system()</a></code> or helper functions such as <code><a href="management_system.html">bomba()</a></code> or <code><a href="management_system.html">clearfield()</a></code>.</p></dd>
+<dd><p><code>[erahumed_rfms]</code> <br> A management system to assign, created with <code><a href="rfms.html">new_rfms()</a></code> or helper functions such as <code><a href="rfms.html">bomba()</a></code> or <code><a href="rfms.html">clearfield()</a></code>.</p></dd>
 
 
 <dt id="arg-target-fraction">target_fraction<a class="anchor" aria-label="anchor" href="#arg-target-fraction"></a></dt>
@@ -90,7 +90,7 @@ subset of eligible clusters defined by <code>ditches</code> and <code>field_type
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An updated <code>erahumed_cluster_map</code> object with the new system
+    <p>An updated <code>erahumed_rfms_map</code> object with the new system
 allocated to selected clusters.</p>
     </div>
     <div class="section level2">
