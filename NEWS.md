@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* Fixed a bug that caused pesticide applications to be concentrated in the first 
+year of simulations spanning more than one year (#458).
+
 # erahumed 0.20.1
 
 ### API changes
