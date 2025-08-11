@@ -30,16 +30,19 @@ dss_ui <- function() { bslib::page_navbar(
   nav_menu(icon = icon("question-circle"), title = "Help", align = "right",
            nav_action_link("show_about", "About this app", icon = "info"),
            nav_menu_hr(),  # ---------------------------------
-           nav_hyperlink("ERAHUMED Project Website", "https://erahumed.com", icon = "globe"),
+           nav_hyperlink("User manual",
+                         "https://erahumed.github.io/erahumed-book/",
+                         icon = "book"),
            nav_menu_hr(),  # ---------------------------------
-           nav_hyperlink("{erahumed} R Package Website", "https://erahumed.github.io/erahumed", icon = "r-project"),
-           nav_hyperlink("Report a bug", "https://github.com/erahumed/erahumed/issues/new", icon = "github"),
+           nav_hyperlink("R Package Homepage",
+                         "https://erahumed.github.io/erahumed",
+                         icon = "r-project"),
+           nav_hyperlink("Report a bug",
+                         "https://github.com/erahumed/erahumed/issues/new",
+                         icon = "github"),
            nav_menu_hr(),  # ---------------------------------
-           nav_hyperlink("Table of simulation inputs",
-                         "https://erahumed.github.io/erahumed-book/chapters/model-inputs.html",
-                         icon = NULL
-           )
-
+           nav_hyperlink("ERAHUMED Project Homepage", "https://erahumed.com",
+                         icon = "globe")
   ),
 
   nav_spacer(),
