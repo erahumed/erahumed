@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,10 +35,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/ct-diagram.html">Diagram of physical processes for chemical transport</a></li>
-    <li><a class="dropdown-item" href="articles/erahumed-workflow.html">Simulation workflow</a></li>
-    <li><a class="dropdown-item" href="articles/hydrogeographical-model.html">Hydro-geographical model of the Albufera Natural Park</a></li>
-    <li><a class="dropdown-item" href="articles/simulation-inputs.html">Simulation inputs</a></li>
+<li><a class="dropdown-item" href="articles/erahumed-workflow.html">Simulation workflow</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -60,18 +57,22 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> R package provides the infrastructure for the <a href="https://www.erahumed.com/decision-support-system/" class="external-link">ERAHUMED Decision Support System</a> (DSS), that consists of:</p>
+<!-- badges: end -->
+<p>The <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> R package implements the computational engine of the <a href="https://www.erahumed.com/decision-support-system/" class="external-link">ERAHUMED Decision Support System</a>, a modelling framework for assessing hydrology, pesticide fate, and ecological risk in the Albufera Natural Park (València, Spain). It integrates models that simulate water flows, contaminant transport, and biological effects across the park’s interconnected water bodies.</p>
+<p>With <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>, users can:</p>
 <ul>
-<li>
-<strong>Data</strong>: The DSS inputs are pre-packaged as R <code>data.frame</code>s and seamlessly imported with <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</li>
-<li>
-<strong>Analysis</strong>. The entire simulation workflow is implemented as a set of R functions, enabling flexible and reproducible analysis.</li>
-<li>
-<strong>Outputs</strong>. Simulation results are returned as well-structured <code>data.frame</code>s, ready for further exploration and processing in R.</li>
-<li>
-<strong>Interactive Interface</strong>. A Shiny-based graphical interface, with predefined visualizations for model outputs, is bundled with the package, allowing users to interactively explore the results.</li>
+<li><p><strong>Configure simulations</strong> – Define landscape, chemical, and management parameters, or use built-in presets for rapid setup.</p></li>
+<li><p><strong>Run the model</strong> – Execute hydrology, exposure, and risk assessment modules in a reproducible R workflow.</p></li>
+<li><p><strong>Analyse outputs</strong> – Retrieve results as tidy <code>data.frame</code>s, ready for statistical analysis or visualization.</p></li>
+<li><p><strong>Explore interactively</strong> – Launch a bundled Shiny application with predefined plots, maps, and tables for model inputs and results.</p></li>
 </ul>
-<p>More information on the ERAHUMED project can be found on the <a href="https://www.erahumed.com/" class="external-link">main project’s website</a>. The full documentation of the <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> R package is hosted at <a href="https://erahumed.github.io/erahumed/">erahumed.github.io/erahumed</a>.</p>
+<p>The package is designed for both research and practical decision-making, enabling transparent scenario analysis and reproducible environmental assessments.</p>
+<p>Comprehensive resources are available to support users at different levels:</p>
+<ul>
+<li><p>The <a href="https://erahumed.github.io/erahumed">package documentation</a> covers the R functions, datasets, and Shiny interface bundled with <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>, serving as a practical reference for day-to-day use.</p></li>
+<li><p>A <a href="https://erahumed.github.io/erahumed-book">user manual</a> provides an in-depth description of the underlying models, algorithms, and assumptions. It is intended for researchers who wish to understand and/or extend the modelling framework.</p></li>
+</ul>
+<p>Further background on the ERAHUMED project can be found on the <a href="https://www.erahumed.com/" class="external-link">main project website</a>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -102,33 +103,38 @@
 <p>The following example illustrates the workflow for manually running the ERAHUMED simulation chain, and extracting the outputs of the various simulation layers. For more detailed information, see the <a href="https://erahumed.github.io/erahumed/articles/erahumed-workflow.html">main package vignette</a>.</p>
 <p>Simulations are run via:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span></span>
-<span>  date_start <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
-<span>  date_end <span class="op">=</span> <span class="st">"2020-12-31"</span>,</span>
-<span>  variety_prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>J.Sendra <span class="op">=</span> <span class="fl">0.7</span>, Bomba <span class="op">=</span> <span class="fl">0.15</span>, Clearfield <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p>where the parameters of the simulation are set through the arguments of <code><a href="reference/erahumed_simulation.html">erahumed_simulation()</a></code> (see <code><a href="reference/erahumed_simulation.html">?erahumed_simulation</a></code> or <a href="https://erahumed.github.io/erahumed/articles/simulation-inputs.html">this article</a> for a full list of parameters.</p>
-<p>Results can be inspected through:</p>
+<code class="sourceCode R"><span><span class="va">simulation</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Initializing inputs</span></span>
+<span><span class="co">#&gt; Computing hydrology: lake</span></span>
+<span><span class="co">#&gt; Computing hydrology: clusters</span></span>
+<span><span class="co">#&gt; Computing hydrology: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: clusters</span></span>
+<span><span class="co">#&gt; Computing exposure: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: lake</span></span>
+<span><span class="co">#&gt; Computing risk: clusters</span></span>
+<span><span class="co">#&gt; Computing risk: ditches</span></span>
+<span><span class="co">#&gt; Computing risk: lake</span></span></code></pre></div>
+<p>where simulation inputs can be customized through the arguments of <code><a href="reference/erahumed_simulation.html">erahumed_simulation()</a></code>. Results can be inspected through:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">simulation</span>, </span>
 <span>            component <span class="op">=</span> <span class="st">"exposure"</span>,  <span class="co"># either "hydrology", "exposure", or "risk"  </span></span>
 <span>            element <span class="op">=</span> <span class="st">"lake"</span>         <span class="co"># either "lake", "ditch", or "cluster"</span></span>
 <span>            <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;         date    chemical mf_kg mw_kg ms_kg cw_kg_m3 cw_outflow_kg_m3 cs_kg_m3</span></span>
-<span><span class="co">#&gt; 1 2020-01-01 Acetamiprid     0     0     0       NA                0        0</span></span>
-<span><span class="co">#&gt; 2 2020-01-02 Acetamiprid     0     0     0        0                0        0</span></span>
-<span><span class="co">#&gt; 3 2020-01-03 Acetamiprid     0     0     0        0                0        0</span></span>
-<span><span class="co">#&gt; 4 2020-01-04 Acetamiprid     0     0     0        0                0        0</span></span>
-<span><span class="co">#&gt; 5 2020-01-05 Acetamiprid     0     0     0        0                0        0</span></span>
-<span><span class="co">#&gt; 6 2020-01-06 Acetamiprid     0     0     0        0                0        0</span></span>
-<span><span class="co">#&gt;   cs_g_kg volume_m3 element_id</span></span>
-<span><span class="co">#&gt; 1       0        NA       lake</span></span>
-<span><span class="co">#&gt; 2       0  27344422       lake</span></span>
-<span><span class="co">#&gt; 3       0  27397000       lake</span></span>
-<span><span class="co">#&gt; 4       0  27456150       lake</span></span>
-<span><span class="co">#&gt; 5       0  27479153       lake</span></span>
-<span><span class="co">#&gt; 6       0  27397000       lake</span></span></code></pre></div>
+<span><span class="co">#&gt;   element_id chemical_id chemical_name       date mf_kg mw_kg ms_kg</span></span>
+<span><span class="co">#&gt; 1       lake           1   Acetamiprid 2020-01-01     0     0     0</span></span>
+<span><span class="co">#&gt; 2       lake           1   Acetamiprid 2020-01-02     0     0     0</span></span>
+<span><span class="co">#&gt; 3       lake           1   Acetamiprid 2020-01-03     0     0     0</span></span>
+<span><span class="co">#&gt; 4       lake           1   Acetamiprid 2020-01-04     0     0     0</span></span>
+<span><span class="co">#&gt; 5       lake           1   Acetamiprid 2020-01-05     0     0     0</span></span>
+<span><span class="co">#&gt; 6       lake           1   Acetamiprid 2020-01-06     0     0     0</span></span>
+<span><span class="co">#&gt;   mw_outflow_kg cw_kg_m3 cs_kg_m3 cs_g_kg cw_outflow_kg_m3 volume_m3 outflow_m3</span></span>
+<span><span class="co">#&gt; 1             0       NA        0       0                0        NA   274652.4</span></span>
+<span><span class="co">#&gt; 2             0        0        0       0                0  27344422   333355.2</span></span>
+<span><span class="co">#&gt; 3             0        0        0       0                0  27397000   153987.6</span></span>
+<span><span class="co">#&gt; 4             0        0        0       0                0  27456150   119992.8</span></span>
+<span><span class="co">#&gt; 5             0        0        0       0                0  27479153   186673.2</span></span>
+<span><span class="co">#&gt; 6             0        0        0       0                0  27397000   221466.0</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -136,7 +142,6 @@
 </h2>
 <p>The full documentation of the <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> R package is hosted at <a href="https://erahumed.github.io/erahumed/">erahumed.github.io/erahumed</a>.</p>
 <p>If you have issues running <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a> or want to suggest an improvement, please <a href="https://github.com/erahumed/erahumed/issues" class="external-link">file an issue on Github</a>.</p>
-<p>An internal documentation, aimed at potential contributors to this project, is available at <a href="https://github.com/erahumed/erahumed/wiki" class="external-link">Github Wiki</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

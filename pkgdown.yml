@@ -2,11 +2,8 @@ pandoc: 3.1.11
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
-  ct-diagram: ct-diagram.html
   erahumed-workflow: erahumed-workflow.html
-  hydrogeographical-model: hydrogeographical-model.html
-  simulation-inputs: simulation-inputs.html
-last_built: 2025-08-08T07:19Z
+last_built: 2025-08-11T08:34Z
 urls:
   reference: https://erahumed.github.io/erahumed/reference
   article: https://erahumed.github.io/erahumed/articles
