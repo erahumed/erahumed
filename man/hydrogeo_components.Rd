@@ -5,13 +5,6 @@
 \alias{info_clusters}
 \alias{info_ditches}
 \title{Landscape hydro-geographical components of the Albufera Natural Park}
-\source{
-Martínez-Megías, C., Mentzel, S., Fuentes-Edfuf, Y., Moe, S. J., &
-Rico, A. (2023). Influence of climate change and pesticide use practices on
-the ecological risks of pesticides in a protected Mediterranean wetland: A
-Bayesian network approach. \emph{Science of The Total Environment, 878},
-163018. \url{https://doi.org/10.1016/j.scitotenv.2023.163018}
-}
 \usage{
 info_clusters(include_geometry = FALSE)
 
@@ -26,11 +19,10 @@ of the various elements (as a column of class \code{sfc_MULTIPOLYGON} from the
 A \code{data.frame}.
 }
 \description{
-These helpers return \code{data.frame}s that contain information on the
-hydro-geographical components employed by ERAHUMED to model the Albufera
-Natural Park ecosystem: ditches, and rice fields clusters. The definition of
-these spatial elements is discussed detail in
-\href{https://doi.org/10.1016/j.scitotenv.2023.163018}{Martínez-Megías et al. (2023)}.
-The \href{https://erahumed.github.io/erahumed/articles/hydrogeographical-model.html}{hydro-geographical model vignette}
-describes the modeling of these spatial units within ERAHUMED.
+These helpers return \code{data.frame}s containing information on the
+hydro-geographical components used by ERAHUMED to model the Albufera
+Natural Park ecosystem: ditches and rice-field clusters.
+For a detailed description of how these spatial units are represented
+and modelled within ERAHUMED, see the
+\href{https://erahumed.github.io/erahumed-book/chapters/birdseye.html#sec-hydrogeo}{user manual}.
 }

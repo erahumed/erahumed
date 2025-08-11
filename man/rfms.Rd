@@ -44,11 +44,11 @@ new_rfms(
 An object of class \code{erahumed_rfms}.
 }
 \description{
-Functions to define and initialize rice field management systems.
+Functions to define and initialize rice field management systems (RFMSs).
 }
 \details{
 These functions are used to define and initialize rice field
-management system. Specifically:
+management systems. Specifically:
 \itemize{
 \item \code{new_rfms()} creates an empty management system, with no
 scheduled chemical applications.
@@ -61,6 +61,10 @@ Additional chemical applications can be scheduled using the helper function
 \code{\link[=schedule_application]{schedule_application()}}. The default values of the arguments of
 \code{new_rfms()} coincide with those used internally by \code{jsendra()},
 \code{bomba()}, and \code{clearfield()}.
+
+For a detailed explanation of RFMS concepts, configuration, and
+built-in presets, see the
+\href{https://erahumed.github.io/erahumed-book/chapters/rfms.html}{RFMS section of the user manual}.
 }
 \seealso{
 \link{schedule_application}

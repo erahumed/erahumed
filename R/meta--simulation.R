@@ -1,9 +1,12 @@
 #' Initialize an ERAHUMED simulation
 #'
 #' @description
-#' Initializes an ERAHUMED simulation. Check the
-#' [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
-#' for a detailed description of the simulation workflow.
+#' Initializes an ERAHUMED simulation.
+#' See the [main package vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html)
+#' for a practical, step-by-step overview of the simulation workflow.
+#' For a detailed explanation of the underlying models, algorithms, and
+#' assumptions, refer to the
+#' [user manual](https://erahumed.github.io/erahumed-book/).
 #'
 #' @param date_start `r get_param_roxy("date_start", fun = "simulation")`
 #' @param date_end `r get_param_roxy("date_end", fun = "simulation")`
@@ -41,6 +44,8 @@
 #' custom chemicals and RFMSs configured by the user. This makes it the primary
 #' interface for building and running alternative scenarios involving changes in
 #' pesticide use or management strategies.
+#' For a detailed explanation of RFMS concepts, structure, and configuration,
+#' see the [RFMS section of the user manual](https://erahumed.github.io/erahumed-book/chapters/rfms.html).
 #'
 #' @examples
 #' erahumed_simulation()

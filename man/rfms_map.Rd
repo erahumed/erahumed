@@ -12,7 +12,7 @@ new_rfms_map(default_rfms = new_rfms())
 }
 \arguments{
 \item{seed}{\verb{[numeric(1)]} \cr
-Seed for random number generation in the assignation of clusters to
+Seed for random number generation in the assignment of clusters to
 management systems.}
 
 \item{default_rfms}{\code{[}\link[=rfms]{erahumed_rfms}\verb{]} \cr
@@ -23,9 +23,9 @@ created with \code{\link[=new_rfms]{new_rfms()}} or a helper like \code{\link[=j
 An object of class \code{erahumed_rfms_map}.
 }
 \description{
-These functions define how different rice-field management systems are
+These functions define how different rice-field management systems (RFMSs) are
 assigned to spatial clusters within the simulation. Each cluster can be
-associated with a specific rice field management system, allowing for
+associated with a specific RFMS, allowing for
 heterogeneous management across the simulation domain.
 }
 \details{
@@ -40,6 +40,10 @@ starting point for scenario simulation or customization.
 }
 
 Cluster assignments can be modified using \code{\link[=allocate_surface]{allocate_surface()}}.
+
+For a detailed explanation of RFMS concepts, configuration, and
+spatial allocation, see the
+\href{https://erahumed.github.io/erahumed-book/chapters/rfms.html}{RFMS section of the user manual}.
 }
 \seealso{
 \code{\link[=new_rfms]{new_rfms()}}, \code{\link[=allocate_surface]{allocate_surface()}}

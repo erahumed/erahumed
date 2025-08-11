@@ -82,9 +82,12 @@ console messages). By default, it prints a message to the R console.}
 An object of class \code{erahumed_simulation}.
 }
 \description{
-Initializes an ERAHUMED simulation. Check the
-\href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{main package vignette}
-for a detailed description of the simulation workflow.
+Initializes an ERAHUMED simulation.
+See the \href{https://erahumed.github.io/erahumed/articles/erahumed-workflow.html}{main package vignette}
+for a practical, step-by-step overview of the simulation workflow.
+For a detailed explanation of the underlying models, algorithms, and
+assumptions, refer to the
+\href{https://erahumed.github.io/erahumed-book/}{user manual}.
 }
 \details{
 The \code{rfms_map} argument plays a central role in the customization
@@ -93,6 +96,8 @@ systems (RFMSs) to spatial clusters, it also carries the full definitions of
 custom chemicals and RFMSs configured by the user. This makes it the primary
 interface for building and running alternative scenarios involving changes in
 pesticide use or management strategies.
+For a detailed explanation of RFMS concepts, structure, and configuration,
+see the \href{https://erahumed.github.io/erahumed-book/chapters/rfms.html}{RFMS section of the user manual}.
 }
 \examples{
 erahumed_simulation()

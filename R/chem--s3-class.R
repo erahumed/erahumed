@@ -34,6 +34,10 @@
 #' typical or illustrative values and **do not correspond to any specific real-world
 #' chemical**. They are provided solely for convenience in prototyping or testing.
 #'
+#' For a detailed explanation of chemical parameters, their meaning, units, and
+#' role in the model, see the
+#' [Chemical parameters section of the user manual](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html#tbl-chemical-params).
+#'
 #' @export
 chemical <- function(display_name,
                      tmoa_id,

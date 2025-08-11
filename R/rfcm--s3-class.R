@@ -1,16 +1,16 @@
 #' Cluster-Based Assignment of Rice-Field Management Systems
 #'
-#' These functions define how different rice-field management systems are
+#' These functions define how different rice-field management systems (RFMSs) are
 #' assigned to spatial clusters within the simulation. Each cluster can be
-#' associated with a specific rice field management system, allowing for
+#' associated with a specific RFMS, allowing for
 #' heterogeneous management across the simulation domain.
 #'
 #' @param default_rfms `[`[erahumed_rfms][rfms]`]` \cr
 #'   A default management system assigned to all clusters initially. Typically
 #'   created with [new_rfms()] or a helper like [jsendra()].
 #' @param seed `[numeric(1)]` \cr
-#'  Seed for random number generation in the assignation of clusters to
-#'  management systems.
+#'   Seed for random number generation in the assignment of clusters to
+#'   management systems.
 #'
 #' @return An object of class `erahumed_rfms_map`.
 #'
@@ -26,6 +26,10 @@
 #'   starting point for scenario simulation or customization.
 #'
 #' Cluster assignments can be modified using [allocate_surface()].
+#'
+#' For a detailed explanation of RFMS concepts, configuration, and
+#' spatial allocation, see the
+#' [RFMS section of the user manual](https://erahumed.github.io/erahumed-book/chapters/rfms.html).
 #'
 #' @seealso [new_rfms()], [allocate_surface()]
 #'

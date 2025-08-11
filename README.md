@@ -11,27 +11,49 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![R-CMD-check](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/erahumed/erahumed/graph/badge.svg?token=72POLBUEUR)](https://codecov.io/gh/erahumed/erahumed)
 [![Website](https://img.shields.io/badge/Website-here-blue)](https://erahumed.github.io/erahumed/)
+
 <!-- badges: end -->
 
-The `{erahumed}` R package provides the infrastructure for the [ERAHUMED
-Decision Support
-System](https://www.erahumed.com/decision-support-system/) (DSS), that
-consists of:
+The `{erahumed}` R package implements the computational engine of the
+[ERAHUMED Decision Support
+System](https://www.erahumed.com/decision-support-system/), a modelling
+framework for assessing hydrology, pesticide fate, and ecological risk
+in the Albufera Natural Park (València, Spain). It integrates models
+that simulate water flows, contaminant transport, and biological effects
+across the park’s interconnected water bodies.
 
-- **Data**: The DSS inputs are pre-packaged as R `data.frame`s and
-  seamlessly imported with `{erahumed}`.
-- **Analysis**. The entire simulation workflow is implemented as a set
-  of R functions, enabling flexible and reproducible analysis.
-- **Outputs**. Simulation results are returned as well-structured
-  `data.frame`s, ready for further exploration and processing in R.
-- **Interactive Interface**. A Shiny-based graphical interface, with
-  predefined visualizations for model outputs, is bundled with the
-  package, allowing users to interactively explore the results.
+With `{erahumed}`, users can:
 
-More information on the ERAHUMED project can be found on the [main
-project’s website](https://www.erahumed.com/). The full documentation of
-the `{erahumed}` R package is hosted at
-[erahumed.github.io/erahumed](https://erahumed.github.io/erahumed/).
+- **Configure simulations** – Define landscape, chemical, and management
+  parameters, or use built-in presets for rapid setup.
+
+- **Run the model** – Execute hydrology, exposure, and risk assessment
+  modules in a reproducible R workflow.
+
+- **Analyse outputs** – Retrieve results as tidy `data.frame`s, ready
+  for statistical analysis or visualization.
+
+- **Explore interactively** – Launch a bundled Shiny application with
+  predefined plots, maps, and tables for model inputs and results.
+
+The package is designed for both research and practical decision-making,
+enabling transparent scenario analysis and reproducible environmental
+assessments.
+
+Comprehensive resources are available to support users at different
+levels:
+
+- The [package documentation](https://erahumed.github.io/erahumed)
+  covers the R functions, datasets, and Shiny interface bundled with
+  `{erahumed}`, serving as a practical reference for day-to-day use.
+
+- A [user manual](https://erahumed.github.io/erahumed-book) provides an
+  in-depth description of the underlying models, algorithms, and
+  assumptions. It is intended for researchers who wish to understand
+  and/or extend the modelling framework.
+
+Further background on the ERAHUMED project can be found on the [main
+project website](https://www.erahumed.com/).
 
 ## Installation
 
@@ -78,19 +100,21 @@ vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
 Simulations are run via:
 
 ``` r
-simulation <- erahumed_simulation(
-  date_start = "2020-01-01",
-  date_end = "2020-12-31",
-  variety_prop = c(J.Sendra = 0.7, Bomba = 0.15, Clearfield = 0.15)
-)
+simulation <- erahumed_simulation()
+#> Initializing inputs
+#> Computing hydrology: lake
+#> Computing hydrology: clusters
+#> Computing hydrology: ditches
+#> Computing exposure: clusters
+#> Computing exposure: ditches
+#> Computing exposure: lake
+#> Computing risk: clusters
+#> Computing risk: ditches
+#> Computing risk: lake
 ```
 
-where the parameters of the simulation are set through the arguments of
-`erahumed_simulation()` (see `?erahumed_simulation` or [this
-article](https://erahumed.github.io/erahumed/articles/simulation-inputs.html)
-for a full list of parameters.
-
-Results can be inspected through:
+where simulation inputs can be customized through the arguments of
+`erahumed_simulation()`. Results can be inspected through:
 
 ``` r
 get_results(simulation, 
@@ -98,20 +122,20 @@ get_results(simulation,
             element = "lake"         # either "lake", "ditch", or "cluster"
             ) |>
   head()
-#>         date    chemical mf_kg mw_kg ms_kg cw_kg_m3 cw_outflow_kg_m3 cs_kg_m3
-#> 1 2020-01-01 Acetamiprid     0     0     0       NA                0        0
-#> 2 2020-01-02 Acetamiprid     0     0     0        0                0        0
-#> 3 2020-01-03 Acetamiprid     0     0     0        0                0        0
-#> 4 2020-01-04 Acetamiprid     0     0     0        0                0        0
-#> 5 2020-01-05 Acetamiprid     0     0     0        0                0        0
-#> 6 2020-01-06 Acetamiprid     0     0     0        0                0        0
-#>   cs_g_kg volume_m3 element_id
-#> 1       0        NA       lake
-#> 2       0  27344422       lake
-#> 3       0  27397000       lake
-#> 4       0  27456150       lake
-#> 5       0  27479153       lake
-#> 6       0  27397000       lake
+#>   element_id chemical_id chemical_name       date mf_kg mw_kg ms_kg
+#> 1       lake           1   Acetamiprid 2020-01-01     0     0     0
+#> 2       lake           1   Acetamiprid 2020-01-02     0     0     0
+#> 3       lake           1   Acetamiprid 2020-01-03     0     0     0
+#> 4       lake           1   Acetamiprid 2020-01-04     0     0     0
+#> 5       lake           1   Acetamiprid 2020-01-05     0     0     0
+#> 6       lake           1   Acetamiprid 2020-01-06     0     0     0
+#>   mw_outflow_kg cw_kg_m3 cs_kg_m3 cs_g_kg cw_outflow_kg_m3 volume_m3 outflow_m3
+#> 1             0       NA        0       0                0        NA   274652.4
+#> 2             0        0        0       0                0  27344422   333355.2
+#> 3             0        0        0       0                0  27397000   153987.6
+#> 4             0        0        0       0                0  27456150   119992.8
+#> 5             0        0        0       0                0  27479153   186673.2
+#> 6             0        0        0       0                0  27397000   221466.0
 ```
 
 ## Getting help
@@ -122,7 +146,3 @@ The full documentation of the `{erahumed}` R package is hosted at
 If you have issues running `{erahumed}` or want to suggest an
 improvement, please [file an issue on
 Github](https://github.com/erahumed/erahumed/issues).
-
-An internal documentation, aimed at potential contributors to this
-project, is available at [Github
-Wiki](https://github.com/erahumed/erahumed/wiki).
