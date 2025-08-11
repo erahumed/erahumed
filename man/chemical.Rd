@@ -84,4 +84,8 @@ If not explicitly specified, default values will be used for all parameters
 except \code{display_name} and \code{tmoa_id}. These defaults are intended to represent
 typical or illustrative values and \strong{do not correspond to any specific real-world
 chemical}. They are provided solely for convenience in prototyping or testing.
+
+For a detailed explanation of chemical parameters, their meaning, units, and
+role in the model, see the
+\href{https://erahumed.github.io/erahumed-book/chapters/model-inputs.html#tbl-chemical-params}{Chemical parameters section of the user manual}.
 }
