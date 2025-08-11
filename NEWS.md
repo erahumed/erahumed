@@ -5,6 +5,12 @@
 * Fixed a bug that caused pesticide applications to be concentrated in the first 
 year of simulations spanning more than one year (#458).
 
+### Documentation
+
+Added targeted cross-references to the user manual in function documentation, 
+linking to relevant sections for RFMS, chemical parameters, and other key 
+concepts (#46).
+
 # erahumed 0.20.1
 
 ### API changes
