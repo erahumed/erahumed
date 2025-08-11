@@ -36,7 +36,7 @@ dss_ui <- function() { bslib::page_navbar(
            nav_hyperlink("Report a bug", "https://github.com/erahumed/erahumed/issues/new", icon = "github"),
            nav_menu_hr(),  # ---------------------------------
            nav_hyperlink("Table of simulation inputs",
-                         "https://erahumed.github.io/erahumed/articles/simulation-inputs.html",
+                         "https://erahumed.github.io/erahumed-book/chapters/model-inputs.html",
                          icon = NULL
            )
 

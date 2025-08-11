@@ -39,7 +39,7 @@ The command above runs a simulation with the default model parameters. These can
 sim2 <- erahumed_simulation(ideal_flow_rate_cm = 10, seed = 841)
 ```
 
-The full set of simulation parameters is documented in `?erahumed_simulation` (see [here](https://erahumed.github.io/erahumed/articles/simulation-inputs.html) for
+The full set of simulation parameters is documented in `?erahumed_simulation` (see [here](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html) for
 a table format).
 
 Once we are ready with our simulation setup, in order to actually run the 
