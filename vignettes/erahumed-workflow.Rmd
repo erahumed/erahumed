@@ -3,8 +3,11 @@ title: "Simulation workflow"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{erahumed-workflow}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r, include = FALSE}
@@ -14,36 +17,91 @@ knitr::opts_chunk$set(
 )
 ```
 
-This document illustrates the basic simulation workflow of ERAHUMED. Specifically, we 
-will cover:
+This document illustrates the basic simulation workflow of ERAHUMED.
+Specifically, we will cover:
 
-* How to setup and run a simulation.
-* How to extract and analyze simulation results.
+-   How to setup and run a simulation.
+-   How to extract and analyze simulation results.
 
-This guide is addressed to users working with the command-line (*i.e.* R) 
-interface of `{erahumed}`.
+The goal is to provide a practical, step-by-step overview of how to
+perform simulations. For a detailed explanation of the underlying
+models, algorithms, and assumptions, refer to the [user
+manual](https://erahumed.github.io/erahumed-book/).
+
+This guide is intended for users working with the R interface of the
+package and is not required for those using only the Shiny GUI.
 
 ```{r load-erahumed}
 library(erahumed)
 ```
 
-ERAHUMED simulation can be run with:
+## Running a simulation
+
+The main interface for running simulations in `{erahumed}` is the
+`erahumed_simulation()` function:
 
 ```{r}
 sim <- erahumed_simulation()
 sim
 ```
-The command above runs a simulation with the default model parameters. These can be customized through the arguments of `erahumed_simulation()`, for instance:
+
+This function handles both the *setup* and *execution* of a simulation.
+Simulation parameters are specified via its arguments, and calling the
+function launches the simulation and returns a fully executed object
+containing the results (note that this may take some time).
+
+The example above runs a simulation with the default model parameters.
+These can be customized via the arguments of `erahumed_simulation()`.
+For instance:
 
 ```{r}
-sim2 <- erahumed_simulation(ideal_flow_rate_cm = 10, seed = 841)
+sim2 <- erahumed_simulation(foc_ss = 0.20, foc_sed = 0.07)
+sim2
 ```
 
-The full set of simulation parameters is documented in `?erahumed_simulation` (see [here](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html) for
-a table format).
+runs a simulation with modified environmental parameters (fraction of
+organic content in suspended solid and sediment), while:
 
-Once we are ready with our simulation setup, in order to actually run the 
-simulation we use:
+```{r}
+sim3 <- erahumed_simulation(date_start = "2019-01-01", date_end = "2019-12-31")
+sim3
+```
+
+runs a simulation over a different date range.
+
+The full set of simulation parameters is documented in [the user
+manual](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html),
+as well as in the R documentation page `?erahumed_simulation`. We
+highlight a few special parameters:
+
+-   **Observational inputs** - The `outflows_df` and `weather_df`
+    arguments of `erahumed_simulation()` are data-frames containing
+    time-series data that serve as the empirical basis for ERAHUMED
+    simulations. Further details are provided in the [user
+    manual](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html#observational-inputs-hydrology-and-weather).
+    The `date_start` and `date_end` arguments (see above) must fall
+    within the time range covered by these datasets.
+
+-   **Rice-field (agrochemical) management system map** - The `rfms_map`
+    argument argument is the primary interface for advanced scenario
+    customization, encapsulating the full set of user-defined
+    agrochemical configurations (including custom chemicals and
+    Rice-Field Management Systems, or RFMSs). A conceptual overview of
+    these capabilities is provided in the [user
+    manual](https://erahumed.github.io/erahumed-book/chapters/rfms.html),
+    while a step-by-step guide to creating custom scenarios is available
+    in a [dedicated
+    vignette](https://erahumed.github.io/erahumed/articles/rfms).
+
+-   **Random seed** - The `seed` argument controls the random number
+    generator used in the simulation, ensuring reproducible results when
+    stochastic elements are involved (e.g., the random order in which
+    rice field clusters are drained during the sowing season). Setting a
+    fixed value allows you to obtain identical results when re-running
+    the same simulation; leaving it unset may produce slightly different
+    outcomes across runs.
+
+## Analyzing simulation results
 
 Simulation results are extracted as follows:
 
@@ -52,15 +110,17 @@ lake_hydrology_df <- get_results(sim, component = "hydrology", element = "lake")
 cluster_hydrology_df <- get_results(sim, component = "hydrology", element = "cluster")
 cluster_exposure_df <- get_results(sim, component = "exposure", element = "cluster")
 ```
+
 These are provided in the form of `data.frame`s, for instance:
 
 ```{r}
 head(cluster_hydrology_df)
 ```
 
-From here on, the analysis may proceed in the way you find more convenient. 
-For instance, in the chunk below I create a plot of water levels for a set of 
-clusters with similar features, using `dplyr` and `ggplot2`:
+From here on, the analysis may proceed in the way you find more
+convenient. For instance, in the chunk below I create a plot of water
+levels for a set of clusters with similar features, using `dplyr` and
+`ggplot2`:
 
 ```{r message=FALSE, warning=FALSE}
 library(dplyr)
@@ -95,5 +155,9 @@ ggplot() +
 
 ## Further information
 
-Further details will appear in this and possibly other vignettes. For 
-specific problems, you can [file an issue on Github](https://github.com/erahumed/erahumed/issues).
+For additional details not covered in this guide, see the [other package
+vignettes](https://erahumed.github.io/erahumed/articles/). If there is a
+specific topic you would like to see documented, please let us know by
+[filing an issue on GitHub](https://github.com/erahumed/erahumed/issues)
+or by using the contact information provided on the [package
+homepage](https://erahumed.github.io/erahumed/index.html).

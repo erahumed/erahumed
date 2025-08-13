@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Documentation
+
+* Updated main ["workflow" vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html). 
+
 # erahumed 0.21.0
 
 ### Bug fixes
