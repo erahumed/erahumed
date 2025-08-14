@@ -3,6 +3,7 @@
 ### Documentation
 
 * Updated main ["workflow" vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html). 
+* New vignette ["Designing custom agrochemical scenarios"](https://erahumed.github.io/erahumed/articles/rfms.html). 
 
 # erahumed 0.21.0
 
