@@ -154,7 +154,7 @@ chemical_application <- function(chemical,
 #' @export
 print.erahumed_rfms <- function(x, ...) {
   cat("<Rice Field Management System>\n")
-  cat("  Name               : ", x$display_name)
+  cat("  Name               : ", x$display_name, "\n")
   cat("  Sowing period     : Day", x$sowing_yday, "to", x$harvesting_yday, "\n")
   cat("  Perellon\u{00E1} period  : Day", x$perellona_start_yday, "to", x$perellona_end_yday, "\n")
   cat("  Flow height       :", x$flow_height_cm, "cm during sowing season\n")
@@ -165,17 +165,9 @@ print.erahumed_rfms <- function(x, ...) {
 
 #' @export
 summary.erahumed_rfms <- function(object, ...) {
-  n_app <- length(object$applications)
+  print.erahumed_rfms(object, ...)
 
-  cat("<Rice Field Management System Summary>\n")
-  cat("  Name               : ", object$display_name)
-  cat("  Sowing period      : Day", object$sowing_yday, "to", object$harvesting_yday, "\n")
-  cat("  Perellon\u{00E1} period   : Day", object$perellona_start_yday, "to", object$perellona_end_yday, "\n")
-  cat("  Flow height        :", object$flow_height_cm, "cm\n")
-  cat("  Perellon\u{00E1} height   :", object$perellona_height_cm, "cm\n")
-  cat("  Applications       :", n_app, "scheduled\n\n")
-
-  if (n_app == 0) {
+  if (length(object$applications) == 0) {
     cat("  No chemical applications defined.\n")
   } else {
     df <- do.call(rbind, lapply(object$applications, function(app) {

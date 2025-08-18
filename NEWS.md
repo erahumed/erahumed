@@ -12,6 +12,8 @@
 * Fixed a bug that caused pesticide applications to be concentrated in the first 
 year of simulations spanning more than one year (#458).
 
+* Fixed formatting issues in `erahumed_rfms` print and summary methods (#464).
+
 ### Documentation
 
 Added targeted cross-references to the user manual in function documentation, 
