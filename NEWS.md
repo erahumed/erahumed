@@ -1,9 +1,18 @@
+# erahumed 0.21.1
+
+### Documentation
+
+* Updated main ["workflow" vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html). 
+* New vignette ["Designing custom agrochemical scenarios"](https://erahumed.github.io/erahumed/articles/rfms.html). 
+
 # erahumed 0.21.0
 
 ### Bug fixes
 
 * Fixed a bug that caused pesticide applications to be concentrated in the first 
 year of simulations spanning more than one year (#458).
+
+* Fixed formatting issues in `erahumed_rfms` print and summary methods (#464).
 
 ### Documentation
 
