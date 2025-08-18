@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,6 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/erahumed-workflow.html">Simulation workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/rfms.html">Designing custom agrochemical scenarios</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -59,7 +60,7 @@
       <h1>Simulation workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.0/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>erahumed-workflow.Rmd</code></div>
     </div>
 
@@ -71,11 +72,18 @@ Specifically, we will cover:</p>
 <li>How to setup and run a simulation.</li>
 <li>How to extract and analyze simulation results.</li>
 </ul>
-<p>This guide is addressed to users working with the command-line
-(<em>i.e.</em> R) interface of <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>.</p>
+<p>The goal is to provide a practical, step-by-step overview of how to
+perform simulations. For a detailed explanation of the underlying
+models, algorithms, and assumptions, refer to the <a href="https://erahumed.github.io/erahumed-book/">user manual</a>.</p>
+<p>This guide is intended for users working with the R interface of the
+package and is not required for those using only the Shiny GUI.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a></span><span class="op">)</span></span></code></pre></div>
-<p>ERAHUMED simulation can be run with:</p>
+<div class="section level2">
+<h2 id="running-a-simulation">Running a simulation<a class="anchor" aria-label="anchor" href="#running-a-simulation"></a>
+</h2>
+<p>The main interface for running simulations in <a href="https://github.com/erahumed/erahumed" class="external-link">erahumed</a>
+is the <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> function:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Initializing inputs</span></span>
@@ -98,11 +106,16 @@ Specifically, we will cover:</p>
 <span><span class="co">#&gt;   Total applications     : 17</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Need help extracting simulation outputs? Check `?get_results`.</span></span></code></pre></div>
-<p>The command above runs a simulation with the default model
-parameters. These can be customized through the arguments of
-<code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>, for instance:</p>
+<p>This function handles both the <em>setup</em> and <em>execution</em>
+of a simulation. Simulation parameters are specified via its arguments,
+and calling the function launches the simulation and returns a fully
+executed object containing the results (note that this may take some
+time).</p>
+<p>The example above runs a simulation with the default model
+parameters. These can be customized via the arguments of
+<code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code>. For instance:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span>ideal_flow_rate_cm <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">841</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span>foc_ss <span class="op">=</span> <span class="fl">0.20</span>, foc_sed <span class="op">=</span> <span class="fl">0.07</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Initializing inputs</span></span>
 <span><span class="co">#&gt; Computing hydrology: lake</span></span>
 <span><span class="co">#&gt; Computing hydrology: clusters</span></span>
@@ -112,20 +125,80 @@ parameters. These can be customized through the arguments of
 <span><span class="co">#&gt; Computing exposure: lake</span></span>
 <span><span class="co">#&gt; Computing risk: clusters</span></span>
 <span><span class="co">#&gt; Computing risk: ditches</span></span>
-<span><span class="co">#&gt; Computing risk: lake</span></span></code></pre></div>
-<p>The full set of simulation parameters is documented in
-<code><a href="../reference/erahumed_simulation.html">?erahumed_simulation</a></code> (see <a href="https://erahumed.github.io/erahumed-book/chapters/model-inputs.html">here</a>
-for a table format).</p>
-<p>Once we are ready with our simulation setup, in order to actually run
-the simulation we use:</p>
-<p>Simulation results are extracted as follows:</p>
+<span><span class="co">#&gt; Computing risk: lake</span></span>
+<span><span class="va">sim2</span></span>
+<span><span class="co">#&gt; &lt;ERAHUMED Simulation&gt;</span></span>
+<span><span class="co">#&gt;   Date range             : 2020-01-01 to 2020-12-31 </span></span>
+<span><span class="co">#&gt;   Simulation days        : 366 </span></span>
+<span><span class="co">#&gt;   Clusters               : 552 </span></span>
+<span><span class="co">#&gt;   Management systems     : 2 </span></span>
+<span><span class="co">#&gt;   Chemicals simulated    : 8 </span></span>
+<span><span class="co">#&gt;   Total applications     : 17</span></span></code></pre></div>
+<p>runs a simulation with modified environmental parameters (fraction of
+organic content in suspended solid and sediment), while:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sim3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/erahumed_simulation.html">erahumed_simulation</a></span><span class="op">(</span>date_start <span class="op">=</span> <span class="st">"2019-01-01"</span>, date_end <span class="op">=</span> <span class="st">"2019-12-31"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Initializing inputs</span></span>
+<span><span class="co">#&gt; Computing hydrology: lake</span></span>
+<span><span class="co">#&gt; Computing hydrology: clusters</span></span>
+<span><span class="co">#&gt; Computing hydrology: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: clusters</span></span>
+<span><span class="co">#&gt; Computing exposure: ditches</span></span>
+<span><span class="co">#&gt; Computing exposure: lake</span></span>
+<span><span class="co">#&gt; Computing risk: clusters</span></span>
+<span><span class="co">#&gt; Computing risk: ditches</span></span>
+<span><span class="co">#&gt; Computing risk: lake</span></span>
+<span><span class="va">sim3</span></span>
+<span><span class="co">#&gt; &lt;ERAHUMED Simulation&gt;</span></span>
+<span><span class="co">#&gt;   Date range             : 2019-01-01 to 2019-12-31 </span></span>
+<span><span class="co">#&gt;   Simulation days        : 365 </span></span>
+<span><span class="co">#&gt;   Clusters               : 552 </span></span>
+<span><span class="co">#&gt;   Management systems     : 2 </span></span>
+<span><span class="co">#&gt;   Chemicals simulated    : 8 </span></span>
+<span><span class="co">#&gt;   Total applications     : 17</span></span></code></pre></div>
+<p>runs a simulation over a different date range.</p>
+<p>The full set of simulation parameters is documented in <a href="https://erahumed.github.io/erahumed-book/chapters/model-inputs.html">the
+user manual</a>, as well as in the R documentation page
+<code><a href="../reference/erahumed_simulation.html">?erahumed_simulation</a></code>. We highlight a few special
+parameters:</p>
+<ul>
+<li><p><strong>Observational inputs</strong> - The
+<code>outflows_df</code> and <code>weather_df</code> arguments of
+<code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> are data-frames containing
+time-series data that serve as the empirical basis for ERAHUMED
+simulations. Further details are provided in the <a href="https://erahumed.github.io/erahumed-book/chapters/model-inputs.html#observational-inputs-hydrology-and-weather">user
+manual</a>. The <code>date_start</code> and <code>date_end</code>
+arguments (see above) must fall within the time range covered by these
+datasets.</p></li>
+<li><p><strong>Rice-field (agrochemical) management system map</strong>
+- The <code>rfms_map</code> argument argument is the primary interface
+for advanced scenario customization, encapsulating the full set of
+user-defined agrochemical configurations (including custom chemicals and
+Rice-Field Management Systems, or RFMSs). A conceptual overview of these
+capabilities is provided in the <a href="https://erahumed.github.io/erahumed-book/chapters/rfms.html">user
+manual</a>, while a step-by-step guide to creating custom scenarios is
+available in a <a href="https://erahumed.github.io/erahumed/articles/rfms">dedicated
+vignette</a>.</p></li>
+<li><p><strong>Random seed</strong> - The <code>seed</code> argument
+controls the random number generator used in the simulation, ensuring
+reproducible results when stochastic elements are involved (e.g., the
+random order in which rice field clusters are drained during the sowing
+season). Setting a fixed value allows you to obtain identical results
+when re-running the same simulation; leaving it unset may produce
+slightly different outcomes across runs.</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="analyzing-simulation-results">Analyzing simulation results<a class="anchor" aria-label="anchor" href="#analyzing-simulation-results"></a>
+</h2>
+<p>Simulation results are extracted as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lake_hydrology_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">sim</span>, component <span class="op">=</span> <span class="st">"hydrology"</span>, element <span class="op">=</span> <span class="st">"lake"</span><span class="op">)</span></span>
 <span><span class="va">cluster_hydrology_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">sim</span>, component <span class="op">=</span> <span class="st">"hydrology"</span>, element <span class="op">=</span> <span class="st">"cluster"</span><span class="op">)</span></span>
 <span><span class="va">cluster_exposure_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_results.html">get_results</a></span><span class="op">(</span><span class="va">sim</span>, component <span class="op">=</span> <span class="st">"exposure"</span>, element <span class="op">=</span> <span class="st">"cluster"</span><span class="op">)</span></span></code></pre></div>
 <p>These are provided in the form of <code>data.frame</code>s, for
 instance:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cluster_hydrology_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   ideal_height_eod_cm ideal_irrigation ideal_draining is_plan_delays_window</span></span>
 <span><span class="co">#&gt; 1                  20             TRUE           TRUE                 FALSE</span></span>
@@ -166,7 +239,7 @@ instance:</p>
 convenient. For instance, in the chunk below I create a plot of water
 levels for a set of clusters with similar features, using
 <code>dplyr</code> and <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
@@ -195,15 +268,19 @@ levels for a set of clusters with similar features, using
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Cluster simulated water levels"</span>,</span>
 <span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Ditch:"</span>, <span class="va">ditch</span>, <span class="st">"- Tancat:"</span>, <span class="va">tancat</span>, <span class="st">"- RFMS:"</span>, <span class="va">rfms_name</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+</div>
 <div class="section level2">
 <h2 id="further-information">Further information<a class="anchor" aria-label="anchor" href="#further-information"></a>
 </h2>
-<p>Further details will appear in this and possibly other vignettes. For
-specific problems, you can <a href="https://github.com/erahumed/erahumed/issues" class="external-link">file an issue on
-Github</a>.</p>
+<p>For additional details not covered in this guide, see the <a href="https://erahumed.github.io/erahumed/articles/">other package
+vignettes</a>. If there is a specific topic you would like to see
+documented, please let us know by <a href="https://github.com/erahumed/erahumed/issues" class="external-link">filing an issue on
+GitHub</a> or by using the contact information provided on the <a href="https://erahumed.github.io/erahumed/index.html">package
+homepage</a>.</p>
 </div>
-  </main>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
