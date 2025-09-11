@@ -72,7 +72,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
         stressor_type = "tmoa"
         )
     ][,
-    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "paf_acute", "paf_chronic", "rq_acute", "rq_chronic")
+    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "rq_acute", "rq_chronic", "paf_acute", "paf_chronic")
     ]
 
   res_chem <- res_prep[,
@@ -85,7 +85,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
         stressor_type = "chemical"
         )
     ][,
-    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "paf_acute", "paf_chronic", "rq_acute", "rq_chronic")
+    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "rq_acute", "rq_chronic", "paf_acute", "paf_chronic")
     ]
 
   rbind(res_tmoa, res_chem) |>
