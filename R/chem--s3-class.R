@@ -57,9 +57,9 @@ chemical <- function(display_name,
                      Q10_ks_sat = 2.58,
                      Q10_ks_unsat = 2.58,
                      ssd_acute_mu = 7.5,
-                     ssd_acute_sigma = 0.7,
+                     ssd_acute_sigma = 2.5,
                      ssd_chronic_mu = 4.5,
-                     ssd_chronic_sigma = 0.7
+                     ssd_chronic_sigma = 2.5
                      )
 {
   tryCatch(
