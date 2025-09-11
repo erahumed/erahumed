@@ -173,7 +173,7 @@ css_ppm:
     parts per million.
 
 foc_ss:
-  name: "Fraction of organic content in suspended solid"
+  name: "Fraction of organic matter content in suspended solid"
   group: "Environmental properties"
   type: "numeric(1)"
   unit: "1"
@@ -182,7 +182,7 @@ foc_ss:
     suspended solids.
 
 foc_sed:
-  name: "Fraction of organic content in sediment"
+  name: "Fraction of organic matter content in sediment"
   group: "Environmental properties"
   type: "numeric(1)"
   unit: "1"
@@ -194,7 +194,7 @@ bd_g_cm3:
   name: "Bulk density of sediment"
   group: "Environmental properties"
   type: "numeric(1)"
-  unit: "g\u00B7cm\u207B\u00B2"
+  unit: "g\u00B7cm\u207B\u00B3"
   description: >-
     A positive number. Bulk density of the sediment (including both the solid
     material and the pore spaces). Expressed in grams per cubic centimeter.
