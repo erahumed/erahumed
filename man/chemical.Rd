@@ -63,11 +63,17 @@ chemical(
 
 \item{Q10_ks_unsat}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction in unsaturated sediment.}
 
-\item{ssd_acute_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the acute species sensitivity distribution.}
+\item{ssd_acute_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the acute species sensitivity distribution. The unit
+of this input (log10(microgram/liter)) is interpreted as follows: the
+base 10 exponential of the input is the median (according to the acute SSD)
+concentration in micrograms per liter.}
 
 \item{ssd_acute_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the acute species sensitivity distribution.}
 
-\item{ssd_chronic_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the chronic species sensitivity distribution.}
+\item{ssd_chronic_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the chronic species sensitivity distribution.  The
+unit of this input (log10(microgram/liter)) is interpreted as follows:
+the base 10 exponential of the input is the median (according to the chronic
+SSD) concentration in micrograms per liter.}
 
 \item{ssd_chronic_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the chronic species sensitivity distribution.}
 }

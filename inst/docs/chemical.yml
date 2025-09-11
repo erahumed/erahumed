@@ -35,7 +35,7 @@ koc_cm3_g:
   name: "Koc"
   group: "Sorption"
   type: "numeric(1)"
-  unit: "cm \u00B3 /g"
+  unit: "cm\u00B3/g"
   description: "Organic carbon-water partition coefficient (Koc)."
 
 fet_cm:
@@ -116,25 +116,37 @@ Q10_ks_unsat:
   description: "Q10 coefficient for temperature correction in unsaturated sediment."
 
 ssd_acute_mu:
-  name: "SSD acute mean (log10)"
+  name: "SSD acute mean on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
-  description: "Mean (log10 scale) of the acute species sensitivity distribution."
+  unit: "log\u2081\u2080(\u03BCg/L)"
+  description: |
+    Mean (log10 scale) of the acute species sensitivity distribution. The unit
+    of this input (log10(microgram/liter)) is interpreted as follows: the
+    base 10 exponential of the input is the median (according to the acute SSD)
+    concentration in micrograms per liter.
 
 ssd_acute_sigma:
-  name: "SSD acute std. deviation (log10)"
+  name: "SSD acute std. deviation on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
+  unit: 1
   description: "Standard deviation (log10 scale) of the acute species sensitivity distribution."
 
 ssd_chronic_mu:
-  name: "SSD chronic mean (log10)"
+  name: "SSD chronic mean on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
-  description: "Mean (log10 scale) of the chronic species sensitivity distribution."
+  unit: "log\u2081\u2080(\u03BCg/L)"
+  description: |
+    Mean (log10 scale) of the chronic species sensitivity distribution.  The
+    unit of this input (log10(microgram/liter)) is interpreted as follows:
+    the base 10 exponential of the input is the median (according to the chronic
+    SSD) concentration in micrograms per liter.
 
 ssd_chronic_sigma:
-  name: "SSD chronic std. deviation (log10)"
+  name: "SSD chronic std. deviation on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
+  unit: 1
   description: "Standard deviation (log10 scale) of the chronic species sensitivity distribution."
