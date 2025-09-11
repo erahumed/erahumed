@@ -1,9 +1,9 @@
-allocation_input_tooltip <- function(name) {
-  bslib::tooltip(
-    trigger = shiny_icon("question-circle"),
-    get_param_desc(param = name, fun = "allocation", strip_roxy = TRUE),
-    placement = "right"
-  )
+allocation_input_tooltip <- function(param) {
+  input_tooltip(param, fun = "allocation")
+}
+
+allocation_input_label <- function(param) {
+  input_label(param, fun = "allocation")
 }
 
 allocation_input_defaults <- function() {
@@ -25,10 +25,7 @@ allocation_input_system <- function(id, choices) {
 allocation_input_target_fraction <- function(id) {
   inline_numeric_input(
     id,
-    label = shiny::p(
-      shiny::HTML("Target fraction"),
-      allocation_input_tooltip("target_fraction")
-    ),
+    label = allocation_input_label("target_fraction"),
     value = allocation_input_defaults()[["target_fraction"]],
     min = 0, max = 1, step = 0.01
   )
