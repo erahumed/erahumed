@@ -56,7 +56,7 @@ erahumed_simulation(
 
 \item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle in rice paddies.}
 
-\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
+\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 
 \item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of water suspended solids, expressed in parts per million.}
 

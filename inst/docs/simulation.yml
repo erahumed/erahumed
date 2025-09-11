@@ -159,7 +159,7 @@ dact_m:
   type: "numeric(1)"
   unit: "m"
   description: >-
-    A positive number. Active sediment layer depth, where "active""
+    A positive number. Active sediment layer depth, where "active"
     refers to the portion of the sediment that is actually involved
     in chemical exchange or transport processes. Expressed in meters.
 

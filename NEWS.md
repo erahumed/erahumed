@@ -2,7 +2,11 @@
 
 ### GUI
 
-* Application is initialized now by default on the "Input" tab. 
+* Application is initialized now by default on the "Input" tab.
+
+### Documentation
+
+* Minor typo fixes.
 
 # erahumed 0.21.1
 
