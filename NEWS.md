@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### GUI
+
+* Application is initialized now by default on the "Input" tab. 
+
 # erahumed 0.21.1
 
 ### Documentation

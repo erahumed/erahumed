@@ -16,7 +16,7 @@ dss_ui <- function() { bslib::page_navbar(
       cursor: not-allowed !important;      /* Show 'not-allowed' cursor */
     }"
     ),
-  selected = "Output",
+  selected = "Input",
 
   nav_panel("Input", dss_input_ui("dss_input"), icon = icon("sliders")),
 
