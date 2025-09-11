@@ -86,8 +86,8 @@ dss_output_ui <- function(id) {
                                                                    selected = "acute"),
                                    shinyWidgets::radioGroupButtons(ns("risk_method"),
                                                                    label = "Risk metric",
-                                                                   choices = list("PAF" = "paf", "RQ" = "rq"),
-                                                                   selected = "paf")
+                                                                   choices = list("RQ" = "rq", "PAF" = "paf"),
+                                                                   selected = "rq")
                                  )
                                )),
             full_screen = TRUE,
