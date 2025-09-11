@@ -82,8 +82,8 @@ dss_output_ui <- function(id) {
                                  shiny::tagList(
                                    shinyWidgets::radioGroupButtons(ns("risk_type"),
                                                                    label = "Risk type",
-                                                                   choices = list(Chronic = "chronic", Acute = "acute"),
-                                                                   selected = "chronic"),
+                                                                   choices = list(Acute = "acute", Chronic = "chronic"),
+                                                                   selected = "acute"),
                                    shinyWidgets::radioGroupButtons(ns("risk_method"),
                                                                    label = "Risk metric",
                                                                    choices = list("PAF" = "paf", "RQ" = "rq"),
