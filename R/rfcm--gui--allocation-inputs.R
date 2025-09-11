@@ -34,10 +34,7 @@ allocation_input_target_fraction <- function(id) {
 allocation_input_field_type <- function(id) {
   inline_select_input(
     inputId = id,
-    label = shiny::p(
-      shiny::HTML("Field type"),
-      allocation_input_tooltip("field_type")
-    ),
+    label = allocation_input_label("field_type"),
     choices = c("both", "regular", "tancat"),
     selected = allocation_input_defaults()[["field_type"]]
   )
@@ -46,10 +43,7 @@ allocation_input_field_type <- function(id) {
 allocation_input_ditches <- function(id) {
   shiny::sliderInput(
     inputId = id,
-    label = shiny::p(
-      shiny::HTML("Ditches"),
-      allocation_input_tooltip("ditches")
-    ),
+    label = allocation_input_label("ditches"),
     min = 1, max = 26,
     value = allocation_input_defaults()[["ditches"]],
     step = 1
