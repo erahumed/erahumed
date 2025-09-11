@@ -48,7 +48,7 @@ plot_risk <- function(r_output,
     value_range <- c(0, max(ts_plot, na.rm = TRUE) * 1.05)
   } else {
     value_fmt <- "function(d) {return d.toFixed(2);}"
-    axis_label <- "Risk Quotient (C / PNEC) [1]"
+    axis_label <- "Risk Quotient (PEC / PNEC) [1]"
     value_range <- c(0, max(ts_plot, na.rm = TRUE) * 1.05)
   }
 
