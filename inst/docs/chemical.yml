@@ -77,39 +77,42 @@ kw_temp:
   name: "Water degradation reference temp."
   group: "Degradation"
   type: "numeric(1)"
-  unit: "\u00B0 C"
+  unit: "\u00B0C"
   description: "Reference temperature for kw_day."
 
 ks_sat_temp:
   name: "Sat. sediment degradation ref. temp."
   group: "Degradation"
   type: "numeric(1)"
-  unit: "\u00B0 C"
+  unit: "\u00B0C"
   description: "Reference temperature for ks_sat_day."
 
 ks_unsat_temp:
   name: "Unsat. sediment degradation ref. temp."
   group: "Degradation"
   type: "numeric(1)"
-  unit: "\u00B0 C"
+  unit: "\u00B0C"
   description: "Reference temperature for ks_unsat_day."
 
 Q10_kw:
   name: "Q10 for water degradation"
   group: "Degradation"
   type: "numeric(1)"
+  unit: "1"
   description: "Q10 coefficient for temperature correction of degradation in water."
 
 Q10_ks_sat:
   name: "Q10 for sat. sediment degradation"
   group: "Degradation"
   type: "numeric(1)"
+  unit: "1"
   description: "Q10 coefficient for temperature correction in saturated sediment."
 
 Q10_ks_unsat:
   name: "Q10 for unsat. sediment degradation"
   group: "Degradation"
   type: "numeric(1)"
+  unit: "1"
   description: "Q10 coefficient for temperature correction in unsaturated sediment."
 
 ssd_acute_mu:
