@@ -51,11 +51,11 @@ chemical(
 
 \item{ks_unsat_day}{\verb{[numeric(1)]} \cr Degradation rate in unsaturated sediment.}
 
-\item{kw_temp}{\verb{[numeric(1)]} \cr Reference temperature for kw_day.}
+\item{kw_temp}{\verb{[numeric(1)]} \cr Reference temperature for kw (degradation rate in water).}
 
-\item{ks_sat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_sat_day.}
+\item{ks_sat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_sat (degradation rate in saturated sediment).}
 
-\item{ks_unsat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_unsat_day.}
+\item{ks_unsat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_unsat (degradation rate in unsaturated sediment).}
 
 \item{Q10_kw}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction of degradation in water.}
 

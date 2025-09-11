@@ -78,21 +78,21 @@ kw_temp:
   group: "Degradation"
   type: "numeric(1)"
   unit: "\u00B0C"
-  description: "Reference temperature for kw_day."
+  description: "Reference temperature for kw (degradation rate in water)."
 
 ks_sat_temp:
   name: "Sat. sediment degradation ref. temp."
   group: "Degradation"
   type: "numeric(1)"
   unit: "\u00B0C"
-  description: "Reference temperature for ks_sat_day."
+  description: "Reference temperature for ks_sat (degradation rate in saturated sediment)."
 
 ks_unsat_temp:
   name: "Unsat. sediment degradation ref. temp."
   group: "Degradation"
   type: "numeric(1)"
   unit: "\u00B0C"
-  description: "Reference temperature for ks_unsat_day."
+  description: "Reference temperature for ks_unsat (degradation rate in unsaturated sediment)."
 
 Q10_kw:
   name: "Q10 for water degradation"
