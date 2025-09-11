@@ -5,3 +5,11 @@ dss_input_tooltip <- function(param) {
     placement = "right"
     )
 }
+
+dss_input_label <- function(param) {
+  name <- get_param_name(param, fun = "simulation")
+  unit <- get_param_unit(param, fun = "simulation")
+  lbl <- paste0(name, " [", unit, "]")
+
+  shiny::p(lbl, dss_input_tooltip(param))
+}
