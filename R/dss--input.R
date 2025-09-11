@@ -32,7 +32,6 @@ dss_input_ui <- function(id) {
     dss_input_foc_ss(ns("foc_ss")),
     dss_input_foc_sed(ns("foc_sed")),
     dss_input_bd_g_cm3(ns("bd_g_cm3")),
-    dss_input_qseep_m_day(ns("qseep_m_day")),
     dss_input_porosity(ns("porosity")),
     dss_input_ideal_flow_rate_cm(ns("ideal_flow_rate_cm")),
     dss_input_height_thresh_cm(ns("height_thresh_cm")),
@@ -118,7 +117,6 @@ dss_input_server <- function(id) {
         foc_ss = input$foc_ss,
         foc_sed = input$foc_sed,
         bd_g_cm3 = input$bd_g_cm3,
-        qseep_m_day = input$qseep_m_day,
         porosity = input$porosity,
         seed = input$seed
       )}

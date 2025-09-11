@@ -165,17 +165,6 @@ dss_input_bd_g_cm3 <- function(id) {
   )
 }
 
-dss_input_qseep_m_day <- function(id) {
-  shiny::numericInput(
-    inputId = id,
-    label = dss_input_label("qseep_m_day"),
-    value = dss_input_defaults()[["qseep_m_day"]],
-    step = 0.01,
-    min = 0,
-    max = 10
-  )
-}
-
 dss_input_porosity <- function(id) {
   shiny::numericInput(
     inputId = id,

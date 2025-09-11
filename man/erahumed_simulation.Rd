@@ -23,7 +23,6 @@ erahumed_simulation(
   foc_ss = 0.1,
   foc_sed = 0.05,
   bd_g_cm3 = 1.5,
-  qseep_m_day = 0,
   porosity = 0.11,
   rfms_map = default_rfms_map(seed = seed),
   .progress = message
@@ -65,8 +64,6 @@ erahumed_simulation(
 \item{foc_sed}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. Fraction of organic matter content within sediment.}
 
 \item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
-
-\item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, \emph{i.e.} the rate at which water seeps through the sediment or soil. Expressed in meters per day.}
 
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
 

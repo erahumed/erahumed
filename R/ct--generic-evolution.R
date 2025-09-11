@@ -27,7 +27,6 @@ ct_time_series <- function(
   foc_ss <- get_input(simulation, "foc_ss")
   foc_sed <- get_input(simulation, "foc_sed")
   bd_g_cm3 <- get_input(simulation, "bd_g_cm3")
-  qseep_m_day <- get_input(simulation, "qseep_m_day")
   porosity <- get_input(simulation, "porosity")
 
   # Chemical input properties
@@ -73,7 +72,6 @@ ct_time_series <- function(
                             dact_m = dact_m,
                             css_ppm = css_ppm,
                             bd_g_cm3 = bd_g_cm3,
-                            qseep_m_day = qseep_m_day,
                             porosity = porosity,
                             kf_day = kf_day,
                             kw_day = kw_day,
@@ -166,7 +164,6 @@ ct_ts_step_terms <- function(application_kg,
                              dact_m,
                              css_ppm,
                              bd_g_cm3,
-                             qseep_m_day,
                              porosity,
                              kf_day,
                              kw_day,

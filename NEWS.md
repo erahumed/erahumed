@@ -2,6 +2,8 @@
 
 ### Input and output data
 
+* The `qseep_m_day` parameter no longer exists. This was a remnant of an older 
+implementation, and was not being used in any actual calculation.
 * In "Risk" output, the `rq_*` columns (risk quotients) now appear first.
 
 ### GUI

@@ -199,15 +199,6 @@ bd_g_cm3:
     A positive number. Bulk density of the sediment (including both the solid
     material and the pore spaces). Expressed in grams per cubic centimeter.
 
-qseep_m_day:
-  name: "Seepage rate"
-  group: "Environmental properties"
-  type: "numeric(1)"
-  unit: "m\u00B7day\u207B\u00B9"
-  description: >-
-    A positive number. Seepage rate, *i.e.* the rate at which water seeps
-    through the sediment or soil. Expressed in meters per day.
-
 porosity:
   name: "Porosity"
   group: "Environmental properties"
