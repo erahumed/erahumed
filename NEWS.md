@@ -1,12 +1,31 @@
 # erahumed (development version)
 
+### Input and output data
+
+* In "Risk" output, the `rq_*` columns (risk quotients) now appear first.
+
 ### GUI
 
 * Application is initialized now by default on the "Input" tab.
+* In the output tab, the risk plot now display by default the Risk Quotient
+computed for Acute risk.
+* The Y-axis of Risk Quotient plots now reads `PEC/PNEC`.
+* Various improvements in the matching of parameter names between documentation 
+and GUI labels (#449).
 
 ### Documentation
 
-* Minor typo fixes.
+* Clarified units of SSD inputs
+
+* Minor documentation improvements:
+  - Fixed typo in quotes in `dact_m` description.
+  - Specified "matter" in `foc_ss` and `foc_sed` parameter names (*e.g.* 
+  "Fraction of organic **matter** content").
+  - Fixed units in `bd_g_cm3`.
+  - Fixed description of reference temperatures in Arrhenius correction.
+  
+* Clarified in the README file that comes along with downloadable outputs that
+ecotoxicological risks are expressed both as RQs and PAFs.
 
 # erahumed 0.21.1
 
