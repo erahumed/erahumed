@@ -18,21 +18,25 @@ compute_risk_general <- function(ct_output, chemical_db) {
       df$tmoa_id <- ct_get_param(chemical_id, "tmoa_id", chemical_db)
       df$tmoa_name <- df$tmoa_id
 
-      df$median_acute <- exp( ct_get_param(chemical_id, "ssd_acute_mu", chemical_db) )
-      df$median_chronic <- exp( ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db) )
+      acute_mu_log10 <- ct_get_param(chemical_id, "ssd_acute_mu", chemical_db)
+      acute_sd_log10 <- ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
+      chronic_mu_log10 <- ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db)
+      chronic_sd_log10 <- ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
 
-      df$hc05_acute <- stats::qlnorm(0.05,
-                                     meanlog = ct_get_param(chemical_id, "ssd_acute_mu", chemical_db),
-                                     sdlog = ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
-                                     )
-      df$hc05_chronic <- stats::qlnorm(0.05,
-                                       meanlog = ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db),
-                                       sdlog = ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
-                                       )
+      acute_mu_ln <- acute_mu_log10 * log(10)
+      acute_sd_ln <- acute_sd_log10 * log(10)
+      chronic_mu_ln <- chronic_mu_log10 * log(10)
+      chronic_sd_ln <- chronic_sd_log10 * log(10)
 
 
-      df$sd_acute <- ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
-      df$sd_chronic <-  ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
+      df$median_acute <- exp( acute_mu_ln )
+      df$median_chronic <- exp( chronic_mu_ln )
+
+      df$hc05_acute <- stats::qlnorm(0.05, meanlog = acute_mu_ln, sdlog = acute_sd_ln)
+      df$hc05_chronic <- stats::qlnorm(0.05, meanlog = chronic_mu_ln, sdlog = chronic_sd_ln)
+
+      df$sd_acute <- acute_sd_ln
+      df$sd_chronic <-  chronic_sd_ln
 
       df
     }) |>
