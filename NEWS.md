@@ -2,6 +2,8 @@
 
 ### Input and output data
 
+* SSD parameters provided to the `chemical()` S3 constructor are now understood
+in logarithmic base `10` (#468).
 * The `qseep_m_day` parameter no longer exists. This was a remnant of an older 
 implementation, and was not being used in any actual calculation.
 * In "Risk" output, the `rq_*` columns (risk quotients) now appear first.
@@ -17,7 +19,7 @@ and GUI labels (#449).
 
 ### Documentation
 
-* Clarified units of SSD inputs
+* Clarified units of SSD inputs.
 
 * Minor documentation improvements:
   - Fixed typo in quotes in `dact_m` description.
