@@ -8,16 +8,16 @@ test_that("date domain is an interval", {
 
 test_that("temperatures are ordered as expected (min <= ave <= max)", {
   expect_true(all(
-    albufera_weather$temperature_min <= albufera_weather$temperature_ave
+    albufera_weather$temperature_min_celsius <= albufera_weather$temperature_ave_celsius
     ))
   expect_true(all(
-    albufera_weather$temperature_ave <= albufera_weather$temperature_max
+    albufera_weather$temperature_ave_celsius <= albufera_weather$temperature_max_celsius
   ))
 })
 
 test_that("temperatures are in a reasonable range", {
-  expect_true(all(albufera_weather$temperature_min >= -30))
-  expect_true(all(albufera_weather$temperature_max <= 60))
+  expect_true(all(albufera_weather$temperature_min_celsius >= -30))
+  expect_true(all(albufera_weather$temperature_max_celsius <= 60))
 })
 
 test_that("Precipitation and evapotranspiration values are always positive", {

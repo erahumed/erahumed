@@ -37,9 +37,9 @@
         application_kg = 0,  # Pesticide is applied only to rice field clusters
         precipitation_mm = lake_ts_df[["precipitation_mm"]],
         etp_mm = lake_ts_df[["evapotranspiration_mm"]],
-        temperature_ave = lake_ts_df[["temperature_ave"]],
-        temperature_min = lake_ts_df[["temperature_min"]],
-        temperature_max = lake_ts_df[["temperature_max"]],
+        temperature_ave_celsius = lake_ts_df[["temperature_ave_celsius"]],
+        temperature_min_celsius = lake_ts_df[["temperature_min_celsius"]],
+        temperature_max_celsius = lake_ts_df[["temperature_max_celsius"]],
         volume_eod_m3 = lake_ts_df[["volume_eod_m3"]],
         outflow_m3 = lake_ts_df[["outflow_total_m3"]],
         inflows_m3 = ditch_inflows_m3,

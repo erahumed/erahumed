@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{albufera_weather}}{
 
-The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{temperature_ave}{Daily average temperature (degrees Celsius)}\item{temperature_min}{Daily minimum temperature (degrees Celsius)}\item{temperature_max}{Daily maximum temperature (degrees Celsius).}\item{precipitation_mm}{Daily precipitation (millimeters).}\item{evapotranspiration_mm}{Daily evapotranspiration (millimeters).}}
+The cardinality of data is given by: one row per day in the desired study frame.The dataset features the following columns:\describe{\item{date}{Date of measurement}\item{temperature_ave_celsius}{Daily average temperature (degrees Celsius)}\item{temperature_min_celsius}{Daily minimum temperature (degrees Celsius)}\item{temperature_max_celsius}{Daily maximum temperature (degrees Celsius).}\item{precipitation_mm}{Daily precipitation (millimeters).}\item{evapotranspiration_mm}{Daily evapotranspiration (millimeters).}}
 }
 }
 \source{

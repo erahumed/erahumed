@@ -98,11 +98,11 @@ weather_df:
     columns:
       date: >-
         Date of measurement
-      temperature_ave: >-
+      temperature_ave_celsius: >-
         Daily average temperature (degrees Celsius)
-      temperature_min: >-
+      temperature_min_celsius: >-
         Daily minimum temperature (degrees Celsius)
-      temperature_max: >-
+      temperature_max_celsius: >-
         Daily maximum temperature (degrees Celsius).
       precipitation_mm: >-
         Daily precipitation (millimeters).

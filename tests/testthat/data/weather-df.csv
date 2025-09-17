@@ -1,4 +1,4 @@
-date,temperature_ave,temperature_min,temperature_max,precipitation_mm,evapotranspiration_mm
+date,temperature_ave_celsius,temperature_min_celsius,temperature_max_celsius,precipitation_mm,evapotranspiration_mm
 2000-01-01,6.17,0.78,15.17,0,1.09
 2000-01-02,6.55,0.04,13.83,0,0.82
 2000-01-03,7.34,1.66,14.52,0.2,0.74

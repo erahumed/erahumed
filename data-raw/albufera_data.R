@@ -57,9 +57,9 @@ albufera_weather_gam_input <- albufera_weather
 
 albufera_weather <- albufera_weather |>
   transmute(date,
-            temperature_ave = TME,
-            temperature_min = TMIN,
-            temperature_max = TMAX,
+            temperature_ave_celsius = TME,
+            temperature_min_celsius = TMIN,
+            temperature_max_celsius = TMAX,
             precipitation_mm = P,
             evapotranspiration_mm = ETP
             )

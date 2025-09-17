@@ -2,9 +2,9 @@ ct_time_series <- function(
     application_kg,
     precipitation_mm,
     etp_mm,
-    temperature_ave,
-    temperature_min,
-    temperature_max,
+    temperature_ave_celsius,
+    temperature_min_celsius,
+    temperature_max_celsius,
     volume_eod_m3,
     outflow_m3,
     inflows_m3,
@@ -57,9 +57,9 @@ ct_time_series <- function(
   terms <- ct_ts_step_terms(application_kg = application_kg,
                             precipitation_mm = precipitation_mm,
                             etp_mm = etp_mm,
-                            temperature_ave = temperature_ave,
-                            temperature_min = temperature_min,
-                            temperature_max = temperature_max,
+                            temperature_ave_celsius = temperature_ave_celsius,
+                            temperature_min_celsius = temperature_min_celsius,
+                            temperature_max_celsius = temperature_max_celsius,
                             volume_eod_m3 = volume_eod_m3,
                             outflow_m3 = outflow_m3,
                             inflows_m3 = inflows_m3,
@@ -149,9 +149,9 @@ ct_time_series <- function(
 ct_ts_step_terms <- function(application_kg,
                              precipitation_mm,
                              etp_mm,
-                             temperature_ave,
-                             temperature_min,
-                             temperature_max,
+                             temperature_ave_celsius,
+                             temperature_min_celsius,
+                             temperature_max_celsius,
                              volume_eod_m3,
                              outflow_m3,
                              inflows_m3,
@@ -188,9 +188,9 @@ ct_ts_step_terms <- function(application_kg,
   n_time_steps <- length(outflow_m3)  # Guaranteed to be of required length
   dt <- 1
 
-  temp_arr <- ct_temperature_arrhenius(temperature_ave,
-                                        temperature_min,
-                                        temperature_max)
+  temp_arr <- ct_temperature_arrhenius(temperature_ave_celsius,
+                                        temperature_min_celsius,
+                                        temperature_max_celsius)
 
   # Hydro balance time series
   height_eod_m <- volume_eod_m3 / area_m2

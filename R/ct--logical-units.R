@@ -40,10 +40,10 @@ ct_diff_w <-  function(kdifus_m_day, fdw, height_sod_m) {
   ifelse(height_sod_m > tol, kdifus_m_day * fdw / height_sod_m, 0)
 }
 
-ct_temperature_arrhenius <- function(temperature_ave,
-                                     temperature_min,
-                                     temperature_max) {
-  return(temperature_ave)
+ct_temperature_arrhenius <- function(temperature_ave_celsius,
+                                     temperature_min_celsius,
+                                     temperature_max_celsius) {
+  return(temperature_ave_celsius)
 }
 
 ct_deg_k <- function(k_ref, Q10, temperature, temperature_ref) {

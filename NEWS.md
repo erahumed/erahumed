@@ -2,6 +2,8 @@
 
 ### Input and output data
 
+* `temperature_min/max/ave` columns of the `weather_df` are now called 
+`temperature_min/max/ave_celsius` (#469).
 * SSD parameters provided to the `chemical()` S3 constructor are now understood
 in logarithmic base `10` (#468).
 * The `qseep_m_day` parameter no longer exists. This was a remnant of an older 
