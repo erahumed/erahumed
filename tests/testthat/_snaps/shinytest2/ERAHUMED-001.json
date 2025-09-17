@@ -56,6 +56,7 @@
     "dss_input-seed": 840,
     "dss_output-ct_chemical_ids": null,
     "dss_output-hb_variable": "depth",
+    "dss_output-risk_chemical_ids": null,
     "dss_output-risk_method": "rq",
     "dss_output-risk_type": "acute",
     "dss_output-water_body": "Albufera Lake",
