@@ -2,6 +2,10 @@
 
 ### Input and output data
 
+* `ksetl_m_day` former chemical property becomes an environmental property 
+(common to all chemicals), accordingly to #471. Correspondingly, `chemical()` 
+loses its `ksetl_m_day` argument, and `erahumed_simulation()` gets a new
+`ksetl_m_day` argument.
 * `temperature_min/max/ave` columns of the `weather_df` are now called 
 `temperature_min/max/ave_celsius` (#469).
 * SSD parameters provided to the `chemical()` S3 constructor are now understood

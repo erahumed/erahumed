@@ -17,13 +17,6 @@ MW:
   unit: "g/mol"
   description: "Molecular weight in grams per mole."
 
-ksetl_m_day:
-  name: "Settling rate"
-  group: "Transport parameters"
-  type: "numeric(1)"
-  unit: "m/day"
-  description: "Settling rate, representing particle-bound transfer to sediment."
-
 sol_ppm:
   name: "Solubility"
   group: "Physicochemical properties"

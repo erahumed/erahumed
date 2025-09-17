@@ -208,6 +208,13 @@ porosity:
     A number between `0` and `1`. The fraction of the total sediment volume
     that is occupied by pore spaces.
 
+ksetl_m_day:
+  name: "Settling rate"
+  group: "Environmental properties"
+  type: "numeric(1)"
+  unit: "m/day"
+  description: "Settling rate, representing particle-bound transfer to sediment."
+
 rfms_map:
   name: "Map of rice field management systems"
   group: "Agrochemical management"

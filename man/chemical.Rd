@@ -8,7 +8,6 @@ chemical(
   display_name,
   tmoa_id,
   MW = 330,
-  ksetl_m_day = 2,
   sol_ppm = 500,
   koc_cm3_g = 200,
   fet_cm = 0.2,
@@ -34,8 +33,6 @@ chemical(
 \item{tmoa_id}{\verb{[character(1)]} \cr Identifier for the toxic mode of action (e.g., "NicotinicAcetylcholine").}
 
 \item{MW}{\verb{[numeric(1)]} \cr Molecular weight in grams per mole.}
-
-\item{ksetl_m_day}{\verb{[numeric(1)]} \cr Settling rate, representing particle-bound transfer to sediment.}
 
 \item{sol_ppm}{\verb{[numeric(1)]} \cr Water solubility.}
 

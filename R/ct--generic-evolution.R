@@ -28,6 +28,7 @@ ct_time_series <- function(
   foc_sed <- get_input(simulation, "foc_sed")
   bd_g_cm3 <- get_input(simulation, "bd_g_cm3")
   porosity <- get_input(simulation, "porosity")
+  ksetl_m_day <- get_input(simulation, "ksetl_m_day")
 
   # Chemical input properties
   koc_cm3_g <- ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
@@ -44,7 +45,6 @@ ct_time_series <- function(
   Q10_ks_unsat <- ct_get_param(chemical_id, "Q10_ks_unsat", chemical_db)
   ks_unsat_temp <- ct_get_param(chemical_id, "ks_unsat_temp", chemical_db)
   sol_ppm <- ct_get_param(chemical_id, "sol_ppm", chemical_db)
-  ksetl_m_day <- ct_get_param(chemical_id, "ksetl_m_day", chemical_db)
   MW <- ct_get_param(chemical_id, "MW", chemical_db)
   fet_cm <- ct_get_param(chemical_id, "fet_cm", chemical_db)
 

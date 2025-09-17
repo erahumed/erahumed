@@ -34,14 +34,6 @@ chem_input_fet_cm <- function(id) {
   )
 }
 
-chem_input_ksetl_m_day <- function(id) {
-  inline_numeric_input(
-    id,
-    label = chem_input_label("ksetl_m_day"),
-    value = chem_input_defaults()[["ksetl_m_day"]]
-  )
-}
-
 chem_input_kf_day <- function(id) {
   inline_numeric_input(
     id,
@@ -171,7 +163,6 @@ chem_input_defaults <- function() {
     display_name = "New chemical",
     tmoa_id = "New TMoA",
     MW = eval(fmls$MW),
-    ksetl_m_day = eval(fmls$ksetl_m_day),
     sol_ppm = eval(fmls$sol_ppm),
     koc_cm3_g = eval(fmls$koc_cm3_g),
     fet_cm = eval(fmls$fet_cm),

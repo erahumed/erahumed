@@ -10,7 +10,6 @@ input_funs <- list(
   display_name     = chem_input_display_name,
   tmoa_id          = chem_input_tmoa_id,
   MW               = chem_input_MW,
-  ksetl_m_day      = chem_input_ksetl_m_day,
   sol_ppm          = chem_input_sol_ppm,
   koc_cm3_g        = chem_input_koc_cm3_g,
   fet_cm           = chem_input_fet_cm,

@@ -19,7 +19,6 @@ acetamiprid <- function() {
   chemical(display_name = "Acetamiprid",
            tmoa_id = "NicotinicAcetylcholine",
            MW = 222.677,
-           ksetl_m_day = 2,
            sol_ppm = 2950,
            koc_cm3_g = 200, # PPDB
            fet_cm = 0.2,
@@ -45,7 +44,6 @@ azoxystrobin <- function() {
   chemical(display_name = "Azoxystrobin",
            tmoa_id = "C_Respiration",
            MW = 403.338,
-           ksetl_m_day = 2,
            sol_ppm = 6.7,
            koc_cm3_g = 589, # PPDB
            fet_cm = 0.2,
@@ -71,7 +69,6 @@ bentazone <- function() {
   chemical(display_name = "Bentazone",
            tmoa_id = "Photosynthesis_PSII",
            MW = 240.28,
-           ksetl_m_day = 2,
            sol_ppm = 7112,
            koc_cm3_g = 55.3, # PPDB
            fet_cm = 0.2,
@@ -97,7 +94,6 @@ cycloxydim <- function() {
   chemical(display_name = "Cycloxydim",
            tmoa_id = "AcetylCoA",
            MW = 325.5,
-           ksetl_m_day = 2,
            sol_ppm = 53,
            koc_cm3_g = 59, # PPDB
            fet_cm = 0.2,
@@ -123,7 +119,6 @@ cyhalofop_butyl <- function() {
   chemical(display_name = "Cyhalofop-butyl",
            tmoa_id = "AcetylCoA",
            MW = 357.38,
-           ksetl_m_day = 2,
            sol_ppm = 0.44,
            koc_cm3_g = 5247,
            fet_cm = 0.2,
@@ -149,7 +144,6 @@ difenoconazole <- function() {
   chemical(display_name = "Difenoconazole",
            tmoa_id = "Sterol_biosynthesis",
            MW = 406.3,
-           ksetl_m_day = 2,
            sol_ppm = 15,
            koc_cm3_g = 3200,
            fet_cm = 0.2,
@@ -175,7 +169,6 @@ mcpa <- function() {
   chemical(display_name = "MCPA",
            tmoa_id = "Auxin_mimics",
            MW = 200.62,
-           ksetl_m_day = 2,
            sol_ppm = 29390,
            koc_cm3_g = 73.88,  # PPDB
            fet_cm = 0.2,
@@ -201,7 +194,6 @@ penoxsulam <- function() {
   chemical(display_name = "Penoxsulam",
            tmoa_id = "AcetoLactate",
            MW = 483.4,
-           ksetl_m_day = 2,
            sol_ppm = 408,
            koc_cm3_g = 73.2,  # Differs slightly from PPDB value
            fet_cm = 0.2,

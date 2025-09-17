@@ -176,6 +176,16 @@ dss_input_porosity <- function(id) {
   )
 }
 
+dss_input_ksetl_m_day <- function(id) {
+  shiny::numericInput(
+    inputId = id,
+    label = dss_input_label("ksetl_m_day"),
+    value = dss_input_defaults()[["ksetl_m_day"]],
+    step = 0.1,
+    min = 0
+  )
+}
+
 dss_input_weather_df_button <- function(id) {
   btn <- shiny::actionButton(inputId = id, label = "Setup Weather DF")
   bslib::tooltip(trigger = btn, get_param_desc("weather_df", fun = "simulation"))

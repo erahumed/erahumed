@@ -17,6 +17,7 @@
     "dss_input-ideal_flow_rate_cm": 5,
     "dss_input-input-ui": "Simulation settings",
     "dss_input-jgrow": 152,
+    "dss_input-ksetl_m_day": 2,
     "dss_input-open_outflows_df_modal": 0,
     "dss_input-open_weather_df_modal": 0,
     "dss_input-petp_surface": 53.9,
