@@ -23,6 +23,7 @@ implementation, and was not being used in any actual calculation.
 * Application is initialized now by default on the "Input" tab.
 * In the output tab, the risk plot now display by default the Risk Quotient
 computed for Acute risk.
+* Implemented chemical selection in risk output plots (#476).
 * The Y-axis of Risk Quotient plots now reads `PEC/PNEC`.
 * Various improvements in the matching of parameter names between documentation 
 and GUI labels (#449).

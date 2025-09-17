@@ -87,7 +87,12 @@ dss_output_ui <- function(id) {
                                    shinyWidgets::radioGroupButtons(ns("risk_method"),
                                                                    label = "Risk metric",
                                                                    choices = list("RQ" = "rq", "PAF" = "paf"),
-                                                                   selected = "rq")
+                                                                   selected = "rq"),
+                                   shiny::checkboxGroupInput(
+                                     ns("risk_chemical_ids"),
+                                     label = "Select chemical(s) to display",
+                                     choices = NULL
+                                   )
                                  )
                                )),
             full_screen = TRUE,
@@ -142,9 +147,18 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
       names(choices) <- sapply(chemical_db, \(c) c$display_name)
       choices <- choices[order(names(choices))]  # Sort alphabetically
 
+      # Exposure chemicals
       shiny::updateCheckboxGroupInput(
         session,
         "ct_chemical_ids",
+        choices = choices,
+        selected = seq_along(chemical_db)
+      )
+
+      # Risk chemicals
+      shiny::updateCheckboxGroupInput(
+        session,
+        "risk_chemical_ids",
         choices = choices,
         selected = seq_along(chemical_db)
       )
@@ -195,13 +209,14 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
     })
 
     output$r_plot <- dygraphs::renderDygraph({
-      shiny::req(simulation())
+      shiny::req(simulation(), input$risk_chemical_ids)
       plot_fun <- switch(element_type(), c = plot_rc, d = plot_rd, l = plot_rl)
 
       simulation() |>
         plot_fun(element_id = input$water_body,
                  type = input$risk_type,
                  method = input$risk_method,
+                 chemical_ids = as.numeric(input$risk_chemical_ids),
                  dygraph_group = "dss")
     })
   })
