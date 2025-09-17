@@ -14,6 +14,10 @@ in logarithmic base `10` (#468).
 implementation, and was not being used in any actual calculation.
 * In "Risk" output, the `rq_*` columns (risk quotients) now appear first.
 
+### Numerical inputs
+
+* Updated Degradation rates of Difenoconazole (#472).
+
 ### GUI
 
 * Application is initialized now by default on the "Input" tab.
