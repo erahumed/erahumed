@@ -154,6 +154,21 @@ chem_input_ssd_chronic_sigma <- function(id) {
   )
 }
 
+chem_input_pnec_acute_ug_L <- function(id) {
+  inline_numeric_input(
+    id,
+    label = chem_input_label("pnec_acute_ug_L"),
+    value = chem_input_defaults()[["pnec_acute_ug_L"]]
+  )
+}
+
+chem_input_pnec_chronic_ug_L <- function(id) {
+  inline_numeric_input(
+    id,
+    label = chem_input_label("pnec_chronic_ug_L"),
+    value = chem_input_defaults()[["pnec_chronic_ug_L"]]
+  )
+}
 
 
 chem_input_defaults <- function() {

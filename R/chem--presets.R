@@ -35,7 +35,10 @@ acetamiprid <- function() {
            ssd_acute_mu = 2.44,
            ssd_acute_sigma = 1.57,
            ssd_chronic_mu = 1.99,
-           ssd_chronic_sigma = 1.58)
+           ssd_chronic_sigma = 1.58,
+           pnec_acute_ug_L = 0.7204,
+           pnec_chronic_ug_L = 0.2461
+           )
 }
 
 #' @rdname pesticides
@@ -60,7 +63,10 @@ azoxystrobin <- function() {
            ssd_acute_mu = 2.75,
            ssd_acute_sigma = 0.63,
            ssd_chronic_mu = 1.89,
-           ssd_chronic_sigma = 0.97)
+           ssd_chronic_sigma = 0.97,
+           pnec_acute_ug_L = 51.73,
+           pnec_chronic_ug_L = 1.970
+           )
 }
 
 #' @rdname pesticides
@@ -85,7 +91,10 @@ bentazone <- function() {
            ssd_acute_mu = 3.96,
            ssd_acute_sigma = 1.18,
            ssd_chronic_mu = 3.04,
-           ssd_chronic_sigma = 0.92)
+           ssd_chronic_sigma = 0.92,
+           pnec_acute_ug_L = 104.5,
+           pnec_chronic_ug_L = 33.63
+           )
 }
 
 #' @rdname pesticides
@@ -110,7 +119,10 @@ cycloxydim <- function() {
            ssd_acute_mu = 4.29,
            ssd_acute_sigma = 1.26,
            ssd_chronic_mu = 2.80,
-           ssd_chronic_sigma = 1.22)
+           ssd_chronic_sigma = 1.22,
+           pnec_acute_ug_L = 165.0002,
+           pnec_chronic_ug_L = 6.212674
+           )
 }
 
 #' @rdname pesticides
@@ -135,7 +147,10 @@ cyhalofop_butyl <- function() {
            ssd_acute_mu = 3.31,
            ssd_acute_sigma = 0.70,
            ssd_chronic_mu = 1.78,
-           ssd_chronic_sigma = 1.16)
+           ssd_chronic_sigma = 1.16,
+           pnec_acute_ug_L = 144.0796,
+           pnec_chronic_ug_L = 0.7446802
+           )
 }
 
 #' @rdname pesticides
@@ -160,7 +175,10 @@ difenoconazole <- function() {
            ssd_acute_mu = 2.38,
            ssd_acute_sigma = 0.81,
            ssd_chronic_mu = 1.09,
-           ssd_chronic_sigma = 0.97)
+           ssd_chronic_sigma = 0.97,
+           pnec_acute_ug_L = 11.16011,
+           pnec_chronic_ug_L = 0.3122425
+           )
 }
 
 #' @rdname pesticides
@@ -185,7 +203,10 @@ mcpa <- function() {
            ssd_acute_mu = 4.28,
            ssd_acute_sigma = 1.28,
            ssd_chronic_mu = 2.87,
-           ssd_chronic_sigma = 1.30)
+           ssd_chronic_sigma = 1.30,
+           pnec_acute_ug_L = 149.4815,
+           pnec_chronic_ug_L = 5.39126
+           )
 }
 
 #' @rdname pesticides
@@ -210,5 +231,7 @@ penoxsulam <- function() {
            ssd_acute_mu = 3.07,
            ssd_acute_sigma = 1.66,
            ssd_chronic_mu = 1.95,
-           ssd_chronic_sigma = 1.49)
+           ssd_chronic_sigma = 1.49,
+           pnec_acute_ug_L = 2.185461,
+           pnec_chronic_ug_L = 0.3156226)
 }

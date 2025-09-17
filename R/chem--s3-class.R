@@ -24,6 +24,8 @@
 #' @param ssd_acute_sigma `r get_param_roxy("ssd_acute_sigma", fun = "chemical")`
 #' @param ssd_chronic_mu `r get_param_roxy("ssd_chronic_mu", fun = "chemical")`
 #' @param ssd_chronic_sigma `r get_param_roxy("ssd_chronic_sigma", fun = "chemical")`
+#' @param pnec_acute_ug_L `r get_param_roxy("pnec_acute_ug_L", fun = "chemical")`
+#' @param pnec_chronic_ug_L `r get_param_roxy("pnec_chronic_ug_L", fun = "chemical")`
 #'
 #' @return An object of class `erahumed_chemical`.
 #'
@@ -57,7 +59,9 @@ chemical <- function(display_name,
                      ssd_acute_mu = 7.5,
                      ssd_acute_sigma = 2.5,
                      ssd_chronic_mu = 4.5,
-                     ssd_chronic_sigma = 2.5
+                     ssd_chronic_sigma = 2.5,
+                     pnec_acute_ug_L = 1,
+                     pnec_chronic_ug_L = 1
                      )
 {
   tryCatch(
@@ -112,7 +116,10 @@ chemical <- function(display_name,
               ssd_acute_mu = ssd_acute_mu,
               ssd_acute_sigma = ssd_acute_sigma,
               ssd_chronic_mu = ssd_chronic_mu,
-              ssd_chronic_sigma = ssd_chronic_sigma)
+              ssd_chronic_sigma = ssd_chronic_sigma,
+              pnec_acute_ug_L = pnec_acute_ug_L,
+              pnec_chronic_ug_L = pnec_chronic_ug_L
+              )
 
   class(res) <- "erahumed_chemical"
 

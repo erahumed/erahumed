@@ -62,7 +62,9 @@ chemical_editor_ui <- function(id) {
                              chem_input_ssd_acute_mu(ns("ssd_acute_mu")),
                              chem_input_ssd_acute_sigma(ns("ssd_acute_sigma")),
                              chem_input_ssd_chronic_mu(ns("ssd_chronic_mu")),
-                             chem_input_ssd_chronic_sigma(ns("ssd_chronic_sigma"))
+                             chem_input_ssd_chronic_sigma(ns("ssd_chronic_sigma")),
+                             chem_input_pnec_acute_ug_L(ns("pnec_acute_ug_L")),
+                             chem_input_pnec_chronic_ug_L(ns("pnec_chronic_ug_L"))
       )
     )
   )
@@ -97,6 +99,8 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
       shiny::updateNumericInput(inputId = "ssd_acute_sigma", value = item()$ssd_acute_sigma)
       shiny::updateNumericInput(inputId = "ssd_chronic_mu", value = item()$ssd_chronic_mu)
       shiny::updateNumericInput(inputId = "ssd_chronic_sigma", value = item()$ssd_chronic_sigma)
+      shiny::updateNumericInput(inputId = "pnec_acute_ug_L", value = item()$pnec_acute_ug_L)
+      shiny::updateNumericInput(inputId = "pnec_chronic_ug_L", value = item()$pnec_chronic_ug_L)
     })
 
     shiny::reactive(
@@ -120,7 +124,9 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         ssd_acute_mu = input$ssd_acute_mu,
         ssd_acute_sigma = input$ssd_acute_sigma,
         ssd_chronic_mu = input$ssd_chronic_mu,
-        ssd_chronic_sigma = input$ssd_chronic_sigma
+        ssd_chronic_sigma = input$ssd_chronic_sigma,
+        pnec_acute_ug_L = input$pnec_acute_ug_L,
+        pnec_chronic_ug_L = input$pnec_chronic_ug_L
     ))
   })
 }

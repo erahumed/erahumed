@@ -143,3 +143,22 @@ ssd_chronic_sigma:
   type: "numeric(1)"
   unit: 1
   description: "Standard deviation (log10 scale) of the chronic species sensitivity distribution."
+
+pnec_acute_ug_L:
+  name: "Predicted No Effect Concentration for acute risk"
+  group: "Toxicity"
+  type: "numeric(1)"
+  unit: "\u03BCg/L"
+  description: |
+    Predicted No Effect Concentration used for the computation of acute risk
+    quotients.
+
+pnec_chronic_ug_L:
+  name: "Predicted No Effect Concentration for chronic risk"
+  group: "Toxicity"
+  type: "numeric(1)"
+  unit: "\u03BCg/L"
+  description: |
+    Predicted No Effect Concentration used for the computation of chronic risk
+    quotients.
+

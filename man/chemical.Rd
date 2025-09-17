@@ -24,7 +24,9 @@ chemical(
   ssd_acute_mu = 7.5,
   ssd_acute_sigma = 2.5,
   ssd_chronic_mu = 4.5,
-  ssd_chronic_sigma = 2.5
+  ssd_chronic_sigma = 2.5,
+  pnec_acute_ug_L = 1,
+  pnec_chronic_ug_L = 1
 )
 }
 \arguments{
@@ -73,6 +75,12 @@ the base 10 exponential of the input is the median (according to the chronic
 SSD) concentration in micrograms per liter.}
 
 \item{ssd_chronic_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the chronic species sensitivity distribution.}
+
+\item{pnec_acute_ug_L}{\verb{[numeric(1)]} \cr Predicted No Effect Concentration used for the computation of acute risk
+quotients.}
+
+\item{pnec_chronic_ug_L}{\verb{[numeric(1)]} \cr Predicted No Effect Concentration used for the computation of chronic risk
+quotients.}
 }
 \value{
 An object of class \code{erahumed_chemical}.

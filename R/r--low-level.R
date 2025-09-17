@@ -4,7 +4,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
   sd_acute <- sd_chronic <-
     median_acute <- median_chronic <- HU_acute <- HU_chronic <- element_id <-
     chemical_id <- chemical_name <- tmoa_id <- tmoa_name <- cw_kg_m3 <-
-    hc05_acute <- hc05_chronic <- rq_acute <- rq_chronic <- NULL
+    pnec_acute_ug_L <- pnec_chronic_ug_L <- rq_acute <- rq_chronic <- NULL
 
   chemicals <- unique(ct_output$chemical)
 
@@ -32,8 +32,8 @@ compute_risk_general <- function(ct_output, chemical_db) {
       df$median_acute <- exp( acute_mu_ln )
       df$median_chronic <- exp( chronic_mu_ln )
 
-      df$hc05_acute <- stats::qlnorm(0.05, meanlog = acute_mu_ln, sdlog = acute_sd_ln)
-      df$hc05_chronic <- stats::qlnorm(0.05, meanlog = chronic_mu_ln, sdlog = chronic_sd_ln)
+      df$pnec_acute_ug_L <- ct_get_param(chemical_id, "pnec_acute_ug_L", chemical_db)
+      df$pnec_chronic_ug_L <- ct_get_param(chemical_id, "pnec_chronic_ug_L", chemical_db)
 
       df$sd_acute <- acute_sd_ln
       df$sd_chronic <-  chronic_sd_ln
@@ -48,8 +48,8 @@ compute_risk_general <- function(ct_output, chemical_db) {
         let(
           HU_acute = 1e6 * cw_kg_m3 / median_acute,
           HU_chronic = 1e6 * rolling_average(cw_kg_m3, 21) / median_chronic,
-          rq_acute = 1e6 * cw_kg_m3 / hc05_acute,
-          rq_chronic = 1e6 * cw_kg_m3 / hc05_chronic
+          rq_acute = 1e6 * cw_kg_m3 / pnec_acute_ug_L,
+          rq_chronic = 1e6 * cw_kg_m3 / pnec_chronic_ug_L
         ),
         by = c("element_id", "chemical_id")
       ]
