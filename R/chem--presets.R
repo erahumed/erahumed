@@ -36,8 +36,8 @@ acetamiprid <- function() {
            ssd_acute_sigma = 1.57,
            ssd_chronic_mu = 1.99,
            ssd_chronic_sigma = 1.58,
-           pnec_acute_ug_L = 0.7204,
-           pnec_chronic_ug_L = 0.2461
+           pnec_acute_ug_L = 0.2,
+           pnec_chronic_ug_L = 0.5
            )
 }
 
@@ -64,8 +64,8 @@ azoxystrobin <- function() {
            ssd_acute_sigma = 0.63,
            ssd_chronic_mu = 1.89,
            ssd_chronic_sigma = 0.97,
-           pnec_acute_ug_L = 51.73,
-           pnec_chronic_ug_L = 1.970
+           pnec_acute_ug_L = 2.3,
+           pnec_chronic_ug_L = 2.3
            )
 }
 
@@ -92,8 +92,8 @@ bentazone <- function() {
            ssd_acute_sigma = 1.18,
            ssd_chronic_mu = 3.04,
            ssd_chronic_sigma = 0.92,
-           pnec_acute_ug_L = 104.5,
-           pnec_chronic_ug_L = 33.63
+           pnec_acute_ug_L = 1000,
+           pnec_chronic_ug_L = 2570
            )
 }
 
@@ -120,8 +120,8 @@ cycloxydim <- function() {
            ssd_acute_sigma = 1.26,
            ssd_chronic_mu = 2.80,
            ssd_chronic_sigma = 1.22,
-           pnec_acute_ug_L = 165.0002,
-           pnec_chronic_ug_L = 6.212674
+           pnec_acute_ug_L = 710,
+           pnec_chronic_ug_L = 2150
            )
 }
 
@@ -148,8 +148,8 @@ cyhalofop_butyl <- function() {
            ssd_acute_sigma = 0.70,
            ssd_chronic_mu = 1.78,
            ssd_chronic_sigma = 1.16,
-           pnec_acute_ug_L = 144.0796,
-           pnec_chronic_ug_L = 0.7446802
+           pnec_acute_ug_L = 7.9,
+           pnec_chronic_ug_L = 9.6
            )
 }
 
@@ -176,8 +176,8 @@ difenoconazole <- function() {
            ssd_acute_sigma = 0.81,
            ssd_chronic_mu = 1.09,
            ssd_chronic_sigma = 0.97,
-           pnec_acute_ug_L = 11.16011,
-           pnec_chronic_ug_L = 0.3122425
+           pnec_acute_ug_L = 3.2,
+           pnec_chronic_ug_L = 0.32
            )
 }
 
@@ -204,8 +204,8 @@ mcpa <- function() {
            ssd_acute_sigma = 1.28,
            ssd_chronic_mu = 2.87,
            ssd_chronic_sigma = 1.30,
-           pnec_acute_ug_L = 149.4815,
-           pnec_chronic_ug_L = 5.39126
+           pnec_acute_ug_L = 24.3,
+           pnec_chronic_ug_L = 2.43
            )
 }
 
@@ -232,6 +232,6 @@ penoxsulam <- function() {
            ssd_acute_sigma = 1.66,
            ssd_chronic_mu = 1.95,
            ssd_chronic_sigma = 1.49,
-           pnec_acute_ug_L = 2.185461,
-           pnec_chronic_ug_L = 0.3156226)
+           pnec_acute_ug_L = 23.3,
+           pnec_chronic_ug_L = 4.5)
 }
