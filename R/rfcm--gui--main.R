@@ -7,15 +7,30 @@ rfcm_ui <- function(id) {
     allocations_db_ui(ns("allocations_db"))
   )
 
-  bslib::layout_sidebar(
-    shiny::h3("Spatial mapping of management systems"),
-    sidebar = sidebar,
-    bslib::card(
-      bslib::card_header("Map Summary"),
-      shiny::plotOutput(ns("pie"))
+  bslib::page_fillable(
+    shiny::div(class = "d-flex align-items-center gap-2 mb-4",
+               shiny::h3("Spatial mapping of management systems"),
+               bslib::popover(
+                 shiny::actionLink(ns("rfcm_help"), label = NULL, icon = shiny::icon("circle-info")),
+                 title = "About RFMS allocation",
+                 placement = "right",
+                 shiny::div(
+                   "Assign rice field management systems across the cluster map. ",
+                   "Choose a default system and add allocation rules by fraction, ditches, and field type. ",
+                   "The resulting map feeds downstream hydrology/exposure simulations; the pie shows surface share by system."
+                 )
+               )),
+    bslib::layout_sidebar(
+      sidebar = sidebar,
+      bslib::card(
+        bslib::card_header("Map Summary"),
+        shiny::plotOutput(ns("pie"))
+      )
     )
+
   )
 }
+
 
 
 

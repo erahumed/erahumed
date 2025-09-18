@@ -1,13 +1,27 @@
-chemical_db_ui <- function(id)
-{
+chemical_db_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::h3("Chemical definitions"),
+    shiny::div(class = "d-flex align-items-center gap-2 mb-4",
+               shiny::h3("Chemical definitions"),
+               bslib::popover(
+                 shiny::actionLink(ns("chem_help"), label = NULL, icon = shiny::icon("circle-info")),
+                 title = "What is this?",
+                 placement = "right",
+                 shiny::div(
+                   "Manage the list of pesticide chemicals available to the model.",
+                   "Each entry specifies physicochemical and toxicological parameters."
+                 )
+               )
+    ),
+
     list_manager_ui(ns("manager"), object_name = "Chemical")
   )
-
 }
+
+
+
+
 
 chemical_db_server <- function(id)
 {
