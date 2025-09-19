@@ -1,33 +1,33 @@
 rfcm_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  sidebar <- bslib::sidebar(
-    width = "30%",
-    shiny::selectInput(ns("default_ms"), "Default Management System", choices = NULL),
-    allocations_db_ui(ns("allocations_db"))
+  allocation_rules_card <- bslib::card(
+    bslib::card_header(shiny::h4("Allocation rules")),
+    shiny::p("Assign:"),
+    allocations_db_ui(ns("allocations_db")),
+    shiny::selectInput(ns("default_ms"), "Unallocated surface is assigned to:", choices = NULL)
+    )
+
+  summary_card <- bslib::card(
+    bslib::card_header(shiny::h4("Map Summary")),
+    shiny::plotOutput(ns("pie"))
+    )
+
+  info_popover <- bslib::popover(
+    shiny::actionLink(ns("rfcm_help"), label = NULL, icon = shiny::icon("circle-info")),
+    title = "What is this?",
+    placement = "right",
+    shiny::div(
+      "Assign rice field management systems across the Albufera Natural Park area. ",
+      "Choose a default system and add allocation rules, optionally specifying a subset of ditches and field types. "
+    )
   )
 
   bslib::page_fillable(
     shiny::div(class = "d-flex align-items-center gap-2 mb-4",
                shiny::h3("Spatial mapping of management systems"),
-               bslib::popover(
-                 shiny::actionLink(ns("rfcm_help"), label = NULL, icon = shiny::icon("circle-info")),
-                 title = "About RFMS allocation",
-                 placement = "right",
-                 shiny::div(
-                   "Assign rice field management systems across the cluster map. ",
-                   "Choose a default system and add allocation rules by fraction, ditches, and field type. ",
-                   "The resulting map feeds downstream hydrology/exposure simulations; the pie shows surface share by system."
-                 )
-               )),
-    bslib::layout_sidebar(
-      sidebar = sidebar,
-      bslib::card(
-        bslib::card_header("Map Summary"),
-        shiny::plotOutput(ns("pie"))
-      )
-    )
-
+               info_popover),
+    bslib::layout_column_wrap(allocation_rules_card, summary_card)
   )
 }
 
