@@ -1,32 +1,19 @@
 rfms_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  parameters_sidebar <- bslib::sidebar(
-    width = "30%",
-    bslib::card(
-      bslib::card_header("Crop calendar"),
-      bslib::card_body(
-        rfms_input_sowing_yday(ns("sowing_yday")),
-        rfms_input_harvesting_yday(ns("harvesting_yday")),
-        rfms_input_perellona_start_yday(ns("perellona_start_yday")),
-        rfms_input_perellona_end_yday(ns("perellona_end_yday"))
-      )
-    ),
-    bslib::card(
-      bslib::card_header("Water levels"),
-      bslib::card_body(
-        rfms_input_flow_height_cm(ns("flow_height_cm")),
-        rfms_input_perellona_height_cm(ns("perellona_height_cm"))
-      )
-    ),
-    shiny::div(
-      class = "d-flex justify-content-end mt-3 mb-3",
-      shiny::actionButton(ns("reset"),
-                          label = "Reset all to defaults",
-                          icon = shiny::icon("arrow-rotate-left"),
-                          class = "btn btn-secondary")
-    ),
-  )
+  water_levels_card <- bslib::card(
+    bslib::card_header("Water levels"),
+    bslib::card_body(
+      rfms_input_flow_height_cm(ns("flow_height_cm")),
+      rfms_input_perellona_height_cm(ns("perellona_height_cm"))
+    ))
+
+  crop_calendar_card <- bslib::card(
+    bslib::card_header("Crop calendar"),
+    bslib::card_body(rfms_input_crop_calendar(ns("crop_calendar")))
+    )
+
+  basic_settings <- bslib::layout_column_wrap(crop_calendar_card, water_levels_card)
 
   applications_card <-
     bslib::card(
@@ -34,14 +21,12 @@ rfms_ui <- function(id) {
       bslib::card_body(
         dygraphs::dygraphOutput(ns("timeline_plot")),
         applications_db_ui(ns("applications"))
-        ),
+      ),
       fill = FALSE
-      )
+    )
 
 
-
-  bslib::layout_sidebar(shinyjs::useShinyjs(), applications_card, sidebar = parameters_sidebar)
-
+  bslib::page_fillable(shinyjs::useShinyjs(), basic_settings, applications_card)
 }
 
 
@@ -53,10 +38,14 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
 
     # Reset inputs to defaults
     shiny::observe({
-      shiny::updateNumericInput(session, "sowing_yday", value = initial_rfms$sowing_yday)
-      shiny::updateNumericInput(session, "harvesting_yday", value = initial_rfms$harvesting_yday)
-      shiny::updateNumericInput(session, "perellona_start_yday", value = initial_rfms$perellona_start_yday)
-      shiny::updateNumericInput(session, "perellona_end_yday", value = initial_rfms$perellona_end_yday)
+      shinyWidgets::updateNoUiSliderInput(
+        session = session,
+        inputId = "crop_calendar",
+        value = c(initial_rfms$perellona_end_yday,
+                  initial_rfms$sowing_yday,
+                  initial_rfms$harvesting_yday,
+                  initial_rfms$perellona_start_yday)
+        )
       shiny::updateNumericInput(session, "flow_height_cm", value = initial_rfms$flow_height_cm)
       shiny::updateNumericInput(session, "perellona_height_cm", value = initial_rfms$perellona_height_cm)
     }) |> shiny::bindEvent(input$reset)
@@ -64,24 +53,23 @@ rfms_server <- function(id, chemical_db, initial_rfms) {
     applications_db <- applications_db_server(
       "applications",
       chemical_db = chemical_db,
-      harvesting_yday = shiny::reactive(input$harvesting_yday),
-      sowing_yday = shiny::reactive(input$sowing_yday),
+      harvesting_yday = shiny::reactive(input$crop_calendar[[3]]),
+      sowing_yday = shiny::reactive(input$crop_calendar[[2]]),
       default_items = shiny::isolate(get_proto_applications(initial_rfms, chemical_db()))
     )
 
     # Update management system object on input change
     res <- shiny::reactive({
-      shiny::req(input$sowing_yday, input$harvesting_yday, input$perellona_start_yday,
-                 input$perellona_end_yday, input$flow_height_cm, input$perellona_height_cm)
+      shiny::req(input$crop_calendar, input$flow_height_cm, input$perellona_height_cm)
 
       tryCatch({
-        sys <- new_rfms(sowing_yday = input$sowing_yday,
-                                     harvesting_yday = input$harvesting_yday,
-                                     perellona_start_yday = input$perellona_start_yday,
-                                     perellona_end_yday = input$perellona_end_yday,
-                                     flow_height_cm = input$flow_height_cm,
-                                     perellona_height_cm = input$perellona_height_cm,
-                                     display_name = initial_rfms$display_name
+        sys <- new_rfms(sowing_yday = input$crop_calendar[[2]],
+                        harvesting_yday = input$crop_calendar[[3]],
+                        perellona_start_yday = input$crop_calendar[[4]],
+                        perellona_end_yday = input$crop_calendar[[1]],
+                        flow_height_cm = input$flow_height_cm,
+                        perellona_height_cm = input$perellona_height_cm,
+                        display_name = initial_rfms$display_name
         )
 
         for (app in applications_db()$items) {
