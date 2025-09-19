@@ -2,16 +2,24 @@ rfcm_ui <- function(id) {
   ns <- shiny::NS(id)
 
   allocation_rules_card <- bslib::card(
-    bslib::card_header(shiny::h4("Allocation rules")),
+    bslib::card_header(shiny::h4("Rules")),
     shiny::p("Assign:"),
     allocations_db_ui(ns("allocations_db")),
-    shiny::selectInput(ns("default_ms"), "Unallocated surface is assigned to:", choices = NULL)
+    shiny::selectInput(ns("default_ms"), "Unallocated surface is assigned to:", choices = NULL),
+    full_screen = TRUE
     )
 
   summary_card <- bslib::card(
-    bslib::card_header(shiny::h4("Map Summary")),
-    shiny::plotOutput(ns("pie"))
+    bslib::card_header(shiny::h4("Summary")),
+    shiny::plotOutput(ns("pie")),
+    full_screen = TRUE
     )
+
+  leaflet_card <- bslib::card(
+    bslib::card_header(shiny::h4("Map"),
+                       leaflet::leafletOutput(ns("leaflet_map")) ),
+    full_screen = TRUE
+  )
 
   info_popover <- bslib::popover(
     shiny::actionLink(ns("rfcm_help"), label = NULL, icon = shiny::icon("circle-info")),
@@ -27,7 +35,8 @@ rfcm_ui <- function(id) {
     shiny::div(class = "d-flex align-items-center gap-2 mb-4",
                shiny::h3("Spatial mapping of management systems"),
                info_popover),
-    bslib::layout_column_wrap(allocation_rules_card, summary_card)
+    bslib::layout_columns(allocation_rules_card, summary_card, leaflet_card,
+                          col_widths = c(3,6,3))
   )
 }
 
@@ -151,20 +160,9 @@ rfcm_server <- function(id, rfms_db, seed) {
       res
     })
 
-    output$pie <- shiny::renderPlot({
-      shiny::req(map())
+    output$pie <- shiny::renderPlot( plot_albufera_pie(map()) )
 
-      ids <- paste(map()$map_df$rfms_id, map()$map_df$rfms_name, sep = " - ")
-      ms_areas <- table(ids)
-      graphics::pie(
-        ms_areas,
-        col = grDevices::rainbow(length(ms_areas)),
-        main = "Surface breakdown by management system"
-        )
-    })
-
-
-
+    output$leaflet_map <- leaflet::renderLeaflet( plot_albufera_clusters(map()) )
 
     return(map)
   })
