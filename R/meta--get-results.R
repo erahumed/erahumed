@@ -29,5 +29,7 @@ get_results  <- function(simulation,
     c(lake = "l", ditch = "d", cluster = "c")[[element]]
   )
 
-  get_raw_output(simulation, layer)
+  raw <- get_raw_output(simulation, layer)
+
+  return( materialize_output(raw) )
 }
