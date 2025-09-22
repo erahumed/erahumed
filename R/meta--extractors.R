@@ -3,7 +3,12 @@ get_input <- function(simulation, parameter) {
 }
 
 get_output <- function(simulation, layer) {
-  simulation [["outputs"]] [[layer]]
+  res <- simulation [["outputs"]] [[layer]]
+
+  cls <- paste0("erahumed_output_", layer)
+  class(res) <- c(cls, class(res))
+
+  res
 }
 
 get_etc <- function(simulation, name) {
