@@ -1,7 +1,7 @@
 compute_hbd <- function(simulation)
 {
   ditch_level_m <- get_input(simulation, "ditch_level_m")
-  hbc_res <- get_output(simulation, "hbc")
+  hbc_res <- get_raw_output(simulation, "hbc")
 
   inflow_clusters_df <- hbc_res |>
     stats::aggregate(outflow_m3 ~ ditch_element_id + date, FUN = sum) |>

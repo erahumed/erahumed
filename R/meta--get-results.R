@@ -29,5 +29,5 @@ get_results  <- function(simulation,
     c(lake = "l", ditch = "d", cluster = "c")[[element]]
   )
 
-  get_output(simulation, layer)
+  get_raw_output(simulation, layer)
 }

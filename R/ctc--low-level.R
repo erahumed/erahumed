@@ -2,11 +2,11 @@
   applications_df <- get_etc(simulation, "applications_df")
 
   # Compute cluster's hydrology split by cluster
-  hbc_split <- get_output(simulation, "hbc") |>
+  hbc_split <- get_raw_output(simulation, "hbc") |>
     data.table::as.data.table() |>
     data.table::setorderv(c("element_id", "date")) |>
     # This merge serves to recover weather data (viz. temperatures)
-    merge(get_output(simulation, "inp"), by = "date", sort = TRUE) |>
+    merge(get_raw_output(simulation, "inp"), by = "date", sort = TRUE) |>
     # This merge is only used to recover the harvesting column
     merge(get_etc(simulation, "management_df")[, c("seed_day", "tancat", "rfms_id", "rfms_name", "harvesting")],
           by = c("seed_day", "tancat", "rfms_id", "rfms_name"),  # by 'rfms_name' to avoid duplicating column

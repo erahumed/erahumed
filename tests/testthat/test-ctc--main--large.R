@@ -1,5 +1,5 @@
 test_that("Returned dataset has the expected number of rows", {
-  test_df <- get_output(test_sim_large(), "ctc")
+  test_df <- get_raw_output(test_sim_large(), "ctc")
   n_clusters <- nrow(albufera_clusters)
   n_days <- length( seq.Date(from = min(test_df$date),
                              to = max(test_df$date),
@@ -12,7 +12,7 @@ test_that("Returned dataset has the expected number of rows", {
 
 test_that("The time series of chemical masses are always positive", {
   lower_thresh <- -1e-9  # -1 microgram looks fair enough
-  test_df <- get_output(test_sim_large(), "ctc") |>
+  test_df <- get_raw_output(test_sim_large(), "ctc") |>
     dplyr::filter(mf_kg < lower_thresh | mw_kg < lower_thresh | ms_kg < lower_thresh)
 
   expect_equal(nrow(test_df), 0)
@@ -20,7 +20,7 @@ test_that("The time series of chemical masses are always positive", {
 
 test_that("Chemical masses do not increase except if directly applied", {
   skip("TODO: Reimplement this test")
-  test_df <- get_output(test_sim_large(), "ctc")
+  test_df <- get_raw_output(test_sim_large(), "ctc")
 
   chemicals <- unique(test_df$chemical_id)
   applications_df <- get_etc(test_sim_large(), "applications_df")
@@ -52,7 +52,7 @@ test_that("All compartments of all clusters have at least one >0 value", {
 
   universal_chem_ids <- which(chem_names %in% universal_chems)
 
-  test_df <- get_output(test_sim_large(), "ctc") |>
+  test_df <- get_raw_output(test_sim_large(), "ctc") |>
     dplyr::filter(chemical_id %in% universal_chem_ids) |>
     dplyr::group_by(element_id, chemical_id) |>
     dplyr::summarise(mf_kg = sum(mf_kg), mw_kg = sum(mw_kg), ms_kg = sum(ms_kg), .groups = "drop") |>
@@ -65,7 +65,7 @@ test_that("All compartments of all clusters have at least one >0 value", {
 test_that("simple snapshot is constant", {
   skip_on_ci()  # Gives inconsistent result across different platforms
 
-  test_df <- get_output(test_sim_large(), "ctc")
+  test_df <- get_raw_output(test_sim_large(), "ctc")
   hash <- digest::digest(test_df)
 
   expect_snapshot(hash)

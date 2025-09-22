@@ -10,7 +10,7 @@ plot_hbc <- function(simulation,
 
   variable <- match.arg(variable)
 
-  data <- get_output(simulation, "hbc")
+  data <- get_raw_output(simulation, "hbc")
   data$outflow_m3 <- -data$outflow_m3
   data$petp_m3 <- (data$petp_cm / 100) * data$area_m2
 

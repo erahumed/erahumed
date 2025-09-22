@@ -2,7 +2,7 @@ test_that("PAF columns are probabilities", {
   e <- 1e-10
   paf_chronic <- paf_acute <- NULL
 
-  test_df <- get_output(test_sim_large(), "rc") |>
+  test_df <- get_raw_output(test_sim_large(), "rc") |>
     dplyr::filter(
       paf_chronic < -e | paf_acute < -e | paf_chronic > 1+e | paf_acute > 1+e
       )
@@ -15,11 +15,11 @@ test_that("PAFs are increasing functions of water concentrations", {
   e <- 1e-10
   stressor <- stressor_type <- element_id <- date <- chemical <- paf_acute <- cw_kg_m3 <- NULL
 
-  rc_output <- erahumed:::get_output(test_sim_large(), "rc") |>
+  rc_output <- erahumed:::get_raw_output(test_sim_large(), "rc") |>
     dplyr::filter(stressor_type == "chemical") |>
     dplyr::mutate(chemical = stressor) |>
     dplyr::arrange(element_id, date, chemical)
-  ctc_output <- erahumed:::get_output(test_sim_large(), "ctc") |>
+  ctc_output <- erahumed:::get_raw_output(test_sim_large(), "ctc") |>
     dplyr::arrange(element_id, date, chemical)
 
   if (nrow(rc_output) != nrow(ctc_output)) {

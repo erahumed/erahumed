@@ -9,7 +9,7 @@ plot_rl <- function(simulation,
   type <- match.arg(type)
   method <- match.arg(method)
 
-  r_output <- get_output(simulation, "rl")
+  r_output <- get_raw_output(simulation, "rl")
 
   plot_risk(r_output,
             type = type,

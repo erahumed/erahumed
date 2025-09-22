@@ -1,6 +1,6 @@
 compute_rc <- function(simulation)
 {
-  output <- compute_risk_general(ct_output = get_output(simulation, "ctc"),
+  output <- compute_risk_general(ct_output = get_raw_output(simulation, "ctc"),
                            chemical_db = get_etc(simulation, "chemical_db")
   )
 

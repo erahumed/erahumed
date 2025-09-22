@@ -1,15 +1,15 @@
 .compute_ctd <- function(simulation) {
   cw_outflow_kg_m3 <- outflow_m3 <- NULL
 
-  hbd_output_split <- get_output(simulation, "hbd") |>
+  hbd_output_split <- get_raw_output(simulation, "hbd") |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
     merge(info_ditches(), by = "element_id") |>
-    merge(get_output(simulation, "inp"), by = "date", sort = TRUE) |>
+    merge(get_raw_output(simulation, "inp"), by = "date", sort = TRUE) |>
     collapse::rsplit(by = ~ element_id, keep.by = TRUE)
 
   cluster_inflows_df_list <-
-    get_output(simulation, "ctc") |>
+    get_raw_output(simulation, "ctc") |>
     data.table::as.data.table() |>
     merge(info_clusters(), by = "element_id") |>
     data.table::setorderv("date") |>

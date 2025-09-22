@@ -10,7 +10,7 @@ plot_rd <- function(simulation,
   type <- match.arg(type)
   method <- match.arg(method)
 
-  r_output <- get_output(simulation, "rd")
+  r_output <- get_raw_output(simulation, "rd")
 
   if (is.null(element_id)) {
     element_id <- r_output$element_id[[1]]

@@ -2,14 +2,14 @@
 {
   cw_outflow_kg_m3 <- outflow_m3 <- NULL
 
-  lake_ts_df <- get_output(simulation, "hbl") |>
+  lake_ts_df <- get_raw_output(simulation, "hbl") |>
     (\(.) .[, c("date", "volume_eod_m3", "outflow_total_m3")])() |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
-    merge(get_output(simulation, "inp"), by = "date")
+    merge(get_raw_output(simulation, "inp"), by = "date")
 
   ditch_inflows_df_list <-
-    get_output(simulation, "ctd") |>
+    get_raw_output(simulation, "ctd") |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
     collapse::rsplit(by = ~ element_id)

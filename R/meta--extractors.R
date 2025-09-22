@@ -2,7 +2,7 @@ get_input <- function(simulation, parameter) {
   simulation [["inputs"]] [[parameter]]
 }
 
-get_output <- function(simulation, layer) {
+get_raw_output <- function(simulation, layer) {
   res <- simulation [["outputs"]] [[layer]]
 
   cls <- paste0("erahumed_output_", layer)

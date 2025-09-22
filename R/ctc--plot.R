@@ -10,7 +10,7 @@ plot_ctc <- function(
   assert_erahumed_simulation(simulation)
   compartment <- match.arg(compartment)
 
-  data <- get_output(simulation, "ctc")
+  data <- get_raw_output(simulation, "ctc")
 
   if (is.null(element_id)) {
     element_id <- data$element_id[[1]]
