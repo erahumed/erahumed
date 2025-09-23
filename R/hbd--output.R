@@ -14,7 +14,7 @@ materialize_output.erahumed_output_hbd <- function(output) {
       100 *
       (output[["inflow_clusters_m3"]] + output[["inflow_external_m3"]]) /
       output[["area_m2"]]
-      ,
+    ,
 
     volume_m3 = output[["volume_m3"]],
     depth_cm = 100 * output[["level_m"]],
