@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.21.2
 
 ### Input and output data
 
