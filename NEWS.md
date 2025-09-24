@@ -32,6 +32,8 @@ no longer a dismissable sidebar, but a fixed card). Addresses #482, #484 and #47
 * The Y-axis of Risk Quotient plots now reads `PEC/PNEC`.
 * Various improvements in the matching of parameter names between documentation 
 and GUI labels (#449).
+* "Water body" selector in the Output tab is now searchable, and the entries 
+corresponding to clusters display their full names (#485).
 
 ### Documentation
 
