@@ -3,7 +3,19 @@ rfms_db_ui <- function(id) {
   bslib::page_fillable(
     title = "Rice Field Management Systems",
     shiny::tagList(
-      shiny::h3("Rice Field Management Systems"),
+      shiny::div(class = "d-flex align-items-center gap-2 mb-4",
+                 shiny::h3("Rice Field Management Systems"),
+                 bslib::popover(
+                   shiny::actionLink(ns("rfms_help"), label = NULL, icon = shiny::icon("circle-info")),
+                   title = "What is this?",
+                   placement = "right",
+                   shiny::div(
+                     "Define rice field management systems by specifying their ",
+                     "crop calendar, water management, and associated chemical applications. "
+                     )
+                   )
+                 )
+      ),
       shiny::tagList(
         shiny::actionButton(ns("addButton"), "Add new", icon = shiny::icon("plus")),
         shiny::actionButton(ns("remove_tab"), "Remove current"),
@@ -16,7 +28,6 @@ rfms_db_ui <- function(id) {
         shiny::tabPanel(title = "Bomba", value = "bomba", rfms_ui(ns("bomba")))
         )
       )
-    )
 }
 
 

@@ -10,7 +10,7 @@ plot_hbd <- function(simulation,
   type <- match.arg(type)
   variable <- match.arg(variable)
 
-  data <- get_output(simulation, "hbd")
+  data <- get_raw_output(simulation, "hbd")
 
   if (is.null(element_id)) {
     element_id <- data$element_id[[1]]

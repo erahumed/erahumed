@@ -19,7 +19,7 @@ dss_input_defaults <- function() {
     foc_ss = eval(fmls$foc_ss),
     foc_sed = eval(fmls$foc_sed),
     bd_g_cm3 = eval(fmls$bd_g_cm3),
-    qseep_m_day = eval(fmls$qseep_m_day),
-    porosity = eval(fmls$porosity)
+    porosity = eval(fmls$porosity),
+    ksetl_m_day = eval(fmls$ksetl_m_day)
   )
 }

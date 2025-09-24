@@ -61,7 +61,7 @@ download_readme_lines <- function() {
     "Each file contains daily time series data generated for three key components:",
     "  - Hydrology: water inflow, outflow, storage, and related volumes.",
     "  - Exposure: pesticide concentrations in water and sediment compartments.",
-    "  - Risk: ecotoxicological risk levels expressed as Potentially Affected Fraction (PAF).",
+    "  - Risk: ecotoxicological risk levels expressed as Risk Quotient (RQ) and Potentially Affected Fraction (PAF).",
     "",
     "Outputs are disaggregated at three spatial levels:",
     "  - lake: aggregated data for the Albufera lake.",

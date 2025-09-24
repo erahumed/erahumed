@@ -37,6 +37,20 @@ get_param_roxy <- function(param, fun)
   return(res)
 }
 
+get_param_name <- function(param, fun) {
+  get_param_docs(param = param, fun = fun)[["name"]]
+}
+
+get_param_unit <- function(param, fun) {
+  get_param_docs(param = param, fun = fun)[["unit"]]
+}
+
+param_has_units <- function(param, fun) {
+  unit <- get_param_unit(param, fun)
+
+  ( !is.null(unit) ) && ( unit != "N/A" )
+}
+
 get_param_desc <- function(param, fun, strip_roxy = TRUE) {
   docs <- get_param_docs(param = param, fun = fun)
 

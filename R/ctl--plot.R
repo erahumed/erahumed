@@ -9,7 +9,7 @@ plot_ctl <- function(
   assert_erahumed_simulation(simulation)
   compartment <- match.arg(compartment)
 
-  data <- get_output(simulation, "ctl")
+  data <- get_raw_output(simulation, "ctl")
 
   ct_plot_time_series_density(data,
                               compartment = compartment,

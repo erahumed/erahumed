@@ -19,7 +19,6 @@ acetamiprid <- function() {
   chemical(display_name = "Acetamiprid",
            tmoa_id = "NicotinicAcetylcholine",
            MW = 222.677,
-           ksetl_m_day = 2,
            sol_ppm = 2950,
            koc_cm3_g = 200, # PPDB
            fet_cm = 0.2,
@@ -33,10 +32,13 @@ acetamiprid <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 5.62,
-           ssd_acute_sigma = 3.61,
-           ssd_chronic_mu = 4.57,
-           ssd_chronic_sigma = 3.63)
+           ssd_acute_mu = 2.44,
+           ssd_acute_sigma = 1.57,
+           ssd_chronic_mu = 1.99,
+           ssd_chronic_sigma = 1.58,
+           pnec_acute_ug_L = 0.2,
+           pnec_chronic_ug_L = 0.5
+           )
 }
 
 #' @rdname pesticides
@@ -45,7 +47,6 @@ azoxystrobin <- function() {
   chemical(display_name = "Azoxystrobin",
            tmoa_id = "C_Respiration",
            MW = 403.338,
-           ksetl_m_day = 2,
            sol_ppm = 6.7,
            koc_cm3_g = 589, # PPDB
            fet_cm = 0.2,
@@ -59,10 +60,13 @@ azoxystrobin <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 6.33,
-           ssd_acute_sigma = 1.45,
-           ssd_chronic_mu = 4.35,
-           ssd_chronic_sigma = 2.24)
+           ssd_acute_mu = 2.75,
+           ssd_acute_sigma = 0.63,
+           ssd_chronic_mu = 1.89,
+           ssd_chronic_sigma = 0.97,
+           pnec_acute_ug_L = 2.3,
+           pnec_chronic_ug_L = 2.3
+           )
 }
 
 #' @rdname pesticides
@@ -71,7 +75,6 @@ bentazone <- function() {
   chemical(display_name = "Bentazone",
            tmoa_id = "Photosynthesis_PSII",
            MW = 240.28,
-           ksetl_m_day = 2,
            sol_ppm = 7112,
            koc_cm3_g = 55.3, # PPDB
            fet_cm = 0.2,
@@ -85,10 +88,13 @@ bentazone <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 9.11,
-           ssd_acute_sigma = 2.71,
-           ssd_chronic_mu = 7.00,
-           ssd_chronic_sigma = 2.11)
+           ssd_acute_mu = 3.96,
+           ssd_acute_sigma = 1.18,
+           ssd_chronic_mu = 3.04,
+           ssd_chronic_sigma = 0.92,
+           pnec_acute_ug_L = 1000,
+           pnec_chronic_ug_L = 2570
+           )
 }
 
 #' @rdname pesticides
@@ -97,7 +103,6 @@ cycloxydim <- function() {
   chemical(display_name = "Cycloxydim",
            tmoa_id = "AcetylCoA",
            MW = 325.5,
-           ksetl_m_day = 2,
            sol_ppm = 53,
            koc_cm3_g = 59, # PPDB
            fet_cm = 0.2,
@@ -111,10 +116,13 @@ cycloxydim <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 9.89,
-           ssd_acute_sigma = 2.91,
-           ssd_chronic_mu = 6.44,
-           ssd_chronic_sigma = 2.82)
+           ssd_acute_mu = 4.29,
+           ssd_acute_sigma = 1.26,
+           ssd_chronic_mu = 2.80,
+           ssd_chronic_sigma = 1.22,
+           pnec_acute_ug_L = 710,
+           pnec_chronic_ug_L = 2150
+           )
 }
 
 #' @rdname pesticides
@@ -123,7 +131,6 @@ cyhalofop_butyl <- function() {
   chemical(display_name = "Cyhalofop-butyl",
            tmoa_id = "AcetylCoA",
            MW = 357.38,
-           ksetl_m_day = 2,
            sol_ppm = 0.44,
            koc_cm3_g = 5247,
            fet_cm = 0.2,
@@ -137,10 +144,13 @@ cyhalofop_butyl <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 7.61,
-           ssd_acute_sigma = 1.61,
-           ssd_chronic_mu = 4.09,
-           ssd_chronic_sigma = 2.68)
+           ssd_acute_mu = 3.31,
+           ssd_acute_sigma = 0.70,
+           ssd_chronic_mu = 1.78,
+           ssd_chronic_sigma = 1.16,
+           pnec_acute_ug_L = 7.9,
+           pnec_chronic_ug_L = 9.6
+           )
 }
 
 #' @rdname pesticides
@@ -149,24 +159,26 @@ difenoconazole <- function() {
   chemical(display_name = "Difenoconazole",
            tmoa_id = "Sterol_biosynthesis",
            MW = 406.3,
-           ksetl_m_day = 2,
            sol_ppm = 15,
            koc_cm3_g = 3200,
            fet_cm = 0.2,
            kf_day = 0.094,
-           kw_day = 0.231,
-           ks_sat_day = 0.231,
+           kw_day = 0.02,
+           ks_sat_day = 0.02,
            ks_unsat_day = 0.007,
-           kw_temp = 20,
-           ks_sat_temp = 20,
+           kw_temp = 14,
+           ks_sat_temp = 14,
            ks_unsat_temp = 20,
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 5.47,
-           ssd_acute_sigma = 1.86,
-           ssd_chronic_mu = 2.51,
-           ssd_chronic_sigma = 2.23)
+           ssd_acute_mu = 2.38,
+           ssd_acute_sigma = 0.81,
+           ssd_chronic_mu = 1.09,
+           ssd_chronic_sigma = 0.97,
+           pnec_acute_ug_L = 3.2,
+           pnec_chronic_ug_L = 0.32
+           )
 }
 
 #' @rdname pesticides
@@ -175,7 +187,6 @@ mcpa <- function() {
   chemical(display_name = "MCPA",
            tmoa_id = "Auxin_mimics",
            MW = 200.62,
-           ksetl_m_day = 2,
            sol_ppm = 29390,
            koc_cm3_g = 73.88,  # PPDB
            fet_cm = 0.2,
@@ -189,10 +200,13 @@ mcpa <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 9.86,
-           ssd_acute_sigma = 2.94,
-           ssd_chronic_mu = 6.60,
-           ssd_chronic_sigma = 2.99)
+           ssd_acute_mu = 4.28,
+           ssd_acute_sigma = 1.28,
+           ssd_chronic_mu = 2.87,
+           ssd_chronic_sigma = 1.30,
+           pnec_acute_ug_L = 24.3,
+           pnec_chronic_ug_L = 2.43
+           )
 }
 
 #' @rdname pesticides
@@ -201,7 +215,6 @@ penoxsulam <- function() {
   chemical(display_name = "Penoxsulam",
            tmoa_id = "AcetoLactate",
            MW = 483.4,
-           ksetl_m_day = 2,
            sol_ppm = 408,
            koc_cm3_g = 73.2,  # Differs slightly from PPDB value
            fet_cm = 0.2,
@@ -215,8 +228,10 @@ penoxsulam <- function() {
            Q10_kw = 2.58,
            Q10_ks_sat = 2.58,
            Q10_ks_unsat = 2.58,
-           ssd_acute_mu = 7.07,
-           ssd_acute_sigma = 3.83,
-           ssd_chronic_mu = 4.50,
-           ssd_chronic_sigma = 3.42)
+           ssd_acute_mu = 3.07,
+           ssd_acute_sigma = 1.66,
+           ssd_chronic_mu = 1.95,
+           ssd_chronic_sigma = 1.49,
+           pnec_acute_ug_L = 23.3,
+           pnec_chronic_ug_L = 4.5)
 }

@@ -17,13 +17,6 @@ MW:
   unit: "g/mol"
   description: "Molecular weight in grams per mole."
 
-ksetl_m_day:
-  name: "Settling rate"
-  group: "Transport parameters"
-  type: "numeric(1)"
-  unit: "m/day"
-  description: "Settling rate, representing particle-bound transfer to sediment."
-
 sol_ppm:
   name: "Solubility"
   group: "Physicochemical properties"
@@ -35,7 +28,7 @@ koc_cm3_g:
   name: "Koc"
   group: "Sorption"
   type: "numeric(1)"
-  unit: "cm \u00B3 /g"
+  unit: "cm\u00B3/g"
   description: "Organic carbon-water partition coefficient (Koc)."
 
 fet_cm:
@@ -77,61 +70,95 @@ kw_temp:
   name: "Water degradation reference temp."
   group: "Degradation"
   type: "numeric(1)"
-  unit: "\u00B0 C"
-  description: "Reference temperature for kw_day."
+  unit: "\u00B0C"
+  description: "Reference temperature for kw (degradation rate in water)."
 
 ks_sat_temp:
   name: "Sat. sediment degradation ref. temp."
   group: "Degradation"
   type: "numeric(1)"
-  unit: "\u00B0 C"
-  description: "Reference temperature for ks_sat_day."
+  unit: "\u00B0C"
+  description: "Reference temperature for ks_sat (degradation rate in saturated sediment)."
 
 ks_unsat_temp:
   name: "Unsat. sediment degradation ref. temp."
   group: "Degradation"
   type: "numeric(1)"
-  unit: "\u00B0 C"
-  description: "Reference temperature for ks_unsat_day."
+  unit: "\u00B0C"
+  description: "Reference temperature for ks_unsat (degradation rate in unsaturated sediment)."
 
 Q10_kw:
   name: "Q10 for water degradation"
   group: "Degradation"
   type: "numeric(1)"
+  unit: "1"
   description: "Q10 coefficient for temperature correction of degradation in water."
 
 Q10_ks_sat:
   name: "Q10 for sat. sediment degradation"
   group: "Degradation"
   type: "numeric(1)"
+  unit: "1"
   description: "Q10 coefficient for temperature correction in saturated sediment."
 
 Q10_ks_unsat:
   name: "Q10 for unsat. sediment degradation"
   group: "Degradation"
   type: "numeric(1)"
+  unit: "1"
   description: "Q10 coefficient for temperature correction in unsaturated sediment."
 
 ssd_acute_mu:
-  name: "SSD acute mean (log10)"
+  name: "SSD acute mean on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
-  description: "Mean (log10 scale) of the acute species sensitivity distribution."
+  unit: "log\u2081\u2080(\u03BCg/L)"
+  description: |
+    Mean (log10 scale) of the acute species sensitivity distribution. The unit
+    of this input (log10(microgram/liter)) is interpreted as follows: the
+    base 10 exponential of the input is the median (according to the acute SSD)
+    concentration in micrograms per liter.
 
 ssd_acute_sigma:
-  name: "SSD acute std. deviation (log10)"
+  name: "SSD acute std. deviation on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
+  unit: 1
   description: "Standard deviation (log10 scale) of the acute species sensitivity distribution."
 
 ssd_chronic_mu:
-  name: "SSD chronic mean (log10)"
+  name: "SSD chronic mean on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
-  description: "Mean (log10 scale) of the chronic species sensitivity distribution."
+  unit: "log\u2081\u2080(\u03BCg/L)"
+  description: |
+    Mean (log10 scale) of the chronic species sensitivity distribution.  The
+    unit of this input (log10(microgram/liter)) is interpreted as follows:
+    the base 10 exponential of the input is the median (according to the chronic
+    SSD) concentration in micrograms per liter.
 
 ssd_chronic_sigma:
-  name: "SSD chronic std. deviation (log10)"
+  name: "SSD chronic std. deviation on log-scale"
   group: "Toxicity"
   type: "numeric(1)"
+  unit: 1
   description: "Standard deviation (log10 scale) of the chronic species sensitivity distribution."
+
+pnec_acute_ug_L:
+  name: "Predicted No Effect Concentration for acute risk"
+  group: "Toxicity"
+  type: "numeric(1)"
+  unit: "\u03BCg/L"
+  description: |
+    Predicted No Effect Concentration used for the computation of acute risk
+    quotients.
+
+pnec_chronic_ug_L:
+  name: "Predicted No Effect Concentration for chronic risk"
+  group: "Toxicity"
+  type: "numeric(1)"
+  unit: "\u03BCg/L"
+  description: |
+    Predicted No Effect Concentration used for the computation of chronic risk
+    quotients.
+

@@ -1,15 +1,15 @@
 .compute_ctd <- function(simulation) {
   cw_outflow_kg_m3 <- outflow_m3 <- NULL
 
-  hbd_output_split <- get_output(simulation, "hbd") |>
+  hbd_output_split <- get_raw_output(simulation, "hbd") |>
     data.table::as.data.table() |>
     data.table::setorderv("date") |>
     merge(info_ditches(), by = "element_id") |>
-    merge(get_output(simulation, "inp"), by = "date", sort = TRUE) |>
+    merge(get_raw_output(simulation, "inp"), by = "date", sort = TRUE) |>
     collapse::rsplit(by = ~ element_id, keep.by = TRUE)
 
   cluster_inflows_df_list <-
-    get_output(simulation, "ctc") |>
+    get_raw_output(simulation, "ctc") |>
     data.table::as.data.table() |>
     merge(info_clusters(), by = "element_id") |>
     data.table::setorderv("date") |>
@@ -43,9 +43,9 @@
         application_kg = 0,  # Pesticide is applied only to rice field clusters
         precipitation_mm = 0,  # In our hydrology model, ditches are enclosed ..
         etp_mm = 0,  # .. in pipes, no volume changes from precipitation or ETP!
-        temperature_ave = ditch_ts_df[["temperature_ave"]],
-        temperature_min = ditch_ts_df[["temperature_min"]],
-        temperature_max = ditch_ts_df[["temperature_max"]],
+        temperature_ave_celsius = ditch_ts_df[["temperature_ave_celsius"]],
+        temperature_min_celsius = ditch_ts_df[["temperature_min_celsius"]],
+        temperature_max_celsius = ditch_ts_df[["temperature_max_celsius"]],
         volume_eod_m3 = ditch_ts_df[["volume_m3"]],
         outflow_m3 = ditch_ts_df[["outflow_lake_m3"]],
         inflows_m3 =  # Ditch inflow waters come from clusters as well as from outside...

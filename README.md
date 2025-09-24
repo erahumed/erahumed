@@ -58,19 +58,20 @@ project website](https://www.erahumed.com/).
 ## Installation
 
 You can install the latest release of `{erahumed}` from Github, by
-running the following command in your local R session:
+running the following command in R:
 
 ``` r
 install.packages("remotes")  # If necessary
-remotes::install_github("erahumed/erahumed", ref = remotes::github_release())
-```
-
-If you want the development version (notice: this may be unstable),
-simply omit the reference:
-
-``` r
 remotes::install_github("erahumed/erahumed")  # development version
 ```
+
+In order to install a specific version of `{erahumed}`, you can use:
+
+``` r
+remotes::install_github("erahumed/erahumed", ref = "v0.21.1")
+```
+
+where you should replace `"v0.21.1"` with the actual version you need.
 
 ## Usage
 

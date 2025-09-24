@@ -1,9 +1,9 @@
-allocation_input_tooltip <- function(name) {
-  bslib::tooltip(
-    trigger = shiny_icon("question-circle"),
-    get_param_desc(param = name, fun = "allocation", strip_roxy = TRUE),
-    placement = "right"
-  )
+allocation_input_tooltip <- function(param) {
+  input_tooltip(param, fun = "allocation")
+}
+
+allocation_input_label <- function(param) {
+  input_label(param, fun = "allocation")
 }
 
 allocation_input_defaults <- function() {
@@ -25,10 +25,7 @@ allocation_input_system <- function(id, choices) {
 allocation_input_target_fraction <- function(id) {
   inline_numeric_input(
     id,
-    label = shiny::p(
-      shiny::HTML("Target fraction"),
-      allocation_input_tooltip("target_fraction")
-    ),
+    label = allocation_input_label("target_fraction"),
     value = allocation_input_defaults()[["target_fraction"]],
     min = 0, max = 1, step = 0.01
   )
@@ -37,10 +34,7 @@ allocation_input_target_fraction <- function(id) {
 allocation_input_field_type <- function(id) {
   inline_select_input(
     inputId = id,
-    label = shiny::p(
-      shiny::HTML("Field type"),
-      allocation_input_tooltip("field_type")
-    ),
+    label = allocation_input_label("field_type"),
     choices = c("both", "regular", "tancat"),
     selected = allocation_input_defaults()[["field_type"]]
   )
@@ -49,10 +43,7 @@ allocation_input_field_type <- function(id) {
 allocation_input_ditches <- function(id) {
   shiny::sliderInput(
     inputId = id,
-    label = shiny::p(
-      shiny::HTML("Ditches"),
-      allocation_input_tooltip("ditches")
-    ),
+    label = allocation_input_label("ditches"),
     min = 1, max = 26,
     value = allocation_input_defaults()[["ditches"]],
     step = 1

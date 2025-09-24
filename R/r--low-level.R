@@ -4,7 +4,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
   sd_acute <- sd_chronic <-
     median_acute <- median_chronic <- HU_acute <- HU_chronic <- element_id <-
     chemical_id <- chemical_name <- tmoa_id <- tmoa_name <- cw_kg_m3 <-
-    hc05_acute <- hc05_chronic <- rq_acute <- rq_chronic <- NULL
+    pnec_acute_ug_L <- pnec_chronic_ug_L <- rq_acute <- rq_chronic <- NULL
 
   chemicals <- unique(ct_output$chemical)
 
@@ -18,21 +18,25 @@ compute_risk_general <- function(ct_output, chemical_db) {
       df$tmoa_id <- ct_get_param(chemical_id, "tmoa_id", chemical_db)
       df$tmoa_name <- df$tmoa_id
 
-      df$median_acute <- exp( ct_get_param(chemical_id, "ssd_acute_mu", chemical_db) )
-      df$median_chronic <- exp( ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db) )
+      acute_mu_log10 <- ct_get_param(chemical_id, "ssd_acute_mu", chemical_db)
+      acute_sd_log10 <- ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
+      chronic_mu_log10 <- ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db)
+      chronic_sd_log10 <- ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
 
-      df$hc05_acute <- stats::qlnorm(0.05,
-                                     meanlog = ct_get_param(chemical_id, "ssd_acute_mu", chemical_db),
-                                     sdlog = ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
-                                     )
-      df$hc05_chronic <- stats::qlnorm(0.05,
-                                       meanlog = ct_get_param(chemical_id, "ssd_chronic_mu", chemical_db),
-                                       sdlog = ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
-                                       )
+      acute_mu_ln <- acute_mu_log10 * log(10)
+      acute_sd_ln <- acute_sd_log10 * log(10)
+      chronic_mu_ln <- chronic_mu_log10 * log(10)
+      chronic_sd_ln <- chronic_sd_log10 * log(10)
 
 
-      df$sd_acute <- ct_get_param(chemical_id, "ssd_acute_sigma", chemical_db)
-      df$sd_chronic <-  ct_get_param(chemical_id, "ssd_chronic_sigma", chemical_db)
+      df$median_acute <- exp( acute_mu_ln )
+      df$median_chronic <- exp( chronic_mu_ln )
+
+      df$pnec_acute_ug_L <- ct_get_param(chemical_id, "pnec_acute_ug_L", chemical_db)
+      df$pnec_chronic_ug_L <- ct_get_param(chemical_id, "pnec_chronic_ug_L", chemical_db)
+
+      df$sd_acute <- acute_sd_ln
+      df$sd_chronic <-  chronic_sd_ln
 
       df
     }) |>
@@ -44,8 +48,8 @@ compute_risk_general <- function(ct_output, chemical_db) {
         let(
           HU_acute = 1e6 * cw_kg_m3 / median_acute,
           HU_chronic = 1e6 * rolling_average(cw_kg_m3, 21) / median_chronic,
-          rq_acute = 1e6 * cw_kg_m3 / hc05_acute,
-          rq_chronic = 1e6 * cw_kg_m3 / hc05_chronic
+          rq_acute = 1e6 * cw_kg_m3 / pnec_acute_ug_L,
+          rq_chronic = 1e6 * cw_kg_m3 / pnec_chronic_ug_L
         ),
         by = c("element_id", "chemical_id")
       ]
@@ -72,7 +76,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
         stressor_type = "tmoa"
         )
     ][,
-    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "paf_acute", "paf_chronic", "rq_acute", "rq_chronic")
+    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "rq_acute", "rq_chronic", "paf_acute", "paf_chronic")
     ]
 
   res_chem <- res_prep[,
@@ -85,7 +89,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
         stressor_type = "chemical"
         )
     ][,
-    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "paf_acute", "paf_chronic", "rq_acute", "rq_chronic")
+    c("element_id", "date", "stressor_id", "stressor_name", "stressor_type", "rq_acute", "rq_chronic", "paf_acute", "paf_chronic")
     ]
 
   rbind(res_tmoa, res_chem) |>

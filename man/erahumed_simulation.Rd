@@ -23,8 +23,8 @@ erahumed_simulation(
   foc_ss = 0.1,
   foc_sed = 0.05,
   bd_g_cm3 = 1.5,
-  qseep_m_day = 0,
   porosity = 0.11,
+  ksetl_m_day = 2,
   rfms_map = default_rfms_map(seed = seed),
   .progress = message
 )
@@ -56,7 +56,7 @@ erahumed_simulation(
 
 \item{jgrow}{\verb{[numeric(1)]} \cr A positive integer. Length (in days) of crop maturation cycle in rice paddies.}
 
-\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
+\item{dact_m}{\verb{[numeric(1)]} \cr A positive number. Active sediment layer depth, where "active" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.}
 
 \item{css_ppm}{\verb{[numeric(1)]} \cr A positive number. Concentration of water suspended solids, expressed in parts per million.}
 
@@ -66,9 +66,9 @@ erahumed_simulation(
 
 \item{bd_g_cm3}{\verb{[numeric(1)]} \cr A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.}
 
-\item{qseep_m_day}{\verb{[numeric(1)]} \cr A positive number. Seepage rate, \emph{i.e.} the rate at which water seeps through the sediment or soil. Expressed in meters per day.}
-
 \item{porosity}{\verb{[numeric(1)]} \cr A number between \code{0} and \code{1}. The fraction of the total sediment volume that is occupied by pore spaces.}
+
+\item{ksetl_m_day}{\verb{[numeric(1)]} \cr Settling rate, representing particle-bound transfer to sediment.}
 
 \item{rfms_map}{\verb{[erahumed_rfms_map]} \cr An object of class \link{rfms_map} that defines how different rice field management systems (RFMSs) are assigned to spatial clusters within the simulation. This object also encapsulates the full set of user-defined agrochemical configurations, including custom chemicals and RFMSs, and serves as the main interface for scenario customization. See \link{rfms} for an overview of RFMS definitions and customization options.}
 

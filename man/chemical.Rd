@@ -8,7 +8,6 @@ chemical(
   display_name,
   tmoa_id,
   MW = 330,
-  ksetl_m_day = 2,
   sol_ppm = 500,
   koc_cm3_g = 200,
   fet_cm = 0.2,
@@ -25,7 +24,9 @@ chemical(
   ssd_acute_mu = 7.5,
   ssd_acute_sigma = 2.5,
   ssd_chronic_mu = 4.5,
-  ssd_chronic_sigma = 2.5
+  ssd_chronic_sigma = 2.5,
+  pnec_acute_ug_L = 1,
+  pnec_chronic_ug_L = 1
 )
 }
 \arguments{
@@ -34,8 +35,6 @@ chemical(
 \item{tmoa_id}{\verb{[character(1)]} \cr Identifier for the toxic mode of action (e.g., "NicotinicAcetylcholine").}
 
 \item{MW}{\verb{[numeric(1)]} \cr Molecular weight in grams per mole.}
-
-\item{ksetl_m_day}{\verb{[numeric(1)]} \cr Settling rate, representing particle-bound transfer to sediment.}
 
 \item{sol_ppm}{\verb{[numeric(1)]} \cr Water solubility.}
 
@@ -51,11 +50,11 @@ chemical(
 
 \item{ks_unsat_day}{\verb{[numeric(1)]} \cr Degradation rate in unsaturated sediment.}
 
-\item{kw_temp}{\verb{[numeric(1)]} \cr Reference temperature for kw_day.}
+\item{kw_temp}{\verb{[numeric(1)]} \cr Reference temperature for kw (degradation rate in water).}
 
-\item{ks_sat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_sat_day.}
+\item{ks_sat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_sat (degradation rate in saturated sediment).}
 
-\item{ks_unsat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_unsat_day.}
+\item{ks_unsat_temp}{\verb{[numeric(1)]} \cr Reference temperature for ks_unsat (degradation rate in unsaturated sediment).}
 
 \item{Q10_kw}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction of degradation in water.}
 
@@ -63,13 +62,25 @@ chemical(
 
 \item{Q10_ks_unsat}{\verb{[numeric(1)]} \cr Q10 coefficient for temperature correction in unsaturated sediment.}
 
-\item{ssd_acute_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the acute species sensitivity distribution.}
+\item{ssd_acute_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the acute species sensitivity distribution. The unit
+of this input (log10(microgram/liter)) is interpreted as follows: the
+base 10 exponential of the input is the median (according to the acute SSD)
+concentration in micrograms per liter.}
 
 \item{ssd_acute_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the acute species sensitivity distribution.}
 
-\item{ssd_chronic_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the chronic species sensitivity distribution.}
+\item{ssd_chronic_mu}{\verb{[numeric(1)]} \cr Mean (log10 scale) of the chronic species sensitivity distribution.  The
+unit of this input (log10(microgram/liter)) is interpreted as follows:
+the base 10 exponential of the input is the median (according to the chronic
+SSD) concentration in micrograms per liter.}
 
 \item{ssd_chronic_sigma}{\verb{[numeric(1)]} \cr Standard deviation (log10 scale) of the chronic species sensitivity distribution.}
+
+\item{pnec_acute_ug_L}{\verb{[numeric(1)]} \cr Predicted No Effect Concentration used for the computation of acute risk
+quotients.}
+
+\item{pnec_chronic_ug_L}{\verb{[numeric(1)]} \cr Predicted No Effect Concentration used for the computation of chronic risk
+quotients.}
 }
 \value{
 An object of class \code{erahumed_chemical}.

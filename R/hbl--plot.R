@@ -7,7 +7,7 @@ plot_hbl <- function(simulation,
   assert_erahumed_simulation(simulation)
   type <- match.arg(type)
   variable <- match.arg(variable)
-  data <- get_output(simulation, "hbl")
+  data <- get_raw_output(simulation, "hbl")
   sc_slope <- get_input(simulation, "storage_curve_slope_m2")
 
   switch(type,

@@ -3,7 +3,7 @@ compute_hbl <- function(simulation)
   storage_curve_slope_m2 <- get_input(simulation, "storage_curve_slope_m2")
   storage_curve_intercept_m3 <- get_input(simulation, "storage_curve_intercept_m3")
   petp_surface_m2 <- get_input(simulation, "petp_surface_m2")
-  inp_df <- get_output(simulation, "inp")
+  inp_df <- get_raw_output(simulation, "inp")
 
   output <-
     .hbl(

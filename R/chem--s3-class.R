@@ -7,7 +7,6 @@
 #' @param display_name `r get_param_roxy("display_name", fun = "chemical")`
 #' @param tmoa_id `r get_param_roxy("tmoa_id", fun = "chemical")`
 #' @param MW `r get_param_roxy("MW", fun = "chemical")`
-#' @param ksetl_m_day `r get_param_roxy("ksetl_m_day", fun = "chemical")`
 #' @param sol_ppm `r get_param_roxy("sol_ppm", fun = "chemical")`
 #' @param koc_cm3_g `r get_param_roxy("koc_cm3_g", fun = "chemical")`
 #' @param fet_cm `r get_param_roxy("fet_cm", fun = "chemical")`
@@ -25,6 +24,8 @@
 #' @param ssd_acute_sigma `r get_param_roxy("ssd_acute_sigma", fun = "chemical")`
 #' @param ssd_chronic_mu `r get_param_roxy("ssd_chronic_mu", fun = "chemical")`
 #' @param ssd_chronic_sigma `r get_param_roxy("ssd_chronic_sigma", fun = "chemical")`
+#' @param pnec_acute_ug_L `r get_param_roxy("pnec_acute_ug_L", fun = "chemical")`
+#' @param pnec_chronic_ug_L `r get_param_roxy("pnec_chronic_ug_L", fun = "chemical")`
 #'
 #' @return An object of class `erahumed_chemical`.
 #'
@@ -42,7 +43,6 @@
 chemical <- function(display_name,
                      tmoa_id,
                      MW = 330,
-                     ksetl_m_day = 2,
                      sol_ppm = 500,
                      koc_cm3_g = 200,
                      fet_cm = 0.2,
@@ -59,7 +59,9 @@ chemical <- function(display_name,
                      ssd_acute_mu = 7.5,
                      ssd_acute_sigma = 2.5,
                      ssd_chronic_mu = 4.5,
-                     ssd_chronic_sigma = 2.5
+                     ssd_chronic_sigma = 2.5,
+                     pnec_acute_ug_L = 1,
+                     pnec_chronic_ug_L = 1
                      )
 {
   tryCatch(
@@ -67,7 +69,6 @@ chemical <- function(display_name,
       assert_string(display_name)
       assert_string(tmoa_id)
       assert_positive_number(MW)
-      assert_positive_number(ksetl_m_day)
       assert_positive_number(sol_ppm)
       assert_positive_number(koc_cm3_g)
       assert_positive_number(fet_cm)
@@ -99,7 +100,6 @@ chemical <- function(display_name,
   res <- list(display_name = display_name,
               tmoa_id = tmoa_id,
               MW = MW,
-              ksetl_m_day = ksetl_m_day,
               sol_ppm = sol_ppm,
               koc_cm3_g = koc_cm3_g,
               fet_cm = fet_cm,
@@ -116,7 +116,10 @@ chemical <- function(display_name,
               ssd_acute_mu = ssd_acute_mu,
               ssd_acute_sigma = ssd_acute_sigma,
               ssd_chronic_mu = ssd_chronic_mu,
-              ssd_chronic_sigma = ssd_chronic_sigma)
+              ssd_chronic_sigma = ssd_chronic_sigma,
+              pnec_acute_ug_L = pnec_acute_ug_L,
+              pnec_chronic_ug_L = pnec_chronic_ug_L
+              )
 
   class(res) <- "erahumed_chemical"
 
@@ -138,7 +141,6 @@ print.erahumed_chemical <- function(x, ...) {
   cat(sprintf("  Solubility:      %.2f ppm\n", x$sol_ppm))
   cat(sprintf("  Koc:             %.2f cm\u{00B3}/g\n", x$koc_cm3_g))
   cat(sprintf("  Film thickness:  %.3f cm\n", x$fet_cm))
-  cat(sprintf("  Settling rate:   %.3f m/day\n", x$ksetl_m_day))
 
   cat("Degradation rates:\n")
   cat(sprintf("  kf (foliage):           %.4f 1/day\n", x$kf_day))

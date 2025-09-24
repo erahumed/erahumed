@@ -98,11 +98,11 @@ weather_df:
     columns:
       date: >-
         Date of measurement
-      temperature_ave: >-
+      temperature_ave_celsius: >-
         Daily average temperature (degrees Celsius)
-      temperature_min: >-
+      temperature_min_celsius: >-
         Daily minimum temperature (degrees Celsius)
-      temperature_max: >-
+      temperature_max_celsius: >-
         Daily maximum temperature (degrees Celsius).
       precipitation_mm: >-
         Daily precipitation (millimeters).
@@ -159,7 +159,7 @@ dact_m:
   type: "numeric(1)"
   unit: "m"
   description: >-
-    A positive number. Active sediment layer depth, where "active""
+    A positive number. Active sediment layer depth, where "active"
     refers to the portion of the sediment that is actually involved
     in chemical exchange or transport processes. Expressed in meters.
 
@@ -173,7 +173,7 @@ css_ppm:
     parts per million.
 
 foc_ss:
-  name: "Fraction of organic content in suspended solid"
+  name: "Fraction of organic matter content in suspended solid"
   group: "Environmental properties"
   type: "numeric(1)"
   unit: "1"
@@ -182,7 +182,7 @@ foc_ss:
     suspended solids.
 
 foc_sed:
-  name: "Fraction of organic content in sediment"
+  name: "Fraction of organic matter content in sediment"
   group: "Environmental properties"
   type: "numeric(1)"
   unit: "1"
@@ -194,19 +194,10 @@ bd_g_cm3:
   name: "Bulk density of sediment"
   group: "Environmental properties"
   type: "numeric(1)"
-  unit: "g\u00B7cm\u207B\u00B2"
+  unit: "g\u00B7cm\u207B\u00B3"
   description: >-
     A positive number. Bulk density of the sediment (including both the solid
     material and the pore spaces). Expressed in grams per cubic centimeter.
-
-qseep_m_day:
-  name: "Seepage rate"
-  group: "Environmental properties"
-  type: "numeric(1)"
-  unit: "m\u00B7day\u207B\u00B9"
-  description: >-
-    A positive number. Seepage rate, *i.e.* the rate at which water seeps
-    through the sediment or soil. Expressed in meters per day.
 
 porosity:
   name: "Porosity"
@@ -216,6 +207,13 @@ porosity:
   description: >-
     A number between `0` and `1`. The fraction of the total sediment volume
     that is occupied by pore spaces.
+
+ksetl_m_day:
+  name: "Settling rate"
+  group: "Environmental properties"
+  type: "numeric(1)"
+  unit: "m/day"
+  description: "Settling rate, representing particle-bound transfer to sediment."
 
 rfms_map:
   name: "Map of rice field management systems"

@@ -54,7 +54,7 @@
 .hbc_data_prep <-
   function(simulation, rfms_map, ideal_flow_rate_cm, height_thresh_cm)
 {
-  res <- data.table::as.data.table( get_output(simulation, "hbl") )
+  res <- data.table::as.data.table( get_raw_output(simulation, "hbl") )
 
   res$petp_cm <- (res$precipitation_mm - res$evapotranspiration_mm) / 10
   res$mm <- get_mm(as.POSIXlt(res$date))

@@ -2,9 +2,9 @@ ct_time_series <- function(
     application_kg,
     precipitation_mm,
     etp_mm,
-    temperature_ave,
-    temperature_min,
-    temperature_max,
+    temperature_ave_celsius,
+    temperature_min_celsius,
+    temperature_max_celsius,
     volume_eod_m3,
     outflow_m3,
     inflows_m3,
@@ -27,8 +27,8 @@ ct_time_series <- function(
   foc_ss <- get_input(simulation, "foc_ss")
   foc_sed <- get_input(simulation, "foc_sed")
   bd_g_cm3 <- get_input(simulation, "bd_g_cm3")
-  qseep_m_day <- get_input(simulation, "qseep_m_day")
   porosity <- get_input(simulation, "porosity")
+  ksetl_m_day <- get_input(simulation, "ksetl_m_day")
 
   # Chemical input properties
   koc_cm3_g <- ct_get_param(chemical_id, "koc_cm3_g", chemical_db)
@@ -45,7 +45,6 @@ ct_time_series <- function(
   Q10_ks_unsat <- ct_get_param(chemical_id, "Q10_ks_unsat", chemical_db)
   ks_unsat_temp <- ct_get_param(chemical_id, "ks_unsat_temp", chemical_db)
   sol_ppm <- ct_get_param(chemical_id, "sol_ppm", chemical_db)
-  ksetl_m_day <- ct_get_param(chemical_id, "ksetl_m_day", chemical_db)
   MW <- ct_get_param(chemical_id, "MW", chemical_db)
   fet_cm <- ct_get_param(chemical_id, "fet_cm", chemical_db)
 
@@ -58,9 +57,9 @@ ct_time_series <- function(
   terms <- ct_ts_step_terms(application_kg = application_kg,
                             precipitation_mm = precipitation_mm,
                             etp_mm = etp_mm,
-                            temperature_ave = temperature_ave,
-                            temperature_min = temperature_min,
-                            temperature_max = temperature_max,
+                            temperature_ave_celsius = temperature_ave_celsius,
+                            temperature_min_celsius = temperature_min_celsius,
+                            temperature_max_celsius = temperature_max_celsius,
                             volume_eod_m3 = volume_eod_m3,
                             outflow_m3 = outflow_m3,
                             inflows_m3 = inflows_m3,
@@ -73,7 +72,6 @@ ct_time_series <- function(
                             dact_m = dact_m,
                             css_ppm = css_ppm,
                             bd_g_cm3 = bd_g_cm3,
-                            qseep_m_day = qseep_m_day,
                             porosity = porosity,
                             kf_day = kf_day,
                             kw_day = kw_day,
@@ -151,9 +149,9 @@ ct_time_series <- function(
 ct_ts_step_terms <- function(application_kg,
                              precipitation_mm,
                              etp_mm,
-                             temperature_ave,
-                             temperature_min,
-                             temperature_max,
+                             temperature_ave_celsius,
+                             temperature_min_celsius,
+                             temperature_max_celsius,
                              volume_eod_m3,
                              outflow_m3,
                              inflows_m3,
@@ -166,7 +164,6 @@ ct_ts_step_terms <- function(application_kg,
                              dact_m,
                              css_ppm,
                              bd_g_cm3,
-                             qseep_m_day,
                              porosity,
                              kf_day,
                              kw_day,
@@ -191,9 +188,9 @@ ct_ts_step_terms <- function(application_kg,
   n_time_steps <- length(outflow_m3)  # Guaranteed to be of required length
   dt <- 1
 
-  temp_arr <- ct_temperature_arrhenius(temperature_ave,
-                                        temperature_min,
-                                        temperature_max)
+  temp_arr <- ct_temperature_arrhenius(temperature_ave_celsius,
+                                        temperature_min_celsius,
+                                        temperature_max_celsius)
 
   # Hydro balance time series
   height_eod_m <- volume_eod_m3 / area_m2

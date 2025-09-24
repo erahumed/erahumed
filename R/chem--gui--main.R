@@ -1,13 +1,27 @@
-chemical_db_ui <- function(id)
-{
+chemical_db_ui <- function(id) {
   ns <- shiny::NS(id)
 
   shiny::tagList(
-    shiny::h3("Chemical definitions"),
+    shiny::div(class = "d-flex align-items-center gap-2 mb-4",
+               shiny::h3("Chemical definitions"),
+               bslib::popover(
+                 shiny::actionLink(ns("chem_help"), label = NULL, icon = shiny::icon("circle-info")),
+                 title = "What is this?",
+                 placement = "right",
+                 shiny::div(
+                   "Manage the list of pesticide chemicals available to the model.",
+                   "Each entry specifies physicochemical and toxicological parameters."
+                 )
+               )
+    ),
+
     list_manager_ui(ns("manager"), object_name = "Chemical")
   )
-
 }
+
+
+
+
 
 chemical_db_server <- function(id)
 {
@@ -38,8 +52,7 @@ chemical_editor_ui <- function(id) {
                              chem_input_MW(ns("MW")),
                              chem_input_sol_ppm(ns("sol_ppm")),
                              chem_input_koc_cm3_g(ns("koc_cm3_g")),
-                             chem_input_fet_cm(ns("fet_cm")),
-                             chem_input_ksetl_m_day(ns("ksetl_m_day"))
+                             chem_input_fet_cm(ns("fet_cm"))
       ),
 
       bslib::accordion_panel("Degradation Constants",
@@ -63,7 +76,9 @@ chemical_editor_ui <- function(id) {
                              chem_input_ssd_acute_mu(ns("ssd_acute_mu")),
                              chem_input_ssd_acute_sigma(ns("ssd_acute_sigma")),
                              chem_input_ssd_chronic_mu(ns("ssd_chronic_mu")),
-                             chem_input_ssd_chronic_sigma(ns("ssd_chronic_sigma"))
+                             chem_input_ssd_chronic_sigma(ns("ssd_chronic_sigma")),
+                             chem_input_pnec_acute_ug_L(ns("pnec_acute_ug_L")),
+                             chem_input_pnec_chronic_ug_L(ns("pnec_chronic_ug_L"))
       )
     )
   )
@@ -86,7 +101,6 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
       shiny::updateNumericInput(inputId = "kw_day", value = item()$kw_day)
       shiny::updateNumericInput(inputId = "ks_sat_day", value = item()$ks_sat_day)
       shiny::updateNumericInput(inputId = "ks_unsat_day", value = item()$ks_unsat_day)
-      shiny::updateNumericInput(inputId = "ksetl_m_day", value = item()$ksetl_m_day)
 
       shiny::updateNumericInput(inputId = "kw_temp", value = item()$kw_temp)
       shiny::updateNumericInput(inputId = "ks_sat_temp", value = item()$ks_sat_temp)
@@ -99,6 +113,8 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
       shiny::updateNumericInput(inputId = "ssd_acute_sigma", value = item()$ssd_acute_sigma)
       shiny::updateNumericInput(inputId = "ssd_chronic_mu", value = item()$ssd_chronic_mu)
       shiny::updateNumericInput(inputId = "ssd_chronic_sigma", value = item()$ssd_chronic_sigma)
+      shiny::updateNumericInput(inputId = "pnec_acute_ug_L", value = item()$pnec_acute_ug_L)
+      shiny::updateNumericInput(inputId = "pnec_chronic_ug_L", value = item()$pnec_chronic_ug_L)
     })
 
     shiny::reactive(
@@ -106,7 +122,6 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         display_name = input$display_name,
         tmoa_id = input$tmoa_id,
         MW = input$MW,
-        ksetl_m_day = input$ksetl_m_day,
         sol_ppm = input$sol_ppm,
         koc_cm3_g = input$koc_cm3_g,
         fet_cm = input$fet_cm,
@@ -123,7 +138,9 @@ chemical_editor_server <- function(id, item = shiny::reactive(NULL))
         ssd_acute_mu = input$ssd_acute_mu,
         ssd_acute_sigma = input$ssd_acute_sigma,
         ssd_chronic_mu = input$ssd_chronic_mu,
-        ssd_chronic_sigma = input$ssd_chronic_sigma
+        ssd_chronic_sigma = input$ssd_chronic_sigma,
+        pnec_acute_ug_L = input$pnec_acute_ug_L,
+        pnec_chronic_ug_L = input$pnec_chronic_ug_L
     ))
   })
 }

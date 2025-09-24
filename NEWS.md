@@ -1,3 +1,54 @@
+# erahumed 0.21.2
+
+### Input and output data
+
+* `ksetl_m_day` former chemical property becomes an environmental property 
+(common to all chemicals), accordingly to #471. Correspondingly, `chemical()` 
+loses its `ksetl_m_day` argument, and `erahumed_simulation()` gets a new
+`ksetl_m_day` argument.
+* `temperature_min/max/ave` columns of the `weather_df` are now called 
+`temperature_min/max/ave_celsius` (#469).
+* SSD parameters provided to the `chemical()` S3 constructor are now understood
+in logarithmic base `10` (#468).
+* The `qseep_m_day` parameter no longer exists. This was a remnant of an older 
+implementation, and was not being used in any actual calculation.
+* In "Risk" output, the `rq_*` columns (risk quotients) now appear first.
+* General review of columns of outputs (#477).
+
+### Numerical inputs
+
+* Updated Degradation rates of Difenoconazole (#472).
+
+### GUI
+
+* Application is initialized now by default on the "Input" tab.
+* In the output tab, the risk plot now display by default the Risk Quotient
+computed for Acute risk.
+* Improvements in the UI of the Rice Field Management System's editor, 
+addressing #478.
+* Improvements in the appearance of the "Allocation Rules" section (which is
+no longer a dismissable sidebar, but a fixed card). Addresses #482, #484 and #479.
+* Implemented chemical selection in risk output plots (#476).
+* The Y-axis of Risk Quotient plots now reads `PEC/PNEC`.
+* Various improvements in the matching of parameter names between documentation 
+and GUI labels (#449).
+* "Water body" selector in the Output tab is now searchable, and the entries 
+corresponding to clusters display their full names (#485).
+
+### Documentation
+
+* Clarified units of SSD inputs.
+
+* Minor documentation improvements:
+  - Fixed typo in quotes in `dact_m` description.
+  - Specified "matter" in `foc_ss` and `foc_sed` parameter names (*e.g.* 
+  "Fraction of organic **matter** content").
+  - Fixed units in `bd_g_cm3`.
+  - Fixed description of reference temperatures in Arrhenius correction.
+  
+* Clarified in the README file that comes along with downloadable outputs that
+ecotoxicological risks are expressed both as RQs and PAFs.
+
 # erahumed 0.21.1
 
 ### Documentation

@@ -19,18 +19,25 @@ allocations_db_server <- function(id, rfms_db) {
         rfms_list <- shiny::reactiveValuesToList(rfms_db)
         item_idx <- item$allocate_ms
 
-        name <- tryCatch({
-          if (!item_idx %in% names(rfms_list)) {
-            stop("RFMS no longer exists")
-          }
-          rfms <- rfms_list[[item_idx]]()
-          rfms[["display_name"]]
-        }, error = function(e) {
-          "<deleted>"
-        })
+        if (!item_idx %in% names(rfms_list)) {
+          name <- "<deleted>"
+        } else {
+          name <- rfms_list [[item_idx]] () [["display_name"]]
+        }
 
         pct <- paste0(round(item$target_fraction * 100), "%")
-        paste0(name, " (", pct, ")")
+        ftype <- item$field_type
+        ditches <- item$ditches
+
+        ditches_label <- ifelse(min(ditches) == 1 & max(ditches) == 26,
+                                "",
+                                paste0("ditches ", min(ditches), " to ", max(ditches), " ")
+                                )
+
+        ftype_label <- ifelse(ftype != "both", paste0(ftype, " "), "") |>
+          paste0("field surface")
+
+        paste0(name, " to ", pct, " of ", ditches_label, ftype_label)
       },
 
       default_items = list(

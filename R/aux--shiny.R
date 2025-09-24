@@ -122,3 +122,24 @@ inline_select_input <- function(inputId,
                      selectize = selectize, width = width, size = size) |>
     add_inline_label(label = label, id = inputId)
 }
+
+input_tooltip <- function(param, fun) {
+  bslib::tooltip(
+    trigger = shiny_icon("question-circle"),
+    get_param_desc(param, fun = fun, strip_roxy = TRUE),
+    placement = "right"
+  )
+}
+
+input_label <- function(param, fun) {
+  name <- get_param_name(param, fun)
+
+  if (param_has_units(param, fun)) {
+    unit <- get_param_unit(param, fun)
+    lbl <- paste0(name, " [", unit, "]")
+  } else {
+    lbl <- name
+  }
+
+  shiny::p(lbl, input_tooltip(param, fun = fun))
+}

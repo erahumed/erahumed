@@ -26,8 +26,8 @@
 #' @param foc_ss `r get_param_roxy("foc_ss", fun = "simulation")`
 #' @param foc_sed `r get_param_roxy("foc_sed", fun = "simulation")`
 #' @param bd_g_cm3 `r get_param_roxy("bd_g_cm3", fun = "simulation")`
-#' @param qseep_m_day `r get_param_roxy("qseep_m_day", fun = "simulation")`
 #' @param porosity `r get_param_roxy("porosity", fun = "simulation")`
+#' @param ksetl_m_day `r get_param_roxy("ksetl_m_day", fun = "simulation")`
 #' @param rfms_map `r get_param_roxy("rfms_map", fun = "simulation")`
 #' @param .progress A function used to report simulation progress.
 #'   It should accept a single character string as input, representing the
@@ -70,8 +70,8 @@ erahumed_simulation <- function(
     foc_ss = 0.1,
     foc_sed = 0.05,
     bd_g_cm3 = 1.5,
-    qseep_m_day = 0,
     porosity = 0.11,
+    ksetl_m_day = 2,
     rfms_map = default_rfms_map(seed = seed),
     .progress = message
 )
@@ -129,8 +129,8 @@ erahumed_simulation <- function(
       assert_fraction(foc_ss)
       assert_fraction(foc_sed)
       assert_positive_number(bd_g_cm3)
-      assert_positive_number(qseep_m_day)
       assert_fraction(porosity)
+      assert_positive_number(ksetl_m_day)
     },
     error = function(e) {
       class(e) <- c("erahumed_input_error", class(e))
@@ -159,8 +159,8 @@ erahumed_simulation <- function(
     foc_ss = foc_ss,
     foc_sed = foc_sed,
     bd_g_cm3 = bd_g_cm3,
-    qseep_m_day = qseep_m_day,
     porosity = porosity,
+    ksetl_m_day = ksetl_m_day,
     seed = seed))
 
   res$etc$management_df <- get_management_df(rfms_map)

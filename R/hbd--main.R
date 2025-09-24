@@ -1,7 +1,8 @@
 compute_hbd <- function(simulation)
 {
   ditch_level_m <- get_input(simulation, "ditch_level_m")
-  hbc_res <- get_output(simulation, "hbc")
+  hbc_res <- get_raw_output(simulation, "hbc")
+  inp_res <- get_raw_output(simulation, "inp")
 
   inflow_clusters_df <- hbc_res |>
     stats::aggregate(outflow_m3 ~ ditch_element_id + date, FUN = sum) |>
@@ -28,10 +29,17 @@ compute_hbd <- function(simulation)
       return(df)
     })()
 
+  petp_df <- inp_res |>
+    (function(df){
+      df$petp_cm <- (df$precipitation_mm - df$evapotranspiration_mm) / 10
+      df[, c("date", "petp_cm")]
+    })()
+
   out <- merge(inflow_clusters_df, outflow_lake_df, by = c("ditch_element_id", "date"))
   out$inflow_external_m3 <- out$outflow_lake_m3 - out$inflow_clusters_m3
 
   out <- merge(out, volume_df, by.x = "ditch_element_id", by.y = "element_id")
+  out <- merge(out, petp_df, by = "date")
 
   names(out)[names(out) == "ditch_element_id"] <- "element_id"
 
@@ -48,6 +56,7 @@ validate_hbd_output <- function(output) {
                                           inflow_clusters_m3 = numeric(),
                                           inflow_external_m3 = numeric(),
                                           volume_m3 = numeric(),
+                                          petp_cm = numeric(),
                                           element_id = character()
                                           )
                     )
