@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
       <h1>Simulation workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.1/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>erahumed-workflow.Rmd</code></div>
     </div>
 
@@ -200,74 +200,46 @@ slightly different outcomes across runs.</p></li>
 instance:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cluster_hydrology_df</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   ideal_height_eod_cm ideal_irrigation ideal_draining is_plan_delays_window</span></span>
-<span><span class="co">#&gt; 1                  20             TRUE           TRUE                 FALSE</span></span>
-<span><span class="co">#&gt; 2                  20             TRUE           TRUE                 FALSE</span></span>
-<span><span class="co">#&gt; 3                  20             TRUE           TRUE                 FALSE</span></span>
-<span><span class="co">#&gt; 4                  20             TRUE           TRUE                 FALSE</span></span>
-<span><span class="co">#&gt; 5                  20             TRUE           TRUE                 FALSE</span></span>
-<span><span class="co">#&gt; 6                  20             TRUE           TRUE                 FALSE</span></span>
-<span><span class="co">#&gt;   petp_cm   area_m2 capacity_m3       date                element_id</span></span>
-<span><span class="co">#&gt; 1  -0.058 114881.78    4960.991 2020-01-01 02_Carrera_del_Saler0-2_0</span></span>
-<span><span class="co">#&gt; 2  -0.058 116539.90    4960.991 2020-01-01          03_Petxinar0-3_2</span></span>
-<span><span class="co">#&gt; 3  -0.058 154730.35    4960.991 2020-01-01          03_Petxinar0-3_3</span></span>
-<span><span class="co">#&gt; 4  -0.058 163789.56    4960.991 2020-01-01          03_Petxinar1-3_1</span></span>
-<span><span class="co">#&gt; 5  -0.058  83016.51    4960.991 2020-01-01          03_Petxinar1-3_2</span></span>
-<span><span class="co">#&gt; 6  -0.058 106260.07    4960.991 2020-01-01          03_Petxinar1-3_3</span></span>
-<span><span class="co">#&gt;   ditch_element_id seed_day tancat rfms_id  rfms_name height_sod_cm irrigation</span></span>
-<span><span class="co">#&gt; 1               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
-<span><span class="co">#&gt; 2               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
-<span><span class="co">#&gt; 3               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
-<span><span class="co">#&gt; 4               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
-<span><span class="co">#&gt; 5               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
-<span><span class="co">#&gt; 6               d2     -110   TRUE       2 Clearfield            20       TRUE</span></span>
-<span><span class="co">#&gt;   draining ideal_diff_flow_cm ideal_inflow_cm ideal_outflow_cm outflow_m3</span></span>
-<span><span class="co">#&gt; 1     TRUE              0.058               5            4.942          0</span></span>
-<span><span class="co">#&gt; 2     TRUE              0.058               5            4.942          0</span></span>
-<span><span class="co">#&gt; 3     TRUE              0.058               5            4.942          0</span></span>
-<span><span class="co">#&gt; 4     TRUE              0.058               5            4.942          0</span></span>
-<span><span class="co">#&gt; 5     TRUE              0.058               5            4.942          0</span></span>
-<span><span class="co">#&gt; 6     TRUE              0.058               5            4.942          0</span></span>
-<span><span class="co">#&gt;   outflow_cm inflow_cm inflow_m3 height_eod_cm plan_delay</span></span>
-<span><span class="co">#&gt; 1          0     0.058  66.63143            20          0</span></span>
-<span><span class="co">#&gt; 2          0     0.058  67.59314            20          0</span></span>
-<span><span class="co">#&gt; 3          0     0.058  89.74360            20          0</span></span>
-<span><span class="co">#&gt; 4          0     0.058  94.99795            20          0</span></span>
-<span><span class="co">#&gt; 5          0     0.058  48.14958            20          0</span></span>
-<span><span class="co">#&gt; 6          0     0.058  61.63084            20          0</span></span></code></pre></div>
+<span><span class="co">#&gt;         date                element_id   area_m2 is_tancat outflow_m3</span></span>
+<span><span class="co">#&gt; 1 2020-01-01 02_Carrera_del_Saler0-2_0 114881.78      TRUE          0</span></span>
+<span><span class="co">#&gt; 2 2020-01-01          03_Petxinar0-3_2 116539.90      TRUE          0</span></span>
+<span><span class="co">#&gt; 3 2020-01-01          03_Petxinar0-3_3 154730.35      TRUE          0</span></span>
+<span><span class="co">#&gt; 4 2020-01-01          03_Petxinar1-3_1 163789.56      TRUE          0</span></span>
+<span><span class="co">#&gt; 5 2020-01-01          03_Petxinar1-3_2  83016.51      TRUE          0</span></span>
+<span><span class="co">#&gt; 6 2020-01-01          03_Petxinar1-3_3 106260.07      TRUE          0</span></span>
+<span><span class="co">#&gt;   outflow_cm inflow_m3 inflow_cm volume_m3 depth_cm petp_cm</span></span>
+<span><span class="co">#&gt; 1          0  66.63143     0.058  22976.36       20  -0.058</span></span>
+<span><span class="co">#&gt; 2          0  67.59314     0.058  23307.98       20  -0.058</span></span>
+<span><span class="co">#&gt; 3          0  89.74360     0.058  30946.07       20  -0.058</span></span>
+<span><span class="co">#&gt; 4          0  94.99795     0.058  32757.91       20  -0.058</span></span>
+<span><span class="co">#&gt; 5          0  48.14958     0.058  16603.30       20  -0.058</span></span>
+<span><span class="co">#&gt; 6          0  61.63084     0.058  21252.01       20  -0.058</span></span></code></pre></div>
 <p>From here on, the analysis may proceed in the way you find more
 convenient. For instance, in the chunk below I create a plot of water
-levels for a set of clusters with similar features, using
+levels for the whole set of rice field clusters, using
 <code>dplyr</code> and <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ditch</span> <span class="op">&lt;-</span> <span class="st">"d4"</span></span>
-<span><span class="va">tancat</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span><span class="va">rfms_name</span> <span class="op">&lt;-</span> <span class="st">"Clearfield"</span>  <span class="co"># Rice field management system</span></span>
-<span></span>
-<span><span class="va">clusters_df</span> <span class="op">&lt;-</span> <span class="va">cluster_hydrology_df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ditch</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">ditch</span>, <span class="va">tancat</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">tancat</span>, <span class="va">rfms_name</span> <span class="op">==</span> <span class="op">!</span><span class="op">!</span><span class="va">rfms_name</span><span class="op">)</span></span>
+<span><span class="va">clusters_df</span> <span class="op">&lt;-</span> <span class="va">cluster_hydrology_df</span></span>
 <span></span>
 <span><span class="va">avg_df</span> <span class="op">&lt;-</span> <span class="va">clusters_df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>height_eod_cm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">height_eod_cm</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>depth_cm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">depth_cm</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">clusters_df</span>,</span>
-<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">height_eod_cm</span>, group <span class="op">=</span> <span class="va">element_id</span><span class="op">)</span>,</span>
-<span>    color <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="fl">0.1</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">depth_cm</span>, group <span class="op">=</span> <span class="va">element_id</span><span class="op">)</span>,</span>
+<span>    color <span class="op">=</span> <span class="st">"blue"</span>, linewidth <span class="op">=</span> <span class="fl">0.1</span>, alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">avg_df</span>, </span>
-<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">height_eod_cm</span><span class="op">)</span>,</span>
+<span>    mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">depth_cm</span><span class="op">)</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">"black"</span></span>
 <span>    <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Date"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Height [cm]"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Cluster simulated water levels"</span>,</span>
-<span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Ditch:"</span>, <span class="va">ditch</span>, <span class="st">"- Tancat:"</span>, <span class="va">tancat</span>, <span class="st">"- RFMS:"</span>, <span class="va">rfms_name</span><span class="op">)</span></span>
-<span>          <span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Date"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Depth [cm]"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Cluster simulated water levels"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="erahumed-workflow_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div class="section level2">

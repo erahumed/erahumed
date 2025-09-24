@@ -11,7 +11,7 @@ to aquatic organisms."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ to aquatic organisms."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Define a pesticide with physico-chemical and toxicity properties</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.1/R/chem--s3-class.R" class="external-link"><code>R/chem--s3-class.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/chem--s3-class.R" class="external-link"><code>R/chem--s3-class.R</code></a></small>
       <div class="d-none name"><code>chemical.Rd</code></div>
     </div>
 
@@ -54,7 +54,6 @@ to aquatic organisms.</p>
 <span>  <span class="va">display_name</span>,</span>
 <span>  <span class="va">tmoa_id</span>,</span>
 <span>  MW <span class="op">=</span> <span class="fl">330</span>,</span>
-<span>  ksetl_m_day <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  sol_ppm <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  koc_cm3_g <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  fet_cm <span class="op">=</span> <span class="fl">0.2</span>,</span>
@@ -71,7 +70,9 @@ to aquatic organisms.</p>
 <span>  ssd_acute_mu <span class="op">=</span> <span class="fl">7.5</span>,</span>
 <span>  ssd_acute_sigma <span class="op">=</span> <span class="fl">2.5</span>,</span>
 <span>  ssd_chronic_mu <span class="op">=</span> <span class="fl">4.5</span>,</span>
-<span>  ssd_chronic_sigma <span class="op">=</span> <span class="fl">2.5</span></span>
+<span>  ssd_chronic_sigma <span class="op">=</span> <span class="fl">2.5</span>,</span>
+<span>  pnec_acute_ug_L <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  pnec_chronic_ug_L <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -89,10 +90,6 @@ to aquatic organisms.</p>
 
 <dt id="arg-mw">MW<a class="anchor" aria-label="anchor" href="#arg-mw"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Molecular weight in grams per mole.</p></dd>
-
-
-<dt id="arg-ksetl-m-day">ksetl_m_day<a class="anchor" aria-label="anchor" href="#arg-ksetl-m-day"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Settling rate, representing particle-bound transfer to sediment.</p></dd>
 
 
 <dt id="arg-sol-ppm">sol_ppm<a class="anchor" aria-label="anchor" href="#arg-sol-ppm"></a></dt>
@@ -124,15 +121,15 @@ to aquatic organisms.</p>
 
 
 <dt id="arg-kw-temp">kw_temp<a class="anchor" aria-label="anchor" href="#arg-kw-temp"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Reference temperature for kw_day.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Reference temperature for kw (degradation rate in water).</p></dd>
 
 
 <dt id="arg-ks-sat-temp">ks_sat_temp<a class="anchor" aria-label="anchor" href="#arg-ks-sat-temp"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Reference temperature for ks_sat_day.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Reference temperature for ks_sat (degradation rate in saturated sediment).</p></dd>
 
 
 <dt id="arg-ks-unsat-temp">ks_unsat_temp<a class="anchor" aria-label="anchor" href="#arg-ks-unsat-temp"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Reference temperature for ks_unsat_day.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Reference temperature for ks_unsat (degradation rate in unsaturated sediment).</p></dd>
 
 
 <dt id="arg-q-kw">Q10_kw<a class="anchor" aria-label="anchor" href="#arg-q-kw"></a></dt>
@@ -148,7 +145,10 @@ to aquatic organisms.</p>
 
 
 <dt id="arg-ssd-acute-mu">ssd_acute_mu<a class="anchor" aria-label="anchor" href="#arg-ssd-acute-mu"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Mean (log10 scale) of the acute species sensitivity distribution.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Mean (log10 scale) of the acute species sensitivity distribution. The unit
+of this input (log10(microgram/liter)) is interpreted as follows: the
+base 10 exponential of the input is the median (according to the acute SSD)
+concentration in micrograms per liter.</p></dd>
 
 
 <dt id="arg-ssd-acute-sigma">ssd_acute_sigma<a class="anchor" aria-label="anchor" href="#arg-ssd-acute-sigma"></a></dt>
@@ -156,11 +156,24 @@ to aquatic organisms.</p>
 
 
 <dt id="arg-ssd-chronic-mu">ssd_chronic_mu<a class="anchor" aria-label="anchor" href="#arg-ssd-chronic-mu"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> Mean (log10 scale) of the chronic species sensitivity distribution.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> Mean (log10 scale) of the chronic species sensitivity distribution.  The
+unit of this input (log10(microgram/liter)) is interpreted as follows:
+the base 10 exponential of the input is the median (according to the chronic
+SSD) concentration in micrograms per liter.</p></dd>
 
 
 <dt id="arg-ssd-chronic-sigma">ssd_chronic_sigma<a class="anchor" aria-label="anchor" href="#arg-ssd-chronic-sigma"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> Standard deviation (log10 scale) of the chronic species sensitivity distribution.</p></dd>
+
+
+<dt id="arg-pnec-acute-ug-l">pnec_acute_ug_L<a class="anchor" aria-label="anchor" href="#arg-pnec-acute-ug-l"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> Predicted No Effect Concentration used for the computation of acute risk
+quotients.</p></dd>
+
+
+<dt id="arg-pnec-chronic-ug-l">pnec_chronic_ug_L<a class="anchor" aria-label="anchor" href="#arg-pnec-chronic-ug-l"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> Predicted No Effect Concentration used for the computation of chronic risk
+quotients.</p></dd>
 
 </dl></div>
     <div class="section level2">

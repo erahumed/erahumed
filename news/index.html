@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,9 +34,50 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/erahumed/erahumed/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.21.2" id="erahumed-0212">erahumed 0.21.2<a class="anchor" aria-label="anchor" href="#erahumed-0212"></a></h2>
+<div class="section level4">
+<h4 id="input-and-output-data-0-21-2">Input and output data<a class="anchor" aria-label="anchor" href="#input-and-output-data-0-21-2"></a></h4>
+<ul><li>
+<code>ksetl_m_day</code> former chemical property becomes an environmental property (common to all chemicals), accordingly to <a href="https://github.com/erahumed/erahumed/issues/471" class="external-link">#471</a>. Correspondingly, <code><a href="../reference/chemical.html">chemical()</a></code> loses its <code>ksetl_m_day</code> argument, and <code><a href="../reference/erahumed_simulation.html">erahumed_simulation()</a></code> gets a new <code>ksetl_m_day</code> argument.</li>
+<li>
+<code>temperature_min/max/ave</code> columns of the <code>weather_df</code> are now called <code>temperature_min/max/ave_celsius</code> (<a href="https://github.com/erahumed/erahumed/issues/469" class="external-link">#469</a>).</li>
+<li>SSD parameters provided to the <code><a href="../reference/chemical.html">chemical()</a></code> S3 constructor are now understood in logarithmic base <code>10</code> (<a href="https://github.com/erahumed/erahumed/issues/468" class="external-link">#468</a>).</li>
+<li>The <code>qseep_m_day</code> parameter no longer exists. This was a remnant of an older implementation, and was not being used in any actual calculation.</li>
+<li>In “Risk” output, the <code>rq_*</code> columns (risk quotients) now appear first.</li>
+<li>General review of columns of outputs (<a href="https://github.com/erahumed/erahumed/issues/477" class="external-link">#477</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="numerical-inputs-0-21-2">Numerical inputs<a class="anchor" aria-label="anchor" href="#numerical-inputs-0-21-2"></a></h4>
+<ul><li>Updated Degradation rates of Difenoconazole (<a href="https://github.com/erahumed/erahumed/issues/472" class="external-link">#472</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="gui-0-21-2">GUI<a class="anchor" aria-label="anchor" href="#gui-0-21-2"></a></h4>
+<ul><li>Application is initialized now by default on the “Input” tab.</li>
+<li>In the output tab, the risk plot now display by default the Risk Quotient computed for Acute risk.</li>
+<li>Improvements in the UI of the Rice Field Management System’s editor, addressing <a href="https://github.com/erahumed/erahumed/issues/478" class="external-link">#478</a>.</li>
+<li>Improvements in the appearance of the “Allocation Rules” section (which is no longer a dismissable sidebar, but a fixed card). Addresses <a href="https://github.com/erahumed/erahumed/issues/482" class="external-link">#482</a>, <a href="https://github.com/erahumed/erahumed/issues/484" class="external-link">#484</a> and <a href="https://github.com/erahumed/erahumed/issues/479" class="external-link">#479</a>.</li>
+<li>Implemented chemical selection in risk output plots (<a href="https://github.com/erahumed/erahumed/issues/476" class="external-link">#476</a>).</li>
+<li>The Y-axis of Risk Quotient plots now reads <code>PEC/PNEC</code>.</li>
+<li>Various improvements in the matching of parameter names between documentation and GUI labels (<a href="https://github.com/erahumed/erahumed/issues/449" class="external-link">#449</a>).</li>
+<li>“Water body” selector in the Output tab is now searchable, and the entries corresponding to clusters display their full names (<a href="https://github.com/erahumed/erahumed/issues/485" class="external-link">#485</a>).</li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-0-21-2">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-21-2"></a></h4>
+<ul><li><p>Clarified units of SSD inputs.</p></li>
+<li>
+<p>Minor documentation improvements:</p>
+<ul><li>Fixed typo in quotes in <code>dact_m</code> description.</li>
+<li>Specified “matter” in <code>foc_ss</code> and <code>foc_sed</code> parameter names (<em>e.g.</em> “Fraction of organic <strong>matter</strong> content”).</li>
+<li>Fixed units in <code>bd_g_cm3</code>.</li>
+<li>Fixed description of reference temperatures in Arrhenius correction.</li>
+</ul></li>
+<li><p>Clarified in the README file that comes along with downloadable outputs that ecotoxicological risks are expressed both as RQs and PAFs.</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.21.1" id="erahumed-0211">erahumed 0.21.1<a class="anchor" aria-label="anchor" href="#erahumed-0211"></a></h2>
 <div class="section level4">

@@ -17,7 +17,7 @@ user manual."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@ user manual."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Initialize an ERAHUMED simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.1/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/R/meta--simulation.R" class="external-link"><code>R/meta--simulation.R</code></a></small>
       <div class="d-none name"><code>erahumed_simulation.Rd</code></div>
     </div>
 
@@ -78,8 +78,8 @@ assumptions, refer to the
 <span>  foc_ss <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  foc_sed <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  bd_g_cm3 <span class="op">=</span> <span class="fl">1.5</span>,</span>
-<span>  qseep_m_day <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  porosity <span class="op">=</span> <span class="fl">0.11</span>,</span>
+<span>  ksetl_m_day <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  rfms_map <span class="op">=</span> <span class="fu"><a href="rfms_map.html">default_rfms_map</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="va">seed</span><span class="op">)</span>,</span>
 <span>  .progress <span class="op">=</span> <span class="va">message</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -142,7 +142,7 @@ assumptions, refer to the
 
 
 <dt id="arg-dact-m">dact_m<a class="anchor" aria-label="anchor" href="#arg-dact-m"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> A positive number. Active sediment layer depth, where "active"" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.</p></dd>
+<dd><p><code>[numeric(1)]</code> <br> A positive number. Active sediment layer depth, where "active" refers to the portion of the sediment that is actually involved in chemical exchange or transport processes. Expressed in meters.</p></dd>
 
 
 <dt id="arg-css-ppm">css_ppm<a class="anchor" aria-label="anchor" href="#arg-css-ppm"></a></dt>
@@ -161,12 +161,12 @@ assumptions, refer to the
 <dd><p><code>[numeric(1)]</code> <br> A positive number. Bulk density of the sediment (including both the solid material and the pore spaces). Expressed in grams per cubic centimeter.</p></dd>
 
 
-<dt id="arg-qseep-m-day">qseep_m_day<a class="anchor" aria-label="anchor" href="#arg-qseep-m-day"></a></dt>
-<dd><p><code>[numeric(1)]</code> <br> A positive number. Seepage rate, <em>i.e.</em> the rate at which water seeps through the sediment or soil. Expressed in meters per day.</p></dd>
-
-
 <dt id="arg-porosity">porosity<a class="anchor" aria-label="anchor" href="#arg-porosity"></a></dt>
 <dd><p><code>[numeric(1)]</code> <br> A number between <code>0</code> and <code>1</code>. The fraction of the total sediment volume that is occupied by pore spaces.</p></dd>
+
+
+<dt id="arg-ksetl-m-day">ksetl_m_day<a class="anchor" aria-label="anchor" href="#arg-ksetl-m-day"></a></dt>
+<dd><p><code>[numeric(1)]</code> <br> Settling rate, representing particle-bound transfer to sediment.</p></dd>
 
 
 <dt id="arg-rfms-map">rfms_map<a class="anchor" aria-label="anchor" href="#arg-rfms-map"></a></dt>

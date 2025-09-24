@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
       <h1>Designing custom agrochemical scenarios</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.1/vignettes/rfms.Rmd" class="external-link"><code>vignettes/rfms.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/rfms.Rmd" class="external-link"><code>vignettes/rfms.Rmd</code></a></small>
       <div class="d-none name"><code>rfms.Rmd</code></div>
     </div>
 
@@ -156,7 +156,6 @@ these are inspected in the usual way, <em>e.g.</em>:</p>
 <span><span class="co">#&gt;   Solubility:      2950.00 ppm</span></span>
 <span><span class="co">#&gt;   Koc:             200.00 cm³/g</span></span>
 <span><span class="co">#&gt;   Film thickness:  0.200 cm</span></span>
-<span><span class="co">#&gt;   Settling rate:   2.000 m/day</span></span>
 <span><span class="co">#&gt; Degradation rates:</span></span>
 <span><span class="co">#&gt;   kf (foliage):           0.1100 1/day</span></span>
 <span><span class="co">#&gt;   kw (water column):         0.0154 1/day @ 20.0³C (Q10 = 2.58)</span></span>
@@ -164,8 +163,8 @@ these are inspected in the usual way, <em>e.g.</em>:</p>
 <span><span class="co">#&gt;   ks (unsaturated sediment): 0.0290 1/day @ 20.0³C (Q10 = 2.58)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Toxicity (SSD, log₁₀ scale):</span></span>
-<span><span class="co">#&gt;   Acute   mean ± sd: 5.62 ± 3.61</span></span>
-<span><span class="co">#&gt;   Chronic mean ± sd: 4.57 ± 3.63</span></span></code></pre></div>
+<span><span class="co">#&gt;   Acute   mean ± sd: 2.44 ± 1.57</span></span>
+<span><span class="co">#&gt;   Chronic mean ± sd: 1.99 ± 1.58</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="creating-custom-chemicals">Creating custom chemicals<a class="anchor" aria-label="anchor" href="#creating-custom-chemicals"></a>
@@ -183,7 +182,6 @@ function, for example:</p>
 <span><span class="co">#&gt;   Solubility:      500.00 ppm</span></span>
 <span><span class="co">#&gt;   Koc:             200.00 cm³/g</span></span>
 <span><span class="co">#&gt;   Film thickness:  0.200 cm</span></span>
-<span><span class="co">#&gt;   Settling rate:   2.000 m/day</span></span>
 <span><span class="co">#&gt; Degradation rates:</span></span>
 <span><span class="co">#&gt;   kf (foliage):           0.2000 1/day</span></span>
 <span><span class="co">#&gt;   kw (water column):         0.0500 1/day @ 20.0³C (Q10 = 2.58)</span></span>
@@ -209,7 +207,6 @@ properties of “X”, specify additional arguments in
 <span><span class="co">#&gt;   Solubility:      500.00 ppm</span></span>
 <span><span class="co">#&gt;   Koc:             200.00 cm³/g</span></span>
 <span><span class="co">#&gt;   Film thickness:  0.200 cm</span></span>
-<span><span class="co">#&gt;   Settling rate:   2.000 m/day</span></span>
 <span><span class="co">#&gt; Degradation rates:</span></span>
 <span><span class="co">#&gt;   kf (foliage):           0.2000 1/day</span></span>
 <span><span class="co">#&gt;   kw (water column):         0.0500 1/day @ 20.0³C (Q10 = 2.58)</span></span>
