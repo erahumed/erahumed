@@ -224,11 +224,11 @@ dss_output_server <- function(id, simulation, clicked_cluster_id) {
 
 water_body_choices <- function()
 {
-  ditches <- info_ditches()$element_id
-  names(ditches) <- paste0(seq_along(ditches), ": ", info_ditches()$ditch_name)
+  ditch_ids <- info_ditches()$element_id
+  names(ditch_ids) <- paste0(seq_along(ditch_ids), ": ", info_ditches()$ditch_name)
 
-  clusters <- info_clusters()$element_id
-  names(clusters) <- info_clusters()$cluster_name
+  cluster_ids <- info_clusters()$element_id
+  names(cluster_ids) <- paste0(info_clusters()$cluster_name, ": ", cluster_ids)
 
-  return( list(Lake = "Albufera Lake", Ditch = ditches, Cluster = clusters) )
+  return( list(Lake = "Albufera Lake", Ditch = ditch_ids, Cluster = cluster_ids) )
 }
