@@ -5,7 +5,7 @@ rfms_input_crop_calendar <- function(id) {
     /* palette */
     :root { --per: #ADD8E6; --per-alpha: rgba(33,150,243,.45); --sow: #4682b4; }
 
-    /* All connects default to Perellonà color (covers left & right) */
+    /* All connects default to Perellona color (covers left & right) */
     #_CALENDAR_ID_ .noUi-connects .noUi-connect {
       background: var(--per-alpha) !important;
     }
@@ -63,7 +63,7 @@ rfms_input_crop_calendar <- function(id) {
       format = shinyWidgets::wNumbFormat(decimals = 0)
       ),
     shiny::div(class="mt-2",
-               shiny::span(class="legend per"), " Perellonà  ",
+               shiny::span(class="legend per"), " Perellona  ",
                shiny::span(class="legend sow"), " Sowing season"
                )
     )
