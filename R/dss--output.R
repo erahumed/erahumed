@@ -41,10 +41,13 @@ dss_output_ui <- function(id) {
 
       bslib::page_fillable(
         title = "Output",
-        shinyWidgets::pickerInput(ns("water_body"),
-                                  "Water body",
-                                  choices = water_body_choices(),
-                                  multiple = FALSE),
+        shinyWidgets::pickerInput(
+          inputId = ns("water_body"),
+          label = "Water body",
+          choices = water_body_choices(),
+          multiple = FALSE,
+          options = shinyWidgets::pickerOptions(liveSearch = TRUE)
+          ),
         shiny::textOutput(ns("selected_wb_info")),
 
         bslib::layout_column_wrap(
