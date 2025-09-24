@@ -167,9 +167,9 @@ plot_albufera_pie <- function(rfms_map) {
     pal$domain, fmt_ha(areas_ha), fmt_pct(shares), fmt_int(counts)
   )
 
-  op <- par(no.readonly = TRUE)
-  on.exit(par(op), add = TRUE)
-  par(pty = "s", mar = c(2, 2, 3, 2))
+  op <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(op), add = TRUE)
+  graphics::par(pty = "s", mar = c(2, 2, 3, 2))
 
   outer_r <- 0.95
   inner_r <- 0.55
@@ -187,12 +187,12 @@ plot_albufera_pie <- function(rfms_map) {
   )
 
   # hole in the middle
-  symbols(0, 0, circles = inner_r, inches = FALSE, add = TRUE,
-          bg = "white", fg = NA)
+  graphics::symbols(0, 0, circles = inner_r, inches = FALSE, add = TRUE,
+                    bg = "white", fg = NA)
 
   # center totals
-  text(0,  0.08, paste(fmt_ha(total_ha), "ha"), cex = 1.3, font = 2)
-  text(0, -0.12, paste(fmt_int(total_n), "clusters"), cex = 1.0)
+  graphics::text(0,  0.08, paste(fmt_ha(total_ha), "ha"), cex = 1.3, font = 2)
+  graphics::text(0, -0.12, paste(fmt_int(total_n), "clusters"), cex = 1.0)
 }
 
 
