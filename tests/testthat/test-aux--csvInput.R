@@ -33,3 +33,10 @@ shiny::testServer(csvInputServer, args = args, {
   expect_no_error(output$downloadDataCSV)
   expect_no_error(output$downloadDataExcel)
 }) |> suppressMessages()
+
+
+test_that("csv_input_header() suceeds", {
+  columns <- list(a = "Column A", b = "Column B", c = "Column C")
+
+  expect_no_error( csv_input_header(columns) )
+})

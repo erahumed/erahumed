@@ -22,3 +22,13 @@ test_that("add_application() succeeds", {
                                        type = "ground")
   )
 })
+
+test_that("print() method suceeds", {
+  expect_no_error( print(jsendra()) ) |>
+    capture.output()
+})
+
+test_that("summary() method suceeds", {
+  expect_no_error( summary(jsendra()) ) |>
+    capture.output()
+})

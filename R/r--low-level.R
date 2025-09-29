@@ -49,7 +49,7 @@ compute_risk_general <- function(ct_output, chemical_db) {
           HU_acute = 1e6 * cw_kg_m3 / median_acute,
           HU_chronic = 1e6 * rolling_average(cw_kg_m3, 21) / median_chronic,
           rq_acute = 1e6 * cw_kg_m3 / pnec_acute_ug_L,
-          rq_chronic = 1e6 * cw_kg_m3 / pnec_chronic_ug_L
+          rq_chronic = 1e6 * rolling_average(cw_kg_m3, 21) / pnec_chronic_ug_L
         ),
         by = c("element_id", "chemical_id")
       ]

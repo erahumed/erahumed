@@ -62,7 +62,7 @@ running the following command in R:
 
 ``` r
 install.packages("remotes")  # If necessary
-remotes::install_github("erahumed/erahumed")  # development version
+remotes::install_github("erahumed/erahumed")
 ```
 
 In order to install a specific version of `{erahumed}`, you can use:
@@ -123,20 +123,20 @@ get_results(simulation,
             element = "lake"         # either "lake", "ditch", or "cluster"
             ) |>
   head()
-#>   element_id chemical_id chemical_name       date mf_kg mw_kg ms_kg
-#> 1       lake           1   Acetamiprid 2020-01-01     0     0     0
-#> 2       lake           1   Acetamiprid 2020-01-02     0     0     0
-#> 3       lake           1   Acetamiprid 2020-01-03     0     0     0
-#> 4       lake           1   Acetamiprid 2020-01-04     0     0     0
-#> 5       lake           1   Acetamiprid 2020-01-05     0     0     0
-#> 6       lake           1   Acetamiprid 2020-01-06     0     0     0
-#>   mw_outflow_kg cw_kg_m3 cs_kg_m3 cs_g_kg cw_outflow_kg_m3 volume_m3 outflow_m3
-#> 1             0       NA        0       0                0        NA   274652.4
-#> 2             0        0        0       0                0  27344422   333355.2
-#> 3             0        0        0       0                0  27397000   153987.6
-#> 4             0        0        0       0                0  27456150   119992.8
-#> 5             0        0        0       0                0  27479153   186673.2
-#> 6             0        0        0       0                0  27397000   221466.0
+#>   element_id       date mf_kg mw_kg ms_kg mw_outflow_kg cw_kg_m3 cs_kg_m3
+#> 1       lake 2020-01-01     0     0     0             0       NA        0
+#> 2       lake 2020-01-02     0     0     0             0        0        0
+#> 3       lake 2020-01-03     0     0     0             0        0        0
+#> 4       lake 2020-01-04     0     0     0             0        0        0
+#> 5       lake 2020-01-05     0     0     0             0        0        0
+#> 6       lake 2020-01-06     0     0     0             0        0        0
+#>   cs_g_kg cw_outflow_kg_m3 volume_m3 outflow_m3    chemical
+#> 1       0                0        NA   274652.4 Acetamiprid
+#> 2       0                0  27344422   333355.2 Acetamiprid
+#> 3       0                0  27397000   153987.6 Acetamiprid
+#> 4       0                0  27456150   119992.8 Acetamiprid
+#> 5       0                0  27479153   186673.2 Acetamiprid
+#> 6       0                0  27397000   221466.0 Acetamiprid
 ```
 
 ## Getting help

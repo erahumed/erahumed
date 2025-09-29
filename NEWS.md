@@ -1,3 +1,13 @@
+# erahumed 0.21.3
+
+### Bug fixes
+
+* Fixed bug in chronic Risk Quotient calculation (#489).
+
+### Testing
+
+* Minor improvements to the testing infrastructure.
+
 # erahumed 0.21.2
 
 ### Input and output data

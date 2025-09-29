@@ -76,7 +76,7 @@ running the following command in R:
 
 ```{r eval=FALSE, include=TRUE}
 install.packages("remotes")  # If necessary
-remotes::install_github("erahumed/erahumed")  # development version
+remotes::install_github("erahumed/erahumed")
 ```
 
 In order to install a specific version of `{erahumed}`, you can use:
