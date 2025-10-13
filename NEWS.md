@@ -1,5 +1,13 @@
 # erahumed 0.21.4
 
+### Input data
+
+* Updated parameters with results from model calibration.
+
+### Visualization
+
+* Improved format of Y axis in PAF plots (#492).
+
 # erahumed 0.21.3
 
 ### Bug fixes
