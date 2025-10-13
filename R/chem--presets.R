@@ -24,7 +24,7 @@ acetamiprid <- function() {
            fet_cm = 0.2,
            kf_day = 0.11,
            kw_day = 0.0154,
-           ks_sat_day = 0.042,
+           ks_sat_day = 0.0159,  # Adjusted via calibration to GVA data
            ks_unsat_day = 0.029,
            kw_temp = 20,
            ks_sat_temp = 20,
@@ -48,11 +48,11 @@ azoxystrobin <- function() {
            tmoa_id = "C_Respiration",
            MW = 403.338,
            sol_ppm = 6.7,
-           koc_cm3_g = 589, # PPDB
+           koc_cm3_g = 70, # Adjusted via calibration to GVA data
            fet_cm = 0.2,
            kf_day = 0.09,
            kw_day = 0.0277,
-           ks_sat_day = 0.003,
+           ks_sat_day = 0.0297, # Adjusted via calibration to GVA data
            ks_unsat_day = 0.003,
            kw_temp = 20,
            ks_sat_temp = 20,
@@ -80,7 +80,7 @@ bentazone <- function() {
            fet_cm = 0.2,
            kf_day = 0.462,
            kw_day = 0.0013,
-           ks_sat_day = 0.049,
+           ks_sat_day = 0.0279,  # Adjusted via calibration to GVA data
            ks_unsat_day = 0.049,
            kw_temp = 20,
            ks_sat_temp = 20,
