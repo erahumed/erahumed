@@ -52,8 +52,8 @@
 #'
 #' @export
 erahumed_simulation <- function(
-    date_start = "2020-01-01",
-    date_end = "2020-12-31",
+    date_start = "2023-01-01",
+    date_end = "2024-12-31",
     seed = 840,
     outflows_df = erahumed::albufera_outflows,
     storage_curve_slope_m2 = 23.66 * 1e6,
