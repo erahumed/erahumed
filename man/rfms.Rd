@@ -16,7 +16,7 @@ bomba()
 clearfield()
 
 new_rfms(
-  sowing_yday = 111,
+  sowing_yday = 113,
   harvesting_yday = 251,
   perellona_end_yday = 15,
   perellona_start_yday = 306,
