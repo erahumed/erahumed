@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
       <h1>Designing custom agrochemical scenarios</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.3/vignettes/rfms.Rmd" class="external-link"><code>vignettes/rfms.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/rfms.Rmd" class="external-link"><code>vignettes/rfms.Rmd</code></a></small>
       <div class="d-none name"><code>rfms.Rmd</code></div>
     </div>
 
@@ -95,7 +95,7 @@ predefined management systems - <em>Bomba</em>, <em>Clearfield</em> and
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rfms.html">clearfield</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Rice Field Management System&gt;</span></span>
 <span><span class="co">#&gt;   Name               :  Clearfield </span></span>
-<span><span class="co">#&gt;   Sowing period     : Day 111 to 251 </span></span>
+<span><span class="co">#&gt;   Sowing period     : Day 113 to 251 </span></span>
 <span><span class="co">#&gt;   Perelloná period  : Day 306 to 15 </span></span>
 <span><span class="co">#&gt;   Flow height       : 10 cm during sowing season</span></span>
 <span><span class="co">#&gt;   Perelloná height  : 20 cm during Perelloná</span></span>
@@ -107,7 +107,7 @@ chemical applications for this RFMS:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="../reference/rfms.html">clearfield</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Rice Field Management System&gt;</span></span>
 <span><span class="co">#&gt;   Name               :  Clearfield </span></span>
-<span><span class="co">#&gt;   Sowing period     : Day 111 to 251 </span></span>
+<span><span class="co">#&gt;   Sowing period     : Day 113 to 251 </span></span>
 <span><span class="co">#&gt;   Perelloná period  : Day 306 to 15 </span></span>
 <span><span class="co">#&gt;   Flow height       : 10 cm during sowing season</span></span>
 <span><span class="co">#&gt;   Perelloná height  : 20 cm during Perelloná</span></span>
@@ -127,17 +127,18 @@ encoded in the <em>RFMS map</em>. The default map applied by
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/rfms_map.html">default_rfms_map</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Rice-Field Management System Map&gt;</span></span>
 <span><span class="co">#&gt;   Clusters         : 552 </span></span>
-<span><span class="co">#&gt;   Management systems   : 2</span></span></code></pre></div>
+<span><span class="co">#&gt;   Management systems   : 3</span></span></code></pre></div>
 <p>To delve under the hoods of this map, we can again use
 <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="../reference/rfms_map.html">default_rfms_map</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;Rice-Field Management System Map Summary&gt;</span></span>
 <span><span class="co">#&gt;   Total clusters        : 552 </span></span>
-<span><span class="co">#&gt;   Management systems: 2 </span></span>
+<span><span class="co">#&gt;   Management systems: 3 </span></span>
 <span><span class="co">#&gt;         rfms_id assigned_clusters</span></span>
-<span><span class="co">#&gt; 1   1: J.Sendra               288</span></span>
-<span><span class="co">#&gt; 2 2: Clearfield               264</span></span></code></pre></div>
+<span><span class="co">#&gt; 1   1: J.Sendra               341</span></span>
+<span><span class="co">#&gt; 2      2: Bomba                76</span></span>
+<span><span class="co">#&gt; 3 3: Clearfield               135</span></span></code></pre></div>
 <p>As seen above, the built-in RFMS definitions rely on the definitions
 of chemicals. The package includes the following predefined objects:
 <code><a href="../reference/pesticides.html">acetamiprid()</a></code>, <code><a href="../reference/pesticides.html">azoxystrobin()</a></code>,
@@ -159,7 +160,7 @@ these are inspected in the usual way, <em>e.g.</em>:</p>
 <span><span class="co">#&gt; Degradation rates:</span></span>
 <span><span class="co">#&gt;   kf (foliage):           0.1100 1/day</span></span>
 <span><span class="co">#&gt;   kw (water column):         0.0154 1/day @ 20.0³C (Q10 = 2.58)</span></span>
-<span><span class="co">#&gt;   ks (saturated sediment):   0.0420 1/day @ 20.0³C (Q10 = 2.58)</span></span>
+<span><span class="co">#&gt;   ks (saturated sediment):   0.0159 1/day @ 20.0³C (Q10 = 2.58)</span></span>
 <span><span class="co">#&gt;   ks (unsaturated sediment): 0.0290 1/day @ 20.0³C (Q10 = 2.58)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Toxicity (SSD, log₁₀ scale):</span></span>
@@ -371,8 +372,8 @@ to the <code>rfms_map</code> argument of
 <span><span class="co">#&gt; Computing risk: lake</span></span>
 <span><span class="va">sim</span></span>
 <span><span class="co">#&gt; &lt;ERAHUMED Simulation&gt;</span></span>
-<span><span class="co">#&gt;   Date range             : 2020-01-01 to 2020-12-31 </span></span>
-<span><span class="co">#&gt;   Simulation days        : 366 </span></span>
+<span><span class="co">#&gt;   Date range             : 2023-01-01 to 2024-12-31 </span></span>
+<span><span class="co">#&gt;   Simulation days        : 731 </span></span>
 <span><span class="co">#&gt;   Clusters               : 552 </span></span>
 <span><span class="co">#&gt;   Management systems     : 2 </span></span>
 <span><span class="co">#&gt;   Chemicals simulated    : 10 </span></span>

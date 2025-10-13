@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">erahumed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.21.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,7 @@
       <h1>Simulation workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/v0.21.3/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/erahumed/erahumed/blob/master/vignettes/erahumed-workflow.Rmd" class="external-link"><code>vignettes/erahumed-workflow.Rmd</code></a></small>
       <div class="d-none name"><code>erahumed-workflow.Rmd</code></div>
     </div>
 
@@ -98,12 +98,12 @@ is the <code><a href="../reference/erahumed_simulation.html">erahumed_simulation
 <span><span class="co">#&gt; Computing risk: lake</span></span>
 <span><span class="va">sim</span></span>
 <span><span class="co">#&gt; &lt;ERAHUMED Simulation&gt;</span></span>
-<span><span class="co">#&gt;   Date range             : 2020-01-01 to 2020-12-31 </span></span>
-<span><span class="co">#&gt;   Simulation days        : 366 </span></span>
+<span><span class="co">#&gt;   Date range             : 2023-01-01 to 2024-12-31 </span></span>
+<span><span class="co">#&gt;   Simulation days        : 731 </span></span>
 <span><span class="co">#&gt;   Clusters               : 552 </span></span>
-<span><span class="co">#&gt;   Management systems     : 2 </span></span>
+<span><span class="co">#&gt;   Management systems     : 3 </span></span>
 <span><span class="co">#&gt;   Chemicals simulated    : 8 </span></span>
-<span><span class="co">#&gt;   Total applications     : 17</span></span>
+<span><span class="co">#&gt;   Total applications     : 29</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Need help extracting simulation outputs? Check `?get_results`.</span></span></code></pre></div>
 <p>This function handles both the <em>setup</em> and <em>execution</em>
@@ -128,12 +128,12 @@ parameters. These can be customized via the arguments of
 <span><span class="co">#&gt; Computing risk: lake</span></span>
 <span><span class="va">sim2</span></span>
 <span><span class="co">#&gt; &lt;ERAHUMED Simulation&gt;</span></span>
-<span><span class="co">#&gt;   Date range             : 2020-01-01 to 2020-12-31 </span></span>
-<span><span class="co">#&gt;   Simulation days        : 366 </span></span>
+<span><span class="co">#&gt;   Date range             : 2023-01-01 to 2024-12-31 </span></span>
+<span><span class="co">#&gt;   Simulation days        : 731 </span></span>
 <span><span class="co">#&gt;   Clusters               : 552 </span></span>
-<span><span class="co">#&gt;   Management systems     : 2 </span></span>
+<span><span class="co">#&gt;   Management systems     : 3 </span></span>
 <span><span class="co">#&gt;   Chemicals simulated    : 8 </span></span>
-<span><span class="co">#&gt;   Total applications     : 17</span></span></code></pre></div>
+<span><span class="co">#&gt;   Total applications     : 29</span></span></code></pre></div>
 <p>runs a simulation with modified environmental parameters (fraction of
 organic content in suspended solid and sediment), while:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -153,9 +153,9 @@ organic content in suspended solid and sediment), while:</p>
 <span><span class="co">#&gt;   Date range             : 2019-01-01 to 2019-12-31 </span></span>
 <span><span class="co">#&gt;   Simulation days        : 365 </span></span>
 <span><span class="co">#&gt;   Clusters               : 552 </span></span>
-<span><span class="co">#&gt;   Management systems     : 2 </span></span>
+<span><span class="co">#&gt;   Management systems     : 3 </span></span>
 <span><span class="co">#&gt;   Chemicals simulated    : 8 </span></span>
-<span><span class="co">#&gt;   Total applications     : 17</span></span></code></pre></div>
+<span><span class="co">#&gt;   Total applications     : 29</span></span></code></pre></div>
 <p>runs a simulation over a different date range.</p>
 <p>The full set of simulation parameters is documented in <a href="https://erahumed.github.io/erahumed-book/chapters/model-inputs.html">the
 user manual</a>, as well as in the R documentation page
@@ -201,19 +201,19 @@ instance:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cluster_hydrology_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         date                element_id   area_m2 is_tancat outflow_m3</span></span>
-<span><span class="co">#&gt; 1 2020-01-01 02_Carrera_del_Saler0-2_0 114881.78      TRUE          0</span></span>
-<span><span class="co">#&gt; 2 2020-01-01          03_Petxinar0-3_2 116539.90      TRUE          0</span></span>
-<span><span class="co">#&gt; 3 2020-01-01          03_Petxinar0-3_3 154730.35      TRUE          0</span></span>
-<span><span class="co">#&gt; 4 2020-01-01          03_Petxinar1-3_1 163789.56      TRUE          0</span></span>
-<span><span class="co">#&gt; 5 2020-01-01          03_Petxinar1-3_2  83016.51      TRUE          0</span></span>
-<span><span class="co">#&gt; 6 2020-01-01          03_Petxinar1-3_3 106260.07      TRUE          0</span></span>
-<span><span class="co">#&gt;   outflow_cm inflow_m3 inflow_cm volume_m3 depth_cm petp_cm</span></span>
-<span><span class="co">#&gt; 1          0  66.63143     0.058  22976.36       20  -0.058</span></span>
-<span><span class="co">#&gt; 2          0  67.59314     0.058  23307.98       20  -0.058</span></span>
-<span><span class="co">#&gt; 3          0  89.74360     0.058  30946.07       20  -0.058</span></span>
-<span><span class="co">#&gt; 4          0  94.99795     0.058  32757.91       20  -0.058</span></span>
-<span><span class="co">#&gt; 5          0  48.14958     0.058  16603.30       20  -0.058</span></span>
-<span><span class="co">#&gt; 6          0  61.63084     0.058  21252.01       20  -0.058</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 2023-01-01 02_Carrera_del_Saler0-2_0 114881.78      TRUE      0.000</span></span>
+<span><span class="co">#&gt; 2 2023-01-01          03_Petxinar0-3_2 116539.90      TRUE      0.000</span></span>
+<span><span class="co">#&gt; 3 2023-01-01          03_Petxinar0-3_3 154730.35      TRUE   2390.202</span></span>
+<span><span class="co">#&gt; 4 2023-01-01          03_Petxinar1-3_1 163789.56      TRUE      0.000</span></span>
+<span><span class="co">#&gt; 5 2023-01-01          03_Petxinar1-3_2  83016.51      TRUE      0.000</span></span>
+<span><span class="co">#&gt; 6 2023-01-01          03_Petxinar1-3_3 106260.07      TRUE      0.000</span></span>
+<span><span class="co">#&gt;   outflow_cm  inflow_m3 inflow_cm volume_m3 depth_cm petp_cm</span></span>
+<span><span class="co">#&gt; 1   0.000000   94.20306  0.082000  22976.36       20  -0.082</span></span>
+<span><span class="co">#&gt; 2   0.000000   95.56272  0.082000  23307.98       20  -0.082</span></span>
+<span><span class="co">#&gt; 3   1.544753 2517.08130  1.626753  30946.07       20  -0.082</span></span>
+<span><span class="co">#&gt; 4   0.000000  134.30744  0.082000  32757.91       20  -0.082</span></span>
+<span><span class="co">#&gt; 5   0.000000   68.07354  0.082000  16603.30       20  -0.082</span></span>
+<span><span class="co">#&gt; 6   0.000000   87.13326  0.082000  21252.01       20  -0.082</span></span></code></pre></div>
 <p>From here on, the analysis may proceed in the way you find more
 convenient. For instance, in the chunk below I create a plot of water
 levels for the whole set of rice field clusters, using
