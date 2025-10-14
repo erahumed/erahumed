@@ -1,5 +1,9 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* Fixed default RFMS map in GUI (#496).
+
 # erahumed 0.21.4
 
 ### Input data
