@@ -1,21 +1,21 @@
 {
   "input": {
-    "dss_input-bd_g_cm3": 1.5,
+    "dss_input-bd_g_cm3": 1.95,
     "dss_input-chemical_db-chem_help": 0,
     "dss_input-chemical_db-manager-add_item": 0,
     "dss_input-covmax": 0.5,
     "dss_input-css_ppm": 50,
-    "dss_input-dact_m": 0.1,
+    "dss_input-dact_m": 0.036,
     "dss_input-date_range": [
-      "2020-01-01",
-      "2020-12-31"
+      "2023-01-01",
+      "2024-12-31"
     ],
     "dss_input-date_range_button": 0,
     "dss_input-ditch_level_m": 1,
-    "dss_input-foc_sed": 0.05,
+    "dss_input-foc_sed": 0.082,
     "dss_input-foc_ss": 0.1,
     "dss_input-height_thresh_cm": 0.5,
-    "dss_input-ideal_flow_rate_cm": 5,
+    "dss_input-ideal_flow_rate_cm": 4.27,
     "dss_input-input-ui": "Simulation settings",
     "dss_input-jgrow": 152,
     "dss_input-ksetl_m_day": 2,

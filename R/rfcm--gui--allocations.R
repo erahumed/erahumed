@@ -42,16 +42,16 @@ allocations_db_server <- function(id, rfms_db) {
 
       default_items = list(
         list(
-          allocate_ms = "clearfield",
-          target_fraction = 0.8,
-          field_type = "both",         # or "regular" if clearer
-          ditches = c(1, 9)
+          allocate_ms = "bomba",
+          target_fraction = 0.2,
+          field_type = "tancat",
+          ditches = c(1, 26)
         ),
         list(
           allocate_ms = "clearfield",
-          target_fraction = 0.20,
+          target_fraction = 0.40,
           field_type = "both",
-          ditches = c(10, 26)  # full range or customize
+          ditches = c(1, 19)
         )
       )
     )
