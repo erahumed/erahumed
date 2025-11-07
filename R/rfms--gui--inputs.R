@@ -56,7 +56,7 @@ rfms_input_crop_calendar <- function(id) {
       inputId = id,
       label   = NULL,
       min = 1, max = 366, step = 1,
-      value   = c(15, 111, 251, 306),
+      value   = c(15, 113, 251, 306),
       connect = c(TRUE, FALSE, TRUE, FALSE, TRUE),
       margin = 1,
       tooltips = TRUE,
