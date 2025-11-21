@@ -140,7 +140,7 @@ print.erahumed_chemical <- function(x, ...) {
   cat("Physico-chemical properties:\n")
   cat(sprintf("  Solubility:      %.2f ppm\n", x$sol_ppm))
   cat(sprintf("  Koc:             %.2f cm\u{00B3}/g\n", x$koc_cm3_g))
-  cat(sprintf("  Film thickness:  %.3f cm\n", x$fet_cm))
+  cat(sprintf("  Foliar extraction term:  %.3f cm\n", x$fet_cm))
 
   cat("Degradation rates:\n")
   cat(sprintf("  kf (foliage):           %.4f 1/day\n", x$kf_day))

@@ -1,8 +1,12 @@
+# erahumed 0.21.6
+
 # erahumed 0.21.5
 
 ### Bug fixes
 
 * Fixed default RFMS map in GUI (#496).
+* Corrected wrong label of `fet_cm` parameter in `print()` S3 method for class 
+`erahumed_chemical`.
 
 # erahumed 0.21.4
 
