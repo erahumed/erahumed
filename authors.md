@@ -12,7 +12,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/erahumed/erahumed/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/erahumed/erahumed/blob/v0.21.6/DESCRIPTION)
 
 Gherardi V, Amador P (2025). *erahumed: ERAHUMED Data Analysis and
 Visualization*. R package version 0.21.6,
