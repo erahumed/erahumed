@@ -1,4 +1,4 @@
-# erahumed (development version)
+# erahumed 0.21.6
 
 # erahumed 0.21.5
 
