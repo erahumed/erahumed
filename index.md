@@ -1,0 +1,141 @@
+# erahumed
+
+The [erahumed](https://github.com/erahumed/erahumed) R package
+implements the computational engine of the [ERAHUMED Decision Support
+System](https://www.erahumed.com/decision-support-system/), a modelling
+framework for assessing hydrology, pesticide fate, and ecological risk
+in the Albufera Natural Park (València, Spain). It integrates models
+that simulate water flows, contaminant transport, and biological effects
+across the park’s interconnected water bodies.
+
+With [erahumed](https://github.com/erahumed/erahumed), users can:
+
+- **Configure simulations** – Define landscape, chemical, and management
+  parameters, or use built-in presets for rapid setup.
+
+- **Run the model** – Execute hydrology, exposure, and risk assessment
+  modules in a reproducible R workflow.
+
+- **Analyse outputs** – Retrieve results as tidy `data.frame`s, ready
+  for statistical analysis or visualization.
+
+- **Explore interactively** – Launch a bundled Shiny application with
+  predefined plots, maps, and tables for model inputs and results.
+
+The package is designed for both research and practical decision-making,
+enabling transparent scenario analysis and reproducible environmental
+assessments.
+
+Comprehensive resources are available to support users at different
+levels:
+
+- The [package documentation](https://erahumed.github.io/erahumed)
+  covers the R functions, datasets, and Shiny interface bundled with
+  [erahumed](https://github.com/erahumed/erahumed), serving as a
+  practical reference for day-to-day use.
+
+- A [user manual](https://erahumed.github.io/erahumed-book) provides an
+  in-depth description of the underlying models, algorithms, and
+  assumptions. It is intended for researchers who wish to understand
+  and/or extend the modelling framework.
+
+Further background on the ERAHUMED project can be found on the [main
+project website](https://www.erahumed.com/).
+
+## Installation
+
+You can install the latest release of
+[erahumed](https://github.com/erahumed/erahumed) from Github, by running
+the following command in R:
+
+``` r
+install.packages("remotes")  # If necessary
+remotes::install_github("erahumed/erahumed")
+```
+
+In order to install a specific version of
+[erahumed](https://github.com/erahumed/erahumed), you can use:
+
+``` r
+remotes::install_github("erahumed/erahumed", ref = "v0.21.1")
+```
+
+where you should replace `"v0.21.1"` with the actual version you need.
+
+## Usage
+
+### Example 1: Using the interactive dashboard
+
+The graphical interface to the ERAHUMED DSS can be accessed through the
+following R command:
+
+``` r
+erahumed::launch_dss()
+```
+
+This will open the DSS dashboard in your default browser, from where you
+can explore simulation outputs in a user friendly manner.
+
+### Example 2: command line interface to simulations
+
+``` r
+library(erahumed)
+```
+
+The following example illustrates the workflow for manually running the
+ERAHUMED simulation chain, and extracting the outputs of the various
+simulation layers. For more detailed information, see the [main package
+vignette](https://erahumed.github.io/erahumed/articles/erahumed-workflow.html).
+
+Simulations are run via:
+
+``` r
+simulation <- erahumed_simulation()
+#> Initializing inputs
+#> Computing hydrology: lake
+#> Computing hydrology: clusters
+#> Computing hydrology: ditches
+#> Computing exposure: clusters
+#> Computing exposure: ditches
+#> Computing exposure: lake
+#> Computing risk: clusters
+#> Computing risk: ditches
+#> Computing risk: lake
+```
+
+where simulation inputs can be customized through the arguments of
+[`erahumed_simulation()`](https://erahumed.github.io/erahumed/reference/erahumed_simulation.md).
+Results can be inspected through:
+
+``` r
+get_results(simulation, 
+            component = "exposure",  # either "hydrology", "exposure", or "risk"  
+            element = "lake"         # either "lake", "ditch", or "cluster"
+            ) |>
+  head()
+#>   element_id       date mf_kg mw_kg ms_kg mw_outflow_kg cw_kg_m3 cs_kg_m3
+#> 1       lake 2020-01-01     0     0     0             0       NA        0
+#> 2       lake 2020-01-02     0     0     0             0        0        0
+#> 3       lake 2020-01-03     0     0     0             0        0        0
+#> 4       lake 2020-01-04     0     0     0             0        0        0
+#> 5       lake 2020-01-05     0     0     0             0        0        0
+#> 6       lake 2020-01-06     0     0     0             0        0        0
+#>   cs_g_kg cw_outflow_kg_m3 volume_m3 outflow_m3    chemical
+#> 1       0                0        NA   274652.4 Acetamiprid
+#> 2       0                0  27344422   333355.2 Acetamiprid
+#> 3       0                0  27397000   153987.6 Acetamiprid
+#> 4       0                0  27456150   119992.8 Acetamiprid
+#> 5       0                0  27479153   186673.2 Acetamiprid
+#> 6       0                0  27397000   221466.0 Acetamiprid
+```
+
+## Getting help
+
+The full documentation of the
+[erahumed](https://github.com/erahumed/erahumed) R package is hosted at
+[erahumed.github.io/erahumed](https://erahumed.github.io/erahumed/).
+
+If you have issues running
+[erahumed](https://github.com/erahumed/erahumed) or want to suggest an
+improvement, please [file an issue on
+Github](https://github.com/erahumed/erahumed/issues).

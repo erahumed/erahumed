@@ -1,0 +1,214 @@
+# Simulation workflow
+
+This document illustrates the basic simulation workflow of ERAHUMED.
+Specifically, we will cover:
+
+- How to setup and run a simulation.
+- How to extract and analyze simulation results.
+
+The goal is to provide a practical, step-by-step overview of how to
+perform simulations. For a detailed explanation of the underlying
+models, algorithms, and assumptions, refer to the [user
+manual](https://erahumed.github.io/erahumed-book/).
+
+This guide is intended for users working with the R interface of the
+package and is not required for those using only the Shiny GUI.
+
+``` r
+library(erahumed)
+```
+
+## Running a simulation
+
+The main interface for running simulations in
+[erahumed](https://github.com/erahumed/erahumed) is the
+[`erahumed_simulation()`](https://erahumed.github.io/erahumed/reference/erahumed_simulation.md)
+function:
+
+``` r
+sim <- erahumed_simulation()
+#> Initializing inputs
+#> Computing hydrology: lake
+#> Computing hydrology: clusters
+#> Computing hydrology: ditches
+#> Computing exposure: clusters
+#> Computing exposure: ditches
+#> Computing exposure: lake
+#> Computing risk: clusters
+#> Computing risk: ditches
+#> Computing risk: lake
+sim
+#> <ERAHUMED Simulation>
+#>   Date range             : 2023-01-01 to 2024-12-31 
+#>   Simulation days        : 731 
+#>   Clusters               : 552 
+#>   Management systems     : 3 
+#>   Chemicals simulated    : 8 
+#>   Total applications     : 29
+#> 
+#> Need help extracting simulation outputs? Check `?get_results`.
+```
+
+This function handles both the *setup* and *execution* of a simulation.
+Simulation parameters are specified via its arguments, and calling the
+function launches the simulation and returns a fully executed object
+containing the results (note that this may take some time).
+
+The example above runs a simulation with the default model parameters.
+These can be customized via the arguments of
+[`erahumed_simulation()`](https://erahumed.github.io/erahumed/reference/erahumed_simulation.md).
+For instance:
+
+``` r
+sim2 <- erahumed_simulation(foc_ss = 0.20, foc_sed = 0.07)
+#> Initializing inputs
+#> Computing hydrology: lake
+#> Computing hydrology: clusters
+#> Computing hydrology: ditches
+#> Computing exposure: clusters
+#> Computing exposure: ditches
+#> Computing exposure: lake
+#> Computing risk: clusters
+#> Computing risk: ditches
+#> Computing risk: lake
+sim2
+#> <ERAHUMED Simulation>
+#>   Date range             : 2023-01-01 to 2024-12-31 
+#>   Simulation days        : 731 
+#>   Clusters               : 552 
+#>   Management systems     : 3 
+#>   Chemicals simulated    : 8 
+#>   Total applications     : 29
+```
+
+runs a simulation with modified environmental parameters (fraction of
+organic content in suspended solid and sediment), while:
+
+``` r
+sim3 <- erahumed_simulation(date_start = "2019-01-01", date_end = "2019-12-31")
+#> Initializing inputs
+#> Computing hydrology: lake
+#> Computing hydrology: clusters
+#> Computing hydrology: ditches
+#> Computing exposure: clusters
+#> Computing exposure: ditches
+#> Computing exposure: lake
+#> Computing risk: clusters
+#> Computing risk: ditches
+#> Computing risk: lake
+sim3
+#> <ERAHUMED Simulation>
+#>   Date range             : 2019-01-01 to 2019-12-31 
+#>   Simulation days        : 365 
+#>   Clusters               : 552 
+#>   Management systems     : 3 
+#>   Chemicals simulated    : 8 
+#>   Total applications     : 29
+```
+
+runs a simulation over a different date range.
+
+The full set of simulation parameters is documented in [the user
+manual](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html),
+as well as in the R documentation page
+[`?erahumed_simulation`](https://erahumed.github.io/erahumed/reference/erahumed_simulation.md).
+We highlight a few special parameters:
+
+- **Observational inputs** - The `outflows_df` and `weather_df`
+  arguments of
+  [`erahumed_simulation()`](https://erahumed.github.io/erahumed/reference/erahumed_simulation.md)
+  are data-frames containing time-series data that serve as the
+  empirical basis for ERAHUMED simulations. Further details are provided
+  in the [user
+  manual](https://erahumed.github.io/erahumed-book/chapters/model-inputs.html#observational-inputs-hydrology-and-weather).
+  The `date_start` and `date_end` arguments (see above) must fall within
+  the time range covered by these datasets.
+
+- **Rice-field (agrochemical) management system map** - The `rfms_map`
+  argument argument is the primary interface for advanced scenario
+  customization, encapsulating the full set of user-defined agrochemical
+  configurations (including custom chemicals and Rice-Field Management
+  Systems, or RFMSs). A conceptual overview of these capabilities is
+  provided in the [user
+  manual](https://erahumed.github.io/erahumed-book/chapters/rfms.html),
+  while a step-by-step guide to creating custom scenarios is available
+  in a [dedicated
+  vignette](https://erahumed.github.io/erahumed/articles/rfms).
+
+- **Random seed** - The `seed` argument controls the random number
+  generator used in the simulation, ensuring reproducible results when
+  stochastic elements are involved (e.g., the random order in which rice
+  field clusters are drained during the sowing season). Setting a fixed
+  value allows you to obtain identical results when re-running the same
+  simulation; leaving it unset may produce slightly different outcomes
+  across runs.
+
+## Analyzing simulation results
+
+Simulation results are extracted as follows:
+
+``` r
+lake_hydrology_df <- get_results(sim, component = "hydrology", element = "lake")
+cluster_hydrology_df <- get_results(sim, component = "hydrology", element = "cluster")
+cluster_exposure_df <- get_results(sim, component = "exposure", element = "cluster")
+```
+
+These are provided in the form of `data.frame`s, for instance:
+
+``` r
+head(cluster_hydrology_df)
+#>         date                element_id   area_m2 is_tancat outflow_m3
+#> 1 2023-01-01 02_Carrera_del_Saler0-2_0 114881.78      TRUE      0.000
+#> 2 2023-01-01          03_Petxinar0-3_2 116539.90      TRUE      0.000
+#> 3 2023-01-01          03_Petxinar0-3_3 154730.35      TRUE   2390.202
+#> 4 2023-01-01          03_Petxinar1-3_1 163789.56      TRUE      0.000
+#> 5 2023-01-01          03_Petxinar1-3_2  83016.51      TRUE      0.000
+#> 6 2023-01-01          03_Petxinar1-3_3 106260.07      TRUE      0.000
+#>   outflow_cm  inflow_m3 inflow_cm volume_m3 depth_cm petp_cm
+#> 1   0.000000   94.20306  0.082000  22976.36       20  -0.082
+#> 2   0.000000   95.56272  0.082000  23307.98       20  -0.082
+#> 3   1.544753 2517.08130  1.626753  30946.07       20  -0.082
+#> 4   0.000000  134.30744  0.082000  32757.91       20  -0.082
+#> 5   0.000000   68.07354  0.082000  16603.30       20  -0.082
+#> 6   0.000000   87.13326  0.082000  21252.01       20  -0.082
+```
+
+From here on, the analysis may proceed in the way you find more
+convenient. For instance, in the chunk below I create a plot of water
+levels for the whole set of rice field clusters, using `dplyr` and
+`ggplot2`:
+
+``` r
+library(dplyr)
+library(ggplot2)
+
+clusters_df <- cluster_hydrology_df
+
+avg_df <- clusters_df |>
+  group_by(date) |>
+  summarise(depth_cm = mean(depth_cm))
+
+ggplot() +
+  geom_line(
+    data = clusters_df,
+    mapping = aes(x = date, y = depth_cm, group = element_id),
+    color = "blue", linewidth = 0.1, alpha = 0.1) +
+  geom_line(
+    data = avg_df, 
+    mapping = aes(x = date, y = depth_cm),
+    color = "black"
+    ) +
+  xlab("Date") + ylab("Depth [cm]") + 
+  ggtitle("Cluster simulated water levels")
+```
+
+![](erahumed-workflow_files/figure-html/unnamed-chunk-7-1.png)
+
+## Further information
+
+For additional details not covered in this guide, see the [other package
+vignettes](https://erahumed.github.io/erahumed/articles/). If there is a
+specific topic you would like to see documented, please let us know by
+[filing an issue on GitHub](https://github.com/erahumed/erahumed/issues)
+or by using the contact information provided on the [package
+homepage](https://erahumed.github.io/erahumed/index.html).
