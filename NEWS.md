@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Bug fixes
+
+* PAF plot axis label now correctly displays percents (rather than fractions of
+unity).
+
 # erahumed 0.21.6
 
 ### Bug fixes

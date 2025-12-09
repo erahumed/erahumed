@@ -83,7 +83,8 @@ plot_risk <- function(r_output,
                      label = axis_label,
                      axisLabelWidth = 80,
                      valueRange = value_range,
-                     valueFormatter = value_fmt) |>
+                     valueFormatter = value_fmt,
+                     axisLabelFormatter = value_fmt) |>
     dygraphs::dyLegend(show = "always",
                        showZeroValues = TRUE,
                        labelsSeparateLines = TRUE) |>
