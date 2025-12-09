@@ -10,6 +10,9 @@ microgram / liter.
 * PAF plot axis label now correctly displays percents (rather than fractions of
 unity).
 
+* Fix units in plot of inflows and outflows for Albufera lake (#499).
+
+
 # erahumed 0.21.6
 
 ### Bug fixes
