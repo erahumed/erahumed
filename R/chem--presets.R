@@ -64,8 +64,8 @@ azoxystrobin <- function() {
            ssd_acute_sigma = 0.63,
            ssd_chronic_mu = 1.89,
            ssd_chronic_sigma = 0.97,
-           pnec_acute_ug_L = 2.3,
-           pnec_chronic_ug_L = 2.3
+           pnec_acute_ug_L = 3.3,
+           pnec_chronic_ug_L = 1.0
            )
 }
 

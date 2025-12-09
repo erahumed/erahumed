@@ -47,8 +47,8 @@ plot_erahumed_hbl_flows <- function(data, variable, sc_slope, dygraph_group)
   data$petp_m3 <- data$volume_change_petp_m3
   data$petp_cm <- 0.1 * (data$precipitation_mm - data$evapotranspiration_mm)
 
-  data$outflow_m3 <- -data$outflow_total_m3 * s_per_day()
-  data$inflow_m3 <- data$inflow_total_m3 * s_per_day()
+  data$outflow_m3 <- -data$outflow_total_m3
+  data$inflow_m3 <- data$inflow_total_m3
   data$outflow_cm <- 100 * data$outflow_m3 / sc_slope
   data$inflow_cm <- 100 * data$inflow_m3 / sc_slope
 

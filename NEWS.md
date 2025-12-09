@@ -1,12 +1,30 @@
+# erahumed 0.21.7
+
+### Input data
+
+* Changed PNECs of Azoxystrobin to 3.3 (acute) and 1.0 (chronic) 
+microgram / liter.
+
+### Bug fixes
+
+* PAF plot axis label now correctly displays percents (rather than fractions of
+unity).
+
+* Fix units in plot of inflows and outflows for Albufera lake (#499).
+
+
 # erahumed 0.21.6
+
+### Bug fixes
+
+* Corrected wrong label of `fet_cm` parameter in `print()` S3 method for class 
+`erahumed_chemical`.
 
 # erahumed 0.21.5
 
 ### Bug fixes
 
 * Fixed default RFMS map in GUI (#496).
-* Corrected wrong label of `fet_cm` parameter in `print()` S3 method for class 
-`erahumed_chemical`.
 
 # erahumed 0.21.4
 
