@@ -1,5 +1,10 @@
 # erahumed (development version)
 
+### Input data
+
+* Changed PNECs of Azoxystrobin to 3.3 (acute) and 1.0 (chronic) 
+microgram / liter.
+
 ### Bug fixes
 
 * PAF plot axis label now correctly displays percents (rather than fractions of
