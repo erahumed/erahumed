@@ -1,5 +1,7 @@
 # erahumed (development version)
 
+* Update repo status badge to active in README (#490).
+
 # erahumed 0.21.7
 
 ### Input data
