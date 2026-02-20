@@ -12,16 +12,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/erahumed/erahumed/blob/v0.21.7/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/erahumed/erahumed/blob/master/DESCRIPTION)
 
-Gherardi V, Amador P (2025). *erahumed: ERAHUMED Data Analysis and
-Visualization*. R package version 0.21.7,
+Gherardi V, Amador P (2026). *erahumed: ERAHUMED Data Analysis and
+Visualization*. R package version 1.0.0,
 <https://github.com/erahumed/erahumed>.
 
     @Manual{,
       title = {erahumed: ERAHUMED Data Analysis and Visualization},
       author = {Valerio Gherardi and Pablo Amador},
-      year = {2025},
-      note = {R package version 0.21.7},
+      year = {2026},
+      note = {R package version 1.0.0},
       url = {https://github.com/erahumed/erahumed},
     }
