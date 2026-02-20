@@ -5,22 +5,21 @@
 
 <!-- badges: start -->
 
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/erahumed/erahumed/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/erahumed/erahumed/graph/badge.svg?token=72POLBUEUR)](https://codecov.io/gh/erahumed/erahumed)
 [![Website](https://img.shields.io/badge/Website-here-blue)](https://erahumed.github.io/erahumed/)
 
 <!-- badges: end -->
 
-The `{erahumed}` R package implements the computational engine of the
-[ERAHUMED Decision Support
+The `{erahumed}` R package implements the [ERAHUMED Decision Support
 System](https://www.erahumed.com/decision-support-system/), a modelling
-framework for assessing hydrology, pesticide fate, and ecological risk
-in the Albufera Natural Park (València, Spain). It integrates models
-that simulate water flows, contaminant transport, and biological effects
-across the park’s interconnected water bodies.
+framework for assessing hydrology, pesticide exposure, and ecological
+risk in the Albufera Natural Park (València, Spain). It integrates
+models that simulate water flows, contaminant transport, and biological
+effects across the park’s interconnected water bodies.
 
 With `{erahumed}`, users can:
 
@@ -45,19 +44,18 @@ levels:
 
 - The [package documentation](https://erahumed.github.io/erahumed)
   covers the R functions, datasets, and Shiny interface bundled with
-  `{erahumed}`, serving as a practical reference for day-to-day use.
+  `{erahumed}`.
 
-- A [user manual](https://erahumed.github.io/erahumed-book) provides an
-  in-depth description of the underlying models, algorithms, and
-  assumptions. It is intended for researchers who wish to understand
-  and/or extend the modelling framework.
+- The [user manual](https://erahumed.github.io/erahumed-book) provides
+  an in-depth description of the underlying models, algorithms, and
+  assumptions.
 
 Further background on the ERAHUMED project can be found on the [main
 project website](https://www.erahumed.com/).
 
 ## Installation
 
-You can install the latest release of `{erahumed}` from Github, by
+You can install the latest release of `{erahumed}` from GitHub, by
 running the following command in R:
 
 ``` r
@@ -65,13 +63,21 @@ install.packages("remotes")  # If necessary
 remotes::install_github("erahumed/erahumed")
 ```
 
-In order to install a specific version of `{erahumed}`, you can use:
+### Version compatibility
+
+Versions of `{erahumed}` follow standard [semantic
+versioning](https://semver.org/). If you encounter issues running code
+written for an earlier version of {erahumed} with your current
+installation, you may consider installing the specific version the code
+was developed with.
+
+To install a particular version of `{erahumed}`, use:
 
 ``` r
-remotes::install_github("erahumed/erahumed", ref = "v0.21.1")
+remotes::install_github("erahumed/erahumed", ref = "vX.Y.Z")
 ```
 
-where you should replace `"v0.21.1"` with the actual version you need.
+where `"vX.Y.Z"` should be replaced with the desired version number.
 
 ## Usage
 
@@ -85,9 +91,9 @@ erahumed::launch_dss()
 ```
 
 This will open the DSS dashboard in your default browser, from where you
-can explore simulation outputs in a user friendly manner.
+can explore simulation outputs in a user-friendly manner.
 
-### Example 2: command line interface to simulations
+### Example 2: Command-line interface to simulations
 
 ``` r
 library(erahumed)
@@ -124,19 +130,19 @@ get_results(simulation,
             ) |>
   head()
 #>   element_id       date mf_kg mw_kg ms_kg mw_outflow_kg cw_kg_m3 cs_kg_m3
-#> 1       lake 2020-01-01     0     0     0             0       NA        0
-#> 2       lake 2020-01-02     0     0     0             0        0        0
-#> 3       lake 2020-01-03     0     0     0             0        0        0
-#> 4       lake 2020-01-04     0     0     0             0        0        0
-#> 5       lake 2020-01-05     0     0     0             0        0        0
-#> 6       lake 2020-01-06     0     0     0             0        0        0
+#> 1       lake 2023-01-01     0     0     0             0       NA        0
+#> 2       lake 2023-01-02     0     0     0             0        0        0
+#> 3       lake 2023-01-03     0     0     0             0        0        0
+#> 4       lake 2023-01-04     0     0     0             0        0        0
+#> 5       lake 2023-01-05     0     0     0             0        0        0
+#> 6       lake 2023-01-06     0     0     0             0        0        0
 #>   cs_g_kg cw_outflow_kg_m3 volume_m3 outflow_m3    chemical
-#> 1       0                0        NA   274652.4 Acetamiprid
-#> 2       0                0  27344422   333355.2 Acetamiprid
-#> 3       0                0  27397000   153987.6 Acetamiprid
-#> 4       0                0  27456150   119992.8 Acetamiprid
-#> 5       0                0  27479153   186673.2 Acetamiprid
-#> 6       0                0  27397000   221466.0 Acetamiprid
+#> 1       0                0        NA     406452 Acetamiprid
+#> 2       0                0  27170258     743304 Acetamiprid
+#> 3       0                0  27081533     738990 Acetamiprid
+#> 4       0                0  26992808     587238 Acetamiprid
+#> 5       0                0  26966519     724464 Acetamiprid
+#> 6       0                0  26928729     390420 Acetamiprid
 ```
 
 ## Getting help
@@ -146,4 +152,4 @@ The full documentation of the `{erahumed}` R package is hosted at
 
 If you have issues running `{erahumed}` or want to suggest an
 improvement, please [file an issue on
-Github](https://github.com/erahumed/erahumed/issues).
+GitHub](https://github.com/erahumed/erahumed/issues).
